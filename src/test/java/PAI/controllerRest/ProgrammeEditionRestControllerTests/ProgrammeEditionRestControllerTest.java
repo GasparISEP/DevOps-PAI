@@ -13,13 +13,12 @@ import PAI.service.programmeEdition.IProgrammeEditionService;
 import PAI.service.programmeEdition.ProgrammeEditionService;
 import PAI.service.programmeEnrolment.IAvailableCoursesService;
 import org.junit.jupiter.api.Test;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -69,26 +68,33 @@ class ProgrammeEditionRestControllerTest {
         IAvailableCoursesService availableCoursesService = mock(IAvailableCoursesService.class);
         IProgrammeEditionHateoasAssembler hateoasAssembler = mock(IProgrammeEditionHateoasAssembler.class);
 
-        ProgrammeEditionRestController programmeEditionRestController = new ProgrammeEditionRestController(programmeEditionService, controllerAssembler,
-                availableCoursesService,courseAssembler, hateoasAssembler);
+        ProgrammeEditionRestController controller = new ProgrammeEditionRestController(
+                programmeEditionService, controllerAssembler, availableCoursesService, courseAssembler, hateoasAssembler);
 
         ProgrammeEditionResponseServiceDTO p1 = mock(ProgrammeEditionResponseServiceDTO.class);
         ProgrammeEditionResponseServiceDTO p2 = mock(ProgrammeEditionResponseServiceDTO.class);
 
-        List<ProgrammeEditionResponseServiceDTO> programmeEditionsList = List.of(p1,p2);
+        ProgrammeEditionResponseDTO dto1 = mock(ProgrammeEditionResponseDTO.class);
+        ProgrammeEditionResponseDTO dto2 = mock(ProgrammeEditionResponseDTO.class);
 
-        when(programmeEditionService.findAllProgrammeEditions()).thenReturn(programmeEditionsList);
+        when(programmeEditionService.findAllProgrammeEditions()).thenReturn(List.of(p1, p2));
+
+        when(controllerAssembler.toResponseDTOFromServiceDTO(p1)).thenReturn(dto1);
+        when(controllerAssembler.toResponseDTOFromServiceDTO(p2)).thenReturn(dto2);
+
+        EntityModel<ProgrammeEditionResponseDTO> model1 = EntityModel.of(dto1);
+        EntityModel<ProgrammeEditionResponseDTO> model2 = EntityModel.of(dto2);
+
+        when(hateoasAssembler.toModel(dto1)).thenReturn(model1);
+        when(hateoasAssembler.toModel(dto2)).thenReturn(model2);
 
         // Act
-        ResponseEntity<List<ProgrammeEditionResponseDTO>> response = programmeEditionRestController.getAllProgrammeEditions();
+        ResponseEntity<List<EntityModel<ProgrammeEditionResponseDTO>>> response = controller.getAllProgrammeEditions();
 
         // Assert
         assertEquals(200, response.getStatusCodeValue());
         assertNotNull(response.getBody());
-
-        List<ProgrammeEditionResponseDTO> resultList = new ArrayList<>(response.getBody());
-
-        assertEquals(2, resultList.size());
+        assertEquals(2, response.getBody().size());
     }
 
 
@@ -163,7 +169,6 @@ class ProgrammeEditionRestControllerTest {
         );
 
         String programmeAcronym = "ENG";
-        ProgrammeEditionRequestServiceDTO requestDTO = new ProgrammeEditionRequestServiceDTO(new ProgrammeIDDTO(programmeAcronym));
 
         ProgrammeEditionResponseServiceDTO serviceDto1 = new ProgrammeEditionResponseServiceDTO(new ProgrammeIDDTO(programmeAcronym), UUID.randomUUID().toString());
         ProgrammeEditionResponseServiceDTO serviceDto2 = new ProgrammeEditionResponseServiceDTO(new ProgrammeIDDTO(programmeAcronym), UUID.randomUUID().toString());
@@ -176,16 +181,21 @@ class ProgrammeEditionRestControllerTest {
         when(controllerAssembler.toResponseDTOFromServiceDTO(serviceDto1)).thenReturn(responseDto1);
         when(controllerAssembler.toResponseDTOFromServiceDTO(serviceDto2)).thenReturn(responseDto2);
 
+        EntityModel<ProgrammeEditionResponseDTO> entityModel1 = EntityModel.of(responseDto1);
+        EntityModel<ProgrammeEditionResponseDTO> entityModel2 = EntityModel.of(responseDto2);
+
+        when(hateoasAssembler.toModel(responseDto1)).thenReturn(entityModel1);
+        when(hateoasAssembler.toModel(responseDto2)).thenReturn(entityModel2);
+
         // Act
-        ResponseEntity<List<ProgrammeEditionResponseDTO>> response = controller.getProgrammeEditionsByProgrammeID(programmeAcronym);
+        ResponseEntity<List<EntityModel<ProgrammeEditionResponseDTO>>> response = controller.getProgrammeEditionsByProgrammeID(programmeAcronym);
 
         // Assert
         assertEquals(200, response.getStatusCodeValue());
-        List<ProgrammeEditionResponseDTO> responseBody = response.getBody();
-        assertNotNull(responseBody);
-        assertEquals(2, responseBody.size());
-        assertTrue(responseBody.contains(responseDto1));
-        assertTrue(responseBody.contains(responseDto2));
+        assertNotNull(response.getBody());
+        assertEquals(2, response.getBody().size());
+        assertTrue(response.getBody().contains(entityModel1));
+        assertTrue(response.getBody().contains(entityModel2));
     }
 
     @Test
@@ -205,14 +215,15 @@ class ProgrammeEditionRestControllerTest {
 
         when(programmeEditionService.getProgrammeEditionIDsByProgrammeID(any())).thenReturn(Collections.emptyList());
 
+        when(hateoasAssembler.toModel(any())).thenThrow(new IllegalArgumentException("Should not be called"));
+
         // Act
-        ResponseEntity<List<ProgrammeEditionResponseDTO>> response = controller.getProgrammeEditionsByProgrammeID(programmeAcronym);
+        ResponseEntity<List<EntityModel<ProgrammeEditionResponseDTO>>> response = controller.getProgrammeEditionsByProgrammeID(programmeAcronym);
 
         // Assert
         assertEquals(200, response.getStatusCodeValue());
         assertNotNull(response.getBody());
         assertTrue(response.getBody().isEmpty());
-
     }
 
     @Test
