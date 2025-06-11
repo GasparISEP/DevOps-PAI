@@ -98,4 +98,12 @@ public class ProgrammeAndCoursesEnrolmentServiceImpl {
         return result;
     }
 
+    private List<CourseEditionEnrolment> saveAllCourseEditionEnrolments(List<CourseEditionEnrolment> list) throws Exception{
+        List<CourseEditionEnrolment> saved = new ArrayList<>();
+        for (CourseEditionEnrolment existingCEE : list ){
+            saved.add(_courseEditionEnrolmentRepository.save(existingCEE));
+        }
+        return saved;
+    }
+
 }
