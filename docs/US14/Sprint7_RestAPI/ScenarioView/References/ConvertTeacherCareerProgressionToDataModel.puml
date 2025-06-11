@@ -1,0 +1,37 @@
+@startuml
+
+title Convert Teacher Career Progression to DataModel
+
+autonumber
+skinparam {
+  ActivityPadding 2
+  ActivityMargin 2
+  BoxPadding 2
+}
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+participant ":ITeacherCareerProgressionRepository" as ITCPRepository
+activate ITCPRepository #E1F5FE
+participant ":ITeacherCareerProgressionMapper" as tcpMapper
+ITCPRepository -> tcpMapper: toDataModel (tcp)
+activate tcpMapper #E1F5FE
+
+participant ":ITeacherCareerProgressionIDMapper" as tcpIDMapper
+tcpMapper -> tcpIDMapper: toDataModel (tcp.identity())
+
+activate tcpIDMapper #E1F5FE
+create "idDataModel: TeacherCareerProgressionIDDataModel"
+tcpIDMapper -> "idDataModel: TeacherCareerProgressionIDDataModel": create (id.getIDValue())
+
+tcpIDMapper --> tcpMapper: idDataModel
+deactivate tcpIDMapper
+
+create "tcpDataModel: TeacherCareerProgressionDataModel"
+tcpMapper -> "tcpDataModel: TeacherCareerProgressionDataModel": create (idDataModel, teacherCategoryID, wp, date, teacherID)
+
+tcpMapper --> ITCPRepository: tcpDataModel
+deactivate tcpMapper
+deactivate ITCPRepository
+
+@enduml
