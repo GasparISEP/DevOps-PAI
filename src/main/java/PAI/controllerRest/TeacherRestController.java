@@ -87,7 +87,8 @@ public class TeacherRestController {
             RegisterTeacherCommandDTO teacherCommandDTO = teacherAssembler.toRegisterTeacherCommandDTO(requestDTO);
             Teacher teacher = teacherRegistrationService.createAndSaveTeacher(teacherCommandDTO);
             TeacherDTO teacherDTO = teacherAssembler.toDTO(teacher);
-            return ResponseEntity.status(HttpStatus.CREATED).body(teacherDTO);
+            EntityModel<TeacherDTO> modelResponseDTO = teacherHateoasAssembler.toModel(teacherDTO);
+            return ResponseEntity.status(HttpStatus.CREATED).body(modelResponseDTO);
 
         } catch (BusinessRuleViolationException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());

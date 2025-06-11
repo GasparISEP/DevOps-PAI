@@ -556,6 +556,7 @@ class TeacherRestControllerTest {
         when(teacherAssembler.toRegisterTeacherCommandDTO(requestDTO)).thenReturn(commandDTO);
         when(teacherService.createAndSaveTeacher(commandDTO)).thenReturn(teacher);
         when(teacherAssembler.toDTO(teacher)).thenReturn(teacherDTO);
+        when(teacherHateoasAssembler.toModel(teacherDTO)).thenReturn(EntityModel.of(teacherDTO));
 
         // Act
         ResponseEntity<?> response = teacherRestController.registerTeacher(requestDTO);
@@ -563,7 +564,9 @@ class TeacherRestControllerTest {
         // Assert
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertEquals(201, response.getStatusCodeValue());
-        assertEquals(teacherDTO, response.getBody());
+
+        EntityModel<TeacherDTO> modelResponse = (EntityModel<TeacherDTO>) response.getBody();
+        assertEquals(teacherDTO, modelResponse.getContent());
     }
 
     @Test
