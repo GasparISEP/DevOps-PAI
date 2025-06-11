@@ -1,6 +1,7 @@
 package PAI.persistence.springdata.courseEditionEnrolment;
 
 import PAI.persistence.datamodel.courseEditionEnrolment.CourseEditionEnrolmentDataModel;
+import PAI.persistence.datamodel.courseEditionEnrolment.CourseEditionEnrolmentGeneratedIDDataModel;
 import PAI.persistence.datamodel.courseEditionEnrolment.CourseEditionEnrolmentIDDataModel;
 import PAI.persistence.datamodel.student.StudentIDDataModel;
 import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
@@ -15,4 +16,7 @@ public interface ICourseEditionEnrolmentRepositorySpringData extends JpaReposito
 
     Optional<CourseEditionEnrolmentDataModel> findById_StudentIDAndId_CourseEditionID(StudentIDDataModel studentId, CourseEditionIDDataModel courseEditionId);
 
+    boolean existsByGeneratedID(CourseEditionEnrolmentGeneratedIDDataModel generatedID);
+
+    Optional<CourseEditionEnrolmentDataModel> findByGeneratedID(CourseEditionEnrolmentGeneratedIDDataModel generatedID);
 }

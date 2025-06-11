@@ -1,18 +1,36 @@
 package PAI.persistence.mem.courseEditionEnrolment;
 
 import PAI.VOs.*;
+import PAI.VOs.Date;
 import PAI.domain.courseEditionEnrolment.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 class CourseEditionEnrolmentRepositoryImplTest {
 
+    private ICourseEditionEnrolmentListFactory _listFactoryDouble;
+    private CourseEditionEnrolmentGeneratedID _ceeGeneratedIDDouble;
+    private CourseEditionEnrolment _ceeDomainDouble;
+    private CourseEditionEnrolment _ceeDomainDouble2;
+    private StudentID _studentIDDouble;
+    private CourseEditionID _courseEditionIDDouble;
+    private Date _dateDouble;
+    private EnrolmentStatus _statusDouble;
 
+    void createDoubles() {
+        _listFactoryDouble = mock(ICourseEditionEnrolmentListFactory.class);
+        _ceeGeneratedIDDouble = mock(CourseEditionEnrolmentGeneratedID.class);
+        _ceeDomainDouble = mock(CourseEditionEnrolment.class);
+        _ceeDomainDouble2 = mock(CourseEditionEnrolment.class);
+        _studentIDDouble = mock(StudentID.class);
+        _courseEditionIDDouble = mock(CourseEditionID.class);
+        _dateDouble = mock(Date.class);
+        _statusDouble = mock(EnrolmentStatus.class);
+    }
     //test save Method
 
     @Test
@@ -321,6 +339,178 @@ class CourseEditionEnrolmentRepositoryImplTest {
         assertFalse(result.isPresent(), "The result should be empty if the student is not enrolled in the course edition.");
     }
 
+    @Test
+    void findByGeneratedID_shouldReturnEmpty_whenIDIsNull() {
+        //Arrange
+        createDoubles();
+        CourseEditionEnrolmentRepositoryImpl repo = new CourseEditionEnrolmentRepositoryImpl(_listFactoryDouble);
+
+        //Act
+        Optional<CourseEditionEnrolment> result = repo.findByGeneratedID(null);
+
+        //Assert
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void findByGeneratedID_shouldReturnEmpty_whenRepositoryIsEmpty() {
+        //Arrange
+        createDoubles();
+        CourseEditionEnrolmentRepositoryImpl repo = new CourseEditionEnrolmentRepositoryImpl(_listFactoryDouble);
+
+        CourseEditionEnrolmentGeneratedID ceeGeneratedID = new CourseEditionEnrolmentGeneratedID(UUID.randomUUID());
+
+        //Act
+        Optional<CourseEditionEnrolment> result = repo.findByGeneratedID(ceeGeneratedID);
+
+        //Assert
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void findByGeneratedID_shouldReturnEnrolment_whenMatchingIDExists() {
+        //Arrange
+        createDoubles();
+        CourseEditionEnrolmentRepositoryImpl repo = new CourseEditionEnrolmentRepositoryImpl(_listFactoryDouble);
+
+        UUID uuid = UUID.randomUUID();
+        CourseEditionEnrolmentGeneratedID generatedID = new CourseEditionEnrolmentGeneratedID(uuid);
+        CourseEditionEnrolment enrolment = new CourseEditionEnrolment(generatedID, _studentIDDouble, _courseEditionIDDouble, _dateDouble, _statusDouble);
+
+        repo.save(enrolment);
+
+        //Act
+        Optional<CourseEditionEnrolment> result = repo.findByGeneratedID(generatedID);
+
+        //Assert
+        assertTrue(result.isPresent());
+        assertEquals(enrolment, result.get());
+    }
+
+    @Test
+    void findByGeneratedID_shouldSkipEnrolmentsWithNullGeneratedID() {
+        //Arrange
+        createDoubles();
+        CourseEditionEnrolmentRepositoryImpl repo = new CourseEditionEnrolmentRepositoryImpl(_listFactoryDouble);
+
+        CourseEditionEnrolment enrolment = mock(CourseEditionEnrolment.class);
+        when(enrolment.getGeneratedID()).thenReturn(null);
+        repo.save(enrolment);
+
+        CourseEditionEnrolmentGeneratedID searchID = new CourseEditionEnrolmentGeneratedID(UUID.randomUUID());
+
+        //Act
+        Optional<CourseEditionEnrolment> result = repo.findByGeneratedID(searchID);
+
+        //Assert
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void findByGeneratedID_shouldHandleIsEqualsWhenTargetUUIDIsNull() {
+        //Arrange
+        createDoubles();
+        CourseEditionEnrolmentRepositoryImpl repo = new CourseEditionEnrolmentRepositoryImpl(_listFactoryDouble);
+
+        UUID uuid = UUID.randomUUID();
+        CourseEditionEnrolmentGeneratedID storedID = new CourseEditionEnrolmentGeneratedID(uuid);
+
+        CourseEditionEnrolment enrolment = mock(CourseEditionEnrolment.class);
+        when(enrolment.getGeneratedID()).thenReturn(storedID);
+        repo.save(enrolment);
+
+        CourseEditionEnrolmentGeneratedID searchID = mock(CourseEditionEnrolmentGeneratedID.class);
+        when(searchID.getCourseEditionEnrolmentGeneratedID()).thenReturn(null);
+
+        //Act
+        Optional<CourseEditionEnrolment> result = repo.findByGeneratedID(searchID);
+
+        //Assert
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void existsByGeneratedID_shouldReturnFalse_whenIDIsNull() {
+        createDoubles();
+        CourseEditionEnrolmentRepositoryImpl ceeRepository = new CourseEditionEnrolmentRepositoryImpl(_listFactoryDouble);
+
+        boolean result = ceeRepository.existsByGeneratedID(null);
+
+        assertFalse(result);
+    }
+
+    @Test
+    void existsByGeneratedID_shouldReturnFalse_whenRepositoryIsEmpty() {
+        createDoubles();
+        CourseEditionEnrolmentRepositoryImpl ceeRepository = new CourseEditionEnrolmentRepositoryImpl(_listFactoryDouble);
+
+        CourseEditionEnrolmentGeneratedID id = new CourseEditionEnrolmentGeneratedID(UUID.randomUUID());
+
+        boolean result = ceeRepository.existsByGeneratedID(id);
+
+        assertFalse(result);
+    }
+
+    @Test
+    void existsByGeneratedID_shouldReturnTrue_whenMatchingIDExists() {
+        //Arrange
+        createDoubles();
+        CourseEditionEnrolmentRepositoryImpl ceeRepository = new CourseEditionEnrolmentRepositoryImpl(_listFactoryDouble);
+        UUID uuid = UUID.randomUUID();
+
+        CourseEditionEnrolmentGeneratedID generatedID = new CourseEditionEnrolmentGeneratedID(uuid);
+
+        CourseEditionEnrolment enrolment = new CourseEditionEnrolment(generatedID, _studentIDDouble, _courseEditionIDDouble, _dateDouble, _statusDouble);
+        ceeRepository.save(enrolment);
+
+        //Act
+        boolean result = ceeRepository.existsByGeneratedID(generatedID);
+
+        //Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void existsByGeneratedID_shouldSkipNullCurrentID() {
+        //Arrange
+        createDoubles();
+        CourseEditionEnrolmentRepositoryImpl repository = new CourseEditionEnrolmentRepositoryImpl(_listFactoryDouble);
+        UUID targetUUID = UUID.randomUUID();
+
+        CourseEditionEnrolmentGeneratedID searchedID = new CourseEditionEnrolmentGeneratedID(targetUUID);
+
+        CourseEditionEnrolment enrolment = mock(CourseEditionEnrolment.class);
+        when(enrolment.getGeneratedID()).thenReturn(null);
+
+        repository.save(enrolment);
+
+        //Act
+        boolean result = repository.existsByGeneratedID(searchedID);
+
+        //Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void existsByGeneratedID_shouldReturnFalse_whenNoIDMatches() {
+        //Arrange
+        createDoubles();
+        CourseEditionEnrolmentRepositoryImpl ceeRepository = new CourseEditionEnrolmentRepositoryImpl(_listFactoryDouble);
+        UUID uuidStored = UUID.randomUUID();
+        UUID uuidSearched = UUID.randomUUID();
+
+        CourseEditionEnrolmentGeneratedID storedID = new CourseEditionEnrolmentGeneratedID(uuidStored);
+        CourseEditionEnrolmentGeneratedID searchedID = new CourseEditionEnrolmentGeneratedID(uuidSearched);
+
+        CourseEditionEnrolment enrolment = new CourseEditionEnrolment(storedID, _studentIDDouble, _courseEditionIDDouble, _dateDouble, _statusDouble);
+        ceeRepository.save(enrolment);
+
+        //Act
+        boolean result = ceeRepository.existsByGeneratedID(searchedID);
+
+        //Assert
+        assertFalse(result);
+    }
 
     @Test
     void shouldReturnEmptyWhenStudentIsNotEnrolledInCourseEdition() {
@@ -337,6 +527,7 @@ class CourseEditionEnrolmentRepositoryImplTest {
         // Assert
         assertFalse(result.isPresent(), "Expected no enrollment to be found");
     }
+
 
 
     @Test
