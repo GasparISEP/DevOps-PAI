@@ -6,20 +6,25 @@ import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
 import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolment;
 import PAI.dto.ProgrammeAndCourses.ProgrammeEditionEnrolmentDTO;
 import PAI.dto.ProgrammeAndCourses.StudentEnrolmentResultDto;
+import PAI.dto.ProgrammeAndCourses.StudentProgrammeEnrolmentRequestDto;
+import PAI.dto.course.CourseIDDTO;
 import PAI.dto.courseEditionEnrolment.CourseEditionEnrolmentDto;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class ProgrammeAndCoursesAssemblerTest {
+
+    ProgrammeAndCoursesAssembler programmeAndCoursesAssembler = new ProgrammeAndCoursesAssembler();
+
     @Test
     void shouldTransformToStudentEnrolmentDTO(){
         // Arrange
-        ProgrammeAndCoursesAssembler programmeAndCoursesAssembler = new ProgrammeAndCoursesAssembler();
 
         US34Response us34Response = mock(US34Response.class);
         ProgrammeEditionEnrolment programmeEditionEnrolment = mock(ProgrammeEditionEnrolment.class);
@@ -81,8 +86,67 @@ class ProgrammeAndCoursesAssemblerTest {
 
     }
 
+    @Test
+    void shouldConvertDtoToStudentID() {
+        // Arrange
+        int expectedStudentId = 1234567;
+        StudentProgrammeEnrolmentRequestDto dto = new StudentProgrammeEnrolmentRequestDto(
+                expectedStudentId,
+                "ENG",
+                "2024-2025",
+                List.of(new CourseIDDTO("MAT", "Matemática"))
+        );
 
+        // Act
+        StudentID result = programmeAndCoursesAssembler.toStudentID(dto);
 
+        // Assert
+        assertEquals(expectedStudentId, result.getUniqueNumber());
+    }
+
+    @Test
+    void shouldConvertDtoToProgrammeEditionID() throws Exception {
+        // Arrange
+        String acronym = "ENG";
+        UUID schoolYearUUID = UUID.randomUUID();
+        StudentProgrammeEnrolmentRequestDto dto = new StudentProgrammeEnrolmentRequestDto(
+                1234567,
+                acronym,
+                schoolYearUUID.toString(),
+                List.of(new CourseIDDTO("MAT", "Matemática"))
+        );
+
+        // Act
+        ProgrammeEditionID result = programmeAndCoursesAssembler.toProgrammeEditionID(dto);
+
+        // Assert
+        assertEquals(acronym, result.getProgrammeID().getProgrammeAcronym());
+        assertEquals(schoolYearUUID, result.getSchoolYearID().getSchoolYearID());
+    }
+
+    @Test
+    void shouldConvertCourseDTOsToCourseIDs() {
+        // Arrange
+        CourseIDDTO dto1 = new CourseIDDTO("MAT", "Matemática");
+        CourseIDDTO dto2 = new CourseIDDTO("BIO", "Biologia");
+
+        StudentProgrammeEnrolmentRequestDto request = new StudentProgrammeEnrolmentRequestDto(
+                1,
+                "ENG",
+                UUID.randomUUID().toString(),
+                List.of(dto1, dto2)
+        );
+
+        // Act
+        List<CourseID> result = programmeAndCoursesAssembler.toCourseIDs(request);
+
+        // Assert
+        assertEquals(2, result.size());
+        assertEquals("MAT", result.get(0).getAcronym().getAcronym());
+        assertEquals("Matemática", result.get(0).getName().getName());
+        assertEquals("BIO", result.get(1).getAcronym().getAcronym());
+        assertEquals("Biologia", result.get(1).getName().getName());
+    }
 
 
 }
