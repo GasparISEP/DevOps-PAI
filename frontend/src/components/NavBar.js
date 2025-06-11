@@ -87,7 +87,7 @@ const NavBar = () => {
             </span>
               <ul className={`navbar-dropdown-menu${isOpenCourseEdition ? ' show' : ''}`}>
                 <li>
-                  <Link to="/courseeditions/gradeastudent" className="navbar-link">
+                  <Link to="/courseeditions/register-grade-student" className="navbar-link">
                     Grade A Student
                   </Link>
                 </li>
