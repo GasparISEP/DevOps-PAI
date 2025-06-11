@@ -55,9 +55,19 @@ class TeacherHateoasAssemblerImplTest {
         //assert
         assertEquals(1, result.getContent().size());
         assertTrue(result.hasLink("teachers"));
-        assertTrue(result.getContent().iterator().next().hasLink("self"));
         assertTrue(result.getContent().stream().anyMatch(em -> em.getContent() == teacherDTO));
+    }
 
+    @Test
+    void anyDTOFromCollectionModelShouldHaveSelfLink(){
+        //arrange
+        TeacherDTO teacherDTO = mock(TeacherDTO.class);
+        Iterable<TeacherDTO> teacherDTOS = Collections.singleton(teacherDTO);
+        TeacherHateoasAssemblerImpl hateoasAssembler = new TeacherHateoasAssemblerImpl();
+        //act
+        CollectionModel<EntityModel<TeacherDTO>> result = hateoasAssembler.toCollectionModel(teacherDTOS);
+        //assert
+        assertTrue(result.getContent().iterator().next().hasLink("self"));
     }
 
 }
