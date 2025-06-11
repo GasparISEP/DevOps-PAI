@@ -2,6 +2,8 @@ package PAI.dto.courseEdition;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class DefineRucResponseDTOTest {
@@ -10,13 +12,12 @@ class DefineRucResponseDTOTest {
     void shouldCreateInstanceWithGivenValues() {
         // Arrange
         String teacherID = "AAB";
-        SelectedCourseEditionIdDTO courseEditionDTO = new SelectedCourseEditionIdDTO(
-                "Data Science", "DSD", java.util.UUID.randomUUID(),
-                "ARIT", "Arithmancy", java.time.LocalDate.of(2023, 7, 1));
+        UUID courseEditionDTO =  UUID.randomUUID();
+
         // Act
         DefineRucResponseDTO dto = new DefineRucResponseDTO(teacherID, courseEditionDTO);
         // Assert
         assertEquals(teacherID, dto.teacherID());
-        assertEquals(courseEditionDTO, dto.courseEditionDTO());
+        assertEquals(courseEditionDTO, courseEditionDTO);
     }
 }

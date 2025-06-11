@@ -2,7 +2,6 @@ package PAI.controllerRest.courseEditionRestControllerTests;
 import PAI.VOs.*;
 import PAI.assembler.courseEdition.CourseEditionAssemblerImpl;
 import PAI.assembler.courseEdition.CourseEditionHateoasAssembler;
-import PAI.controllerRest.CourseEditionRestController;
 import PAI.dto.courseEdition.*;
 import PAI.service.courseEdition.DefineRucServiceImpl;
 import PAI.service.courseEdition.ICreateCourseEditionService;
@@ -14,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -25,8 +25,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -58,120 +56,83 @@ public class CourseEditionRestControllerIntegrationTests {
     @Test
     void shouldDefineRucSuccessfullyAndReturnAccepted() throws Exception {
         // Arrange
+        UUID courseEditionId = UUID.randomUUID();
+
         String requestBody = """
-        {
-            "teacherID": "AAB",
-            "courseEditionDTO": {
-                "programmeName": "Data Science",
-                "programmeAcronym": "DSD",
-                "schoolYearID": "550e8400-e29b-41d4-a716-446655440002",
-                "courseAcronym": "ARIT",
-                "courseName": "Arithmancy",
-                "studyPlanProgrammeName": "",
-                "studyPlanProgrammeAcronym": "",
-                "studyPlanImplementationDate": "2023-07-01"
-            }
-        }
-        """;
+    {
+        "teacherID": "AAB",
+        "courseEditionID": "%s"
+    }
+    """.formatted(courseEditionId);
 
         TeacherID teacherID = new TeacherID(new TeacherAcronym("AAB"));
-        SelectedCourseEditionIdDTO courseEditionDTO = new SelectedCourseEditionIdDTO(
-                "Data Science", "DSD", UUID.fromString("550e8400-e29b-41d4-a716-446655440002"),
-                "ARIT", "Arithmancy", LocalDate.parse("2023-07-01")
-        );
-        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+        CourseEditionGeneratedID courseEditionGeneratedID = mock(CourseEditionGeneratedID.class);
 
-        DefineRucResponseDTO responseDTO = new DefineRucResponseDTO("AAB", courseEditionDTO);
+        DefineRucResponseDTO responseDTO = new DefineRucResponseDTO("AAB", courseEditionId);
         EntityModel<DefineRucResponseDTO> responseModel = EntityModel.of(responseDTO,
-                linkTo(methodOn(CourseEditionRestController.class).defineRucForCourseEdition(null))
-                        .withRel("define-ruc"));
+                Link.of("http://localhost/courseeditions/" + courseEditionId + "/ruc").withRel("define-ruc"));
 
         when(courseEditionAssembler.createTeacherID("AAB")).thenReturn(teacherID);
-        when(courseEditionAssembler.fromDtoToCourseEditionID(any())).thenReturn(courseEditionID);
-        when(defineRucService.assignRucToCourseEdition(teacherID, courseEditionID)).thenReturn(true);
+        when(courseEditionAssembler.fromDtoToCourseEditionGeneratedID(any())).thenReturn(courseEditionGeneratedID);
+        when(defineRucService.assignRucToCourseEdition(teacherID, courseEditionGeneratedID)).thenReturn(true);
         when(courseEditionHateoasAssembler.toModel(any())).thenReturn(responseModel);
 
         // Act & Assert
-        mockMvc.perform(patch("/courseeditions/ruc")
+        mockMvc.perform(patch("/courseeditions/{id}/ruc", courseEditionId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))
-                .andExpect(status().isAccepted())
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.teacherID").value("AAB"))
-                .andExpect(jsonPath("$._links.define-ruc.href").value("http://localhost/courseeditions/ruc"));
+                .andExpect(jsonPath("$._links.define-ruc.href").value("http://localhost/courseeditions/" + courseEditionId + "/ruc"));
     }
 
-    @Test
-    void shouldReturnErrorWhenTeacherIDIsMalformed() throws Exception {
-        String invalidRequestBody = """
-    {
-      "teacherID": "INVALID_UUID",
-      "courseEditionDTO": {
-        "programmeName": "Computer Sci",
-        "programmeAcronym": "CSD",
-        "schoolYearID": "00001111-1111-1111-1111-111111111111",
-        "courseAcronym": "ALCH",
-        "courseName": "Alchemy",
-        "studyPlanProgrammeName": "",
-        "studyPlanProgrammeAcronym": "",
-        "studyPlanImplementationDate": "2022-03-15"
-      }
-    }
-    """;
-
-        mockMvc.perform(patch("/courseeditions/ruc")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(invalidRequestBody))
-                .andExpect(status().isNotFound());
-    }
 
     @Test
     void shouldReturnErrorWhenTeacherIDDoesNotExist() throws Exception {
+        UUID courseEditionId = UUID.randomUUID();
 
-        String validRequestBody = """
+        String requestBody = """
     {
-      "teacherID": "BBB",
-      "courseEditionDTO": {
-        "programmeName": "Computer Sci",
-        "programmeAcronym": "CSD",
-        "schoolYearID": "00001111-1111-1111-1111-111111111111",
-        "courseAcronym": "ALCH",
-        "courseName": "Alchemy",
-        "studyPlanProgrammeName": "",
-        "studyPlanProgrammeAcronym": "",
-        "studyPlanImplementationDate": "2022-03-15"
-      }
+      "teacherID": "BBB"
     }
     """;
 
-        mockMvc.perform(patch("/courseeditions/ruc")
+        when(courseEditionAssembler.createTeacherID("BBB"))
+                .thenThrow(new IllegalArgumentException("Teacher not found"));
+
+        mockMvc.perform(patch("/courseeditions/{id}/ruc", courseEditionId)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(validRequestBody))
-                .andExpect(status().isNotFound());
+                        .content(requestBody))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string("Teacher not found"));
     }
+
 
     @Test
     void shouldReturnErrorWhenCourseEditionIDDoesNotExist() throws Exception {
-        String validRequestBody = """
+        UUID nonExistentId = UUID.fromString("00001111-1111-1111-1111-111111111111");
+
+        String requestBody = """
     {
       "teacherID": "AAB",
-      "courseEditionDTO": {
-        "programmeName": "Science Dev",
-        "programmeAcronym": "CSD",
-        "schoolYearID": "00001111-1111-1111-1111-111111111111",
-        "courseAcronym": "POT5",
-        "courseName": "PotionsV",
-        "studyPlanProgrammeName": "",
-        "studyPlanProgrammeAcronym": "",
-        "studyPlanImplementationDate": "2022-03-15"
-      }
+      "courseEditionID": "%s"
     }
-    """;
+    """.formatted(nonExistentId);
 
-        mockMvc.perform(patch("/courseeditions/ruc")
+        when(courseEditionAssembler.createTeacherID("AAB"))
+                .thenReturn(new TeacherID(new TeacherAcronym("AAB")));
+
+        when(courseEditionAssembler.fromDtoToCourseEditionGeneratedID(any()))
+                .thenReturn(mock(CourseEditionGeneratedID.class));
+
+        when(defineRucService.assignRucToCourseEdition(any(), any())).thenReturn(false);
+
+        mockMvc.perform(patch("/courseeditions/{id}/ruc", nonExistentId)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(validRequestBody))
+                        .content(requestBody))
                 .andExpect(status().isNotFound());
     }
+
 
     @Test
     void shouldReturnInternalServerError() throws Exception {
