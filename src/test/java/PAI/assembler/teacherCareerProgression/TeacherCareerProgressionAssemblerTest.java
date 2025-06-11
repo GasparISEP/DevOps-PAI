@@ -71,6 +71,7 @@ class TeacherCareerProgressionAssemblerTest {
 
         TeacherCareerProgressionAssembler assembler = new TeacherCareerProgressionAssembler();
         TeacherCareerProgression teacherCareerProgression = mock(TeacherCareerProgression.class);
+        String teacherCareerProgressionId = "123456789";
         String date = "02-02-2022";
         String teacherID = "ABV";
         String teacherCategoryId = "3f7bfe9a-d0e7-4b18-9b42-4b0a3f3e0c85";
@@ -83,6 +84,8 @@ class TeacherCareerProgressionAssemblerTest {
         when(teacherIDVO.getTeacherAcronym()).thenReturn(acronym);
         when(acronym.getAcronym()).thenReturn(teacherID);
 
+        when(teacherCareerProgression.identity()).thenReturn(mock(PAI.VOs.TeacherCareerProgressionID.class));
+        when(teacherCareerProgression.identity().toString()).thenReturn(teacherCareerProgressionId);
 
         when(teacherCareerProgression.getTeacherCategoryID()).thenReturn(categoryID);
         when(categoryID.toString()).thenReturn(teacherCategoryId);
