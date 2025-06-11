@@ -1,5 +1,6 @@
 package PAI.persistence.springdata.programmeEdition;
 
+import PAI.VOs.Date;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.ProgrammeID;
 import PAI.VOs.SchoolYearID;
@@ -15,9 +16,11 @@ import PAI.persistence.datamodel.schoolYear.SchoolYearIDDataModel;
 import PAI.domain.repositoryInterfaces.programmeEdition.IProgrammeEditionRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 public class ProgrammeEditionRepositorySpringDataImpl implements IProgrammeEditionRepository {
@@ -179,4 +182,25 @@ public class ProgrammeEditionRepositorySpringDataImpl implements IProgrammeEditi
         }
     }
 
+    @Override
+    public List<ProgrammeEditionID> findProgrammeEditionIDsByProgrammeIDAndStartDateAfter(ProgrammeID programmeID, LocalDate date) {
+        if (programmeID == null || date == null) {
+            return List.of();
+        }
+
+        ProgrammeIDDataModel programmeIDDataModel = iProgrammeIDMapper.toData(programmeID);
+
+        List<ProgrammeEditionIdDataModel> dataModels =
+                iProgrammeEditionRepositorySpringData.findProgrammeEditionIDsByProgrammeIDAndStartDateAfter(programmeIDDataModel, date);
+
+        return dataModels.stream()
+                .map(dataModel -> {
+                    try {
+                        return iProgrammeEditionIdMapper.toDomain(dataModel);
+                    } catch (Exception e) {
+                        throw new RuntimeException("Erro ao mapear ProgrammeEditionIdDataModel", e);
+                    }
+                })
+                .collect(Collectors.toList());
+    }
 }

@@ -1,11 +1,9 @@
 package PAI.assembler.programmeEnrolment;
 
-import PAI.VOs.AccessMethodID;
-import PAI.VOs.Date;
-import PAI.VOs.ProgrammeID;
-import PAI.VOs.StudentID;
+import PAI.VOs.*;
 import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentDTO;
+import PAI.dto.programmeEnrolment.ProgrammeEnrolmentIdDTO;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentResponseDTO;
 
 public interface IProgrammeEnrolmentAssembler {
@@ -14,4 +12,4 @@ public interface IProgrammeEnrolmentAssembler {
     AccessMethodID toAccessMethodID (ProgrammeEnrolmentDTO programmeDTO);
     ProgrammeID toProgrammeID (ProgrammeEnrolmentDTO programmeDTO);
     Date toDateVO (ProgrammeEnrolmentDTO programmeDTO);
-}
+    ProgrammeEnrolmentGeneratedID toProgrammeEnrolmentGeneratedID (ProgrammeEnrolmentIdDTO programmeEnrolmentIdDTO);    }

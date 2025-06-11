@@ -1,7 +1,10 @@
 package PAI.VOs;
 
+import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
+import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolment;
+
 import java.util.List;
 
 public record US34Response (
-        ProgrammeEditionEnrolmentID progEditionEnrolment,
-        List<CourseEditionEnrolmentID> listCourseEditionEnrolment) {}
+        ProgrammeEditionEnrolment progEditionEnrolment,
+        List<CourseEditionEnrolment> listCourseEditionEnrolment) {}

@@ -8,15 +8,15 @@ skinparam actorBackgroundColor #lightblue
 skinparam participantBackgroundColor #lightblue/white
 autonumber
 
-
 participant ":Router" as Router <<Component>>
 participant ":RESTController" as Controller <<Component>>
 participant ":Service" as Service <<Component>>
 participant ":Domain" as Domain <<Component>>
 participant ":Repository" as Repository <<Component>>
+participant ":Drivers" as Drivers <<Component>>
 
 'get all programmes name
--> Router: GET /programmes
+[o-> Router: GET /programmes
 
 
 activate Router #E1F5FE
@@ -30,22 +30,31 @@ activate Service  #E1F5FE
 Service -> Repository: findAll()
 activate Repository  #E1F5FE
 
+Repository -> Drivers: findAll()
+activate Drivers #E1F5FE
 
-Repository --> Service: List<Programmes>
+Drivers->o]: SELECT * FROM programmes
+Drivers <--o]: List<ProgrammeDataModel>
+
+Drivers --> Repository: List<ProgrammeDataModel>
+deactivate Drivers
+
+
+Repository --> Service: List<Programme>
 deactivate Repository
-Service --> Controller: List<Programmes>
+Service --> Controller: List<Programme>
 deactivate Service
-Controller --> Router: 200 OK – List<ProgrammesDTO>
+Controller --> Router:  200 OK + body {List<ProgrammeDTO> + hypermedia}
 deactivate Controller
 note over Router #E0E0E0
   Returned DTOs are automatically converted to JSON
   by the framework after the controller finishes execution.
 end note
-<-- Router: 200 OK – List<ProgrammesDTO> as JSON
+[o<-- Router: 200 OK + body {List<ProgrammeDTO> + hypermedia}
 deactivate Router
 
 
--> Router: POST /programme-editions + body {"programmeId":d1f9c6a4-3e7b-4a9f-bd43-7a2d8f4e1c9b}
+[o-> Router:  POST /programme-editions + body {"programme": {"acronym": "CSD" }}
 activate Router #E1F5FE
 
 '''''''''''''''''''''''''''''''''''''''''
@@ -53,7 +62,7 @@ Router -> Controller: createAProgrammeEditionForTheCurrentSchoolYear(programmeEd
 
 'create programmeEdition for current School Year
 activate Controller #E1F5FE
-Controller -> Service:createProgrammeEditionAndSave(programmeEditionDTO)
+Controller -> Service:createProgrammeEditionAndSave(programmeEditionServiceRequestDTO)
 
 activate Service #E1F5FE
 
@@ -61,24 +70,40 @@ activate Service #E1F5FE
 Service -> Domain: createProgrammeEdition(programmeID, schoolYearID)
 activate Domain #E1F5FE
 
-participant ":Repository" as Repository <<Component>>
-
-Domain --> Service: pe1
+Domain --> Service: programmeEdition
 deactivate Domain
 
-Service -> Repository: save(pe1)
+Service -> Repository: save(programmeEdition)
 activate Repository #E1F5FE
 
-Repository --> Service: pe1
+Repository -> Drivers: save (programmeEditionDataModel)
+activate Drivers #E1F5FE
+
+Drivers ->o]: INSERT INTO programme_edition (programme_id, school_year_id) VALUES ('CSD','3aef0884-d779-42fd-9079-22dcf1ca8166')
+Drivers <--o]: programmeEditionDataModel
+
+Drivers --> Repository: programmeEditionDataModel
+deactivate Drivers
+
+Repository --> Service: programmeEdition
 deactivate Repository
 
-Service --> Controller: programmeEditionDTO
+Service --> Controller: programmeEditionServiceResponseDTO
 deactivate Service
-
 
 Controller --> Router :  201 Created + body {ProgrammeEditionResponseDTO + hypermedia}
 deactivate Controller
 
-<-- Router: 201 Created + body {ProgrammeEditionResponseDTO + hypermedia}
+note over Router #E0E0E0
+  ProgrammeEditionResponseDTO body:
+  {
+      "programme": {
+          "acronym": "CSD"
+      },
+      "schoolYearId": "f9dd5042-1ce9-46cc-a7f5-0da5a2daaff1"
+  }
+end note
+
+[o<-- Router: 201 Created + body {ProgrammeEditionResponseDTO + hypermedia}
 deactivate Router
 @enduml

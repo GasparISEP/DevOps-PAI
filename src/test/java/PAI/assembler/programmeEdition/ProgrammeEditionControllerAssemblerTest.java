@@ -122,4 +122,31 @@ class ProgrammeEditionControllerAssemblerTest {
         assertTrue(result.isEmpty());
     }
 
+    @Test
+    void toIdDto_shouldConvertValidProgrammeEditionID() throws Exception {
+        // Arrange
+        Acronym acronym = new Acronym("ISEP");
+        ProgrammeID programmeID = new ProgrammeID(acronym);
+        SchoolYearID schoolYearID = new SchoolYearID(UUID.randomUUID());
+
+        ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID, schoolYearID);
+
+        // Act
+        ProgrammeEditionIdDto dto = assembler.toIdDto(programmeEditionID);
+
+        // Assert
+        assertNotNull(dto);
+        assertEquals("ISEP", dto.programmeAcronym());
+        assertEquals(schoolYearID.getSchoolYearID().toString(), dto.schoolYearId());
+    }
+
+    @Test
+    void toIdDto_shouldThrowExceptionWhenIdIsNull() {
+        // Act & Assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            assembler.toIdDto(null);
+        });
+
+        assertEquals("ProgrammeEditionID cannot be null", exception.getMessage());
+    }
 }

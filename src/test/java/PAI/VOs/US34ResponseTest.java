@@ -1,4 +1,6 @@
 package PAI.VOs;
+import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
+import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolment;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -11,12 +13,12 @@ class US34ResponseTest {
     @Test
     void shouldCreateUS34(){
         //arrange
-        ProgrammeEditionEnrolmentID progEditionEnrolmentID = mock(ProgrammeEditionEnrolmentID.class);
-        CourseEditionEnrolmentID courseEditionEnrolmentID = mock(CourseEditionEnrolmentID.class);
-        List<CourseEditionEnrolmentID> listCourseEditionEnrolmentID = List.of(courseEditionEnrolmentID);
+        ProgrammeEditionEnrolment progEditionEnrolment = mock(ProgrammeEditionEnrolment.class);
+        CourseEditionEnrolment courseEditionEnrolment = mock(CourseEditionEnrolment.class);
+        List<CourseEditionEnrolment> listCourseEditionEnrolment = List.of(courseEditionEnrolment);
 
         //act
-        US34Response us34Response = new US34Response(progEditionEnrolmentID, listCourseEditionEnrolmentID);
+        US34Response us34Response = new US34Response(progEditionEnrolment, listCourseEditionEnrolment);
 
         //assert
         assertNotNull(us34Response);
@@ -25,14 +27,14 @@ class US34ResponseTest {
     @Test
     void shouldGetProgrammeEditionEnrolmentID() {
         //arrange
-        ProgrammeEditionEnrolmentID progEditionEnrolmentID = mock(ProgrammeEditionEnrolmentID.class);
-        CourseEditionEnrolmentID courseEditionEnrolmentID = mock(CourseEditionEnrolmentID.class);
-        List<CourseEditionEnrolmentID> listCourseEditionEnrolmentID = List.of(courseEditionEnrolmentID);
+        ProgrammeEditionEnrolment progEditionEnrolment = mock(ProgrammeEditionEnrolment.class);
+        CourseEditionEnrolment courseEditionEnrolment = mock(CourseEditionEnrolment.class);
+        List<CourseEditionEnrolment> listCourseEditionEnrolment = List.of(courseEditionEnrolment);
 
-        US34Response us34Response = new US34Response(progEditionEnrolmentID, listCourseEditionEnrolmentID);
+        US34Response us34Response = new US34Response(progEditionEnrolment, listCourseEditionEnrolment);
 
         //act
-        ProgrammeEditionEnrolmentID res = us34Response.progEditionEnrolment();
+        ProgrammeEditionEnrolment res = us34Response.progEditionEnrolment();
 
         //assert
         assertEquals(res, us34Response.progEditionEnrolment());
@@ -41,14 +43,14 @@ class US34ResponseTest {
     @Test
     void shouldGetListCourseEditionEnrolmentID() {
         //arrange
-        ProgrammeEditionEnrolmentID progEditionEnrolmentID = mock(ProgrammeEditionEnrolmentID.class);
-        CourseEditionEnrolmentID courseEditionEnrolmentID = mock(CourseEditionEnrolmentID.class);
-        List<CourseEditionEnrolmentID> listCourseEditionEnrolmentID = List.of(courseEditionEnrolmentID);
+        ProgrammeEditionEnrolment progEditionEnrolment = mock(ProgrammeEditionEnrolment.class);
+        CourseEditionEnrolment courseEditionEnrolment = mock(CourseEditionEnrolment.class);
+        List<CourseEditionEnrolment> listCourseEditionEnrolment = List.of(courseEditionEnrolment);
 
-        US34Response us34Response = new US34Response(progEditionEnrolmentID, listCourseEditionEnrolmentID);
+        US34Response us34Response = new US34Response(progEditionEnrolment, listCourseEditionEnrolment);
 
         //act
-        List<CourseEditionEnrolmentID> res = us34Response.listCourseEditionEnrolment();
+        List<CourseEditionEnrolment> res = us34Response.listCourseEditionEnrolment();
 
         //assert
         assertEquals(res, us34Response.listCourseEditionEnrolment());

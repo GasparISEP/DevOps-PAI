@@ -2,7 +2,9 @@ package PAI.assembler.programmeEnrolment;
 
 import PAI.VOs.*;
 import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
+import PAI.domain.student.Student;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentDTO;
+import PAI.dto.programmeEnrolment.ProgrammeEnrolmentIdDTO;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentResponseDTO;
 import org.springframework.stereotype.Component;
 
@@ -44,4 +46,10 @@ public class ProgrammeEnrolmentAssembler implements IProgrammeEnrolmentAssembler
         return new Date(programmeDTO.getDate());
     }
 
+    public ProgrammeEnrolmentGeneratedID toProgrammeEnrolmentGeneratedID (ProgrammeEnrolmentIdDTO programmeEnrolmentIdDTO) {
+
+        UUID programmeUUID = programmeEnrolmentIdDTO.getProgrammeEnrolmentGID();
+       return new ProgrammeEnrolmentGeneratedID(programmeUUID);
+
+    }
 }
