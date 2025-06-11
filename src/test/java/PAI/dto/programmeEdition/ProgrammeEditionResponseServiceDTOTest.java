@@ -10,7 +10,7 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
-class ProgrammeEditionResponseDTOTest {
+class ProgrammeEditionResponseServiceDTOTest {
     private static Validator validator;
 
     @BeforeEach
@@ -20,36 +20,36 @@ class ProgrammeEditionResponseDTOTest {
     }
 
     @Test
-    void testValidProgrammeEditionResponseDTO() {
+    void testValidProgrammeEditionDTO() {
         //arrange
         ProgrammeIDDTO programme = mock(ProgrammeIDDTO.class);
         String schoolYear = "5a5ea957-4319-4baa-be1b-6c680f479f68";
-        ProgrammeEditionResponseDTO ProgrammeEditionResponseDTO = new ProgrammeEditionResponseDTO(programme, schoolYear);
+        ProgrammeEditionResponseServiceDTO programmeEditionResponseServiceDTO = new ProgrammeEditionResponseServiceDTO(programme, schoolYear);
         //act
-        Set<ConstraintViolation<ProgrammeEditionResponseDTO>> violations = validator.validate(ProgrammeEditionResponseDTO);
+        Set<ConstraintViolation<ProgrammeEditionResponseServiceDTO>> violations = validator.validate(programmeEditionResponseServiceDTO);
         //assert
         assertTrue(violations.isEmpty());
     }
 
     @Test
-    void testNullProgrammeIDResponseDTO() {
+    void testNullProgrammeIDDTO() {
         //arrange
         String schoolYear = "5a5ea957-4319-4baa-be1b-6c680f479f68";
-        ProgrammeEditionResponseDTO ProgrammeEditionResponseDTO = new ProgrammeEditionResponseDTO(null, schoolYear);
+        ProgrammeEditionResponseServiceDTO programmeEditionResponseServiceDTO = new ProgrammeEditionResponseServiceDTO(null, schoolYear);
         //act
-        Set<ConstraintViolation<ProgrammeEditionResponseDTO>> violations = validator.validate(ProgrammeEditionResponseDTO);
+        Set<ConstraintViolation<ProgrammeEditionResponseServiceDTO>> violations = validator.validate(programmeEditionResponseServiceDTO);
         //assert
         assertFalse(violations.isEmpty());
         assertEquals("Programme is required", violations.iterator().next().getMessage());
     }
 
     @Test
-    void testNullSchoolYearID() {
+    void testNullSchoolYearIDDTO() {
         //arrange
         ProgrammeIDDTO programme = mock(ProgrammeIDDTO.class);
-        ProgrammeEditionResponseDTO ProgrammeEditionResponseDTO = new ProgrammeEditionResponseDTO(programme, null);
+        ProgrammeEditionResponseServiceDTO programmeEditionResponseServiceDTO = new ProgrammeEditionResponseServiceDTO(programme, null);
         //act
-        Set<ConstraintViolation<ProgrammeEditionResponseDTO>> violations = validator.validate(ProgrammeEditionResponseDTO);
+        Set<ConstraintViolation<ProgrammeEditionResponseServiceDTO>> violations = validator.validate(programmeEditionResponseServiceDTO);
         //assert
         assertFalse(violations.isEmpty());
         assertEquals("School Year ID is required", violations.iterator().next().getMessage());

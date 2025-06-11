@@ -1,7 +1,6 @@
 package PAI.initializer;
 
 import PAI.VOs.*;
-
 import PAI.service.courseEdition.ICreateCourseEditionService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;

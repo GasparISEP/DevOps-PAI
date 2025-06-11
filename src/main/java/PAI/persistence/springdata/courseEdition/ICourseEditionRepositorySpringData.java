@@ -13,7 +13,7 @@ import java.util.List;
 
 public interface ICourseEditionRepositorySpringData extends JpaRepository<CourseEditionDataModel, CourseEditionIDDataModel> {
 
-    @Query("SELECT ce FROM CourseEditionDataModel ce WHERE ce._courseEditionIDDataModel._programmeEditionIdDataModel = :programmeEditionId")
+    @Query("SELECT ce._courseEditionIDDataModel FROM CourseEditionDataModel ce WHERE ce._courseEditionIDDataModel._programmeEditionIdDataModel = :programmeEditionId")
     List<CourseEditionIDDataModel> findCourseEditionIDByProgrammeEditionIDDataModel(
             @Param("programmeEditionId") ProgrammeEditionIdDataModel programmeEditionId);
 

@@ -2,12 +2,13 @@ package PAI.controllerRest;
 
 import PAI.VOs.*;
 import PAI.assembler.course.ICourseAssembler;
-import PAI.assembler.courseEdition.ICourseEditionAssembler;
 import PAI.assembler.programmeEdition.IProgrammeEditionControllerAssembler;
+import PAI.assembler.programmeEdition.IProgrammeEditionHateoasAssembler;
+import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.course.CourseIDDTO;
 import PAI.dto.programmeEdition.*;
-import PAI.dto.programmeEdition.CountStudentsRequestDto;
-import PAI.dto.programmeEdition.ProgrammeEditionServiceDTO;
+import PAI.dto.programmeEdition.RequestServiceDto;
+import PAI.dto.programmeEdition.ProgrammeEditionResponseServiceDTO;
 import PAI.dto.programmeEdition.ProgrammeEditionRequestDTO;
 import PAI.dto.programmeEdition.ProgrammeEditionResponseDTO;
 import PAI.service.programmeEdition.IProgrammeEditionService;
@@ -21,15 +22,17 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/programmeeditions")
+@RequestMapping("/programme-editions")
 public class ProgrammeEditionRestController {
 
     private final IProgrammeEditionService programmeEditionService;
     private final IProgrammeEditionControllerAssembler programmeEditionControllerAssembler;
     private final IAvailableCoursesService availableCoursesService;
     private final ICourseAssembler courseAssembler;
+    private final IProgrammeEditionHateoasAssembler hateoasAssembler;
 
-    public ProgrammeEditionRestController(IProgrammeEditionService programmeEditionService, IProgrammeEditionControllerAssembler programmeEditionControllerAssembler,IAvailableCoursesService availableCoursesService, ICourseAssembler courseAssembler) {
+    public ProgrammeEditionRestController(IProgrammeEditionService programmeEditionService, IProgrammeEditionControllerAssembler programmeEditionControllerAssembler,
+                                          IAvailableCoursesService availableCoursesService, ICourseAssembler courseAssembler,IProgrammeEditionHateoasAssembler hateoasAssembler) {
         if (programmeEditionService == null) {
             throw new IllegalArgumentException("ProgrammeEdition service cannot be null");
         }
@@ -42,21 +45,25 @@ public class ProgrammeEditionRestController {
         if(courseAssembler == null){
             throw new IllegalArgumentException("Course Assembler cannot be null");
         }
+        if(hateoasAssembler == null){
+            throw new IllegalArgumentException("Hateoas Assembler cannot be null");
+        }
 
         this.programmeEditionService = programmeEditionService;
         this.programmeEditionControllerAssembler = programmeEditionControllerAssembler;
         this.availableCoursesService = availableCoursesService;
         this.courseAssembler = courseAssembler;
+        this.hateoasAssembler = hateoasAssembler;
     }
 
     @GetMapping
-    public ResponseEntity<List<CountStudentsRequestDto>> getAllProgrammeEditions() throws Exception {
-        List<CountStudentsRequestDto> programmeEditionDtos = programmeEditionService
+    public ResponseEntity<List<ProgrammeEditionResponseDTO>> getAllProgrammeEditions() {
+        List<ProgrammeEditionResponseDTO> responseDTOs = programmeEditionService
                 .findAllProgrammeEditions()
                 .stream()
-                .map(programmeEditionControllerAssembler::toCountDTO)
+                .map(programmeEditionControllerAssembler::toResponseDTOFromServiceDTO)
                 .toList();
-        return ResponseEntity.ok(programmeEditionDtos);
+        return ResponseEntity.ok(responseDTOs);
     }
 
     @GetMapping("/{id}/{schoolYearID}/students")
@@ -64,8 +71,8 @@ public class ProgrammeEditionRestController {
             @PathVariable("id") String programmeAcronym,
             @PathVariable("schoolYearID") String schoolYearID) throws Exception {
 
-        CountStudentsRequestDto dto =
-                new CountStudentsRequestDto(programmeAcronym, schoolYearID);
+        RequestServiceDto dto =
+                new RequestServiceDto(programmeAcronym, schoolYearID);
 
         int totalStudents = programmeEditionService.countTotalNumberOfStudentsInAProgrammeEdition(dto);
 
@@ -73,17 +80,18 @@ public class ProgrammeEditionRestController {
     }
 
     @GetMapping("/programme/{programmeid}")
-    public ResponseEntity<List<ProgrammeEditionServiceDTO>> getProgrammeEditionsByProgrammeID(
-            @PathVariable("programmeid") String programmeAcronym) throws Exception {
+    public ResponseEntity<List<ProgrammeEditionResponseDTO>> getProgrammeEditionsByProgrammeID(
+            @PathVariable("programmeid") String programmeAcronym) {
 
-        ProgrammeID programmeID = new ProgrammeID(
-                new Acronym(programmeAcronym)
+        ProgrammeEditionRequestServiceDTO requestDTO = new ProgrammeEditionRequestServiceDTO(
+                new ProgrammeIDDTO(programmeAcronym)
         );
 
-        List<ProgrammeEditionServiceDTO> dtos = programmeEditionService
-                .getProgrammeEditionIDsByProgrammeID(programmeID)
-                .stream()
-                .map(id -> programmeEditionControllerAssembler.toDTOFromIDs(id.getProgrammeID(), id.getSchoolYearID()))
+        List<ProgrammeEditionResponseServiceDTO> serviceDTOs =
+                programmeEditionService.getProgrammeEditionIDsByProgrammeID(requestDTO);
+
+        List<ProgrammeEditionResponseDTO> dtos = serviceDTOs.stream()
+                .map(programmeEditionControllerAssembler::toResponseDTOFromServiceDTO)
                 .toList();
 
         return ResponseEntity.ok(dtos);
@@ -92,14 +100,15 @@ public class ProgrammeEditionRestController {
     @PostMapping()
     public ResponseEntity<?> createAProgrammeEditionForTheCurrentSchoolYear(@Valid @RequestBody ProgrammeEditionRequestDTO requestDto) {
         try {
-            ProgrammeEditionServiceDTO programmeEditionServiceDTO = programmeEditionControllerAssembler.toDTO(requestDto);
-            ProgrammeEditionServiceDTO serviceResult = programmeEditionService.createProgrammeEditionAndSave(programmeEditionServiceDTO);
-            ProgrammeEditionResponseDTO response = programmeEditionControllerAssembler.toResponseDTO(serviceResult);
+            ProgrammeEditionRequestServiceDTO programmeEditionRequestServiceDTO = programmeEditionControllerAssembler.toServiceDTOFromRequestDTO(requestDto);
+            ProgrammeEditionResponseServiceDTO serviceResult = programmeEditionService.createProgrammeEditionAndSave(programmeEditionRequestServiceDTO);
+            ProgrammeEditionResponseDTO response = programmeEditionControllerAssembler.toResponseDTOFromServiceDTO(serviceResult);
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
+
     @PostMapping ("/available-courses")
     public ResponseEntity<List<CourseIDDTO>> getAvailableCourses(@RequestBody ProgrammeEditionIdDto programmeEditionIdDto){
         try {
@@ -115,7 +124,5 @@ public class ProgrammeEditionRestController {
             return ResponseEntity.badRequest().build();
         }
     }
-
-
 }
 

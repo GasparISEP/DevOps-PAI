@@ -32,12 +32,13 @@ class StudentGradeListFactoryImplTest {
         StudentID studentID = mock(StudentID.class);
         CourseEditionID courseEditionID = mock(CourseEditionID.class);
         StudentGradeID studentGradeID = mock(StudentGradeID.class);
+        StudentGradeGeneratedID studentGradeGeneratedID = mock(StudentGradeGeneratedID.class);
 
         // Act
         List<StudentGrade> list = factory.newArrayList();
 
         // Assert
         assertNotNull(list);
-        assertDoesNotThrow(() -> list.add(new StudentGrade(grade,date,studentID,courseEditionID,studentGradeID)));
+        assertDoesNotThrow(() -> list.add(new StudentGrade(grade,date,studentID,courseEditionID,studentGradeID, studentGradeGeneratedID)));
     }
 }

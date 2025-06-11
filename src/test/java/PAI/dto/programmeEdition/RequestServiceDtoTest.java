@@ -6,7 +6,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CountStudentsRequestDtoTest {
+class RequestServiceDtoTest {
     @Test
     void testRecordFields() {
         // Arrange
@@ -15,7 +15,7 @@ class CountStudentsRequestDtoTest {
         String yearId = UUID.randomUUID().toString();
 
         // Act
-        CountStudentsRequestDto dto = new CountStudentsRequestDto(acronym, yearId);
+        RequestServiceDto dto = new RequestServiceDto(acronym, yearId);
 
         // Assert
         assertEquals(acronym, dto.programmeAcronym());

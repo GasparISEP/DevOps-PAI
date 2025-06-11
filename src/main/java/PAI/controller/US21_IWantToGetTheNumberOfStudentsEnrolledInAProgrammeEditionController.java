@@ -1,9 +1,13 @@
 package PAI.controller;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.domain.programmeEdition.ProgrammeEdition;
+import PAI.dto.programmeEdition.ProgrammeEditionResponseServiceDTO;
 import PAI.service.programmeEdition.IProgrammeEditionService;
 import PAI.service.programmeEditionEnrolment.IProgrammeEditionEnrolmentService;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+
 @Component
 public class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionController {
 
@@ -22,7 +26,7 @@ public class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionContro
         this.iProgrammeEditionEnrolmentService = iProgrammeEditionEnrolmentService;
     }
 
-    public Iterable<ProgrammeEdition> getAllProgrammeEdition() throws Exception {
+    public List<ProgrammeEditionResponseServiceDTO> getAllProgrammeEdition() throws Exception {
         return iProgrammeEditionService.findAllProgrammeEditions();
     }
 

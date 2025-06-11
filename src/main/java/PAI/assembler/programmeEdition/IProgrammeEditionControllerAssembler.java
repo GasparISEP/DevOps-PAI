@@ -1,16 +1,16 @@
 package PAI.assembler.programmeEdition;
 
-import PAI.VOs.ProgrammeID;
-import PAI.VOs.SchoolYearID;
 import PAI.domain.programmeEdition.ProgrammeEdition;
-import PAI.dto.programmeEdition.CountStudentsRequestDto;
-import PAI.dto.programmeEdition.ProgrammeEditionServiceDTO;
-import PAI.dto.programmeEdition.ProgrammeEditionRequestDTO;
-import PAI.dto.programmeEdition.ProgrammeEditionResponseDTO;
+import PAI.dto.accessMethod.AccessMethodRequestDTO;
+import PAI.dto.accessMethod.AccessMethodResponseDTO;
+import PAI.dto.accessMethod.AccessMethodServiceDTO;
+import PAI.dto.accessMethod.RegisterAccessMethodCommand;
+import PAI.dto.programmeEdition.*;
+
+import java.util.List;
 
 public interface IProgrammeEditionControllerAssembler {
-    ProgrammeEditionServiceDTO toDTO(ProgrammeEditionRequestDTO programmeEditionRequest);
-    ProgrammeEditionResponseDTO toResponseDTO(ProgrammeEditionServiceDTO programmeEdition);
-    CountStudentsRequestDto toCountDTO(ProgrammeEdition programmeEdition);
-    ProgrammeEditionServiceDTO toDTOFromIDs(ProgrammeID programmeID, SchoolYearID schoolYearID);
+    ProgrammeEditionRequestServiceDTO toServiceDTOFromRequestDTO(ProgrammeEditionRequestDTO programmeEditionRequest);
+    ProgrammeEditionResponseDTO toResponseDTOFromServiceDTO(ProgrammeEditionResponseServiceDTO responseDTO);
+    List<ProgrammeEditionResponseDTO> toResponseDTOList (ProgrammeEditionResponseServiceDTO responseDTO);
 }
