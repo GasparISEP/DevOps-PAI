@@ -12,9 +12,10 @@ public class CourseInStudyPlan implements AggregateRoot<CourseInStudyPlanID> {
     private DurationCourseInCurricularYear _durationOfCourse;
     private CourseQuantityCreditsEcts _quantityOfCreditsEcts;
     private CourseInStudyPlanID _courseInStudyPlanID;
+    private CourseInStudyPlanGeneratedID _generatedID;
 
     public CourseInStudyPlan(Semester semester, CurricularYear curricularYear, CourseID courseID, StudyPlanID studyplanID, CourseInStudyPlanID courseInStudyPlanID,
-                             DurationCourseInCurricularYear durationOfCourse, CourseQuantityCreditsEcts quantityOfCreditsEcts) {
+                             DurationCourseInCurricularYear durationOfCourse, CourseQuantityCreditsEcts quantityOfCreditsEcts, CourseInStudyPlanGeneratedID generatedID) {
 
         if (courseID == null) {
             throw new IllegalArgumentException("Course ID cannot be null");
@@ -50,6 +51,11 @@ public class CourseInStudyPlan implements AggregateRoot<CourseInStudyPlanID> {
             throw new IllegalArgumentException("Course In Study Plan ID cannot be null");
         }
         this._courseInStudyPlanID = courseInStudyPlanID;
+
+        if (generatedID == null) {
+            throw new IllegalArgumentException("Course In Study Plan Generated ID cannot be null");
+        }
+        this._generatedID = generatedID;
     }
 
     @Override
@@ -91,6 +97,10 @@ public class CourseInStudyPlan implements AggregateRoot<CourseInStudyPlanID> {
 
     public CourseQuantityCreditsEcts getQuantityOfCreditsEcts() {
         return this._quantityOfCreditsEcts;
+    }
+
+    public CourseInStudyPlanGeneratedID getGeneratedID() {
+        return this._generatedID;
     }
 
     @Override

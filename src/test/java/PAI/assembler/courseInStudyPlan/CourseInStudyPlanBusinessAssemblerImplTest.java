@@ -29,6 +29,7 @@ class CourseInStudyPlanBusinessAssemblerImplTest {
 
         DurationCourseInCurricularYear duration = new DurationCourseInCurricularYear(2);
         CourseQuantityCreditsEcts credits = new CourseQuantityCreditsEcts(6.0);
+        CourseInStudyPlanGeneratedID generatedID = CourseInStudyPlanGeneratedID.randomID();
 
         CourseInStudyPlan course = new CourseInStudyPlan(
                 semester,
@@ -37,7 +38,8 @@ class CourseInStudyPlanBusinessAssemblerImplTest {
                 studyPlanID,
                 courseInStudyPlanID,
                 duration,
-                credits
+                credits,
+                generatedID
         );
 
         // Act

@@ -6,6 +6,7 @@ import PAI.domain.courseInStudyPlan.ICourseInStudyPlanFactory;
 import PAI.mapper.course.ICourseIDMapper;
 import PAI.mapper.studyPlan.IStudyPlanIDMapper;
 import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanDataModel;
+import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanGeneratedIDDataModel;
 import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanIDDataModel;
 import org.springframework.stereotype.Component;
 
@@ -16,9 +17,10 @@ public class CourseInStudyPlanMapperImpl implements ICourseInStudyPlanMapper {
     private final IStudyPlanIDMapper _studyPlanIDMapper;
     private final ICourseInStudyPlanIDMapper _courseInStudyPlanIDMapper;
     private final ICourseInStudyPlanFactory _courseInStudyPlanFactory;
+    private final ICourseInStudyPlanGeneratedIDMapper _generatedIDMapper;
 
 
-    public CourseInStudyPlanMapperImpl(ICourseIDMapper courseIDMapper, IStudyPlanIDMapper studyPlanIDMapper, ICourseInStudyPlanIDMapper courseInStudyPlanIDMapper, ICourseInStudyPlanFactory courseInStudyPlanFactory) throws Exception {
+    public CourseInStudyPlanMapperImpl(ICourseIDMapper courseIDMapper, IStudyPlanIDMapper studyPlanIDMapper, ICourseInStudyPlanIDMapper courseInStudyPlanIDMapper, ICourseInStudyPlanFactory courseInStudyPlanFactory, ICourseInStudyPlanGeneratedIDMapper generatedIDMapper) throws Exception {
         if (studyPlanIDMapper == null)
             throw new IllegalArgumentException("StudyPlanIDMapper cannot be null");
         _studyPlanIDMapper = studyPlanIDMapper;
@@ -34,9 +36,15 @@ public class CourseInStudyPlanMapperImpl implements ICourseInStudyPlanMapper {
         if (courseInStudyPlanFactory == null)
             throw new IllegalArgumentException("CourseInStudyPlanFactory cannot be null");
         _courseInStudyPlanFactory = courseInStudyPlanFactory;
+
+        if (generatedIDMapper == null)
+            throw new IllegalArgumentException("CourseInStudyPlanGeneratedIDMapper cannot be null");
+        _generatedIDMapper = generatedIDMapper;
     }
 
     public CourseInStudyPlanDataModel toDataModel(CourseInStudyPlan courseInStudyPlan) {
+
+        CourseInStudyPlanGeneratedIDDataModel generatedIDDataModel = _generatedIDMapper.toDataModel(courseInStudyPlan.getGeneratedID());
 
         CourseInStudyPlanIDDataModel courseInStudyPlanIDDataModel = _courseInStudyPlanIDMapper.toDataModel(courseInStudyPlan.identity());
 
@@ -48,7 +56,7 @@ public class CourseInStudyPlanMapperImpl implements ICourseInStudyPlanMapper {
 
         double quantityOfCreditsEcts = courseInStudyPlan.getQuantityOfCreditsEcts().getQuantity();
 
-        return new CourseInStudyPlanDataModel(courseInStudyPlanIDDataModel, semester, curricularYear, durationOfCourse, quantityOfCreditsEcts);
+        return new CourseInStudyPlanDataModel(generatedIDDataModel, courseInStudyPlanIDDataModel, semester, curricularYear, durationOfCourse, quantityOfCreditsEcts);
     }
 
     public CourseInStudyPlan toDomain(CourseInStudyPlanDataModel courseInStudyPlanDataModel) {
@@ -67,7 +75,9 @@ public class CourseInStudyPlanMapperImpl implements ICourseInStudyPlanMapper {
 
             CourseInStudyPlanID courseInStudyPlanId = _courseInStudyPlanIDMapper.toDomain(courseInStudyPlanDataModel.getCourseInStudyPlanIDDataModel());
 
-            return _courseInStudyPlanFactory.newCourseInStudyPlanFromDataModel(courseInStudyPlanId, semester, year, courseId, studyPlanId, durationOfCourse, quantityOfCreditsEcts);
+            CourseInStudyPlanGeneratedID generatedID = _generatedIDMapper.toDomain(courseInStudyPlanDataModel.getGeneratedID());
+
+            return _courseInStudyPlanFactory.newCourseInStudyPlanFromDataModel(courseInStudyPlanId, generatedID, semester, year, courseId, studyPlanId, durationOfCourse, quantityOfCreditsEcts);
 
         } catch (Exception e) {
             throw new RuntimeException("Error trying to map CourseInStudyPlanDataModel back to domain", e);

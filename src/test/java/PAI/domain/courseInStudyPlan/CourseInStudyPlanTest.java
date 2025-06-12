@@ -2,6 +2,7 @@ package PAI.domain.courseInStudyPlan;
 
 import PAI.VOs.*;
 import PAI.domain.course.Course;
+import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanGeneratedIDDataModel;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,9 +21,10 @@ class CourseInStudyPlanTest {
         CurricularYear curricularYear = mock(CurricularYear.class);
         DurationCourseInCurricularYear durationOfCourse = mock(DurationCourseInCurricularYear.class);
         CourseQuantityCreditsEcts quantityOfCreditsEcts = mock(CourseQuantityCreditsEcts.class);
+        CourseInStudyPlanGeneratedID generatedID = mock(CourseInStudyPlanGeneratedID.class);
 
         //Act
-        CourseInStudyPlan CourseInStudyPlan = new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts);
+        CourseInStudyPlan CourseInStudyPlan = new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts, generatedID);
 
         //Assert
         assertNotNull(CourseInStudyPlan);
@@ -37,12 +39,13 @@ class CourseInStudyPlanTest {
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
         DurationCourseInCurricularYear durationOfCourse = mock(DurationCourseInCurricularYear.class);
         CourseQuantityCreditsEcts quantityOfCreditsEcts = mock(CourseQuantityCreditsEcts.class);
+        CourseInStudyPlanGeneratedID generatedID = mock(CourseInStudyPlanGeneratedID.class);
 
         // act & assert
         IllegalArgumentException ex = assertThrows(
                 IllegalArgumentException.class,
                 () -> new CourseInStudyPlan(semester, curricularYear, null, studyPlanID,
-                        courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts)
+                        courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts, generatedID)
         );
         assertEquals("Course ID cannot be null", ex.getMessage());
     }
@@ -56,12 +59,13 @@ class CourseInStudyPlanTest {
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
         DurationCourseInCurricularYear durationOfCourse = mock(DurationCourseInCurricularYear.class);
         CourseQuantityCreditsEcts quantityOfCreditsEcts = mock(CourseQuantityCreditsEcts.class);
+        CourseInStudyPlanGeneratedID generatedID = mock(CourseInStudyPlanGeneratedID.class);
 
         // act & assert
         IllegalArgumentException ex = assertThrows(
                 IllegalArgumentException.class,
                 () -> new CourseInStudyPlan(null, curricularYear, courseID, studyPlanID,
-                        courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts)
+                        courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts, generatedID)
         );
         assertEquals("Semester cannot be null", ex.getMessage());
     }
@@ -76,12 +80,13 @@ class CourseInStudyPlanTest {
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
         DurationCourseInCurricularYear durationOfCourse = mock(DurationCourseInCurricularYear.class);
         CourseQuantityCreditsEcts quantityOfCreditsEcts = mock(CourseQuantityCreditsEcts.class);
+        CourseInStudyPlanGeneratedID generatedID = mock(CourseInStudyPlanGeneratedID.class);
 
         // act & assert
         IllegalArgumentException ex = assertThrows(
                 IllegalArgumentException.class,
                 () -> new CourseInStudyPlan(semester, null, courseID, studyPlanID,
-                        courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts)
+                        courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts, generatedID)
         );
         assertEquals("Curricular Year cannot be null", ex.getMessage());
     }
@@ -95,12 +100,13 @@ class CourseInStudyPlanTest {
         CurricularYear curricularYear = mock(CurricularYear.class);
         DurationCourseInCurricularYear durationOfCourse = mock(DurationCourseInCurricularYear.class);
         CourseQuantityCreditsEcts quantityOfCreditsEcts = mock(CourseQuantityCreditsEcts.class);
+        CourseInStudyPlanGeneratedID generatedID = mock(CourseInStudyPlanGeneratedID.class);
 
         // act & assert
         IllegalArgumentException ex = assertThrows(
                 IllegalArgumentException.class,
                 () -> new CourseInStudyPlan(semester, curricularYear, courseID, null,
-                        courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts)
+                        courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts, generatedID)
         );
         assertEquals("Study Plan ID cannot be null", ex.getMessage());
     }
@@ -114,12 +120,13 @@ class CourseInStudyPlanTest {
         CurricularYear curricularYear = mock(CurricularYear.class);
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
         CourseQuantityCreditsEcts quantityOfCreditsEcts = mock(CourseQuantityCreditsEcts.class);
+        CourseInStudyPlanGeneratedID generatedID = mock(CourseInStudyPlanGeneratedID.class);
 
         // act & assert
         IllegalArgumentException ex = assertThrows(
                 IllegalArgumentException.class,
                 () -> new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID,
-                        courseInStudyPlanID, null, quantityOfCreditsEcts)
+                        courseInStudyPlanID, null, quantityOfCreditsEcts, generatedID)
         );
         assertEquals("Duration of Course cannot be null", ex.getMessage());
     }
@@ -134,12 +141,13 @@ class CourseInStudyPlanTest {
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
         DurationCourseInCurricularYear durationOfCourse = mock(DurationCourseInCurricularYear.class);
         CourseQuantityCreditsEcts quantityOfCreditsEcts = mock(CourseQuantityCreditsEcts.class);
+        CourseInStudyPlanGeneratedID generatedID = mock(CourseInStudyPlanGeneratedID.class);
 
         // act & assert
         IllegalArgumentException ex = assertThrows(
                 IllegalArgumentException.class,
                 () -> new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID,
-                        courseInStudyPlanID, durationOfCourse, null)
+                        courseInStudyPlanID, durationOfCourse, null, generatedID)
         );
         assertEquals("Quantity of Credits Ects cannot be null", ex.getMessage());
     }
@@ -153,14 +161,35 @@ class CourseInStudyPlanTest {
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
         DurationCourseInCurricularYear durationOfCourse = mock(DurationCourseInCurricularYear.class);
         CourseQuantityCreditsEcts quantityOfCreditsEcts = mock(CourseQuantityCreditsEcts.class);
+        CourseInStudyPlanGeneratedID generatedID = mock(CourseInStudyPlanGeneratedID.class);
 
         // act & assert
         IllegalArgumentException ex = assertThrows(
                 IllegalArgumentException.class,
                 () -> new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID,
-                        null, durationOfCourse, quantityOfCreditsEcts)
+                        null, durationOfCourse, quantityOfCreditsEcts, generatedID)
         );
         assertEquals("Course In Study Plan ID cannot be null", ex.getMessage());
+    }
+
+    @Test
+    void ConstructionOfCourseInStudyPlanShouldThrowExceptionWhenCourseInStudyPlanGeneratedIDIsNull() throws Exception {
+        // arrange
+        CourseID courseID = mock(CourseID.class);
+        Semester semester = mock(Semester.class);
+        CurricularYear curricularYear = mock(CurricularYear.class);
+        StudyPlanID studyPlanID = mock(StudyPlanID.class);
+        DurationCourseInCurricularYear durationOfCourse = mock(DurationCourseInCurricularYear.class);
+        CourseQuantityCreditsEcts quantityOfCreditsEcts = mock(CourseQuantityCreditsEcts.class);
+        CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
+
+        // act & assert
+        IllegalArgumentException ex = assertThrows(
+                IllegalArgumentException.class,
+                () -> new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID,
+                        courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts, null)
+        );
+        assertEquals("Course In Study Plan Generated ID cannot be null", ex.getMessage());
     }
 
     @Test
@@ -173,9 +202,10 @@ class CourseInStudyPlanTest {
         CurricularYear curricularYear = mock(CurricularYear.class);
         DurationCourseInCurricularYear durationOfCourse = mock(DurationCourseInCurricularYear.class);
         CourseQuantityCreditsEcts quantityOfCreditsEcts = mock(CourseQuantityCreditsEcts.class);
+        CourseInStudyPlanGeneratedID generatedID = mock(CourseInStudyPlanGeneratedID.class);
 
-        CourseInStudyPlan course1 = new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts);
-        CourseInStudyPlan course2 = new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts);
+        CourseInStudyPlan course1 = new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts, generatedID);
+        CourseInStudyPlan course2 = new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts, generatedID);
 
         // Assert
         assertEquals(course1, course2);
@@ -191,9 +221,10 @@ class CourseInStudyPlanTest {
         CurricularYear curricularYear = mock(CurricularYear.class);
         DurationCourseInCurricularYear durationOfCourse = mock(DurationCourseInCurricularYear.class);
         CourseQuantityCreditsEcts quantityOfCreditsEcts = mock(CourseQuantityCreditsEcts.class);
+        CourseInStudyPlanGeneratedID generatedID = mock(CourseInStudyPlanGeneratedID.class);
 
         //Act
-        CourseInStudyPlan course = new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts);
+        CourseInStudyPlan course = new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts, generatedID);
 
         // Assert
         assertNotEquals(course, null);
@@ -209,9 +240,10 @@ class CourseInStudyPlanTest {
         CurricularYear curricularYear = mock(CurricularYear.class);
         DurationCourseInCurricularYear durationOfCourse = mock(DurationCourseInCurricularYear.class);
         CourseQuantityCreditsEcts quantityOfCreditsEcts = mock(CourseQuantityCreditsEcts.class);
+        CourseInStudyPlanGeneratedID generatedID = mock(CourseInStudyPlanGeneratedID.class);
 
         //Act
-        CourseInStudyPlan course = new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts);
+        CourseInStudyPlan course = new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts, generatedID);
 
         // Assert
         assertEquals(course, course);
@@ -227,9 +259,10 @@ class CourseInStudyPlanTest {
         CurricularYear curricularYear = mock(CurricularYear.class);
         DurationCourseInCurricularYear durationOfCourse = mock(DurationCourseInCurricularYear.class);
         CourseQuantityCreditsEcts quantityOfCreditsEcts = mock(CourseQuantityCreditsEcts.class);
+        CourseInStudyPlanGeneratedID generatedID = mock(CourseInStudyPlanGeneratedID.class);
 
         // Act
-        CourseInStudyPlan course = new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts);
+        CourseInStudyPlan course = new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts, generatedID);
 
         // Assert
         assertEquals(courseID, course.getCourseID());
@@ -251,9 +284,10 @@ class CourseInStudyPlanTest {
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
         DurationCourseInCurricularYear durationOfCourse = mock(DurationCourseInCurricularYear.class);
         CourseQuantityCreditsEcts quantityOfCreditsEcts = mock(CourseQuantityCreditsEcts.class);
+        CourseInStudyPlanGeneratedID generatedID = mock(CourseInStudyPlanGeneratedID.class);
 
         // Act
-        CourseInStudyPlan course = new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts);
+        CourseInStudyPlan course = new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts, generatedID);
 
         CourseInStudyPlanID id = course.identity();
 
@@ -272,8 +306,9 @@ class CourseInStudyPlanTest {
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
         DurationCourseInCurricularYear durationOfCourse = mock(DurationCourseInCurricularYear.class);
         CourseQuantityCreditsEcts quantityOfCreditsEcts = mock(CourseQuantityCreditsEcts.class);
+        CourseInStudyPlanGeneratedID generatedID = mock(CourseInStudyPlanGeneratedID.class);
 
-        CourseInStudyPlan course = new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts);
+        CourseInStudyPlan course = new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts, generatedID);
 
         // Act: obter o identificador em duas chamadas consecutivas
         CourseInStudyPlanID id1 = course.identity();
@@ -293,8 +328,9 @@ class CourseInStudyPlanTest {
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
         DurationCourseInCurricularYear durationOfCourse = mock(DurationCourseInCurricularYear.class);
         CourseQuantityCreditsEcts quantityOfCreditsEcts = mock(CourseQuantityCreditsEcts.class);
+        CourseInStudyPlanGeneratedID generatedID = mock(CourseInStudyPlanGeneratedID.class);
 
-        CourseInStudyPlan course = new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts);
+        CourseInStudyPlan course = new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts, generatedID);
 
         //act + assert
         assertTrue(course.equals(course));
@@ -310,8 +346,9 @@ class CourseInStudyPlanTest {
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
         DurationCourseInCurricularYear durationOfCourse = mock(DurationCourseInCurricularYear.class);
         CourseQuantityCreditsEcts quantityOfCreditsEcts = mock(CourseQuantityCreditsEcts.class);
+        CourseInStudyPlanGeneratedID generatedID = mock(CourseInStudyPlanGeneratedID.class);
 
-        CourseInStudyPlan course = new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts);
+        CourseInStudyPlan course = new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts, generatedID);
 
         //act + assert
         assertNotEquals(courseID, course);
@@ -327,10 +364,11 @@ class CourseInStudyPlanTest {
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
         DurationCourseInCurricularYear durationOfCourse = mock(DurationCourseInCurricularYear.class);
         CourseQuantityCreditsEcts quantityOfCreditsEcts = mock(CourseQuantityCreditsEcts.class);
+        CourseInStudyPlanGeneratedID generatedID = mock(CourseInStudyPlanGeneratedID.class);
 
-        CourseInStudyPlan course1 = new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts);
+        CourseInStudyPlan course1 = new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts, generatedID);
 
-        CourseInStudyPlan course2 = new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts);
+        CourseInStudyPlan course2 = new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts, generatedID);
 
         //act + assert
         assertTrue(course1.equals(course2));
@@ -346,8 +384,9 @@ class CourseInStudyPlanTest {
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
         DurationCourseInCurricularYear durationOfCourse = mock(DurationCourseInCurricularYear.class);
         CourseQuantityCreditsEcts quantityOfCreditsEcts = mock(CourseQuantityCreditsEcts.class);
+        CourseInStudyPlanGeneratedID generatedID = mock(CourseInStudyPlanGeneratedID.class);
 
-        CourseInStudyPlan course1 = new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts);
+        CourseInStudyPlan course1 = new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts, generatedID);
 
         //act + assert
         assertEquals(courseInStudyPlanID, course1.identity());
@@ -363,10 +402,11 @@ class CourseInStudyPlanTest {
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
         DurationCourseInCurricularYear durationOfCourse = mock(DurationCourseInCurricularYear.class);
         CourseQuantityCreditsEcts quantityOfCreditsEcts = mock(CourseQuantityCreditsEcts.class);
+        CourseInStudyPlanGeneratedID generatedID = mock(CourseInStudyPlanGeneratedID.class);
 
-        CourseInStudyPlan course1 = new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts);
+        CourseInStudyPlan course1 = new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts, generatedID);
 
-        CourseInStudyPlan course2 = new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts);
+        CourseInStudyPlan course2 = new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts, generatedID);
 
         assertTrue(course1.sameAs(course2));
     }
@@ -382,9 +422,10 @@ class CourseInStudyPlanTest {
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
         DurationCourseInCurricularYear durationOfCourse = mock(DurationCourseInCurricularYear.class);
         CourseQuantityCreditsEcts quantityOfCreditsEcts = mock(CourseQuantityCreditsEcts.class);
+        CourseInStudyPlanGeneratedID generatedID = mock(CourseInStudyPlanGeneratedID.class);
 
-        CourseInStudyPlan course1 = new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts);
-        CourseInStudyPlan course2 = new CourseInStudyPlan(semester, curricularYear2, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts);
+        CourseInStudyPlan course1 = new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts, generatedID);
+        CourseInStudyPlan course2 = new CourseInStudyPlan(semester, curricularYear2, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts, generatedID);
 
         //act & assert
         assertTrue(course1.sameAs(course2));
@@ -401,9 +442,10 @@ class CourseInStudyPlanTest {
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
         DurationCourseInCurricularYear durationOfCourse = mock(DurationCourseInCurricularYear.class);
         CourseQuantityCreditsEcts quantityOfCreditsEcts = mock(CourseQuantityCreditsEcts.class);
+        CourseInStudyPlanGeneratedID generatedID = mock(CourseInStudyPlanGeneratedID.class);
 
-        CourseInStudyPlan course1 = new CourseInStudyPlan(semester1, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts);
-        CourseInStudyPlan course2 = new CourseInStudyPlan(semester2, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts);
+        CourseInStudyPlan course1 = new CourseInStudyPlan(semester1, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts, generatedID);
+        CourseInStudyPlan course2 = new CourseInStudyPlan(semester2, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts, generatedID);
 
         // act & assert
         assertTrue(course1.sameAs(course2));
@@ -419,13 +461,14 @@ class CourseInStudyPlanTest {
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
         DurationCourseInCurricularYear durationOfCourse = mock(DurationCourseInCurricularYear.class);
         CourseQuantityCreditsEcts quantityOfCreditsEcts = mock(CourseQuantityCreditsEcts.class);
-        CourseInStudyPlan course1 = new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts);
+        CourseInStudyPlanGeneratedID generatedID = mock(CourseInStudyPlanGeneratedID.class);
+        CourseInStudyPlan course1 = new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts, generatedID);
 
         Semester semester2 = mock(Semester.class);
         CurricularYear curricularYear2 = mock(CurricularYear.class);
         CourseID courseID2 = mock(CourseID.class);
         StudyPlanID studyPlanID2 = mock(StudyPlanID.class);
-        CourseInStudyPlan course2 = new CourseInStudyPlan(semester2, curricularYear2, courseID2, studyPlanID2, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts);
+        CourseInStudyPlan course2 = new CourseInStudyPlan(semester2, curricularYear2, courseID2, studyPlanID2, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts, generatedID);
         //act + assert
         assertFalse(course1.sameAs(course2));
     }
@@ -440,8 +483,9 @@ class CourseInStudyPlanTest {
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
         DurationCourseInCurricularYear durationOfCourse = mock(DurationCourseInCurricularYear.class);
         CourseQuantityCreditsEcts quantityOfCreditsEcts = mock(CourseQuantityCreditsEcts.class);
+        CourseInStudyPlanGeneratedID generatedID = mock(CourseInStudyPlanGeneratedID.class);
 
-        CourseInStudyPlan course1 = new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts);
+        CourseInStudyPlan course1 = new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts, generatedID);
         // act & assert
         assertTrue(course1.sameAs(course1));
     }
@@ -456,8 +500,9 @@ class CourseInStudyPlanTest {
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
         DurationCourseInCurricularYear durationOfCourse = mock(DurationCourseInCurricularYear.class);
         CourseQuantityCreditsEcts quantityOfCreditsEcts = mock(CourseQuantityCreditsEcts.class);
+        CourseInStudyPlanGeneratedID generatedID = mock(CourseInStudyPlanGeneratedID.class);
 
-        CourseInStudyPlan courseInStudyPlan = new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts);
+        CourseInStudyPlan courseInStudyPlan = new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts, generatedID);
 
         Course course = mock(Course.class);
         // act & assert
@@ -475,9 +520,10 @@ class CourseInStudyPlanTest {
         StudyPlanID studyPlanID2 = mock(StudyPlanID.class);
         DurationCourseInCurricularYear durationOfCourse = mock(DurationCourseInCurricularYear.class);
         CourseQuantityCreditsEcts quantityOfCreditsEcts = mock(CourseQuantityCreditsEcts.class);
+        CourseInStudyPlanGeneratedID generatedID = mock(CourseInStudyPlanGeneratedID.class);
 
-        CourseInStudyPlan course1 = new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts);
-        CourseInStudyPlan course2 = new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID2, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts);
+        CourseInStudyPlan course1 = new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts, generatedID);
+        CourseInStudyPlan course2 = new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID2, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts, generatedID);
         // act & assert
         assertFalse(course1.sameAs(course2));
     }
@@ -493,9 +539,10 @@ class CourseInStudyPlanTest {
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
         DurationCourseInCurricularYear durationOfCourse = mock(DurationCourseInCurricularYear.class);
         CourseQuantityCreditsEcts quantityOfCreditsEcts = mock(CourseQuantityCreditsEcts.class);
+        CourseInStudyPlanGeneratedID generatedID = mock(CourseInStudyPlanGeneratedID.class);
 
-        CourseInStudyPlan course1 = new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts);
-        CourseInStudyPlan course2 = new CourseInStudyPlan(semester, curricularYear, courseID2, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts);
+        CourseInStudyPlan course1 = new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts, generatedID);
+        CourseInStudyPlan course2 = new CourseInStudyPlan(semester, curricularYear, courseID2, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts, generatedID);
         // act & assert
         assertFalse(course1.sameAs(course2));
     }
@@ -517,10 +564,11 @@ class CourseInStudyPlanTest {
         CurricularYear curricularYear = mock(CurricularYear.class);
         DurationCourseInCurricularYear durationOfCourse = mock(DurationCourseInCurricularYear.class);
         CourseQuantityCreditsEcts quantityOfCreditsEcts = mock(CourseQuantityCreditsEcts.class);
+        CourseInStudyPlanGeneratedID generatedID = mock(CourseInStudyPlanGeneratedID.class);
 
         // act
-        CourseInStudyPlan course1 = new CourseInStudyPlan(semester, curricularYear, courseID1, studyPlanID1, id1, durationOfCourse, quantityOfCreditsEcts);
-        CourseInStudyPlan course2 = new CourseInStudyPlan(semester, curricularYear, courseID2, studyPlanID2, id2, durationOfCourse, quantityOfCreditsEcts);
+        CourseInStudyPlan course1 = new CourseInStudyPlan(semester, curricularYear, courseID1, studyPlanID1, id1, durationOfCourse, quantityOfCreditsEcts, generatedID);
+        CourseInStudyPlan course2 = new CourseInStudyPlan(semester, curricularYear, courseID2, studyPlanID2, id2, durationOfCourse, quantityOfCreditsEcts, generatedID);
 
         // assert
         assertNotEquals(course1, course2);

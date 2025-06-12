@@ -10,6 +10,9 @@ import java.util.Objects;
 @Table (name = "CourseInStudyPlan")
 public class CourseInStudyPlanDataModel {
 
+    @Embedded
+    private CourseInStudyPlanGeneratedIDDataModel generatedID;
+
     @EmbeddedId
     private CourseInStudyPlanIDDataModel courseInStudyPlanID;
 
@@ -28,8 +31,10 @@ public class CourseInStudyPlanDataModel {
     protected CourseInStudyPlanDataModel() {
     }
 
-    public CourseInStudyPlanDataModel (CourseInStudyPlanIDDataModel courseInStudyPlanIDDataModel, int semester, int curricularYear, int durationOfCourse, double quantityOfCreditsEcts) {
+    public CourseInStudyPlanDataModel (CourseInStudyPlanGeneratedIDDataModel generatedIDDataModel, CourseInStudyPlanIDDataModel courseInStudyPlanIDDataModel, int semester, int curricularYear, int durationOfCourse, double quantityOfCreditsEcts) {
         this.courseInStudyPlanID = courseInStudyPlanIDDataModel;
+
+        this.generatedID = generatedIDDataModel;
 
         if (semester < 1 || curricularYear < 1 || durationOfCourse < 1 || quantityOfCreditsEcts < 1) {
             throw new IllegalArgumentException("Semester, CurricularYear, DurationOfCourse or QuantityOfCreditsEcts must be greater than 0");
@@ -80,5 +85,9 @@ public class CourseInStudyPlanDataModel {
 
     public double getQuantityOfCreditsEcts() {
         return quantityOfCreditsEcts;
+    }
+
+    public CourseInStudyPlanGeneratedIDDataModel getGeneratedID() {
+        return generatedID;
     }
 }

@@ -1,6 +1,7 @@
 package PAI.persistence.datamodel.courseInStudyPlan;
 
 import PAI.VOs.CourseID;
+import PAI.VOs.CourseInStudyPlanGeneratedID;
 import PAI.persistence.datamodel.course.CourseIDDataModel;
 import PAI.persistence.datamodel.studyPlan.StudyPlanIDDataModel;
 import org.junit.jupiter.api.Test;
@@ -22,6 +23,7 @@ class CourseInStudyPlanDataModelTest {
     void shouldCreateCSPDataModelWithParameters() {
         // arrange
         CourseInStudyPlanIDDataModel embeddedId = mock(CourseInStudyPlanIDDataModel.class);
+        CourseInStudyPlanGeneratedIDDataModel generatedID = mock(CourseInStudyPlanGeneratedIDDataModel.class);
 
         int semester = 1;
         int year = 2;
@@ -30,12 +32,13 @@ class CourseInStudyPlanDataModelTest {
 
         // act
         CourseInStudyPlanDataModel model = new CourseInStudyPlanDataModel(
-                embeddedId, semester, year, durationOfCourse, quantityOfCreditsEcts
+                generatedID, embeddedId, semester, year, durationOfCourse, quantityOfCreditsEcts
         );
 
         // assert
         assertNotNull(model);
         assertEquals(embeddedId, model.getCourseInStudyPlanIDDataModel());
+        assertEquals(generatedID, model.getGeneratedID());
         assertEquals(semester, model.getSemester());
         assertEquals(year, model.getCurricularYear());
         assertEquals(durationOfCourse, model.getDurationOfCourse());
@@ -63,11 +66,12 @@ class CourseInStudyPlanDataModelTest {
     @Test
     void equalsShouldReturnTrueForSameEmbeddedId() {
         CourseInStudyPlanIDDataModel id = mock(CourseInStudyPlanIDDataModel.class);
+        CourseInStudyPlanGeneratedIDDataModel generatedID = mock(CourseInStudyPlanGeneratedIDDataModel.class);
         CourseInStudyPlanDataModel m1 = new CourseInStudyPlanDataModel(
-                id, 1, 1, 1, 1.0
+                generatedID, id, 1, 1, 1, 1.0
         );
         CourseInStudyPlanDataModel m2 = new CourseInStudyPlanDataModel(
-                id, 2, 2, 2, 2.0
+                generatedID, id, 2, 2, 2, 2.0
         );
         assertTrue(m1.equals(m2));
     }
@@ -75,12 +79,14 @@ class CourseInStudyPlanDataModelTest {
     @Test
     void equalsShouldReturnFalseForDifferentEmbeddedId() {
         CourseInStudyPlanIDDataModel id1 = mock(CourseInStudyPlanIDDataModel.class);
+        CourseInStudyPlanGeneratedIDDataModel gid1 = mock(CourseInStudyPlanGeneratedIDDataModel.class);
         CourseInStudyPlanIDDataModel id2 = mock(CourseInStudyPlanIDDataModel.class);
+        CourseInStudyPlanGeneratedIDDataModel gid2 = mock(CourseInStudyPlanGeneratedIDDataModel.class);
         CourseInStudyPlanDataModel m1 = new CourseInStudyPlanDataModel(
-                id1, 1, 1, 1, 1.0
+                gid1, id1, 1, 1, 1, 1.0
         );
         CourseInStudyPlanDataModel m2 = new CourseInStudyPlanDataModel(
-                id2, 1, 1, 1, 1.0
+                gid2, id2, 1, 1, 1, 1.0
         );
         assertFalse(m1.equals(m2));
     }
@@ -88,12 +94,13 @@ class CourseInStudyPlanDataModelTest {
     @Test
     void hashCodeShouldBeEqualForSameEmbeddedId() {
         CourseInStudyPlanIDDataModel id = mock(CourseInStudyPlanIDDataModel.class);
+        CourseInStudyPlanGeneratedIDDataModel gid1 = mock(CourseInStudyPlanGeneratedIDDataModel.class);
 
         CourseInStudyPlanDataModel m1 = new CourseInStudyPlanDataModel(
-                id,1, 1, 1, 1.0
+                gid1, id,1, 1, 1, 1.0
         );
         CourseInStudyPlanDataModel m2 = new CourseInStudyPlanDataModel(
-                id, 2, 2, 2, 2.0
+                gid1, id, 2, 2, 2, 2.0
         );
 
         assertEquals(m1.hashCode(), m2.hashCode());
@@ -103,25 +110,26 @@ class CourseInStudyPlanDataModelTest {
     @Test
     void constructorShouldThrowWhenNumericFieldsAreInvalid() {
         var id   = mock(CourseInStudyPlanIDDataModel.class);
+        var gid = mock(CourseInStudyPlanGeneratedIDDataModel.class);
 
         // semester < 1
         assertThrows(IllegalArgumentException.class, () ->
-                new CourseInStudyPlanDataModel(id, 0, 1, 1, 1.0)
+                new CourseInStudyPlanDataModel(gid, id, 0, 1, 1, 1.0)
         );
 
         // curricularYear < 1
         assertThrows(IllegalArgumentException.class, () ->
-                new CourseInStudyPlanDataModel(id,1, 0, 1, 1.0)
+                new CourseInStudyPlanDataModel(gid, id,1, 0, 1, 1.0)
         );
 
         // durationOfCourse < 1
         assertThrows(IllegalArgumentException.class, () ->
-                new CourseInStudyPlanDataModel(id, 1, 1, 0, 1.0)
+                new CourseInStudyPlanDataModel(gid, id, 1, 1, 0, 1.0)
         );
 
         // quantityOfCreditsEcts < 1
         assertThrows(IllegalArgumentException.class, () ->
-                new CourseInStudyPlanDataModel(id, 1, 1, 1, 0.0)
+                new CourseInStudyPlanDataModel(gid, id, 1, 1, 1, 0.0)
         );
     }
 
@@ -137,11 +145,14 @@ class CourseInStudyPlanDataModelTest {
         CourseInStudyPlanIDDataModel id1 = new CourseInStudyPlanIDDataModel(studyPlanIDDataModel1, courseIDDataModel1);
         CourseInStudyPlanIDDataModel id2 = new CourseInStudyPlanIDDataModel(studyPlanIDDataModel2, courseIDDataModel2);
 
+        CourseInStudyPlanGeneratedIDDataModel gid1 = mock(CourseInStudyPlanGeneratedIDDataModel.class);
+        CourseInStudyPlanGeneratedIDDataModel gid2 = mock(CourseInStudyPlanGeneratedIDDataModel.class);
+
         CourseInStudyPlanDataModel m1 = new CourseInStudyPlanDataModel(
-                id1,1, 1, 1, 1.0
+                gid1, id1,1, 1, 1, 1.0
         );
         CourseInStudyPlanDataModel m2 = new CourseInStudyPlanDataModel(
-                id2, 1, 1, 1, 1.0
+                gid2, id2, 1, 1, 1, 1.0
         );
 
         assertNotEquals(m1.hashCode(), m2.hashCode());
@@ -152,7 +163,8 @@ class CourseInStudyPlanDataModelTest {
         StudyPlanIDDataModel studyPlanIDDataModel = mock(StudyPlanIDDataModel.class);
         CourseIDDataModel courseIDDataModel = mock(CourseIDDataModel.class);
         CourseInStudyPlanIDDataModel id = new CourseInStudyPlanIDDataModel(studyPlanIDDataModel, courseIDDataModel);
-        CourseInStudyPlanDataModel m1 = new CourseInStudyPlanDataModel(id, 1, 1, 1, 1.0);
+        CourseInStudyPlanGeneratedIDDataModel gid = mock(CourseInStudyPlanGeneratedIDDataModel.class);
+        CourseInStudyPlanDataModel m1 = new CourseInStudyPlanDataModel(gid, id, 1, 1, 1, 1.0);
 
         StudyPlanIDDataModel result = m1.getStudyPlanIDDataModel();
 
@@ -164,7 +176,8 @@ class CourseInStudyPlanDataModelTest {
         StudyPlanIDDataModel studyPlanIDDataModel = mock(StudyPlanIDDataModel.class);
         CourseIDDataModel courseIDDataModel = mock(CourseIDDataModel.class);
         CourseInStudyPlanIDDataModel id = new CourseInStudyPlanIDDataModel(studyPlanIDDataModel, courseIDDataModel);
-        CourseInStudyPlanDataModel m1 = new CourseInStudyPlanDataModel(id, 1, 1, 1, 1.0);
+        CourseInStudyPlanGeneratedIDDataModel gid = mock(CourseInStudyPlanGeneratedIDDataModel.class);
+        CourseInStudyPlanDataModel m1 = new CourseInStudyPlanDataModel(gid, id, 1, 1, 1, 1.0);
 
         CourseIDDataModel result = m1.getCourseIDDataModel();
 
