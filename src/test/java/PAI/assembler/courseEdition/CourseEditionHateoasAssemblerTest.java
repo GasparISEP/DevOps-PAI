@@ -64,8 +64,8 @@ class CourseEditionHateoasAssemblerTest {
         assertTrue(result.hasLink("define-ruc"), "Link with rel 'define-ruc' should be present");
 
         String defineRucHref = result.getLink("define-ruc").orElseThrow().getHref();
-        assertTrue(defineRucHref.endsWith("/courseeditions/" + courseEditionId + "/ruc"),
-                "HREF should end with '/courseeditions/{id}/ruc'");
+        assertTrue(defineRucHref.endsWith("/course-editions/" + courseEditionId + "/ruc"),
+                "HREF should end with '/course-editions/{id}/ruc'");
     }
 
     @Test

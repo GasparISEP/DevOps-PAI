@@ -1,6 +1,5 @@
 package PAI.persistence.springdata.programmeEdition;
 
-import PAI.VOs.Date;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.ProgrammeID;
 import PAI.VOs.SchoolYearID;
@@ -203,4 +202,41 @@ public class ProgrammeEditionRepositorySpringDataImpl implements IProgrammeEditi
                 })
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<ProgrammeEditionID> findProgrammeEditionIDsBySchoolYearIDAndProgrammeIDs(SchoolYearID schoolYearID, List<ProgrammeID> programmeIDs) {
+
+        if (schoolYearID == null || programmeIDs == null || programmeIDs.isEmpty())
+            return List.of();
+
+        SchoolYearIDDataModel schoolYearIDDataModel = iSchoolYearIDMapper.toDataModel(schoolYearID);
+
+        List<ProgrammeIDDataModel> programmeIDDataModels = mapProgrammeIDs(programmeIDs);
+
+        List<ProgrammeEditionIdDataModel> programmeEditionsIdDataModel = iProgrammeEditionRepositorySpringData.findProgrammeEditionIDsBySchoolYearIdAndProgrammeIds(schoolYearIDDataModel, programmeIDDataModels);
+
+        return mapToDomainIDs(programmeEditionsIdDataModel);
+    }
+
+    private List<ProgrammeIDDataModel> mapProgrammeIDs(List<ProgrammeID> programmeIDs) {
+        List<ProgrammeIDDataModel> programmeIDDataModels = new ArrayList<>();
+        for (ProgrammeID programmeID : programmeIDs) {
+            programmeIDDataModels.add(iProgrammeIDMapper.toData(programmeID));
+        }
+        return programmeIDDataModels;
+    }
+
+    private List<ProgrammeEditionID> mapToDomainIDs(List<ProgrammeEditionIdDataModel> dataModels) {
+        List<ProgrammeEditionID> domainIDs = new ArrayList<>();
+        for (ProgrammeEditionIdDataModel dataModel : dataModels) {
+            try {
+                domainIDs.add(iProgrammeEditionIdMapper.toDomain(dataModel));
+            } catch (Exception e) {
+                throw new RuntimeException("Error mapping ProgrammeEditionIdDataModel to ProgrammeEditionID: " + dataModel, e);
+            }
+        }
+        return domainIDs;
+    }
+
+
 }

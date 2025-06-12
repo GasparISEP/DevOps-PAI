@@ -48,13 +48,13 @@ class StudentGradeRepresentationModelAssemblerTest {
             String rel = link.getRel().value();
             String href = link.getHref();
 
-            if (rel.equals("self") && href.contains("/courseeditions/studentgrades/register")) {
+            if (rel.equals("self") && href.contains("/course-editions/studentgrades/register")) {
                 hasSelfLink = true;
             }
-            if (rel.equals("averageGrade") && href.contains("/courseeditions/averagegrade")) {
+            if (rel.equals("averageGrade") && href.contains("/course-editions/averagegrade")) {
                 hasAverageGradeLink = true;
             }
-            if (rel.equals("/approval-rate") && href.contains("/courseeditions/approval-rate")) {
+            if (rel.equals("/approval-rate") && href.contains("/course-editions/approval-rate")) {
                 hasApprovalRateLink = true;
             }
         }

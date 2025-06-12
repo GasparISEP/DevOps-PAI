@@ -87,7 +87,7 @@ public class GradeAStudentRestControllerTest {
                 .thenReturn(EntityModel.of(responseDTO));
 
         // Act & Assert
-        mockMvc.perform(post("/courseeditions/studentgrades/register")
+        mockMvc.perform(post("/course-editions/studentgrades/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDTO)))
                 .andExpect(status().isCreated())

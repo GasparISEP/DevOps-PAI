@@ -112,4 +112,9 @@ public class ProgrammeEditionRepositoryImpl implements IProgrammeEditionReposito
     }*/
         return null;
     }
+
+    @Override
+    public List<ProgrammeEditionID> findProgrammeEditionIDsBySchoolYearIDAndProgrammeIDs(SchoolYearID schoolYearID, List<ProgrammeID> programmeIDs) {
+        return null;
+    }
 }

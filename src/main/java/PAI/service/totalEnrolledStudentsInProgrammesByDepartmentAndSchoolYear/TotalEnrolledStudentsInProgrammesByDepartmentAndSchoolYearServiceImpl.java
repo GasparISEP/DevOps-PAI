@@ -66,7 +66,7 @@ public class TotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearServiceIm
         List<ProgrammeID> programmeIDList = programmeRepository.findProgrammeByDepartment(departmentID);
         if (programmeIDList.isEmpty()) return 0;
 
-        List<ProgrammeEditionID> programmeEditionIDList = getProgrammeEditionIdsForProgrammesAndSchoolYear(programmeIDList, schoolYearID);
+        List<ProgrammeEditionID> programmeEditionIDList = programmeEditionRepository.findProgrammeEditionIDsBySchoolYearIDAndProgrammeIDs(schoolYearID, programmeIDList);
         if (programmeEditionIDList.isEmpty()) return 0;
 
         Iterable <ProgrammeEditionEnrolment> enrols = programmeEditionEnrolmentRepository.findAll();
@@ -75,19 +75,6 @@ public class TotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearServiceIm
 
     private boolean isDepartmentIdAndSchoolYearIdValid(DepartmentID departmentID, SchoolYearID schoolYearID) {
         return departmentRepository.containsOfIdentity(departmentID) && schoolYearRepository.containsOfIdentity(schoolYearID);
-    }
-
-    private List<ProgrammeEditionID> getProgrammeEditionIdsForProgrammesAndSchoolYear(List<ProgrammeID> programmeIDList, SchoolYearID schoolYearID) throws Exception {
-
-        List<ProgrammeEditionID> programmeEditionIDList = new ArrayList<>();
-        for (ProgrammeID programmeID : programmeIDList){
-            Optional<ProgrammeEditionID> programmeEditionIDOpt = programmeEditionRepository.findProgrammeEditionIDByProgrammeIDAndSchoolYearID(programmeID, schoolYearID);
-            if (programmeEditionIDOpt.isPresent()){
-                ProgrammeEditionID programmeEditionID = programmeEditionIDOpt.get();
-                programmeEditionIDList.add(programmeEditionID);
-            }
-        }
-        return programmeEditionIDList;
     }
 
     private int countEnrollmentsMatchingProgrammeEditions(

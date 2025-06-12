@@ -1,9 +1,6 @@
 package PAI.service.courseEdition;
 
-import PAI.VOs.CourseEditionID;
-import PAI.VOs.CourseInStudyPlanID;
-import PAI.VOs.ProgrammeEditionID;
-import PAI.VOs.TeacherID;
+import PAI.VOs.*;
 import PAI.domain.courseEdition.CourseEdition;
 import PAI.domain.courseEdition.ICourseEditionFactory;
 import PAI.domain.repositoryInterfaces.courseEdition.ICourseEditionRepository;
@@ -11,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -513,4 +511,25 @@ class CourseEditionServiceImplTest {
         assertEquals("Database error", exception.getMessage());
     }
 
+    @Test
+    void whenFindCourseEditionByGeneratedID_withValidID_thenReturnsCourseEditionID () throws Exception {
+        // Arrange
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+
+        CourseEditionGeneratedID generatedIDDouble = mock(CourseEditionGeneratedID.class);
+        UUID uuid = UUID.randomUUID();
+        CourseEdition courseEditionDouble = mock(CourseEdition.class);
+        CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
+
+        when(generatedIDDouble.getCourseEditionGeneratedID()).thenReturn(uuid);
+        when(courseEditionRepository.findCourseEditionByGeneratedId(generatedIDDouble))
+                .thenReturn(Optional.of(courseEditionDouble));
+        when(courseEditionDouble.identity()).thenReturn(courseEditionIDDouble);
+
+        // Act
+        Optional<CourseEdition> result = courseEditionRepository.findCourseEditionByGeneratedId(generatedIDDouble);
+
+        // Assert
+        assertTrue(result.isPresent());
+    }
 }

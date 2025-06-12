@@ -1,9 +1,6 @@
 package PAI.service.programmeEnrolment;
 
-import PAI.VOs.CourseEditionID;
-import PAI.VOs.CourseID;
-import PAI.VOs.CourseInStudyPlanID;
-import PAI.VOs.ProgrammeEditionID;
+import PAI.VOs.*;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.domain.repositoryInterfaces.courseEdition.ICourseEditionRepository;
 import PAI.domain.repositoryInterfaces.courseInStudyPlan.ICourseInStudyPlanRepository;
@@ -356,4 +353,69 @@ class AvailableCoursesServiceImplTest {
         // assert
         assertTrue(result.isEmpty());
     }
+
+
+
+    @Test
+    void getListOfCourseInfo_shouldReturnAvailableCourseInfoList() {
+        // arrange
+        CourseID courseID1 = mock(CourseID.class);
+        CourseID courseID2 = mock(CourseID.class);
+        CourseQuantityCreditsEcts ects1 = mock(CourseQuantityCreditsEcts.class);
+        CourseQuantityCreditsEcts ects2 = mock(CourseQuantityCreditsEcts.class);
+
+        CourseInStudyPlan course1 = mock(CourseInStudyPlan.class);
+        CourseInStudyPlan course2 = mock(CourseInStudyPlan.class);
+
+        when(course1.getCourseID()).thenReturn(courseID1);
+        when(course1.getQuantityOfCreditsEcts()).thenReturn(ects1);
+        when(course2.getCourseID()).thenReturn(courseID2);
+        when(course2.getQuantityOfCreditsEcts()).thenReturn(ects2);
+
+        List<CourseInStudyPlan> inputList = List.of(course1, course2);
+
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        ICourseInStudyPlanRepository courseInStudyPlanRepository = mock(ICourseInStudyPlanRepository.class);
+        AvailableCoursesServiceImpl service =
+                new AvailableCoursesServiceImpl(courseEditionRepository, courseInStudyPlanRepository);
+
+        // act
+        List<AvailableCourseInfo> result = service.getListOfCourseInfo(inputList);
+
+        // assert
+        assertEquals(2, result.size());
+        assertEquals(new AvailableCourseInfo(courseID1, ects1), result.get(0));
+        assertEquals(new AvailableCourseInfo(courseID2, ects2), result.get(1));
+    }
+
+    @Test
+    void getListOfCourseInfo_shouldReturnEmptyListWhenInputIsEmpty() {
+        // arrange
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        ICourseInStudyPlanRepository courseInStudyPlanRepository = mock(ICourseInStudyPlanRepository.class);
+        AvailableCoursesServiceImpl service =
+                new AvailableCoursesServiceImpl(courseEditionRepository, courseInStudyPlanRepository);
+
+        // act
+        List<AvailableCourseInfo> result = service.getListOfCourseInfo(List.of());
+
+        // assert
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void getListOfCourseInfo_shouldThrowWhenInputIsNull() {
+        // arrange
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        ICourseInStudyPlanRepository courseInStudyPlanRepository = mock(ICourseInStudyPlanRepository.class);
+        AvailableCoursesServiceImpl service =
+                new AvailableCoursesServiceImpl(courseEditionRepository, courseInStudyPlanRepository);
+
+        // act & assert
+        assertThrows(NullPointerException.class, () ->
+                service.getListOfCourseInfo(null)
+        );
+    }
+
+
 }
