@@ -105,6 +105,7 @@ const NavBar = () => {
                   <Link to="/course-editions/average-grade" className="navbar-link">
                     Average Grade
                   </Link>
+                </li>
               </ul>
             </li>
 
