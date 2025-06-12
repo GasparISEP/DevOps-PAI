@@ -167,3 +167,9 @@ select.form-input {
     background: #ccc;
     cursor: not-allowed;
 }
+.btn-fixed-width {
+    min-width: 16rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
