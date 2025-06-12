@@ -323,7 +323,6 @@ class AvailableCoursesServiceImplTest {
 
         AvailableCoursesServiceImpl service = new AvailableCoursesServiceImpl(courseEditionRepository, courseInStudyPlanRepository);
 
-        // mock chain
         when(courseEditionRepository.findCourseEditionsByProgrammeEditionID(programmeEditionID)).thenReturn(List.of(ceid));
         when(ceid.getCourseInStudyPlanID()).thenReturn(cspid);
         when(courseInStudyPlanRepository.ofIdentity(cspid)).thenReturn(Optional.empty());
@@ -415,6 +414,89 @@ class AvailableCoursesServiceImplTest {
         assertThrows(NullPointerException.class, () ->
                 service.getListOfCourseInfo(null)
         );
+    }
+
+    @Test
+    void getListOfAvailableCourseInfoForAGivenProgrammeEdition_shouldReturnCourseInfos() {
+        // arrange
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+
+        CourseEditionID ceid1 = mock(CourseEditionID.class);
+        CourseEditionID ceid2 = mock(CourseEditionID.class);
+
+        CourseInStudyPlanID cspid1 = mock(CourseInStudyPlanID.class);
+        CourseInStudyPlanID cspid2 = mock(CourseInStudyPlanID.class);
+
+        CourseInStudyPlan csp1 = mock(CourseInStudyPlan.class);
+        CourseInStudyPlan csp2 = mock(CourseInStudyPlan.class);
+
+        CourseID courseID1 = mock(CourseID.class);
+        CourseID courseID2 = mock(CourseID.class);
+        CourseQuantityCreditsEcts ects1 = mock(CourseQuantityCreditsEcts.class);
+        CourseQuantityCreditsEcts ects2 = mock(CourseQuantityCreditsEcts.class);
+
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        ICourseInStudyPlanRepository courseInStudyPlanRepository = mock(ICourseInStudyPlanRepository.class);
+        AvailableCoursesServiceImpl service = new AvailableCoursesServiceImpl(courseEditionRepository, courseInStudyPlanRepository);
+
+        // mock chain
+        when(courseEditionRepository.findCourseEditionsByProgrammeEditionID(programmeEditionID)).thenReturn(List.of(ceid1, ceid2));
+        when(ceid1.getCourseInStudyPlanID()).thenReturn(cspid1);
+        when(ceid2.getCourseInStudyPlanID()).thenReturn(cspid2);
+        when(courseInStudyPlanRepository.ofIdentity(cspid1)).thenReturn(Optional.of(csp1));
+        when(courseInStudyPlanRepository.ofIdentity(cspid2)).thenReturn(Optional.of(csp2));
+        when(csp1.getCourseID()).thenReturn(courseID1);
+        when(csp2.getCourseID()).thenReturn(courseID2);
+        when(csp1.getQuantityOfCreditsEcts()).thenReturn(ects1);
+        when(csp2.getQuantityOfCreditsEcts()).thenReturn(ects2);
+
+        // act
+        List<AvailableCourseInfo> result = service.getListOfAvailableCourseInfoForAGivenProgrammeEdition(programmeEditionID);
+
+        // assert
+        assertEquals(2, result.size());
+        assertEquals(new AvailableCourseInfo(courseID1, ects1), result.get(0));
+        assertEquals(new AvailableCourseInfo(courseID2, ects2), result.get(1));
+    }
+
+    @Test
+    void getListOfAvailableCourseInfoForAGivenProgrammeEdition_shouldThrowIfCourseInStudyPlanNotFound() {
+        // arrange
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+        CourseEditionID ceid = mock(CourseEditionID.class);
+        CourseInStudyPlanID cspid = mock(CourseInStudyPlanID.class);
+
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        ICourseInStudyPlanRepository courseInStudyPlanRepository = mock(ICourseInStudyPlanRepository.class);
+        AvailableCoursesServiceImpl service = new AvailableCoursesServiceImpl(courseEditionRepository, courseInStudyPlanRepository);
+
+        when(courseEditionRepository.findCourseEditionsByProgrammeEditionID(programmeEditionID)).thenReturn(List.of(ceid));
+        when(ceid.getCourseInStudyPlanID()).thenReturn(cspid);
+        when(courseInStudyPlanRepository.ofIdentity(cspid)).thenReturn(Optional.empty());
+
+        // act & assert
+        NotFoundException exception = assertThrows(NotFoundException.class, () ->
+                service.getListOfAvailableCourseInfoForAGivenProgrammeEdition(programmeEditionID)
+        );
+        assertTrue(exception.getMessage().contains("CourseInStudyPlan not found"));
+    }
+
+    @Test
+    void getListOfAvailableCourseInfoForAGivenProgrammeEdition_shouldReturnEmptyListWhenNoCourseEditions() {
+        // arrange
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        ICourseInStudyPlanRepository courseInStudyPlanRepository = mock(ICourseInStudyPlanRepository.class);
+        AvailableCoursesServiceImpl service = new AvailableCoursesServiceImpl(courseEditionRepository, courseInStudyPlanRepository);
+
+        when(courseEditionRepository.findCourseEditionsByProgrammeEditionID(programmeEditionID)).thenReturn(List.of());
+
+        // act
+        List<AvailableCourseInfo> result = service.getListOfAvailableCourseInfoForAGivenProgrammeEdition(programmeEditionID);
+
+        // assert
+        assertTrue(result.isEmpty());
     }
 
 

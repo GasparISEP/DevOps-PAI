@@ -72,4 +72,8 @@ public class AvailableCoursesServiceImpl implements IAvailableCoursesService {
     public List<CourseID> getListOfCourseIdForAGivenProgrammeEdition(ProgrammeEditionID programmeEditionID){
         return getListOfCoursesID(getByIdentity(allCoursesInStudyFromProgrammeEdition(allCourseEditionIdsFromProgrammeEdition(programmeEditionID))));
     }
+
+    public List<AvailableCourseInfo> getListOfAvailableCourseInfoForAGivenProgrammeEdition(ProgrammeEditionID programmeEditionID){
+        return getListOfCourseInfo(getByIdentity(allCoursesInStudyFromProgrammeEdition(allCourseEditionIdsFromProgrammeEdition(programmeEditionID))));
+    }
 }
