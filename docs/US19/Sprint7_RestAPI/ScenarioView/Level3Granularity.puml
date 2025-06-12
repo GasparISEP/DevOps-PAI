@@ -75,9 +75,12 @@ class CreateCourseEditionCommand {
 
 package "Domain Layer" {
   class CourseEdition {
-    -identity: CourseEditionID
-    -programmeEditionID: ProgrammeEditionID
+    -courseEditionID: CourseEditionID
     -courseInStudyPlanID: CourseInStudyPlanID
+    -programmeEditionID: ProgrammeEditionID
+    -courseEditionGeneratedID: CourseEditionGeneratedID
+    -ruc: TeacherID
+    +CourseEdition (courseEditionID: CourseEditionID, courseInStudyPlanID: CourseInStudyPlanID, \n programmeEditionID: ProgrammeEditionID, courseEditionGeneratedID: CourseEditionGeneratedID, ruc:  TeacherID)
   }
 }
 
