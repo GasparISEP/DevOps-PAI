@@ -6,6 +6,8 @@ import PAI.dto.courseInStudyPlan.CourseInStudyPlanServiceDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -33,6 +35,10 @@ class CourseInStudyPlanServiceAssemblerImplTest {
         CourseInStudyPlanGeneratedID generatedId = mock(CourseInStudyPlanGeneratedID.class);
 
         CourseInStudyPlan course = mock(CourseInStudyPlan.class);
+        UUID uuid = mock(UUID.class);
+        CourseInStudyPlanGeneratedID genID = mock(CourseInStudyPlanGeneratedID.class);
+        when(genID.getId()).thenReturn(uuid);
+        when(course.getGeneratedID()).thenReturn(genID);
 
         when(course.getSemester()).thenReturn(semester);
         when(semester.toInt()).thenReturn(2);
