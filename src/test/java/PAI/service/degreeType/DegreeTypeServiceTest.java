@@ -128,4 +128,61 @@ class DegreeTypeServiceTest {
         verify(repository).ofIdentity(id);
         verifyNoMoreInteractions(repository, factory);
     }
+
+    @Test
+    void testRegisterDegreeTypeWithUUID_Success() throws Exception {
+        // Arrange
+        DegreeTypeID id = new DegreeTypeID(UUID.randomUUID().toString());
+        DegreeType recreated = new DegreeType(id, name, ects);
+
+        when(factory.recreate(id, name, ects)).thenReturn(recreated);
+        when(repository.containsOfIdentity(id)).thenReturn(false);
+
+        // Act
+        boolean result = service.registerDegreeTypeWithUUID(id, name, ects);
+
+        // Assert
+        assertTrue(result);
+        verify(factory).recreate(id, name, ects);
+        verify(repository).containsOfIdentity(id);
+        verify(repository).save(recreated);
+        verifyNoMoreInteractions(factory, repository);
+    }
+
+    @Test
+    void testRegisterDegreeTypeWithUUID_AlreadyExists() throws Exception {
+        // Arrange
+        DegreeTypeID id = new DegreeTypeID(UUID.randomUUID().toString());
+        DegreeType recreated = new DegreeType(id, name, ects);
+
+        when(factory.recreate(id, name, ects)).thenReturn(recreated);
+        when(repository.containsOfIdentity(id)).thenReturn(true);
+
+        // Act
+        boolean result = service.registerDegreeTypeWithUUID(id, name, ects);
+
+        // Assert
+        assertFalse(result);
+        verify(factory).recreate(id, name, ects);
+        verify(repository).containsOfIdentity(id);
+        verifyNoMoreInteractions(factory, repository);
+    }
+
+    @Test
+    void testRegisterDegreeTypeWithUUID_ThrowsException() {
+        // Arrange
+        DegreeTypeID id = new DegreeTypeID(UUID.randomUUID().toString());
+        when(factory.recreate(id, name, ects)).thenThrow(new RuntimeException("Erro ao recriar"));
+
+        // Act & Assert
+        RuntimeException exception = assertThrows(RuntimeException.class, () ->
+                service.registerDegreeTypeWithUUID(id, name, ects)
+        );
+
+        assertEquals("Erro ao recriar", exception.getMessage());
+        verify(factory).recreate(id, name, ects);
+        verifyNoMoreInteractions(factory, repository);
+    }
+
+
 }

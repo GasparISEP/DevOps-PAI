@@ -14,7 +14,7 @@ public class SchoolYearFactoryImpl implements ISchoolYearFactory {
 
     }
 
-    public SchoolYear createSchoolYear(UUID uuid, Description description, Date startDate, Date endDate) {
+    public SchoolYear recreateSchoolYear(UUID uuid, Description description, Date startDate, Date endDate) {
         return new SchoolYear(uuid, description, startDate, endDate);
     }
 }

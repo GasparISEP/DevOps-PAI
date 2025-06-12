@@ -1,5 +1,5 @@
-MaxEcts;DegreeTypeName
-180;Bachelor
-120;Master
-300;Integrated Master
-180;PhD
+MaxEcts;DegreeTypeName;UUID
+180;Bachelor;a1c029cc-d8f9-47fd-bc7d-dd7bf79720e8
+120;Master;94d5c7ba-f1e6-476e-9282-723e19f42b89
+300;Integrated Master;86d34b3f-f10a-4974-8023-345798c71ac4
+180;PhD;7ac2d06f-0422-47ff-aea7-09d64c5a2cf7

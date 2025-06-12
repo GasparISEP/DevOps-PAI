@@ -15,4 +15,6 @@ public interface IDegreeTypeService {
     Optional<DegreeType> getDegreeTypeById(DegreeTypeID id);
 
     List<DegreeType> getAllDegreeTypes();
+
+    boolean registerDegreeTypeWithUUID(DegreeTypeID degreeTypeID, Name name, MaxEcts maxEcts) throws Exception;
 }
