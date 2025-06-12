@@ -54,8 +54,7 @@ class CourseInStudyPlanBusinessAssemblerImplTest {
         assertEquals(studyPlanDate.toString(), dto.studyPlanDate());
         assertEquals(2, dto.duration());
         assertEquals(6.0, dto.credits());
-        assertEquals(courseID, dto.courseId());
-        assertEquals(studyPlanID, dto.studyPlanId());
+        assertEquals(generatedID.getId(), dto.generatedID());
     }
 
     @Test

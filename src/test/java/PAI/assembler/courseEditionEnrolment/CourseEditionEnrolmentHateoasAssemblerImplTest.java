@@ -28,7 +28,7 @@ class CourseEditionEnrolmentHateoasAssemblerImplTest {
 
         // Assert
         assertEquals(testDto, result.getContent());
-        assertTrue(result.hasLink("self"));
+        assertTrue(result.hasLink("delete"));
     }
 
     @Test

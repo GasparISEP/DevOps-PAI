@@ -1,0 +1,41 @@
+@startuml
+
+title Convert Iterable of Teacher Category to ResponseDTO
+
+autonumber
+skinparam {
+  ActivityPadding 2
+  ActivityMargin 2
+  BoxPadding 2
+}
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+participant ":TeacherCategoryRestController" as controller
+
+activate controller #E1F5FE
+participant ":ITeacherCategoryExternalAssembler" as assembler
+
+controller -> assembler: toDTOs (Iterable<TeacherCategory>)
+activate assembler #E1F5FE
+
+create ":ArrayList"
+assembler -> ":ArrayList": create ()
+
+loop for each TeacherCategory in Iterable<TeacherCategory>
+
+create "tcResponseDTO: TeacherCategoryResponseDTO"
+assembler -> "tcResponseDTO: TeacherCategoryResponseDTO": create \n (teacherCategory.getName().getName(),teacherCategory.identity().toString())
+
+assembler -> ":ArrayList": add (tcResponseDTO)
+activate ":ArrayList" #E1F5FE
+
+":ArrayList" --> assembler: True
+deactivate ":ArrayList"
+
+end
+
+assembler --> controller: Iterable<TeacherCategoryResponseDTO>
+deactivate assembler
+
+@enduml

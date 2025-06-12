@@ -1,9 +1,9 @@
 package PAI.dto.courseInStudyPlan;
 
-import PAI.VOs.CourseID;
-import PAI.VOs.StudyPlanID;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+
+import java.util.UUID;
 
 public record CourseInStudyPlanServiceDTO(
         int semester,
@@ -18,6 +18,5 @@ public record CourseInStudyPlanServiceDTO(
         String studyPlanDate,
         int duration,
         double credits,
-        CourseID courseId,
-        StudyPlanID studyPlanId
+        UUID generatedID
 ) { }

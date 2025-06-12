@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -40,8 +41,7 @@ class CourseInStudyPlanServiceDTOTest {
                 "2023-09-01",
                 4,
                 6.0,
-                new CourseID(acronym, name),
-                new StudyPlanID(programmeID, Date.now())
+                new CourseInStudyPlanGeneratedID(UUID.randomUUID()).getId()
         );
 
         Set<ConstraintViolation<CourseInStudyPlanServiceDTO>> violations = validator.validate(dto);
@@ -59,8 +59,7 @@ class CourseInStudyPlanServiceDTOTest {
                 null,
                 4,
                 6.0,
-                new CourseID(acronym, name),
-                new StudyPlanID(programmeID, Date.now())
+                new CourseInStudyPlanGeneratedID(UUID.randomUUID()).getId()
         );
 
         Set<ConstraintViolation<CourseInStudyPlanServiceDTO>> violations = validator.validate(dto);
@@ -84,8 +83,7 @@ class CourseInStudyPlanServiceDTOTest {
                 "2023-09-01",
                 0,
                 6.0,
-                new CourseID(acronym, name),
-                new StudyPlanID(programmeID, Date.now())
+                new CourseInStudyPlanGeneratedID(UUID.randomUUID()).getId()
         );
 
         CourseInStudyPlanServiceDTO dtoValid = new CourseInStudyPlanServiceDTO(
@@ -97,8 +95,7 @@ class CourseInStudyPlanServiceDTOTest {
                 "2023-09-01",
                 2,
                 6.0,
-                new CourseID(acronym, name),
-                new StudyPlanID(programmeID, Date.now())
+                new CourseInStudyPlanGeneratedID(UUID.randomUUID()).getId()
         );
 
         assertTrue(dtoValid.duration() >= 1, "Duration must be at least 1");
@@ -116,8 +113,7 @@ class CourseInStudyPlanServiceDTOTest {
                 "2023-09-01",
                 2,
                 0.0, // Invalid
-                new CourseID(acronym, name),
-                new StudyPlanID(programmeID, Date.now())
+                new CourseInStudyPlanGeneratedID(UUID.randomUUID()).getId()
         );
 
         CourseInStudyPlanServiceDTO dtoValid = new CourseInStudyPlanServiceDTO(
@@ -129,8 +125,7 @@ class CourseInStudyPlanServiceDTOTest {
                 "2023-09-01",
                 2,
                 6.0,
-                new CourseID(acronym, name),
-                new StudyPlanID(programmeID, Date.now())
+                new CourseInStudyPlanGeneratedID(UUID.randomUUID()).getId()
         );
 
         assertTrue(dtoValid.credits() > 0, "Credits must be greater than 0");
