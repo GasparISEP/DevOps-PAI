@@ -62,15 +62,19 @@ class ProgrammeEditionMapperImplTest {
 
     @Test
     void shouldNotCreateProgrammeEditionMapperWhenProgrammeEditionIDMapperNull() {
+
         // arrange
         IProgrammeEditionFactory programmeEditionFactory = mock(IProgrammeEditionFactory.class);
         IProgrammeIDMapper programmeIDMapper = mock(IProgrammeIDMapper.class);
         ISchoolYearIDMapper schoolYearIDMapper = mock(ISchoolYearIDMapper.class);
         IProgrammeEditionGeneratedIDMapper programmeEditionGeneratedIDMapper = mock(IProgrammeEditionGeneratedIDMapper.class);
 
-        // act + assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionMapperImpl(programmeEditionFactory,
+        // act
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionMapperImpl(programmeEditionFactory,
                 null, programmeIDMapper, schoolYearIDMapper, programmeEditionGeneratedIDMapper));
+
+        // assert
+        assertEquals("ProgrammeEditionIDMapper cannot be null.", exception.getMessage());
     }
 
     @Test
