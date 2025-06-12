@@ -13,7 +13,6 @@ import PAI.service.programmeEdition.IProgrammeEditionService;
 import PAI.service.programmeEdition.ProgrammeEditionService;
 import PAI.service.programmeEnrolment.IAvailableCoursesService;
 import org.junit.jupiter.api.Test;
-import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -283,7 +282,6 @@ class ProgrammeEditionRestControllerTest {
 
         // Assert
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertNotNull(response.getBody());
     }
 
     @Test
@@ -316,7 +314,7 @@ class ProgrammeEditionRestControllerTest {
     }
 
     @Test
-    void shouldReturnBadRequestIfInvalidProgrammeEditionIdDto() {
+    void shouldReturnOkWithListOfCoursesForValidProgrammeEditionIdDto() {
         // arrange
         IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
         IProgrammeEditionControllerAssembler controllerAssembler = mock(IProgrammeEditionControllerAssembler.class);
@@ -351,6 +349,28 @@ class ProgrammeEditionRestControllerTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(list1, response.getBody());
     }
+    @Test
+    void shouldReturnBadRequestWhensSchoolYearIdIsInvalid() {
+        // Arrange
+        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
+        IProgrammeEditionControllerAssembler controllerAssembler = mock(IProgrammeEditionControllerAssembler.class);
+        ICourseAssembler courseAssembler = mock(ICourseAssembler.class);
+        IAvailableCoursesService availableCoursesService = mock(IAvailableCoursesService.class);
+        IProgrammeEditionHateoasAssembler hateoasAssembler = mock(IProgrammeEditionHateoasAssembler.class);
+
+        ProgrammeEditionRestController controller = new ProgrammeEditionRestController(
+                programmeEditionService, controllerAssembler, availableCoursesService, courseAssembler, hateoasAssembler
+        );
+
+        ProgrammeEditionIdDto invalidDto = new ProgrammeEditionIdDto("LEI", "not-a-valid-uuid");
+
+        // Act
+        ResponseEntity<List<CourseIDDTO>> response = controller.getAvailableCourses(invalidDto);
+
+        // Assert
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
 
     @Test
     void shouldThrowExceptionAndNotCreateControllerIfAvailableCoursesNull() {

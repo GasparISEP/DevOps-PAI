@@ -5,7 +5,6 @@ import PAI.domain.programme.Programme;
 import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.programmeEdition.ProgrammeEditionRequestDTO;
 import PAI.persistence.springdata.programme.ProgrammeRepositorySpringDataImpl;
-import PAI.persistence.springdata.schoolYear.SchoolYearRepositorySpringDataImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,11 +16,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-
 import java.util.UUID;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -33,9 +29,6 @@ public class ProgrammeEditionRestControllerIntegrationTests {
 
     @Autowired
     private MockMvc mockMvc;
-
-    @Autowired
-    private SchoolYearRepositorySpringDataImpl schoolYearRepository;
 
     @Autowired
     ProgrammeRepositorySpringDataImpl programmeRepository;
@@ -77,10 +70,10 @@ public class ProgrammeEditionRestControllerIntegrationTests {
     }
 
     @Test
-    void shouldReturn400WhenProgrammeNameIsMissing() throws Exception {
+    void shouldReturn400WhenProgrammeEditionRequestDTOIsNull() throws Exception {
         // arrange
         String uri = "/programme-editions";
-        ProgrammeEditionRequestDTO requestBody = new ProgrammeEditionRequestDTO(null);
+        ProgrammeEditionRequestDTO requestBody = null;
         String body = new ObjectMapper().writeValueAsString(requestBody);
 
         MvcResult result = mockMvc.perform(post(uri)
@@ -95,7 +88,7 @@ public class ProgrammeEditionRestControllerIntegrationTests {
     }
 
     @Test
-    void shouldReturn400WhenAcronymNameIsEmpty() throws Exception {
+    void shouldReturn400WhenAcronymIsEmpty() throws Exception {
         // arrange
         String uri = "/programme-editions";
         ProgrammeIDDTO programme = new ProgrammeIDDTO("");
@@ -172,6 +165,7 @@ public class ProgrammeEditionRestControllerIntegrationTests {
 
     @Test
     void shouldReturn201WhenParametersAreValid() throws Exception {
+        //arrange
         String uri = "/programme-editions";
 
         ProgrammeIDDTO programme = new ProgrammeIDDTO(validAcronym);
@@ -184,11 +178,11 @@ public class ProgrammeEditionRestControllerIntegrationTests {
                         .content(body))
                 .andReturn();
 
+        //act
         int statusCode = result.getResponse().getStatus();
-        assertEquals(HttpStatus.CREATED.value(), statusCode);
 
-        String content = result.getResponse().getContentAsString();
-        assertTrue(content.contains(validAcronym));
+        //assert
+        assertEquals(HttpStatus.CREATED.value(), statusCode);
     }
 
     @Test

@@ -14,13 +14,10 @@ import PAI.dto.programmeEdition.ProgrammeEditionResponseDTO;
 import PAI.service.programmeEdition.IProgrammeEditionService;
 import PAI.service.programmeEnrolment.IAvailableCoursesService;
 import jakarta.validation.Valid;
-import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -102,7 +99,9 @@ public class ProgrammeEditionRestController {
             ProgrammeEditionRequestServiceDTO programmeEditionRequestServiceDTO = programmeEditionControllerAssembler.toServiceDTOFromRequestDTO(requestDto);
             ProgrammeEditionResponseServiceDTO serviceResult = programmeEditionService.createProgrammeEditionAndSave(programmeEditionRequestServiceDTO);
             ProgrammeEditionResponseDTO response = programmeEditionControllerAssembler.toResponseDTOFromServiceDTO(serviceResult);
-            return new ResponseEntity<>(response, HttpStatus.CREATED);
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(hateoasAssembler.toModel(response));
+
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
