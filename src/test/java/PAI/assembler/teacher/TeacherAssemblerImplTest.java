@@ -253,7 +253,7 @@ class TeacherAssemblerImplTest {
         TeacherIdDTO teacherIdDTO = teacherAssembler.toIdDTO(teacher);
         //assert
         assertNotNull(teacherIdDTO);
-        assertEquals("JAB", teacherIdDTO.id());
+        assertEquals("JAB", teacherIdDTO.acronym());
     }
 
     @Test
@@ -291,7 +291,7 @@ class TeacherAssemblerImplTest {
         //assert
         assertNotNull(result);
         assertTrue(result.iterator().hasNext());
-        assertEquals("ROR", result.iterator().next().id());
+        assertEquals("ROR", result.iterator().next().acronym());
     }
 
     @Test
