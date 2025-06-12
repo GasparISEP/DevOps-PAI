@@ -42,7 +42,7 @@ public class SchoolYearMapperImpl implements ISchoolYearMapper {
         Description description = new Description(schoolYearDataModel.getDescription());
         Date startDate = new Date(schoolYearDataModel.getStartDate());
         Date endDate = new Date(schoolYearDataModel.getEndDate());
-        SchoolYear schoolYear = this.schoolYearFactory.createSchoolYear(uuid, description, startDate, endDate);
+        SchoolYear schoolYear = this.schoolYearFactory.recreateSchoolYear(uuid, description, startDate, endDate);
         return schoolYear;
     }
 

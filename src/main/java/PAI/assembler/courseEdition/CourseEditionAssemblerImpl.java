@@ -4,6 +4,8 @@ import PAI.VOs.*;
 import PAI.domain.courseEdition.CourseEdition;
 import PAI.dto.courseEdition.*;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,14 +42,26 @@ public class CourseEditionAssemblerImpl implements ICourseEditionAssembler {
         ProgrammeID programmeID = peID.getProgrammeID();
         SchoolYearID schoolYearID = peID.getSchoolYearID();
 
+        String formattedID = URLEncoder.encode(
+                programmeID.getProgrammeAcronym() + "-" +
+                        schoolYearID.getSchoolYearID() + "_" +
+                        cspID.getCourseID().getCourseAcronymValue() + "-" +
+                        cspID.getCourseID().getCourseNameValue() + "-" +
+                        cspID.getStudyPlanID().getProgrammeID().getProgrammeAcronym() + "-" +
+                        cspID.getStudyPlanID().getLocalDate().toString(), // yyyy-MM-dd
+                StandardCharsets.UTF_8
+        );
+
+        System.out.println("formattedID: " + formattedID);
+
         return new CourseEditionResponseDTO(
-                courseEdition.identity().toString(),
                 programmeID.getProgrammeAcronym(),
                 schoolYearID.getSchoolYearID(),
                 cspID.getCourseID().getCourseAcronymValue(),
                 cspID.getCourseID().getCourseNameValue(),
-                cspID.getStudyPlanID().getLocalDate()
-        );
+                cspID.getStudyPlanID().getLocalDate(),
+                formattedID
+                );
     }
 
     @Override
@@ -63,7 +77,7 @@ public class CourseEditionAssemblerImpl implements ICourseEditionAssembler {
             String courseName = courseEditionID.getCourseInStudyPlanID().getCourseID().getCourseNameValue();
             String courseAcronym = courseEditionID.getCourseInStudyPlanID().getCourseID().getCourseAcronymValue();
             LocalDate studyPlanImplementationDate = courseEditionID.getCourseInStudyPlanID().getStudyPlanID().getLocalDate();
-            CourseEditionResponseDTO  courseEditionResponseDTO = new CourseEditionResponseDTO(courseEditionIDToDto, programmeAcronym, schoolYearID, courseAcronym, courseName, studyPlanImplementationDate);
+            CourseEditionResponseDTO  courseEditionResponseDTO = new CourseEditionResponseDTO(programmeAcronym, schoolYearID, courseAcronym, courseName, studyPlanImplementationDate, courseEditionIDToDto);
             courseEditionResponseDTOs.add(courseEditionResponseDTO);
         }
         return courseEditionResponseDTOs;

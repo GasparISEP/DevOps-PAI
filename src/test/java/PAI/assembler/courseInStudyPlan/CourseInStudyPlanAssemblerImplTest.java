@@ -67,6 +67,7 @@ class CourseInStudyPlanAssemblerImplTest {
         CourseInStudyPlanServiceDTO serviceDTO = mock(CourseInStudyPlanServiceDTO.class);
         UUID mockUUID = UUID.randomUUID();
         when(serviceDTO.generatedID()).thenReturn(mockUUID);
+
         when(serviceDTO.semester()).thenReturn(1);
         when(serviceDTO.curricularYear()).thenReturn(2);
         when(serviceDTO.courseAcronym()).thenReturn("DSOFT");
@@ -90,6 +91,7 @@ class CourseInStudyPlanAssemblerImplTest {
         assertEquals(6.0, response.credits());
         assertEquals(mockUUID, response.generatedID());
     }
+
 
     @Test
     void toDTO_shouldThrowException_whenServiceDTOIsNull() {
