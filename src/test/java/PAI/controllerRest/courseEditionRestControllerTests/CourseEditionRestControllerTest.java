@@ -539,6 +539,15 @@ class CourseEditionRestControllerTest {
                 .andExpect(jsonPath("$.approvalRate").value(expectedApprovalRate));
     }
 
+    @Test
+    void shouldReturnBadRequestWhenInvalidSchoolYearId() throws Exception {
+        mockMvc.perform(get("/courseeditions/approval-rate")
+                        .param("programmeAcronym", "LEI")
+                        .param("schoolYearId", "invalid-uuid")
+                        .param("courseAcronym", "ESOFT")
+                        .param("studyPlanDate", "01-01-2024"))
+                .andExpect(status().isBadRequest());
+    }
 
     @Test
     public void testGetNumberOfStudentsInCourseEdition() throws Exception {
