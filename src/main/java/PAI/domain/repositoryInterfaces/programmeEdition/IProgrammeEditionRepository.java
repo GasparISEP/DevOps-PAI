@@ -1,6 +1,5 @@
 package PAI.domain.repositoryInterfaces.programmeEdition;
 
-import PAI.VOs.Date;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.ProgrammeID;
 import PAI.VOs.SchoolYearID;
@@ -21,7 +20,7 @@ public interface IProgrammeEditionRepository extends IRepository<ProgrammeEditio
 
     boolean containsOfIdentity(ProgrammeEditionID id);
 
-    public Optional <ProgrammeEditionID> findProgrammeEditionIDByProgrammeIDAndSchoolYearID(ProgrammeID programmeid, SchoolYearID schoolYearid) throws Exception;
+    Optional <ProgrammeEditionID> findProgrammeEditionIDByProgrammeIDAndSchoolYearID(ProgrammeID programmeid, SchoolYearID schoolYearid) throws Exception;
 
     List<ProgrammeEdition> getProgrammeEditionsByProgrammeID(ProgrammeID programmeid);
 
@@ -32,4 +31,6 @@ public interface IProgrammeEditionRepository extends IRepository<ProgrammeEditio
     }
 
     List<ProgrammeEditionID> findProgrammeEditionIDsByProgrammeIDAndStartDateAfter(ProgrammeID programmeID, LocalDate date);
+
+    List<ProgrammeEditionID> findProgrammeEditionIDsBySchoolYearIDAndProgrammeIDs(SchoolYearID schoolYearID, List<ProgrammeID> programmeIDs);
 }

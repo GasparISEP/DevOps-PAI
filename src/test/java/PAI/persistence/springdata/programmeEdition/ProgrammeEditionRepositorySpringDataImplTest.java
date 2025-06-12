@@ -870,4 +870,22 @@ class ProgrammeEditionRepositorySpringDataImplTest {
         assertNotNull(result);
         assertTrue(result.isEmpty());
     }
+
+    @Test
+    void shouldReturnNullWhenFindProgrammeEditionIDsBySchoolYearIDAndProgrammeIDsMethodIsCalled() {
+        // Assert
+        IProgrammeEditionRepositorySpringData iProgrammeEditionRepositorySpringData = mock(IProgrammeEditionRepositorySpringData.class);
+        IProgrammeEditionMapper iProgrammeEditionMapper = mock(IProgrammeEditionMapper.class);
+        IProgrammeEditionIdMapper iProgrammeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
+        IProgrammeIDMapper iProgrammeIDMapper = mock(IProgrammeIDMapper.class);
+        ISchoolYearIDMapper iSchoolYearIDMapper = mock(ISchoolYearIDMapper.class);
+        ProgrammeEditionRepositorySpringDataImpl programmeEditionRepositorySpringDataImpl = new ProgrammeEditionRepositorySpringDataImpl(
+                iProgrammeEditionRepositorySpringData, iProgrammeEditionMapper, iProgrammeEditionIdMapper, iProgrammeIDMapper, iSchoolYearIDMapper);
+
+        // Act
+        List<ProgrammeEditionID> result = programmeEditionRepositorySpringDataImpl.findProgrammeEditionIDsBySchoolYearIDAndProgrammeIDs(null, null);
+
+        // Assert
+        assertNull(result);
+    }
 }
