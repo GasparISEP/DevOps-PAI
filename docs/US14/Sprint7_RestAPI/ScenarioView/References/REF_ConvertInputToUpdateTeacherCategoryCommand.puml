@@ -1,0 +1,46 @@
+@startuml
+title Convert Input to UpdateTeacherCategoryCommand
+
+autonumber
+skinparam {
+  ActivityPadding 2
+  ActivityMargin 2
+  BoxPadding 2
+}
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+participant ":ITeacherRestController" as ITeacherRestController
+activate ITeacherRestController #E1F5FE
+
+participant "ITeacherCareerProgressionAssembler" as Assembler
+
+ITeacherRestController -> Assembler: toUpdateTeacherCategoryCommand(teacherId, updateTeacherCategoryRequestDTO)
+activate Assembler #E1F5FE
+
+create "date: Date"
+Assembler -> "date: Date": create (updateTeacherCategoryRequestDTO.date())
+
+create "teacherID: TeacherID"
+Assembler -> "teacherID: TeacherID": create (teacherAcronym)
+activate "teacherID: TeacherID" #E1F5FE
+
+create "teacherAcronym: TeacherAcronym"
+"teacherID: TeacherID" -> "teacherAcronym: TeacherAcronym": create (teacherID)
+deactivate "teacherID: TeacherID"
+
+create "tcID: TeacherCategoryID"
+Assembler -> "tcID: TeacherCategoryID": create (UUID.fromString(updateTeacherCategoryRequestDTO.teacherCategoryID()))
+
+create "updateTeacherCategoryCommand: UpdateTeacherCategoryCommand"
+Assembler -> "updateTeacherCategoryCommand: UpdateTeacherCategoryCommand": create (date, teacherID, teacherCategoryID)
+
+Assembler --> ITeacherRestController: updateTeacherCategoryCommand
+deactivate Assembler
+
+
+
+
+
+
+@enduml
