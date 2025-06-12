@@ -1,6 +1,5 @@
 package PAI.persistence.springdata.programmeEdition;
 
-import PAI.VOs.Date;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.ProgrammeID;
 import PAI.VOs.SchoolYearID;
@@ -216,16 +215,7 @@ public class ProgrammeEditionRepositorySpringDataImpl implements IProgrammeEditi
 
         List<ProgrammeEditionIdDataModel> programmeEditionsIdDataModel = iProgrammeEditionRepositorySpringData.findProgrammeEditionIDsBySchoolYearIdAndProgrammeIds(schoolYearIDDataModel, programmeIDDataModels);
 
-        List<ProgrammeEditionID> programmeEditionIDs = new ArrayList<>();
-        for (ProgrammeEditionIdDataModel dataModel : programmeEditionsIdDataModel) {
-            try {
-                ProgrammeEditionID programmeEditionID = iProgrammeEditionIdMapper.toDomain(dataModel);
-                programmeEditionIDs.add(programmeEditionID);
-            } catch (Exception e) {
-                throw new RuntimeException("Error mapping ProgrammeEditionIdDataModel to ProgrammeEditionID: " + dataModel, e);
-            }
-        }
-        return programmeEditionIDs;
+        return mapToDomainIDs(programmeEditionsIdDataModel);
     }
 
     private List<ProgrammeIDDataModel> mapProgrammeIDs(List<ProgrammeID> programmeIDs) {
@@ -234,6 +224,18 @@ public class ProgrammeEditionRepositorySpringDataImpl implements IProgrammeEditi
             programmeIDDataModels.add(iProgrammeIDMapper.toData(programmeID));
         }
         return programmeIDDataModels;
+    }
+
+    private List<ProgrammeEditionID> mapToDomainIDs(List<ProgrammeEditionIdDataModel> dataModels) {
+        List<ProgrammeEditionID> domainIDs = new ArrayList<>();
+        for (ProgrammeEditionIdDataModel dataModel : dataModels) {
+            try {
+                domainIDs.add(iProgrammeEditionIdMapper.toDomain(dataModel));
+            } catch (Exception e) {
+                throw new RuntimeException("Error mapping ProgrammeEditionIdDataModel to ProgrammeEditionID: " + dataModel, e);
+            }
+        }
+        return domainIDs;
     }
 
 
