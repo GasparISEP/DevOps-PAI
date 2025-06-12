@@ -79,7 +79,7 @@ public class StudyPlanServiceImpl implements IStudyPlanService {
 
     private Programme getProgrammeAndValidate(ProgrammeID programmeId){
         return _programmeRepository.ofIdentity(programmeId).
-                orElseThrow(() -> new EntityNotFoundException(" and acronym " + programmeId.getProgrammeAcronym()));
+                orElseThrow(() -> new EntityNotFoundException("The programme acronym '" + programmeId.getProgrammeAcronym() + "' does not exist"));
     }
 
     private DegreeType getDegreeTypeAndValidate(DegreeTypeID degreeTypeID){
