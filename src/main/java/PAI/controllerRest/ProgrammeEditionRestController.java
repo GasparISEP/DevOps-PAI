@@ -39,9 +39,6 @@ public class ProgrammeEditionRestController {
     public ProgrammeEditionRestController(IProgrammeEditionService programmeEditionService, IProgrammeEditionControllerAssembler programmeEditionControllerAssembler,
                                           IAvailableCoursesService availableCoursesService, ICourseAssembler courseAssembler,IProgrammeEditionHateoasAssembler hateoasAssembler) {
 
-        if (programmeEditionControllerAssembler == null) {
-            throw new IllegalArgumentException("ProgrammeEdition Controller Assembler cannot be null");
-        }
         if(availableCoursesService == null){
             throw new IllegalArgumentException("Available courses cannot be null");
         }
@@ -53,7 +50,7 @@ public class ProgrammeEditionRestController {
         }
 
         this.programmeEditionService = validateNotNull(programmeEditionService,"ProgrammeEditionService");
-        this.programmeEditionControllerAssembler = programmeEditionControllerAssembler;
+        this.programmeEditionControllerAssembler = validateNotNull(programmeEditionControllerAssembler, "ProgrammeEditionControllerAssembler");
         this.availableCoursesService = availableCoursesService;
         this.courseAssembler = courseAssembler;
         this.hateoasAssembler = hateoasAssembler;
