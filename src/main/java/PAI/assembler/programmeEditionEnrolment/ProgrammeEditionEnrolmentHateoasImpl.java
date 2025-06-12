@@ -14,6 +14,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import PAI.controllerRest.StudentProgrammeEditionEnrolmentRestController;
 import PAI.dto.programmeEditionEnrolment.ProgrammeEditionEnrolmentDetailDto;
+import PAI.controllerRest.CourseEditionRestController;
 
 @Component
 public class ProgrammeEditionEnrolmentHateoasImpl implements IProgrammeEditionEnrolmentHateoasAssembler, RepresentationModelAssembler<ProgrammeEditionEnrolmentDetailDto, EntityModel<ProgrammeEditionEnrolmentDetailDto>> {
@@ -35,15 +36,12 @@ public class ProgrammeEditionEnrolmentHateoasImpl implements IProgrammeEditionEn
             .map(programmeEditionEnrolment -> EntityModel.of(programmeEditionEnrolment,
                 linkTo(methodOn(StudentProgrammeEditionEnrolmentRestController.class)
                     .getProgrammeEditionEnrollmentsByStudentID(programmeEditionEnrolment.studentID()))
-                    .withSelfRel()
-                    .withRel("get-programme-edition-enrolments-by-student-id")
+                    .withSelfRel(),
+                linkTo(methodOn(CourseEditionRestController.class)
+                    .findAllCourseEditions())
+                    .withRel("get-all-course-editions")
             ))
             .collect(Collectors.toList());
-        return CollectionModel.of(listOfProgrammeEditionEnrolmentDetailDtosWithHypermedia).add(
-            linkTo(methodOn(StudentProgrammeEditionEnrolmentRestController.class)
-                .getProgrammeEditionEnrollmentsByStudentID(0))
-                .withSelfRel()
-                .withRel("get-programme-edition-enrolments-by-student-id")
-        );
+        return CollectionModel.of(listOfProgrammeEditionEnrolmentDetailDtosWithHypermedia);
     }
 }
