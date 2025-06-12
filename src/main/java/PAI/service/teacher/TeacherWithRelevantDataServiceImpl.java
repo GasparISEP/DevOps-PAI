@@ -15,10 +15,12 @@ import PAI.dto.teacher.TeacherWithRelevantDataAssembler;
 import PAI.dto.teacher.TeacherWithRelevantDataDTO;
 import PAI.exception.BusinessRuleViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class TeacherWithRelevantDataServiceImpl implements ITeacherWithRelevantDataService {
 
     private ITeacherCategoryRepository _teacherCategoryRepository;
