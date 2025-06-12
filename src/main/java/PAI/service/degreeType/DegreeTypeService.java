@@ -35,6 +35,21 @@ public class DegreeTypeService implements IDegreeTypeService {
         repository.save(degreeType);
         return true;
     }
+@Override
+    public boolean registerDegreeTypeWithUUID(DegreeTypeID degreeTypeID, Name name, MaxEcts maxEcts) throws Exception {
+        DegreeType degreeType = factory.recreate(degreeTypeID,name,maxEcts);
+
+        DegreeTypeID id = degreeType.identity();
+
+        if (repository.containsOfIdentity(id)) {
+            return false;
+        }
+
+        repository.save(degreeType);
+        return true;
+    }
+
+
 
     @Override
     public Optional<DegreeType> getDegreeTypeById(DegreeTypeID id) {
