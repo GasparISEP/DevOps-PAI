@@ -2,34 +2,46 @@ package PAI.initializer;
 
 import PAI.VOs.*;
 import PAI.service.courseEdition.ICreateCourseEditionService;
-import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import PAI.service.schoolYear.ISchoolYearService;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.List;
 
-@Component
+@Configuration
 public class CourseEditionInitializer {
-    @Autowired
-    ICreateCourseEditionService _service;
 
-    @PostConstruct
-    public void init() {
+    private static final String CSV_FILE = "src/main/resources/CourseEdition.csv";
+
+    @Bean
+    public CommandLineRunner loadDataRegisterCourseEdition(ICreateCourseEditionService service, ISchoolYearService schoolYearService) {
+        return args -> {
+            loadCourseEdition(service, schoolYearService, Path.of(CSV_FILE));
+        };
+    }
+
+    public void loadCourseEdition(ICreateCourseEditionService service, ISchoolYearService schoolYearService, Path csvFilePath) {
         long startTime = System.currentTimeMillis();
+        List<SchoolYearID> schoolYearsList = schoolYearService.getAllSchoolYearsIDs();
+        int i = 0;
 
-        try (BufferedReader reader = new BufferedReader(
-                new InputStreamReader(
-                        Objects.requireNonNull(getResourceAsStream("/CourseEdition.csv"))
-                )
-        )) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(String.valueOf(csvFilePath)))) {
+
             String line;
             boolean isFirstLine = true;
+
+            if (schoolYearsList.isEmpty()) {
+                throw new NullPointerException("Database has no school year");
+            }
 
             while ((line = reader.readLine()) != null) {
                 if (isFirstLine) {
@@ -40,63 +52,47 @@ public class CourseEditionInitializer {
                 line = line.replace("\uFEFF", "").trim();
                 if (line.isEmpty()) continue;
 
-                String[] fields = line.split(",", -1);
+                String[] fields = line.split(",");
 
-                if (fields.length == 8) {
-                    try {
-                        // Debug print
-                        System.out.println("Processing line: " + line);
+                try {
+                    System.out.println("Processing line: " + line);
 
-                        // Create Value Objects first
-                        LocalDate localDate = LocalDate.parse(fields[0].trim(), DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-                        Acronym courseAcronym = new Acronym(fields[1].trim());
-                        Name courseName = new Name(fields[2].trim());
-                        UUID schoolYearUUID = UUID.fromString(fields[4].trim());
-                        Acronym programmeAcronym = new Acronym(fields[3].trim());
+                    LocalDate localDate = LocalDate.parse(fields[0].trim(), DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+                    Acronym courseAcronym = new Acronym(fields[1].trim());
+                    Name courseName = new Name(fields[2].trim());
+                    Acronym programmeAcronym = new Acronym(fields[3].trim());
 
-                        // Create domain IDs
-                        SchoolYearID schoolYearID = new SchoolYearID(schoolYearUUID);
+                    SchoolYearID schoolYearID = schoolYearsList.get(i);
+                    ProgrammeID programmeID = new ProgrammeID(programmeAcronym);
+                    ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID, schoolYearID);
 
-                        // Create ProgrammeID for both edition and programme (they are the same)
-                        ProgrammeID programmeID = new ProgrammeID(programmeAcronym);
-                        ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID, schoolYearID);
+                    CourseID courseID = new CourseID(courseAcronym, courseName);
+                    StudyPlanID studyPlanID = new StudyPlanID(programmeID, new Date(localDate));
+                    CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(courseID, studyPlanID);
 
-                        // Create CourseID
-                        CourseID courseID = new CourseID(courseAcronym, courseName);
+                    service.createAndSaveCourseEdition(courseInStudyPlanID, programmeEditionID);
 
-                        // Create StudyPlanID with the same programme information
-                        StudyPlanID studyPlanID = new StudyPlanID(programmeID, new Date(localDate));
+                    i = (i + 1) % schoolYearsList.size();
 
-                        // Create CourseInStudyPlanID
-                        CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(courseID, studyPlanID);
-
-                        // Call the service with domain IDs
-                        _service.createAndSaveCourseEdition(courseInStudyPlanID, programmeEditionID);
-
-                    } catch (Exception e) {
-                        System.err.println("Error processing line: " + line);
-                        e.printStackTrace();
-                    }
-                } else {
-                    System.err.println("Skipping line with unexpected number of fields (" + fields.length + "): " + line);
+                } catch (Exception e) {
+                    System.err.println("Error processing line: " + line);
+                    e.printStackTrace();
                 }
             }
+
         } catch (Exception e) {
+            System.err.println("Failed to read CSV file: " + CSV_FILE);
             e.printStackTrace();
         }
 
+        /**
+         * Gets an input stream for the resource with the specified name.
+         * This method can be overridden for testing purposes.
+         *
+         * @param resourceName the name of the resource
+         * @return an input stream for reading the resource
+         */
         long endTime = System.currentTimeMillis();
         System.out.println("\nCourseEdition loading time: " + (endTime - startTime) + " ms\n");
-    }
-
-    /**
-     * Gets an input stream for the resource with the specified name.
-     * This method can be overridden for testing purposes.
-     *
-     * @param resourceName the name of the resource
-     * @return an input stream for reading the resource
-     */
-    protected InputStream getResourceAsStream(String resourceName) {
-        return getClass().getResourceAsStream(resourceName);
     }
 }
