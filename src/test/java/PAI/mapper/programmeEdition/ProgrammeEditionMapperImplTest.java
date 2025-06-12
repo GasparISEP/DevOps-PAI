@@ -45,15 +45,19 @@ class ProgrammeEditionMapperImplTest {
 
     @Test
     void shouldNotCreateProgrammeEditionMapperWhenProgrammeEditionFactoryNull() {
+
         // arrange
         IProgrammeEditionIdMapper programmeEditionIDMapper = mock(IProgrammeEditionIdMapper.class);
         IProgrammeIDMapper programmeIDMapper = mock(IProgrammeIDMapper.class);
         ISchoolYearIDMapper schoolYearIDMapper = mock(ISchoolYearIDMapper.class);
         IProgrammeEditionGeneratedIDMapper programmeEditionGeneratedIDMapper = mock(IProgrammeEditionGeneratedIDMapper.class);
 
-        // act + assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionMapperImpl(null, programmeEditionIDMapper,
+        // act
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionMapperImpl(null, programmeEditionIDMapper,
                 programmeIDMapper, schoolYearIDMapper, programmeEditionGeneratedIDMapper));
+
+        // assert
+        assertEquals("ProgrammeEditionFactory cannot be null", exception.getMessage());
     }
 
     @Test
@@ -383,7 +387,8 @@ void shouldMapProgrammeEditionDataModelToProgrammeEdition() throws Exception {
 
     @Test
     void shouldReturnEmptyOptional_WhenProgrammeEditionIDMapperThrowsException() throws Exception {
-        // Arrange
+
+        // arrange
         IProgrammeEditionFactory programmeEditionFactory = mock(IProgrammeEditionFactory.class);
         IProgrammeEditionIdMapper programmeEditionIDMapper = mock(IProgrammeEditionIdMapper.class);
         IProgrammeIDMapper programmeIDMapper = mock(IProgrammeIDMapper.class);
@@ -405,13 +410,12 @@ void shouldMapProgrammeEditionDataModelToProgrammeEdition() throws Exception {
         when(dataModel.getProgrammeEditionIDDataModel()).thenReturn(idDataModel);
         when(dataModel.getProgrammeEditionGeneratedIDDataModel()).thenReturn(generatedIDDataModel);
 
-        // Força o lançamento de exceção
-        when(programmeEditionIDMapper.toDomain(idDataModel)).thenThrow(new RuntimeException("Erro forçado"));
+        when(programmeEditionIDMapper.toDomain(idDataModel)).thenThrow(new RuntimeException("Failed to create ProgrammeEdition"));
 
-        // Act
+        // act
         Optional<ProgrammeEdition> result = mapper.toDomain(dataModel);
 
-        // Assert
+        // assert
         assertTrue(result.isEmpty());
     }
 }

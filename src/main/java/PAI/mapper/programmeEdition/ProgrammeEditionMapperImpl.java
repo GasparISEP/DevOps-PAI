@@ -15,6 +15,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
+import static PAI.utils.ValidationUtils.validateNotNull;
+
 @Component
 public class ProgrammeEditionMapperImpl implements  IProgrammeEditionMapper{
 
@@ -26,9 +28,7 @@ public class ProgrammeEditionMapperImpl implements  IProgrammeEditionMapper{
 
     public ProgrammeEditionMapperImpl(IProgrammeEditionFactory programmeEditionFactory, IProgrammeEditionIdMapper programmeEditionIDMapper,
                                       IProgrammeIDMapper programmeIDMapper, ISchoolYearIDMapper schoolYearIDMapper, IProgrammeEditionGeneratedIDMapper programmeEditionGeneratedIDMapper){
-        if(programmeEditionFactory == null){
-            throw new IllegalArgumentException("ProgrammeEdition Factory cannot be null");
-        }
+
         if(programmeEditionIDMapper == null){
             throw new IllegalArgumentException("ProgrammeEdition Factory cannot be null");
         }
@@ -41,7 +41,7 @@ public class ProgrammeEditionMapperImpl implements  IProgrammeEditionMapper{
         if(programmeEditionGeneratedIDMapper == null){
             throw new IllegalArgumentException("ProgrammeEdition Factory cannot be null");
         }
-        this.programmeEditionFactory = programmeEditionFactory;
+        this.programmeEditionFactory = validateNotNull(programmeEditionFactory, "ProgrammeEditionFactory");
         this.programmeEditionIDMapper = programmeEditionIDMapper;
         this.programmeIDMapper = programmeIDMapper;
         this.schoolYearIDMapper = schoolYearIDMapper;
