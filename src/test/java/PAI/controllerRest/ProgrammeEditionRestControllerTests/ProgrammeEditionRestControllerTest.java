@@ -46,17 +46,20 @@ class ProgrammeEditionRestControllerTest {
 
     @Test
     void shouldThrowExceptionAndNotCreateControllerIfServiceNull() {
-        //Arrange
+
+        //arrange
         IProgrammeEditionService service = null;
         IProgrammeEditionControllerAssembler controllerAssembler = mock(IProgrammeEditionControllerAssembler.class);
         ICourseAssembler courseAssembler = mock(ICourseAssembler.class);
         IAvailableCoursesService availableCoursesService = mock(IAvailableCoursesService.class);
         IProgrammeEditionHateoasAssembler hateoasAssembler = mock(IProgrammeEditionHateoasAssembler.class);
 
-
-        //Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionRestController(service, controllerAssembler,availableCoursesService,
+        // act
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionRestController(service, controllerAssembler,availableCoursesService,
                 courseAssembler, hateoasAssembler));
+
+        // assert
+        assertEquals("ProgrammeEditionService cannot be null.", exception.getMessage());
     }
 
     @Test

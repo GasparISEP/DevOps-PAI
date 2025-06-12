@@ -24,6 +24,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
+import static PAI.utils.ValidationUtils.validateNotNull;
+
 @RestController
 @RequestMapping("/programme-editions")
 public class ProgrammeEditionRestController {
@@ -36,9 +38,7 @@ public class ProgrammeEditionRestController {
 
     public ProgrammeEditionRestController(IProgrammeEditionService programmeEditionService, IProgrammeEditionControllerAssembler programmeEditionControllerAssembler,
                                           IAvailableCoursesService availableCoursesService, ICourseAssembler courseAssembler,IProgrammeEditionHateoasAssembler hateoasAssembler) {
-        if (programmeEditionService == null) {
-            throw new IllegalArgumentException("ProgrammeEdition service cannot be null");
-        }
+
         if (programmeEditionControllerAssembler == null) {
             throw new IllegalArgumentException("ProgrammeEdition Controller Assembler cannot be null");
         }
@@ -52,7 +52,7 @@ public class ProgrammeEditionRestController {
             throw new IllegalArgumentException("Hateoas Assembler cannot be null");
         }
 
-        this.programmeEditionService = programmeEditionService;
+        this.programmeEditionService = validateNotNull(programmeEditionService,"ProgrammeEditionService");
         this.programmeEditionControllerAssembler = programmeEditionControllerAssembler;
         this.availableCoursesService = availableCoursesService;
         this.courseAssembler = courseAssembler;
