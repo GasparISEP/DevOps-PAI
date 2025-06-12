@@ -166,17 +166,31 @@ class ProgrammeEditionDataModelTest {
 
     @Test
     void shouldThrowExceptionWhenProgrammeEditionIdIsNullInTwoArgsConstructor() {
+
+        // arrange
         ProgrammeEditionGeneratedIDDataModel generatedIDDataModel = mock(ProgrammeEditionGeneratedIDDataModel.class);
-        assertThrows(IllegalArgumentException.class, () -> {
+
+        // act
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             new ProgrammeEditionDataModel(null, generatedIDDataModel);
         });
+
+        // assert
+        assertEquals("ProgrammeEditionIdDataModel cannot be null.", exception.getMessage());
     }
 
     @Test
     void shouldThrowExceptionWhenProgrammeEditionGeneratedIdIsNull() {
+
+        // arrange
         ProgrammeEditionIdDataModel idDataModel = mock(ProgrammeEditionIdDataModel.class);
-        assertThrows(IllegalArgumentException.class, () -> {
+
+        // act
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             new ProgrammeEditionDataModel(idDataModel, null);
         });
+
+        // assert
+        assertEquals("ProgrammeEditionGeneratedIDDataModel cannot be null.", exception.getMessage());
     }
 }

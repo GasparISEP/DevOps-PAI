@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class SchoolYearServiceImpl implements ISchoolYearService {
@@ -36,6 +37,21 @@ public class SchoolYearServiceImpl implements ISchoolYearService {
         }
 
         SchoolYear newSchoolYear = schoolYearFactory.createSchoolYear(description, startDate, endDate);
+
+        if (schoolYearRepository.schoolYearExists(newSchoolYear)) {
+            throw new Exception("School year already exists.");
+        }
+
+        return schoolYearRepository.save(newSchoolYear);
+    }
+
+    public SchoolYear addSchoolYearDM(UUID schoolYearID, Description description, Date startDate, Date endDate) throws Exception {
+
+        if (schoolYearID == null || description == null || startDate == null || endDate == null) {
+            throw new Exception("Not possible to create a school year");
+        }
+
+        SchoolYear newSchoolYear = schoolYearFactory.recreateSchoolYear(schoolYearID, description, startDate, endDate);
 
         if (schoolYearRepository.schoolYearExists(newSchoolYear)) {
             throw new Exception("School year already exists.");

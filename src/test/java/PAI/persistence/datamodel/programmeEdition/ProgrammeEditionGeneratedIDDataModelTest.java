@@ -1,9 +1,7 @@
 package PAI.persistence.datamodel.programmeEdition;
 
 import org.junit.jupiter.api.Test;
-
 import java.util.UUID;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class ProgrammeEditionGeneratedIDDataModelTest {
@@ -25,8 +23,11 @@ class ProgrammeEditionGeneratedIDDataModelTest {
     @Test
     void shouldThrowExceptionWhenUUIDIsNull() {
 
-        // act & assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionGeneratedIDDataModel(null));
+        // arrange & act
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionGeneratedIDDataModel(null));
+
+        // assert
+        assertEquals("Generated ID cannot be null.", exception.getMessage());
     }
 
     @Test

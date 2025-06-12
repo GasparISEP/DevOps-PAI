@@ -97,7 +97,7 @@ class SchoolYearMapperImplTest {
         when(schoolYearDataModel.getDescription()).thenReturn("2024/2025");
         when(schoolYearDataModel.getStartDate()).thenReturn(LocalDate.of(2024, 1, 1));
         when(schoolYearDataModel.getEndDate()).thenReturn(LocalDate.of(2024, 12, 31));
-        when(schoolYearFactory.createSchoolYear(any(), any(), any(), any())).thenReturn(schoolYear);
+        when(schoolYearFactory.recreateSchoolYear(any(), any(), any(), any())).thenReturn(schoolYear);
 
         ISchoolYearMapper mapper = new SchoolYearMapperImpl(schoolYearFactory);
         //act

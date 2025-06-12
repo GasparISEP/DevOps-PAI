@@ -5,11 +5,11 @@ import java.util.Date;
 import java.util.UUID;
 
 public record CourseEditionResponseDTO(
-        String courseEditionID,
         String programmeAcronym,
         UUID schoolYearID,
         String courseAcronym,
         String courseName,
-        LocalDate studyPlanImplementationDate
-) {
+        LocalDate studyPlanImplementationDate,
+        String courseEditionID
+        ) {
 }
