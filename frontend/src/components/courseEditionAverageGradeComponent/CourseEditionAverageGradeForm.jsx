@@ -30,7 +30,7 @@ export default function CourseEditionAverageGradeForm() {
                 const [programmeRes, courseRes, yearRes, editionRes] = await Promise.all([
                     fetch(`${process.env.REACT_APP_API_URL}/programmes`),
                     fetch(`${process.env.REACT_APP_API_URL}/courses`),
-                    fetch(`${process.env.REACT_APP_API_URL}/schoolyears`),
+                    fetch(`${process.env.REACT_APP_API_URL}/school-years`),
                     fetch(`${process.env.REACT_APP_API_URL}/course-editions`)
                 ]);
 
