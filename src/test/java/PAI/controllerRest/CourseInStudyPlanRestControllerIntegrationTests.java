@@ -76,9 +76,10 @@ public class CourseInStudyPlanRestControllerIntegrationTests {
         Acronym programmeAcronymWith = new Acronym("CS");
         ProgrammeID programmeID = new ProgrammeID(programmeAcronymWith);
         StudyPlanID studyPlanID = new StudyPlanID(programmeID, Date.now());
+        CourseInStudyPlanGeneratedID generatedID = CourseInStudyPlanGeneratedID.randomID();
 
         CourseInStudyPlanResponseDTO responseDTO = new CourseInStudyPlanResponseDTO(1, 1, "MATH",
-                "LEI", "Licenciatura em Engenharia Informática", "2025-01-01", 1, 6.0, courseID, studyPlanID);
+                "LEI", "Licenciatura em Engenharia Informática", "2025-01-01", 1, 6.0, generatedID.getId());
 
         Mockito.when(assembler.toCommand(request)).thenReturn(Mockito.mock(PAI.dto.courseInStudyPlan.CourseInStudyPlanCommand.class));
         Mockito.when(service.addCourseToAProgramme(Mockito.any())).thenReturn(serviceDTO);

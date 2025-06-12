@@ -22,8 +22,7 @@ public class CourseInStudyPlanBusinessAssemblerImpl implements ICourseInStudyPla
                 courseInStudyPlan.getStudyplanID().getDate().toString(),
                 courseInStudyPlan.getDurationOfCourse().toInt(),
                 courseInStudyPlan.getQuantityOfCreditsEcts().toDouble(),
-                courseInStudyPlan.getCourseID(),
-                courseInStudyPlan.getStudyplanID()
+                courseInStudyPlan.getGeneratedID().getId()
         );
     }
 }
