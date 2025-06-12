@@ -10,6 +10,8 @@ import PAI.dto.schoolYear.CurrentSchoolYearResponseDTO;
 import PAI.dto.schoolYear.SchoolYearDTO;
 import PAI.service.schoolYear.ISchoolYearService;
 import org.junit.jupiter.api.Test;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -130,8 +132,22 @@ class SchoolYearRestControllerTest {
         CurrentSchoolYearDTO dto1 = mock(CurrentSchoolYearDTO.class);
         CurrentSchoolYearDTO dto2 = mock(CurrentSchoolYearDTO.class);
         CurrentSchoolYearDTO dto3 = mock(CurrentSchoolYearDTO.class);
+
         List<CurrentSchoolYearDTO> schoolYearDTOS = List.of(dto1, dto2, dto3);
+
         when(iSYService.getAllSchoolYears()).thenReturn(schoolYearDTOS);
+
+        EntityModel<CurrentSchoolYearDTO> em1 = mock(EntityModel.class);
+        EntityModel<CurrentSchoolYearDTO> em2 = mock(EntityModel.class);
+        EntityModel<CurrentSchoolYearDTO> em3 = mock(EntityModel.class);
+
+        List<EntityModel<CurrentSchoolYearDTO>> entityModels = List.of(em1, em2, em3);
+
+        CollectionModel<EntityModel<CurrentSchoolYearDTO>> collectionModel = mock(CollectionModel.class);
+        when(collectionModel.getContent()).thenReturn(entityModels);
+        when(collectionModel.iterator()).thenReturn(entityModels.iterator());
+
+        when(iSYHateoas.CollectionModel(schoolYearDTOS)).thenReturn(collectionModel);
 
         // Act
         ResponseEntity<?> response = syRestController.getAllSchoolYears();
@@ -139,10 +155,12 @@ class SchoolYearRestControllerTest {
         // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(200, response.getStatusCodeValue());
-        assertEquals(schoolYearDTOS, response.getBody());
-        assertTrue(((Iterable<?>) response.getBody()).iterator().hasNext());
+        assertEquals(collectionModel, response.getBody());
+        CollectionModel<EntityModel<CurrentSchoolYearDTO>> body = (CollectionModel<EntityModel<CurrentSchoolYearDTO>>) response.getBody();
+        assertTrue(body.iterator().hasNext());
+        assertEquals(3, ((Collection<?>) body.getContent()).size());
         verify(iSYService).getAllSchoolYears();
-        assertTrue(((Collection<?>) response.getBody()).contains(dto2));
+        verify(iSYHateoas).CollectionModel(schoolYearDTOS);
     }
 
     @Test
@@ -156,15 +174,20 @@ class SchoolYearRestControllerTest {
         List<CurrentSchoolYearDTO> schoolYearDTOS = List.of();
         when(iSYService.getAllSchoolYears()).thenReturn(schoolYearDTOS);
 
+        CollectionModel<EntityModel<CurrentSchoolYearDTO>> collectionModel = mock(CollectionModel.class);
+        when(iSYHateoas.CollectionModel(schoolYearDTOS)).thenReturn(collectionModel);
+
         // Act
         ResponseEntity<?> response = syRestController.getAllSchoolYears();
 
         // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(200, response.getStatusCodeValue());
-        assertEquals(schoolYearDTOS, response.getBody());
-        assertFalse(((Iterable<?>) response.getBody()).iterator().hasNext());
+        assertEquals(collectionModel, response.getBody());
+        Collection<?> content = ((CollectionModel<?>) response.getBody()).getContent();
+        assertTrue(content.isEmpty());
         verify(iSYService).getAllSchoolYears();
+        verify(iSYHateoas).CollectionModel(schoolYearDTOS);
     }
 
     @Test

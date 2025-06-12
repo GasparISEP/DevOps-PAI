@@ -59,7 +59,7 @@ public class SchoolYearRestController {
     public ResponseEntity<?> getAllSchoolYears() {
         try {
             Iterable<CurrentSchoolYearDTO> schoolYearDTOS = schoolYearService.getAllSchoolYears();
-            return (ResponseEntity.ok(schoolYearDTOS));
+            return (ResponseEntity.ok(schoolYearHateoasAssembler.CollectionModel(schoolYearDTOS)));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
