@@ -1,0 +1,41 @@
+@startuml
+
+title Convert Iterable of Teacher to ResponseDTO
+
+autonumber
+skinparam {
+  ActivityPadding 2
+  ActivityMargin 2
+  BoxPadding 2
+}
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+participant ":TeacherRestController" as controller
+
+activate controller #E1F5FE
+participant ":ITeacherAssembler" as assembler
+
+controller -> assembler: toDTOs (Iterable<Teacher>)
+activate assembler #E1F5FE
+
+create ":ArrayList"
+assembler -> ":ArrayList": create ()
+
+loop for each Teacher in Iterable<Teacher>
+
+create "tResponseDTO: TeacherResponseDTO"
+assembler -> "tResponseDTO: TeacherResponseDTO": create \n (teacherID, name, email, nif, countryCode, \n phoneNumber, academicBackground, street, location, country, departmentID)
+
+assembler -> ":ArrayList": add (tResponseDTO)
+activate ":ArrayList" #E1F5FE
+
+":ArrayList" --> assembler: True
+deactivate ":ArrayList"
+
+end
+
+assembler --> controller: Iterable<TeacherResponseDTO>
+deactivate assembler
+
+@enduml
