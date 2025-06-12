@@ -14,6 +14,7 @@ import PAI.dto.courseInStudyPlan.CourseInStudyPlanRequestDTO;
 import PAI.VOs.*;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 class CourseInStudyPlanAssemblerImplTest {
 
@@ -64,7 +65,8 @@ class CourseInStudyPlanAssemblerImplTest {
     void toDTO_shouldReturnDTO_whenServiceDTOIsValid() {
         // Arrange
         CourseInStudyPlanServiceDTO serviceDTO = mock(CourseInStudyPlanServiceDTO.class);
-        CourseInStudyPlanGeneratedID generatedID = mock(CourseInStudyPlanGeneratedID.class);
+        UUID mockUUID = UUID.randomUUID();
+        when(serviceDTO.generatedID()).thenReturn(mockUUID);
         when(serviceDTO.semester()).thenReturn(1);
         when(serviceDTO.curricularYear()).thenReturn(2);
         when(serviceDTO.courseAcronym()).thenReturn("DSOFT");
@@ -74,7 +76,6 @@ class CourseInStudyPlanAssemblerImplTest {
         when(serviceDTO.duration()).thenReturn(1);
         when(serviceDTO.credits()).thenReturn(6.0);
 
-        when(serviceDTO.generatedID()).thenReturn(generatedID.getId());
 
         CourseInStudyPlanAssemblerImpl assembler = new CourseInStudyPlanAssemblerImpl();
 
@@ -87,6 +88,7 @@ class CourseInStudyPlanAssemblerImplTest {
         assertEquals("DSOFT", response.courseAcronym());
         assertEquals("LEI", response.programmeAcronym());
         assertEquals(6.0, response.credits());
+        assertEquals(mockUUID, response.generatedID());
     }
 
     @Test
@@ -99,3 +101,4 @@ class CourseInStudyPlanAssemblerImplTest {
         assertEquals("Service DTO cannot be null", exception.getMessage());
     }
 }
+

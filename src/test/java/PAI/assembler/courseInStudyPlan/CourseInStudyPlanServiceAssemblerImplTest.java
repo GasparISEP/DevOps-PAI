@@ -6,6 +6,8 @@ import PAI.dto.courseInStudyPlan.CourseInStudyPlanServiceDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -30,9 +32,12 @@ class CourseInStudyPlanServiceAssemblerImplTest {
         Date date = mock(Date.class);
         DurationCourseInCurricularYear duration = mock(DurationCourseInCurricularYear.class);
         CourseQuantityCreditsEcts credits = mock(CourseQuantityCreditsEcts.class);
-        CourseInStudyPlanGeneratedID generatedId = mock(CourseInStudyPlanGeneratedID.class);
 
         CourseInStudyPlan course = mock(CourseInStudyPlan.class);
+        UUID uuid = mock(UUID.class);
+        CourseInStudyPlanGeneratedID genID = mock(CourseInStudyPlanGeneratedID.class);
+        when(genID.getId()).thenReturn(uuid);
+        when(course.getGeneratedID()).thenReturn(genID);
 
         when(course.getSemester()).thenReturn(semester);
         when(semester.toInt()).thenReturn(2);
@@ -57,7 +62,6 @@ class CourseInStudyPlanServiceAssemblerImplTest {
         when(course.getQuantityOfCreditsEcts()).thenReturn(credits);
         when(credits.toDouble()).thenReturn(6.0);
 
-        when(course.getGeneratedID()).thenReturn(generatedId);
 
         // Act
         CourseInStudyPlanServiceDTO dto = assembler.toServiceDTO(course);
@@ -72,7 +76,7 @@ class CourseInStudyPlanServiceAssemblerImplTest {
         assertEquals("2025-05-27", dto.studyPlanDate());
         assertEquals(1, dto.duration());
         assertEquals(6.0, dto.credits());
-        assertEquals(generatedId, dto.generatedID());
+        assertEquals(uuid, dto.generatedID());
     }
 
     @Test
