@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { fetchAverageGradeFromLink } from '../../services/courseEditionAverageGradeService';
 import ISEPLogoBranco from '../../assets/images/ISEP_logo-branco.png';
-import '../../styles/Form.css'; // estrutura comum
-import '../../styles/CourseEditionAverageGradePage.css'; // estilos específicos
+import '../../styles/Form.css';
+import '../../styles/CourseEditionAverageGradePage.css';
 import { Link } from 'react-router-dom';
 import CourseEditionAverageGradeSuccessModal from './CourseEditionAverageGradeSuccessModal';
 import CourseEditionAverageGradeErrorModal from './CourseEditionAverageGradeErrorModal';
@@ -29,8 +29,8 @@ export default function CourseEditionAverageGradeForm() {
             try {
                 const [programmeRes, courseRes, yearRes, editionRes] = await Promise.all([
                     fetch(`${process.env.REACT_APP_API_URL}/programmes`),
-                    fetch(`${process.env.REACT_APP_API_URL}/courseeditions`),
-                    fetch(`${process.env.REACT_APP_API_URL}/schoolyears`),
+                    fetch(`${process.env.REACT_APP_API_URL}/courses`),
+                    fetch(`${process.env.REACT_APP_API_URL}/school-years`),
                     fetch(`${process.env.REACT_APP_API_URL}/course-editions`)
                 ]);
 
