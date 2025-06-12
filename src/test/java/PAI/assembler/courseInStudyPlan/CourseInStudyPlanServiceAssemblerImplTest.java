@@ -72,7 +72,6 @@ class CourseInStudyPlanServiceAssemblerImplTest {
         assertEquals("2025-05-27", dto.studyPlanDate());
         assertEquals(1, dto.duration());
         assertEquals(6.0, dto.credits());
-        assertEquals(generatedId, dto.generatedID());
     }
 
     @Test

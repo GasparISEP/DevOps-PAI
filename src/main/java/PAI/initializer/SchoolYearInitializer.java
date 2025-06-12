@@ -40,13 +40,14 @@ public class SchoolYearInitializer {
 
                 line = line.replace("\uFEFF", "");
                 String[] fields = line.split(",");
-                if (fields.length < 3) continue;
+                if (fields.length < 4) continue;
 
-                String yearDescription =  fields[0].trim();
-                String startDate = fields[1].trim();
-                String endDate = fields[2].trim();
+                String schoolYearID = fields[0].trim();
+                String yearDescription =  fields[1].trim();
+                String startDate = fields[2].trim();
+                String endDate = fields[3].trim();
 
-                controller.addSchoolYear(yearDescription, startDate,endDate);
+                controller.addSchoolYear(schoolYearID, yearDescription, startDate,endDate);
             }
 
             long endTime = System.currentTimeMillis();

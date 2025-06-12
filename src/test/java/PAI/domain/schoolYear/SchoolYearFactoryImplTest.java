@@ -89,7 +89,7 @@ class SchoolYearFactoryImplTest {
             ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
 
             //act
-            SchoolYear schoolYear = schoolYearFactory.createSchoolYear(uuid, description, startDate, endDate);
+            SchoolYear schoolYear = schoolYearFactory.recreateSchoolYear(uuid, description, startDate, endDate);
 
             //assert
             List<SchoolYear> schoolYears = schoolYearDouble.constructed();

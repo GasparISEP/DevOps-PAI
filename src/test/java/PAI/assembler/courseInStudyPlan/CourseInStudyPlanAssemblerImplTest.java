@@ -64,7 +64,7 @@ class CourseInStudyPlanAssemblerImplTest {
     void toDTO_shouldReturnDTO_whenServiceDTOIsValid() {
         // Arrange
         CourseInStudyPlanServiceDTO serviceDTO = mock(CourseInStudyPlanServiceDTO.class);
-        CourseInStudyPlanGeneratedID generatedID = mock(CourseInStudyPlanGeneratedID.class);
+
         when(serviceDTO.semester()).thenReturn(1);
         when(serviceDTO.curricularYear()).thenReturn(2);
         when(serviceDTO.courseAcronym()).thenReturn("DSOFT");
@@ -73,8 +73,6 @@ class CourseInStudyPlanAssemblerImplTest {
         when(serviceDTO.studyPlanDate()).thenReturn("2023-09-01");
         when(serviceDTO.duration()).thenReturn(1);
         when(serviceDTO.credits()).thenReturn(6.0);
-
-        when(serviceDTO.generatedID()).thenReturn(generatedID.getId());
 
         CourseInStudyPlanAssemblerImpl assembler = new CourseInStudyPlanAssemblerImpl();
 
@@ -88,6 +86,7 @@ class CourseInStudyPlanAssemblerImplTest {
         assertEquals("LEI", response.programmeAcronym());
         assertEquals(6.0, response.credits());
     }
+
 
     @Test
     void toDTO_shouldThrowException_whenServiceDTOIsNull() {
