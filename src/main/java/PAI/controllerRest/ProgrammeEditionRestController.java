@@ -39,15 +39,11 @@ public class ProgrammeEditionRestController {
     public ProgrammeEditionRestController(IProgrammeEditionService programmeEditionService, IProgrammeEditionControllerAssembler programmeEditionControllerAssembler,
                                           IAvailableCoursesService availableCoursesService, ICourseAssembler courseAssembler,IProgrammeEditionHateoasAssembler hateoasAssembler) {
 
-        if(hateoasAssembler == null){
-            throw new IllegalArgumentException("Hateoas Assembler cannot be null");
-        }
-
         this.programmeEditionService = validateNotNull(programmeEditionService,"ProgrammeEditionService");
         this.programmeEditionControllerAssembler = validateNotNull(programmeEditionControllerAssembler, "ProgrammeEditionControllerAssembler");
         this.availableCoursesService = validateNotNull(availableCoursesService, "AvailableCoursesService");
         this.courseAssembler = validateNotNull(courseAssembler, "CourseAssembler");
-        this.hateoasAssembler = hateoasAssembler;
+        this.hateoasAssembler = validateNotNull(hateoasAssembler, "ProgrammeEditionHateoasAssembler");
     }
 
     @GetMapping
