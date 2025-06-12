@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.UUID;
 
 @Component
 public class DegreeTypeInitializer {
@@ -38,21 +39,23 @@ public class DegreeTypeInitializer {
                     String[] parts = line.split(";");
                     System.out.println("Split parts length: " + parts.length);
 
-                    if (parts.length < 2) {
+                    if (parts.length < 3) {
                         System.out.println("Skipping invalid line: " + line);
                         continue;
                     }
 
                     int maxEctss = Integer.parseInt(parts[0].trim());
                     String dtnames = parts[1].trim();
+                    String degreeTypeID = parts[2].trim();
 
                     System.out.println("Parsed ECTS: " + maxEctss + ", Name: '" + dtnames + "'");
 
                     Name dtName = new Name(dtnames);
                     MaxEcts maxEcts = new MaxEcts(maxEctss);
+                    DegreeTypeID degreeTypeID1 = new DegreeTypeID(degreeTypeID);
 
                     System.out.println("Registering DegreeType - Name: " + dtName.getName() + ", ECTS: " + maxEcts.getMaxEcts());
-                    _controller.registerDegreeType(dtName, maxEcts);
+                    _controller.registerDegreeTypeWithUUID(degreeTypeID1,dtName,maxEcts);
 
                 } catch (Exception ex) {
                     System.err.println("Error processing line: " + line);
