@@ -1,4 +1,5 @@
 package PAI.controllerRest;
+
 import PAI.VOs.*;
 import PAI.assembler.courseEdition.ICourseEditionAssembler;
 import PAI.assembler.courseEdition.ICourseEditionHateoasAssembler;
@@ -15,18 +16,15 @@ import PAI.service.courseEdition.ICreateCourseEditionService;
 import PAI.service.courseEdition.IDefineRucService;
 import PAI.service.studentGrade.IGradeAStudentService;
 import jakarta.validation.Valid;
-
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import PAI.assembler.courseEditionEnrolment.ICourseEditionEnrolmentAssembler;
 import PAI.assembler.courseEditionEnrolment.ICourseEditionEnrolmentHateoasAssembler;
 import PAI.assembler.programmeEdition.IProgrammeEditionServiceAssembler;
 import PAI.dto.courseEditionEnrolment.CourseEditionEnrolmentDto;
 import PAI.service.courseEditionEnrolment.ICourseEditionEnrolmentService;
-
 import java.net.URI;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -38,7 +36,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/courseeditions")
+@RequestMapping("/course-editions")
 public class CourseEditionRestController {
 
     private final ICourseEditionEnrolmentService courseEditionEnrolmentService;
@@ -145,7 +143,7 @@ public CourseEditionRestController(
             //String safeID = URLEncoder.encode(responseDTO.courseEditionID(), StandardCharsets.UTF_8);
 
             return ResponseEntity
-                    .created(URI.create("/courseeditions/")) //+ safeID))
+                    .created(URI.create("/course-editions/")) //+ safeID))
                     .body(responseDTO);
 
         } catch (IllegalArgumentException e) {
@@ -277,17 +275,15 @@ public ResponseEntity<?> defineRucForCourseEdition(
         }
     }
 
+    @GetMapping("/{id}/enrolments/count")
+    public ResponseEntity<StudentCountDTO> getNumberOfStudentsInCourseEdition(@PathVariable("id") UUID uuid) throws Exception {
 
-    @PostMapping("/studentscount")
-    public ResponseEntity<StudentCountDTO> getNumberOfStudentsInCourseEdition(@RequestBody @Valid SelectedCourseEditionIdDTO dto) {
-        try {
-            CourseEditionID courseEditionID = courseEditionAssembler.fromDtoToCourseEditionID(dto);
-            int studentCount = courseEditionEnrolmentService.numberOfStudentsEnrolledInCourseEdition(courseEditionID);
-            StudentCountDTO studentCountDTO = studentCountAssembler.fromDomainToDTO(studentCount);
-            return ResponseEntity.ok(studentCountDTO);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.badRequest().body(null);
-        }
+        CourseEditionGeneratedID generatedID = new CourseEditionGeneratedID(uuid);
+
+        CourseEditionID courseEditionID = courseEditionService.findCourseEditionByGeneratedID(generatedID);
+
+        int studentCount = courseEditionEnrolmentService.numberOfStudentsEnrolledInCourseEdition(courseEditionID);
+        StudentCountDTO studentCountDTO = studentCountAssembler.fromDomainToDTO(studentCount);
+        return ResponseEntity.ok(studentCountDTO);
     }
 }
