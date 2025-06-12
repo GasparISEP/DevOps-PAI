@@ -14,10 +14,13 @@ import PAI.dto.programmeEdition.ProgrammeEditionResponseDTO;
 import PAI.service.programmeEdition.IProgrammeEditionService;
 import PAI.service.programmeEnrolment.IAvailableCoursesService;
 import jakarta.validation.Valid;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -57,19 +60,24 @@ public class ProgrammeEditionRestController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProgrammeEditionResponseDTO>> getAllProgrammeEditions() {
+    public ResponseEntity<List<EntityModel<ProgrammeEditionResponseDTO>>> getAllProgrammeEditions() {
         List<ProgrammeEditionResponseDTO> responseDTOs = programmeEditionService
                 .findAllProgrammeEditions()
                 .stream()
                 .map(programmeEditionControllerAssembler::toResponseDTOFromServiceDTO)
                 .toList();
-        return ResponseEntity.ok(responseDTOs);
+
+        List<EntityModel<ProgrammeEditionResponseDTO>> models = responseDTOs.stream()
+                .map(hateoasAssembler::toModel)
+                .toList();
+
+        return ResponseEntity.ok(models);
     }
 
     @GetMapping("/{id}/{schoolYearID}/students")
     public ResponseEntity<Integer> getNumberOfStudents(
             @PathVariable("id") String programmeAcronym,
-            @PathVariable("schoolYearID") String schoolYearID) throws Exception {
+            @PathVariable("schoolYearID") String schoolYearID)   {
 
         RequestServiceDto dto =
                 new RequestServiceDto(programmeAcronym, schoolYearID);
@@ -80,7 +88,7 @@ public class ProgrammeEditionRestController {
     }
 
     @GetMapping("/programme/{programmeid}")
-    public ResponseEntity<List<ProgrammeEditionResponseDTO>> getProgrammeEditionsByProgrammeID(
+    public ResponseEntity<List<EntityModel<ProgrammeEditionResponseDTO>>> getProgrammeEditionsByProgrammeID(
             @PathVariable("programmeid") String programmeAcronym) {
 
         ProgrammeEditionRequestServiceDTO requestDTO = new ProgrammeEditionRequestServiceDTO(
@@ -94,7 +102,11 @@ public class ProgrammeEditionRestController {
                 .map(programmeEditionControllerAssembler::toResponseDTOFromServiceDTO)
                 .toList();
 
-        return ResponseEntity.ok(dtos);
+        List<EntityModel<ProgrammeEditionResponseDTO>> models = dtos.stream()
+                .map(hateoasAssembler::toModel)
+                .toList();
+
+        return ResponseEntity.ok(models);
     }
 
     @PostMapping()

@@ -17,22 +17,22 @@ participant ":Database" as db <<Container>>
 admin -> frontend: I want to update teacher's category!
 activate frontend #E1F5FE
 
-frontend -> backend: GET /teachers
+frontend -> backend: **GET** /teachers
 activate backend #E1F5FE
 
-backend -> db: SELECT * FROM teacher
+backend -> db: **SELECT** * FROM teacher
 activate db #E1F5FE
-db --> backend: teacherIDs: List<Teacher>
+db --> backend: List<TeacherDataModel>
 deactivate db
 
 backend --> frontend: 200 \n + body {List<TeacherResponseDTO> + hypermedia}
 deactivate backend
 
-frontend -> backend: GET /teacher-categories
+frontend -> backend: **GET** /teacher-categories
 activate backend #E1F5FE
-backend -> db: SELECT * FROM teacherCategory
+backend -> db: **SELECT** * FROM teacherCategory
 activate db #E1F5FE
-db --> backend: teacherCategories: Iterable<TeacherCategory>
+db --> backend: Iterable<TeacherCategoryDataModel>
 deactivate db
 backend --> frontend: 200 \n + body {Iterable<TeacherCategoryResponseDTO> + hypermedia}
 deactivate backend
@@ -57,7 +57,7 @@ note over backend #E0E0E0
     }
 end note
 
-frontend -> backend: POST /teachers/{teacherId}/careerprogressions/category + \n body {...}
+frontend -> backend: **POST** /teachers/{teacherId}/careerprogressions/category + \n body {...}
 activate backend #E1F5FE
 
 note over db #E0E0E0
@@ -69,10 +69,10 @@ note over db #E0E0E0
     }
 end note
 
-backend -> db: INSERT INTO Teacher_Career_Progression \n (id, teacherId, teacherCategoryId, date) VALUES (...)
+backend -> db: **INSERT INTO** Teacher_Career_Progression \n (id, teacherId, teacherCategoryId, date) VALUES (...)
 activate db #E1F5FE
 
-db --> backend: teacherCareerProgression
+db --> backend: teacherCareerProgressionDataModel
 deactivate db
 
 backend --> frontend: 201 \n + body {updateTeacherCategoryResponseDTO + hypermedia}

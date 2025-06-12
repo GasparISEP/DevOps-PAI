@@ -373,6 +373,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeRepositoryListFactory);
         IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
 
+
         IDegreeTypeListFactory degreeTypeListFactory = new DegreeTypeListFactoryImpl();
         IDegreeTypeFactory degreeTypeFactory = new DegreeTypeFactoryImpl();
         IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
@@ -396,7 +397,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
                 programmeEditionRepository, courseEditionEnrolmentRepository, courseEditionRepository, schoolYearRepository,programmeEnrolmentRepository,
                 programmeRepository,programmeEditionEnrolmentFactory);
         IProgrammeEditionServiceAssembler programmeEditionAssembler = new ProgrammeEditionServiceAssemblerImpl();
-        IProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository,programmeRepository,
+        IProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository,programmeService,
                 programmeEditionAssembler,schoolYearService, programmeEditionEnrolmentService);
 
         // Act
@@ -452,24 +453,37 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
         IProgrammeEnrolmentRepository programmeEnrolmentRepository = mock(IProgrammeEnrolmentRepository.class);
         IProgrammeEditionEnrolmentFactory programmeEditionEnrolmentFactory = new ProgrammeEditionEnrolmentFactoryImpl();
-
         IProgrammeEditionEnrolmentListFactory programmeEditionEnrolmentListFactory = new ProgrammeEditionEnrolmentListFactoryImpl();
         IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository = new ProgrammeEditionEnrolmentRepositoryImpl(programmeEditionEnrolmentListFactory);
         IProgrammeRepositoryListFactory programmeRepositoryListFactory = new ProgrammeRepositoryListFactoryImpl();
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeRepositoryListFactory);
 
-        IProgrammeEditionEnrolmentService programmeEditionEnrolmentService = new ProgrammeEditionEnrolmentServiceImpl(programmeEditionEnrolmentRepository,
-                programmeEditionRepository, courseEditionEnrolmentRepository, courseEditionRepository, schoolYearRepository,programmeEnrolmentRepository,
-                programmeRepository,programmeEditionEnrolmentFactory);
+        IProgrammeEditionEnrolmentService programmeEditionEnrolmentService = new ProgrammeEditionEnrolmentServiceImpl(
+                programmeEditionEnrolmentRepository,
+                programmeEditionRepository,
+                courseEditionEnrolmentRepository,
+                courseEditionRepository,
+                schoolYearRepository,
+                programmeEnrolmentRepository,
+                programmeRepository,
+                programmeEditionEnrolmentFactory
+        );
+
         IProgrammeEditionServiceAssembler programmeEditionAssembler = new ProgrammeEditionServiceAssemblerImpl();
-        IProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository,programmeRepository,
-                programmeEditionAssembler, schoolYearService, programmeEditionEnrolmentService);
 
-        // Act
-        Exception exception = assertThrows(Exception.class, () -> {new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, null, schoolYearService);});
+        // Act + Assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            new ProgrammeEditionService(
+                    programmeEditionFactory,
+                    programmeEditionRepository,
+                    null,
+                    programmeEditionAssembler,
+                    schoolYearService,
+                    programmeEditionEnrolmentService
+            );
+        });
 
-        // Assert
-        assertEquals("Programme Service cannot be null", exception.getMessage());
+        assertEquals("ProgrammeService cannot be null!", exception.getMessage());
     }
 
     @Test
@@ -509,7 +523,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
                 programmeRepository,programmeEditionEnrolmentFactory);
 
         IProgrammeEditionServiceAssembler programmeEditionAssembler = new ProgrammeEditionServiceAssemblerImpl();
-        IProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository,programmeRepository,
+        IProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository,programmeService,
                 programmeEditionAssembler, schoolYearService, programmeEditionEnrolmentService);
 
         // Act
@@ -559,7 +573,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
                 programmeRepository,programmeEditionEnrolmentFactory);
 
         IProgrammeEditionServiceAssembler programmeEditionAssembler = new ProgrammeEditionServiceAssemblerImpl();
-        IProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository,programmeRepository,
+        IProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository,programmeService,
                 programmeEditionAssembler, schoolYearService, programmeEditionEnrolmentService);
 
         US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService);
@@ -653,7 +667,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
                 programmeRepository,programmeEditionEnrolmentFactory);
 
         IProgrammeEditionServiceAssembler programmeEditionAssembler = new ProgrammeEditionServiceAssemblerImpl();
-        IProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository,programmeRepository,
+        IProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository,programmeService,
                 programmeEditionAssembler, schoolYearService, programmeEditionEnrolmentService);
 
         US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService);
@@ -704,7 +718,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
                 programmeRepository,programmeEditionEnrolmentFactory);
 
         IProgrammeEditionServiceAssembler programmeEditionAssembler = new ProgrammeEditionServiceAssemblerImpl();
-        IProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository,programmeRepository,
+        IProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository,programmeService,
                 programmeEditionAssembler, schoolYearService, programmeEditionEnrolmentService);
 
         // Create and save multiple school years
@@ -776,7 +790,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
                 programmeRepository,programmeEditionEnrolmentFactory);
 
         IProgrammeEditionServiceAssembler programmeEditionAssembler = new ProgrammeEditionServiceAssemblerImpl();
-        IProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository,programmeRepository,
+        IProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository,programmeService,
                 programmeEditionAssembler, schoolYearService, programmeEditionEnrolmentService);
         US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService);
 
@@ -825,7 +839,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
                 programmeRepository,programmeEditionEnrolmentFactory);
 
         IProgrammeEditionServiceAssembler programmeEditionAssembler = new ProgrammeEditionServiceAssemblerImpl();
-        IProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository,programmeRepository,
+        IProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository,programmeService,
                 programmeEditionAssembler, schoolYearService, programmeEditionEnrolmentService);
         US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService);
 
@@ -890,7 +904,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
                 programmeRepository,programmeEditionEnrolmentFactory);
 
         IProgrammeEditionServiceAssembler programmeEditionAssembler = new ProgrammeEditionServiceAssemblerImpl();
-        IProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository,programmeRepository,
+        IProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository,programmeService,
                 programmeEditionAssembler, schoolYearService, programmeEditionEnrolmentService);
 
         US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService);
@@ -1004,7 +1018,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
                 programmeRepository,programmeEditionEnrolmentFactory);
 
         IProgrammeEditionServiceAssembler programmeEditionAssembler = new ProgrammeEditionServiceAssemblerImpl();
-        IProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository,programmeRepository,
+        IProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository,programmeService,
                 programmeEditionAssembler, schoolYearService, programmeEditionEnrolmentService);
 
         US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(programmeEditionService, programmeService, schoolYearService);
@@ -1117,7 +1131,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
                 programmeRepository,programmeEditionEnrolmentFactory);
 
         IProgrammeEditionServiceAssembler programmeEditionAssembler = new ProgrammeEditionServiceAssemblerImpl();
-        IProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository,programmeRepository,
+        IProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository,programmeService,
                 programmeEditionAssembler, schoolYearService, programmeEditionEnrolmentService);
 
         US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(
@@ -1225,7 +1239,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
                 programmeRepository,programmeEditionEnrolmentFactory);
 
         IProgrammeEditionServiceAssembler programmeEditionAssembler = new ProgrammeEditionServiceAssemblerImpl();
-        IProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository,programmeRepository,
+        IProgrammeEditionService programmeEditionService = new ProgrammeEditionService(programmeEditionFactory, programmeEditionRepository,programmeService,
                 programmeEditionAssembler, schoolYearService, programmeEditionEnrolmentService);
         US18_CreateProgrammeEditionForCurrentSchoolYearController controller = new US18_CreateProgrammeEditionForCurrentSchoolYearController(
                 programmeEditionService, programmeService, schoolYearService);

@@ -2,17 +2,21 @@ package PAI.controllerRest;
 
 import PAI.VOs.*;
 import PAI.VOs.Date;
+import PAI.assembler.ProgrammeAndCourses.IProgrammeAndCoursesAssembler;
 import PAI.assembler.programmeEnrolment.IProgrammeEnrolmentHATEOASAssembler;
 import PAI.assembler.student.IStudentDTOAssembler;
 import PAI.assembler.student.IStudentHateoasAssembler;
 import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
 import PAI.domain.student.Student;
 import PAI.assembler.programmeEnrolment.IProgrammeEnrolmentAssembler;
+import PAI.dto.ProgrammeAndCourses.StudentEnrolmentResultDto;
+import PAI.dto.ProgrammeAndCourses.StudentProgrammeEnrolmentRequestDto;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentDTO;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentResponseDTO;
 import PAI.dto.student.StudentDTO;
 import PAI.dto.student.StudentResponseDTO;
 import PAI.service.programmeEnrolment.IProgrammeEnrolmentService;
+import PAI.service.student.IProgrammeAndCoursesEnrolmentService;
 import PAI.service.student.IStudentService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -67,6 +71,9 @@ class StudentRestControllerTest {
 
     @Mock private IProgrammeEnrolmentAssembler programmeEnrolmentMapper;
     @Mock private IProgrammeEnrolmentHATEOASAssembler enrolmentHateoasAssembler;
+
+    @Mock private IProgrammeAndCoursesEnrolmentService programmeAndCoursesEnrolmentService;
+    @Mock private IProgrammeAndCoursesAssembler programmeAndCoursesAssembler;
 
 
 
@@ -308,5 +315,31 @@ class StudentRestControllerTest {
         assertEquals(HttpStatus.NOT_FOUND, resp.getStatusCode());
         assertNull(resp.getBody());
     }
+    @Test
+    void whenEnrolStudent_thenReturnsCreatedWithResultDto() throws Exception {
+        // Arrange
+        StudentProgrammeEnrolmentRequestDto dto = mock(StudentProgrammeEnrolmentRequestDto.class);
+
+        StudentID studentID = mock(StudentID.class);
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+        List<CourseID> courseIDs = List.of(mock(CourseID.class));
+
+        US34Response responseDomain = mock(US34Response.class);
+        StudentEnrolmentResultDto resultDto = mock(StudentEnrolmentResultDto.class);
+
+        when(programmeAndCoursesAssembler.toStudentID(dto)).thenReturn(studentID);
+        when(programmeAndCoursesAssembler.toProgrammeEditionID(dto)).thenReturn(programmeEditionID);
+        when(programmeAndCoursesAssembler.toCourseIDs(dto)).thenReturn(courseIDs);
+        when(programmeAndCoursesEnrolmentService.enrollStudentInProgrammeAndCourses(studentID, programmeEditionID, courseIDs)).thenReturn(responseDomain);
+        when(programmeAndCoursesAssembler.toDto(responseDomain)).thenReturn(resultDto);
+
+        // Act
+        ResponseEntity<StudentEnrolmentResultDto> response = studentRestController.enrolStudent(dto);
+
+        // Assert
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertSame(resultDto, response.getBody());
+    }
+
 
 }

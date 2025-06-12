@@ -1,0 +1,29 @@
+@startuml
+
+title Convert Teacher Category ID to DataModel
+
+autonumber
+skinparam {
+  ActivityPadding 2
+  ActivityMargin 2
+  BoxPadding 2
+}
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+participant ":ITeacherCategoryRepository" as ITeacherCategoryRepository
+activate ITeacherCategoryRepository #E1F5FE
+participant ":ITeacherCategoryIDMapper" as tcIDMapper
+ITeacherCategoryRepository -> tcIDMapper: toDataModel (tcID.identity())
+activate tcIDMapper #E1F5FE
+
+create "idDataModel: TeacherCategoryIDDataModel"
+tcIDMapper -> "idDataModel: TeacherCategoryIDDataModel": create (id.getValue())
+
+tcIDMapper --> ITeacherCategoryRepository: idDataModel
+deactivate tcIDMapper
+deactivate ITeacherCategoryRepository
+
+@enduml
+
+@enduml

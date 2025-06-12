@@ -2,10 +2,7 @@ package PAI.assembler.courseEdition;
 
 import PAI.VOs.*;
 import PAI.domain.courseEdition.CourseEdition;
-import PAI.dto.courseEdition.SelectedCourseEditionIdDTO;
-import PAI.dto.courseEdition.CourseEditionRequestDTO;
-import PAI.dto.courseEdition.CourseEditionResponseDTO;
-import PAI.dto.courseEdition.CreateCourseEditionCommand;
+import PAI.dto.courseEdition.*;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -89,7 +86,9 @@ public class CourseEditionAssemblerImpl implements ICourseEditionAssembler {
     public TeacherID createTeacherID (String teacherID) {
         return new TeacherID(new TeacherAcronym(teacherID));
     }
-
+    public CourseEditionGeneratedID fromDtoToCourseEditionGeneratedID (SelectedCourseEditionGeneratedIdDTO courseEditionDTO) {
+        return  new CourseEditionGeneratedID(courseEditionDTO.courseEditionID());
+    }
     public CourseEditionID fromDtoToCourseEditionID (SelectedCourseEditionIdDTO courseEditionDTO) throws Exception{
         ProgrammeID programmeID= new ProgrammeID(
                 new Acronym(courseEditionDTO.programmeAcronym()));

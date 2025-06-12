@@ -1,0 +1,27 @@
+@startuml
+
+title Convert Teacher Career Progression Saved DTO to ResponseDTO
+
+autonumber
+skinparam {
+  ActivityPadding 2
+  ActivityMargin 2
+  BoxPadding 2
+}
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+participant ":TeacherRESTController" as Controller
+participant ":ITeacherCareerProgressionAssembler" as tcpAssembler
+activate Controller #E1F5FE
+Controller -> tcpAssembler: toUpdateTeacherCategoryResponseDTO (tcpSavedDTO)
+activate tcpAssembler #E1F5FE
+
+create "tcpSavedResponseDTO: UpdateTeacherCategoryResponseDTO"
+tcpAssembler -> "tcpSavedResponseDTO: UpdateTeacherCategoryResponseDTO": create (tcpID, date, tcID, wp, teacherID)
+
+tcpAssembler --> Controller: tcpSavedResponseDTO
+deactivate tcpAssembler
+deactivate Controller
+
+@enduml

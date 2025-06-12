@@ -31,7 +31,7 @@ activate repository #E1F5FE
 repository -> drivers: findAll ()
 activate drivers #E1F5FE
 
-drivers ->o]: SELECT * FROM teacher
+drivers ->o]: **SELECT** * FROM teacher
 
 drivers <--o]: Iterable<TeacherDataModel>
 
@@ -67,7 +67,7 @@ activate repository #E1F5FE
 repository -> drivers: findAll ()
 activate drivers #E1F5FE
 
-drivers ->o]: SELECT * FROM teacherCategory
+drivers ->o]: **SELECT** * FROM teacherCategory
 
 drivers <--o]: Iterable<TeacherCategoryDataModel>
 
@@ -111,7 +111,7 @@ activate repository #E1F5FE
 repository -> drivers: existsById (teacherCategoryID)
 activate drivers #E1F5FE
 
-drivers -->o]: SELECT EXISTS (SELECT 1 FROM teacherCategory \n WHERE id = '05ab8bc8-33c2-46af-8988-d933e0256b89');
+drivers -->o]: **SELECT** EXISTS (SELECT 1 FROM teacherCategory \n WHERE id = '05ab8bc8-33c2-46af-8988-d933e0256b89');
 
 drivers <--o] : True
 
@@ -127,7 +127,7 @@ activate repository #E1F5FE
 repository -> drivers: findTopByTeacherIdOrderByDateDesc (String teacherID)
 activate drivers #E1F5FE
 
-drivers -->o]: SELECT * FROM teacher_career_progression \n WHERE teacher_id = 'AAA' ORDER BY date DESC LIMIT 1;
+drivers -->o]: **SELECT** * FROM teacher_career_progression \n WHERE teacher_id = 'AAA' ORDER BY date DESC LIMIT 1;
 
 drivers <--o] : lastTcpDataModel
 
@@ -167,7 +167,7 @@ activate repository #E1F5FE
 repository -> drivers: save (teacherCareerProgressionDataModel)
 activate drivers #E1F5FE
 
-drivers -->o]: INSERT INTO Teacher_Career_Progression \n (id, teacherId, teacherCategoryId, date) VALUES (...)
+drivers -->o]: **INSERT INTO** Teacher_Career_Progression \n (id, teacherId, teacherCategoryId, date) VALUES (...)
 
 drivers <--o] : teacherCareerProgressionSavedDataModel
 

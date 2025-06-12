@@ -8,8 +8,10 @@ import PAI.assembler.programmeEnrolment.IProgrammeEnrolmentAssembler;
 import PAI.assembler.student.IStudentDTOAssembler;
 import PAI.assembler.studyPlan.IStudyPlanAssembler;
 import PAI.domain.programme.Programme;
+import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
 import PAI.dto.Programme.*;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentIdDTO;
+import PAI.dto.programmeEnrolment.ProgrammeEnrolmentListIDDTO;
 import PAI.dto.student.StudentIDDTO;
 import PAI.dto.studyPlan.RegisterStudyPlanCommand;
 import PAI.dto.studyPlan.StudyPlanResponseDTO;
@@ -166,12 +168,12 @@ public class ProgrammeRestController {
     }
 
     @GetMapping("/{id}/programmes-enrolled-in")
-    public ResponseEntity<List<ProgrammeEnrolmentIdDTO>> getAllProgrammesThatTheStudentIsEnrolledIn(@PathVariable("id") String id) {
+    public ResponseEntity<List<ProgrammeEnrolmentListIDDTO>> getAllProgrammesThatTheStudentIsEnrolledIn(@PathVariable("id") String id) {
         try {
             StudentIDDTO dto = new StudentIDDTO(id);
             StudentID studentID = _studentAssembler.toIdDTO(dto);
-            List<ProgrammeEnrolmentID> programmeEnrolmentID = _programmeEnrolmentService.listOfProgrammesStudentIsEnrolledIn(studentID);
-            return ResponseEntity.ok(_programmeEnrolmentAssembler.toListOfDTOs(programmeEnrolmentID));
+            List<ProgrammeEnrolment> programmeEnrolment = _programmeEnrolmentService.listOfProgrammesStudentIsEnrolledIn(studentID);
+            return ResponseEntity.ok(_programmeEnrolmentAssembler.toListOfDTOs(programmeEnrolment));
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

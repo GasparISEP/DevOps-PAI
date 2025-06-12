@@ -42,8 +42,7 @@ public class ProgrammeEditionControllerAssembler implements IProgrammeEditionCon
             throw new IllegalArgumentException("ProgrammeEditionID cannot be null");
         }
         String acronym = id.getProgrammeID().getAcronym().getAcronym();
-        String name = id.getProgrammeID().getProgrammeAcronym();
         String schoolYearId = id.getSchoolYearID().getSchoolYearID().toString();
-        return new ProgrammeEditionIdDto(acronym, name, schoolYearId);
+        return new ProgrammeEditionIdDto(acronym, schoolYearId);
     }
 }

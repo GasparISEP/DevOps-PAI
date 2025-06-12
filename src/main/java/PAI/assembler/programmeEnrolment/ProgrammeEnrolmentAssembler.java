@@ -6,6 +6,7 @@ import PAI.domain.student.Student;
 import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentDTO;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentIdDTO;
+import PAI.dto.programmeEnrolment.ProgrammeEnrolmentListIDDTO;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentResponseDTO;
 import org.springframework.stereotype.Component;
 
@@ -57,19 +58,20 @@ public class ProgrammeEnrolmentAssembler implements IProgrammeEnrolmentAssembler
     }
 
     @Override
-    public ProgrammeEnrolmentIdDTO toDTO(ProgrammeEnrolmentID programmeEnrolmentID) {
-        if (programmeEnrolmentID == null) {
+    public ProgrammeEnrolmentListIDDTO toDTO(ProgrammeEnrolment programmeEnrolment) {
+        if (programmeEnrolment == null) {
             throw new IllegalArgumentException("Programme ID cannot be null");
         }
-        String programmeAcronym = programmeEnrolmentID.getProgrammeEnrolmentId();
-        return new ProgrammeEnrolmentIdDTO(UUID.fromString(programmeAcronym));
+        String programmeAcronym = programmeEnrolment.getProgrammeID().getProgrammeAcronym();
+        String programmeEnrolmentGeneratedID = programmeEnrolment.getProgrammeEnrolmentGeneratedID().getProgrammeEnrolmentGID().toString();
+        return new ProgrammeEnrolmentListIDDTO(programmeAcronym, programmeEnrolmentGeneratedID);
     }
 
     @Override
-    public List<ProgrammeEnrolmentIdDTO> toListOfDTOs(List<ProgrammeEnrolmentID> listIDs) {
-        List<ProgrammeEnrolmentIdDTO> listProg = new ArrayList<>();
-        for (ProgrammeEnrolmentID existingID : listIDs) {
-            listProg.add(toDTO((existingID)));
+    public List<ProgrammeEnrolmentListIDDTO> toListOfDTOs(List<ProgrammeEnrolment> listIDs) {
+        List<ProgrammeEnrolmentListIDDTO> listProg = new ArrayList<>();
+        for (ProgrammeEnrolment existing : listIDs) {
+            listProg.add(toDTO((existing)));
         }
         return listProg;
     }

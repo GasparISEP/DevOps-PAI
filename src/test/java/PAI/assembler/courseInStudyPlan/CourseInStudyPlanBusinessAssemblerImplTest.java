@@ -29,6 +29,7 @@ class CourseInStudyPlanBusinessAssemblerImplTest {
 
         DurationCourseInCurricularYear duration = new DurationCourseInCurricularYear(2);
         CourseQuantityCreditsEcts credits = new CourseQuantityCreditsEcts(6.0);
+        CourseInStudyPlanGeneratedID generatedID = CourseInStudyPlanGeneratedID.randomID();
 
         CourseInStudyPlan course = new CourseInStudyPlan(
                 semester,
@@ -37,7 +38,8 @@ class CourseInStudyPlanBusinessAssemblerImplTest {
                 studyPlanID,
                 courseInStudyPlanID,
                 duration,
-                credits
+                credits,
+                generatedID
         );
 
         // Act
@@ -52,8 +54,7 @@ class CourseInStudyPlanBusinessAssemblerImplTest {
         assertEquals(studyPlanDate.toString(), dto.studyPlanDate());
         assertEquals(2, dto.duration());
         assertEquals(6.0, dto.credits());
-        assertEquals(courseID, dto.courseId());
-        assertEquals(studyPlanID, dto.studyPlanId());
+        assertEquals(generatedID.getId(), dto.generatedID());
     }
 
     @Test

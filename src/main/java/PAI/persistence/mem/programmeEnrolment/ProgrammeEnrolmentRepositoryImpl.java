@@ -87,11 +87,11 @@ public class ProgrammeEnrolmentRepositoryImpl implements IProgrammeEnrolmentRepo
     }
 
     @Override
-    public List<ProgrammeEnrolmentID> listOfProgrammesStudentIsEnrolledIn(StudentID studentID) {
-        List<ProgrammeEnrolmentID> programmes = new ArrayList<>();
+    public List<ProgrammeEnrolment> listOfProgrammesStudentIsEnrolledIn(StudentID studentID) {
+        List<ProgrammeEnrolment> programmes = new ArrayList<>();
         for (ProgrammeEnrolment existingEnrolment : _programmeEnrolmentList) {
             if (existingEnrolment.hasSameStudent(studentID)) {
-                programmes.add(existingEnrolment.getProgrammeEnrolmentID());
+                programmes.add(existingEnrolment);
             }
         }
         return programmes;

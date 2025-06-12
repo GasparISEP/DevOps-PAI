@@ -51,7 +51,7 @@ public class ProgrammeEnrolmentServiceImpl implements IProgrammeEnrolmentService
     }
 
     @Override
-    public List<ProgrammeEnrolmentID> listOfProgrammesStudentIsEnrolledIn(StudentID studentID) {
+    public List<ProgrammeEnrolment> listOfProgrammesStudentIsEnrolledIn(StudentID studentID) {
         return _peRepository.listOfProgrammesStudentIsEnrolledIn(studentID);
     }
 }

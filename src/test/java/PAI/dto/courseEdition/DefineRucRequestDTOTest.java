@@ -34,7 +34,8 @@ class DefineRucRequestDTOTest {
     @Test
     void shouldPassValidation_WhenAllFieldsAreValid() {
         //arrange
-        DefineRucRequestDTO dto = new DefineRucRequestDTO("GOM", validCourseEditionDTO());
+        UUID id = UUID.randomUUID();
+        DefineRucRequestDTO dto = new DefineRucRequestDTO("GOM", id);
         //act
         Set<ConstraintViolation<DefineRucRequestDTO>> violations = validator.validate(dto);
         //assert
@@ -44,7 +45,8 @@ class DefineRucRequestDTOTest {
     @Test
     void shouldFailWhenTeacherIDIsBlank() {
         //arrange
-        DefineRucRequestDTO dto = new DefineRucRequestDTO("", validCourseEditionDTO());
+        UUID id = UUID.randomUUID();
+        DefineRucRequestDTO dto = new DefineRucRequestDTO("", id);
         //act
         Set<ConstraintViolation<DefineRucRequestDTO>> violations = validator.validate(dto);
         //assert
@@ -55,15 +57,18 @@ class DefineRucRequestDTOTest {
     }
 
     @Test
-    void shouldFailWhenCourseEditionDTOIsNull() {
-        //arrange
+    void shouldFailWhenCourseEditionIDIsNull() {
+        // arrange
         DefineRucRequestDTO dto = new DefineRucRequestDTO("GOM", null);
-        //act
+
+        // act
         Set<ConstraintViolation<DefineRucRequestDTO>> violations = validator.validate(dto);
-        //assert
+
+        // assert
         assertFalse(violations.isEmpty());
         assertTrue(violations.stream().anyMatch(v ->
-                v.getPropertyPath().toString().equals("courseEditionDTO") &&
+                v.getPropertyPath().toString().equals("courseEditionID") &&
                         v.getMessage().equals("Course edition is required")));
     }
+
 }

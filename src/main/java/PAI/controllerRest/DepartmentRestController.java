@@ -1,6 +1,5 @@
 package PAI.controllerRest;
 
-import PAI.VOs.DepartmentAcronym;
 import PAI.assembler.department.IDepartmentAssembler;
 
 import PAI.dto.department.*;
@@ -17,7 +16,6 @@ import PAI.VOs.DepartmentID;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import PAI.VOs.TeacherID;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -68,7 +66,7 @@ public class DepartmentRestController {
         try {
             Iterable<Department> departments = departmentRegistrationService.getAllDepartments();
             Iterable<DepartmentWithDirectorDTO> departmentsDTOs = departmentAssembler.toDWDDTOs(departments);
-            return ResponseEntity.ok(departmentsDTOs);
+            return ResponseEntity.ok(departmentHateoasAssembler.toDiretorCollectionModel(departmentsDTOs));
 
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

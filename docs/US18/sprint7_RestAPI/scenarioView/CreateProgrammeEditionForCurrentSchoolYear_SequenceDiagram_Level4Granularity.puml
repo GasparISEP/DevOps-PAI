@@ -13,13 +13,14 @@ autonumber
 participant ":Router" as Router
 participant ":ProgrammeRestController" as ProgrammeController
 participant ":ProgrammeEditionRESTController" as ProgrammeEditionController
-participant ":IProgrammeEditionRegistrationService" as ProgrammeEditionService
+participant ":ProgrammeEditionHateoasAssembler" as HateoasAssembler
+participant ":IProgrammeEditionService" as ProgrammeEditionService
 participant ":IProgrammeEditionFactory" as ProgrammeEditionFactory
 
 '''''''''''''''''''''''''''''''''''''''''
 
 'get all programmes name
--> Router: GET /programmes
+[o-> Router: GET /programmes
 activate Router  #E1F5FE
 Router -> ProgrammeController : getAllProgrammes()
 activate ProgrammeController #E1F5FE
@@ -33,14 +34,14 @@ ref over ProgrammeController
        <b>Get List of Programmes</b>
 end ref
 
-ProgrammeController --> Router: 200 OK – List<ProgrammeDTO>
+ProgrammeController --> Router: 200 OK + body {List<ProgrammeDTO> + hypermedia}
 deactivate ProgrammeController
-<-- Router: 200 OK – List<ProgrammeDTO> as JSON
+[o<-- Router: 200 OK + body {List<ProgrammeDTO> + hypermedia}
 deactivate Router
 
 '''''''''''''''''''''''''''''''''''''''''
 
--> Router:  POST /programme-editions + body {"programmeId":d1f9c6a4-3e7b-4a9f-bd43-7a2d8f4e1c9b}
+[o-> Router:  POST /programme-editions + body {"programme": {"acronym": "CSD" }}
 activate Router #E1F5FE
 
 
@@ -53,16 +54,16 @@ incoming JSON into DTOs and vice versa
 end note
 
 ref over ProgrammeEditionController
-    Convert programmeEditionRequestDTO to programmeEditionServiceDTO
+    Convert programmeEditionRequestDTO to programmeEditionServiceRequestDTO
 end
 
 
 
 'create programmeEdition for current School Year
 activate ProgrammeEditionController #E1F5FE
-ProgrammeEditionController -> ProgrammeEditionService:createProgrammeEditionAndSave(programmeEditionDTO)
+ProgrammeEditionController -> ProgrammeEditionService:createProgrammeEditionAndSave(programmeEditionServiceRequestDTO)
 ref over ProgrammeEditionService
-    Convert programmeEditionServiceDTO to programmeID
+    Convert programmeEditionServiceRequestDTO to programmeID
 end
 
 ref over ProgrammeEditionService
@@ -128,26 +129,40 @@ deactivate PER
 participant ":IProgrammeEditionAssembler" as ProgrammeEditionAssembler
 ProgrammeEditionService --> ProgrammeEditionAssembler: toDTO(pe1ID, syID)
 activate ProgrammeEditionAssembler #E1F5FE
-create "programmeEditionDTO:ProgrammeEditionServiceDTO" as programmeEditionServiceDTO
+create "programmeEditionServiceResponseDTO:ProgrammeEditionServiceResponseDTO" as programmeEditionServiceResponseDTO
 
-ProgrammeEditionAssembler -> programmeEditionServiceDTO : newProgrammeEditionServiceDTO ()
-activate programmeEditionServiceDTO #E1F5FE
+ProgrammeEditionAssembler -> programmeEditionServiceResponseDTO : newProgrammeEditionServiceResponseDTO ()
 
-programmeEditionServiceDTO --> ProgrammeEditionAssembler: programmeEditionServiceDTO
-deactivate programmeEditionServiceDTO
-ProgrammeEditionAssembler --> ProgrammeEditionService: programmeEditionServiceDTO
+deactivate programmeEditionServiceResponseDTO
+
 deactivate ProgrammeEditionAssembler
 
-ProgrammeEditionService --> ProgrammeEditionController: programmeEditionServiceDTO
+ProgrammeEditionService --> ProgrammeEditionController: programmeEditionServiceResponseDTO
 deactivate ProgrammeEditionService
 ref over ProgrammeEditionController
-    Convert programmeEditionServiceDTO to programmeEditionResponseDTO
+    Convert programmeEditionServiceResponseDTO to programmeEditionResponseDTO
 end
 
+ProgrammeEditionController -> HateoasAssembler: toModel(ProgrammeEditionResponseDTO)
+activate HateoasAssembler  #E1F5FE
 
-ProgrammeEditionController --> Router : 201 + body {ProgrammeEditionResponseDTO + hypermedia}
+HateoasAssembler --> ProgrammeEditionController:  EntityModel<ProgrammeEditionResponseDTO>
+deactivate HateoasAssembler
+
+ProgrammeEditionController --> Router :  201 Created + body {ProgrammeEditionResponseDTO + hypermedia}
 deactivate ProgrammeEditionController
 
-<-- Router: 201 + body {ProgrammeEditionResponseDTO + hypermedia}
+
+note over Router #EEEEEE
+  ProgrammeEditionResponseDTO body:
+  {
+      "programme": {
+          "acronym": "CSD"
+      },
+      "schoolYearId": "f9dd5042-1ce9-46cc-a7f5-0da5a2daaff1"
+  }
+end note
+
+[o<- Router: 201 Created + body {ProgrammeEditionResponseDTO + hypermedia}
 deactivate Router
 @enduml

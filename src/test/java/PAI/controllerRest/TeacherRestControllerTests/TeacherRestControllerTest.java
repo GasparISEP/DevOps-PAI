@@ -1,4 +1,4 @@
-package PAI.controllerRest;
+package PAI.controllerRest.TeacherRestControllerTests;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,6 +9,7 @@ import PAI.assembler.teacher.ITeacherWithRelevantDataHateoasAssembler;
 import PAI.assembler.teacherCareerProgression.ITeacherCareerProgressionAssembler;
 import PAI.assembler.teacherCareerProgression.IUpdateTeacherCategoryHateoasAssembler;
 import PAI.assembler.teacherCareerProgression.IUpdateTeacherWorkingPercentageHateoasAssembler;
+import PAI.controllerRest.TeacherRestController;
 import PAI.domain.teacher.Teacher;
 import PAI.domain.teacherCareerProgression.TeacherCareerProgression;
 import PAI.dto.teacher.*;

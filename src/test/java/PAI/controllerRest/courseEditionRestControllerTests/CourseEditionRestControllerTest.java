@@ -381,79 +381,80 @@ class CourseEditionRestControllerTest {
     }
 
     @Test
-    void whenDefineRucSuccessfullyThenReturnsAcceptedWithHateoas() throws Exception {
+    void whenDefineRucSuccessfullyThenReturnsOkWithHateoas() throws Exception {
         // Arrange
-        SelectedCourseEditionIdDTO courseEditionDTO = new SelectedCourseEditionIdDTO(
-                "Data Science", "DSD", UUID.randomUUID(), "ARIT", "Arithmancy", LocalDate.now());
-
-        DefineRucRequestDTO requestDTO = new DefineRucRequestDTO("AAB", courseEditionDTO);
+        UUID uuid = UUID.randomUUID();
+        DefineRucRequestDTO requestDTO = new DefineRucRequestDTO("AAB", null); // Pass null or adjust constructor to only require teacherID if needed
 
         TeacherID teacherID = mock(TeacherID.class);
-        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+        CourseEditionGeneratedID courseEditionID = mock(CourseEditionGeneratedID.class);
 
         when(courseEditionAssembler.createTeacherID("AAB")).thenReturn(teacherID);
-        when(courseEditionAssembler.fromDtoToCourseEditionID(courseEditionDTO)).thenReturn(courseEditionID);
+        when(courseEditionAssembler.fromDtoToCourseEditionGeneratedID(new SelectedCourseEditionGeneratedIdDTO(uuid))).thenReturn(courseEditionID);
         when(defineRucService.assignRucToCourseEdition(teacherID, courseEditionID)).thenReturn(true);
 
         when(courseEditionHateoasAssembler.toModel(any(DefineRucResponseDTO.class)))
                 .thenAnswer(invocation -> {
                     DefineRucResponseDTO dto = invocation.getArgument(0);
                     EntityModel<DefineRucResponseDTO> model = EntityModel.of(dto);
-                    model.add(Link.of("http://localhost/courseeditions/ruc").withRel("define-ruc"));
+                    model.add(Link.of("http://localhost/courseeditions/" + dto.courseEditionID() + "/ruc").withRel("define-ruc"));
                     return model;
                 });
 
         // Act & Assert
-        mockMvc.perform(patch("/courseeditions/ruc")
+        mockMvc.perform(patch("/courseeditions/{id}/ruc", uuid.toString())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDTO)))
-                .andExpect(status().isAccepted())
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.teacherID").value("AAB"))
-                .andExpect(jsonPath("$.courseEditionDTO.courseName").value("Arithmancy"))
-                .andExpect(jsonPath("$._links.define-ruc.href").value("http://localhost/courseeditions/ruc"));
+                .andExpect(jsonPath("$.courseEditionID").value(uuid.toString()))
+                .andExpect(jsonPath("$._links.define-ruc.href").value("http://localhost/courseeditions/" + uuid.toString() + "/ruc"));
     }
 
     @Test
     void whenDefineRucFailsThenReturnsInternalServerError() throws Exception {
         // Arrange
-        SelectedCourseEditionIdDTO courseEditionDTO = new SelectedCourseEditionIdDTO(
-                "LEI", "LEIC", UUID.randomUUID(), "POO", "Programming", LocalDate.now());
+        UUID uuid = UUID.randomUUID();
+        SelectedCourseEditionGeneratedIdDTO courseEditionDTO = new SelectedCourseEditionGeneratedIdDTO(uuid);
 
-        DefineRucRequestDTO requestDTO = new DefineRucRequestDTO("GOM", courseEditionDTO);
+        DefineRucRequestDTO requestDTO = new DefineRucRequestDTO("GOM", null); // or omit courseEditionID if possible
 
         TeacherID teacherID = mock(TeacherID.class);
-        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+        CourseEditionGeneratedID courseEditionID = mock(CourseEditionGeneratedID.class);
 
         when(courseEditionAssembler.createTeacherID("GOM")).thenReturn(teacherID);
-        when(courseEditionAssembler.fromDtoToCourseEditionID(courseEditionDTO)).thenReturn(courseEditionID);
-        doThrow(new RuntimeException("DB error")).when(defineRucService).assignRucToCourseEdition(teacherID, courseEditionID);
+        when(courseEditionAssembler.fromDtoToCourseEditionGeneratedID(courseEditionDTO)).thenReturn(courseEditionID);
+
+        // Simulate an exception thrown by the service
+        doThrow(new RuntimeException("DB error"))
+                .when(defineRucService).assignRucToCourseEdition(teacherID, courseEditionID);
 
         // Act & Assert
-        mockMvc.perform(patch("/courseeditions/ruc")
+        mockMvc.perform(patch("/courseeditions/{id}/ruc", uuid.toString())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDTO)))
                 .andExpect(status().isInternalServerError())
                 .andExpect(content().string("Unexpected error occurred"));
     }
 
+
     @Test
     void whenAssignRucThrowsIllegalArgumentExceptionThenReturnsNotFoundWithMessage() throws Exception {
         // Arrange
-        SelectedCourseEditionIdDTO courseEditionDTO = new SelectedCourseEditionIdDTO(
-                "LEI", "LEIC", UUID.randomUUID(), "POO", "Programming", LocalDate.now());
-
-        DefineRucRequestDTO requestDTO = new DefineRucRequestDTO("GOM", courseEditionDTO);
+        UUID uuid = UUID.randomUUID();
+        SelectedCourseEditionGeneratedIdDTO courseEditionDTO = new SelectedCourseEditionGeneratedIdDTO(uuid);
+        DefineRucRequestDTO requestDTO = new DefineRucRequestDTO("GOM", null); // courseEditionID null or omitted
 
         TeacherID teacherID = mock(TeacherID.class);
-        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+        CourseEditionGeneratedID courseEditionID = mock(CourseEditionGeneratedID.class);
 
         when(courseEditionAssembler.createTeacherID("GOM")).thenReturn(teacherID);
-        when(courseEditionAssembler.fromDtoToCourseEditionID(courseEditionDTO)).thenReturn(courseEditionID);
+        when(courseEditionAssembler.fromDtoToCourseEditionGeneratedID(courseEditionDTO)).thenReturn(courseEditionID);
         when(defineRucService.assignRucToCourseEdition(teacherID, courseEditionID))
                 .thenThrow(new IllegalArgumentException("Invalid teacher or course edition"));
 
         // Act & Assert
-        mockMvc.perform(patch("/courseeditions/ruc")
+        mockMvc.perform(patch("/courseeditions/{id}/ruc", uuid.toString())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDTO)))
                 .andExpect(status().isNotFound())

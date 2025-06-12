@@ -1,10 +1,12 @@
 package PAI.service.courseEdition;
+import PAI.VOs.CourseEditionGeneratedID;
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.TeacherID;
 import PAI.domain.courseEdition.CourseEdition;
 import PAI.domain.repositoryInterfaces.courseEdition.ICourseEditionRepository;
 import PAI.domain.repositoryInterfaces.teacher.ITeacherRepository;
 import PAI.domain.teacher.Teacher;
+import PAI.service.teacher.ITeacherService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -14,15 +16,15 @@ import java.util.Optional;
 public class DefineRucServiceImpl implements IDefineRucService {
 
     private final ICourseEditionRepository courseEditionRepository;
-    private final ITeacherRepository teacherRepository;
+    private final ITeacherService teacherService;
 
-    public DefineRucServiceImpl(ICourseEditionRepository courseEditionRepository, ITeacherRepository teacherRepository) {
-        if (teacherRepository==null)
+    public DefineRucServiceImpl(ICourseEditionRepository courseEditionRepository, ITeacherService teacherService) {
+        if (teacherService==null)
             throw new IllegalArgumentException("TeacherRepository cannot be null");
         if (courseEditionRepository == null)
             throw new IllegalArgumentException("CourseEditionRepository cannot be null");
 
-        this.teacherRepository = teacherRepository;
+        this.teacherService = teacherService;
         this.courseEditionRepository = courseEditionRepository;
     }
 
@@ -31,18 +33,17 @@ public class DefineRucServiceImpl implements IDefineRucService {
     }
 
     public Iterable <Teacher> findAllTeachers() {
-        return teacherRepository.findAll();
+        return teacherService.getAllTeachers();
     }
 
     @Override
     @Transactional
-    public boolean assignRucToCourseEdition(TeacherID teacherId, CourseEditionID courseEditionId) {
-        if (!teacherRepository.containsOfIdentity(teacherId)) {
+    public boolean assignRucToCourseEdition(TeacherID teacherId, CourseEditionGeneratedID courseEditionId) throws Exception {
+        if (!teacherService.existsById(teacherId)) {
             throw new IllegalArgumentException("Teacher with given ID does not exist.");
         }
 
-        Optional<CourseEdition> optionalEdition = courseEditionRepository.ofIdentity(courseEditionId);
-
+        Optional<CourseEdition> optionalEdition = courseEditionRepository.findCourseEditionByGeneratedId(courseEditionId);
         if (optionalEdition.isEmpty()) {
             return false;
         }

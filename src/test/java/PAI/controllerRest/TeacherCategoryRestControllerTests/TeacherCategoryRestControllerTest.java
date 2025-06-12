@@ -4,6 +4,7 @@ import PAI.VOs.Name;
 import PAI.VOs.TeacherCategoryID;
 import PAI.assembler.teacherCategory.*;
 import PAI.controllerRest.TeacherCategoryRestController;
+import PAI.controllerRest.TeacherRestController;
 import PAI.domain.teacherCategory.TeacherCategory;
 import PAI.dto.teacherCategory.TeacherCategoryDTO;
 import PAI.dto.teacherCategory.TeacherCategoryRequestDTO;
@@ -20,6 +21,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -35,9 +37,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@Transactional
+@WebMvcTest(TeacherCategoryRestController.class)
 class TeacherCategoryRestControllerTest {
 
     @Autowired

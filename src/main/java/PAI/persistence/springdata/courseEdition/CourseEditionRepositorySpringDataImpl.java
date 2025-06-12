@@ -1,14 +1,17 @@
 package PAI.persistence.springdata.courseEdition;
 
+import PAI.VOs.CourseEditionGeneratedID;
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.CourseInStudyPlanID;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.domain.courseEdition.CourseEdition;
+import PAI.mapper.courseEdition.ICourseEditionGeneratedIDMapper;
 import PAI.mapper.courseEdition.ICourseEditionIDMapper;
 import PAI.mapper.courseEdition.ICourseEditionMapper;
 import PAI.mapper.courseInStudyPlan.ICourseInStudyPlanIDMapper;
 import PAI.mapper.programmeEdition.IProgrammeEditionIdMapper;
 import PAI.persistence.datamodel.courseEdition.CourseEditionDataModel;
+import PAI.persistence.datamodel.courseEdition.CourseEditionGeneratedIDDataModel;
 import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
 import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanIDDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
@@ -27,8 +30,9 @@ public class CourseEditionRepositorySpringDataImpl implements ICourseEditionRepo
     private final ICourseEditionIDMapper courseEditionIDMapper;
     private final IProgrammeEditionIdMapper programmeEditionIdMapper;
     private final ICourseInStudyPlanIDMapper courseInStudyPlanIDMapper;
+    private final ICourseEditionGeneratedIDMapper courseEditionGeneratedIDMapper;
 
-    public CourseEditionRepositorySpringDataImpl(ICourseEditionRepositorySpringData courseEditionReposSD, ICourseEditionMapper courseEditionMapper, ICourseEditionIDMapper courseEditionIDMapper, IProgrammeEditionIdMapper programmeEditionIdMapper, ICourseInStudyPlanIDMapper courseInStudyPlanIDMapper) {
+    public CourseEditionRepositorySpringDataImpl(ICourseEditionRepositorySpringData courseEditionReposSD, ICourseEditionMapper courseEditionMapper, ICourseEditionIDMapper courseEditionIDMapper, IProgrammeEditionIdMapper programmeEditionIdMapper, ICourseInStudyPlanIDMapper courseInStudyPlanIDMapper, ICourseEditionGeneratedIDMapper courseEditionGeneratedIDMapper) {
 
         if (courseEditionReposSD == null)
             throw new IllegalArgumentException("CourseEditionRepositorySpringData cannot be null");
@@ -40,7 +44,7 @@ public class CourseEditionRepositorySpringDataImpl implements ICourseEditionRepo
             throw new IllegalArgumentException("ProgrammeEditionIdMapper cannot be null");
         if (courseInStudyPlanIDMapper == null)
             throw new IllegalArgumentException("CourseInStudyPlanIDMapper cannot be null");
-
+        this.courseEditionGeneratedIDMapper = courseEditionGeneratedIDMapper;
         this.courseEditionRepositorySpringData = courseEditionReposSD;
         this.courseEditionMapper = courseEditionMapper;
         this.courseEditionIDMapper = courseEditionIDMapper;
@@ -152,6 +156,18 @@ public class CourseEditionRepositorySpringDataImpl implements ICourseEditionRepo
             }
         }
         return courseEditionIDs;
+    }
+    @Override
+    public Optional<CourseEdition> findCourseEditionByGeneratedId(CourseEditionGeneratedID id) throws Exception {
+        CourseEditionGeneratedIDDataModel IDDatamodel =  courseEditionGeneratedIDMapper.toDataModel(id);
+        CourseEditionDataModel courseEditionDataModel = courseEditionRepositorySpringData.findCourseEditionByGeneratedId(IDDatamodel);
+
+        if (courseEditionDataModel != null) {
+            CourseEdition courseEdition = courseEditionMapper.toDomain(courseEditionDataModel);
+            return Optional.of(courseEdition);
+        } else {
+            return Optional.empty();
+        }
     }
 
 }

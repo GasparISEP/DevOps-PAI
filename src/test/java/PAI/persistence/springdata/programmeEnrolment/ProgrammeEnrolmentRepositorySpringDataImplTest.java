@@ -558,12 +558,12 @@ class ProgrammeEnrolmentRepositorySpringDataImplTest {
         when(enrolments2.identity()).thenReturn(domainID2);
 
         // act
-        List<ProgrammeEnrolmentID> result = repository.listOfProgrammesStudentIsEnrolledIn(studentID);
+        List<ProgrammeEnrolment> result = repository.listOfProgrammesStudentIsEnrolledIn(studentID);
 
         // assert
         assertEquals(2, result.size());
-        assertTrue(result.contains(domainID1));
-        assertTrue(result.contains(domainID2));
+        assertTrue(result.contains(enrolments1));
+        assertTrue(result.contains(enrolments2));
     }
 
 }

@@ -55,6 +55,11 @@ const NavBar = () => {
                   </Link>
                 </li>
                 <li>
+                  <Link to="/students/enroll" className="navbar-link" onClick={() => setIsStudentOpen(false)}>
+                    Enroll Student
+                  </Link>
+                </li>
+                <li>
                   <Link to="/students/display" className="navbar-link" onClick={() => setIsStudentOpen(false)}>
                     Display Students
                   </Link>
@@ -87,7 +92,7 @@ const NavBar = () => {
             </span>
               <ul className={`navbar-dropdown-menu${isOpenCourseEdition ? ' show' : ''}`}>
                 <li>
-                  <Link to="/courseeditions/gradeastudent" className="navbar-link">
+                  <Link to="/courseeditions/register-grade-student" className="navbar-link">
                     Grade A Student
                   </Link>
                 </li>

@@ -13,6 +13,7 @@ import PAI.domain.repositoryInterfaces.programmeEditionEnrolment.IProgrammeEditi
 import PAI.dto.programmeEdition.RequestServiceDto;
 import PAI.dto.programmeEdition.ProgrammeEditionRequestServiceDTO;
 import PAI.dto.programmeEdition.ProgrammeEditionResponseServiceDTO;
+import PAI.service.programme.IProgrammeService;
 import PAI.service.programmeEditionEnrolment.IProgrammeEditionEnrolmentService;
 import PAI.service.schoolYear.ISchoolYearService;
 import org.springframework.stereotype.Service;
@@ -26,14 +27,14 @@ import java.util.stream.StreamSupport;
 public class ProgrammeEditionService implements IProgrammeEditionService {
     private final IProgrammeEditionFactory programmeEditionFactory;
     private final IProgrammeEditionRepository programmeEditionRepository;
-    private final IProgrammeRepository programmeRepository;
+    private final IProgrammeService programmeService;
     private final IProgrammeEditionServiceAssembler programmeEditionAssembler;
     private final ISchoolYearService schoolYearService;
     private final IProgrammeEditionEnrolmentService programmeEditionEnrolmentService;
 
     public ProgrammeEditionService (IProgrammeEditionFactory programmeEditionFactory,
                                     IProgrammeEditionRepository programmeEditionRepository,
-                                    IProgrammeRepository programmeRepository,
+                                    IProgrammeService programmeService,
                                     IProgrammeEditionServiceAssembler programmeEditionAssembler,
                                     ISchoolYearService schoolYearService,
                                     IProgrammeEditionEnrolmentService programmeEditionEnrolmentService) {
@@ -49,11 +50,10 @@ public class ProgrammeEditionService implements IProgrammeEditionService {
         }
         this.programmeEditionRepository = programmeEditionRepository;
 
-        if (programmeRepository == null) {
-            throw new IllegalArgumentException("ProgrammeRepository cannot be null!");
+        if (programmeService == null) {
+            throw new IllegalArgumentException("ProgrammeService cannot be null!");
         }
-        this.programmeRepository = programmeRepository;
-
+        this.programmeService = programmeService;
 
         if (programmeEditionAssembler == null) {
             throw new IllegalArgumentException("ProgrammeEditionAssembler cannot be null!");
@@ -126,9 +126,13 @@ public class ProgrammeEditionService implements IProgrammeEditionService {
     }
 
     @Override
-    public int countTotalNumberOfStudentsInAProgrammeEdition(RequestServiceDto programmeEditionDTO) throws Exception {
-        ProgrammeEdition programmeEdition = programmeEditionAssembler.toProgrammeEditionFromRequestServiceDTO(programmeEditionDTO);
-        return programmeEditionEnrolmentService.totalStudentsInProgrammeEdition(programmeEdition.identity());
+    public int countTotalNumberOfStudentsInAProgrammeEdition(RequestServiceDto programmeEditionDTO) {
+        try {
+            ProgrammeEdition programmeEdition = programmeEditionAssembler.toProgrammeEditionFromRequestServiceDTO(programmeEditionDTO);
+            return programmeEditionEnrolmentService.totalStudentsInProgrammeEdition(programmeEdition.identity());
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao contar estudantes na edição do programa", e);
+        }
     }
 
     @Override
@@ -136,7 +140,7 @@ public class ProgrammeEditionService implements IProgrammeEditionService {
         ProgrammeID programmeID = programmeEditionAssembler.toProgrammeID(programmeEditionDTO);
         SchoolYearID schoolYearID = schoolYearService.getCurrentSchoolYearID().orElseThrow(() -> new IllegalArgumentException("No current School Year found."));
 
-        if (!programmeRepository.containsOfIdentity(programmeID)) {
+        if (programmeService.getProgrammeByID(programmeID).isEmpty()) {
             throw new IllegalArgumentException("Programme does not exist.");
         }
 

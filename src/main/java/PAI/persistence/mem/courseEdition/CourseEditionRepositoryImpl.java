@@ -1,5 +1,6 @@
 package PAI.persistence.mem.courseEdition;
 
+import PAI.VOs.CourseEditionGeneratedID;
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.CourseInStudyPlanID;
 import PAI.VOs.ProgrammeEditionID;
@@ -121,5 +122,15 @@ public class CourseEditionRepositoryImpl implements ICourseEditionRepository {
             }
         }
         return courseEditionIDs;
+    }
+    @Override
+    public Optional<CourseEdition> findCourseEditionByGeneratedId(CourseEditionGeneratedID id) {
+        if (id == null) {
+            return Optional.empty();
+        } else {
+            return _courseEditions.stream()
+                    .filter(courseEdition -> courseEdition.getCourseEditionGeneratedID().equals(id))
+                    .findAny();
+        }
     }
 }

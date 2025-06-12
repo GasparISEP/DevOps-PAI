@@ -11,7 +11,7 @@ skinparam {
 skinparam defaultTextAlignment center
 skinparam shadowing true
 
-participant ":US01_ConfigureTeacherCategoryRESTController" as Controller
+participant ":TeacherCategoryRESTController" as Controller
 participant ":ITeacherCategoryExternalAssembler" as tcAssembler
 activate Controller #E1F5FE
 Controller -> tcAssembler: toResponseDTO (tcSavedDTO)

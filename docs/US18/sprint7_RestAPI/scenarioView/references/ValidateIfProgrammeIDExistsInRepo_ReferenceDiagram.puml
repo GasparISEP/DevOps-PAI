@@ -1,0 +1,41 @@
+@startuml
+title ValidateIfProgrammeExistsInRepository \n (Reference Diagram)
+
+skinparam titleFontName "Verdana"
+skinparam defaultFontName "Verdana"
+skinparam defaultTextAlignment center
+skinparam shadowing true
+skinparam actorBackgroundColor #lightblue
+skinparam participantBackgroundColor #lightblue/white
+
+autonumber
+
+participant ":IProgrammeEditionService" as ProgrammeEditionService
+participant ":IProgrammeRepository" as ProgrammeRepo
+participant ":ProgrammeRepositorySpringDataImpl" as ProgrammeRepoSpringDataImpl
+participant ":IProgrammeRepositorySpringData" as IProgrammeRepositorySpringData
+participant ":IProgrammeIDMapper" as ProgrammeIDMapper
+
+ProgrammeEditionService -> ProgrammeRepo: containsOfIdentity(programmeID)
+activate ProgrammeEditionService #E1F5FE
+activate ProgrammeRepo #E1F5FE
+ProgrammeRepo -> ProgrammeRepoSpringDataImpl: containsOfIdentity(programmeID)
+activate ProgrammeRepoSpringDataImpl #E1F5FE
+ProgrammeRepoSpringDataImpl -> ProgrammeIDMapper: toData(programmeID)
+activate ProgrammeIDMapper #E1F5FE
+ProgrammeIDMapper -> "programmeID:ProgrammeID": getAcronym()
+activate  "programmeID:ProgrammeID" #E1F5FE
+ "programmeID:ProgrammeID" --> ProgrammeIDMapper: acronym
+deactivate  "programmeID:ProgrammeID"
+ProgrammeIDMapper -> "programmeIDDataModel:ProgrammeIDDataModel"**: new ProgrammeIDDataModel
+deactivate ProgrammeIDMapper
+
+ProgrammeRepoSpringDataImpl --> IProgrammeRepositorySpringData: existsById(programmeIDDataModel)
+activate IProgrammeRepositorySpringData #E1F5FE
+IProgrammeRepositorySpringData --> ProgrammeRepoSpringDataImpl: true
+deactivate IProgrammeRepositorySpringData
+ProgrammeRepoSpringDataImpl --> ProgrammeRepo: true
+deactivate ProgrammeRepoSpringDataImpl
+ProgrammeRepo --> ProgrammeEditionService
+deactivate ProgrammeRepo
+@enduml

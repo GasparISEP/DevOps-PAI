@@ -1,6 +1,7 @@
 package PAI.controllerRest;
 
 import PAI.VOs.*;
+import PAI.assembler.ProgrammeAndCourses.IProgrammeAndCoursesAssembler;
 import PAI.assembler.programmeEnrolment.IProgrammeEnrolmentHATEOASAssembler;
 import PAI.assembler.totalEnrolledStudentsInProgrammesByDepartmentAndSchoolYear.ITotalEnrolledStudentsAssembler;
 import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
@@ -8,11 +9,14 @@ import PAI.domain.student.Student;
 import PAI.assembler.student.IStudentDTOAssembler;
 import PAI.assembler.student.IStudentHateoasAssembler;
 import PAI.assembler.programmeEnrolment.IProgrammeEnrolmentAssembler;
+import PAI.dto.ProgrammeAndCourses.StudentEnrolmentResultDto;
+import PAI.dto.ProgrammeAndCourses.StudentProgrammeEnrolmentRequestDto;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentDTO;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentResponseDTO;
 import PAI.dto.student.StudentDTO;
 import PAI.dto.student.StudentResponseDTO;
 import PAI.service.programmeEnrolment.IProgrammeEnrolmentService;
+import PAI.service.student.IProgrammeAndCoursesEnrolmentService;
 import PAI.service.student.IStudentService;
 import PAI.service.totalEnrolledStudentsInProgrammesByDepartmentAndSchoolYear.ITotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearService;
 import org.springframework.hateoas.CollectionModel;
@@ -41,8 +45,14 @@ public class StudentRestController {
     private final ITotalEnrolledStudentsAssembler totalEnrolledStudentsAssembler;
     private final ITotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearService totalEnrolledStudentsService;
     private final IProgrammeEnrolmentHATEOASAssembler enrolmentHateoasAssembler;
+    private final IProgrammeAndCoursesEnrolmentService programmeAndCoursesEnrolmentService;
+    private final IProgrammeAndCoursesAssembler programmeAndCoursesAssembler;
 
-    public StudentRestController(IStudentService service, IStudentDTOAssembler mapper, IStudentHateoasAssembler hateoasAssembler, IProgrammeEnrolmentService programmeEnrolmentService, IProgrammeEnrolmentAssembler programmeEnrolmentMapper, ITotalEnrolledStudentsAssembler totalEnrolledStudentsAssembler, ITotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearService totalEnrolledStudentsService, IProgrammeEnrolmentHATEOASAssembler enrolmentHateoasAssembler) {
+    public StudentRestController(IStudentService service, IStudentDTOAssembler mapper, IStudentHateoasAssembler hateoasAssembler,
+                                 IProgrammeEnrolmentService programmeEnrolmentService, IProgrammeEnrolmentAssembler programmeEnrolmentMapper,
+                                 ITotalEnrolledStudentsAssembler totalEnrolledStudentsAssembler, ITotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearService totalEnrolledStudentsService,
+                                 IProgrammeEnrolmentHATEOASAssembler enrolmentHateoasAssembler,IProgrammeAndCoursesEnrolmentService programmeAndCoursesEnrolmentService,
+                                 IProgrammeAndCoursesAssembler programmeAndCoursesAssembler) {
         this.service = service;
         this.mapper = mapper;
         this.hateoasAssembler = hateoasAssembler;
@@ -51,6 +61,8 @@ public class StudentRestController {
         this.totalEnrolledStudentsAssembler = totalEnrolledStudentsAssembler;
         this.totalEnrolledStudentsService = totalEnrolledStudentsService;
         this.enrolmentHateoasAssembler = enrolmentHateoasAssembler;
+        this.programmeAndCoursesEnrolmentService = programmeAndCoursesEnrolmentService;
+        this.programmeAndCoursesAssembler = programmeAndCoursesAssembler;
     }
 
     @PostMapping
@@ -154,9 +166,17 @@ public class StudentRestController {
                 programmeEnrolmentMapper.toProgrammeEnrolmentDTO(pe);
         return ResponseEntity.ok(dto);
     }
+    @PostMapping("/{id}/enrolments")
+    public ResponseEntity<StudentEnrolmentResultDto> enrolStudent(@RequestBody StudentProgrammeEnrolmentRequestDto dto) throws Exception {
 
+        StudentID studentID = programmeAndCoursesAssembler.toStudentID(dto);
+        ProgrammeEditionID programmeEditionID = programmeAndCoursesAssembler.toProgrammeEditionID(dto);
+        List<CourseID> courseIDs = programmeAndCoursesAssembler.toCourseIDs(dto);
 
+        US34Response result = programmeAndCoursesEnrolmentService.enrollStudentInProgrammeAndCourses(studentID, programmeEditionID, courseIDs);
 
+        StudentEnrolmentResultDto response = programmeAndCoursesAssembler.toDto(result);
 
-
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
 }

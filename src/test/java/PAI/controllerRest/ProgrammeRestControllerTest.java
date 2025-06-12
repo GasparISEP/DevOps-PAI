@@ -9,8 +9,10 @@ import PAI.assembler.programmeEnrolment.IProgrammeEnrolmentAssembler;
 import PAI.assembler.student.IStudentDTOAssembler;
 import PAI.assembler.studyPlan.IStudyPlanAssembler;
 import PAI.domain.programme.Programme;
+import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
 import PAI.dto.Programme.*;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentIdDTO;
+import PAI.dto.programmeEnrolment.ProgrammeEnrolmentListIDDTO;
 import PAI.dto.student.StudentIDDTO;
 import PAI.dto.studyPlan.RegisterStudyPlanCommand;
 import PAI.dto.studyPlan.StudyPlanDTO;
@@ -53,7 +55,7 @@ class ProgrammeRestControllerTest {
     private RegisterStudyPlanCommand _studyPlanCommandDouble;
     private StudyPlanDTO _studyPlanDTODouble;
     private StudyPlanResponseDTO _studyPlanResponseDTODouble;
-    private ProgrammeEnrolmentIdDTO _programmeEnrolmentIDDTO;
+    private ProgrammeEnrolmentListIDDTO _programmeEnrolmentIDDTO;
     private IProgrammeDirectorAssembler _programmeDirectorAssemblerDouble;
     private Programme _programmeDouble;
     private IProgrammeHATEOASAssembler _programmeHATEOASAssembler;
@@ -89,7 +91,7 @@ class ProgrammeRestControllerTest {
     }
 
     private void createProgrammeEnrolmentDoubles() {
-        _programmeEnrolmentIDDTO = mock(ProgrammeEnrolmentIdDTO.class);
+        _programmeEnrolmentIDDTO = mock(ProgrammeEnrolmentListIDDTO.class);
     }
 
     @Test
@@ -526,8 +528,8 @@ class ProgrammeRestControllerTest {
 
         createProgrammeEnrolmentDoubles();
 
-        List<ProgrammeEnrolmentID> programmeEnrolmentIDs = List.of(mock(ProgrammeEnrolmentID.class));
-        List<ProgrammeEnrolmentIdDTO> programmeEnrolmentIdDTOs = List.of(_programmeEnrolmentIDDTO);
+        List<ProgrammeEnrolment> programmeEnrolmentIDs = List.of(mock(ProgrammeEnrolment.class));
+        List<ProgrammeEnrolmentListIDDTO> programmeEnrolmentIdDTOs = List.of(_programmeEnrolmentIDDTO);
 
         when(studentID.getUniqueNumber()).thenReturn(1234567);
         
@@ -550,7 +552,7 @@ class ProgrammeRestControllerTest {
         );
 
         //act
-        ResponseEntity<List<ProgrammeEnrolmentIdDTO>> response = controller.getAllProgrammesThatTheStudentIsEnrolledIn(studentIdStr);
+        ResponseEntity<List<ProgrammeEnrolmentListIDDTO>> response = controller.getAllProgrammesThatTheStudentIsEnrolledIn(studentIdStr);
 
         //assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -580,7 +582,7 @@ class ProgrammeRestControllerTest {
         );
 
         //act
-        ResponseEntity<List<ProgrammeEnrolmentIdDTO>> response = controller.getAllProgrammesThatTheStudentIsEnrolledIn(invalidStudentIdStr);
+        ResponseEntity<List<ProgrammeEnrolmentListIDDTO>> response = controller.getAllProgrammesThatTheStudentIsEnrolledIn(invalidStudentIdStr);
 
         //assert
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());

@@ -1,10 +1,12 @@
 package PAI.service.courseEdition;
+import PAI.VOs.CourseEditionGeneratedID;
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.TeacherID;
 import PAI.domain.courseEdition.CourseEdition;
 import PAI.domain.repositoryInterfaces.courseEdition.ICourseEditionRepository;
 import PAI.domain.repositoryInterfaces.teacher.ITeacherRepository;
 import PAI.domain.teacher.Teacher;
+import PAI.service.teacher.ITeacherService;
 import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.Optional;
@@ -22,9 +24,9 @@ class DefineRucServiceImplTest {
     void shouldCreateInstanceWhenDependenciesAreValid() {
         // Arrange
         ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
-        ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
+        ITeacherService teacherService = mock(ITeacherService.class);
         // Act
-        DefineRucServiceImpl service = new DefineRucServiceImpl(courseEditionRepository, teacherRepository);
+        DefineRucServiceImpl service = new DefineRucServiceImpl(courseEditionRepository, teacherService);
         // Assert
         assertNotNull(service);
     }
@@ -32,11 +34,11 @@ class DefineRucServiceImplTest {
     @Test
     void shouldThrowExceptionWhenCourseEditionRepositoryIsNull() {
         // Arrange
-        ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
+        ITeacherService teacherService = mock(ITeacherService.class);
         // Act & Assert
         IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
-                () -> new DefineRucServiceImpl(null, teacherRepository)
+                () -> new DefineRucServiceImpl(null, teacherService)
         );
         assertEquals("CourseEditionRepository cannot be null", exception.getMessage());
     }
@@ -58,8 +60,8 @@ class DefineRucServiceImplTest {
     void shouldReturnAllCourseEditions() {
         // Arrange
         ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
-        ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
-        DefineRucServiceImpl service = new DefineRucServiceImpl(courseEditionRepository, teacherRepository);
+        ITeacherService teacherService = mock(ITeacherService.class);
+        DefineRucServiceImpl service = new DefineRucServiceImpl(courseEditionRepository, teacherService);
 
         CourseEdition ce1 = mock(CourseEdition.class);
         CourseEdition ce2 = mock(CourseEdition.class);
@@ -77,14 +79,14 @@ class DefineRucServiceImplTest {
     void shouldReturnAllTeachers() {
         // Arrange
         ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
-        ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
-        DefineRucServiceImpl service = new DefineRucServiceImpl(courseEditionRepository, teacherRepository);
+        ITeacherService teacherService = mock(ITeacherService.class);
+        DefineRucServiceImpl service = new DefineRucServiceImpl(courseEditionRepository, teacherService);
 
         Teacher t1 = mock(Teacher.class);
         Teacher t2 = mock(Teacher.class);
         Iterable<Teacher> expected = List.of(t1, t2);
 
-        when(teacherRepository.findAll()).thenReturn(expected);
+        when(teacherService.getAllTeachers()).thenReturn(expected);
         // Act
         Iterable<Teacher> result = service.findAllTeachers();
         // Assert
@@ -96,15 +98,15 @@ class DefineRucServiceImplTest {
     void shouldReturnTrueIfRucSuccessfullyAssignedToCourseEdition() throws Exception {
         // Arrange
         ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
-        ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
-        DefineRucServiceImpl service = new DefineRucServiceImpl(courseEditionRepository, teacherRepository);
+        ITeacherService teacherService = mock(ITeacherService.class);
+        DefineRucServiceImpl service = new DefineRucServiceImpl(courseEditionRepository, teacherService);
 
         TeacherID teacherID = mock(TeacherID.class);
-        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+        CourseEditionGeneratedID courseEditionID = mock(CourseEditionGeneratedID.class);
         CourseEdition courseEdition = mock(CourseEdition.class);
 
-        when(teacherRepository.containsOfIdentity(teacherID)).thenReturn(true);
-        when(courseEditionRepository.ofIdentity(courseEditionID)).thenReturn(Optional.of(courseEdition));
+        when(teacherService.existsById(teacherID)).thenReturn(true);
+        when(courseEditionRepository.findCourseEditionByGeneratedId(courseEditionID)).thenReturn(Optional.of(courseEdition));
         when(courseEditionRepository.save(courseEdition)).thenReturn(courseEdition);
         when(courseEdition.setRuc(teacherID)).thenReturn(true);
         //act
@@ -117,16 +119,16 @@ class DefineRucServiceImplTest {
     void shouldReturnFalseWhenTeacherDoesNotExist() throws Exception {
         //arrange
         ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
-        ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
-        DefineRucServiceImpl service = new DefineRucServiceImpl(courseEditionRepository, teacherRepository);
+        ITeacherService teacherService = mock(ITeacherService.class);
+        DefineRucServiceImpl service = new DefineRucServiceImpl(courseEditionRepository, teacherService);
 
         TeacherID teacherID = mock(TeacherID.class);
-        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+        CourseEditionGeneratedID courseEditionID = mock(CourseEditionGeneratedID.class);
         CourseEdition courseEdition = mock(CourseEdition.class);
 
 
-        when(teacherRepository.containsOfIdentity(teacherID)).thenReturn(false);
-        when(courseEditionRepository.ofIdentity(courseEditionID)).thenReturn(Optional.of(courseEdition));
+        when(teacherService.existsById(teacherID)).thenReturn(false);
+        when(courseEditionRepository.findCourseEditionByGeneratedId(courseEditionID)).thenReturn(Optional.of(courseEdition));
         when(courseEditionRepository.save(courseEdition)).thenReturn(courseEdition);
         when(courseEdition.setRuc(teacherID)).thenReturn(true);
         //act & assert
@@ -142,15 +144,15 @@ class DefineRucServiceImplTest {
     void shouldReturnFalseWhenCourseEditionDoesNotExist() throws Exception {
         //arrange
         ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
-        ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
-        DefineRucServiceImpl service = new DefineRucServiceImpl(courseEditionRepository, teacherRepository);
+        ITeacherService teacherService = mock(ITeacherService.class);
+        DefineRucServiceImpl service = new DefineRucServiceImpl(courseEditionRepository, teacherService);
 
         TeacherID teacherID = mock(TeacherID.class);
-        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+        CourseEditionGeneratedID courseEditionID = mock(CourseEditionGeneratedID.class);
         CourseEdition courseEdition = mock(CourseEdition.class);
 
-        when(teacherRepository.containsOfIdentity(teacherID)).thenReturn(true);
-        when(courseEditionRepository.ofIdentity(courseEditionID)).thenReturn(Optional.empty());
+        when(teacherService.existsById(teacherID)).thenReturn(true);
+        when(courseEditionRepository.findCourseEditionByGeneratedId(courseEditionID)).thenReturn(Optional.empty());
         when(courseEditionRepository.save(courseEdition)).thenReturn(courseEdition);
         when(courseEdition.setRuc(teacherID)).thenReturn(true);
         //act
@@ -163,15 +165,15 @@ class DefineRucServiceImplTest {
     void shouldReturnFalseWhenSetRucFails() throws Exception {
         //arrange
         ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
-        ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
-        DefineRucServiceImpl service = new DefineRucServiceImpl(courseEditionRepository, teacherRepository);
+        ITeacherService teacherService = mock(ITeacherService.class);
+        DefineRucServiceImpl service = new DefineRucServiceImpl(courseEditionRepository, teacherService);
 
         TeacherID teacherID = mock(TeacherID.class);
-        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+        CourseEditionGeneratedID courseEditionID = mock(CourseEditionGeneratedID.class);
         CourseEdition courseEdition = mock(CourseEdition.class);
 
-        when(teacherRepository.containsOfIdentity(teacherID)).thenReturn(true);
-        when(courseEditionRepository.ofIdentity(courseEditionID)).thenReturn(Optional.of(courseEdition));
+        when(teacherService.existsById(teacherID)).thenReturn(true);
+        when(courseEditionRepository.findCourseEditionByGeneratedId(courseEditionID)).thenReturn(Optional.of(courseEdition));
         when(courseEditionRepository.save(courseEdition)).thenReturn(courseEdition);
         when(courseEdition.setRuc(teacherID)).thenReturn(false);
         //act
@@ -184,15 +186,15 @@ class DefineRucServiceImplTest {
     void shouldThrowRuntimeExceptionWhenSaveFails() throws Exception {
         //arrange
         ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
-        ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
-        DefineRucServiceImpl service = new DefineRucServiceImpl(courseEditionRepository, teacherRepository);
+        ITeacherService teacherService = mock(ITeacherService.class);
+        DefineRucServiceImpl service = new DefineRucServiceImpl(courseEditionRepository, teacherService);
 
         TeacherID teacherID = mock(TeacherID.class);
-        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+        CourseEditionGeneratedID courseEditionID = mock(CourseEditionGeneratedID.class);
         CourseEdition courseEdition = mock(CourseEdition.class);
 
-        when(teacherRepository.containsOfIdentity(teacherID)).thenReturn(true);
-        when(courseEditionRepository.ofIdentity(courseEditionID)).thenReturn(Optional.of(courseEdition));
+        when(teacherService.existsById(teacherID)).thenReturn(true);
+        when(courseEditionRepository.findCourseEditionByGeneratedId(courseEditionID)).thenReturn(Optional.of(courseEdition));
         when(courseEditionRepository.save(courseEdition)).thenThrow(new RuntimeException("DB failure"));
         when(courseEdition.setRuc(teacherID)).thenReturn(true);
         //act & assert
@@ -206,8 +208,8 @@ class DefineRucServiceImplTest {
     void shouldReturnFalseWhenCourseEditionIDIsNull() {
         // Arrange
         ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
-        ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
-        DefineRucServiceImpl service = new DefineRucServiceImpl(courseEditionRepository, teacherRepository);
+        ITeacherService teacherService = mock(ITeacherService.class);
+        DefineRucServiceImpl service = new DefineRucServiceImpl(courseEditionRepository, teacherService);
         //act
         boolean result = service.containsOfIdentity(null);
         // Assert
@@ -217,8 +219,8 @@ class DefineRucServiceImplTest {
     @Test
     void shouldReturnTrueIfRepositoryReturnsTrue() {
         ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
-        ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
-        DefineRucServiceImpl service = new DefineRucServiceImpl(courseEditionRepository, teacherRepository);
+        ITeacherService teacherService = mock(ITeacherService.class);
+        DefineRucServiceImpl service = new DefineRucServiceImpl(courseEditionRepository, teacherService);
         CourseEditionID courseEditionID = mock(CourseEditionID.class);
         when(courseEditionRepository.containsOfIdentity(courseEditionID)).thenReturn(true);
         // Act
@@ -231,8 +233,8 @@ class DefineRucServiceImplTest {
     void shouldReturnFalseIfRepositoryReturnsFalse() {
         // Arrange
         ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
-        ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
-        DefineRucServiceImpl service = new DefineRucServiceImpl(courseEditionRepository, teacherRepository);
+        ITeacherService teacherService = mock(ITeacherService.class);
+        DefineRucServiceImpl service = new DefineRucServiceImpl(courseEditionRepository, teacherService);
         CourseEditionID courseEditionID = mock(CourseEditionID.class);
 
         when(courseEditionRepository.containsOfIdentity(courseEditionID)).thenReturn(false);
@@ -243,18 +245,18 @@ class DefineRucServiceImplTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenTeacherIsTheSameAsThePreviousRUC(){
+    void shouldThrowExceptionWhenTeacherIsTheSameAsThePreviousRUC() throws Exception {
         // Arrange
         ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
-        ITeacherRepository teacherRepository = mock(ITeacherRepository.class);
-        DefineRucServiceImpl service = new DefineRucServiceImpl(courseEditionRepository, teacherRepository);
+        ITeacherService teacherService = mock(ITeacherService.class);
+        DefineRucServiceImpl service = new DefineRucServiceImpl(courseEditionRepository, teacherService);
 
         TeacherID teacherID = mock(TeacherID.class);
-        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+        CourseEditionGeneratedID courseEditionID = mock(CourseEditionGeneratedID.class);
         CourseEdition courseEdition = mock(CourseEdition.class);
 
-        when(teacherRepository.containsOfIdentity(teacherID)).thenReturn(true);
-        when(courseEditionRepository.ofIdentity(courseEditionID)).thenReturn(Optional.of(courseEdition));
+        when(teacherService.existsById(teacherID)).thenReturn(true);
+        when(courseEditionRepository.findCourseEditionByGeneratedId(courseEditionID)).thenReturn(Optional.of(courseEdition));
         when(courseEdition.getRuc()).thenReturn(teacherID);
 
         // Act & Assert
