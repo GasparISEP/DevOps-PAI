@@ -16,6 +16,7 @@ import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.UUID;
 
 @Configuration
 public class CourseEditionInitializer {
@@ -62,7 +63,9 @@ public class CourseEditionInitializer {
                     Name courseName = new Name(fields[2].trim());
                     Acronym programmeAcronym = new Acronym(fields[3].trim());
 
-                    SchoolYearID schoolYearID = schoolYearsList.get(i);
+                    UUID csvSchoolYearUUID = UUID.fromString(fields[4].trim());
+                    SchoolYearID schoolYearID = new SchoolYearID(csvSchoolYearUUID);
+
                     ProgrammeID programmeID = new ProgrammeID(programmeAcronym);
                     ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID, schoolYearID);
 
