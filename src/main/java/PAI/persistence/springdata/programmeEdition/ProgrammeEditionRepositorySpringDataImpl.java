@@ -206,6 +206,24 @@ public class ProgrammeEditionRepositorySpringDataImpl implements IProgrammeEditi
 
     @Override
     public List<ProgrammeEditionID> findProgrammeEditionIDsBySchoolYearIDAndProgrammeIDs(SchoolYearID schoolYearID, List<ProgrammeID> programmeIDs) {
-        return null;
+
+        SchoolYearIDDataModel schoolYearIDDataModel = iSchoolYearIDMapper.toDataModel(schoolYearID);
+
+        List<ProgrammeIDDataModel> programmeIDDataModels = new ArrayList<>();
+        for (ProgrammeID programmeID : programmeIDs)
+            programmeIDDataModels.add(iProgrammeIDMapper.toData(programmeID));
+
+        List<ProgrammeEditionIdDataModel> programmeEditionsIdDataModel = iProgrammeEditionRepositorySpringData.findProgrammeEditionIDsBySchoolYearIdAndProgrammeIds(schoolYearIDDataModel, programmeIDDataModels);
+
+        List<ProgrammeEditionID> programmeEditionIDs = new ArrayList<>();
+        for (ProgrammeEditionIdDataModel dataModel : programmeEditionsIdDataModel) {
+            try {
+                ProgrammeEditionID programmeEditionID = iProgrammeEditionIdMapper.toDomain(dataModel);
+                programmeEditionIDs.add(programmeEditionID);
+            } catch (Exception e) {
+                throw new RuntimeException("Error mapping ProgrammeEditionIdDataModel to ProgrammeEditionID: " + dataModel, e);
+            }
+        }
+        return programmeEditionIDs;
     }
 }

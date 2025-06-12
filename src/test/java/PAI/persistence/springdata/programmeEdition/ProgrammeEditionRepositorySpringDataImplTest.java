@@ -18,6 +18,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -872,20 +873,95 @@ class ProgrammeEditionRepositorySpringDataImplTest {
     }
 
     @Test
-    void shouldReturnNullWhenFindProgrammeEditionIDsBySchoolYearIDAndProgrammeIDsMethodIsCalled() {
-        // Assert
+    void shouldReturnProgrammeEditionIDsWhenValidSchoolYearIDAndProgrammeIDsAreProvided() throws Exception {
+        // Arrange
         IProgrammeEditionRepositorySpringData iProgrammeEditionRepositorySpringData = mock(IProgrammeEditionRepositorySpringData.class);
         IProgrammeEditionMapper iProgrammeEditionMapper = mock(IProgrammeEditionMapper.class);
         IProgrammeEditionIdMapper iProgrammeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
         IProgrammeIDMapper iProgrammeIDMapper = mock(IProgrammeIDMapper.class);
         ISchoolYearIDMapper iSchoolYearIDMapper = mock(ISchoolYearIDMapper.class);
-        ProgrammeEditionRepositorySpringDataImpl programmeEditionRepositorySpringDataImpl = new ProgrammeEditionRepositorySpringDataImpl(
-                iProgrammeEditionRepositorySpringData, iProgrammeEditionMapper, iProgrammeEditionIdMapper, iProgrammeIDMapper, iSchoolYearIDMapper);
+
+        ProgrammeEditionRepositorySpringDataImpl repository = new ProgrammeEditionRepositorySpringDataImpl(
+                iProgrammeEditionRepositorySpringData,
+                iProgrammeEditionMapper,
+                iProgrammeEditionIdMapper,
+                iProgrammeIDMapper,
+                iSchoolYearIDMapper
+        );
+
+        ProgrammeID programmeID1 = mock(ProgrammeID.class);
+        ProgrammeID programmeID2 = mock(ProgrammeID.class);
+        List<ProgrammeID> programmeIDs = List.of(programmeID1, programmeID2);
+
+        ProgrammeIDDataModel programmeIDDataModel1 = mock(ProgrammeIDDataModel.class);
+        ProgrammeIDDataModel programmeIDDataModel2 = mock(ProgrammeIDDataModel.class);
+        List<ProgrammeIDDataModel> programmeIDDataModels = List.of(programmeIDDataModel1, programmeIDDataModel2);
+
+        ProgrammeEditionIdDataModel peDataModel1 = mock(ProgrammeEditionIdDataModel.class);
+        ProgrammeEditionIdDataModel peDataModel2 = mock(ProgrammeEditionIdDataModel.class);
+        List<ProgrammeEditionIdDataModel> dataModels = List.of(peDataModel1, peDataModel2);
+
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+        SchoolYearIDDataModel schoolYearIDDataModel = mock(SchoolYearIDDataModel.class);
+
+        ProgrammeEditionID peDomainID1 = mock(ProgrammeEditionID.class);
+        ProgrammeEditionID peDomainID2 = mock(ProgrammeEditionID.class);
+
+        when(iSchoolYearIDMapper.toDataModel(schoolYearID)).thenReturn(schoolYearIDDataModel);
+        when(iProgrammeIDMapper.toData(programmeID1)).thenReturn(programmeIDDataModel1);
+        when(iProgrammeIDMapper.toData(programmeID2)).thenReturn(programmeIDDataModel2);
+        when(iProgrammeEditionRepositorySpringData.findProgrammeEditionIDsBySchoolYearIdAndProgrammeIds(
+                schoolYearIDDataModel, programmeIDDataModels)).thenReturn(dataModels);
+        when(iProgrammeEditionIdMapper.toDomain(peDataModel1)).thenReturn(peDomainID1);
+        when(iProgrammeEditionIdMapper.toDomain(peDataModel2)).thenReturn(peDomainID2);
 
         // Act
-        List<ProgrammeEditionID> result = programmeEditionRepositorySpringDataImpl.findProgrammeEditionIDsBySchoolYearIDAndProgrammeIDs(null, null);
+        List<ProgrammeEditionID> result = repository.findProgrammeEditionIDsBySchoolYearIDAndProgrammeIDs(schoolYearID, programmeIDs);
 
         // Assert
-        assertNull(result);
+        assertNotNull(result);
+        assertEquals(2, result.size());
+        assertTrue(result.contains(peDomainID1));
+        assertTrue(result.contains(peDomainID2));
+    }
+    @Test
+    void shouldReturnEmptyListWhenNoProgrammeEditionIDsAreFound() {
+        // Arrange
+        IProgrammeEditionRepositorySpringData iProgrammeEditionRepositorySpringData = mock(IProgrammeEditionRepositorySpringData.class);
+        IProgrammeEditionMapper iProgrammeEditionMapper = mock(IProgrammeEditionMapper.class);
+        IProgrammeEditionIdMapper iProgrammeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
+        IProgrammeIDMapper iProgrammeIDMapper = mock(IProgrammeIDMapper.class);
+        ISchoolYearIDMapper iSchoolYearIDMapper = mock(ISchoolYearIDMapper.class);
+
+        ProgrammeEditionRepositorySpringDataImpl repository = new ProgrammeEditionRepositorySpringDataImpl(
+                iProgrammeEditionRepositorySpringData,
+                iProgrammeEditionMapper,
+                iProgrammeEditionIdMapper,
+                iProgrammeIDMapper,
+                iSchoolYearIDMapper
+        );
+
+        ProgrammeID programmeID1 = mock(ProgrammeID.class);
+        ProgrammeID programmeID2 = mock(ProgrammeID.class);
+        List<ProgrammeID> programmeIDs = List.of(programmeID1, programmeID2);
+
+        ProgrammeIDDataModel programmeIDDataModel1 = mock(ProgrammeIDDataModel.class);
+        ProgrammeIDDataModel programmeIDDataModel2 = mock(ProgrammeIDDataModel.class);
+        List<ProgrammeIDDataModel> programmeIDDataModels = List.of(programmeIDDataModel1, programmeIDDataModel2);
+
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+        SchoolYearIDDataModel schoolYearIDDataModel = mock(SchoolYearIDDataModel.class);
+
+        when(iSchoolYearIDMapper.toDataModel(schoolYearID)).thenReturn(schoolYearIDDataModel);
+        when(iProgrammeIDMapper.toData(programmeID1)).thenReturn(programmeIDDataModel1);
+        when(iProgrammeIDMapper.toData(programmeID2)).thenReturn(programmeIDDataModel2);
+        when(iProgrammeEditionRepositorySpringData.findProgrammeEditionIDsBySchoolYearIdAndProgrammeIds(schoolYearIDDataModel, programmeIDDataModels)).thenReturn(List.of());
+
+        // Act
+        List<ProgrammeEditionID> result = repository.findProgrammeEditionIDsBySchoolYearIDAndProgrammeIDs(schoolYearID, programmeIDs);
+
+        // Assert
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
     }
 }

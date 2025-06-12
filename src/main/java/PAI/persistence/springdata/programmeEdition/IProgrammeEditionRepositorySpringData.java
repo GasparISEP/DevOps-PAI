@@ -40,7 +40,7 @@ public interface IProgrammeEditionRepositorySpringData extends JpaRepository<Pro
     @Query("SELECT pe.programmeEditionGeneratedIDDataModel FROM ProgrammeEditionDataModel pe " +
             "WHERE pe.programmeEditionIdDataModel.schoolYearIDDataModel = :schoolYearId " +
             "AND pe.programmeEditionIdDataModel.schoolYearIDDataModel IN :programmeIds")
-    List<ProgrammeEditionGeneratedID> findProgrammeEditionIDsBySchoolYearIdAndProgrammeIds(
+    List<ProgrammeEditionIdDataModel> findProgrammeEditionIDsBySchoolYearIdAndProgrammeIds(
             @Param("schoolYearId") SchoolYearIDDataModel schoolYearId,
             @Param("programmeIds") List<ProgrammeIDDataModel> programmeIds);
 }
