@@ -964,4 +964,127 @@ class ProgrammeEditionRepositorySpringDataImplTest {
         assertNotNull(result);
         assertTrue(result.isEmpty());
     }
+
+    @Test
+    void shouldReturnEmptyListWhenSchoolYearIDIsNull() {
+        // Arrange
+        IProgrammeEditionRepositorySpringData iProgrammeEditionRepositorySpringData = mock(IProgrammeEditionRepositorySpringData.class);
+        IProgrammeEditionMapper iProgrammeEditionMapper = mock(IProgrammeEditionMapper.class);
+        IProgrammeEditionIdMapper iProgrammeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
+        IProgrammeIDMapper iProgrammeIDMapper = mock(IProgrammeIDMapper.class);
+        ISchoolYearIDMapper iSchoolYearIDMapper = mock(ISchoolYearIDMapper.class);
+
+        ProgrammeEditionRepositorySpringDataImpl repository = new ProgrammeEditionRepositorySpringDataImpl(
+                iProgrammeEditionRepositorySpringData,
+                iProgrammeEditionMapper,
+                iProgrammeEditionIdMapper,
+                iProgrammeIDMapper,
+                iSchoolYearIDMapper
+        );
+
+        List<ProgrammeID> programmeIDs = List.of(mock(ProgrammeID.class));
+
+        // Act
+        List<ProgrammeEditionID> result = repository.findProgrammeEditionIDsBySchoolYearIDAndProgrammeIDs(null, programmeIDs);
+
+        // Assert
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void shouldReturnEmptyListWhenProgrammeIDsIsNull() {
+        // Arrange
+        IProgrammeEditionRepositorySpringData iProgrammeEditionRepositorySpringData = mock(IProgrammeEditionRepositorySpringData.class);
+        IProgrammeEditionMapper iProgrammeEditionMapper = mock(IProgrammeEditionMapper.class);
+        IProgrammeEditionIdMapper iProgrammeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
+        IProgrammeIDMapper iProgrammeIDMapper = mock(IProgrammeIDMapper.class);
+        ISchoolYearIDMapper iSchoolYearIDMapper = mock(ISchoolYearIDMapper.class);
+
+        ProgrammeEditionRepositorySpringDataImpl repository = new ProgrammeEditionRepositorySpringDataImpl(
+                iProgrammeEditionRepositorySpringData,
+                iProgrammeEditionMapper,
+                iProgrammeEditionIdMapper,
+                iProgrammeIDMapper,
+                iSchoolYearIDMapper
+        );
+
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+
+        // Act
+        List<ProgrammeEditionID> result = repository.findProgrammeEditionIDsBySchoolYearIDAndProgrammeIDs(schoolYearID, null);
+
+        // Assert
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void shouldReturnEmptyListWhenProgrammeIDsIsEmpty() {
+        // Arrange
+        IProgrammeEditionRepositorySpringData iProgrammeEditionRepositorySpringData = mock(IProgrammeEditionRepositorySpringData.class);
+        IProgrammeEditionMapper iProgrammeEditionMapper = mock(IProgrammeEditionMapper.class);
+        IProgrammeEditionIdMapper iProgrammeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
+        IProgrammeIDMapper iProgrammeIDMapper = mock(IProgrammeIDMapper.class);
+        ISchoolYearIDMapper iSchoolYearIDMapper = mock(ISchoolYearIDMapper.class);
+
+        ProgrammeEditionRepositorySpringDataImpl repository = new ProgrammeEditionRepositorySpringDataImpl(
+                iProgrammeEditionRepositorySpringData,
+                iProgrammeEditionMapper,
+                iProgrammeEditionIdMapper,
+                iProgrammeIDMapper,
+                iSchoolYearIDMapper
+        );
+
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+        List<ProgrammeID> programmeIDs = List.of();
+
+        // Act
+        List<ProgrammeEditionID> result = repository.findProgrammeEditionIDsBySchoolYearIDAndProgrammeIDs(schoolYearID, programmeIDs);
+
+        // Assert
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void shouldThrowRuntimeExceptionWhenMethodfindProgrammeEditionIDsBySchoolYearIDAndProgrammeIDsFailsToMapProgrammeEditionIDFromDataModelToDomain() throws Exception {
+        // Arrange
+        IProgrammeEditionRepositorySpringData iProgrammeEditionRepositorySpringData = mock(IProgrammeEditionRepositorySpringData.class);
+        IProgrammeEditionMapper iProgrammeEditionMapper = mock(IProgrammeEditionMapper.class);
+        IProgrammeEditionIdMapper iProgrammeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
+        IProgrammeIDMapper iProgrammeIDMapper = mock(IProgrammeIDMapper.class);
+        ISchoolYearIDMapper iSchoolYearIDMapper = mock(ISchoolYearIDMapper.class);
+
+        ProgrammeEditionRepositorySpringDataImpl repository = new ProgrammeEditionRepositorySpringDataImpl(
+                iProgrammeEditionRepositorySpringData,
+                iProgrammeEditionMapper,
+                iProgrammeEditionIdMapper,
+                iProgrammeIDMapper,
+                iSchoolYearIDMapper
+        );
+
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        List<ProgrammeID> programmeIDs = List.of(programmeID);
+
+        SchoolYearIDDataModel schoolYearIDDataModel = mock(SchoolYearIDDataModel.class);
+        ProgrammeIDDataModel programmeIDDataModel = mock(ProgrammeIDDataModel.class);
+        ProgrammeEditionIdDataModel invalidDataModel = mock(ProgrammeEditionIdDataModel.class);
+
+        when(iSchoolYearIDMapper.toDataModel(schoolYearID)).thenReturn(schoolYearIDDataModel);
+        when(iProgrammeIDMapper.toData(programmeID)).thenReturn(programmeIDDataModel);
+        when(iProgrammeEditionRepositorySpringData.findProgrammeEditionIDsBySchoolYearIdAndProgrammeIds(schoolYearIDDataModel, List.of(programmeIDDataModel)))
+                .thenReturn(List.of(invalidDataModel));
+
+        when(iProgrammeEditionIdMapper.toDomain(invalidDataModel)).thenThrow(new Exception("Invalid data model"));
+
+        // Act
+        RuntimeException thrown = assertThrows(RuntimeException.class, () -> {repository.findProgrammeEditionIDsBySchoolYearIDAndProgrammeIDs(schoolYearID, programmeIDs);});
+
+        // Assert
+        assertTrue(thrown.getMessage().contains("Error mapping ProgrammeEditionIdDataModel"));
+        assertInstanceOf(Exception.class, thrown.getCause());
+        assertEquals("Invalid data model", thrown.getCause().getMessage());
+    }
 }

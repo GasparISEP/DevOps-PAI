@@ -207,6 +207,9 @@ public class ProgrammeEditionRepositorySpringDataImpl implements IProgrammeEditi
     @Override
     public List<ProgrammeEditionID> findProgrammeEditionIDsBySchoolYearIDAndProgrammeIDs(SchoolYearID schoolYearID, List<ProgrammeID> programmeIDs) {
 
+        if (schoolYearID == null || programmeIDs == null || programmeIDs.isEmpty())
+            return List.of();
+
         SchoolYearIDDataModel schoolYearIDDataModel = iSchoolYearIDMapper.toDataModel(schoolYearID);
 
         List<ProgrammeIDDataModel> programmeIDDataModels = new ArrayList<>();
