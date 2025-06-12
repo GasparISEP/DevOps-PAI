@@ -1,6 +1,5 @@
 package PAI.assembler.schoolYear;
 
-import PAI.dto.department.DepartmentWithDirectorDTO;
 import PAI.dto.schoolYear.CurrentSchoolYearDTO;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
