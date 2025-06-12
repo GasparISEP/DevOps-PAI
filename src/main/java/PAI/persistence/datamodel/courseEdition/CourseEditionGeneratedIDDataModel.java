@@ -10,7 +10,7 @@ import java.util.Objects;
 @Embeddable
 public class CourseEditionGeneratedIDDataModel implements Serializable {
 
-    @Column(name = "course_edition_generated_id")
+    @Column(name = "course_edition_generated_id",nullable = false,unique = true,updatable = false)
     private String id;
 
     public CourseEditionGeneratedIDDataModel() {
