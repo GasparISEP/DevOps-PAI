@@ -25,11 +25,9 @@ public class ProgrammeEditionDataModel {
 
     public ProgrammeEditionDataModel(ProgrammeEditionIdDataModel programmeEditionIdDataModel,
                                      ProgrammeEditionGeneratedIDDataModel programmeEditionGeneratedIDDataModel) {
-        if (programmeEditionGeneratedIDDataModel == null) {
-            throw new IllegalArgumentException("programmeEditionGeneratedID cannot be null");
-        }
+
         this.programmeEditionIdDataModel = validateNotNull(programmeEditionIdDataModel,"ProgrammeEditionIdDataModel");
-        this.programmeEditionGeneratedIDDataModel = programmeEditionGeneratedIDDataModel;
+        this.programmeEditionGeneratedIDDataModel = validateNotNull(programmeEditionGeneratedIDDataModel,"ProgrammeEditionGeneratedIDDataModel");
     }
 
     public ProgrammeEditionIdDataModel getProgrammeEditionIDDataModel() {
