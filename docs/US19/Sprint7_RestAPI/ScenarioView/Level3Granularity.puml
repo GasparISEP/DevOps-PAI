@@ -74,7 +74,7 @@ class CreateCourseEditionCommand {
 }
 
 package "Domain Layer" {
-  class CourseEdition {
+  class CourseEdition <<Aggregate root>> <<Entity>>{
     -courseEditionID: CourseEditionID
     -courseInStudyPlanID: CourseInStudyPlanID
     -programmeEditionID: ProgrammeEditionID
@@ -161,5 +161,10 @@ CourseEditionServiceAssemblerImpl --> CourseEdition
 
 CourseEditionAssemblerImpl -> CreateCourseEditionCommand
 CourseEditionRestController ..> CreateCourseEditionCommand
+
+note left of "Domain Layer"
+This is a simplified version of the class diagram of US19, where Value Objects are represented
+as attributes of the respective aggregate.
+end note
 
 @enduml

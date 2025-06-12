@@ -1,7 +1,8 @@
-package PAI.controllerRest;
+package PAI.controllerRest.TeacherCareerProgressionRestControllerTests;
 
 import PAI.VOs.TeacherCareerProgressionID;
 import PAI.assembler.teacherCareerProgression.ITeacherCareerProgressionAssembler;
+import PAI.controllerRest.TeacherCareerProgressionRestController;
 import PAI.dto.teacherCareerProgression.UpdateTeacherCategoryDTO;
 import PAI.exception.NotFoundException;
 import PAI.service.teacherCareerProgression.ICreateTeacherCareerProgressionService;
