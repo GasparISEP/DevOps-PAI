@@ -67,7 +67,7 @@ public class CourseInStudyPlanRestControllerIntegrationTests {
     void shouldReturn400_WhenRequestIsInvalid() throws Exception {
         String invalidBody = "{}";
 
-        mockMvc.perform(post("/course-in-study-plan")
+        mockMvc.perform(post("/courses-in-study-plan")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(invalidBody))
                 .andExpect(status().isBadRequest());
@@ -87,7 +87,7 @@ public class CourseInStudyPlanRestControllerIntegrationTests {
 
         String jsonBody = objectMapper.writeValueAsString(request);
 
-        mockMvc.perform(post("/course-in-study-plan")
+        mockMvc.perform(post("/courses-in-study-plan")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonBody))
                 .andExpect(status().isCreated());
@@ -102,7 +102,7 @@ public class CourseInStudyPlanRestControllerIntegrationTests {
 
         String jsonBody = objectMapper.writeValueAsString(request);
 
-        mockMvc.perform(post("/course-in-study-plan")
+        mockMvc.perform(post("/courses-in-study-plan")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonBody))
                 .andExpect(status().isInternalServerError());

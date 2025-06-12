@@ -28,7 +28,7 @@ import java.util.List;
 import static PAI.utils.ValidationUtils.validateNotNull;
 
 @RestController
-@RequestMapping("/course-in-study-plan")
+@RequestMapping("/courses-in-study-plan")
 public class CourseInStudyPlanRestController {
 
     private final ICourseInStudyPlanAssembler assembler;
