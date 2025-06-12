@@ -41,8 +41,7 @@ public class CourseInStudyPlanAssemblerImpl implements ICourseInStudyPlanAssembl
                 courseInStudyPlanServiceDTO.studyPlanDate(),
                 courseInStudyPlanServiceDTO.duration(),
                 courseInStudyPlanServiceDTO.credits(),
-                courseInStudyPlanServiceDTO.courseId(),
-                courseInStudyPlanServiceDTO.studyPlanId()
+                courseInStudyPlanServiceDTO.generatedID()
         );
     }
 

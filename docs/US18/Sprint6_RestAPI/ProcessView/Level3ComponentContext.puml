@@ -12,7 +12,7 @@ participant ":Domain" as PEF <<Component>>
 
 'get all programmes name
 
--> Router: POST /programmeeditions + body {"programme": {"name": "Computer Science Engineering","acronym": "CSE"}, "schoolYear": {"id": "7ed3c1a3-ec53-429a-ab57-1052bad47328"}}
+[o-> Router: **POST** /programmeeditions + body {"programme": {"name": "Computer Science Engineering","acronym": "CSE"}, "schoolYear": {"id": "7ed3c1a3-ec53-429a-ab57-1052bad47328"}}
 activate Router #E1F5FE
 note over Router: The conversion from JSON to DTO is done automatically through the Spring Boot Framework
 
@@ -45,7 +45,11 @@ deactivate PEF
 PES -> PER: save(pe1)
 activate PER #E1F5FE
 
-PER --> PES: pe1
+PER ->o]: INSERT INTO programmeEdition (EDITION_PROGRAMME_ACRONYM, EDITION_PROGRAMME_NAME, EDITION_SCHOOL_YEAR) \n VALUES ('CSE','Computer Science Engineering','7ed3c1a3-ec53-429a-ab57-1052bad47328')
+
+PER <--o]: pe1SavedDataModel
+
+PER --> PES: pe1Saved
 deactivate PER
 end
 PES --> CPEC: programmeEditionDTO
@@ -59,6 +63,6 @@ CPEC --> Router : 201 + body {ProgrammeEditionResponseDTO}
 deactivate CPEC
 note over Router: The conversion from DTO to JSON is done automatically through the Spring Boot Framework
 
-<-- Router: 201 + body {ProgrammeEditionResponseDTO}
+[o<-- Router: 201 + body {ProgrammeEditionResponseDTO}
 deactivate Router
 @enduml

@@ -30,6 +30,7 @@ class CourseInStudyPlanServiceAssemblerImplTest {
         Date date = mock(Date.class);
         DurationCourseInCurricularYear duration = mock(DurationCourseInCurricularYear.class);
         CourseQuantityCreditsEcts credits = mock(CourseQuantityCreditsEcts.class);
+        CourseInStudyPlanGeneratedID generatedId = mock(CourseInStudyPlanGeneratedID.class);
 
         CourseInStudyPlan course = mock(CourseInStudyPlan.class);
 
@@ -56,6 +57,8 @@ class CourseInStudyPlanServiceAssemblerImplTest {
         when(course.getQuantityOfCreditsEcts()).thenReturn(credits);
         when(credits.toDouble()).thenReturn(6.0);
 
+        when(course.getGeneratedID()).thenReturn(generatedId);
+
         // Act
         CourseInStudyPlanServiceDTO dto = assembler.toServiceDTO(course);
 
@@ -69,8 +72,7 @@ class CourseInStudyPlanServiceAssemblerImplTest {
         assertEquals("2025-05-27", dto.studyPlanDate());
         assertEquals(1, dto.duration());
         assertEquals(6.0, dto.credits());
-        assertEquals(courseID, dto.courseId());
-        assertEquals(studyPlanID, dto.studyPlanId());
+        assertEquals(generatedId, dto.generatedID());
     }
 
     @Test

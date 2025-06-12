@@ -22,8 +22,7 @@ public class CourseInStudyPlanServiceAssemblerImpl implements ICourseInStudyPlan
                 course.getStudyplanID().getDate().getLocalDate().toString(),
                 course.getDurationOfCourse().getDuration(),
                 course.getQuantityOfCreditsEcts().toDouble(),
-                course.getCourseID(),
-                course.getStudyplanID()
+                course.getGeneratedID().getId()
         );
     }
 }
