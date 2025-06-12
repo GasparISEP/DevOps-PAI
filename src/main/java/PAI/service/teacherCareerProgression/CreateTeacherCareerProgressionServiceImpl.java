@@ -5,6 +5,7 @@ import PAI.assembler.teacherCareerProgression.ITeacherCareerProgressionInternalA
 import PAI.domain.repositoryInterfaces.teacher.ITeacherRepository;
 import PAI.domain.repositoryInterfaces.teacherCareerProgression.ITeacherCareerProgressionRepository;
 
+import PAI.domain.repositoryInterfaces.teacherCategory.ITeacherCategoryRepository;
 import PAI.domain.teacherCareerProgression.ITeacherCareerProgressionFactory;
 import PAI.domain.teacherCareerProgression.TeacherCareerProgression;
 import PAI.dto.teacherCareerProgression.UpdateTeacherCategoryCommand;
@@ -24,16 +25,19 @@ public class CreateTeacherCareerProgressionServiceImpl implements ICreateTeacher
     private ITeacherCareerProgressionFactory _TCPfactory;
     private ITeacherRepository _teacherRepo;
     private ITeacherCareerProgressionInternalAssembler _internalAssembler;
+    private ITeacherCategoryRepository _teacherCategoryRepository;
 
     public CreateTeacherCareerProgressionServiceImpl(ITeacherCareerProgressionRepository teacherCareerProgressionRepository,
                                                      ITeacherCareerProgressionFactory teacherCareerProgressionFactory,
                                                      ITeacherRepository teacherRepository,
-                                                     ITeacherCareerProgressionInternalAssembler internalAssembler) {
+                                                     ITeacherCareerProgressionInternalAssembler internalAssembler,
+                                                     ITeacherCategoryRepository teacherCategoryRepository) {
 
         _TCPrepository = validateNotNull(teacherCareerProgressionRepository, "Teacher Career Progression Repository Interface");
         _TCPfactory = validateNotNull (teacherCareerProgressionFactory, "Teacher Career Progression Factory Interface");
         _teacherRepo = validateNotNull(teacherRepository, "Teacher Repository Interface");
         _internalAssembler = validateNotNull(internalAssembler, "Teacher Career Progression Internal Assembler Interface");
+        _teacherCategoryRepository = validateNotNull(teacherCategoryRepository, "Teacher Category Repository Interface");
     }
 
     @Override
@@ -45,27 +49,19 @@ public class CreateTeacherCareerProgressionServiceImpl implements ICreateTeacher
             return Optional.empty();
         }
 
-        _TCPrepository.save(tcp);
+        TeacherCareerProgression tcpSaved = _TCPrepository.save(tcp);
 
-        return Optional.of(tcp);
+        return Optional.of(tcpSaved);
     }
 
     @Override
     public UpdateTeacherCategoryDTO updateTeacherCategory(UpdateTeacherCategoryCommand command) throws Exception {
 
-        Optional<TeacherCareerProgression> optionalTCP =
-                _TCPrepository.findLastTCPFromTeacherID(command.teacherID());
+        validateTeacherCategoryExists(command.teacherCategoryID());
 
-        if (optionalTCP.isEmpty())
-            throw new NotFoundException("This teacher has no previous career progression record. Please create one before attempting an update.");
+        TeacherCareerProgression lastTeacherCareerProgression = getLastTeacherCareerProgression(command.teacherID());
 
-        TeacherCareerProgression lastTeacherCareerProgression = optionalTCP.get();
-
-        if(!lastTeacherCareerProgression.isLastDateEqualOrBeforeNewDate(command.date()))
-            throw new BusinessRuleViolationException("The date must be equal to or later than the previous update.");
-
-        if (lastTeacherCareerProgression.getTeacherCategoryID().equals(command.teacherCategoryID()))
-            throw new BusinessRuleViolationException("The Teacher Category must be different to the previous update.");
+        validateUpdateRules(command, lastTeacherCareerProgression);
 
         WorkingPercentage workingPercentage = lastTeacherCareerProgression.getWorkingPercentage();
 
@@ -112,4 +108,25 @@ public class CreateTeacherCareerProgressionServiceImpl implements ICreateTeacher
         return _internalAssembler.toDTO(teacherCareerProgressionOpt.get());
     }
 
+    private void validateTeacherCategoryExists(TeacherCategoryID categoryID) {
+        if (!_teacherCategoryRepository.containsOfIdentity(categoryID)) {
+            throw new NotFoundException("This Teacher Category ID does not exist!");
+        }
+    }
+
+    private TeacherCareerProgression getLastTeacherCareerProgression(TeacherID teacherID) {
+        return _TCPrepository.findLastTCPFromTeacherID(teacherID)
+                .orElseThrow(() -> new NotFoundException(
+                        "This teacher has no previous career progression record. Please create one before attempting an update."));
+    }
+
+    private void validateUpdateRules(UpdateTeacherCategoryCommand command, TeacherCareerProgression lastProgression) {
+        if (!lastProgression.isLastDateEqualOrBeforeNewDate(command.date())) {
+            throw new BusinessRuleViolationException("The date must be equal to or later than the previous update.");
+        }
+
+        if (lastProgression.getTeacherCategoryID().equals(command.teacherCategoryID())) {
+            throw new BusinessRuleViolationException("The Teacher Category must be different to the previous update.");
+        }
+    }
 }

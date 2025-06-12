@@ -18,8 +18,8 @@ public class CourseEditionEnrolmentHateoasAssemblerImpl implements Representatio
     public EntityModel<CourseEditionEnrolmentDto> toModel(@NonNull CourseEditionEnrolmentDto dto){
         return EntityModel.of(dto,
                 linkTo(methodOn(CourseEditionRestController.class)
-                        .enrolStudentInCourseEdition(dto.studentUniqueNumber(), dto))
-                        .withSelfRel()
+                        .removeStudentEnrolmentFromACourseEdition(dto))
+                        .withRel("delete")
         );
     }
 }

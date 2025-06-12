@@ -1,0 +1,48 @@
+@startuml
+
+title Convert Teacher Career Progression DataModel to Domain
+
+autonumber
+skinparam {
+  ActivityPadding 2
+  ActivityMargin 2
+  BoxPadding 2
+}
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+participant ":ITeacherCareerProgressionRepository" as ITCPRepository
+
+activate ITCPRepository #E1F5FE
+participant ":ITeacherCareerProgressionMapper" as tcpMapper
+ITCPRepository -> tcpMapper: toDomain (tcpDataModel)
+activate tcpMapper #E1F5FE
+
+create "tcpID: TeacherCareerProgressionID"
+tcpMapper -> "tcpID: TeacherCareerProgressionID": create (tcpDataModel.getID().getIDValue())
+
+create "date: Date"
+tcpMapper -> "date: Date": create (tcpDataModel.getDate())
+
+create "tcID: TeacherCategoryID"
+tcpMapper -> "tcID: TeacherCategoryID": create (tcpDataModel.getTeacherCategoryId())
+
+create "wp: WorkingPercentage"
+tcpMapper -> "wp: WorkingPercentage": create (tcpDataModel.getWorkingPercentage())
+
+create "teacherID: TeacherID"
+tcpMapper -> "teacherID: TeacherID": create (teacherAcronym)
+activate "teacherID: TeacherID" #E1F5FE
+
+create "teacherAcronym: TeacherAcronym"
+"teacherID: TeacherID" -> "teacherAcronym: TeacherAcronym": create (tcpDataModel.getTeacherId())
+deactivate "teacherID: TeacherID"
+
+create "tcp: TeacherCareerProgression"
+tcpMapper -> "tcp: TeacherCareerProgression": create (tcpID, date, tcID, wp, teacherID)
+
+tcpMapper --> ITCPRepository: tcp
+deactivate tcpMapper
+deactivate tcpMapper
+
+@enduml

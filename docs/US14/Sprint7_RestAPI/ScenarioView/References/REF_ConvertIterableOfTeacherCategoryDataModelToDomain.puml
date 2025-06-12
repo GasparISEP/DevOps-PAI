@@ -1,0 +1,53 @@
+@startuml
+
+title Convert Iterable of Teacher Category DataModel to Domain
+
+autonumber
+skinparam {
+  ActivityPadding 2
+  ActivityMargin 2
+  BoxPadding 2
+}
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+participant ":ITeacherCategoryRepository" as ITeacherCategoryRepository
+
+activate ITeacherCategoryRepository #E1F5FE
+participant ":ITeacherCategoryMapper" as tcMapper
+
+create ":ArrayList"
+ITeacherCategoryRepository -> ":ArrayList": create ()
+
+loop for each TeacherCategory in Iterable<TeacherCategory>
+
+ITeacherCategoryRepository -> tcMapper: toDomainModel (tcDataModel)
+activate tcMapper #E1F5FE
+
+participant ":ITeacherCategoryIDMapper" as tcIDMapper
+tcMapper -> tcIDMapper: toDomain (tcDataModel.getID())
+activate tcIDMapper #E1F5FE
+create "tcID: TeacherCategoryID"
+tcIDMapper -> "tcID: TeacherCategoryID": create (id.getValue())
+tcIDMapper --> tcMapper: tcID
+deactivate tcIDMapper
+
+create "name: Name"
+tcMapper -> "name: Name": create (tcDataModel.getName())
+
+create "tc: TeacherCategory"
+tcMapper -> "tc: TeacherCategory": create (tcID, name)
+
+tcMapper --> ITeacherCategoryRepository: tc
+deactivate tcMapper
+
+ITeacherCategoryRepository -> ":ArrayList": add (tc)
+activate ":ArrayList" #E1F5FE
+
+":ArrayList" --> ITeacherCategoryRepository: True
+deactivate ":ArrayList"
+
+end
+
+
+@enduml
