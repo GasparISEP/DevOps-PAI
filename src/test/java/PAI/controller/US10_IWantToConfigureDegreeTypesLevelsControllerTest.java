@@ -1,7 +1,9 @@
 package PAI.controller;
 
+import PAI.VOs.DegreeTypeID;
 import PAI.VOs.MaxEcts;
 import PAI.VOs.Name;
+import PAI.domain.degreeType.DegreeType;
 import PAI.service.degreeType.DegreeTypeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -59,5 +61,28 @@ class US10_IWantToConfigureDegreeTypesLevelsControllerTest {
 
         assertEquals("Erro", ex.getMessage());
         verify(service).registerDegreeType(name, ects);
+    }
+
+    @Test
+    void shouldRegisterDegreeTypeWithUUID() throws Exception{
+        //arrange
+        Name name = new Name("Arquitetura");
+        MaxEcts ects = new MaxEcts(180);
+        DegreeTypeID degreeTypeID = new DegreeTypeID("1234-3443-2233");
+
+
+        when(service.registerDegreeTypeWithUUID(degreeTypeID,name,ects)).thenReturn(true);
+
+        //act
+        boolean result = controller.registerDegreeTypeWithUUID(degreeTypeID,name,ects);
+
+        //assert
+        assertTrue(result);
+
+
+
+
+
+
     }
 }

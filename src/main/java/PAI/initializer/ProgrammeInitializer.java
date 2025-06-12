@@ -7,6 +7,7 @@ import PAI.domain.repositoryInterfaces.degreeType.IDegreeTypeRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -17,6 +18,7 @@ import java.util.List;
 
 @Component
 @Profile("programme")
+@Order(1)
 public class ProgrammeInitializer {
     @Autowired
     private US11_RegisterProgrammeInTheSystemController _controller;
