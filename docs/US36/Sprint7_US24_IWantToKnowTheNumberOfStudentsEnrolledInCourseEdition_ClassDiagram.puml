@@ -1,0 +1,110 @@
+@startuml
+
+title US36_IWantToKnowTheNumberOfStudentsEnrolledInACourseEditionController
+
+class CourseEditionRestController {
+    -_ceeAssembler: ICourseEditionEnrolmentAssembler
+    -_createCEService: ICreateCourseEditionService
+    -_ceAssembler: ICourseEditionAssembler
+    -_gradeStudentService: IGradeAStudentService
+    -_studentGradeAssembler: IStudentGradeAssembler
+    -_peServiceAssembler: IProgrammeEditionServiceAssembler
+    -_defineRUCService: IDefineRucService
+    -_ceService: ICourseEditionService
+    -_ceHateoasService: ICourseEditionHateoasAssembler
+    -_studentCountAssembler: IStudentCountAssembler
+    -_ceeHateoasAssembler: ICourseEditionEnrolmentHateoasAssembler
+    +CourseEditionRestController(ceeService: ICourseEditionEnrolmentService, ceeAssembler: ICourseEditionEnrolmentAssembler,\ncreateCEService: ICreateCourseEditionService, ceAssembler: ICourseEditionAssembler, gradeStudentService: IGradeAStudentService, studentGradeAssembler: IStudentGradeAssembler,\npeServiceAssembler: IProgrammeEditionServiceAssembler, defineRUCService: IDefineRucService, ceService: ICourseEditionService, ceHateoasService: ICourseEditionHateoasAssembler,\nstudentCountAssembler: IStudentCountAssembler, ceeHateoasAssembler: ICourseEditionEnrolmentHateoasAssembler))
+    +getNumberOfStudentsInCourseEdition(selectedCEIDDTO : SelectedCourseEditionIdDTO)
+}
+
+interface ICourseEditionEnrolmentService {
+    +numberOfStudentsEnrolledInCourseEdition(ceID : CourseEditionID)
+}
+
+class CourseEditionEnrolmentServiceImpl {
+    -_ceeFactory: ICourseEditionEnrolmentFactory
+    -_npeeRepository: IProgrammeEditionEnrolmentRepository
+    -_ceRepository: ICourseEditionRepository
+    +CourseEditionEnrolmentServiceImpl(ceeFactory: ICourseEditionEnrolmentFactory, ceeRepository: ICourseEditionEnrolmentRepository, \npeeRepository: IProgrammeEditionEnrolmentRepository, ceRepository: ICourseEditionRepository)
+    +numberOfStudentsEnrolledInCourseEdition(ceID : CourseEditionID)
+}
+
+interface ICourseEditionEnrolmentRepository {
+    + numberOfStudentsEnrolledInCourseEdition(ceID: CourseEditionID)
+}
+
+class CourseEditionEnrolmentRepositorySpringDataImpl{
+    -_ceeMapper: ICourseEditionEnrolmentMapper
+    -_ceeIDMapper: ICourseEditionEnrolmentIDMapper
+    -_studentIDMapper: IStudentIDMapper
+    +CourseEditionEnrolmentRepository()
+    +numberOfStudentsEnrolledInCourseEdition(courseEditionID : CourseEditionId)
+}
+
+interface "ICourseEditionEnrolmentRepositoryJPA" {
+     + countById_CourseEditionIDAndActiveTrue(courseEditionID: CourseEditionIDDataModel)
+}
+
+interface ICourseEditionIDMapper {
+    + toDataModel(ceIDDomain : CourseEditionID)
+    + toDomain(ceIDDataModel : CourseEditionIDDataModel)
+}
+
+class CourseEditionIDMapperImpl {
+    -_programmeEditionIDMapper: IProgrammeEditionIDMapper
+    -_courseInStudyPlan: ICourseEditionIDStudyPlan
+    + toDataModel(ceIDDomain : CourseEditionID)
+    + toDomain(ceIDDataModel : CourseEditionIDDataModel)
+}
+
+class "<<ValueObject>>\nCourseEditionID" as CourseEditionID {
+    -_programmeEditionID: ProgrammeEditionID
+    -_courseInStudyPlanID: CourseInStudyPlanID
+    +getProgrammeEditionID()
+    +getCourseInStudyPlanID()
+}
+
+class CourseEditionIDDataModel {
+    -_programmeEditionIDDM: ProgrammeEditionIDDataModel
+    -_courseInStudyPlanIDDM: CourseInStudyPlanIDDataModel
+}
+
+interface IStudentCountAssembler {
+    + fromDomainToDTO(studentCountDTO : StudentCountDTO)
+}
+
+class StudentCountAssemblerImpl {
+    + fromDomainToDTO(studentCountDTO : StudentCountDTO)
+}
+
+class StudentCountDTO {
+    - studentCount: Integer
+}
+
+
+CourseEditionRestController "*" ---> "_courseEditionEnrolmentService\n1" ICourseEditionEnrolmentService
+CourseEditionRestController "*" ---> "_studentCountAssembler\n1" IStudentCountAssembler
+CourseEditionRestController "*" ..> "1" CourseEditionID
+CourseEditionRestController "*" ..> "1" StudentCountDTO
+
+
+StudentCountAssemblerImpl -u.|> IStudentCountAssembler
+StudentCountAssemblerImpl "*" --> "1" StudentCountDTO
+
+CourseEditionEnrolmentServiceImpl ...|> ICourseEditionEnrolmentService
+CourseEditionEnrolmentServiceImpl "*" ---> "_ceeRepository\n1" ICourseEditionEnrolmentRepository
+
+CourseEditionEnrolmentRepositorySpringDataImpl .u..|> ICourseEditionEnrolmentRepository
+CourseEditionEnrolmentRepositorySpringDataImpl "*" ---> "_ceeRepositorySpringData\n1" ICourseEditionEnrolmentRepositoryJPA
+CourseEditionEnrolmentRepositorySpringDataImpl "*" ---> "_ceeIDMapper\n1" ICourseEditionIDMapper
+
+ICourseEditionIDMapper <|... CourseEditionIDMapperImpl
+
+CourseEditionIDMapperImpl "*" ..> "1" CourseEditionID
+CourseEditionIDMapperImpl "*" ..> "1" CourseEditionIDDataModel
+
+CourseEditionEnrolmentRepositorySpringDataImpl "*" ..> "1" CourseEditionID
+CourseEditionEnrolmentRepositorySpringDataImpl "*" ..> "1" CourseEditionIDDataModel
+
+@enduml
