@@ -161,7 +161,7 @@ class ProgrammeEditionRestControllerTest {
                 courseAssembler, hateoasAssembler));
 
         // assert
-        assertEquals("ProgrammeEditionHateoasAssembler cannot be null.", exception.getMessage());
+        assertEquals("ProgrammeEditionControllerAssembler cannot be null.", exception.getMessage());
     }
 
     @Test
