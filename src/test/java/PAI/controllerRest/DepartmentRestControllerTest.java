@@ -20,21 +20,17 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.hateoas.Link;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.*;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import java.util.stream.StreamSupport;
 
 class DepartmentRestControllerTest {
 
@@ -176,11 +172,10 @@ class DepartmentRestControllerTest {
         IDepartmentRegistrationService departmentRegistrationService = mock(IDepartmentRegistrationService.class);
         IDepartmentAssembler departmentAssembler = mock(IDepartmentAssembler.class);
         IUpdateDepartmentDirectorService updateDepartmentDirectorServiceDouble = mock(IUpdateDepartmentDirectorService.class);
-        IDepartmentHateoasAssembler departmentHateoasAssemblerDouble = mock(IDepartmentHateoasAssembler.class);
+        IDepartmentHateoasAssembler departmentHateoasAssembler = mock(IDepartmentHateoasAssembler.class);
         IDepartmentWithDirectorHateaosAssembler departmentWithDirectorHateoasAssemblerDouble = mock(IDepartmentWithDirectorHateaosAssembler.class);
 
-        DepartmentRestController departmentRestController = new DepartmentRestController(departmentRegistrationService, departmentAssembler, updateDepartmentDirectorServiceDouble, departmentHateoasAssemblerDouble, departmentWithDirectorHateoasAssemblerDouble);
-
+        DepartmentRestController departmentRestController = new DepartmentRestController(departmentRegistrationService, departmentAssembler, updateDepartmentDirectorServiceDouble, departmentHateoasAssembler, departmentWithDirectorHateoasAssemblerDouble);
         Department department1 = mock(Department.class);
         Department department2 = mock(Department.class);
         Department department3 = mock(Department.class);
@@ -191,16 +186,33 @@ class DepartmentRestControllerTest {
         List<Department> departments = List.of(department1, department2, department3);
         List<DepartmentWithDirectorDTO> departmentDTOs = List.of(departmentDTO1, departmentDTO2, departmentDTO3);
 
+        EntityModel<DepartmentWithDirectorDTO> entityModel1 = EntityModel.of(departmentDTO1);
+        EntityModel<DepartmentWithDirectorDTO> entityModel2 = EntityModel.of(departmentDTO2);
+        EntityModel<DepartmentWithDirectorDTO> entityModel3 = EntityModel.of(departmentDTO3);
+
+        CollectionModel<EntityModel<DepartmentWithDirectorDTO>> collectionModel =
+                CollectionModel.of(List.of(entityModel1, entityModel2, entityModel3));
+
         when(departmentRegistrationService.getAllDepartments()).thenReturn(departments);
         when(departmentAssembler.toDWDDTOs(departments)).thenReturn(departmentDTOs);
+        when(departmentHateoasAssembler.toDiretorCollectionModel(departmentDTOs)).thenReturn(collectionModel);
 
         // Act
         ResponseEntity<?> response = departmentRestController.getAllDepartments();
 
         // Assert
-        assertEquals(200, response.getStatusCodeValue());
-        assertTrue(((Iterable<?>) response.getBody()).iterator().hasNext());
-        assertTrue(((Collection<?>) response.getBody()).contains(departmentDTO1));
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        CollectionModel<EntityModel<DepartmentWithDirectorDTO>> body = (CollectionModel<EntityModel<DepartmentWithDirectorDTO>>) response.getBody();
+        assertNotNull(body);
+        List<EntityModel<DepartmentWithDirectorDTO>> entityModels = StreamSupport.stream(body.spliterator(), false).toList();
+        assertFalse(entityModels.isEmpty());
+        assertEquals(3, entityModels.size());
+        assertEquals(departmentDTO1, entityModels.get(0).getContent());
+        assertEquals(departmentDTO2, entityModels.get(1).getContent());
+        assertEquals(departmentDTO3, entityModels.get(2).getContent());
+        verify(departmentRegistrationService).getAllDepartments();
+        verify(departmentAssembler).toDWDDTOs(departments);
+        verify(departmentHateoasAssembler).toDiretorCollectionModel(departmentDTOs);
     }
 
     @Test
@@ -218,15 +230,25 @@ class DepartmentRestControllerTest {
         List<Department> departments = List.of();
         List<DepartmentWithDirectorDTO> departmentDTOs = List.of();
 
+        CollectionModel<EntityModel<DepartmentWithDirectorDTO>> emptyCollection =
+                CollectionModel.of(List.of());
+
         when(departmentRegistrationService.getAllDepartments()).thenReturn(departments);
         when(departmentAssembler.toDWDDTOs(departments)).thenReturn(departmentDTOs);
+        when(departmentHateoasAssemblerDouble.toDiretorCollectionModel(departmentDTOs)).thenReturn(emptyCollection);
 
         // Act
         ResponseEntity<?> response = departmentRestController.getAllDepartments();
 
         // Assert
-        assertEquals(200, response.getStatusCodeValue());
-        assertFalse(((Iterable<?>) response.getBody()).iterator().hasNext());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        CollectionModel<EntityModel<DepartmentWithDirectorDTO>> body =
+                (CollectionModel<EntityModel<DepartmentWithDirectorDTO>>) response.getBody();
+        assertNotNull(body);
+        assertTrue(body.getContent().isEmpty());
+        verify(departmentRegistrationService).getAllDepartments();
+        verify(departmentAssembler).toDWDDTOs(departments);
+        verify(departmentHateoasAssemblerDouble).toDiretorCollectionModel(departmentDTOs);
     }
 
     @Test

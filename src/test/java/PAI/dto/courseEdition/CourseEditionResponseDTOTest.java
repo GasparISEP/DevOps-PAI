@@ -24,13 +24,13 @@ class CourseEditionResponseDTOTest {
 
         //act
         CourseEditionResponseDTO dto = new CourseEditionResponseDTO(
-                courseEditionID,
                 programmeAcronym,
                 schoolYearID,
                 courseAcronym,
                 courseName,
-                studyPlanImplementationDate
-        );
+                studyPlanImplementationDate,
+                courseEditionID
+                );
 
         //assert
         assertEquals(courseEditionID, dto.courseEditionID());

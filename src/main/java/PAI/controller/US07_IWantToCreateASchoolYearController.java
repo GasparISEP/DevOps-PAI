@@ -7,6 +7,8 @@ import PAI.service.schoolYear.ISchoolYearService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
 public class US07_IWantToCreateASchoolYearController {
 
@@ -26,13 +28,18 @@ public class US07_IWantToCreateASchoolYearController {
     }
 
     // Creates a new School Year
-    public SchoolYear addSchoolYear (String descriptionInfo, String startDateInfo, String endDateInfo) throws Exception {
+    public SchoolYear addSchoolYear(String schoolYear, String descriptionInfo, String startDateInfo, String endDateInfo) throws Exception {
+        if (schoolYear == null || descriptionInfo == null || startDateInfo == null || endDateInfo == null) {
+            throw new IllegalArgumentException("Invalid input: parameters cannot be null");
+        }
+
         try {
+            UUID schoolYeaID = UUID.fromString(schoolYear);
             Description description = new Description(descriptionInfo);
             Date startDate = new Date(startDateInfo);
             Date endDate = new Date(endDateInfo);
 
-            return schoolYearService.addSchoolYear(description, startDate, endDate);
+            return schoolYearService.addSchoolYearDM(schoolYeaID, description, startDate, endDate);
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Invalid input: " + e.getMessage(), e);
         } catch (Exception e) {

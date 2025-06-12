@@ -8,6 +8,8 @@ import PAI.dto.courseEdition.SelectedCourseEditionIdDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
@@ -71,9 +73,9 @@ class CourseEditionAssemblerImplTest {
         SchoolYearID schoolYearID = mock(SchoolYearID.class);
         CourseID courseID = mock(CourseID.class);
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
+        ProgrammeID programmeIDInStudyPlan = mock(ProgrammeID.class);
 
         UUID uuid = UUID.randomUUID();
-        String programmeName = "Software Engineering";
         String programmeAcronym = "SE";
         String courseAcronym = "CS101";
         String courseName = "Intro to Programming";
@@ -84,6 +86,8 @@ class CourseEditionAssemblerImplTest {
         when(studyPlanID.getLocalDate()).thenReturn(studyPlanDate);
         when(courseID.getCourseAcronymValue()).thenReturn(courseAcronym);
         when(courseID.getCourseNameValue()).thenReturn(courseName);
+        when(studyPlanID.getProgrammeID()).thenReturn(programmeIDInStudyPlan);
+        when(programmeIDInStudyPlan.getProgrammeAcronym()).thenReturn(programmeAcronym);
 
         ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID, schoolYearID);
         CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(courseID, studyPlanID);
@@ -97,7 +101,17 @@ class CourseEditionAssemblerImplTest {
         CourseEditionResponseDTO dto = assembler.toResponseDTO(courseEdition);
 
         // Assert
-        assertEquals(courseEditionID.toString(), dto.courseEditionID());
+        String expectedFormattedID = URLEncoder.encode(
+                programmeAcronym + "-" +
+                        uuid + "_" +
+                        courseAcronym + "-" +
+                        courseName + "-" +
+                        programmeAcronym + "-" +
+                        studyPlanDate.toString(),
+                StandardCharsets.UTF_8
+        );
+
+        assertEquals(expectedFormattedID, dto.courseEditionID());
         assertEquals(programmeAcronym, dto.programmeAcronym());
         assertEquals(uuid, dto.schoolYearID());
         assertEquals(courseAcronym, dto.courseAcronym());

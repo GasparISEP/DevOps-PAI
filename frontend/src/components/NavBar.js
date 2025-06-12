@@ -55,6 +55,11 @@ const NavBar = () => {
                   </Link>
                 </li>
                 <li>
+                  <Link to="/students/enroll" className="navbar-link" onClick={() => setIsStudentOpen(false)}>
+                    Enroll Student
+                  </Link>
+                </li>
+                <li>
                   <Link to="/students/display" className="navbar-link" onClick={() => setIsStudentOpen(false)}>
                     Display Students
                   </Link>
@@ -94,6 +99,11 @@ const NavBar = () => {
                 <li>
                   <Link to="/courseeditions/display" className="navbar-link">
                     Display Course Editions
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/course-editions/average-grade" className="navbar-link">
+                    Average Grade
                   </Link>
                 </li>
               </ul>

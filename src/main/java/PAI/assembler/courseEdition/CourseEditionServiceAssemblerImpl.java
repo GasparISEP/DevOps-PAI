@@ -8,6 +8,9 @@ import PAI.domain.courseEdition.CourseEdition;
 import PAI.dto.courseEdition.CourseEditionResponseDTO;
 import org.springframework.stereotype.Component;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
 @Component
 public class CourseEditionServiceAssemblerImpl implements ICourseEditionServiceAssembler {
 
@@ -22,15 +25,26 @@ public class CourseEditionServiceAssemblerImpl implements ICourseEditionServiceA
         ProgrammeID programmeID = peID.getProgrammeID();
         SchoolYearID schoolYearID = peID.getSchoolYearID();
 
-        return new CourseEditionResponseDTO(
-                courseEdition.identity().toString(),
+        String formattedID = URLEncoder.encode(
+                programmeID.getProgrammeAcronym() + "-" +
+                        schoolYearID.getSchoolYearID() + "_" +
+                        cspID.getCourseID().getCourseAcronymValue() + "-" +
+                        cspID.getCourseID().getCourseNameValue() + "-" +
+                        cspID.getStudyPlanID().getProgrammeID().getProgrammeAcronym() + "-" +
+                        cspID.getStudyPlanID().getLocalDate().toString(), // yyyy-MM-dd
+                StandardCharsets.UTF_8
+        );
 
+        System.out.println("formattedID: " + formattedID);
+
+        return new CourseEditionResponseDTO(
                 programmeID.getProgrammeAcronym(),
                 schoolYearID.getSchoolYearID(),
 
                 cspID.getCourseID().getCourseAcronymValue(),
                 cspID.getCourseID().getCourseNameValue(),
-                cspID.getStudyPlanID().getLocalDate()
+                cspID.getStudyPlanID().getLocalDate(),
+                formattedID
         );
     }
 }

@@ -1,5 +1,6 @@
 package PAI.controller;
 
+import PAI.VOs.DegreeTypeID;
 import PAI.VOs.MaxEcts;
 import PAI.VOs.Name;
 import PAI.service.degreeType.DegreeTypeService;
@@ -19,4 +20,10 @@ public class US10_IWantToConfigureDegreeTypesLevelsController {
     public boolean registerDegreeType(Name name, MaxEcts maxEcts) throws Exception {
         return service.registerDegreeType(name, maxEcts);
     }
+
+    public boolean registerDegreeTypeWithUUID(DegreeTypeID id, Name name, MaxEcts maxEcts) throws Exception {
+        return service.registerDegreeTypeWithUUID(id,name,maxEcts);
+    }
+
+
 }

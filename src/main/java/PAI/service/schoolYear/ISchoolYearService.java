@@ -9,14 +9,16 @@ import PAI.dto.schoolYear.SchoolYearDTO;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface ISchoolYearService {
 
     SchoolYear addSchoolYear(Description description, Date startDate, Date endDate) throws Exception;
+    SchoolYear addSchoolYearDM(UUID schoolYearID, Description description, Date startDate, Date endDate) throws Exception;
     Optional<SchoolYearID> getCurrentSchoolYearID();
     boolean schoolYearExistsById(SchoolYearID schoolYearID);
     List<SchoolYearID> getAllSchoolYearsIDs();
-    Iterable<SchoolYearDTO> getAllSchoolYears();
+    Iterable<CurrentSchoolYearDTO> getAllSchoolYears();
     Optional<CurrentSchoolYearDTO> getCurrentSchoolYear();
     Optional<SchoolYear> getSchoolYearByID(SchoolYearID schoolYearID);
 }

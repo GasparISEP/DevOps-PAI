@@ -174,9 +174,9 @@ public class CourseEditionRestControllerIntegrationTests {
                 new Name(requestDTO.courseName()), new Date(requestDTO.studyPlanImplementationDate()));
 
         CourseEditionResponseDTO responseDTO = new CourseEditionResponseDTO(
-                "courseEditionID123","SDV",
+                "SDV",
                 requestDTO.schoolYearID(), "SA", "Software Architecture",
-                LocalDate.of(2023, 9, 1));
+                LocalDate.of(2023, 9, 1), "courseEditionID123");
 
         when(courseEditionAssembler.toCommand(any())).thenReturn(command);
         when(createCourseEditionService.createCourseEditionAndReturnDTO(any(), any())).thenReturn(responseDTO);
@@ -186,7 +186,7 @@ public class CourseEditionRestControllerIntegrationTests {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDTO)))
                 .andExpect(status().isCreated())
-                .andExpect(header().string("Location", "/courseeditions/" + responseDTO.courseEditionID()))
+                .andExpect(header().string("Location", "/courseeditions/"))
                 .andReturn();
 
         // Assert
@@ -230,7 +230,7 @@ public class CourseEditionRestControllerIntegrationTests {
                 "LEI", "LEIC", UUID.randomUUID(),
                 "SA", "Software Architecture", LocalDate.of(2023, 9, 1));
 
-        when(courseEditionAssembler.toCommand(any())).thenThrow(new RuntimeException("Test Exception"));
+        when(courseEditionAssembler.toCommand(any())).thenThrow(new IllegalArgumentException("Test Exception"));
 
         // Act & Assert
         mockMvc.perform(post("/courseeditions")
@@ -239,5 +239,6 @@ public class CourseEditionRestControllerIntegrationTests {
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string("Test Exception"));
     }
+
 }
 

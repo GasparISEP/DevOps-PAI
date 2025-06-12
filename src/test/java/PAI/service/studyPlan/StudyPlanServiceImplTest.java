@@ -50,7 +50,6 @@ class StudyPlanServiceImplTest {
     private ProgrammeID programmeID;
     private StudyPlan studyPlan;
     private StudyPlanID studyPlanID;
-    private DurationInYears durationInYears;
     private MaxEcts maxEcts;
     private QuantSemesters quantSemestersDouble;
     private Programme programmeDouble;
@@ -63,7 +62,6 @@ class StudyPlanServiceImplTest {
     void setUp() throws Exception {
         MockitoAnnotations.openMocks(this);
         date = mock(Date.class);
-        durationInYears = mock(DurationInYears.class);
         programmeDouble = mock(Programme.class);
         programmeID = mock(ProgrammeID.class);
         maxEcts = mock(MaxEcts.class);

@@ -381,21 +381,21 @@ class SchoolYearServiceImplTest {
         List<SchoolYear> schoolYears = List.of(schoolYear1, schoolYear2, schoolYear3);
         when(schoolYearRepository.findAll()).thenReturn(schoolYears);
 
-        SchoolYearDTO schoolYearDTO1 = mock(SchoolYearDTO.class);
-        SchoolYearDTO schoolYearDTO2 = mock(SchoolYearDTO.class);
-        SchoolYearDTO schoolYearDTO3 = mock(SchoolYearDTO.class);
+        CurrentSchoolYearDTO schoolYearDTO1 = mock(CurrentSchoolYearDTO.class);
+        CurrentSchoolYearDTO schoolYearDTO2 = mock(CurrentSchoolYearDTO.class);
+        CurrentSchoolYearDTO schoolYearDTO3 = mock(CurrentSchoolYearDTO.class);
 
-        when(schoolYearMapperDTO.toDTO(schoolYear1)).thenReturn(schoolYearDTO1);
-        when(schoolYearMapperDTO.toDTO(schoolYear2)).thenReturn(schoolYearDTO2);
-        when(schoolYearMapperDTO.toDTO(schoolYear3)).thenReturn(schoolYearDTO3);
+        when(schoolYearMapperDTO.toCurrentSchoolYearDTO(schoolYear1)).thenReturn(schoolYearDTO1);
+        when(schoolYearMapperDTO.toCurrentSchoolYearDTO(schoolYear2)).thenReturn(schoolYearDTO2);
+        when(schoolYearMapperDTO.toCurrentSchoolYearDTO(schoolYear3)).thenReturn(schoolYearDTO3);
 
         // Act
-        Iterable<SchoolYearDTO> result = service.getAllSchoolYears();
+        Iterable<CurrentSchoolYearDTO> result = service.getAllSchoolYears();
 
         // Assert
         assertNotNull(result);
         assertTrue(result.iterator().hasNext());
-        List<SchoolYearDTO> listResult = new ArrayList<>();
+        List<CurrentSchoolYearDTO> listResult = new ArrayList<>();
         result.forEach(listResult::add);
         assertEquals(3, listResult.size());
         assertTrue(listResult.contains(schoolYearDTO1));
@@ -416,12 +416,12 @@ class SchoolYearServiceImplTest {
         when(schoolYearRepository.findAll()).thenReturn(schoolYears);
 
         // Act
-        Iterable<SchoolYearDTO> result = service.getAllSchoolYears();
+        Iterable<CurrentSchoolYearDTO> result = service.getAllSchoolYears();
 
         // Assert
         assertNotNull(result);
         assertFalse(result.iterator().hasNext());
-        List<SchoolYearDTO> listResult = new ArrayList<>();
+        List<CurrentSchoolYearDTO> listResult = new ArrayList<>();
         result.forEach(listResult::add);
         assertEquals(0, listResult.size());
     }
