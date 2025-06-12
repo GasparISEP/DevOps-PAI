@@ -84,11 +84,11 @@ public class SchoolYearServiceImpl implements ISchoolYearService {
         return result;
     }
 
-    public Iterable<SchoolYearDTO> getAllSchoolYears() {
+    public Iterable<CurrentSchoolYearDTO> getAllSchoolYears() {
         Iterable<SchoolYear> schoolYears = schoolYearRepository.findAll();
-        List<SchoolYearDTO> schoolYearDTOs = new ArrayList<>();
+        List<CurrentSchoolYearDTO> schoolYearDTOs = new ArrayList<>();
         for (SchoolYear schoolYear : schoolYears) {
-            SchoolYearDTO schoolYearDTO = schoolYearMapperDTO.toDTO(schoolYear);
+            CurrentSchoolYearDTO schoolYearDTO = schoolYearMapperDTO.toCurrentSchoolYearDTO(schoolYear);
             schoolYearDTOs.add(schoolYearDTO);
         }
         return schoolYearDTOs;
