@@ -69,7 +69,7 @@ package "Assembler / DTO" {
 
 
   class CourseInStudyPlanResponseDTO {
-    - courseInStudyPlanID : UUID
+    - generatedID : UUID
     - semester : int
     - curricularYear : int
     - courseAcronym : String
@@ -82,7 +82,6 @@ package "Assembler / DTO" {
   }
 
   class CourseInStudyPlanServiceDTO {
-      - courseInStudyPlanID : UUID
       - generatedID : UUID
       - semester : int
       - curricularYear : int
@@ -93,8 +92,6 @@ package "Assembler / DTO" {
       - studyPlanDate : String
       - duration : int
       - credits : double
-      - courseId : CourseID
-      - studyPlanId : StudyPlanID
   }
 }
 
