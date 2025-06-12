@@ -40,8 +40,8 @@ export default function ProgrammeForm() {
                 const degreeTypeData = await degreeTypeRes.json();
 
                 setDepartments(deptData);
-                setTeachers(teacherData);
-                setDegreeTypes(degreeTypeData);
+                setTeachers(teacherData._embedded?.teacherDTOList || []);
+                setDegreeTypes(degreeTypeData._embedded?.degreeTypeDTOList || []);
             } catch (err) {
                 console.error("Failed to load options:", err);
             }
