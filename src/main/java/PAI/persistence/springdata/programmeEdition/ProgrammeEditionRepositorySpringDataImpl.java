@@ -212,9 +212,7 @@ public class ProgrammeEditionRepositorySpringDataImpl implements IProgrammeEditi
 
         SchoolYearIDDataModel schoolYearIDDataModel = iSchoolYearIDMapper.toDataModel(schoolYearID);
 
-        List<ProgrammeIDDataModel> programmeIDDataModels = new ArrayList<>();
-        for (ProgrammeID programmeID : programmeIDs)
-            programmeIDDataModels.add(iProgrammeIDMapper.toData(programmeID));
+        List<ProgrammeIDDataModel> programmeIDDataModels = mapProgrammeIDs(programmeIDs);
 
         List<ProgrammeEditionIdDataModel> programmeEditionsIdDataModel = iProgrammeEditionRepositorySpringData.findProgrammeEditionIDsBySchoolYearIdAndProgrammeIds(schoolYearIDDataModel, programmeIDDataModels);
 
@@ -229,4 +227,14 @@ public class ProgrammeEditionRepositorySpringDataImpl implements IProgrammeEditi
         }
         return programmeEditionIDs;
     }
+
+    private List<ProgrammeIDDataModel> mapProgrammeIDs(List<ProgrammeID> programmeIDs) {
+        List<ProgrammeIDDataModel> programmeIDDataModels = new ArrayList<>();
+        for (ProgrammeID programmeID : programmeIDs) {
+            programmeIDDataModels.add(iProgrammeIDMapper.toData(programmeID));
+        }
+        return programmeIDDataModels;
+    }
+
+
 }
