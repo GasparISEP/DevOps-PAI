@@ -5,14 +5,17 @@ import PAI.VOs.CourseID;
 import PAI.VOs.Name;
 import PAI.VOs.ProgrammeID;
 import PAI.domain.course.Course;
+import PAI.domain.teacher.Teacher;
 import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.course.CourseDTOCommand;
 import PAI.dto.course.CourseIDDTO;
 import PAI.dto.course.CourseRequestDTO;
 import PAI.dto.course.CourseResponseDTO;
+import PAI.dto.teacher.TeacherDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -51,5 +54,19 @@ public class CourseAssemblerImpl implements ICourseAssembler {
             dtos.add(toIDDTO(existingCourse));
         }
         return dtos;
+    }
+
+    @Override
+    public Iterable<CourseResponseDTO> toDTOs(Iterable<Course> courses) {
+        if (courses == null) {
+            return Collections.emptyList();
+        }
+
+        List<CourseResponseDTO> listDTO = new ArrayList<>();
+        for (Course course : courses) {
+            CourseResponseDTO courseResponseDTO = toDTO(course);
+            listDTO.add(courseResponseDTO);
+        }
+        return listDTO;
     }
 }
