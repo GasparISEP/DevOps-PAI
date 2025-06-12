@@ -2,7 +2,8 @@ package PAI.assembler.schoolYear;
  import PAI.dto.schoolYear.CurrentSchoolYearDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.hateoas.EntityModel;
+ import org.springframework.hateoas.CollectionModel;
+ import org.springframework.hateoas.EntityModel;
 
 import java.time.LocalDate;
 
@@ -33,6 +34,18 @@ class SchoolYearHateoasAssemblerTest {
 
         assertTrue(selfHref.contains("/school-years/HI"));
         assertTrue(allHref.contains("/school-years"));
+    }
+
+    @Test
+    void shouldReturnNullForCollectionModel() {
+        // Assert
+        Iterable<CurrentSchoolYearDTO> dtos = null;
+
+        // Act
+        CollectionModel<EntityModel<CurrentSchoolYearDTO>> collectionModel = assembler.CollectionModel(dtos);
+
+        // Assert
+        assertNull(collectionModel);
     }
 
 }
