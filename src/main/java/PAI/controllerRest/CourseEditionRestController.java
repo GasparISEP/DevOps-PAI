@@ -10,7 +10,6 @@ import PAI.dto.courseEdition.*;
 import PAI.dto.studentGrade.GradeAStudentCommand;
 import PAI.dto.studentGrade.GradeAStudentRequestDTO;
 import PAI.dto.studentGrade.GradeAStudentResponseDTO;
-import PAI.exception.NotFoundException;
 import PAI.service.courseEdition.ICourseEditionService;
 import PAI.service.courseEdition.ICreateCourseEditionService;
 import PAI.service.courseEdition.IDefineRucService;
@@ -37,9 +36,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.ArrayList;
 import java.util.UUID;
-
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/courseeditions")
