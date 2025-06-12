@@ -382,7 +382,7 @@ class CourseEditionRestControllerTest {
     void whenDefineRucSuccessfullyThenReturnsOkWithHateoas() throws Exception {
         // Arrange
         UUID uuid = UUID.randomUUID();
-        DefineRucRequestDTO requestDTO = new DefineRucRequestDTO("AAB", null); // Pass null or adjust constructor to only require teacherID if needed
+        DefineRucRequestDTO requestDTO = new DefineRucRequestDTO("AAB"); // Pass null or adjust constructor to only require teacherID if needed
 
         TeacherID teacherID = mock(TeacherID.class);
         CourseEditionGeneratedID courseEditionID = mock(CourseEditionGeneratedID.class);
@@ -415,7 +415,7 @@ class CourseEditionRestControllerTest {
         UUID uuid = UUID.randomUUID();
         SelectedCourseEditionGeneratedIdDTO courseEditionDTO = new SelectedCourseEditionGeneratedIdDTO(uuid);
 
-        DefineRucRequestDTO requestDTO = new DefineRucRequestDTO("GOM", null); // or omit courseEditionID if possible
+        DefineRucRequestDTO requestDTO = new DefineRucRequestDTO("GOM"); // or omit courseEditionID if possible
 
         TeacherID teacherID = mock(TeacherID.class);
         CourseEditionGeneratedID courseEditionID = mock(CourseEditionGeneratedID.class);
@@ -441,7 +441,7 @@ class CourseEditionRestControllerTest {
         // Arrange
         UUID uuid = UUID.randomUUID();
         SelectedCourseEditionGeneratedIdDTO courseEditionDTO = new SelectedCourseEditionGeneratedIdDTO(uuid);
-        DefineRucRequestDTO requestDTO = new DefineRucRequestDTO("GOM", null); // courseEditionID null or omitted
+        DefineRucRequestDTO requestDTO = new DefineRucRequestDTO("GOM"); // courseEditionID null or omitted
 
         TeacherID teacherID = mock(TeacherID.class);
         CourseEditionGeneratedID courseEditionID = mock(CourseEditionGeneratedID.class);
