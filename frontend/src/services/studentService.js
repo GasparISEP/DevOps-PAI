@@ -47,3 +47,34 @@ export async function getAllStudents() {
     console.warn("Formato inesperado:", data);
     return [];
 }
+
+export async function enrolStudentInProgramme(programmeEnrolmentDTO) {
+    const response = await fetch(`${API_URL}/enrollStudent`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(programmeEnrolmentDTO)
+    });
+
+    const contentType = response.headers.get('Content-Type') || '';
+
+    if (!response.ok) {
+        let errBody;
+        if (contentType.includes('application/json') || contentType.includes('application/hal+json')) {
+            errBody = await response.json();
+        } else {
+            const text = await response.text();
+            errBody = { message: text };
+        }
+        const errMsg = errBody.message || errBody.error || `HTTP ${response.status}`;
+        throw new Error(errMsg);
+    }
+
+    const isJson = contentType.includes('application/json') || contentType.includes('application/hal+json');
+    const result = isJson ? await response.json() : await response.text();
+
+    console.log("[DEBUG] Resposta do backend enrolStudent:", result);
+
+    return result;
+}
