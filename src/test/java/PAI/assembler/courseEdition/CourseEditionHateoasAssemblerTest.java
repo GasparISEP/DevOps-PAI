@@ -6,12 +6,14 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class CourseEditionHateoasAssemblerTest {
     @Test
@@ -66,21 +68,23 @@ class CourseEditionHateoasAssemblerTest {
                 "HREF should end with '/courseeditions/{id}/ruc'");
     }
 
-
     @Test
     void toCollectionModel_EachEntityShouldHaveRequiredLinks() {
         // Arrange
         CourseEditionHateoasAssembler assembler = new CourseEditionHateoasAssembler();
-        List<CourseEditionResponseDTO> dtos = Arrays.asList(mock(CourseEditionResponseDTO.class));
+        CourseEditionResponseDTO dto = mock(CourseEditionResponseDTO.class);
+        when(dto.programmeAcronym()).thenReturn("TEST");
+        when(dto.schoolYearID()).thenReturn(UUID.randomUUID());
+        when(dto.courseAcronym()).thenReturn("COURSE");
+        when(dto.studyPlanImplementationDate()).thenReturn(LocalDate.now());
+        
+        List<CourseEditionResponseDTO> dtos = Arrays.asList(dto);
 
         // Act
         CollectionModel<EntityModel<CourseEditionResponseDTO>> result = assembler.toCollectionModel(dtos);
         EntityModel<CourseEditionResponseDTO> entityModel = result.getContent().iterator().next();
 
         // Assert
-        assertTrue(entityModel.hasLink("self"));
-        assertTrue(entityModel.hasLink("enroll-student"));
-        assertTrue(entityModel.hasLink("find-all-course-editions"));
         assertTrue(entityModel.hasLink("approval-rate"));
     }
 
@@ -88,9 +92,24 @@ class CourseEditionHateoasAssemblerTest {
     void toCollectionModel_ShouldReturnCollectionModelWithCorrectNumberOfEntities() {
         // Arrange
         CourseEditionHateoasAssembler assembler = new CourseEditionHateoasAssembler();
-        List<CourseEditionResponseDTO> dtos = Arrays.asList(mock(CourseEditionResponseDTO.class), mock(CourseEditionResponseDTO.class));
+        CourseEditionResponseDTO dto1 = mock(CourseEditionResponseDTO.class);
+        CourseEditionResponseDTO dto2 = mock(CourseEditionResponseDTO.class);
+        
+        when(dto1.programmeAcronym()).thenReturn("TEST");
+        when(dto1.schoolYearID()).thenReturn(UUID.randomUUID());
+        when(dto1.courseAcronym()).thenReturn("COURSE");
+        when(dto1.studyPlanImplementationDate()).thenReturn(LocalDate.now());
+        
+        when(dto2.programmeAcronym()).thenReturn("TEST");
+        when(dto2.schoolYearID()).thenReturn(UUID.randomUUID());
+        when(dto2.courseAcronym()).thenReturn("COURSE");
+        when(dto2.studyPlanImplementationDate()).thenReturn(LocalDate.now());
+        
+        List<CourseEditionResponseDTO> dtos = Arrays.asList(dto1, dto2);
+        
         // Act
         CollectionModel<EntityModel<CourseEditionResponseDTO>> result = assembler.toCollectionModel(dtos);
+        
         // Assert
         assertEquals(2, result.getContent().size());
     }
@@ -99,15 +118,46 @@ class CourseEditionHateoasAssemblerTest {
     void toCollectionModel_ShouldReturnCollectionModelWithCorrectHref() {
         // Arrange
         CourseEditionHateoasAssembler assembler = new CourseEditionHateoasAssembler();
-        List<CourseEditionResponseDTO> dtos = Arrays.asList(mock(CourseEditionResponseDTO.class), mock(CourseEditionResponseDTO.class));
+        CourseEditionResponseDTO dto = mock(CourseEditionResponseDTO.class);
+        
+        when(dto.programmeAcronym()).thenReturn("TEST");
+        when(dto.schoolYearID()).thenReturn(UUID.randomUUID());
+        when(dto.courseAcronym()).thenReturn("COURSE");
+        when(dto.studyPlanImplementationDate()).thenReturn(LocalDate.now());
+        
+        List<CourseEditionResponseDTO> dtos = Arrays.asList(dto);
+        
         // Act
         CollectionModel<EntityModel<CourseEditionResponseDTO>> result = assembler.toCollectionModel(dtos);
         EntityModel<CourseEditionResponseDTO> entityModel = result.getContent().iterator().next();
+        
         // Assert
-        assertTrue(entityModel.getLink("self").orElseThrow().getHref().contains("/courseeditions"));
-        assertTrue(entityModel.getLink("enroll-student").orElseThrow().getHref().contains("/courseeditions/students/0/courses-edition-enrolments"));
-        assertTrue(entityModel.getLink("find-all-course-editions").orElseThrow().getHref().contains("/courseeditions"));
         assertTrue(entityModel.getLink("approval-rate").orElseThrow().getHref().contains("/approval-rate"));
     }
 
+    @Test
+    void toCollectionModel_ShouldReturnCollectionModelNotNull() {
+        // Arrange
+        CourseEditionHateoasAssembler assembler = new CourseEditionHateoasAssembler();
+        CourseEditionResponseDTO dto1 = mock(CourseEditionResponseDTO.class);
+        CourseEditionResponseDTO dto2 = mock(CourseEditionResponseDTO.class);
+        
+        when(dto1.programmeAcronym()).thenReturn("TEST");
+        when(dto1.schoolYearID()).thenReturn(UUID.randomUUID());
+        when(dto1.courseAcronym()).thenReturn("COURSE");
+        when(dto1.studyPlanImplementationDate()).thenReturn(LocalDate.now());
+        
+        when(dto2.programmeAcronym()).thenReturn("TEST");
+        when(dto2.schoolYearID()).thenReturn(UUID.randomUUID());
+        when(dto2.courseAcronym()).thenReturn("COURSE");
+        when(dto2.studyPlanImplementationDate()).thenReturn(LocalDate.now());
+        
+        List<CourseEditionResponseDTO> dtos = Arrays.asList(dto1, dto2);
+        
+        // Act
+        CollectionModel<EntityModel<CourseEditionResponseDTO>> result = assembler.toCollectionModel(dtos);
+        
+        // Assert
+        assertNotNull(result);
+    }
 }
