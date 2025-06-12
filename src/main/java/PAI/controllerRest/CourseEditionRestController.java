@@ -146,10 +146,10 @@ public CourseEditionRestController(
                 return ResponseEntity.badRequest().build();
             }
 
-            String safeID = URLEncoder.encode(responseDTO.courseEditionID(), StandardCharsets.UTF_8);
+            //String safeID = URLEncoder.encode(responseDTO.courseEditionID(), StandardCharsets.UTF_8);
 
             return ResponseEntity
-                    .created(URI.create("/courseeditions/" + safeID))
+                    .created(URI.create("/courseeditions/")) //+ safeID))
                     .body(responseDTO);
 
         } catch (IllegalArgumentException e) {
