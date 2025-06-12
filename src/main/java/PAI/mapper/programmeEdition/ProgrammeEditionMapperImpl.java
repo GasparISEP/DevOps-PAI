@@ -29,14 +29,11 @@ public class ProgrammeEditionMapperImpl implements  IProgrammeEditionMapper{
     public ProgrammeEditionMapperImpl(IProgrammeEditionFactory programmeEditionFactory, IProgrammeEditionIdMapper programmeEditionIDMapper,
                                       IProgrammeIDMapper programmeIDMapper, ISchoolYearIDMapper schoolYearIDMapper, IProgrammeEditionGeneratedIDMapper programmeEditionGeneratedIDMapper){
 
-        if(programmeEditionGeneratedIDMapper == null){
-            throw new IllegalArgumentException("ProgrammeEdition Factory cannot be null");
-        }
         this.programmeEditionFactory = validateNotNull(programmeEditionFactory, "ProgrammeEditionFactory");
         this.programmeEditionIDMapper = validateNotNull(programmeEditionIDMapper, "ProgrammeEditionIDMapper");
         this.programmeIDMapper = validateNotNull(programmeIDMapper, "ProgrammeIDMapper");
         this.schoolYearIDMapper = validateNotNull(schoolYearIDMapper, "SchoolYearIDMapper");
-        this.programmeEditionGeneratedIDMapper = programmeEditionGeneratedIDMapper;
+        this.programmeEditionGeneratedIDMapper = validateNotNull(programmeEditionGeneratedIDMapper, "ProgrammeEditionGeneratedIDMapper");
     }
 
     @Override
