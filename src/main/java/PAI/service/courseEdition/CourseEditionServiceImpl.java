@@ -1,12 +1,10 @@
 package PAI.service.courseEdition;
 
-import PAI.VOs.CourseEditionID;
-import PAI.VOs.CourseInStudyPlanID;
-import PAI.VOs.ProgrammeEditionID;
-import PAI.VOs.TeacherID;
+import PAI.VOs.*;
 import PAI.domain.courseEdition.CourseEdition;
 import PAI.domain.courseEdition.ICourseEditionFactory;
 import PAI.domain.repositoryInterfaces.courseEdition.ICourseEditionRepository;
+import PAI.exception.NotFoundException;
 import jakarta.transaction.Transactional;
 
 import java.util.List;
@@ -84,5 +82,17 @@ public class CourseEditionServiceImpl implements ICourseEditionService {
             throw new IllegalArgumentException("CourseInStudyPlanID cannot be null");
         }
         return courseEditionRepository.findCourseEditionsByProgrammeEditionIDAndCourseInStudyPlanID(programmeEditionID, courseInStudyPlanID);
+    }
+
+    @Override
+    public CourseEditionID findCourseEditionByGeneratedID (CourseEditionGeneratedID generatedID) throws Exception {
+
+        Optional<CourseEdition> courseEdition = courseEditionRepository.findCourseEditionByGeneratedId(generatedID);
+
+        if (courseEdition.isPresent()) {
+            return courseEdition.get().identity();
+        } else {
+            throw new NotFoundException("CourseEdition not found with Universally Unique ID: " + generatedID);
+        }
     }
 }

@@ -17,10 +17,8 @@ import org.springframework.hateoas.Link;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-
 import java.time.LocalDate;
 import java.util.UUID;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -70,7 +68,7 @@ public class CourseEditionRestControllerIntegrationTests {
 
         DefineRucResponseDTO responseDTO = new DefineRucResponseDTO("AAB", courseEditionId);
         EntityModel<DefineRucResponseDTO> responseModel = EntityModel.of(responseDTO,
-                Link.of("http://localhost/courseeditions/" + courseEditionId + "/ruc").withRel("define-ruc"));
+                Link.of("http://localhost/course-editions/" + courseEditionId + "/ruc").withRel("define-ruc"));
 
         when(courseEditionAssembler.createTeacherID("AAB")).thenReturn(teacherID);
         when(courseEditionAssembler.fromDtoToCourseEditionGeneratedID(any())).thenReturn(courseEditionGeneratedID);
@@ -78,12 +76,12 @@ public class CourseEditionRestControllerIntegrationTests {
         when(courseEditionHateoasAssembler.toModel(any())).thenReturn(responseModel);
 
         // Act & Assert
-        mockMvc.perform(patch("/courseeditions/{id}/ruc", courseEditionId)
+        mockMvc.perform(patch("/course-editions/{id}/ruc", courseEditionId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.teacherID").value("AAB"))
-                .andExpect(jsonPath("$._links.define-ruc.href").value("http://localhost/courseeditions/" + courseEditionId + "/ruc"));
+                .andExpect(jsonPath("$._links.define-ruc.href").value("http://localhost/course-editions/" + courseEditionId + "/ruc"));
     }
 
 
@@ -100,7 +98,7 @@ public class CourseEditionRestControllerIntegrationTests {
         when(courseEditionAssembler.createTeacherID("BBB"))
                 .thenThrow(new IllegalArgumentException("Teacher not found"));
 
-        mockMvc.perform(patch("/courseeditions/{id}/ruc", courseEditionId)
+        mockMvc.perform(patch("/course-editions/{id}/ruc", courseEditionId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))
                 .andExpect(status().isNotFound())
@@ -127,7 +125,7 @@ public class CourseEditionRestControllerIntegrationTests {
 
         when(defineRucService.assignRucToCourseEdition(any(), any())).thenReturn(false);
 
-        mockMvc.perform(patch("/courseeditions/{id}/ruc", nonExistentId)
+        mockMvc.perform(patch("/course-editions/{id}/ruc", nonExistentId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))
                 .andExpect(status().isNotFound());
@@ -155,7 +153,7 @@ public class CourseEditionRestControllerIntegrationTests {
         when(defineRucService.assignRucToCourseEdition(any(), any()))
                 .thenThrow(new RuntimeException("Unexpected failure"));
 
-        mockMvc.perform(patch("/courseeditions/ruc")
+        mockMvc.perform(patch("/course-editions/ruc")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(validRequestBody))
                 .andExpect(status().isInternalServerError());
@@ -182,11 +180,11 @@ public class CourseEditionRestControllerIntegrationTests {
         when(createCourseEditionService.createCourseEditionAndReturnDTO(any(), any())).thenReturn(responseDTO);
 
         // Act
-        MvcResult result = mockMvc.perform(post("/courseeditions")
+        MvcResult result = mockMvc.perform(post("/course-editions")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDTO)))
                 .andExpect(status().isCreated())
-                .andExpect(header().string("Location", "/courseeditions/"))
+                .andExpect(header().string("Location", "/course-editions/"))
                 .andReturn();
 
         // Assert
@@ -217,7 +215,7 @@ public class CourseEditionRestControllerIntegrationTests {
         when(createCourseEditionService.createCourseEditionAndReturnDTO(any(), any())).thenReturn(null);
 
         // Act & Assert
-        mockMvc.perform(post("/courseeditions")
+        mockMvc.perform(post("/course-editions")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDTO)))
                 .andExpect(status().isBadRequest());
@@ -233,12 +231,10 @@ public class CourseEditionRestControllerIntegrationTests {
         when(courseEditionAssembler.toCommand(any())).thenThrow(new IllegalArgumentException("Test Exception"));
 
         // Act & Assert
-        mockMvc.perform(post("/courseeditions")
+        mockMvc.perform(post("/course-editions")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDTO)))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string("Test Exception"));
     }
-
 }
-
