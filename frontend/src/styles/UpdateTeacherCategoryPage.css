@@ -1,0 +1,71 @@
+.teacher-category-img-background {
+    background-image: url("../../src/assets/images/teacher-category-image.jpg") !important;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.error {
+    color: red;
+    /*background-color: #ffe6e6;*/
+    /*border: 1px solid red;*/
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.pagination-btn-secondary {
+    background: #fff;
+    border: 2px solid #fff;
+    color: #333;
+    text-decoration: none;
+}
+
+
+.pagination-btn2 {
+    /*padding: 0.5rem 1.5rem;*/
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 1.5rem;
+    cursor: pointer;
+    opacity: 1;
+    transition: all 0.3s ease, transform 0.3s ease;
+    margin: 0 0.5rem;
+}
+
+.modal-content {
+    background: white;
+    padding: 4rem;
+    border-radius: 10px;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    text-align: center;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.teacher-category-img-background::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(140, 0, 0, 0.5);
+    z-index: 1;
+}

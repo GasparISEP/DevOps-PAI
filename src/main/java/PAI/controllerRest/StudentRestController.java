@@ -11,10 +11,13 @@ import PAI.assembler.student.IStudentHateoasAssembler;
 import PAI.assembler.programmeEnrolment.IProgrammeEnrolmentAssembler;
 import PAI.dto.ProgrammeAndCourses.StudentEnrolmentResultDto;
 import PAI.dto.ProgrammeAndCourses.StudentProgrammeEnrolmentRequestDto;
+import PAI.dto.programmeEdition.ProgrammeEditionIdDto;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentDTO;
+import PAI.dto.programmeEnrolment.ProgrammeEnrolmentIdDTO;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentResponseDTO;
 import PAI.dto.student.StudentDTO;
 import PAI.dto.student.StudentResponseDTO;
+import PAI.service.programmeEditionEnrolment.IStudentProgrammeEditionEnrolmentService;
 import PAI.service.programmeEnrolment.IProgrammeEnrolmentService;
 import PAI.service.student.IProgrammeAndCoursesEnrolmentService;
 import PAI.service.student.IStudentService;
@@ -25,9 +28,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
@@ -41,6 +46,7 @@ public class StudentRestController {
     private final IStudentDTOAssembler mapper;
     private final IStudentHateoasAssembler hateoasAssembler;
     private final IProgrammeEnrolmentService programmeEnrolmentService;
+    private final IStudentProgrammeEditionEnrolmentService iStudentProgrammeEnrolmentService;
     private final IProgrammeEnrolmentAssembler programmeEnrolmentMapper;
     private final ITotalEnrolledStudentsAssembler totalEnrolledStudentsAssembler;
     private final ITotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearService totalEnrolledStudentsService;
@@ -48,15 +54,12 @@ public class StudentRestController {
     private final IProgrammeAndCoursesEnrolmentService programmeAndCoursesEnrolmentService;
     private final IProgrammeAndCoursesAssembler programmeAndCoursesAssembler;
 
-    public StudentRestController(IStudentService service, IStudentDTOAssembler mapper, IStudentHateoasAssembler hateoasAssembler,
-                                 IProgrammeEnrolmentService programmeEnrolmentService, IProgrammeEnrolmentAssembler programmeEnrolmentMapper,
-                                 ITotalEnrolledStudentsAssembler totalEnrolledStudentsAssembler, ITotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearService totalEnrolledStudentsService,
-                                 IProgrammeEnrolmentHATEOASAssembler enrolmentHateoasAssembler,IProgrammeAndCoursesEnrolmentService programmeAndCoursesEnrolmentService,
-                                 IProgrammeAndCoursesAssembler programmeAndCoursesAssembler) {
+    public StudentRestController(IStudentService service, IStudentDTOAssembler mapper, IStudentHateoasAssembler hateoasAssembler, IProgrammeEnrolmentService programmeEnrolmentService, IStudentProgrammeEditionEnrolmentService iStudentProgrammeEnrolmentService, IProgrammeEnrolmentAssembler programmeEnrolmentMapper, ITotalEnrolledStudentsAssembler totalEnrolledStudentsAssembler, ITotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearService totalEnrolledStudentsService, IProgrammeEnrolmentHATEOASAssembler enrolmentHateoasAssembler, IProgrammeAndCoursesEnrolmentService programmeAndCoursesEnrolmentService, IProgrammeAndCoursesAssembler programmeAndCoursesAssembler) {
         this.service = service;
         this.mapper = mapper;
         this.hateoasAssembler = hateoasAssembler;
         this.programmeEnrolmentService = programmeEnrolmentService;
+        this.iStudentProgrammeEnrolmentService = iStudentProgrammeEnrolmentService;
         this.programmeEnrolmentMapper = programmeEnrolmentMapper;
         this.totalEnrolledStudentsAssembler = totalEnrolledStudentsAssembler;
         this.totalEnrolledStudentsService = totalEnrolledStudentsService;
@@ -144,28 +147,36 @@ public class StudentRestController {
     }
 
 
-    @GetMapping("/enrollStudent/{studentId}/{programmeID}")
+    @GetMapping("/enrollStudent/{programmeEnrolmentGID}")
     public ResponseEntity<ProgrammeEnrolmentResponseDTO> getEnrolmentByStudentAndProgramme(
-            @PathVariable("studentId")   int    studentId,
-            @PathVariable("programmeID") String programmeID
+            @PathVariable("programmeEnrolmentGID") UUID programmeEnrolmentGID
     ) {
-        StudentID sid = new StudentID(studentId);
 
-        ProgrammeID pid = new ProgrammeID(new Acronym(programmeID));
+        try {
+            ProgrammeEnrolmentIdDTO dto = new ProgrammeEnrolmentIdDTO(programmeEnrolmentGID);
+            ProgrammeEnrolmentGeneratedID programmeEnrolmentGeneratedID = programmeEnrolmentMapper.toProgrammeEnrolmentGeneratedID(dto);
 
+            StudentID studentID = iStudentProgrammeEnrolmentService.findStudentIDByProgrammeEnrolmentGeneratedID(programmeEnrolmentGeneratedID);
+            ProgrammeID programmeID = iStudentProgrammeEnrolmentService.findProgrammeIDByProgrammeEnrolmentGeneratedID(programmeEnrolmentGeneratedID);
 
-        ProgrammeEnrolment pe = programmeEnrolmentService
-                .findEnrolmentByStudentAndProgramme(sid, pid);
+            ProgrammeEnrolment pe = programmeEnrolmentService.findEnrolmentByStudentAndProgramme(studentID, programmeID);
 
-        if (pe == null) {
-            return ResponseEntity.notFound().build();
+            if (pe == null) {
+                return ResponseEntity.notFound().build();
+            }
+
+            ProgrammeEnrolmentResponseDTO responseDto = programmeEnrolmentMapper.toProgrammeEnrolmentDTO(pe);
+
+            return ResponseEntity.ok(responseDto);
         }
-
-
-        ProgrammeEnrolmentResponseDTO dto =
-                programmeEnrolmentMapper.toProgrammeEnrolmentDTO(pe);
-        return ResponseEntity.ok(dto);
+     catch (Exception e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
+
+    }
+
+
+
     @PostMapping("/{id}/enrolments")
     public ResponseEntity<StudentEnrolmentResultDto> enrolStudent(@RequestBody StudentProgrammeEnrolmentRequestDto dto) throws Exception {
 

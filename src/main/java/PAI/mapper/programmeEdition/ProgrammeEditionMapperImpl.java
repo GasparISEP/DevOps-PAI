@@ -15,6 +15,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
+import static PAI.utils.ValidationUtils.validateNotNull;
+
 @Component
 public class ProgrammeEditionMapperImpl implements  IProgrammeEditionMapper{
 
@@ -26,26 +28,12 @@ public class ProgrammeEditionMapperImpl implements  IProgrammeEditionMapper{
 
     public ProgrammeEditionMapperImpl(IProgrammeEditionFactory programmeEditionFactory, IProgrammeEditionIdMapper programmeEditionIDMapper,
                                       IProgrammeIDMapper programmeIDMapper, ISchoolYearIDMapper schoolYearIDMapper, IProgrammeEditionGeneratedIDMapper programmeEditionGeneratedIDMapper){
-        if(programmeEditionFactory == null){
-            throw new IllegalArgumentException("ProgrammeEdition Factory cannot be null");
-        }
-        if(programmeEditionIDMapper == null){
-            throw new IllegalArgumentException("ProgrammeEdition Factory cannot be null");
-        }
-        if(programmeIDMapper == null){
-            throw new IllegalArgumentException("ProgrammeEdition Factory cannot be null");
-        }
-        if(schoolYearIDMapper == null){
-            throw new IllegalArgumentException("ProgrammeEdition Factory cannot be null");
-        }
-        if(programmeEditionGeneratedIDMapper == null){
-            throw new IllegalArgumentException("ProgrammeEdition Factory cannot be null");
-        }
-        this.programmeEditionFactory = programmeEditionFactory;
-        this.programmeEditionIDMapper = programmeEditionIDMapper;
-        this.programmeIDMapper = programmeIDMapper;
-        this.schoolYearIDMapper = schoolYearIDMapper;
-        this.programmeEditionGeneratedIDMapper = programmeEditionGeneratedIDMapper;
+
+        this.programmeEditionFactory = validateNotNull(programmeEditionFactory, "ProgrammeEditionFactory");
+        this.programmeEditionIDMapper = validateNotNull(programmeEditionIDMapper, "ProgrammeEditionIDMapper");
+        this.programmeIDMapper = validateNotNull(programmeIDMapper, "ProgrammeIDMapper");
+        this.schoolYearIDMapper = validateNotNull(schoolYearIDMapper, "SchoolYearIDMapper");
+        this.programmeEditionGeneratedIDMapper = validateNotNull(programmeEditionGeneratedIDMapper, "ProgrammeEditionGeneratedIDMapper");
     }
 
     @Override

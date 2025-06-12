@@ -27,10 +27,10 @@ class ProgrammeEnrolmentHATEOASAssemblerTest {
     void toModel_ShouldContainSelfLinkPointingToGetEnrolmentEndpoint() {
         // Arrange
         UUID exampleUUID            = UUID.randomUUID();
-        int exampleStudentId       = 123;
-        String exampleAccessMethod = "WEB";
-        String exampleProgrammeAcr = "CS101";
-        LocalDate exampleDate      = LocalDate.of(2025, 6, 8);
+        int exampleStudentId        = 123;
+        String exampleAccessMethod  = "WEB";
+        String exampleProgrammeAcr  = "CS101";
+        LocalDate exampleDate       = LocalDate.of(2025, 6, 8);
 
         ProgrammeEnrolmentResponseDTO responseDTO =
                 new ProgrammeEnrolmentResponseDTO(
@@ -48,10 +48,10 @@ class ProgrammeEnrolmentHATEOASAssemblerTest {
         Link selfLink = model.getLink("self")
                 .orElseThrow(() -> new AssertionError("Link 'self' não foi encontrado"));
 
-        // agora esperamos exatamente o GET /enrollStudent/{studentId}/{programmeID}
+        // esperado: GET /students/enrollStudent/{programmeEnrolmentGID}
         String expectedUri = linkTo(
                 methodOn(StudentRestController.class)
-                        .getEnrolmentByStudentAndProgramme(exampleStudentId, exampleProgrammeAcr)
+                        .getEnrolmentByStudentAndProgramme(exampleUUID)
         ).toUri().toString();
 
         // Assert

@@ -239,4 +239,37 @@ class StudentProgrammeEditionEnrolmentServiceImplTest {
         assertEquals(1, result.size());
         assertEquals(editionID, result.get(0));
     }
+
+    @Test
+    void findStudentIDByProgrammeEnrolmentGeneratedID_WhenEnrolmentExists_ReturnsStudentID() {
+        // Arrange
+        ProgrammeEnrolmentGeneratedID generatedID = new ProgrammeEnrolmentGeneratedID(UUID.randomUUID());
+        ProgrammeEnrolment domain = mock(ProgrammeEnrolment.class);
+        StudentID expectedSID = new StudentID(1234567);
+
+
+        when(programmeEnrolmentRepository.findByGeneratedID(generatedID))
+                .thenReturn(Optional.of(domain));
+        when(domain.getStudentID()).thenReturn(expectedSID);
+
+        // Act
+        StudentID actualSID = service.findStudentIDByProgrammeEnrolmentGeneratedID(generatedID);
+
+        // Assert
+        assertEquals(expectedSID, actualSID);
+    }
+
+    @Test
+    void findStudentIDByProgrammeEnrolmentGeneratedID_WhenEnrolmentNotFound_ThrowsNoSuchElementException() {
+        // Arrange
+        ProgrammeEnrolmentGeneratedID generatedID = new ProgrammeEnrolmentGeneratedID(UUID.randomUUID());
+        when(programmeEnrolmentRepository.findByGeneratedID(generatedID))
+                .thenReturn(Optional.empty());
+
+        // Act & Assert
+        assertThrows(NoSuchElementException.class, () ->
+                service.findStudentIDByProgrammeEnrolmentGeneratedID(generatedID)
+        );
+    }
+
 }
