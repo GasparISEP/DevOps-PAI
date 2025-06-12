@@ -58,7 +58,7 @@ public class SchoolYearRestController {
     @GetMapping
     public ResponseEntity<?> getAllSchoolYears() {
         try {
-            Iterable<SchoolYearDTO> schoolYearDTOS = schoolYearService.getAllSchoolYears();
+            Iterable<CurrentSchoolYearDTO> schoolYearDTOS = schoolYearService.getAllSchoolYears();
             return (ResponseEntity.ok(schoolYearDTOS));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

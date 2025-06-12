@@ -127,10 +127,10 @@ class SchoolYearRestControllerTest {
         ISchoolYearHateoasAssembler iSYHateoas = mock(ISchoolYearHateoasAssembler.class);
         SchoolYearRestController syRestController = new SchoolYearRestController(iSYMapperDTO,iSYService, iSYHateoas);
 
-        SchoolYearDTO dto1 = mock(SchoolYearDTO.class);
-        SchoolYearDTO dto2 = mock(SchoolYearDTO.class);
-        SchoolYearDTO dto3 = mock(SchoolYearDTO.class);
-        List<SchoolYearDTO> schoolYearDTOS = List.of(dto1, dto2, dto3);
+        CurrentSchoolYearDTO dto1 = mock(CurrentSchoolYearDTO.class);
+        CurrentSchoolYearDTO dto2 = mock(CurrentSchoolYearDTO.class);
+        CurrentSchoolYearDTO dto3 = mock(CurrentSchoolYearDTO.class);
+        List<CurrentSchoolYearDTO> schoolYearDTOS = List.of(dto1, dto2, dto3);
         when(iSYService.getAllSchoolYears()).thenReturn(schoolYearDTOS);
 
         // Act
@@ -153,7 +153,7 @@ class SchoolYearRestControllerTest {
         ISchoolYearHateoasAssembler iSYHateoas = mock(ISchoolYearHateoasAssembler.class);
         SchoolYearRestController syRestController = new SchoolYearRestController(iSYMapperDTO,iSYService, iSYHateoas);
 
-        List<SchoolYearDTO> schoolYearDTOS = List.of();
+        List<CurrentSchoolYearDTO> schoolYearDTOS = List.of();
         when(iSYService.getAllSchoolYears()).thenReturn(schoolYearDTOS);
 
         // Act
