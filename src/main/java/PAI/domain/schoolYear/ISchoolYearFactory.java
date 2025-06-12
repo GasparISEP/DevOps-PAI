@@ -8,5 +8,5 @@ import java.util.UUID;
 public interface ISchoolYearFactory {
 
     SchoolYear createSchoolYear(Description description, Date startDate, Date endDate);
-    SchoolYear createSchoolYear(UUID uuid, Description description, Date startDate, Date endDate);
+    SchoolYear recreateSchoolYear(UUID uuid, Description description, Date startDate, Date endDate);
 }
