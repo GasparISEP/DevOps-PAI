@@ -55,10 +55,10 @@ ref over Controller
    SD Convert Iterable<Teacher> to ResponseDTO
 end
 
-Controller --> router: 200 + body {Iterable<TeacherResponseDTO> + hypermedia}
+Controller --> router: 200 + body {CollectionModel<EntityModel<TeacherDTO>>}
 deactivate Controller
 
-[o<-- router: 200 + body {Iterable<TeacherResponseDTO> + hypermedia}
+[o<-- router: 200 + body {CollectionModel<EntityModel<TeacherDTO>>}
 deactivate router
 
 ' getAllTeacherCategories() method
@@ -78,12 +78,12 @@ activate TCRepository #E1F5FE
 TCRepository -> TCRepositorySpringData: findAll ()
 activate TCRepositorySpringData #E1F5FE
 
-ref over TCRepository
-   SD Convert Iterator<TeacherCategoryDataModel> to Domain
-end
-
-TCRepositorySpringData --> TCRepository: Iterable<TeacherCategory>
+TCRepositorySpringData --> TCRepository: Iterable<TeacherCategoryDataModel>
 deactivate TCRepositorySpringData
+
+ref over TCRepository
+   SD Convert Iterable<TeacherCategoryDataModel> to Domain
+end
 
 TCRepository --> TCService: Iterable<TeacherCategory>
 deactivate TCRepository
@@ -135,14 +135,20 @@ deactivate
 service -> TCPRepo : findLastTCPFromTeacherID (updateTeacherCategoryCommand.teacherID())
 activate TCPRepo #E1F5FE
 
+TCPRepo -> TCPRepoSpringData: findTopByTeacherIdOrderByDateDesc (String teacherID)
+activate TCPRepoSpringData #E1F5FE
+
+TCPRepoSpringData --> TCPRepo: lastTCPDataModel
+deactivate TCPRepoSpringData
+
 ref over TCPRepo
-    SD findLastTCPFromTeacherID method
-end ref
+    SD Convert tcpDataModel to Domain
+end
 
 TCPRepo --> service : lastTCP
 deactivate TCPRepo
 
-service -> TCP : lastTCP.isLastDateEqualOrBeforeNewDate \n (updateTeacherCategoryCommand.date())
+service -> TCP : lastTCP.isLastDateEqualOrBeforeNewDate (updateTeacherCategoryCommand.date())
 activate TCP #E1F5FE
 TCP -> service : False
 deactivate TCP
@@ -152,16 +158,16 @@ activate TCP #E1F5FE
 TCP --> service : workingPercentage
 deactivate TCP
 
-service -> TCP : lastTCP.hasSameTeacherCategoryID \n (updateTeacherCategoryCommand.teacherCategoryID())
+service -> TCP : lastTCP.hasSameTeacherCategoryID (updateTeacherCategoryCommand.teacherCategoryID())
 activate TCP #E1F5FE
 TCP --> service : False
 deactivate TCP
 
-service -> factory : createTeacherCareerProgression (dateVO, workingPercentageVO,\n teacherCategoryIDVO, teacherIDVO)
+service -> factory : createTeacherCareerProgression (dateVO, workingPercentageVO, teacherCategoryIDVO, teacherIDVO)
 activate factory #E1F5FE
 
 create "tcp: TeacherCareerProgression"
-factory -> "tcp: TeacherCareerProgression": create (dateVO, workingPercentageVO,\n teacherCategoryIDVO, teacherIDVO)
+factory -> "tcp: TeacherCareerProgression": create (dateVO, workingPercentageVO, teacherCategoryIDVO, teacherIDVO)
 
 factory --> service : tcp
 deactivate factory
@@ -176,11 +182,11 @@ end
 TCPRepo -> TCPRepoSpringData: save (tcpDataModel)
 activate TCPRepoSpringData #E1F5FE
 
-TCPRepoSpringData --> TCPRepo: tcpDataModelSaved
+TCPRepoSpringData --> TCPRepo: tcpSavedDataModel
 deactivate TCPRepoSpringData
 
 ref over TCPRepo
-    SD Convert tcpDataModelSaved to Domain
+    SD Convert tcpDataModel to Domain
 end
 
 TCPRepo --> service: tcpSaved

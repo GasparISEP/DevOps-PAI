@@ -28,7 +28,7 @@ class TeacherRestController #E0FFFF{
     + updateTeacherWorkingPercentageHateoasAssembler: IUpdateTeacherWorkingPercentageHateoasAssembler
     + TeacherRestController (teacherService: ITeacherRegistrationService,teacherAssembler: ITeacherAssembler, \n teacherHateoasAssembler: ITeacherHateoasAssembler, careerService: ICreateTeacherCareerProgressionService, \n careerAssembler: ITeacherCareerProgressionAssembler,teacherWithRelevantDataService: ITeacherWithRelevantDataService, \n teacherWithRelevantDataAssembler: TeacherWithRelevantDataAssembler, \n updateTeacherWorkingPercentageHateoasAssembler: IUpdateTeacherWorkingPercentageHateoasAssembler, \n updateTeacherCategoryHateoasAssemblerInterface :IUpdateTeacherCategoryHateoasAssembler)
     + updateTeacherCategory(teacherID: String, requestDTO: UpdateTeacherCategoryRequestDTO): EntityModel<UpdateTeacherCategoryResponseDTO>
-    + getAllTeachers () : List<TeacherResponseDTO>
+    + getAllTeachers () : CollectionModel<EntityModel<TeacherDTO>>
     + getAllTeacherCareerProgression (): ResponseEntity<Object>
     + getTeacherCareerProgressionByID (): ResponseEntity<Object>
 }
