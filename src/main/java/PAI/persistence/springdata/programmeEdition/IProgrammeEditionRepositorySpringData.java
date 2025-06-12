@@ -1,6 +1,6 @@
 package PAI.persistence.springdata.programmeEdition;
 
-import PAI.VOs.Date;
+import PAI.VOs.ProgrammeEditionGeneratedID;
 import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
@@ -25,7 +25,7 @@ public interface IProgrammeEditionRepositorySpringData extends JpaRepository<Pro
             @Param("programmeIDDataModel") ProgrammeIDDataModel programmeIDDataModel);
 
 
-        @Query("""
+    @Query("""
     SELECT p.programmeEditionIdDataModel
     FROM ProgrammeEditionDataModel p
     JOIN SchoolYearDataModel s ON s.id = p.programmeEditionIdDataModel.schoolYearIDDataModel
@@ -36,4 +36,11 @@ public interface IProgrammeEditionRepositorySpringData extends JpaRepository<Pro
                 @Param("programmeID") ProgrammeIDDataModel programmeID,
                 @Param("startDate") LocalDate startDate
         );
+
+    @Query("SELECT pe.programmeEditionGeneratedIDDataModel FROM ProgrammeEditionDataModel pe " +
+            "WHERE pe.programmeEditionIdDataModel.schoolYearIDDataModel = :schoolYearId " +
+            "AND pe.programmeEditionIdDataModel.schoolYearIDDataModel IN :programmeIds")
+    List<ProgrammeEditionIdDataModel> findProgrammeEditionIDsBySchoolYearIdAndProgrammeIds(
+            @Param("schoolYearId") SchoolYearIDDataModel schoolYearId,
+            @Param("programmeIds") List<ProgrammeIDDataModel> programmeIds);
 }
