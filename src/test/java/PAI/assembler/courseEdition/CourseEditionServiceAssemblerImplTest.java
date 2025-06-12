@@ -5,6 +5,8 @@ import PAI.domain.courseEdition.CourseEdition;
 import PAI.dto.courseEdition.CourseEditionResponseDTO;
 import org.junit.jupiter.api.Test;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -33,9 +35,10 @@ class CourseEditionServiceAssemblerImplTest {
 
         when(programmeID.getProgrammeAcronym()).thenReturn(programmeAcronym);
         when(schoolYearID.getSchoolYearID()).thenReturn(uuid);
-        when(studyPlanID.getLocalDate()).thenReturn(studyPlanDate);
         when(courseID.getCourseAcronymValue()).thenReturn(courseAcronym);
         when(courseID.getCourseNameValue()).thenReturn(courseName);
+        when(studyPlanID.getLocalDate()).thenReturn(studyPlanDate);
+        when(studyPlanID.getProgrammeID()).thenReturn(programmeID);
 
         ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID, schoolYearID);
         CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(courseID, studyPlanID);
@@ -49,13 +52,24 @@ class CourseEditionServiceAssemblerImplTest {
         CourseEditionResponseDTO dto = assembler.toResponseDTO(courseEdition);
 
         // Assert
-        assertEquals(courseEditionID.toString(), dto.courseEditionID());
+        String expectedFormattedID = URLEncoder.encode(
+                programmeAcronym + "-" +
+                        uuid + "_" +
+                        courseAcronym + "-" +
+                        courseName + "-" +
+                        programmeAcronym + "-" +
+                        studyPlanDate.toString(),
+                StandardCharsets.UTF_8
+        );
+
+        assertEquals(expectedFormattedID, dto.courseEditionID());
         assertEquals(programmeAcronym, dto.programmeAcronym());
         assertEquals(uuid, dto.schoolYearID());
         assertEquals(courseAcronym, dto.courseAcronym());
         assertEquals(courseName, dto.courseName());
         assertEquals(studyPlanDate, dto.studyPlanImplementationDate());
     }
+
 
     @Test
     void shouldThrowExceptionCourseEditionIsNull() {
