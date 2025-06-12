@@ -4,12 +4,14 @@ import PAI.controller.US07_IWantToCreateASchoolYearController;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
 @Configuration
+@Order(1)
 public class SchoolYearInitializer {
 
     private final US07_IWantToCreateASchoolYearController controller;
@@ -57,8 +59,3 @@ public class SchoolYearInitializer {
         }
     }
 }
-
-
-
-
-

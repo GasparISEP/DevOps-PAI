@@ -9,11 +9,11 @@ participant Frontend <<container>> #D7BDE2
 participant Backend <<container>> #A2D9CE
 database Database <<container>> #F9E79F
 
-activate Frontend
-ASC -> Frontend: **requestProgrammeRegistration**()
-Frontend --> ASC: **provideRequiredDataFields**()
+activate ASC
+ASC -> Frontend++: **requestProgrammeRegistration**()
+Frontend --> ASC--: **provideRequiredDataFields**()
 |||
-ASC -> Frontend: **getAvailableDegreeTypes**()
+ASC -> Frontend++: **getAvailableDegreeTypes**()
 Frontend -> Backend: **(GET) getAllDegreeTypes**()
 activate Backend
 Backend -> Database: **findAll**()
@@ -22,9 +22,9 @@ Database --> Backend: degreeTypesDMList
 deactivate Database
 Backend --> Frontend: degreeTypesList
 deactivate Backend
-Frontend --> ASC: degreeTypesList
+Frontend --> ASC--: degreeTypesList
 |||
-ASC -> Frontend: **getAvailableDepartments**()
+ASC -> Frontend++: **getAvailableDepartments**()
 Frontend -> Backend: **(GET) getAllDepartments**()
 activate Backend
 Backend -> Database: **findAll**()
@@ -33,9 +33,9 @@ Database --> Backend: departmentsDMList
 deactivate Database
 Backend --> Frontend: departmentsList
 deactivate Backend
-Frontend --> ASC: departmentsList
+Frontend --> ASC--: departmentsList
 |||
-ASC -> Frontend: **getAvailableTeachers**()
+ASC -> Frontend++: **getAvailableTeachers**()
 Frontend -> Backend: **(GET) getAllTeachers**()
 activate Backend
 Backend -> Database: **findAll**()
@@ -44,9 +44,9 @@ Database --> Backend: teachersDMList
 deactivate Database
 Backend --> Frontend: teachersList
 deactivate Backend
-Frontend --> ASC: teachersList
+Frontend --> ASC--: teachersList
 |||
-ASC -> Frontend: **submitProgrammeData**(name, acronym, ects, semesters, \ndegreeType, department, programmeDirector)
+ASC -> Frontend++: **submitProgrammeData**(name, acronym, ects, semesters, \ndegreeType, department, programmeDirector)
 Frontend -> Backend: **(POST) registerProgramme**\n(ProgrammeStudyPlanDTO)
 activate Backend
 note right Frontend
@@ -66,11 +66,11 @@ note right Frontend
   converted to JSON
 end note
 |||
-Frontend --> ASC: Confirmation \n+ \ncreatedProgramme
+Frontend --> ASC--: Confirmation \n+ \ncreatedProgramme
 |||
-ASC -> Frontend: **selectIncludeStudyPlanOption**(yes)
-Frontend --> ASC: **provideStudyPlanDataFields**()
-ASC --> Frontend: **submitStudyPlanData**(programmeName, \nprogrammeAcronym, startDate)
+ASC -> Frontend++: **selectIncludeStudyPlanOption**(yes)
+Frontend --> ASC--: **provideStudyPlanDataFields**()
+ASC --> Frontend++: **submitStudyPlanData**(programmeName, \nprogrammeAcronym, startDate)
 
 Frontend -> Backend++: **(POST) registerStudyPlan**(programmeName, \nprogrammeAcronym, startDate)
 Backend -> Database++: **findById**(programmeIDDM)
@@ -93,5 +93,5 @@ note right Frontend
   Converted to JSON
 end note
 
-Frontend --> ASC: Confirmation \n+ \ncreatedStudyPlan
+Frontend --> ASC--: Confirmation \n+ \ncreatedStudyPlan
 @enduml
