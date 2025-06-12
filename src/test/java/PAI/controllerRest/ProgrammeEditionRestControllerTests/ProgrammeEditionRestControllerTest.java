@@ -377,9 +377,12 @@ class ProgrammeEditionRestControllerTest {
         IAvailableCoursesService availableCoursesService = mock(IAvailableCoursesService.class);
         IProgrammeEditionHateoasAssembler hateoasAssembler = mock(IProgrammeEditionHateoasAssembler.class);
 
-        // act + assert
-        assertThrows(IllegalArgumentException.class, () ->
+        // act
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
                 new ProgrammeEditionRestController(service, controllerAssembler, availableCoursesService, courseAssembler, hateoasAssembler)
         );
+
+        // assert
+        assertEquals("CourseAssembler cannot be null.", exception.getMessage());
     }
 }
