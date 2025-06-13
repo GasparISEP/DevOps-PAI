@@ -49,10 +49,7 @@ public class ProgrammeEditionService implements IProgrammeEditionService {
 
         this.programmeEditionAssembler = validateNotNull(programmeEditionAssembler, "ProgrammeEditionServiceAssembler");
 
-        if(schoolYearService == null) {
-            throw new IllegalArgumentException("SchoolYearService cannot be null!");
-        }
-        this.schoolYearService = schoolYearService;
+        this.schoolYearService = validateNotNull(schoolYearService, "SchoolYearService");
 
         if (programmeEditionEnrolmentService == null) {
             throw new IllegalArgumentException("ProgrammeEditionEnrolmentService cannot be null!");
