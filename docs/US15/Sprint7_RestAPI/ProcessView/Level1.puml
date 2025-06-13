@@ -1,0 +1,30 @@
+@startuml
+
+title US15: As an HRC, I want to update the teacher's working percentage in the system \n (Process View - Level 1 - System)
+
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+autonumber
+
+actor HRC as admin
+participant ":SystemPAI" as System <<System>>
+
+admin -> System: I want to update teacher's working percentage!
+activate System #E1F5FE
+
+System --> admin: Make the form available!
+deactivate System
+
+admin -> System: Form submitted!
+activate System #E1F5FE
+
+System --> admin: Sure?
+deactivate System
+
+admin -> System: Yes!
+activate System #E1F5FE
+
+System --> admin: Ok!
+deactivate System
+@enduml

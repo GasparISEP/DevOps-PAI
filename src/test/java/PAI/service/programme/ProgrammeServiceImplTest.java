@@ -907,4 +907,30 @@ class ProgrammeServiceImplTest {
         result.forEach(listResult::add);
         assertEquals(0, listResult.size());
     }
+
+    @Test
+    public void testGetProgrammesByProgrammeIDs_ReturnsMatchingProgrammes() {
+        //arrange
+        createDoubles();
+
+        when(_programmeRepositoryDouble.ofIdentity(_programmeIDDouble)).thenReturn(Optional.of(_programmeDouble));
+        when(_programmeRepositoryDouble.ofIdentity(_programme2IDDouble)).thenReturn(Optional.of(_programme2Double));
+
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(
+                _programmeFactoryDouble,
+                _programmeRepositoryDouble,
+                _programmeAssemblerDouble,
+                _degreeTypeService
+        );
+
+        List<ProgrammeID> idList = Arrays.asList(_programmeIDDouble, _programme2IDDouble);
+
+        // Act
+        List<Programme> result = service.getProgrammesByProgrammeIDs(idList);
+
+        // Assert
+        assertEquals(2, result.size());
+        assertTrue(result.contains(_programmeDouble));
+        assertTrue(result.contains(_programme2Double));
+    }
 }
