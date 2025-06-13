@@ -3,6 +3,7 @@ package PAI.mapper.courseInStudyPlan;
 import PAI.VOs.CourseInStudyPlanGeneratedID;
 import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanGeneratedIDDataModel;
 import org.springframework.stereotype.Component;
+import static PAI.utils.ValidationUtils.*;
 
 @Component
 public class CourseInStudyPlanGeneratedIDMapperImpl implements ICourseInStudyPlanGeneratedIDMapper {
@@ -12,19 +13,13 @@ public class CourseInStudyPlanGeneratedIDMapperImpl implements ICourseInStudyPla
 
     @Override
     public CourseInStudyPlanGeneratedIDDataModel toDataModel(CourseInStudyPlanGeneratedID domainId) {
-        if (domainId == null) {
-            throw new IllegalArgumentException("CourseInStudyPlanGeneratedID cannot be null");
-        }
-
+        validateNotNull(domainId, "Course In Study Plan Generated ID");
         return new CourseInStudyPlanGeneratedIDDataModel(domainId.getId());
     }
 
     @Override
     public CourseInStudyPlanGeneratedID toDomain(CourseInStudyPlanGeneratedIDDataModel dataModel) {
-        if (dataModel == null) {
-            throw new IllegalArgumentException("CourseInStudyPlanGeneratedIDDataModel cannot be null");
-        }
-
+        validateNotNull(dataModel, "Course In Study Plan Generated ID Data Model");
         return new CourseInStudyPlanGeneratedID(dataModel.getId());
     }
 }

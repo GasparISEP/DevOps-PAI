@@ -10,6 +10,6 @@ public record AvailableCoursesInfoRspDTO(
         String name,
         @Min(value = 1)
         @Max(value = 60)
-        int qtyECTs
+        double qtyECTs
 ) {
 }

@@ -2,16 +2,15 @@ package PAI.controllerRest;
 
 import PAI.VOs.*;
 import PAI.assembler.ProgrammeAndCourses.IProgrammeAndCoursesAssembler;
+import PAI.assembler.programmeEnrolment.IProgrammeEnrolmentAssembler;
 import PAI.assembler.programmeEnrolment.IProgrammeEnrolmentHATEOASAssembler;
+import PAI.assembler.student.IStudentDTOAssembler;
+import PAI.assembler.student.IStudentHateoasAssembler;
 import PAI.assembler.totalEnrolledStudentsInProgrammesByDepartmentAndSchoolYear.ITotalEnrolledStudentsAssembler;
 import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
 import PAI.domain.student.Student;
-import PAI.assembler.student.IStudentDTOAssembler;
-import PAI.assembler.student.IStudentHateoasAssembler;
-import PAI.assembler.programmeEnrolment.IProgrammeEnrolmentAssembler;
 import PAI.dto.ProgrammeAndCourses.StudentEnrolmentResultDto;
 import PAI.dto.ProgrammeAndCourses.StudentProgrammeEnrolmentRequestDto;
-import PAI.dto.programmeEdition.ProgrammeEditionIdDto;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentDTO;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentIdDTO;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentResponseDTO;
@@ -28,14 +27,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -190,4 +186,22 @@ public class StudentRestController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<EntityModel<StudentResponseDTO>> getStudentByID(@PathVariable("id") int id) {
+        StudentID studentID = new StudentID(id);
+
+        Optional<Student> optionalStudent = service.findByID(studentID);
+
+        if (optionalStudent.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        StudentResponseDTO dto = mapper.toStudentResponseDTO(optionalStudent.get());
+        EntityModel<StudentResponseDTO> model = hateoasAssembler.toModel(dto);
+
+        return ResponseEntity.ok(model);
+    }
+
+
 }

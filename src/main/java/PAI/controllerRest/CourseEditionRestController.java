@@ -8,7 +8,6 @@ import PAI.assembler.courseEditionEnrolment.ICourseEditionEnrolmentAssembler;
 import PAI.assembler.courseEditionEnrolment.ICourseEditionEnrolmentHateoasAssembler;
 import PAI.assembler.programmeEdition.IProgrammeEditionServiceAssembler;
 import PAI.assembler.studentGrade.IStudentGradeAssembler;
-import PAI.domain.courseEdition.CourseEdition;
 import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
 import PAI.dto.approvalRate.ApprovalRateResponseDTO;
 import PAI.dto.courseEdition.*;
@@ -23,6 +22,7 @@ import PAI.service.courseEditionEnrolment.ICourseEditionEnrolmentService;
 import PAI.service.studentGrade.IGradeAStudentService;
 import jakarta.validation.Valid;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +35,8 @@ import java.util.Objects;
 import java.util.UUID;
 
 import static PAI.utils.ValidationUtils.validateNotNull;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/course-editions")
@@ -299,5 +301,24 @@ public ResponseEntity<?> defineRucForCourseEdition(
                 .toList();
         return ResponseEntity.ok(dtos);
     }
+
+    @PostMapping("/studentgrades/register/hateoas")
+    public ResponseEntity<EntityModel<GradeAStudentResponseDTO>> gradeAStudentWithLink(
+            @RequestBody @Valid GradeAStudentRequestDTO request) throws Exception {
+
+        GradeAStudentCommand command = studentGradeAssembler.toDomain(request);
+        GradeAStudentResponseDTO response = gradeAStudentService.gradeAStudent(command);
+
+        // Criar link para GET /students/{studentID}
+        int studentID = response._studentUniqueNumber();
+        Link studentLink = linkTo(methodOn(StudentRestController.class).getStudentByID(studentID))
+                .withRel("student-details");
+
+        EntityModel<GradeAStudentResponseDTO> model = EntityModel.of(response, studentLink);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(model);
+    }
+
+
 
 }

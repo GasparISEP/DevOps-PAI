@@ -61,4 +61,10 @@ public class StudentServiceImpl implements IStudentService {
                 .map(Student::getStudentName)
                 .orElseThrow(() -> new IllegalArgumentException("Student not found with ID: " + studentID));
     }
+
+    @Override
+    public Optional<Student> findByID(StudentID studentID) {
+        return _studentRepository.ofIdentity(studentID);
+    }
+
 }

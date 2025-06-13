@@ -3,16 +3,16 @@ package PAI.controllerRest.courseEditionRestControllerTests;
 import PAI.VOs.*;
 import PAI.assembler.courseEdition.CourseEditionAssemblerImpl;
 import PAI.assembler.courseEdition.CourseEditionHateoasAssembler;
-import PAI.dto.courseEdition.*;
+import PAI.dto.courseEdition.CourseEditionRequestDTO;
+import PAI.dto.courseEdition.CourseEditionServiceResponseDTO;
+import PAI.dto.courseEdition.CreateCourseEditionCommand;
+import PAI.dto.courseEdition.DefineRucResponseDTO;
 import PAI.persistence.datamodel.studentGrade.StudentGradeDM;
 import PAI.persistence.springdata.studentGrade.IStudentGradeRepositorySpringData;
 import PAI.service.courseEdition.DefineRucServiceImpl;
 import PAI.service.courseEdition.ICreateCourseEditionService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.transaction.Transactional;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -25,13 +25,12 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -340,5 +339,33 @@ public class CourseEditionRestControllerIntegrationTests {
 
     }
 
+    @Test
+    @Sql(scripts = {"/test-data.sql", "/test-data-studentgrade.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    void whenGradeAStudentWithHateoas_thenReturnsCreatedWithLinks() throws Exception {
+        // language=JSON
+        String requestJson = """
+        {
+               "studentUniqueNumber": 1102840,
+               "grade": 18,
+               "date": "13-06-2025",
+               "programmeName": "Engenharia Informática",
+               "programmeAcronym": "LEI",
+               "schoolYearId": "11111111-1111-1111-1111-111111111111",
+               "courseAcronym": "PAI",
+               "courseName": "Processos de Apoio à Inovação",
+               "studyPlanImplementationDate": "01-09-2020"
+        }
+        """;
+
+        mockMvc.perform(post("/course-editions/studentgrades/register/hateoas")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestJson))
+                .andExpect(status().isCreated())
+                .andExpect(content().contentTypeCompatibleWith("application/hal+json"))
+                .andExpect(jsonPath("$._studentUniqueNumber").value(1102840))
+                .andExpect(jsonPath("$._grade").value(18.0))
+                .andExpect(jsonPath("$._links.student-details.href").value(
+                        org.hamcrest.Matchers.containsString("/students/1102840")));
+    }
 
 }
