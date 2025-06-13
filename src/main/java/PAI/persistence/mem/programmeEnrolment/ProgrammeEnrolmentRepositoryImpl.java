@@ -87,7 +87,7 @@ public class ProgrammeEnrolmentRepositoryImpl implements IProgrammeEnrolmentRepo
     }
 
     @Override
-    public List<ProgrammeEnrolment> listOfProgrammesStudentIsEnrolledIn(StudentID studentID) {
+    public List<ProgrammeEnrolment> getProgrammesStudentIsEnrolledIn(StudentID studentID) {
         List<ProgrammeEnrolment> programmes = new ArrayList<>();
         for (ProgrammeEnrolment existingEnrolment : _programmeEnrolmentList) {
             if (existingEnrolment.hasSameStudent(studentID)) {
