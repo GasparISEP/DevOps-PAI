@@ -47,16 +47,9 @@ public class TotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearServiceIm
     }
 
     @Override
-    public int getTotalEnrolledStudentsInProgrammesByDepartmentAndYear(TotalEnrolledStudentsCommand command) throws Exception {
+    public int getTotalEnrolledStudentsInProgrammesByDepartmentAndYear(TotalEnrolledStudentsCommand command) {
 
-        if (command == null)
-            throw new IllegalArgumentException("TotalEnrolledStudentsCommand must not be null");
-
-        if (command.departmentID() == null)
-            throw new IllegalArgumentException("Department ID cannot be null");
-
-        if (command.schoolYearID() == null)
-            throw new IllegalArgumentException("School Year ID cannot be null");
+        validateCommand(command);
 
         DepartmentID departmentID = command.departmentID();
         SchoolYearID schoolYearID = command.schoolYearID();
@@ -85,5 +78,16 @@ public class TotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearServiceIm
                 count++;
         }
         return count;
+    }
+
+    private void validateCommand(TotalEnrolledStudentsCommand command) {
+        if (command == null)
+            throw new IllegalArgumentException("TotalEnrolledStudentsCommand must not be null");
+
+        if (command.departmentID() == null)
+            throw new IllegalArgumentException("Department ID cannot be null");
+
+        if (command.schoolYearID() == null)
+            throw new IllegalArgumentException("School Year ID cannot be null");
     }
 }
