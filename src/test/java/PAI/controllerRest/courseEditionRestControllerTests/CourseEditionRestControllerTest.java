@@ -550,7 +550,7 @@ class CourseEditionRestControllerTest {
     }
 
     @Test
-    void testGetNumberOfStudentsInCourseEdition() throws Exception {
+    void getNumberOfStudentsInCourseEditionShouldReturnStudentCount_Successfully () throws Exception {
         // Arrange
         UUID uuid = UUID.randomUUID();  // UUID that goes in the URL
         CourseEditionGeneratedID generatedID = new CourseEditionGeneratedID(uuid);
@@ -583,7 +583,28 @@ class CourseEditionRestControllerTest {
         // Act + Assert
         mockMvc.perform(get("/course-editions/{id}/enrolments/count", uuid))
                 .andExpect(status().isNotFound());  // GlobalExceptionHandler will catch the NotFoundException and return the respective status
+    }
 
+    @Test
+    void testGetNumberOfStudentsInCourseEdition_InvalidUUID_ReturnsBadRequest() throws Exception {
+        String invalidUuid = "invalid-uuid-format";
+
+        // Act & Assert
+        mockMvc.perform(get("/course-editions/{id}/enrolments/count", invalidUuid))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void testGetNumberOfStudentsInCourseEdition_ServiceException_ReturnsInternalServerError () throws Exception {
+        // Arrange
+        UUID uuid = UUID.randomUUID();
+        CourseEditionGeneratedID generatedID = new CourseEditionGeneratedID(uuid);
+
+        when(courseEditionService.findCourseEditionByGeneratedID(generatedID)).thenThrow(new RuntimeException("Database is currently down."));
+
+        // Act + Assert
+        mockMvc.perform(get("/course-editions/{id}/enrolments/count", uuid))
+                .andExpect(status().isInternalServerError());
     }
 
     @Test
