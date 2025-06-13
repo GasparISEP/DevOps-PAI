@@ -14,4 +14,6 @@ public interface IStudentService {
     int getLastStudentID();
 
     List<Student> getAllStudents();
+
+    Name getNameByStudentID(StudentID studentID);
 }

@@ -22,5 +22,6 @@ public interface IProgrammeService {
     List<ProgrammeIDDTO> getAllProgrammeIDDTOs();
     List<ProgrammeIDDTO> getProgrammeIDDTOsByDegreeTypeID(DegreeTypeID id);
     Iterable<ProgrammeDTO> getAllProgrammes();
+    List<Programme> getProgrammesByProgrammeIDs (List<ProgrammeID> list);
 }
 

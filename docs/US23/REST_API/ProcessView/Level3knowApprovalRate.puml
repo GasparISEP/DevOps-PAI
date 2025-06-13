@@ -3,28 +3,28 @@
 autonumber
 skinparam sequenceMessageAlign center
 skinparam sequenceLifeLineBackgroundColor lightblue
-title I want to know the approval percentage of a Course Edition \n (Process View Level 3)
+title I want to know the approval percentage of a Course Edition\n(Process View Level 3 – Backend (Get Approval Rate))
 skinparam sequencemessagealign center
 
 participant ":Router" as Router <<Component>> #application
 participant ":CourseEditionRestController" as Controller <<Component>> #motivation
 participant ":GradeAStudentService" as Service <<Component>> #business
 participant ":StudentGradeRepository" as Repository <<Component>> #technology
-participant ":Domain" as Domain <<Component>> #physical
 
 
-
--> Router : GET /approvalpercentage/
+-> Router : GET /approval-rate(programmeAcronym,\nschoolYearId, courseAcronym,\ncourseName, studyPlanDate)
 activate Router
 Router -> Controller : getCourseEditionApprovalRate()
 
 activate Controller
-Controller -> Service : knowApprovalRate()
+Controller -> Service : knowApprovalRate(CourseEditionID)
 
 activate Service
 Service -> Repository : findAll()
 activate Repository
-Repository --> Service : Students' grades
+Repository ->  : findAll()
+Repository <-- : List<StudentGrade>
+Repository --> Service :  List<StudentGrade>
 deactivate Repository
 
 Service --> Controller : ApprovalRateResponseDTO
@@ -33,7 +33,7 @@ deactivate Service
 Controller --> Router : ApprovalRateResponseDTO
 deactivate Controller
 
-<-- Router : (200, OK) Approval Rate
+<-- Router : (200, OK) ApprovalRateResponseDTO
 deactivate Router
 
 @enduml

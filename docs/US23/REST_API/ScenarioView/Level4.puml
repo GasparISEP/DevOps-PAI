@@ -1,0 +1,108 @@
+@startuml
+autonumber
+skinparam sequenceMessageAlign center
+skinparam sequenceLifeLineBackgroundColor lightblue
+title I want to know the approval percentage of a Course Edition \n (Process View Level 4)
+
+actor ProgrammeDirector
+participant ":UI" as UI #application
+participant "ceRestCtrl:CourseEditionRestController" as RestCtrl #motivation
+participant ":CreateCourseEditionServiceImpl" as CreateCEService #business
+participant ":CourseEditionRepositorySpringDataImpl" as courseEditionRepo #technology
+participant ":ICourseEditionRepositorySpringData" as iCourseEditionRepo #bisque
+participant ":CourseEditionAssembler" as courseEditionAssembler #burlywood
+participant ":GradeAStudentServiceImpl" as SGService #business
+participant ":StudentGradeRepositorySpringDataImpl" as SGRepoSpringData #technology
+participant ":StudentGradeMapperImpl" as sgMapper #burlywood
+
+ProgrammeDirector -> UI : I want to know approval percentage of a Course Edition
+activate ProgrammeDirector
+activate UI
+
+UI -> RestCtrl : (GET) findAllCourseEditions()
+activate RestCtrl
+
+RestCtrl -> CreateCEService : findAll()
+activate CreateCEService
+
+CreateCEService -> courseEditionRepo : findAll()
+activate courseEditionRepo
+
+courseEditionRepo -> iCourseEditionRepo : findAll()
+activate iCourseEditionRepo
+iCourseEditionRepo --> courseEditionRepo : List<CourseEditionDataModel>
+deactivate iCourseEditionRepo
+
+courseEditionRepo --> CreateCEService : List<CourseEditionDataModel>
+deactivate courseEditionRepo
+
+CreateCEService --> RestCtrl : Iterable<CourseEdition>
+deactivate CreateCEService
+
+RestCtrl -> courseEditionAssembler : toResponseDTO(CourseEdition)
+activate courseEditionAssembler
+
+|||
+ref over courseEditionAssembler
+        **Interaction Use #1**
+        Convert each CourseEdition to CourseEditionResponseDTO
+end ref
+|||
+
+courseEditionAssembler --> RestCtrl : List<CourseEditionResponseDTO>
+deactivate courseEditionAssembler
+
+RestCtrl --> UI : List<CourseEditionResponseDTO>
+deactivate RestCtrl
+
+UI --> ProgrammeDirector : Course Edition?
+deactivate UI
+
+ProgrammeDirector -> UI : CourseEditionID!
+activate UI
+
+UI -> RestCtrl : getCourseEditionApprovalRate(CourseEditionID)
+activate RestCtrl
+
+RestCtrl -> SGService : knowApprovalRate(CourseEditionID)
+activate SGService
+
+SGService -> SGRepoSpringData : findAll()
+activate SGRepoSpringData
+SGRepoSpringData --> SGService : List<StudentGradeDataModel>
+deactivate SGRepoSpringData
+
+SGService -> sgMapper : toDomain(List<StudentGradeDataModel>)
+activate sgMapper
+
+|||
+ref over sgMapper
+        **Interaction Use #2**
+        Convert each StudentGradeDataModel to StudentGrade
+
+end ref
+|||
+
+sgMapper --> SGService : List<StudentGrade>
+deactivate sgMapper
+
+loop for each StudentGrade
+    SGService -> SGService : hasThisCourseEdition(courseEditionID)
+    SGService -> SGService : knowGrade()
+    SGService -> SGService : increment counters
+end
+
+SGService --> RestCtrl : approvalPercentage (double)
+deactivate SGService
+
+RestCtrl -> RestCtrl : create ApprovalRateResponseDTO(approvalPercentage)
+RestCtrl --> UI : ApprovalRateResponseDTO
+deactivate RestCtrl
+
+UI --> ProgrammeDirector : Approval Percentage of selected CourseEdition
+deactivate UI
+deactivate ProgrammeDirector
+
+
+
+@enduml
