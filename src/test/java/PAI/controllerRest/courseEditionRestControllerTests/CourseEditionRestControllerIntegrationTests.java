@@ -7,6 +7,8 @@ import PAI.dto.courseEdition.CourseEditionRequestDTO;
 import PAI.dto.courseEdition.CourseEditionResponseDTO;
 import PAI.dto.courseEdition.CreateCourseEditionCommand;
 import PAI.dto.courseEdition.DefineRucResponseDTO;
+import PAI.persistence.datamodel.studentGrade.StudentGradeDM;
+import PAI.persistence.springdata.studentGrade.IStudentGradeRepositorySpringData;
 import PAI.service.courseEdition.DefineRucServiceImpl;
 import PAI.service.courseEdition.ICreateCourseEditionService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,9 +26,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -41,6 +45,9 @@ public class CourseEditionRestControllerIntegrationTests {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private IStudentGradeRepositorySpringData studentGradeRepository;
 
     @MockBean
     private DefineRucServiceImpl defineRucService;
@@ -281,5 +288,48 @@ public class CourseEditionRestControllerIntegrationTests {
                 .andExpect(jsonPath("$._grade").value(18.0));
                  // .andExpect(jsonPath("$._links").exists()); "para colocar os links"
     }
+
+    @Test
+    @Sql(scripts = "/test-data-studentgrade-in.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    void whenGradeAStudent_thenStudentGradeIsPersisted() throws Exception {
+        // given
+        String requestJson = """
+        {
+            "studentUniqueNumber": 1102840,
+            "grade": 18,
+            "date": "13-06-2025",
+            "programmeName": "Engenharia Informática",
+            "programmeAcronym": "LEI",
+            "schoolYearId": "11111111-1111-1111-1111-111111111111",
+            "courseAcronym": "PAI",
+            "courseName": "Processos de Apoio à Inovação",
+            "studyPlanImplementationDate": "01-09-2020"
+        }
+        """;
+
+        // when
+        mockMvc.perform(post("/course-editions/studentgrades/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestJson))
+                .andExpect(status().isCreated());
+
+        // then
+        List<StudentGradeDM> allGrades = studentGradeRepository.findAll();
+        assertFalse(allGrades.isEmpty(), "Expected at least one StudentGrade persisted.");
+        StudentGradeDM grade = allGrades.get(0);
+        assertEquals(1102840, grade.getStudentId().getUniqueNumber());
+        assertEquals(18.0, grade.getGrade());
+        assertEquals(LocalDate.of(2025, 6, 13), grade.getDate());
+
+        // DEBUG PRINT
+        System.out.println("=== STUDENT GRADES ===");
+        allGrades.forEach(g -> {
+            System.out.println("- Student: " + g.getStudentId().getUniqueNumber());
+            System.out.println("  Grade: " + g.getGrade());
+            System.out.println("  Date: " + g.getDate());
+        });
+
+    }
+
 
 }
