@@ -7,7 +7,7 @@ import PAI.assembler.programmeEdition.IProgrammeEditionControllerAssembler;
 import PAI.assembler.programmeEdition.IProgrammeEditionHateoasAssembler;
 import PAI.controllerRest.ProgrammeEditionRestController;
 import PAI.dto.Programme.ProgrammeIDDTO;
-import PAI.dto.course.CourseIDDTO;
+import PAI.dto.ProgrammeAndCourses.AvailableCoursesInfoRspDTO;
 import PAI.dto.programmeEdition.*;
 import PAI.service.programmeEdition.IProgrammeEditionService;
 import PAI.service.programmeEdition.ProgrammeEditionService;
@@ -314,8 +314,8 @@ class ProgrammeEditionRestControllerTest {
     }
 
     @Test
-    void shouldReturnOkWithListOfCoursesForValidProgrammeEditionIdDto() {
-        // arrange
+    void shouldReturnOkWithListOfAvailableCoursesInfoForValidProgrammeEditionIdDto() {
+        // Arrange
         IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
         IProgrammeEditionControllerAssembler controllerAssembler = mock(IProgrammeEditionControllerAssembler.class);
         ICourseAssembler courseAssembler = mock(ICourseAssembler.class);
@@ -326,31 +326,29 @@ class ProgrammeEditionRestControllerTest {
                 programmeEditionService, controllerAssembler, availableCoursesService, courseAssembler, hateoasAssembler
         );
 
-        ProgrammeEditionIdDto programmeEditionIdDto = mock(ProgrammeEditionIdDto.class);
+        ProgrammeEditionIdDto dto = mock(ProgrammeEditionIdDto.class);
+        when(dto.programmeAcronym()).thenReturn("LEI");
+        when(dto.schoolYearId()).thenReturn(UUID.randomUUID().toString());
 
+        AvailableCourseInfo courseInfo = mock(AvailableCourseInfo.class);
+        List<AvailableCourseInfo> domainList = List.of(courseInfo);
 
-        when(programmeEditionIdDto.programmeAcronym()).thenReturn("CS");
-        when(programmeEditionIdDto.schoolYearId()).thenReturn(UUID.randomUUID().toString());
+        AvailableCoursesInfoRspDTO dtoMock = mock(AvailableCoursesInfoRspDTO.class);
+        List<AvailableCoursesInfoRspDTO> dtoList = List.of(dtoMock);
 
+        when(availableCoursesService.getListOfAvailableCourseInfoForAGivenProgrammeEdition(any())).thenReturn(domainList);
+        when(courseAssembler.toAvailableCourseDTOs(domainList)).thenReturn(dtoList);
 
-        CourseID courseID = mock(CourseID.class);
-        List<CourseID> list = List.of(courseID);
-        CourseIDDTO courseIDDTO = mock(CourseIDDTO.class);
-        List<CourseIDDTO> list1 = List.of(courseIDDTO);
+        // Act
+        ResponseEntity<List<AvailableCoursesInfoRspDTO>> response = controller.getAvailableCourses(dto);
 
-
-        when(availableCoursesService.getListOfCourseIdForAGivenProgrammeEdition(any())).thenReturn(list);
-        when(courseAssembler.toDTOList(list)).thenReturn(list1);
-
-        // act
-        ResponseEntity<List<CourseIDDTO>> response = controller.getAvailableCourses(programmeEditionIdDto);
-
-        // assert
+        // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(list1, response.getBody());
+        assertEquals(dtoList, response.getBody());
     }
+
     @Test
-    void shouldReturnBadRequestWhensSchoolYearIdIsInvalid() {
+    void shouldReturnBadRequestWhenSchoolYearIdIsInvalid() {
         // Arrange
         IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
         IProgrammeEditionControllerAssembler controllerAssembler = mock(IProgrammeEditionControllerAssembler.class);
@@ -365,7 +363,7 @@ class ProgrammeEditionRestControllerTest {
         ProgrammeEditionIdDto invalidDto = new ProgrammeEditionIdDto("LEI", "not-a-valid-uuid");
 
         // Act
-        ResponseEntity<List<CourseIDDTO>> response = controller.getAvailableCourses(invalidDto);
+        ResponseEntity<List<AvailableCoursesInfoRspDTO>> response = controller.getAvailableCourses(invalidDto);
 
         // Assert
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
