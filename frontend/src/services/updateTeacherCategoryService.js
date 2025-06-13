@@ -1,32 +1,40 @@
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8081';
+const API_URL = process.env.REACT_APP_API_URL
 
-/**
- * Updates the category of a teacher.
- * @param {string} teacherId - The teacher's ID
- * @param {Object} updateRequestDTO - Payload containing the new category data (UpdateTeacherCategoryRequestDTO)
- * @returns {Promise<Object>} - ResponseDTO with updated category and HATEOAS links
- */
-export async function updateTeacherCategory(teacherId, updateRequestDTO) {
-    const response = await fetch(`${API_URL}/teachers/${teacherId}/careerprogressions/category`, {
+export async function updateTeacherCategory (payload) {
+    const { teacher, ...rest } = payload;
+
+    const response = await fetch(`${API_URL}/teachers/${teacher}/careerprogressions/category`, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-type': 'application/json'
         },
-        body: JSON.stringify(updateRequestDTO)
+        body: JSON.stringify({
+            teacherCategoryID: payload.teacherCategory,
+            date: payload.date
+        })
     });
 
     let responseData = null;
 
     try {
         responseData = await response.json();
-    } catch (error) {
+    } catch (e) {
         console.warn("Response without JSON body.");
     }
 
     if (!response.ok) {
-        const errorMsg = responseData?.message || `HTTP ${response.status} Error`;
-        throw new Error(errorMsg);
+        const errMsg = responseData?.message || `HTTP ${response.status}`;
+        throw new Error(errMsg);
     }
 
-    return responseData;
+    const selfLink = responseData?._links?.self?.href || null;
+    const allLink = responseData?._links?.all?.href || null;
+
+    return {
+        data: responseData,
+        links: {
+            self: selfLink,
+            all: allLink
+        }
+    };
 }
