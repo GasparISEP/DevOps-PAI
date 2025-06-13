@@ -3,9 +3,8 @@ autonumber
 
 title As an ASC, I want to register a programme in the system.
 
-actor ASC as Admin
 
-participant ":UI" as UI #lightyellow
+participant ":Router" as R #lightyellow
 participant "dtCtrl:DegreeTypeRestController" as dtC #lightblue
 participant "dCtrl:DepartmentRestController" as dC #lightpink
 participant "tCtrl:TeacherRestController" as tC #lightyellow
@@ -16,42 +15,40 @@ participant "PID1:ProgrammeId" as PID #lightgrey
 participant "P1:Programme" as P #lightpink
 participant "pRepo:ProgrammeRepository" as PR #lightcyan
 
-activate Admin
-Admin -> UI ++: I want to register a Programme in the System
+[o-> R ++: **GET** /degreeTypes
 
-UI -> dtC ++: getAllDegreeTypes()
+R -> dtC ++: getAllDegreeTypes()
 
 ref over dtC
           Get DegreeTypes List
 end ref
 
-dtC --> UI --: List<DegreeTypeDTO>
+dtC --> R --: List<DegreeTypeDTO>
+[o<-- R --: List<DegreeTypeDTO>
 
-
-
-UI -> dC ++: getAllDepartments()
+[o-> R ++: **GET** /departments
+R -> dC ++: getAllDepartments()
 
 ref over dC
           Get Departments List
 end ref
 
-dC --> UI --: List<DepartmentDTO>
+dC --> R --: List<DepartmentDTO>
+[o<-- R --: List<DepartmentDTO>
 
-
-
-UI -> tC ++: getAllTeachers()
+[o-> R ++: **GET** /departments
+R -> tC ++: getAllTeachers()
 
 ref over tC
           Get Teachers List
 end ref
 
-tC --> UI --: List<TeacherDTO>
+tC --> R --: List<TeacherDTO>
+[o<-- R --: List<TeacherDTO>
 
-UI --> Admin --: Display form with: \n Degree types, Departments, Teachers \n and Name, Acronym
+[o-> R ++: **POST** /programmes
 
-Admin -> UI ++: Submit filled form \n(Degree Type, Department, Teacher, Name, Acronym)
-
-UI -> C ++: registerAProgrammeInTheSystem \n(programmeDTO)
+R -> C ++: registerAProgrammeInTheSystem \n(programmeDTO)
 
 ref over C
     Convert ProgrammeDTO
@@ -98,8 +95,8 @@ ref over C
     Convert P1 to EntityModel<ProgrammeDTO>
 end ref
 
-C --> UI --: EntityModel<ProgrammeDTO>
+C --> R --: (201, Created) + body {programmeDTO + hypermedia}
 
-UI --> Admin --: Programme registered successfully! \n(Display Programme details)
+[o<-- R--: (201, Created) + body {programmeDTO + hypermedia}
 
 @enduml
