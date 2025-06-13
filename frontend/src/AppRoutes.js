@@ -2,6 +2,7 @@
 import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import RegisterStudentPage from './pages/studentPage/RegisterStudentPage';
+import ProgrammeEnrolmentPage from './pages/studentPage/ProgrammeEnrolmentPage';
 import RegisterProgrammePage from './pages/RegisterProgrammePage';
 import RegisterTeacherPage from './pages/teacherPage/RegisterTeacherPage';
 import DisplayTeacherPage from './pages/teacherPage/DisplayTeacherPage';
@@ -23,8 +24,8 @@ function AppRoutes() {
             <Route path="/teachers/display" element={<DisplayTeacherPage />} />
             <Route path="/students/register" element={<RegisterStudentPage />} />
             <Route path="/students/display" element={<DisplayStudentPage />} />
-            {/*<Route path="/students" element={<StudentsLandingPage />} />
-            <Route path="/students/enroll" element={<EnrollStudentPage />} />*/}
+            {/*<Route path="/students" element={<StudentsLandingPage />} />*/}
+            <Route path="/students/enrol-programme" element={<ProgrammeEnrolmentPage />} />
             <Route path="/programmes" element={<RegisterProgrammePage />} />
             <Route path="/courses" element={<RegisterCourseInStudyPlanPage />} />
             <Route path="/courseeditions/display" element={<DisplayCourseEditionPage />} />

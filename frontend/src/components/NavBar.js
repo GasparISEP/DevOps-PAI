@@ -60,7 +60,7 @@ const NavBar = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link to="/students/enroll" className="navbar-link" onClick={() => setIsStudentOpen(false)}>
+                  <Link to="/students/enrol-programme" className="navbar-link" onClick={() => setIsStudentOpen(false)}>
                     Enroll Student
                   </Link>
                 </li>
