@@ -150,13 +150,10 @@ public class ProgrammeRestController {
         Acronym acronym1 = new Acronym(acronym);
         ProgrammeID programmeID = new ProgrammeID(acronym1);
 
-        Optional<Programme> programmeDTO = _programmeService.getProgrammeByID(programmeID);
+        Optional<ProgrammeDTO> programmeDTO = _programmeService.getProgrammeByID(programmeID);
 
-        if (programmeDTO.isPresent()) {
-            return ResponseEntity.ok(programmeDTO.get());
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Programme not found");
-        }
+        return programmeDTO.<ResponseEntity<Object>>map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("Programme not found"));
 
     }
 

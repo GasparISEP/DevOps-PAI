@@ -391,27 +391,39 @@ class ProgrammeRestControllerTest {
     }
 
     @Test
-    void shouldReturn200WhenProgrammeIsFoundById () {
-        //arrange
+    void shouldReturn200WhenProgrammeIsFoundById() {
+        // Arrange
         createProgrammeDoubles();
-        ProgrammeRestController controller = new ProgrammeRestController(_programmeServiceDouble,
-                _programmeAssemblerDouble, _programmeEnrolmentService, _studyPlanServiceDouble, _studyPlanAssemblerDouble,
-                _programmeDirectorAssemblerDouble, _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler,_us34Assembler);
+
+        ProgrammeRestController controller = new ProgrammeRestController(
+                _programmeServiceDouble,
+                _programmeAssemblerDouble,
+                _programmeEnrolmentService,
+                _studyPlanServiceDouble,
+                _studyPlanAssemblerDouble,
+                _programmeDirectorAssemblerDouble,
+                _programmeHATEOASAssembler,
+                _programmeEnrolmentAssembler,
+                _studentAssembler,
+                _us34Assembler
+        );
 
         String acronym = "CSD";
 
         ProgrammeID doubleProgrammeID = mock(ProgrammeID.class);
         when(doubleProgrammeID.getProgrammeAcronym()).thenReturn(acronym);
 
+        ProgrammeDTO programmeDTOMock = mock(ProgrammeDTO.class);
 
-        Programme programmeMock = mock(Programme.class);
         when(_programmeServiceDouble.getProgrammeByID(any(ProgrammeID.class)))
-                .thenReturn(Optional.of(programmeMock));
-        //act
+                .thenReturn(Optional.of(programmeDTOMock));
+
+        // Act
         ResponseEntity<Object> result = controller.getProgrammeByID(acronym);
 
-        //assert
-        assertEquals(result.getStatusCode(),HttpStatus.OK);
+        // Assert
+        assertEquals(HttpStatus.OK, result.getStatusCode());
+        assertEquals(programmeDTOMock, result.getBody());
     }
 
     @Test
@@ -447,7 +459,7 @@ class ProgrammeRestControllerTest {
 
     @Test
     void shouldReturnAListOfProgrammes () {
-        //arrange
+        // Arrange
         ProgrammeRestController controller = new ProgrammeRestController(_programmeServiceDouble,
                 _programmeAssemblerDouble, _programmeEnrolmentService, _studyPlanServiceDouble, _studyPlanAssemblerDouble,
                 _programmeDirectorAssemblerDouble, _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler,_us34Assembler);
@@ -458,17 +470,17 @@ class ProgrammeRestControllerTest {
         List<ProgrammeDTO> progDTOS = List.of(dto1, dto2, dto3);
         when(_programmeServiceDouble.getAllProgrammes()).thenReturn(progDTOS);
 
-        //act
+        // Act
         ResponseEntity<?> response = controller.getAllProgrammes();
 
-        //assert
+        // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(progDTOS, response.getBody());
     }
 
     @Test
     void shouldReturnAnEmptyListOfProgrammesIfThereAreNoSchoolYearsInTheSystem () {
-        //arrange
+        //Arrange
         ProgrammeRestController controller = new ProgrammeRestController(_programmeServiceDouble,
                 _programmeAssemblerDouble, _programmeEnrolmentService, _studyPlanServiceDouble, _studyPlanAssemblerDouble,
                 _programmeDirectorAssemblerDouble, _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler,_us34Assembler);
@@ -476,17 +488,17 @@ class ProgrammeRestControllerTest {
         List<ProgrammeDTO> progDTOS = List.of();
         when(_programmeServiceDouble.getAllProgrammes()).thenReturn(progDTOS);
 
-        //act
+        // Act
         ResponseEntity<?> response = controller.getAllProgrammes();
 
-        //assert
+        // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(progDTOS, response.getBody());
     }
 
     @Test
     void shouldReturnBadRequestWhenIllegalArgumentExceptionIsThrown() {
-        //arrange
+        // Arrange
         ProgrammeRestController controller = new ProgrammeRestController(_programmeServiceDouble,
                 _programmeAssemblerDouble, _programmeEnrolmentService, _studyPlanServiceDouble, _studyPlanAssemblerDouble,
                 _programmeDirectorAssemblerDouble, _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler,_us34Assembler);
@@ -495,27 +507,27 @@ class ProgrammeRestControllerTest {
 
         when(_programmeServiceDouble.getAllProgrammes()).thenThrow(new IllegalArgumentException(errorMessage));
 
-        //act
+        // Act
         ResponseEntity<?> response = controller.getAllProgrammes();
 
-        //assert
+        // Assert
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertEquals(errorMessage, response.getBody());
     }
 
     @Test
     void shouldReturnInternalServerErrorWhenUnexpectedExceptionIsThrown() {
-        //arrange
+        // Arrange
         ProgrammeRestController controller = new ProgrammeRestController(_programmeServiceDouble,
                 _programmeAssemblerDouble, _programmeEnrolmentService, _studyPlanServiceDouble, _studyPlanAssemblerDouble,
                 _programmeDirectorAssemblerDouble, _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler,_us34Assembler);
 
         when(_programmeServiceDouble.getAllProgrammes()).thenThrow(new RuntimeException("Database is down"));
 
-        //act
+        // Act
         ResponseEntity<?> response = controller.getAllProgrammes();
 
-        //assert
+        // Assert
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
         assertEquals("Unexpected error occurred", response.getBody());
     }
