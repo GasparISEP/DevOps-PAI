@@ -51,6 +51,8 @@ class ProgrammeRestControllerTest {
     private IStudyPlanService _studyPlanServiceDouble;
     private IStudyPlanAssembler _studyPlanAssemblerDouble;
     private ProgrammeDTO _programmeDTODouble;
+    private ProgrammeID _programmeIDDouble;
+    private ProgrammeIDDTO _programmeIDDTODouble;
     private ProgrammeVOsDTO _programmeVOsDTODouble;
     private RegisterStudyPlanCommand _studyPlanCommandDouble;
     private StudyPlanDTO _studyPlanDTODouble;
@@ -79,6 +81,8 @@ class ProgrammeRestControllerTest {
 
     private void createProgrammeDoubles() {
         _programmeDTODouble = mock(ProgrammeDTO.class);
+        _programmeIDDouble = mock(ProgrammeID.class);
+        _programmeIDDTODouble = mock(ProgrammeIDDTO.class);
         _programmeVOsDTODouble = mock(ProgrammeVOsDTO.class);
         _programmeDouble = mock(Programme.class);
         _programmeEntityModelDouble = mock(EntityModel.class);
@@ -112,8 +116,9 @@ class ProgrammeRestControllerTest {
 
         when(_programmeAssemblerDouble.fromDTOToDomain(_programmeDTODouble)).thenReturn(_programmeVOsDTODouble);
         when(_programmeServiceDouble.registerProgramme(_programmeVOsDTODouble)).thenReturn(_programmeDouble);
-        when(_programmeAssemblerDouble.fromDomainToDTO(_programmeDouble)).thenReturn(_programmeDTODouble);
-        when(_programmeHATEOASAssembler.toModel(_programmeDTODouble)).thenReturn(_programmeEntityModelDouble);
+        when(_programmeDouble.identity()).thenReturn(_programmeIDDouble);
+        when(_programmeAssemblerDouble.toDTO(_programmeIDDouble)).thenReturn(_programmeIDDTODouble);
+        when(_programmeHATEOASAssembler.toModel(_programmeIDDTODouble)).thenReturn(_programmeEntityModelDouble);
 
         //Act
         ResponseEntity<?> result = programmeRestCtrl.registerProgramme(_programmeDTODouble);
