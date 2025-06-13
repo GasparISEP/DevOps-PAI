@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { Link } from "react-router-dom";
 import '../../styles/DisplayPage.css';
 import '../../styles/Buttons.css';
@@ -15,6 +15,22 @@ export default function CourseEditionDisplay() {
     const currentItems = courseEditions.slice(startIndex, endIndex);
     const [filterField, setFilterField] = useState('programme name');
     const [filterValue, setFilterValue] = useState('');
+
+    useEffect(() => {
+        async function fetchCourseEditions() {
+            try {
+                const courseEditionRes = await fetch(`${process.env.REACT_APP_API_URL}/course-editions`)
+
+                const courseEditionsData = await courseEditionRes.json();
+
+                //setCourseEditions(courseEditionsData._embedded?.courseDTOList || []);
+                setCourseEditions(courseEditionsData);
+            } catch (err) {
+                console.error("Failed to load Course Editions:", err);
+            }
+        }
+        fetchCourseEditions();
+    }, []);
 
     function PaginationButton({ onClick, disabled, children }) {
         return (
@@ -74,7 +90,7 @@ export default function CourseEditionDisplay() {
                         <table className="display-form-table">
                             <thead>
                             <tr>
-                                <th>Programme Name</th>
+                                <th>Programme Acronym</th>
                                 <th>Course Name</th>
                                 <th>Course Acronym</th>
                                 <th>School Year</th>
@@ -83,10 +99,10 @@ export default function CourseEditionDisplay() {
                             <tbody>
                             {currentItems.map((edition, index) => (
                                 <tr key={index}>
-                                    <td>{edition.programmeName}</td>
+                                    <td>{edition.programmeAcronym}</td>
                                     <td>{edition.courseName}</td>
                                     <td>{edition.courseAcronym}</td>
-                                    <td>{edition.schoolYear}</td>
+                                    <td>{edition.schoolYearID}</td>
                                 </tr>
                             ))}
                             </tbody>
