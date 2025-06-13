@@ -1,6 +1,7 @@
 package PAI.service.courseEdition;
 
 import PAI.VOs.*;
+import PAI.assembler.courseEdition.ICourseEditionAssembler;
 import PAI.domain.courseEdition.CourseEdition;
 import PAI.domain.courseEdition.ICourseEditionFactory;
 import PAI.domain.repositoryInterfaces.courseEdition.ICourseEditionRepository;
@@ -532,4 +533,5 @@ class CourseEditionServiceImplTest {
         // Assert
         assertTrue(result.isPresent());
     }
+
 }
