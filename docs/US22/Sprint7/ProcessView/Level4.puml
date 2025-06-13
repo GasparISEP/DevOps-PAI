@@ -7,10 +7,11 @@ participant "CourseEditionRestController" as controller <<@RestController>> #lig
 participant "GradeAStudentServiceImpl" as service <<@Service>> #lightyellow
 participant "StudentGradeFactoryImpl" as factory <<@Component>> #lightgreen
 participant "StudentGradeRepositorySpringDataImpl" as repoAdapter <<@Repository>> #thistle
+participant "StudentGradeMapperImpl" as mapper <<@Component>> #mistyrose
 participant "StudentGrade" as domain <<Aggregate>> #wheat
 participant "StudentGradeDM" as dataModel <<@Entity>> #lightgray
 participant "StudentGradeRepresentationModelAssembler" as assembler <<@Component>> #pink
-database "student_grades" as db
+database "H2 Database" as db
 
 RUC -> controller : POST /courseeditions/studentgrades/register \n (GradeAStudentRequestDTO)
 activate controller
@@ -19,7 +20,7 @@ controller -> service : gradeAStudent(GradeAStudentCommand)
 activate service
 
 service -> repoAdapter : containsOfIdentity(StudentGradeID)
-repoAdapter -> db : SELECT * FROM student_grades WHERE id=...
+repoAdapter -> db : SELECT * FROM student_grade WHERE id = ...
 db --> repoAdapter : Optional<StudentGradeDM>
 
 service -> factory : newGradeStudent(...)
@@ -28,8 +29,17 @@ factory --> service : StudentGrade
 deactivate factory
 
 service -> repoAdapter : save(StudentGrade)
-repoAdapter -> db : INSERT INTO student_grades (...)
-db --> repoAdapter : saved StudentGradeDM
+activate repoAdapter
+
+repoAdapter -> mapper : toDataModel(StudentGrade)
+mapper --> repoAdapter : StudentGradeDM
+
+repoAdapter -> db : INSERT INTO student_grade
+db --> repoAdapter : persisted StudentGradeDM
+
+repoAdapter -> mapper : toDomain(StudentGradeDM)
+mapper --> repoAdapter : StudentGrade
+
 repoAdapter --> service : StudentGrade
 deactivate repoAdapter
 
