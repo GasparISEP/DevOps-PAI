@@ -95,8 +95,8 @@ ref over C
     Convert P1 to EntityModel<ProgrammeDTO>
 end ref
 
-C --> R --: (201, Created) + body {programmeDTO + hypermedia}
+C --> R --: (201, Created) + body {programmeIDDTO + hypermedia}
 
-[o<-- R--: (201, Created) + body {programmeDTO + hypermedia}
+[o<-- R--: (201, Created) + body {programmeIDDTO + hypermedia}
 
 @enduml

@@ -3,28 +3,25 @@ package PAI.dto.courseEdition;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CourseEditionResponseDTOTest {
+class CourseEditionServiceResponseDTOTest {
 
     @Test
-    void shouldCreateCourseEditionRequestDTOCorrectly() {
-        //arrange
+    void shouldCreateCourseEditionServiceResponseDTOCorrectly() {
+        // Arrange
         UUID generatedID = UUID.randomUUID();
-        String courseEditionID = "PROG2023-COURSE123";
-        String programmeName = "Software Development";
-        String programmeAcronym = "MEI";
+        String programmeAcronym = "SE";
         UUID schoolYearID = UUID.randomUUID();
+        String courseAcronym = "CS101";
+        String courseName = "Intro to Programming";
+        LocalDate studyPlanImplementationDate = LocalDate.of(2025, 5, 25);
+        String courseEditionID = "PROG2023-COURSE123";
 
-        String courseAcronym = "AP";
-        String courseName = "Advanced Programming";
-        LocalDate studyPlanImplementationDate = LocalDate.now();
-
-        //act
-        CourseEditionResponseDTO dto = new CourseEditionResponseDTO(
+        // Act
+        CourseEditionServiceResponseDTO dto = new CourseEditionServiceResponseDTO(
                 generatedID,
                 programmeAcronym,
                 schoolYearID,
@@ -32,15 +29,18 @@ class CourseEditionResponseDTOTest {
                 courseName,
                 studyPlanImplementationDate,
                 courseEditionID
-                );
+        );
 
-        //assert
-        assertEquals(courseEditionID, dto.courseEditionID());
+        // Assert
+        assertEquals(generatedID, dto.courseEditionGeneratedID());
         assertEquals(programmeAcronym, dto.programmeAcronym());
         assertEquals(schoolYearID, dto.schoolYearID());
         assertEquals(courseAcronym, dto.courseAcronym());
         assertEquals(courseName, dto.courseName());
         assertEquals(studyPlanImplementationDate, dto.studyPlanImplementationDate());
+        assertEquals(courseEditionID, dto.courseEditionID());
     }
+
+
 
 }

@@ -57,6 +57,6 @@ Drivers --> PR --: Programme1
 PR --> PS --: Programme1
 
 PS --> C --: Programme1
-C --> RT --: (201, Created) + body {programmeDTO + hypermedia}
-[o<-- RT --: (201, Created) + body {programmeDTO + hypermedia}
+C --> RT --: (201, Created) + body {programmeIDDTO + hypermedia}
+[o<-- RT --: (201, Created) + body {programmeIDDTO + hypermedia}
 @enduml
