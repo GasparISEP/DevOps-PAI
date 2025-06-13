@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import '../../styles/DisplayATeacherCareerProgression.css';
 
 const TeacherCareerProgressionComponent = () => {
     const { id } = useParams();
@@ -26,20 +27,40 @@ const TeacherCareerProgressionComponent = () => {
             });
     }, [id]);
 
-    if (loading) return <p>Loading data...</p>;
-    if (error) return <p>Error: {error}</p>;
-    if (!progression) return <p>No data found.</p>;
+    if (loading) return <p className="loading">Loading data...</p>;
+    if (error) return <p className="error">Error: {error}</p>;
+    if (!progression) return <p className="no-data">No data found.</p>;
 
     return (
-        <div>
-            <h2>Teacher Career Progression Details</h2>
-            <p><strong>Progression ID:</strong> {progression.teacherCareerProgressionId}</p>
-            <p><strong>Date:</strong> {progression.date}</p>
-            <p><strong>Teacher ID:</strong> {progression.teacherID}</p>
-            <p><strong>Category ID:</strong> {progression.teacherCategoryID}</p>
-            <p><strong>Working Percentage:</strong> {progression.workingPercentage}%</p>
+        <div className="tcp-container">
+            <h2 className="tcp-title">Teacher Career Progression Details</h2>
+            <table className="tcp-table">
+                <tbody>
+                <tr className="tcp-row">
+                    <th className="tcp-label">Progression ID</th>
+                    <td className="tcp-value">{progression.teacherCareerProgressionId}</td>
+                </tr>
+                <tr className="tcp-row">
+                    <th className="tcp-label">Date</th>
+                    <td className="tcp-value">{progression.date}</td>
+                </tr>
+                <tr className="tcp-row">
+                    <th className="tcp-label">Teacher ID</th>
+                    <td className="tcp-value">{progression.teacherID}</td>
+                </tr>
+                <tr className="tcp-row">
+                    <th className="tcp-label">Category ID</th>
+                    <td className="tcp-value">{progression.teacherCategoryID}</td>
+                </tr>
+                <tr className="tcp-row">
+                    <th className="tcp-label">Working Percentage</th>
+                    <td className="tcp-value">{progression.workingPercentage}%</td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     );
 };
 
 export default TeacherCareerProgressionComponent;
+
