@@ -1,0 +1,138 @@
+@startuml
+
+title US15: As an HRC, I want to update the teacher's working-percentage in the system \n (Process View - Level 3 - Backend)
+
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+autonumber
+
+participant ":Router" as router <<Component>>
+participant ":Controller" as controller <<Component>>
+participant ":Service" as service <<Component>>
+participant ":Domain" as domain <<Component>>
+participant ":Repository" as repository <<Component>>
+participant ":Drivers" as drivers <<Component>>
+
+' getAllTeachers method '
+
+[o-> router: **GET** /teachers
+activate router #E1F5FE
+
+router -> controller: getAllTeachers ()
+activate controller #E1F5FE
+
+controller -> service: getAllTeachers ()
+activate service #E1F5FE
+
+service -> repository: findAll ()
+activate repository #E1F5FE
+
+repository -> drivers: findAll ()
+activate drivers #E1F5FE
+
+drivers ->o]: **SELECT** * FROM teacher
+
+drivers <--o]: Iterable<TeacherDataModel>
+
+drivers --> repository: Iterable<TeacherDataModel>
+deactivate drivers
+
+repository --> service: Iterable<Teacher>
+deactivate repository
+
+service --> controller: Iterable<Teacher>
+deactivate service
+
+controller --> router: 200 + body {Iterable<TeacherResponseDTO> + hypermedia}
+deactivate controller
+
+[o<-- router: 200 + body {Iterable<TeacherResponseDTO> + hypermedia}
+deactivate router
+
+
+
+[o-> router: **POST** /teachers/{teacherId}/careerprogressions/working-percentage + \n body {...}
+activate router #E1F5FE
+
+note over router #E0E0E0
+  body:
+    {"teacherId": "AAA",
+     "teacherCategoryID": 70,
+     "date": "2025-06-01"
+    }
+end note
+
+router -> controller: updateTeacherWorkingPercentage (teacherId, requestDTO)
+activate controller #E1F5FE
+
+controller -> service: updateTeacherWorkingPercentage (command)
+activate service #E1F5FE
+
+
+service -> repository: findLastTCPFromTeacherID (command.teacherID())
+activate repository #E1F5FE
+
+repository -> drivers: findTopByTeacherIdOrderByDateDesc (String teacherID)
+activate drivers #E1F5FE
+
+drivers -->o]: **SELECT** * FROM teacher_career_progression \n WHERE teacher_id = 'AAA' ORDER BY date DESC LIMIT 1;
+
+drivers <--o] : lastTcpDataModel
+
+drivers --> repository: lastTCP
+deactivate drivers
+
+repository --> service: lastTCP
+deactivate repository
+
+service -> domain : lastTCP.isLastDateEqualOrBeforeNewDate \n (command.date())
+activate domain #E1F5FE
+
+domain --> service : False
+deactivate domain
+
+service -> domain : lastTCP.getTeacherCategoryID()
+activate domain #E1F5FE
+
+domain --> service : TeacherCategoryID
+deactivate domain
+
+service -> domain : lastTCP.getWorkingPercentage().equals(workingPercentage)
+activate domain #E1F5FE
+
+domain --> service : False
+deactivate domain
+
+service -> domain: createTeacherCareerProgression \n (date, teacherCategoryID, workingPercentage, teacherID)
+activate domain #E1F5FE
+
+domain --> service: teacherCareerProgression
+deactivate domain
+
+service -> repository: save (teacherCareerProgression)
+activate repository #E1F5FE
+
+repository -> drivers: save (teacherCareerProgressionDataModel)
+activate drivers #E1F5FE
+
+drivers -->o]: **INSERT INTO** Teacher_Career_Progression \n (date, teacherCategoryID, workingPercentage, teacherID) VALUES (...)
+
+drivers <--o] : teacherCareerProgressionSavedDataModel
+
+drivers --> repository: teacherCareerProgressionSavedDataModel
+deactivate drivers
+
+repository --> service: teacherCareerProgressionSaved
+deactivate repository
+
+service --> controller: teacherCareerProgressionSavedDTO
+deactivate service
+
+controller --> router: 201 + \n body {updateWorkingPercentageResponseDTO + hypermedia}
+deactivate controller
+
+[o<-- router: 201 + \n body {updateTeacherWorkingPercentage + hypermedia}
+deactivate router
+
+@enduml
