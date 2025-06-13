@@ -2,7 +2,7 @@ package PAI.dto.ProgrammeAndCourses;
 
 import jakarta.validation.constraints.*;
 
-public record AvailableCoursesInfo(
+public record AvailableCoursesInfoRspDTO(
         @NotNull(message = "Course Acronym is required")
         @Size(min = 3, max = 3, message = "Acronym must have 3 characters")
         String acronym,

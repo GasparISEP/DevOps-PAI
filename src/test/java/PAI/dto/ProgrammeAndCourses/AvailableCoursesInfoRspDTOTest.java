@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class AvailableCoursesInfoTest {
+class AvailableCoursesInfoRspDTOTest {
     @Test
     void testRecordStoresValuesCorrectly() {
         // Arrange
@@ -13,7 +13,7 @@ class AvailableCoursesInfoTest {
         int expectedQtyECTs = 30;
 
         // Act
-        AvailableCoursesInfo dto = new AvailableCoursesInfo(
+        AvailableCoursesInfoRspDTO dto = new AvailableCoursesInfoRspDTO(
                 expectedAcronym,
                 expectedName,
                 expectedQtyECTs
@@ -24,5 +24,4 @@ class AvailableCoursesInfoTest {
         assertEquals(expectedName, dto.name());
         assertEquals(expectedQtyECTs, dto.qtyECTs());
     }
-
 }
