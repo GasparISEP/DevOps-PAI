@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
 
+import static PAI.utils.ValidationUtils.validateNotNull;
+
 @Service
 public class ProgrammeEditionService implements IProgrammeEditionService {
     private final IProgrammeEditionFactory programmeEditionFactory;
@@ -39,11 +41,7 @@ public class ProgrammeEditionService implements IProgrammeEditionService {
                                     ISchoolYearService schoolYearService,
                                     IProgrammeEditionEnrolmentService programmeEditionEnrolmentService) {
 
-
-        if(programmeEditionFactory == null){
-            throw new IllegalArgumentException("ProgrammeEditionFactory cannot be null!");
-        }
-        this.programmeEditionFactory = programmeEditionFactory;
+        this.programmeEditionFactory = validateNotNull(programmeEditionFactory, "ProgrammeEditionFactory");
 
         if (programmeEditionRepository == null) {
             throw new IllegalArgumentException("ProgrammeEditionRepository cannot be null!");
