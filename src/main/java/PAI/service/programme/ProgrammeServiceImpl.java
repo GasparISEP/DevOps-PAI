@@ -5,6 +5,7 @@ import PAI.assembler.programme.IProgrammeAssembler;
 import PAI.domain.degreeType.DegreeType;
 import PAI.domain.programme.Programme;
 import PAI.domain.programme.IProgrammeFactory;
+import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
 import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
 import PAI.dto.Programme.ProgrammeDTO;
 import PAI.dto.Programme.ProgrammeIDDTO;
@@ -207,5 +208,14 @@ public class ProgrammeServiceImpl implements IProgrammeService {
             programmeDTOS.add(programmeDTO);
         }
         return programmeDTOS;
+    }
+
+    public List<Programme> getProgrammesByProgrammeIDs (List<ProgrammeID> list) {
+        List<Programme> programmeList = new ArrayList<>();
+        for (ProgrammeID everyProgID : list) {
+            Optional<Programme> programme = _programmeRepository.ofIdentity(everyProgID);
+            programme.ifPresent(programmeList::add);
+        }
+        return programmeList;
     }
 }
