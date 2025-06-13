@@ -4,35 +4,33 @@ import PAI.VOs.*;
 import PAI.assembler.courseEdition.ICourseEditionAssembler;
 import PAI.assembler.courseEdition.ICourseEditionHateoasAssembler;
 import PAI.assembler.courseEdition.IStudentCountAssembler;
+import PAI.assembler.courseEditionEnrolment.ICourseEditionEnrolmentAssembler;
+import PAI.assembler.courseEditionEnrolment.ICourseEditionEnrolmentHateoasAssembler;
+import PAI.assembler.programmeEdition.IProgrammeEditionServiceAssembler;
 import PAI.assembler.studentGrade.IStudentGradeAssembler;
 import PAI.domain.courseEdition.CourseEdition;
+import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
 import PAI.dto.approvalRate.ApprovalRateResponseDTO;
 import PAI.dto.courseEdition.*;
+import PAI.dto.courseEditionEnrolment.CourseEditionEnrolmentDto;
 import PAI.dto.studentGrade.GradeAStudentCommand;
 import PAI.dto.studentGrade.GradeAStudentRequestDTO;
 import PAI.dto.studentGrade.GradeAStudentResponseDTO;
 import PAI.service.courseEdition.ICourseEditionService;
 import PAI.service.courseEdition.ICreateCourseEditionService;
 import PAI.service.courseEdition.IDefineRucService;
+import PAI.service.courseEditionEnrolment.ICourseEditionEnrolmentService;
 import PAI.service.studentGrade.IGradeAStudentService;
 import jakarta.validation.Valid;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import PAI.assembler.courseEditionEnrolment.ICourseEditionEnrolmentAssembler;
-import PAI.assembler.courseEditionEnrolment.ICourseEditionEnrolmentHateoasAssembler;
-import PAI.assembler.programmeEdition.IProgrammeEditionServiceAssembler;
-import PAI.dto.courseEditionEnrolment.CourseEditionEnrolmentDto;
-import PAI.service.courseEditionEnrolment.ICourseEditionEnrolmentService;
+
 import java.net.URI;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
-import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.ArrayList;
 import java.util.UUID;
 
 @RestController
@@ -286,4 +284,14 @@ public ResponseEntity<?> defineRucForCourseEdition(
         StudentCountDTO studentCountDTO = studentCountAssembler.fromDomainToDTO(studentCount);
         return ResponseEntity.ok(studentCountDTO);
     }
+
+    @GetMapping("/students/{studentID}/courseeditionenrolments")
+    public ResponseEntity<List<CourseEditionEnrolmentDto>> getEnrolmentsForStudent(@PathVariable("studentID") int studentID) {
+        List<CourseEditionEnrolment> enrolments = courseEditionEnrolmentService.findByStudentID(studentID);
+        List<CourseEditionEnrolmentDto> dtos = enrolments.stream()
+                .map(courseEditionEnrolmentAssembler::toDto)
+                .toList();
+        return ResponseEntity.ok(dtos);
+    }
+
 }
