@@ -10,7 +10,7 @@ class AvailableCoursesInfoRspDTOTest {
         // Arrange
         String expectedAcronym = "CSD";
         String expectedName = "Computer Systems Design";
-        int expectedQtyECTs = 30;
+        double expectedQtyECTs = 30;
 
         // Act
         AvailableCoursesInfoRspDTO dto = new AvailableCoursesInfoRspDTO(
