@@ -3,6 +3,7 @@ package PAI.service.courseEditionEnrolment;
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.StudentID;
+import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
 
 import java.util.List;
 
@@ -17,4 +18,7 @@ public interface ICourseEditionEnrolmentService {
     boolean removeCourseEditionEnrolment(StudentID studentID, CourseEditionID courseEditionID) throws Exception;
 
     int numberOfStudentsEnrolledInCourseEdition(CourseEditionID courseEditionId) throws Exception;
+
+    List<CourseEditionEnrolment> findByStudentID(int studentUniqueNumber);
+
 }
