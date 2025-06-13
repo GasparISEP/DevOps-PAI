@@ -68,8 +68,9 @@ public class ProgrammeRestController {
 
         ProgrammeVOsDTO programmeVOsDto = _programmeAssembler.fromDTOToDomain(programmeDTO);
         Programme programmeCreated = _programmeService.registerProgramme(programmeVOsDto);
-        ProgrammeDTO newProgrammeDTO = _programmeAssembler.fromDomainToDTO(programmeCreated);
-        EntityModel<ProgrammeDTO> programmeEntityModel = _programmeHATEOASAssembler.toModel(newProgrammeDTO);
+        ProgrammeID programmeID = programmeCreated.identity();
+        ProgrammeIDDTO programmeIDDTO = _programmeAssembler.toDTO(programmeID);
+        EntityModel<ProgrammeIDDTO> programmeEntityModel = _programmeHATEOASAssembler.toModel(programmeIDDTO);
 
         return new ResponseEntity<>(programmeEntityModel, HttpStatus.CREATED);
     }
