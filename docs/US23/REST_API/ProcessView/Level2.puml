@@ -12,9 +12,9 @@ participant "<<Component>> \nDataBase" as Database #strategy
 activate ProgrammeDirector
 ProgrammeDirector -> FE : Find the approval percentage of a Course Edition
 activate FE
-FE -> BE : GET /courseeditions/
+FE -> BE : GET /course-editions/
 activate BE
-BE --> Database : findAllCourseEditions()
+BE -> Database : findAll()
 activate Database
 Database --> BE : All Course Editions
 deactivate Database
@@ -25,9 +25,10 @@ deactivate FE
 
 ProgrammeDirector -> FE: Course Edition!
 activate FE
-FE -> BE : GET /approvalpercentage/
+FE -> BE : GET /approval-rate (programmeAcronym,\n schoolYearId, courseAcronym, \n courseName,studyPlanDate)
+
 activate BE
-BE --> Database : getCourseEditionApprovalRate()
+BE -> Database : getCourseEditionApprovalRate(CourseEditionID)
 activate Database
 Database --> BE : ApprovalRateResponseDTO
 deactivate Database
