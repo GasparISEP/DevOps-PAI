@@ -3,6 +3,7 @@ package PAI.assembler.courseEdition;
 import PAI.VOs.*;
 import PAI.domain.courseEdition.CourseEdition;
 import PAI.dto.courseEdition.CourseEditionResponseDTO;
+import PAI.dto.courseEdition.CourseEditionServiceResponseDTO;
 import org.junit.jupiter.api.Test;
 
 import java.net.URLEncoder;
@@ -27,6 +28,12 @@ class CourseEditionServiceAssemblerImplTest {
         CourseID courseID = mock(CourseID.class);
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
 
+        CourseEditionGeneratedID generatedID = mock(CourseEditionGeneratedID.class);
+        UUID generatedUUID = UUID.randomUUID();
+
+        when(courseEdition.getCourseEditionGeneratedID()).thenReturn(generatedID);
+        when(generatedID.getCourseEditionGeneratedID()).thenReturn(generatedUUID);
+
         UUID uuid = UUID.randomUUID();
         String programmeAcronym = "SE";
         String courseAcronym = "CS101";
@@ -49,7 +56,7 @@ class CourseEditionServiceAssemblerImplTest {
         when(courseEdition.getCourseInStudyPlanID()).thenReturn(courseInStudyPlanID);
 
         // Act
-        CourseEditionResponseDTO dto = assembler.toResponseDTO(courseEdition);
+        CourseEditionServiceResponseDTO dto = assembler.toResponseDTO(courseEdition);
 
         // Assert
         String expectedFormattedID = URLEncoder.encode(
