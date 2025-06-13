@@ -43,10 +43,7 @@ public class ProgrammeEditionService implements IProgrammeEditionService {
 
         this.programmeEditionFactory = validateNotNull(programmeEditionFactory, "ProgrammeEditionFactory");
 
-        if (programmeEditionRepository == null) {
-            throw new IllegalArgumentException("ProgrammeEditionRepository cannot be null!");
-        }
-        this.programmeEditionRepository = programmeEditionRepository;
+        this.programmeEditionRepository = validateNotNull(programmeEditionRepository, "ProgrammeEditionRepository");
 
         if (programmeService == null) {
             throw new IllegalArgumentException("ProgrammeService cannot be null!");
