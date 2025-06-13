@@ -51,10 +51,7 @@ public class ProgrammeEditionService implements IProgrammeEditionService {
 
         this.schoolYearService = validateNotNull(schoolYearService, "SchoolYearService");
 
-        if (programmeEditionEnrolmentService == null) {
-            throw new IllegalArgumentException("ProgrammeEditionEnrolmentService cannot be null!");
-        }
-        this.programmeEditionEnrolmentService = programmeEditionEnrolmentService;
+        this.programmeEditionEnrolmentService = validateNotNull(programmeEditionEnrolmentService, "ProgrammeEditionEnrolmentService");
     }
 
     @Override
