@@ -33,7 +33,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@Sql(scripts = "/test-data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
@@ -245,6 +245,7 @@ public class CourseEditionRestControllerIntegrationTests {
                 .andExpect(content().string("Test Exception"));
     }
 
+    @Sql(scripts = "/test-data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Test
     void shouldReturnCourseEditionEnrolmentsForGivenStudentID() throws Exception {
         // Arrange
@@ -256,4 +257,29 @@ public class CourseEditionRestControllerIntegrationTests {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$").isArray());
     }
+
+    @Test
+    @Sql(scripts = {"/test-data.sql", "/test-data-studentgrade.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    void whenGradeAStudent_thenReturnsCreatedWithHateoasLinks() throws Exception {
+        mockMvc.perform(post("/course-editions/studentgrades/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+            {
+                "studentUniqueNumber": 1102840,
+                "grade": 18,
+                "date": "13-06-2025",
+                "programmeName": "Engenharia Informática",
+                "programmeAcronym": "LEI",
+                "schoolYearId": "11111111-1111-1111-1111-111111111111",
+                "courseAcronym": "PAI",
+                "courseName": "Processos de Apoio à Inovação",
+                "studyPlanImplementationDate": "01-09-2020"
+            }
+            """))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$._studentUniqueNumber").value(1102840))
+                .andExpect(jsonPath("$._grade").value(18.0));
+                 // .andExpect(jsonPath("$._links").exists()); "para colocar os links"
+    }
+
 }
