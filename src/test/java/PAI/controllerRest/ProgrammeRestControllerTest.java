@@ -6,6 +6,7 @@ import PAI.assembler.programme.IProgrammeDirectorAssembler;
 import PAI.assembler.programme.IProgrammeHATEOASAssembler;
 import PAI.assembler.programme.ProgrammeAssembler;
 import PAI.assembler.programmeEnrolment.IProgrammeEnrolmentAssembler;
+import PAI.assembler.programmeEnrolment.IUS34ProgrammeEnrolmentAssembler;
 import PAI.assembler.student.IStudentDTOAssembler;
 import PAI.assembler.studyPlan.IStudyPlanAssembler;
 import PAI.domain.programme.Programme;
@@ -13,6 +14,7 @@ import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
 import PAI.dto.Programme.*;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentIdDTO;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentListIDDTO;
+import PAI.dto.programmeEnrolment.US34ListOfProgrammesDTO;
 import PAI.dto.student.StudentIDDTO;
 import PAI.dto.studyPlan.RegisterStudyPlanCommand;
 import PAI.dto.studyPlan.StudyPlanDTO;
@@ -62,6 +64,7 @@ class ProgrammeRestControllerTest {
     private EntityModel _programmeEntityModelDouble;
     private IProgrammeEnrolmentAssembler _programmeEnrolmentAssembler;
     private IStudentDTOAssembler _studentAssembler;
+    private IUS34ProgrammeEnrolmentAssembler _us34Assembler;
 
 
     @BeforeEach
@@ -75,6 +78,7 @@ class ProgrammeRestControllerTest {
         _programmeHATEOASAssembler = mock(IProgrammeHATEOASAssembler.class);
         _programmeEnrolmentAssembler = mock(IProgrammeEnrolmentAssembler.class);
         _studentAssembler = mock(IStudentDTOAssembler.class);
+        _us34Assembler = mock(IUS34ProgrammeEnrolmentAssembler.class);
     }
 
     private void createProgrammeDoubles() {
@@ -99,7 +103,7 @@ class ProgrammeRestControllerTest {
         //Arrange
 
         //Act
-        new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble, _programmeEnrolmentService, _studyPlanServiceDouble, _studyPlanAssemblerDouble, _programmeDirectorAssemblerDouble, _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler);
+        new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble, _programmeEnrolmentService, _studyPlanServiceDouble, _studyPlanAssemblerDouble, _programmeDirectorAssemblerDouble, _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler, _us34Assembler);
 
         //Assert
     }
@@ -108,7 +112,7 @@ class ProgrammeRestControllerTest {
     void shouldSendEntityModel() throws Exception {
         //Arrange
         createProgrammeDoubles();
-        ProgrammeRestController programmeRestCtrl = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble, _programmeEnrolmentService, _studyPlanServiceDouble, _studyPlanAssemblerDouble, _programmeDirectorAssemblerDouble, _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler);
+        ProgrammeRestController programmeRestCtrl = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble, _programmeEnrolmentService, _studyPlanServiceDouble, _studyPlanAssemblerDouble, _programmeDirectorAssemblerDouble, _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler,_us34Assembler);
 
         when(_programmeAssemblerDouble.fromDTOToDomain(_programmeDTODouble)).thenReturn(_programmeVOsDTODouble);
         when(_programmeServiceDouble.registerProgramme(_programmeVOsDTODouble)).thenReturn(_programmeDouble);
@@ -126,7 +130,7 @@ class ProgrammeRestControllerTest {
     @Test
     void shouldReturnCreatedResponseAndStudyPlanResponseDTOWhenStudyPlanIsRegisteredSuccessfully() throws Exception {
         // Arrange
-        ProgrammeRestController programmeRestCtrl = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble, _programmeEnrolmentService, _studyPlanServiceDouble, _studyPlanAssemblerDouble, _programmeDirectorAssemblerDouble, _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler);
+        ProgrammeRestController programmeRestCtrl = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble, _programmeEnrolmentService, _studyPlanServiceDouble, _studyPlanAssemblerDouble, _programmeDirectorAssemblerDouble, _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler,_us34Assembler);
         createStudyPlanDoubles();
         String programmeName = "Biology";
         String programmeAcronym = "BIO";
@@ -147,7 +151,7 @@ class ProgrammeRestControllerTest {
     @Test
     void shouldReturnNotFoundWhenStudyPlanIsRegisteredInAProgrammeThatDoesNotExist() throws Exception {
         // Arrange
-        ProgrammeRestController programmeRestCtrl = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble, _programmeEnrolmentService, _studyPlanServiceDouble, _studyPlanAssemblerDouble, _programmeDirectorAssemblerDouble, _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler);
+        ProgrammeRestController programmeRestCtrl = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble, _programmeEnrolmentService, _studyPlanServiceDouble, _studyPlanAssemblerDouble, _programmeDirectorAssemblerDouble, _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler,_us34Assembler);
         createStudyPlanDoubles();
         String programmeName = "Biology";
         String programmeAcronym = "BIO";
@@ -167,7 +171,7 @@ class ProgrammeRestControllerTest {
     @Test
     void shouldReturnNotFoundWhenStudyPlanIsRegisteredInAProgrammeThatDoesNotHaveValidDegreeType() throws Exception {
         // Arrange
-        ProgrammeRestController programmeRestCtrl = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble, _programmeEnrolmentService, _studyPlanServiceDouble, _studyPlanAssemblerDouble, _programmeDirectorAssemblerDouble, _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler);
+        ProgrammeRestController programmeRestCtrl = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble, _programmeEnrolmentService, _studyPlanServiceDouble, _studyPlanAssemblerDouble, _programmeDirectorAssemblerDouble, _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler,_us34Assembler);
         createStudyPlanDoubles();
         String programmeName = "Biology";
         String programmeAcronym = "BIO";
@@ -186,7 +190,7 @@ class ProgrammeRestControllerTest {
     @Test
     void shouldReturnConflictIfRegisteredStudyPlanAlreadyExists() throws Exception {
         // Arrange
-        ProgrammeRestController programmeRestCtrl = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble, _programmeEnrolmentService, _studyPlanServiceDouble, _studyPlanAssemblerDouble, _programmeDirectorAssemblerDouble, _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler);
+        ProgrammeRestController programmeRestCtrl = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble, _programmeEnrolmentService, _studyPlanServiceDouble, _studyPlanAssemblerDouble, _programmeDirectorAssemblerDouble, _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler,_us34Assembler);
         createStudyPlanDoubles();
         String programmeName = "Biology";
         String programmeAcronym = "BIO";
@@ -213,7 +217,7 @@ class ProgrammeRestControllerTest {
     @MethodSource("NullOrEmptyNameValue")
     void shouldReturnBadRequestIfAParameterIsEmpty(String programmeName) throws Exception {
         // Arrange
-        ProgrammeRestController programmeRestCtrl = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble, _programmeEnrolmentService, _studyPlanServiceDouble, _studyPlanAssemblerDouble, _programmeDirectorAssemblerDouble, _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler);
+        ProgrammeRestController programmeRestCtrl = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble, _programmeEnrolmentService, _studyPlanServiceDouble, _studyPlanAssemblerDouble, _programmeDirectorAssemblerDouble, _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler,_us34Assembler);
         createStudyPlanDoubles();
         String programmeAcronym = "BIO";
         LocalDate startDate = LocalDate.of(2025, 9, 1);
@@ -231,7 +235,7 @@ class ProgrammeRestControllerTest {
     @Test
     void shouldReturnListOfProgrammeIDSDTOs() {
         //Arrange
-        ProgrammeRestController programmeRestCtrl = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble, _programmeEnrolmentService, _studyPlanServiceDouble, _studyPlanAssemblerDouble, _programmeDirectorAssemblerDouble, _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler);
+        ProgrammeRestController programmeRestCtrl = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble, _programmeEnrolmentService, _studyPlanServiceDouble, _studyPlanAssemblerDouble, _programmeDirectorAssemblerDouble, _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler,_us34Assembler);
         ProgrammeIDDTO programmeIDDTO = mock(ProgrammeIDDTO.class);
         ProgrammeIDDTO programmeIDDTO2 = mock(ProgrammeIDDTO.class);
         ProgrammeIDResponseDTO resultProgrammeIdResponseDTO = mock(ProgrammeIDResponseDTO.class);
@@ -251,7 +255,7 @@ class ProgrammeRestControllerTest {
     @Test
     void shouldReturnNotFoundIfNoProgrammeIDSDTOs() {
         //Arrange
-        ProgrammeRestController programmeRestCtrl = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble, _programmeEnrolmentService, _studyPlanServiceDouble, _studyPlanAssemblerDouble, _programmeDirectorAssemblerDouble, _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler);
+        ProgrammeRestController programmeRestCtrl = new ProgrammeRestController(_programmeServiceDouble, _programmeAssemblerDouble, _programmeEnrolmentService, _studyPlanServiceDouble, _studyPlanAssemblerDouble, _programmeDirectorAssemblerDouble, _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler,_us34Assembler);
 
         when(_programmeServiceDouble.getAllProgrammeIDDTOs()).thenReturn(List.of());
         //Act
@@ -277,7 +281,7 @@ class ProgrammeRestControllerTest {
 
         ProgrammeRestController controller = new ProgrammeRestController(_programmeServiceDouble,
                 _programmeAssemblerDouble, _programmeEnrolmentService, _studyPlanServiceDouble, _studyPlanAssemblerDouble,
-                _programmeDirectorAssemblerDouble, _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler);
+                _programmeDirectorAssemblerDouble, _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler,_us34Assembler);
 
         ResponseEntity<Void> response = controller.assignProgrammeDirector(requestDto);
 
@@ -289,7 +293,7 @@ class ProgrammeRestControllerTest {
         // Arrange
         ProgrammeRestController controller = new ProgrammeRestController(_programmeServiceDouble,
                 _programmeAssemblerDouble, _programmeEnrolmentService, _studyPlanServiceDouble, _studyPlanAssemblerDouble,
-                _programmeDirectorAssemblerDouble, _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler);
+                _programmeDirectorAssemblerDouble, _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler,_us34Assembler);
 
         // Act
         ResponseEntity<Void> response = controller.assignProgrammeDirector(null);
@@ -307,7 +311,7 @@ class ProgrammeRestControllerTest {
 
         ProgrammeRestController controller = new ProgrammeRestController(_programmeServiceDouble,
                 _programmeAssemblerDouble, _programmeEnrolmentService, _studyPlanServiceDouble, _studyPlanAssemblerDouble,
-                _programmeDirectorAssemblerDouble, _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler);
+                _programmeDirectorAssemblerDouble, _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler,_us34Assembler);
 
         ResponseEntity<Void> response = controller.assignProgrammeDirector(requestDto);
 
@@ -320,7 +324,7 @@ class ProgrammeRestControllerTest {
         createProgrammeDoubles();
         ProgrammeRestController controller = new ProgrammeRestController(_programmeServiceDouble,
                 _programmeAssemblerDouble, _programmeEnrolmentService, _studyPlanServiceDouble, _studyPlanAssemblerDouble,
-                _programmeDirectorAssemblerDouble, _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler);
+                _programmeDirectorAssemblerDouble, _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler,_us34Assembler);
 
         String degreeTypeIdStr = "123";
 
@@ -345,7 +349,7 @@ class ProgrammeRestControllerTest {
         createProgrammeDoubles();
         ProgrammeRestController controller = new ProgrammeRestController(_programmeServiceDouble,
                 _programmeAssemblerDouble, _programmeEnrolmentService, _studyPlanServiceDouble, _studyPlanAssemblerDouble,
-                _programmeDirectorAssemblerDouble, _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler);
+                _programmeDirectorAssemblerDouble, _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler,_us34Assembler);
 
         String degreeTypeIdStr = "123";
 
@@ -366,7 +370,7 @@ class ProgrammeRestControllerTest {
         createProgrammeDoubles();
         ProgrammeRestController controller = new ProgrammeRestController(_programmeServiceDouble,
                 _programmeAssemblerDouble, _programmeEnrolmentService, _studyPlanServiceDouble, _studyPlanAssemblerDouble,
-                _programmeDirectorAssemblerDouble, _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler);
+                _programmeDirectorAssemblerDouble, _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler,_us34Assembler);
 
         String degreeTypeIdStr = "invalid-id";
 
@@ -387,7 +391,7 @@ class ProgrammeRestControllerTest {
         createProgrammeDoubles();
         ProgrammeRestController controller = new ProgrammeRestController(_programmeServiceDouble,
                 _programmeAssemblerDouble, _programmeEnrolmentService, _studyPlanServiceDouble, _studyPlanAssemblerDouble,
-                _programmeDirectorAssemblerDouble, _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler);
+                _programmeDirectorAssemblerDouble, _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler,_us34Assembler);
 
         String acronym = "CSD";
 
@@ -410,7 +414,7 @@ class ProgrammeRestControllerTest {
         // arrange
         ProgrammeRestController controller = new ProgrammeRestController(_programmeServiceDouble,
                 _programmeAssemblerDouble, _programmeEnrolmentService, _studyPlanServiceDouble, _studyPlanAssemblerDouble,
-                _programmeDirectorAssemblerDouble, _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler);
+                _programmeDirectorAssemblerDouble, _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler,_us34Assembler);
 
         String acronym = "XYZ";
 
@@ -438,10 +442,10 @@ class ProgrammeRestControllerTest {
 
     @Test
     void shouldReturnAListOfProgrammes () {
-        // Arrange
+        //arrange
         ProgrammeRestController controller = new ProgrammeRestController(_programmeServiceDouble,
                 _programmeAssemblerDouble, _programmeEnrolmentService, _studyPlanServiceDouble, _studyPlanAssemblerDouble,
-                _programmeDirectorAssemblerDouble, _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler);
+                _programmeDirectorAssemblerDouble, _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler,_us34Assembler);
 
         ProgrammeDTO dto1 = mock(ProgrammeDTO.class);
         ProgrammeDTO dto2 = mock(ProgrammeDTO.class);
@@ -449,74 +453,65 @@ class ProgrammeRestControllerTest {
         List<ProgrammeDTO> progDTOS = List.of(dto1, dto2, dto3);
         when(_programmeServiceDouble.getAllProgrammes()).thenReturn(progDTOS);
 
-        // Act
+        //act
         ResponseEntity<?> response = controller.getAllProgrammes();
 
-        // Assert
+        //assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(200, response.getStatusCodeValue());
         assertEquals(progDTOS, response.getBody());
-        assertTrue(((Iterable<?>) response.getBody()).iterator().hasNext());
-        verify(_programmeServiceDouble).getAllProgrammes();
-        assertTrue(((Collection<?>) response.getBody()).contains(dto2));
     }
 
     @Test
     void shouldReturnAnEmptyListOfProgrammesIfThereAreNoSchoolYearsInTheSystem () {
-        // Arrange
+        //arrange
         ProgrammeRestController controller = new ProgrammeRestController(_programmeServiceDouble,
                 _programmeAssemblerDouble, _programmeEnrolmentService, _studyPlanServiceDouble, _studyPlanAssemblerDouble,
-                _programmeDirectorAssemblerDouble, _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler);
+                _programmeDirectorAssemblerDouble, _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler,_us34Assembler);
 
         List<ProgrammeDTO> progDTOS = List.of();
         when(_programmeServiceDouble.getAllProgrammes()).thenReturn(progDTOS);
 
-        // Act
+        //act
         ResponseEntity<?> response = controller.getAllProgrammes();
 
-        // Assert
+        //assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(200, response.getStatusCodeValue());
         assertEquals(progDTOS, response.getBody());
-        assertFalse(((Iterable<?>) response.getBody()).iterator().hasNext());
-        verify(_programmeServiceDouble).getAllProgrammes();
     }
 
     @Test
     void shouldReturnBadRequestWhenIllegalArgumentExceptionIsThrown() {
-        // Arrange
+        //arrange
         ProgrammeRestController controller = new ProgrammeRestController(_programmeServiceDouble,
                 _programmeAssemblerDouble, _programmeEnrolmentService, _studyPlanServiceDouble, _studyPlanAssemblerDouble,
-                _programmeDirectorAssemblerDouble, _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler);
+                _programmeDirectorAssemblerDouble, _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler,_us34Assembler);
 
         String errorMessage = "Invalid input data";
 
         when(_programmeServiceDouble.getAllProgrammes()).thenThrow(new IllegalArgumentException(errorMessage));
 
-        // Act
+        //act
         ResponseEntity<?> response = controller.getAllProgrammes();
 
-        // Assert
+        //assert
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatusCodeValue());
         assertEquals(errorMessage, response.getBody());
     }
 
     @Test
     void shouldReturnInternalServerErrorWhenUnexpectedExceptionIsThrown() {
-        // Arrange
+        //arrange
         ProgrammeRestController controller = new ProgrammeRestController(_programmeServiceDouble,
                 _programmeAssemblerDouble, _programmeEnrolmentService, _studyPlanServiceDouble, _studyPlanAssemblerDouble,
-                _programmeDirectorAssemblerDouble, _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler);
+                _programmeDirectorAssemblerDouble, _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler,_us34Assembler);
 
         when(_programmeServiceDouble.getAllProgrammes()).thenThrow(new RuntimeException("Database is down"));
 
-        // Act
+        //act
         ResponseEntity<?> response = controller.getAllProgrammes();
 
-        // Assert
+        //assert
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), response.getStatusCodeValue());
         assertEquals("Unexpected error occurred", response.getBody());
     }
 
@@ -525,19 +520,14 @@ class ProgrammeRestControllerTest {
         //arrange
         String studentIdStr = "1234567";
         StudentID studentID = mock(StudentID.class);
-
-        createProgrammeEnrolmentDoubles();
-
-        List<ProgrammeEnrolment> programmeEnrolmentIDs = List.of(mock(ProgrammeEnrolment.class));
-        List<ProgrammeEnrolmentListIDDTO> programmeEnrolmentIdDTOs = List.of(_programmeEnrolmentIDDTO);
+        US34ListOfProgrammes domainObject = mock(US34ListOfProgrammes.class);
+        US34ListOfProgrammesDTO dto = mock(US34ListOfProgrammesDTO.class);
 
         when(studentID.getUniqueNumber()).thenReturn(1234567);
-        
+
         when(_studentAssembler.toIdDTO(any(StudentIDDTO.class))).thenReturn(studentID);
-
-        when(_programmeEnrolmentService.listOfProgrammesStudentIsEnrolledIn(studentID)).thenReturn(programmeEnrolmentIDs);
-
-        when(_programmeEnrolmentAssembler.toListOfDTOs(programmeEnrolmentIDs)).thenReturn(programmeEnrolmentIdDTOs);
+        when(_programmeEnrolmentService.getProgrammesStudentIsEnrolled(studentID)).thenReturn(domainObject);
+        when(_us34Assembler.toDto(domainObject)).thenReturn(dto);
 
         ProgrammeRestController controller = new ProgrammeRestController(
                 _programmeServiceDouble,
@@ -548,26 +538,26 @@ class ProgrammeRestControllerTest {
                 _programmeDirectorAssemblerDouble,
                 _programmeHATEOASAssembler,
                 _programmeEnrolmentAssembler,
-                _studentAssembler
+                _studentAssembler,
+                _us34Assembler
         );
 
         //act
-        ResponseEntity<List<ProgrammeEnrolmentListIDDTO>> response = controller.getAllProgrammesThatTheStudentIsEnrolledIn(studentIdStr);
+        ResponseEntity<US34ListOfProgrammesDTO> response =
+                controller.getAllProgrammesThatTheStudentIsEnrolledIn(studentIdStr);
 
         //assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(programmeEnrolmentIdDTOs, response.getBody());
+        assertEquals(dto, response.getBody());
     }
 
     @Test
     void shouldReturnBadRequestWhenStudentIDisInvalid() {
         //arrange
         String invalidStudentIdStr = "invalid";
-        StudentIDDTO dto = mock(StudentIDDTO.class);
 
-        when(dto.studentID()).thenReturn(invalidStudentIdStr);
-
-        when(_studentAssembler.toIdDTO(any(StudentIDDTO.class))).thenThrow(new IllegalArgumentException("Invalid ID format"));
+        when(_studentAssembler.toIdDTO(any(StudentIDDTO.class)))
+                .thenThrow(new IllegalArgumentException("Invalid ID format"));
 
         ProgrammeRestController controller = new ProgrammeRestController(
                 _programmeServiceDouble,
@@ -578,15 +568,16 @@ class ProgrammeRestControllerTest {
                 _programmeDirectorAssemblerDouble,
                 _programmeHATEOASAssembler,
                 _programmeEnrolmentAssembler,
-                _studentAssembler
+                _studentAssembler,
+                _us34Assembler
         );
 
         //act
-        ResponseEntity<List<ProgrammeEnrolmentListIDDTO>> response = controller.getAllProgrammesThatTheStudentIsEnrolledIn(invalidStudentIdStr);
+        ResponseEntity<US34ListOfProgrammesDTO> response =
+                controller.getAllProgrammesThatTheStudentIsEnrolledIn(invalidStudentIdStr);
 
         //assert
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertNull(response.getBody());
     }
-
 }

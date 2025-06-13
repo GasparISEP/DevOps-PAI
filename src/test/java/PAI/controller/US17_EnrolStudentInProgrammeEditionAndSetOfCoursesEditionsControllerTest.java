@@ -81,6 +81,8 @@ import PAI.service.programmeEnrolment.IProgrammeEnrolmentService;
 import PAI.service.programmeEnrolment.ProgrammeEnrolmentServiceImpl;
 import PAI.service.schoolYear.ISchoolYearService;
 import PAI.service.schoolYear.SchoolYearServiceImpl;
+import PAI.service.student.IStudentService;
+import PAI.service.student.StudentServiceImpl;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -551,6 +553,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
     @Test
     void testEnrolStudentInProgrammeEditionAndSetOfCoursesEditions_ProgrammeEditionNotFound_IntegrationTests() throws Exception {
         // Arrange
+        IStudentService _sService = mock(StudentServiceImpl.class);
+        IProgrammeService _progService = mock(ProgrammeServiceImpl.class);
 
         // Programme Edition
         IProgrammeEditionListFactory programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
@@ -574,7 +578,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         IProgrammeEnrolmentFactory programmeEnrolmentFactory = new ProgrammeEnrolmentFactoryImpl();
         IProgrammeEnrolmentListFactory programmeEnrolmentList = new ProgrammeEnrolmentListFactoryImpl();
         IProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepositoryImpl(programmeEnrolmentList);
-        IProgrammeEnrolmentService programmeEnrolmentService = new ProgrammeEnrolmentServiceImpl(programmeEnrolmentFactory, programmeEnrolmentRepository);
+        IProgrammeEnrolmentService programmeEnrolmentService = new ProgrammeEnrolmentServiceImpl(programmeEnrolmentFactory, programmeEnrolmentRepository, _sService, _progService);
 
         // Course Edition
         ICourseEditionFactory ICourseEditionFactory_2 = new CourseEditionFactoryImpl();
@@ -636,6 +640,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
     @Test
     void testEnrolStudentInProgrammeEditionAndSetOfCoursesEditions_StudentAlreadyEnrolledInProgrammeEdition_IntegrationTest() throws Exception {
         // Arrange
+        IStudentService _sService = mock(StudentServiceImpl.class);
+        IProgrammeService _progService = mock(ProgrammeServiceImpl.class);
 
         // Programme Edition
         IProgrammeEditionListFactory programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
@@ -661,7 +667,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         IProgrammeEnrolmentFactory programmeEnrolmentFactory = new ProgrammeEnrolmentFactoryImpl();
         IProgrammeEnrolmentListFactory programmeEnrolmentList = new ProgrammeEnrolmentListFactoryImpl();
         IProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepositoryImpl(programmeEnrolmentList);
-        IProgrammeEnrolmentService programmeEnrolmentService = new ProgrammeEnrolmentServiceImpl(programmeEnrolmentFactory, programmeEnrolmentRepository);
+        IProgrammeEnrolmentService programmeEnrolmentService = new ProgrammeEnrolmentServiceImpl(programmeEnrolmentFactory, programmeEnrolmentRepository, _sService, _progService);
 
         // Course Edition
         ICourseEditionFactory ICourseEditionFactory_2 = new CourseEditionFactoryImpl();
@@ -731,6 +737,8 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
     @Test
     void testEnrollStudentInCourseEditionAndSetOfCoursesEditions_StudentAlreadyEnrolledInCourseEdition_IntegrationTest() throws Exception {
         // Arrange
+        IStudentService _sService = mock(StudentServiceImpl.class);
+        IProgrammeService _progService = mock(ProgrammeServiceImpl.class);
 
         // Programme Edition
         IProgrammeEditionListFactory programmeEditionListFactory = new ProgrammeEditionListFactoryImpl();
@@ -756,7 +764,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         IProgrammeEnrolmentFactory programmeEnrolmentFactory = new ProgrammeEnrolmentFactoryImpl();
         IProgrammeEnrolmentListFactory programmeEnrolmentList = new ProgrammeEnrolmentListFactoryImpl();
         IProgrammeEnrolmentRepository programmeEnrolmentRepository = new ProgrammeEnrolmentRepositoryImpl(programmeEnrolmentList);
-        IProgrammeEnrolmentService programmeEnrolmentService = new ProgrammeEnrolmentServiceImpl(programmeEnrolmentFactory, programmeEnrolmentRepository);
+        IProgrammeEnrolmentService programmeEnrolmentService = new ProgrammeEnrolmentServiceImpl(programmeEnrolmentFactory, programmeEnrolmentRepository,_sService,_progService);
 
         // Course Edition
         ICourseEditionFactory courseEditionFactory = new CourseEditionFactoryImpl();

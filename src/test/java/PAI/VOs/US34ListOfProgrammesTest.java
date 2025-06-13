@@ -1,7 +1,4 @@
 package PAI.VOs;
-
-import PAI.domain.programme.Programme;
-import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
 import org.junit.Test;
 
 import java.util.List;
@@ -14,19 +11,16 @@ public class US34ListOfProgrammesTest {
     @Test
     public void testUS34ListOfProgrammesRecord() {
         //arrange
-        Programme programme = mock(Programme.class);
-        ProgrammeEnrolment enrolment = mock(ProgrammeEnrolment.class);
         Name name = mock(Name.class);
+        ProgrammeSummary summary = mock(ProgrammeSummary.class);
 
-        List<Programme> programmes = List.of(programme);
-        List<ProgrammeEnrolment> enrolments = List.of(enrolment);
+        List<ProgrammeSummary> programmes = List.of(summary);
 
         //act
-        US34ListOfProgrammes res = new US34ListOfProgrammes(programmes, enrolments, name);
+        US34ListOfProgrammes res = new US34ListOfProgrammes(programmes, name);
 
         //assert
-        assertEquals(programmes, res.programme());
-        assertEquals(enrolments, res.programmeEnrolment());
-        assertEquals(name, res.name());
+        assertEquals(programmes, res.programmeInfo());
+        assertEquals(name, res.studentName());
     }
 }
