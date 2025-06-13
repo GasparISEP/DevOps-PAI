@@ -28,28 +28,6 @@ Assembler -> ":TeacherAcronym"** : new TeacherAcronym(teacherID)
 Assembler -> ":TeacherID" ** : new TeacherID(teacherAcronym)
 deactivate Assembler
 
-== Get SelectedCourseEditionIdDTO from DefineRucRequestDTO ==
-Controller -> DTO : getCourseEditionDTO()
-activate DTO #E1F5FE
-DTO --> Controller : SelectedCourseEditionIdDTO
-deactivate DTO
-
-== Create CourseEditionID ==
-Controller -> Assembler : fromDtoToCourseEditionID(selectedCourseEditionIdDTO)
-activate Assembler #E1F5FE
-
-Assembler -> ":NameWithNumbersAndSpecialChars"**: new NameWithNumbersAndSpecialChars(programmeName)
-Assembler -> ":Acronym"** : new Acronym(programmeAcronym)
-Assembler -> ":ProgrammeID"**: new ProgrammeID(NameWithNumbersAndSpecialChars, Acronym)
-Assembler -> ":SchoolYearID"** : new SchoolYearID(schoolYearID)
-Assembler -> ":ProgrammeEditionID"**: new ProgrammeEditionID(ProgrammeID, SchoolYearID)
-Assembler -> ":Acronym"** : new Acronym(courseAcronym)
-Assembler -> ":Name"** : new Name(courseName)
-Assembler -> ":CourseID"** : new CourseID(Acronym, Name)
-Assembler -> ":Date"**: new Date(studyPlanImplementationDate)
-Assembler -> ":StudyPlanID"**: new StudyPlanID(ProgrammeID, Date)
-Assembler -> ":CourseInStudyPlanID"** : new CourseInStudyPlanID(CourseID, StudyPlanID)
-Assembler -> ":CourseEditionID"** : new CourseEditionID(ProgrammeEditionID, CourseInStudyPlanID)
 
 
 deactivate Assembler
