@@ -24,6 +24,7 @@ import PAI.service.studentGrade.IGradeAStudentService;
 import jakarta.validation.Valid;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,6 +33,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+
+import static PAI.utils.ValidationUtils.validateNotNull;
 
 @RestController
 @RequestMapping("/course-editions")
@@ -62,7 +65,7 @@ public CourseEditionRestController(
         IDefineRucService defineRucService, ICourseEditionHateoasAssembler courseEditionHateoasAssembler,
         IStudentCountAssembler studentCountAssembler, ICourseEditionEnrolmentHateoasAssembler courseEditionEnrolmentHateoasAssembler
 ) {
-    this.courseEditionEnrolmentService = courseEditionEnrolmentService;
+    this.courseEditionEnrolmentService = validateNotNull(courseEditionEnrolmentService, "CourseEditionEnrolmentService");
     this.courseEditionEnrolmentAssembler = courseEditionEnrolmentAssembler;
     this.createCourseEditionService = createCourseEditionService;
     this.courseEditionService = courseEditionService;
@@ -131,18 +134,20 @@ public CourseEditionRestController(
                     command.schoolYearID()
             );
 
-            CourseEditionResponseDTO responseDTO =
+            CourseEditionServiceResponseDTO responseDTO =
                     createCourseEditionService.createCourseEditionAndReturnDTO(courseInStudyPlanID, programmeEditionID);
 
             if (responseDTO == null) {
                 return ResponseEntity.badRequest().build();
             }
 
-            //String safeID = URLEncoder.encode(responseDTO.courseEditionID(), StandardCharsets.UTF_8);
+            CourseEditionResponseDTO courseEditionResponseDTO = courseEditionAssembler.toResponseDTO(responseDTO);
+
 
             return ResponseEntity
-                    .created(URI.create("/course-editions/")) //+ safeID))
-                    .body(responseDTO);
+                    .created(URI.create("/course-editions/" + responseDTO.courseEditionID())) //+ safeID))
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(courseEditionResponseDTO);
 
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -150,6 +155,7 @@ public CourseEditionRestController(
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal server error");
         }
     }
+
 @PatchMapping("/{id}/ruc")
 public ResponseEntity<?> defineRucForCourseEdition(
         @PathVariable("id") UUID id,
@@ -184,8 +190,8 @@ public ResponseEntity<?> defineRucForCourseEdition(
             ProgrammeEditionID programmeEditionID = courseEditionAssembler.toProgrammeEditionID(courseEditionRequestDTO);
             CourseInStudyPlanID courseInStudyPlanID = courseEditionAssembler.toCourseInStudyPlanID(courseEditionRequestDTO);
             List<CourseEditionID> courseEditionIDs = courseEditionService.findCourseEditionsByProgrammeEditionIDAndCourseInStudyPlanID(programmeEditionID, courseInStudyPlanID);
-            List<CourseEditionResponseDTO> courseEditionResponseDTOs = courseEditionAssembler.toResponseDTOList(courseEditionIDs);
-            return ResponseEntity.ok(courseEditionHateoasAssembler.toCollectionModel(courseEditionResponseDTOs));
+            List<CourseEditionResponseIDDTO> courseEditionResponseIDDTOs = courseEditionAssembler.toResponseIDDTOList(courseEditionIDs);
+            return ResponseEntity.ok(courseEditionHateoasAssembler.toCollectionModel(courseEditionResponseIDDTOs));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().build();
@@ -195,12 +201,12 @@ public ResponseEntity<?> defineRucForCourseEdition(
     @GetMapping
     public ResponseEntity<?> findAllCourseEditions () {
         // Retrieves all Domain Course Editions
-        Iterable<CourseEdition> allCourseEditions = createCourseEditionService.findAll();
+        Iterable<CourseEditionServiceResponseDTO> allCourseEditions = createCourseEditionService.findAll();
 
         List<CourseEditionResponseDTO> dtoList = new ArrayList<>();
         // For each Domain CourseEdition, it converts into a ResponseDTO and adds to list
-        for (CourseEdition courseEdition : allCourseEditions) {
-            dtoList.add(courseEditionAssembler.toResponseDTO(courseEdition));
+        for (CourseEditionServiceResponseDTO courseEditionServiceDto : allCourseEditions) {
+            dtoList.add(courseEditionAssembler.toResponseDTO(courseEditionServiceDto));
         }
 
         return ResponseEntity.ok(dtoList);

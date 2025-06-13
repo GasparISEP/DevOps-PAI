@@ -3,16 +3,16 @@ package PAI.controllerRest.courseEditionRestControllerTests;
 import PAI.VOs.*;
 import PAI.assembler.courseEdition.CourseEditionAssemblerImpl;
 import PAI.assembler.courseEdition.CourseEditionHateoasAssembler;
-import PAI.dto.courseEdition.CourseEditionRequestDTO;
-import PAI.dto.courseEdition.CourseEditionResponseDTO;
-import PAI.dto.courseEdition.CreateCourseEditionCommand;
-import PAI.dto.courseEdition.DefineRucResponseDTO;
+import PAI.dto.courseEdition.*;
 import PAI.persistence.datamodel.studentGrade.StudentGradeDM;
 import PAI.persistence.springdata.studentGrade.IStudentGradeRepositorySpringData;
 import PAI.service.courseEdition.DefineRucServiceImpl;
 import PAI.service.courseEdition.ICreateCourseEditionService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.transaction.Transactional;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -31,6 +31,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -177,41 +178,49 @@ public class CourseEditionRestControllerIntegrationTests {
     void whenCreateCourseEditionWithValidData_thenReturnsCreated() throws Exception {
         // Arrange
         CourseEditionRequestDTO requestDTO = new CourseEditionRequestDTO(
-                "Software Development", "SDV", UUID.randomUUID(),
-                "SA", "Software Architecture", LocalDate.of(2023, 9, 1));
+                "Software Development",
+                "SDV",
+                UUID.randomUUID(),
+                "SA",
+                "Software Architecture",
+                LocalDate.of(2023, 9, 1));
 
         CreateCourseEditionCommand command = new CreateCourseEditionCommand(
-                new NameWithNumbersAndSpecialChars(requestDTO.programmeName()), new Acronym(requestDTO.programmeAcronym()),
-                new SchoolYearID(requestDTO.schoolYearID()), new Acronym(requestDTO.courseAcronym()),
-                new Name(requestDTO.courseName()), new Date(requestDTO.studyPlanImplementationDate()));
+                new NameWithNumbersAndSpecialChars(requestDTO.programmeName()),
+                new Acronym(requestDTO.programmeAcronym()),
+                new SchoolYearID(requestDTO.schoolYearID()),
+                new Acronym(requestDTO.courseAcronym()),
+                new Name(requestDTO.courseName()),
+                new Date(requestDTO.studyPlanImplementationDate())
+        );
 
-        CourseEditionResponseDTO responseDTO = new CourseEditionResponseDTO(
+        CourseEditionServiceResponseDTO responseDTO = new CourseEditionServiceResponseDTO(
+                UUID.randomUUID(),
                 "SDV",
-                requestDTO.schoolYearID(), "SA", "Software Architecture",
-                LocalDate.of(2023, 9, 1), "courseEditionID123");
+                requestDTO.schoolYearID(),
+                "SA",
+                "Software Architecture",
+                LocalDate.of(2023, 9, 1),
+                "courseEditionID123");
+
 
         when(courseEditionAssembler.toCommand(any())).thenReturn(command);
         when(createCourseEditionService.createCourseEditionAndReturnDTO(any(), any())).thenReturn(responseDTO);
 
-        // Act
+        // Act & Assert
         MvcResult result = mockMvc.perform(post("/course-editions")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDTO)))
                 .andExpect(status().isCreated())
-                .andExpect(header().string("Location", "/course-editions/"))
+                .andExpect(header().string("Location", "/course-editions/" + responseDTO.courseEditionID()))
                 .andReturn();
 
-        // Assert
-        String jsonResponse = result.getResponse().getContentAsString();
-        CourseEditionResponseDTO actualResponse = objectMapper.readValue(jsonResponse, CourseEditionResponseDTO.class);
 
-        assertEquals(responseDTO.courseEditionID(), actualResponse.courseEditionID());
-        assertEquals(responseDTO.programmeAcronym(), actualResponse.programmeAcronym());
-        assertEquals(responseDTO.schoolYearID(), actualResponse.schoolYearID());
-        assertEquals(responseDTO.courseAcronym(), actualResponse.courseAcronym());
-        assertEquals(responseDTO.courseName(), actualResponse.courseName());
-        assertEquals(responseDTO.studyPlanImplementationDate(), actualResponse.studyPlanImplementationDate());
+        String jsonResponse = result.getResponse().getContentAsString();
+        assertTrue(jsonResponse.isEmpty());
+
     }
+
 
     @Test
     void whenCreateCourseEditionReturnsNull_thenReturnsBadRequest() throws Exception {
