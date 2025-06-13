@@ -131,7 +131,7 @@ public class ProgrammeEditionService implements IProgrammeEditionService {
             ProgrammeEdition programmeEdition = programmeEditionAssembler.toProgrammeEditionFromRequestServiceDTO(programmeEditionDTO);
             return programmeEditionEnrolmentService.totalStudentsInProgrammeEdition(programmeEdition.identity());
         } catch (Exception e) {
-            throw new RuntimeException("Erro ao contar estudantes na edição do programa", e);
+            throw new RuntimeException("Error when counting students in the programme edition.", e);
         }
     }
 
