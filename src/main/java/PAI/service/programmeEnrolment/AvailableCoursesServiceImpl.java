@@ -59,6 +59,7 @@ public class AvailableCoursesServiceImpl implements IAvailableCoursesService {
         return courseIDS;
     }
 
+    @Override
     public List<AvailableCourseInfo> getListOfCourseInfo(List<CourseInStudyPlan> courseInStudyPlans){
         List<AvailableCourseInfo> courseInfos = new ArrayList<>();
         for (CourseInStudyPlan existingCourse : courseInStudyPlans){
@@ -73,6 +74,7 @@ public class AvailableCoursesServiceImpl implements IAvailableCoursesService {
         return getListOfCoursesID(getByIdentity(allCoursesInStudyFromProgrammeEdition(allCourseEditionIdsFromProgrammeEdition(programmeEditionID))));
     }
 
+    @Override
     public List<AvailableCourseInfo> getListOfAvailableCourseInfoForAGivenProgrammeEdition(ProgrammeEditionID programmeEditionID){
         return getListOfCourseInfo(getByIdentity(allCoursesInStudyFromProgrammeEdition(allCourseEditionIdsFromProgrammeEdition(programmeEditionID))));
     }

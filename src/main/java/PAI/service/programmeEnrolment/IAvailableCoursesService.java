@@ -1,9 +1,6 @@
 package PAI.service.programmeEnrolment;
 
-import PAI.VOs.CourseEditionID;
-import PAI.VOs.CourseID;
-import PAI.VOs.CourseInStudyPlanID;
-import PAI.VOs.ProgrammeEditionID;
+import PAI.VOs.*;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 
 import java.util.List;
@@ -14,4 +11,6 @@ public interface IAvailableCoursesService {
     List<CourseInStudyPlan> getByIdentity(List<CourseInStudyPlanID> courseInStudyPlanIDS);
     List<CourseID> getListOfCoursesID(List<CourseInStudyPlan> courseInStudyPlans);
     List<CourseID> getListOfCourseIdForAGivenProgrammeEdition(ProgrammeEditionID programmeEditionID);
+    List<AvailableCourseInfo> getListOfCourseInfo(List<CourseInStudyPlan> courseInStudyPlans);
+    List<AvailableCourseInfo> getListOfAvailableCourseInfoForAGivenProgrammeEdition(ProgrammeEditionID programmeEditionID);
 }
