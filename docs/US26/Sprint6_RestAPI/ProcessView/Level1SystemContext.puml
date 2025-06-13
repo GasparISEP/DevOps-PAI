@@ -1,22 +1,14 @@
 @startuml
 title: (US26)\nAs a Department Director, I want to get the number\nof students enrolled in all programmes associated\nto my department, in a given school year.\n(Process View Level 1)
 
-'note over System
-'As a Department Director, I want to get the number
-'of students enrolled in all programmes associated
-'to my department, in a given school year.
-'(Process View Level 1)
-'end note
-
 autonumber
 
 actor DD as DD
 participant ":System" as System
+activate DD
 
-DD -> System: I want to get the number of students enrolled in all\nprogrammes associated to my department, in a given school year!
-DD <-- System: Which department?
-DD -> System: Department!
-DD <-- System: Which school year?
-DD -> System: School year!
-DD <-- System: Number of Students!
+DD -> System ++: I want to get the number of students enrolled in all\nprogrammes associated to my department, in a given school year!
+DD <-- System --: Display form with:\nDepartments, School years (dropdown)
+DD -> System ++: Submit filled form:\n(Department, School year)
+DD <-- System --: Number Of\nStudents Enrolled!
 @enduml
