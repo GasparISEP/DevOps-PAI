@@ -16,6 +16,7 @@ import PAI.domain.repositoryInterfaces.programmeEdition.IProgrammeEditionReposit
 import PAI.domain.repositoryInterfaces.studyPlan.IStudyPlanRepository;
 import PAI.domain.studyPlan.StudyPlan;
 import PAI.dto.courseEdition.CourseEditionResponseDTO;
+import PAI.dto.courseEdition.CourseEditionServiceResponseDTO;
 import PAI.persistence.springdata.courseEdition.CourseEditionRepositorySpringDataImpl;
 import org.junit.jupiter.api.Test;
 
@@ -26,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class CreateCourseEditionServiceImplTest {
+class CreateCourseEditionServiceImplTest {
 
     @Test
     public void testCreateAndSaveCourseEdition_Success() throws Exception {
@@ -38,6 +39,7 @@ public class CreateCourseEditionServiceImplTest {
         ICourseInStudyPlanRepository courseInStudyPlanRepository = mock(ICourseInStudyPlanRepository.class);
         IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
         ICourseEditionServiceAssembler courseEditionAssembler = mock(ICourseEditionServiceAssembler.class);
+
 
         CreateCourseEditionServiceImpl service = new CreateCourseEditionServiceImpl(
                 factory, courseEditionRepository, degreeTypeRepository,
@@ -348,11 +350,15 @@ public class CreateCourseEditionServiceImplTest {
         CourseInStudyPlanID courseInStudyPlanIDDouble = mock(CourseInStudyPlanID.class);
         ProgrammeEditionID programmeEditionIDDouble = mock(ProgrammeEditionID.class);
         CourseEditionGeneratedID courseEditionGeneratedID = mock(CourseEditionGeneratedID.class);
+
         ICourseEditionRepository repository = mock(CourseEditionRepositorySpringDataImpl.class);
 
-        List<CourseEdition> fakeCourseEditions = List.of(new CourseEdition(courseEditionIDDouble, courseInStudyPlanIDDouble, programmeEditionIDDouble, courseEditionGeneratedID));
+        CourseEdition fakeCourseEdition = new CourseEdition(
+                courseEditionIDDouble, courseInStudyPlanIDDouble,
+                programmeEditionIDDouble, courseEditionGeneratedID
+        );
 
-        when(repository.findAll()).thenReturn(fakeCourseEditions);
+        when(repository.findAll()).thenReturn(List.of(fakeCourseEdition));
 
         CreateCourseEditionServiceImpl service = new CreateCourseEditionServiceImpl(
                 mock(ICourseEditionFactory.class), repository,
@@ -362,10 +368,11 @@ public class CreateCourseEditionServiceImplTest {
         );
 
         // Act
-        Iterable<CourseEdition> result = service.findAll();
+        List<CourseEditionServiceResponseDTO> result = service.findAll(); // Certifique-se de que este método exista
 
         // Assert
-        assertEquals(fakeCourseEditions, result);
+        assertNotNull(result);
+        assertEquals(1, result.size());
     }
 
     @Test
@@ -384,7 +391,7 @@ public class CreateCourseEditionServiceImplTest {
         ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
         CourseEdition courseEdition = mock(CourseEdition.class);
         CourseEditionID courseEditionID = mock(CourseEditionID.class);
-        CourseEditionResponseDTO dto = mock(CourseEditionResponseDTO.class);
+        CourseEditionServiceResponseDTO dto = mock(CourseEditionServiceResponseDTO.class);
 
         when(courseEdition.identity()).thenReturn(courseEditionID);
         when(courseEditionID.toString()).thenReturn("fake-id");
@@ -402,7 +409,7 @@ public class CreateCourseEditionServiceImplTest {
         );
 
         // Act
-        CourseEditionResponseDTO result = service.createCourseEditionAndReturnDTO(courseInStudyPlanID, programmeEditionID);
+        CourseEditionServiceResponseDTO result = service.createCourseEditionAndReturnDTO(courseInStudyPlanID, programmeEditionID);
 
         // Assert
         assertNotNull(result);
@@ -434,7 +441,7 @@ public class CreateCourseEditionServiceImplTest {
         );
 
         // Act
-        CourseEditionResponseDTO result = service.createCourseEditionAndReturnDTO(courseInStudyPlanID, programmeEditionID);
+        CourseEditionServiceResponseDTO result = service.createCourseEditionAndReturnDTO(courseInStudyPlanID, programmeEditionID);
 
         // Assert
         assertNull(result);

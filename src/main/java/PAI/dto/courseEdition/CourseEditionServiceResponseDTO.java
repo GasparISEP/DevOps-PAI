@@ -1,10 +1,10 @@
 package PAI.dto.courseEdition;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.UUID;
 
-public record CourseEditionResponseDTO(
+public record CourseEditionServiceResponseDTO(
+
         UUID courseEditionGeneratedID,
         String programmeAcronym,
         UUID schoolYearID,
@@ -12,5 +12,6 @@ public record CourseEditionResponseDTO(
         String courseName,
         LocalDate studyPlanImplementationDate,
         String courseEditionID
-        ) {
+
+) {
 }

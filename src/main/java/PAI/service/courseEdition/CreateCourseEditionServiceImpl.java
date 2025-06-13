@@ -1,7 +1,7 @@
 package PAI.service.courseEdition;
 
 import PAI.VOs.*;
-import PAI.assembler.courseEdition.ICourseEditionAssembler;
+import PAI.assembler.courseEdition.CourseEditionServiceAssemblerImpl;
 import PAI.assembler.courseEdition.ICourseEditionServiceAssembler;
 import PAI.domain.courseEdition.CourseEdition;
 import PAI.domain.courseEdition.ICourseEditionFactory;
@@ -16,7 +16,7 @@ import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
 import PAI.domain.repositoryInterfaces.programmeEdition.IProgrammeEditionRepository;
 import PAI.domain.repositoryInterfaces.studyPlan.IStudyPlanRepository;
 import PAI.domain.studyPlan.StudyPlan;
-import PAI.dto.courseEdition.CourseEditionResponseDTO;
+import PAI.dto.courseEdition.CourseEditionServiceResponseDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -33,6 +33,7 @@ public class CreateCourseEditionServiceImpl implements ICreateCourseEditionServi
     private final ICourseInStudyPlanRepository courseInStudyPlanRepository;
     private final IProgrammeEditionRepository programmeEditionRepository;
     private final ICourseEditionServiceAssembler courseEditionAssembler;
+
 
     public CreateCourseEditionServiceImpl(ICourseEditionFactory courseEditionFactory, ICourseEditionRepository courseEditionRepository,
                                           IDegreeTypeRepository degreeTypeRepository, IProgrammeRepository programmeRepository,
@@ -64,6 +65,7 @@ public class CreateCourseEditionServiceImpl implements ICreateCourseEditionServi
         this.courseInStudyPlanRepository = courseInStudyPlanRepository;
         this.programmeEditionRepository = programmeEditionRepository;
         this.courseEditionAssembler = courseEditionAssembler;
+
     }
 
     @Override
@@ -140,12 +142,19 @@ public class CreateCourseEditionServiceImpl implements ICreateCourseEditionServi
     }
 
     @Override
-    public Iterable<CourseEdition> findAll () {
-        return courseEditionRepository.findAll();
+    public List<CourseEditionServiceResponseDTO> findAll () {
+        Iterable<CourseEdition> allCourseEditions = courseEditionRepository.findAll();
+
+        List<CourseEditionServiceResponseDTO> dtoList = new ArrayList<>();
+
+        for (CourseEdition courseEdition : allCourseEditions) {
+            dtoList.add(courseEditionAssembler.toResponseDTO(courseEdition));
+        }
+        return dtoList;
     }
 
     @Override
-    public CourseEditionResponseDTO createCourseEditionAndReturnDTO(CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) {
+    public CourseEditionServiceResponseDTO createCourseEditionAndReturnDTO(CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) {
         CourseEdition created = createAndSaveCourseEdition(courseInStudyPlanID, programmeEditionID);
         if (created == null) {
             return null;
