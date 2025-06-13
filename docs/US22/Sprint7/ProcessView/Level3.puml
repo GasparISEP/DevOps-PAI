@@ -14,7 +14,9 @@ actor "RUC" as RUC
 participant ":Frontend" as FE
 participant ":Router" as Router
 participant ":CourseEditionRestController" as Controller
+participant ":StudentGradeAssembler" as Assembler
 participant ":GradeAStudentServiceImpl" as Service
+participant ":StudentGradeFactoryImpl" as Factory
 participant ":StudentGradeRepositorySpringDataImpl" as RepositoryAdapter
 participant ":IStudentGradeRepositorySpringData" as SpringDataRepo
 database "Database" as DB
@@ -26,24 +28,28 @@ RUC -> FE ++ : Enter grading data
 FE -> Router ++ : HTTP POST /courseeditions/studentgrades/register \n with GradeAStudentRequestDTO
 Router -> Controller ++ : gradeAStudent(GradeAStudentRequestDTO)
 
+Controller -> Assembler ++ : toDomain(dto)
+Assembler --> Controller -- : GradeAStudentCommand
+
 Controller -> Service ++ : gradeAStudent(GradeAStudentCommand)
 
 Service -> RepositoryAdapter ++ : validate constraints \n (isEnrolled, isDateWithinSchoolYear, notAlreadyGraded)
 RepositoryAdapter --> Service -- : validation ok
 
-Service -> Service ++ : create StudentGrade \n via factory
-Service --> Service -- : new StudentGrade
+Service -> Factory ++ : create StudentGrade
+Factory --> Service -- : new StudentGrade
 
 Service -> RepositoryAdapter ++ : save(StudentGrade)
-RepositoryAdapter -> SpringDataRepo ++ : save(StudentGradeDM)
+
+RepositoryAdapter -> SpringDataRepo ++ : save(StudentGradeDataModel)
 SpringDataRepo -> DB ++ : INSERT INTO student_grades
 DB --> SpringDataRepo -- : persisted
-SpringDataRepo --> RepositoryAdapter -- : StudentGradeDM
+SpringDataRepo --> RepositoryAdapter -- : StudentGradeDataModel
 RepositoryAdapter --> Service -- : StudentGrade
 
-Service --> Controller -- : GradeAStudentResponseDTO
+Service --> Controller -- : GradeAStudentResponseDTO + HATEOAS links
 
-Controller --> Router -- : Response 201 Created + \n EntityModel<GradeAStudentResponseDTO> + HATEOAS (_links: self, courseEdition, student)
+Controller --> Router -- : Response 201 Created + \n EntityModel<GradeAStudentResponseDTO> + _links: self, averageGrade, approvalRate
 Router --> FE -- : Response 201 Created + entity model
 FE --> RUC -- : Student graded successfully!
 
