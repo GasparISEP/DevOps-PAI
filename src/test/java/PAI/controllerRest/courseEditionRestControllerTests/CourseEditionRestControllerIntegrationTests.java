@@ -1,8 +1,12 @@
 package PAI.controllerRest.courseEditionRestControllerTests;
+
 import PAI.VOs.*;
 import PAI.assembler.courseEdition.CourseEditionAssemblerImpl;
 import PAI.assembler.courseEdition.CourseEditionHateoasAssembler;
-import PAI.dto.courseEdition.*;
+import PAI.dto.courseEdition.CourseEditionRequestDTO;
+import PAI.dto.courseEdition.CourseEditionResponseDTO;
+import PAI.dto.courseEdition.CreateCourseEditionCommand;
+import PAI.dto.courseEdition.DefineRucResponseDTO;
 import PAI.service.courseEdition.DefineRucServiceImpl;
 import PAI.service.courseEdition.ICreateCourseEditionService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,8 +21,10 @@ import org.springframework.hateoas.Link;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+
 import java.time.LocalDate;
 import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -26,6 +32,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -236,5 +243,17 @@ public class CourseEditionRestControllerIntegrationTests {
                         .content(objectMapper.writeValueAsString(requestDTO)))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string("Test Exception"));
+    }
+
+    @Test
+    void shouldReturnCourseEditionEnrolmentsForGivenStudentID() throws Exception {
+        // Arrange
+        int studentID = 1234567;
+
+        // Act & Assert
+        mockMvc.perform(get("/course-editions/students/1234567/courseeditionenrolments", studentID))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$").isArray());
     }
 }
