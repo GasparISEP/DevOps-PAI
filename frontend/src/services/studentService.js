@@ -78,3 +78,14 @@ export async function enrolStudentInProgramme(programmeEnrolmentDTO) {
 
     return result;
 }
+export async function findAllDepartments() {
+    const response = await fetch(`${API_URL}/departments`);
+    if (!response.ok) throw new Error('Failed to fetch departments');
+    return await response.json();
+}
+
+export async function findProgrammesByDepartment(departmentID) {
+    const response = await fetch(`${API_URL}/departments/${departmentID}/programmes`);
+    if (!response.ok) throw new Error('Failed to fetch programmes');
+    return await response.json();
+}
