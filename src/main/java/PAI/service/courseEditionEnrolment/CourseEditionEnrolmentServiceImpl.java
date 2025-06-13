@@ -162,4 +162,11 @@ public class CourseEditionEnrolmentServiceImpl implements ICourseEditionEnrolmen
 
         return _ceeRepositoryInterface.numberOfStudentsEnrolledInCourseEdition(courseEditionId);
     }
+
+    @Override
+    public List<CourseEditionEnrolment> findByStudentID(int studentUniqueNumber) {
+        StudentID studentID = new StudentID(studentUniqueNumber);
+        return _ceeRepositoryInterface.findByStudentID(studentID);
+    }
+
 }

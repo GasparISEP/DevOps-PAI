@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
 
+import static PAI.utils.ValidationUtils.validateNotNull;
+
 @Service
 public class ProgrammeEditionService implements IProgrammeEditionService {
     private final IProgrammeEditionFactory programmeEditionFactory;
@@ -39,36 +41,17 @@ public class ProgrammeEditionService implements IProgrammeEditionService {
                                     ISchoolYearService schoolYearService,
                                     IProgrammeEditionEnrolmentService programmeEditionEnrolmentService) {
 
+        this.programmeEditionFactory = validateNotNull(programmeEditionFactory, "ProgrammeEditionFactory");
 
-        if(programmeEditionFactory == null){
-            throw new IllegalArgumentException("ProgrammeEditionFactory cannot be null!");
-        }
-        this.programmeEditionFactory = programmeEditionFactory;
+        this.programmeEditionRepository = validateNotNull(programmeEditionRepository, "ProgrammeEditionRepository");
 
-        if (programmeEditionRepository == null) {
-            throw new IllegalArgumentException("ProgrammeEditionRepository cannot be null!");
-        }
-        this.programmeEditionRepository = programmeEditionRepository;
+        this.programmeService = validateNotNull(programmeService, "ProgrammeService");
 
-        if (programmeService == null) {
-            throw new IllegalArgumentException("ProgrammeService cannot be null!");
-        }
-        this.programmeService = programmeService;
+        this.programmeEditionAssembler = validateNotNull(programmeEditionAssembler, "ProgrammeEditionServiceAssembler");
 
-        if (programmeEditionAssembler == null) {
-            throw new IllegalArgumentException("ProgrammeEditionAssembler cannot be null!");
-        }
-        this.programmeEditionAssembler = programmeEditionAssembler;
+        this.schoolYearService = validateNotNull(schoolYearService, "SchoolYearService");
 
-        if(schoolYearService == null) {
-            throw new IllegalArgumentException("SchoolYearService cannot be null!");
-        }
-        this.schoolYearService = schoolYearService;
-
-        if (programmeEditionEnrolmentService == null) {
-            throw new IllegalArgumentException("ProgrammeEditionEnrolmentService cannot be null!");
-        }
-        this.programmeEditionEnrolmentService = programmeEditionEnrolmentService;
+        this.programmeEditionEnrolmentService = validateNotNull(programmeEditionEnrolmentService, "ProgrammeEditionEnrolmentService");
     }
 
     @Override
@@ -131,7 +114,7 @@ public class ProgrammeEditionService implements IProgrammeEditionService {
             ProgrammeEdition programmeEdition = programmeEditionAssembler.toProgrammeEditionFromRequestServiceDTO(programmeEditionDTO);
             return programmeEditionEnrolmentService.totalStudentsInProgrammeEdition(programmeEdition.identity());
         } catch (Exception e) {
-            throw new RuntimeException("Erro ao contar estudantes na edição do programa", e);
+            throw new RuntimeException("Error when counting students in the programme edition.", e);
         }
     }
 

@@ -214,4 +214,24 @@ public class CourseEditionEnrolmentRepositorySpringDataImpl implements ICourseEd
 
         return iCEERepoSpringData.existsById(ceeIDDataModel.get());
     }
+
+    @Override
+    public List<CourseEditionEnrolment> findByStudentID(StudentID studentID) {
+        StudentIDDataModel studentIDData = iStudentIDMapper.domainToDataModel(studentID);
+
+        List<CourseEditionEnrolmentDataModel> dataModels = iCEERepoSpringData.findById_StudentID(studentIDData);
+
+        return dataModels.stream()
+                .map(dataModel -> {
+                    try {
+                        return iCEEMapper.toDomain(dataModel)
+                                .orElseThrow(() -> new RuntimeException("Empty Optional when mapping CourseEditionEnrolment"));
+                    } catch (Exception e) {
+                        throw new RuntimeException("Mapping failed", e);
+                    }
+                })
+                .toList();
+    }
+
+
 }

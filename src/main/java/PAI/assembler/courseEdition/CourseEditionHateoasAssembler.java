@@ -22,8 +22,7 @@ public class CourseEditionHateoasAssembler implements RepresentationModelAssembl
     public EntityModel<DefineRucResponseDTO> toModel(DefineRucResponseDTO dto) {
         try {
             DefineRucRequestDTO requestDto = new DefineRucRequestDTO(
-                    dto.teacherID(),
-                    dto.courseEditionID()
+                    dto.teacherID()
             );
             return EntityModel.of(dto,
                     linkTo(methodOn(CourseEditionRestController.class)

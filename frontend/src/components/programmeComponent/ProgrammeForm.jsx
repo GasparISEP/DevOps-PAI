@@ -39,7 +39,7 @@ export default function ProgrammeForm() {
                 const teacherData = await teacherRes.json();
                 const degreeTypeData = await degreeTypeRes.json();
 
-                setDepartments(deptData);
+                setDepartments(deptData._embedded?.departmentDTOList || []);
                 setTeachers(teacherData._embedded?.teacherDTOList || []);
                 setDegreeTypes(degreeTypeData._embedded?.degreeTypeDTOList || []);
             } catch (err) {

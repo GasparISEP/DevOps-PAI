@@ -8,6 +8,9 @@ import PAI.dto.courseEditionEnrolment.CourseEditionEnrolmentDto;
 public interface ICourseEditionEnrolmentAssembler {
     CourseEditionID toCourseEditionID(CourseEditionEnrolmentDto courseEditionEnrolmentDto) throws Exception;
     StudentID toStudentID(int studentUniqueNumber) throws Exception;
+
+    CourseEditionEnrolmentDto toDto(CourseEditionEnrolment enrolment);
+
 }   
 
 

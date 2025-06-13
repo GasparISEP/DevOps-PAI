@@ -1,8 +1,12 @@
 package PAI.controllerRest.courseEditionRestControllerTests;
+
 import PAI.VOs.*;
 import PAI.assembler.courseEdition.CourseEditionAssemblerImpl;
 import PAI.assembler.courseEdition.CourseEditionHateoasAssembler;
-import PAI.dto.courseEdition.*;
+import PAI.dto.courseEdition.CourseEditionRequestDTO;
+import PAI.dto.courseEdition.CourseEditionResponseDTO;
+import PAI.dto.courseEdition.CreateCourseEditionCommand;
+import PAI.dto.courseEdition.DefineRucResponseDTO;
 import PAI.service.courseEdition.DefineRucServiceImpl;
 import PAI.service.courseEdition.ICreateCourseEditionService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,6 +19,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -25,9 +30,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -70,7 +75,7 @@ public class CourseEditionRestControllerIntegrationTests {
 
         DefineRucResponseDTO responseDTO = new DefineRucResponseDTO("AAB", courseEditionId);
         EntityModel<DefineRucResponseDTO> responseModel = EntityModel.of(responseDTO,
-                Link.of("http://localhost/courseeditions/" + courseEditionId + "/ruc").withRel("define-ruc"));
+                Link.of("http://localhost/course-editions/" + courseEditionId + "/ruc").withRel("define-ruc"));
 
         when(courseEditionAssembler.createTeacherID("AAB")).thenReturn(teacherID);
         when(courseEditionAssembler.fromDtoToCourseEditionGeneratedID(any())).thenReturn(courseEditionGeneratedID);
@@ -78,12 +83,12 @@ public class CourseEditionRestControllerIntegrationTests {
         when(courseEditionHateoasAssembler.toModel(any())).thenReturn(responseModel);
 
         // Act & Assert
-        mockMvc.perform(patch("/courseeditions/{id}/ruc", courseEditionId)
+        mockMvc.perform(patch("/course-editions/{id}/ruc", courseEditionId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.teacherID").value("AAB"))
-                .andExpect(jsonPath("$._links.define-ruc.href").value("http://localhost/courseeditions/" + courseEditionId + "/ruc"));
+                .andExpect(jsonPath("$._links.define-ruc.href").value("http://localhost/course-editions/" + courseEditionId + "/ruc"));
     }
 
 
@@ -100,7 +105,7 @@ public class CourseEditionRestControllerIntegrationTests {
         when(courseEditionAssembler.createTeacherID("BBB"))
                 .thenThrow(new IllegalArgumentException("Teacher not found"));
 
-        mockMvc.perform(patch("/courseeditions/{id}/ruc", courseEditionId)
+        mockMvc.perform(patch("/course-editions/{id}/ruc", courseEditionId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))
                 .andExpect(status().isNotFound())
@@ -127,7 +132,7 @@ public class CourseEditionRestControllerIntegrationTests {
 
         when(defineRucService.assignRucToCourseEdition(any(), any())).thenReturn(false);
 
-        mockMvc.perform(patch("/courseeditions/{id}/ruc", nonExistentId)
+        mockMvc.perform(patch("/course-editions/{id}/ruc", nonExistentId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))
                 .andExpect(status().isNotFound());
@@ -155,7 +160,7 @@ public class CourseEditionRestControllerIntegrationTests {
         when(defineRucService.assignRucToCourseEdition(any(), any()))
                 .thenThrow(new RuntimeException("Unexpected failure"));
 
-        mockMvc.perform(patch("/courseeditions/ruc")
+        mockMvc.perform(patch("/course-editions/ruc")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(validRequestBody))
                 .andExpect(status().isInternalServerError());
@@ -182,11 +187,11 @@ public class CourseEditionRestControllerIntegrationTests {
         when(createCourseEditionService.createCourseEditionAndReturnDTO(any(), any())).thenReturn(responseDTO);
 
         // Act
-        MvcResult result = mockMvc.perform(post("/courseeditions")
+        MvcResult result = mockMvc.perform(post("/course-editions")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDTO)))
                 .andExpect(status().isCreated())
-                .andExpect(header().string("Location", "/courseeditions/"))
+                .andExpect(header().string("Location", "/course-editions/"))
                 .andReturn();
 
         // Assert
@@ -217,7 +222,7 @@ public class CourseEditionRestControllerIntegrationTests {
         when(createCourseEditionService.createCourseEditionAndReturnDTO(any(), any())).thenReturn(null);
 
         // Act & Assert
-        mockMvc.perform(post("/courseeditions")
+        mockMvc.perform(post("/course-editions")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDTO)))
                 .andExpect(status().isBadRequest());
@@ -233,12 +238,48 @@ public class CourseEditionRestControllerIntegrationTests {
         when(courseEditionAssembler.toCommand(any())).thenThrow(new IllegalArgumentException("Test Exception"));
 
         // Act & Assert
-        mockMvc.perform(post("/courseeditions")
+        mockMvc.perform(post("/course-editions")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDTO)))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string("Test Exception"));
     }
 
-}
+    @Sql(scripts = "/test-data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Test
+    void shouldReturnCourseEditionEnrolmentsForGivenStudentID() throws Exception {
+        // Arrange
+        int studentID = 1234567;
 
+        // Act & Assert
+        mockMvc.perform(get("/course-editions/students/1234567/courseeditionenrolments", studentID))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$").isArray());
+    }
+
+    @Test
+    @Sql(scripts = {"/test-data.sql", "/test-data-studentgrade.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    void whenGradeAStudent_thenReturnsCreatedWithHateoasLinks() throws Exception {
+        mockMvc.perform(post("/course-editions/studentgrades/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+            {
+                "studentUniqueNumber": 1102840,
+                "grade": 18,
+                "date": "13-06-2025",
+                "programmeName": "Engenharia Informática",
+                "programmeAcronym": "LEI",
+                "schoolYearId": "11111111-1111-1111-1111-111111111111",
+                "courseAcronym": "PAI",
+                "courseName": "Processos de Apoio à Inovação",
+                "studyPlanImplementationDate": "01-09-2020"
+            }
+            """))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$._studentUniqueNumber").value(1102840))
+                .andExpect(jsonPath("$._grade").value(18.0));
+                 // .andExpect(jsonPath("$._links").exists()); "para colocar os links"
+    }
+
+}

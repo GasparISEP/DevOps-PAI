@@ -15,7 +15,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InOrder;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -286,39 +285,20 @@ class TotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearServiceImplTest 
         when(depRepo.containsOfIdentity(departmentID)).thenReturn(true);
         when(sYRepo.containsOfIdentity(schoolYearID)).thenReturn(true);
 
-
         ProgrammeID programmeID1 = mock(ProgrammeID.class);
         ProgrammeID programmeID2 = mock(ProgrammeID.class);
         ProgrammeID programmeID3 = mock(ProgrammeID.class);
         ProgrammeID programmeID4 = mock(ProgrammeID.class);
         ProgrammeID programmeID5 = mock(ProgrammeID.class);
-        when(progRepo.findProgrammeByDepartment(departmentID)).thenReturn(List.of(programmeID1, programmeID2, programmeID3, programmeID4, programmeID5));
+        List <ProgrammeID> programmeIDs = List.of(programmeID1, programmeID2, programmeID3, programmeID4, programmeID5);
+        when(progRepo.findProgrammeByDepartment(departmentID)).thenReturn(programmeIDs);
 
-
-        Optional<ProgrammeEditionID> opt1 = mock(Optional.class);
         ProgrammeEditionID pE1 = mock(ProgrammeEditionID.class);
-        Optional<ProgrammeEditionID> opt2 = mock(Optional.class);
         ProgrammeEditionID pE2 = mock(ProgrammeEditionID.class);
-        Optional<ProgrammeEditionID> opt3 = mock(Optional.class);
         ProgrammeEditionID pE3 = mock(ProgrammeEditionID.class);
-        Optional<ProgrammeEditionID> opt4 = mock(Optional.class);
         ProgrammeEditionID pE4 = mock(ProgrammeEditionID.class);
-        Optional<ProgrammeEditionID> opt5 = mock(Optional.class);
-        when(progERepo.findProgrammeEditionIDByProgrammeIDAndSchoolYearID(programmeID1, schoolYearID)).thenReturn(opt1);
-        when(progERepo.findProgrammeEditionIDByProgrammeIDAndSchoolYearID(programmeID2, schoolYearID)).thenReturn(opt2);
-        when(progERepo.findProgrammeEditionIDByProgrammeIDAndSchoolYearID(programmeID3, schoolYearID)).thenReturn(opt3);
-        when(progERepo.findProgrammeEditionIDByProgrammeIDAndSchoolYearID(programmeID4, schoolYearID)).thenReturn(opt4);
-        when(progERepo.findProgrammeEditionIDByProgrammeIDAndSchoolYearID(programmeID5, schoolYearID)).thenReturn(opt5);
-
-        when(opt1.isPresent()).thenReturn(true);
-        when(opt1.get()).thenReturn(pE1);
-        when(opt2.isPresent()).thenReturn(true);
-        when(opt2.get()).thenReturn(pE2);
-        when(opt3.isPresent()).thenReturn(true);
-        when(opt3.get()).thenReturn(pE3);
-        when(opt4.isPresent()).thenReturn(true);
-        when(opt4.get()).thenReturn(pE4);
-        when(opt5.isPresent()).thenReturn(false);
+        List <ProgrammeEditionID> programmeEditionIDs = List.of(pE1, pE2, pE3, pE4);
+        when(progERepo.findProgrammeEditionIDsBySchoolYearIDAndProgrammeIDs(schoolYearID, programmeIDs)).thenReturn(programmeEditionIDs);
 
         ProgrammeEditionEnrolment Enrolment1 = mock(ProgrammeEditionEnrolment.class);
         ProgrammeEditionEnrolment Enrolment2 = mock(ProgrammeEditionEnrolment.class);
@@ -368,7 +348,7 @@ class TotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearServiceImplTest 
         inOrder.verify(depRepo).containsOfIdentity(departmentID);
         inOrder.verify(sYRepo).containsOfIdentity(schoolYearID);
         inOrder.verify(progRepo).findProgrammeByDepartment(departmentID);
-        inOrder.verify(progERepo).findProgrammeEditionIDByProgrammeIDAndSchoolYearID(programmeID1, schoolYearID);
+        inOrder.verify(progERepo).findProgrammeEditionIDsBySchoolYearIDAndProgrammeIDs(schoolYearID, programmeIDs);
     }
 
     @Test
@@ -435,12 +415,10 @@ class TotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearServiceImplTest 
 
         ProgrammeID programmeID1 = mock(ProgrammeID.class);
         ProgrammeID programmeID2 = mock(ProgrammeID.class);
-        when(progRepo.findProgrammeByDepartment(departmentID)).thenReturn(List.of(programmeID1, programmeID2));
+        List<ProgrammeID> programmeIDList = List.of(programmeID1, programmeID2);
+        when(progRepo.findProgrammeByDepartment(departmentID)).thenReturn(programmeIDList);
 
-        when(progERepo.findProgrammeEditionIDByProgrammeIDAndSchoolYearID(programmeID1, schoolYearID))
-                .thenReturn(Optional.empty());
-        when(progERepo.findProgrammeEditionIDByProgrammeIDAndSchoolYearID(programmeID2, schoolYearID))
-                .thenReturn(Optional.empty());
+        when(progERepo.findProgrammeEditionIDsBySchoolYearIDAndProgrammeIDs(schoolYearID, programmeIDList)).thenReturn(List.of());
 
         // Act
         int result = service.getTotalEnrolledStudentsInProgrammesByDepartmentAndYear(command);
@@ -452,9 +430,7 @@ class TotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearServiceImplTest 
         verify(depRepo).containsOfIdentity(departmentID);
         verify(sYRepo).containsOfIdentity(schoolYearID);
         verify(progRepo).findProgrammeByDepartment(departmentID);
-        verify(progERepo).findProgrammeEditionIDByProgrammeIDAndSchoolYearID(programmeID1, schoolYearID);
-        verify(progERepo).findProgrammeEditionIDByProgrammeIDAndSchoolYearID(programmeID2, schoolYearID);
-
+        verify(progERepo).findProgrammeEditionIDsBySchoolYearIDAndProgrammeIDs(schoolYearID, programmeIDList);
         verifyNoInteractions(progEERepo);
     }
 }

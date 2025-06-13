@@ -138,6 +138,15 @@ public class CourseEditionEnrolmentRepositoryImpl implements ICourseEditionEnrol
         }
         return true;
     }
+
+    @Override
+    public List<CourseEditionEnrolment> findByStudentID(StudentID studentID) {
+        return _courseEditionEnrolments.stream()
+                .filter(e -> e.knowStudent().equals(studentID))
+                .toList();
+    }
+
+
 }
 
 

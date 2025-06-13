@@ -12,6 +12,7 @@ export default function CourseEditionAverageGradeForm() {
     const [courses, setCourses] = useState([]);
     const [schoolYears, setSchoolYears] = useState([]);
     const [courseEditions, setCourseEditions] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     const [selectedProgramme, setSelectedProgramme] = useState('');
     const [selectedCourse, setSelectedCourse] = useState('');
@@ -26,20 +27,37 @@ export default function CourseEditionAverageGradeForm() {
 
     useEffect(() => {
         async function fetchData() {
+            setIsLoading(true);
             try {
                 const [programmeRes, courseRes, yearRes, editionRes] = await Promise.all([
                     fetch(`${process.env.REACT_APP_API_URL}/programmes`),
-                    fetch(`${process.env.REACT_APP_API_URL}/courses`),
+                    fetch(`${process.env.REACT_APP_API_URL}/courses/ids`),
                     fetch(`${process.env.REACT_APP_API_URL}/school-years`),
                     fetch(`${process.env.REACT_APP_API_URL}/course-editions`)
                 ]);
 
-                setProgrammes(await programmeRes.json());
-                setCourses(await courseRes.json());
-                setSchoolYears(await yearRes.json());
-                setCourseEditions(await editionRes.json());
+                const parseArrayResponse = async (response) => {
+                    const data = await response.json();
+                    return Array.isArray(data) ? data : [];
+                };
+
+                const parseEmbeddedResponse = async (response, key) => {
+                    const data = await response.json();
+                    return data._embedded?.[key] || [];
+                };
+
+                setProgrammes(await parseArrayResponse(programmeRes));
+                setCourses(await parseArrayResponse(courseRes));
+                setSchoolYears(await parseEmbeddedResponse(yearRes, 'currentSchoolYearDTOList'));
+                setCourseEditions(await parseEmbeddedResponse(editionRes, 'courseEditionDTOList'));
             } catch (err) {
                 console.error("Failed to fetch initial data", err);
+                setProgrammes([]);
+                setCourses([]);
+                setSchoolYears([]);
+                setCourseEditions([]);
+            } finally {
+                setIsLoading(false);
             }
         }
         fetchData();
@@ -83,6 +101,16 @@ export default function CourseEditionAverageGradeForm() {
         setError('');
     };
 
+    const renderOptions = (items, getLabel = item => item.name, getValue = item => item.id) => {
+        if (!Array.isArray(items)) return null;
+
+        return items.map(item => (
+            <option key={getValue(item)} value={getValue(item)}>
+                {getLabel(item)}
+            </option>
+        ));
+    };
+
     return (
         <div className="form-main-component-div">
             <div className="form-main-grid">
@@ -93,7 +121,6 @@ export default function CourseEditionAverageGradeForm() {
                 </div>
 
                 <form className="form" onSubmit={handleSubmit} autoComplete="off">
-                    {/* Ajuste de header com alinhamento correto */}
                     <div className="course-edition-average-grade-header-row">
                         <h1>Average Grade</h1>
                         <Link to="/" className="pagination-btn2 pagination-btn-secondary">
@@ -101,72 +128,71 @@ export default function CourseEditionAverageGradeForm() {
                         </Link>
                     </div>
 
-                    {/* Adição de margem entre os campos */}
-                    <div className="course-edition-average-grade-form-group">
-                        <label htmlFor="programme" className="form-label">Programme</label>
-                        <select
-                            id="programme"
-                            value={selectedProgramme}
-                            onChange={e => setSelectedProgramme(e.target.value)}
-                            required
-                            className="course-edition-average-grade-form-input"
-                        >
-                            <option value="" disabled hidden>Select Programme</option>
-                            {programmes.map(p => (
-                                <option key={p.id} value={p.id}>{p.name}</option>
-                            ))}
-                        </select>
-                    </div>
+                    {isLoading ? (
+                        <div className="loading-spinner">Loading data...</div>
+                    ) : (
+                        <>
+                            <div className="course-edition-average-grade-form-group">
+                                <label htmlFor="programme" className="form-label">Programme</label>
+                                <select
+                                    id="programme"
+                                    value={selectedProgramme}
+                                    onChange={e => setSelectedProgramme(e.target.value)}
+                                    required
+                                    className="course-edition-average-grade-form-input"
+                                >
+                                    <option value="" disabled hidden>Select Programme</option>
+                                    {renderOptions(programmes, p => `${p.acronym} - ${p.name}`, p => p.acronym)}
+                                </select>
+                            </div>
 
-                    <div className="course-edition-average-grade-form-group">
-                        <label htmlFor="course" className="form-label">Course</label>
-                        <select
-                            id="course"
-                            value={selectedCourse}
-                            onChange={e => setSelectedCourse(e.target.value)}
-                            required
-                            className="course-edition-average-grade-form-input"
-                        >
-                            <option value="" disabled hidden>Select Course</option>
-                            {courses.map(c => (
-                                <option key={c.id} value={c.id}>{c.name}</option>
-                            ))}
-                        </select>
-                    </div>
+                            <div className="course-edition-average-grade-form-group">
+                                <label htmlFor="course" className="form-label">Course</label>
+                                <select
+                                    id="course"
+                                    value={selectedCourse}
+                                    onChange={e => setSelectedCourse(e.target.value)}
+                                    required
+                                    className="course-edition-average-grade-form-input"
+                                >
+                                    <option value="" disabled hidden>Select Course</option>
+                                    {renderOptions(courses, c => `${c.acronym} - ${c.name}`, c => c.acronym)}
+                                </select>
+                            </div>
 
-                    <div className="course-edition-average-grade-form-group">
-                        <label htmlFor="schoolYear" className="form-label">School Year</label>
-                        <select
-                            id="schoolYear"
-                            value={selectedSchoolYear}
-                            onChange={e => setSelectedSchoolYear(e.target.value)}
-                            required
-                            className="course-edition-average-grade-form-input"
-                        >
-                            <option value="" disabled hidden>Select School Year</option>
-                            {schoolYears.map(sy => (
-                                <option key={sy.id} value={sy.id}>{sy.designation}</option>
-                            ))}
-                        </select>
-                    </div>
+                            <div className="course-edition-average-grade-form-group">
+                                <label htmlFor="schoolYear" className="form-label">School Year</label>
+                                <select
+                                    id="schoolYear"
+                                    value={selectedSchoolYear}
+                                    onChange={e => setSelectedSchoolYear(e.target.value)}
+                                    required
+                                    className="course-edition-average-grade-form-input"
+                                >
+                                    <option value="" disabled hidden>Select School Year</option>
+                                    {renderOptions(schoolYears, y => y.description, y => y.id)}
+                                </select>
+                            </div>
 
-                    <div className="form-actions">
-                        <button type="button" className="btn btn-secondary" onClick={handleClear} disabled={loading}>
-                            CLEAR
-                        </button>
-                        <button
-                            type="submit"
-                            className="btn btn-primary btn-fixed-width"
-                            disabled={loading || !selectedProgramme || !selectedCourse || !selectedSchoolYear}
-                        >
-                            {loading ? (
-                                <>
-                                    <div className="average-grade-spinner" style={{ marginRight: '0.8rem' }}></div>
-                                    Loading...
-                                </>
-                            ) : 'GET AVERAGE'}
-                        </button>
-                    </div>
+                            <div className="form-actions">
+                                <button type="button" className="btn btn-secondary" onClick={handleClear} disabled={loading}>
+                                    CLEAR
+                                </button>
+                                <button
+                                    type="submit"
+                                    className="btn btn-primary btn-fixed-width"
+                                    disabled={loading || !selectedProgramme || !selectedCourse || !selectedSchoolYear}
+                                >
+                                    {loading ? (
+                                        <>
+                                            <div className="average-grade-spinner" style={{ marginRight: '0.8rem' }}></div>
+                                            Loading...
+                                        </>
+                                    ) : 'GET AVERAGE'}
+                                </button>
+                            </div>
+                        </>
+                    )}
                 </form>
             </div>
 
