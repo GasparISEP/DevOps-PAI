@@ -111,4 +111,8 @@ public class CourseEditionEnrolment implements AggregateRoot<CourseEditionEnrolm
     public Date getEnrolmentDate() {
         return _enrolmentDate;
     }
+
+    public CourseEditionEnrolmentID getCourseEditionEnrolmentID() {
+        return _courseEditionEnrolmentId;
+    }
 }
