@@ -6,26 +6,35 @@ skinparam sequence {
    LifelineBackgroundColor LightBlue
  }
 
-title As a RUC, I want to grade a Student in a Course Edition\nProcess View – Level 2 (with HATEOAS)
+title As a RUC, I want to grade a Student in a Course Edition\nProcess View – Level 2 (with HATEOAS + GET by studentID)
 
 actor "RUC" as RUC
 participant ":Frontend" as FE
 participant ":Backend" as BE
 database DB
 
-RUC -> FE ++: Request to assign a grade
-FE --> RUC --: Request grade, date, student and course info
-RUC -> FE ++: Insert grade, date,\nStudentID, CourseEditionID
+== Step 1: Get Course Editions by Student ==
 
-FE -> BE ++: HTTP POST /courseeditions/studentgrades/register
-note right of BE: Controller parses JSON\nand builds Command
-BE -> DB ++: Verify enrolment and date validity
-DB --> BE --: OK (preconditions met)
+RUC -> FE ++: I want to grade a student
+FE --> RUC --: Ask for StudentID
+RUC -> FE ++: StudentID = 1102840
 
-BE -> DB ++: INSERT INTO studentgrades
-DB --> BE --: Grade registered
+FE -> BE ++: HTTP GET /students/1102840/courseeditionenrolments
+BE -> DB ++: Find CourseEditions where student is enrolled
+DB --> BE --: List<CourseEdition>
+BE --> FE --: JSON array of CourseEditionDTOs
+FE --> RUC --: Show CourseEdition options
 
-BE --> FE --: HTTP 201 Created +\nEntityModel<GradeAStudentResponseDTO>\n(includes _links: self, averageGrade, approvalRate)
-FE --> RUC --: Grade registered with success
+== Step 2: Submit Grade ==
+
+RUC -> FE ++: Fill grade, date, choose CourseEdition
+FE -> BE ++: HTTP POST /course-editions/studentgrades/register
+note right of BE: Parses JSON into DTO → Command\nValidates enrolment + creates aggregate
+
+BE -> DB ++: INSERT INTO `student_grade`
+DB --> BE --: Grade persisted
+
+BE --> FE --: HTTP 201 Created\n+ EntityModel<GradeAStudentResponseDTO> (_links)
+FE --> RUC --: Grade submitted with success!
 
 @enduml
