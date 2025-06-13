@@ -307,24 +307,11 @@ class TotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearServiceImplTest 
         ProgrammeEditionEnrolment Enrolment5 = mock(ProgrammeEditionEnrolment.class);
         when(progEERepo.findAll()).thenReturn(List.of(Enrolment1, Enrolment2, Enrolment3, Enrolment4, Enrolment5));
 
-        when(Enrolment1.hasSameProgrammeEdition(pE1)).thenReturn(false);
-        when(Enrolment1.hasSameProgrammeEdition(pE2)).thenReturn(true);
-
-        when(Enrolment2.hasSameProgrammeEdition(pE1)).thenReturn(true);
-
-        when(Enrolment3.hasSameProgrammeEdition(pE1)).thenReturn(false);
-        when(Enrolment3.hasSameProgrammeEdition(pE2)).thenReturn(false);
-        when(Enrolment3.hasSameProgrammeEdition(pE3)).thenReturn(true);
-
-        when(Enrolment4.hasSameProgrammeEdition(pE1)).thenReturn(false);
-        when(Enrolment4.hasSameProgrammeEdition(pE2)).thenReturn(false);
-        when(Enrolment4.hasSameProgrammeEdition(pE3)).thenReturn(false);
-        when(Enrolment4.hasSameProgrammeEdition(pE4)).thenReturn(false);
-
-        when(Enrolment5.hasSameProgrammeEdition(pE1)).thenReturn(false);
-        when(Enrolment5.hasSameProgrammeEdition(pE2)).thenReturn(false);
-        when(Enrolment5.hasSameProgrammeEdition(pE3)).thenReturn(false);
-        when(Enrolment5.hasSameProgrammeEdition(pE4)).thenReturn(true);
+        when(Enrolment1.findProgrammeEditionInEnrolment()).thenReturn(pE2);
+        when(Enrolment2.findProgrammeEditionInEnrolment()).thenReturn(pE1);
+        when(Enrolment3.findProgrammeEditionInEnrolment()).thenReturn(pE3);
+        when(Enrolment4.findProgrammeEditionInEnrolment()).thenReturn(mock(ProgrammeEditionID.class)); // não faz parte
+        when(Enrolment5.findProgrammeEditionInEnrolment()).thenReturn(pE4);
 
         // Act
         int result = service.getTotalEnrolledStudentsInProgrammesByDepartmentAndYear(command);
@@ -338,11 +325,11 @@ class TotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearServiceImplTest 
         verify(depRepo, times(1)).containsOfIdentity(departmentID);
         verify(sYRepo, times(1)).containsOfIdentity(schoolYearID);
 
-        verify(Enrolment1, times(2)).hasSameProgrammeEdition(any());
-        verify(Enrolment2, times(1)).hasSameProgrammeEdition(any());
-        verify(Enrolment3, times(3)).hasSameProgrammeEdition(any());
-        verify(Enrolment4, times(4)).hasSameProgrammeEdition(any());
-        verify(Enrolment5, times(4)).hasSameProgrammeEdition(any());
+        verify(Enrolment1).findProgrammeEditionInEnrolment();
+        verify(Enrolment2).findProgrammeEditionInEnrolment();
+        verify(Enrolment3).findProgrammeEditionInEnrolment();
+        verify(Enrolment4).findProgrammeEditionInEnrolment();
+        verify(Enrolment5).findProgrammeEditionInEnrolment();
 
         InOrder inOrder = inOrder(depRepo, sYRepo, progRepo, progERepo, progEERepo);
         inOrder.verify(depRepo).containsOfIdentity(departmentID);

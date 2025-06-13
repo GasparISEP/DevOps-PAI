@@ -77,19 +77,12 @@ public class TotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearServiceIm
         return departmentRepository.containsOfIdentity(departmentID) && schoolYearRepository.containsOfIdentity(schoolYearID);
     }
 
-    private int countEnrollmentsMatchingProgrammeEditions(
-
-        Iterable<ProgrammeEditionEnrolment> enrolments,
-        List<ProgrammeEditionID> programmeEditionIDs) {
+    private int countEnrollmentsMatchingProgrammeEditions( Iterable<ProgrammeEditionEnrolment> enrolments, List<ProgrammeEditionID> programmeEditionIDs) {
 
         int count = 0;
         for (ProgrammeEditionEnrolment enrolment : enrolments) {
-            for (ProgrammeEditionID id : programmeEditionIDs) {
-                if (enrolment.hasSameProgrammeEdition(id)) {
-                    count++;
-                    break;
-                }
-            }
+            if (programmeEditionIDs.contains(enrolment.findProgrammeEditionInEnrolment()))
+                count++;
         }
         return count;
     }
