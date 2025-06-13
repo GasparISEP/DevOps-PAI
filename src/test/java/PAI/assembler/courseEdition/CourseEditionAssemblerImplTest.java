@@ -336,7 +336,7 @@ class CourseEditionAssemblerImplTest {
 
         List<CourseEditionID> courseEditionIDs = null;
         // Act & Assert
-        assertThrows(Exception.class, () -> assembler.toResponseDTOList(courseEditionIDs));
+        assertThrows(Exception.class, () -> assembler.toResponseIDDTOList(courseEditionIDs));
     }
     @Test
     void toProgrammeEditionID_shouldThrowException_whenNull() {
