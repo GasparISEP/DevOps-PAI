@@ -12,6 +12,7 @@ import RegisterGradeStudentPage from "./pages/gradeStudentPage/RegisterGradeStud
 /*import StudentsLandingPage from './pages/studentPage/StudentsLandingPage';
 import EnrollStudentPage from './pages/studentPage/EnrollStudentPage';*/
 import CourseEditionAverageGradePage from "./pages/CourseEditionAverageGradePage";
+import TeacherCareerProgressionComponent from './components/teacherCareerProgressionComponent/TeacherCareerProgressionComponent';
 
 
 function AppRoutes() {
@@ -29,6 +30,7 @@ function AppRoutes() {
             <Route path="/courseeditions/display" element={<DisplayCourseEditionPage />} />
             <Route path="/courseeditions/register-grade-student" element={<RegisterGradeStudentPage />} />
             <Route path="/course-editions/average-grade" element={<CourseEditionAverageGradePage />} />
+            <Route path="/teacher-career-progressions/:id" element={<TeacherCareerProgressionComponent />} />
         </Routes>
     );
 }

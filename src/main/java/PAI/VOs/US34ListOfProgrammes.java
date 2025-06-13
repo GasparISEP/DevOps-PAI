@@ -7,6 +7,7 @@ import java.util.List;
 
 public record US34ListOfProgrammes (
         List<Programme> programme,
-        List<ProgrammeEnrolment> programmeEnrolment
+        List<ProgrammeEnrolment> programmeEnrolment,
+        Name name
 ) {
 }

@@ -13,17 +13,20 @@ public class US34ListOfProgrammesTest {
 
     @Test
     public void testUS34ListOfProgrammesRecord() {
+        //arrange
         Programme programme = mock(Programme.class);
         ProgrammeEnrolment enrolment = mock(ProgrammeEnrolment.class);
+        Name name = mock(Name.class);
 
         List<Programme> programmes = List.of(programme);
         List<ProgrammeEnrolment> enrolments = List.of(enrolment);
 
-        // Act: create the record
-        US34ListOfProgrammes listOfProgrammes = new US34ListOfProgrammes(programmes, enrolments);
+        //act
+        US34ListOfProgrammes res = new US34ListOfProgrammes(programmes, enrolments, name);
 
-        // Assert: verify the record's fields
-        assertEquals(programmes, listOfProgrammes.programme());
-        assertEquals(enrolments, listOfProgrammes.programmeEnrolment());
+        //assert
+        assertEquals(programmes, res.programme());
+        assertEquals(enrolments, res.programmeEnrolment());
+        assertEquals(name, res.name());
     }
 }

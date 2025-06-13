@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import CourseEditionDisplay from '../../../components/courseEditionComponent/CourseEditionDisplay';
 
@@ -35,7 +35,7 @@ test('renders all table headers in CourseEditionDisplay', () => {
 
     expect(headerTexts).toEqual(
         expect.arrayContaining([
-            'Programme Name',
+            'Programme Acronym',
             'Course Name',
             'Course Acronym',
             'School Year',
@@ -117,6 +117,61 @@ test('search input starts empty', () => {
 
     const input = screen.getByPlaceholderText(/Search by/i);
     expect(input.value).toBe('');
+});
+
+test('fetches course editions on mount and renders them in the table', async () => {
+    global.fetch = jest.fn(() =>
+        Promise.resolve({
+            json: () =>
+                Promise.resolve([
+                    {
+                        programmeAcronym: 'CS',
+                        courseName: 'Computer Science',
+                        courseAcronym: 'CS101',
+                        schoolYearID: '2024/2025',
+                    },
+                ]),
+        })
+    );
+
+    render(
+        <MemoryRouter>
+            <CourseEditionDisplay />
+        </MemoryRouter>
+    );
+
+    expect(global.fetch).toHaveBeenCalledWith(`${process.env.REACT_APP_API_URL}/course-editions`);
+
+    await waitFor(() => {
+        expect(screen.getByText('Computer Science')).toBeInTheDocument();
+        expect(screen.getByText('CS')).toBeInTheDocument();
+        expect(screen.getByText('CS101')).toBeInTheDocument();
+        expect(screen.getByText('2024/2025')).toBeInTheDocument();
+    });
+
+    jest.clearAllMocks();
+});
+
+test('logs error when fetch fails', async () => {
+    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+    global.fetch = jest.fn(() => Promise.reject(new Error('Failed to fetch')));
+
+    render(
+        <MemoryRouter>
+            <CourseEditionDisplay />
+        </MemoryRouter>
+    );
+
+    await waitFor(() => {
+        expect(consoleErrorSpy).toHaveBeenCalledWith(
+            'Failed to load Course Editions:',
+            expect.any(Error)
+        );
+    });
+
+    consoleErrorSpy.mockRestore();
+    jest.clearAllMocks();
 });
 
 

@@ -4,15 +4,12 @@ autonumber
 
 title As an ASC, I want to know the number of students enrolled in a Course Edition
 
-actor ASC as Admin
-
-participant ":UI" as UI #lightblue
+participant ":Router" as UI #lightblue
 participant "CECtrl:CourseEditionRestController" as ceC #lightgreen
 participant "ceService:CourseEditionEnrolmentService" as S #lightblue
 participant "ceRepo:CourseEditionEnrolmentRepository" as R #lightpink
 
-activate Admin
-Admin -> UI ++: I want to get the number of students \nenrolled in a course edition
+[o-> UI ++: **GET** /course-editions
 
 UI -> ceC ++: getAllCourseEditions()
 
@@ -21,9 +18,9 @@ ref over ceC
 end ref
 
 ceC --> UI --: List<CourseEditionDTO>
-UI --> Admin --: Which course edition?
+[o<-- UI --: List<CourseEditionDTO>
 
-Admin -> UI ++ : courseEdition
+[o-> UI ++ : **GET** /course-editions/{id}/student-count
 
 UI -> ceC ++ : getNumberOfStudentsInCourseEdition\n(selectedCourseEditionIdDTO)
 
@@ -47,6 +44,6 @@ ref over ceC
 end ref
 
 ceC --> UI --: studentCountDTO
-UI --> Admin --: There are [studentCount] students \nenrolled in courseEdition
+[o<-- UI --: studentCountDTO
 
 @enduml
