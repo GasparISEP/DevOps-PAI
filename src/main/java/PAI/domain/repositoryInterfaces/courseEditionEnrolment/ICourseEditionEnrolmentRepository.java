@@ -26,4 +26,7 @@ public interface ICourseEditionEnrolmentRepository extends IRepository <CourseEd
     void enrolStudentInProgrammeCourseEditions(StudentID studentId, List<CourseEditionID> courseEditions) throws Exception;
 
     Set<CourseEditionEnrolment> getInternalSet() throws Exception;
+
+    List<CourseEditionEnrolment> findByStudentID(StudentID studentID);
+
 }

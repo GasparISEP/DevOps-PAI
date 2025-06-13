@@ -14,15 +14,14 @@ import PAI.dto.programmeEdition.ProgrammeEditionResponseDTO;
 import PAI.service.programmeEdition.IProgrammeEditionService;
 import PAI.service.programmeEnrolment.IAvailableCoursesService;
 import jakarta.validation.Valid;
-import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
+
+import static PAI.utils.ValidationUtils.validateNotNull;
 
 @RestController
 @RequestMapping("/programme-editions")
@@ -36,27 +35,12 @@ public class ProgrammeEditionRestController {
 
     public ProgrammeEditionRestController(IProgrammeEditionService programmeEditionService, IProgrammeEditionControllerAssembler programmeEditionControllerAssembler,
                                           IAvailableCoursesService availableCoursesService, ICourseAssembler courseAssembler,IProgrammeEditionHateoasAssembler hateoasAssembler) {
-        if (programmeEditionService == null) {
-            throw new IllegalArgumentException("ProgrammeEdition service cannot be null");
-        }
-        if (programmeEditionControllerAssembler == null) {
-            throw new IllegalArgumentException("ProgrammeEdition Controller Assembler cannot be null");
-        }
-        if(availableCoursesService == null){
-            throw new IllegalArgumentException("Available courses cannot be null");
-        }
-        if(courseAssembler == null){
-            throw new IllegalArgumentException("Course Assembler cannot be null");
-        }
-        if(hateoasAssembler == null){
-            throw new IllegalArgumentException("Hateoas Assembler cannot be null");
-        }
 
-        this.programmeEditionService = programmeEditionService;
-        this.programmeEditionControllerAssembler = programmeEditionControllerAssembler;
-        this.availableCoursesService = availableCoursesService;
-        this.courseAssembler = courseAssembler;
-        this.hateoasAssembler = hateoasAssembler;
+        this.programmeEditionService = validateNotNull(programmeEditionService,"ProgrammeEditionService");
+        this.programmeEditionControllerAssembler = validateNotNull(programmeEditionControllerAssembler, "ProgrammeEditionControllerAssembler");
+        this.availableCoursesService = validateNotNull(availableCoursesService, "AvailableCoursesService");
+        this.courseAssembler = validateNotNull(courseAssembler, "CourseAssembler");
+        this.hateoasAssembler = validateNotNull(hateoasAssembler, "ProgrammeEditionHateoasAssembler");
     }
 
     @GetMapping
@@ -115,7 +99,9 @@ public class ProgrammeEditionRestController {
             ProgrammeEditionRequestServiceDTO programmeEditionRequestServiceDTO = programmeEditionControllerAssembler.toServiceDTOFromRequestDTO(requestDto);
             ProgrammeEditionResponseServiceDTO serviceResult = programmeEditionService.createProgrammeEditionAndSave(programmeEditionRequestServiceDTO);
             ProgrammeEditionResponseDTO response = programmeEditionControllerAssembler.toResponseDTOFromServiceDTO(serviceResult);
-            return new ResponseEntity<>(response, HttpStatus.CREATED);
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(hateoasAssembler.toModel(response));
+
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }

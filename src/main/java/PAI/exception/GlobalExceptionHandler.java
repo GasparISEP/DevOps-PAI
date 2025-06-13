@@ -2,9 +2,11 @@ package PAI.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -80,5 +82,23 @@ public class GlobalExceptionHandler {
                 message
         );
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    // Handles invalid or missing HTTP request body and returns a 400 Bad Request
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ErrorResponse> handleHttpMessageNotReadable(HttpMessageNotReadableException messageNotReadableException) {
+        ErrorResponse error = new ErrorResponse(
+                "INVALID_REQUEST_BODY",
+                "Request body is missing or malformed"
+        );
+        return ResponseEntity.badRequest().body(error);
+    }
+
+    // Handles MethodArgumentTypeMismatchException and throws the proper BadRequest(400) instead of InternalServerError(500)
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ErrorResponse> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex) {
+        String message = String.format("Invalid parameter '%s': %s", ex.getName(), ex.getMessage());
+        ErrorResponse errorResponse = new ErrorResponse(message, "BAD_REQUEST");
+        return ResponseEntity.badRequest().body(errorResponse);
     }
 }

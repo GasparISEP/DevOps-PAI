@@ -1,5 +1,6 @@
 package PAI.initializer;
 
+import PAI.VOs.DegreeTypeID;
 import PAI.VOs.MaxEcts;
 import PAI.VOs.Name;
 import PAI.controller.US10_IWantToConfigureDegreeTypesLevelsController;
@@ -11,6 +12,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -25,11 +27,11 @@ public class DegreeTypeInitializerTest {
     private DegreeTypeInitializer initializer;
 
     private final String csvContent =
-            "MaxEcts;DegreeTypeName\n" +
-                    "180;Bachelor\n" +
-                    "120;Master\n" +
-                    "240;Integrated Master\n" +
-                    "240;PhD\n";
+            "MaxEcts;DegreeTypeName;DegreeTypeID\n" +
+                    "180;Bachelor;" + UUID.randomUUID() + "\n" +
+                    "120;Master;" + UUID.randomUUID() + "\n" +
+                    "240;Integrated Master;" + UUID.randomUUID() + "\n" +
+                    "240;PhD;" + UUID.randomUUID() + "\n";
 
     @Before
     public void setUp() {
@@ -45,10 +47,16 @@ public class DegreeTypeInitializerTest {
 
         spyInitializer.init();
 
-        verify(controller, times(4)).registerDegreeType(any(Name.class), any(MaxEcts.class));
-        verify(controller).registerDegreeType(argThat(name -> name.getName().equals("Bachelor")), any(MaxEcts.class));
-        verify(controller).registerDegreeType(argThat(name -> name.getName().equals("Master")), any(MaxEcts.class));
-        verify(controller).registerDegreeType(argThat(name -> name.getName().equals("Integrated Master")), any(MaxEcts.class));
-        verify(controller).registerDegreeType(argThat(name -> name.getName().equals("PhD")), any(MaxEcts.class));
+        // All 4 entries should be registered
+        verify(controller, times(4)).registerDegreeTypeWithUUID(
+                any(DegreeTypeID.class), any(Name.class), any(MaxEcts.class));
+
+        // You can verify specific names if needed:
+        verify(controller).registerDegreeTypeWithUUID(any(), argThat(name -> name.getName().equals("Bachelor")), any());
+        verify(controller).registerDegreeTypeWithUUID(any(), argThat(name -> name.getName().equals("Master")), any());
+        verify(controller).registerDegreeTypeWithUUID(any(), argThat(name -> name.getName().equals("Integrated Master")), any());
+        verify(controller).registerDegreeTypeWithUUID(any(), argThat(name -> name.getName().equals("PhD")), any());
+
+        verifyNoMoreInteractions(controller);
     }
 }

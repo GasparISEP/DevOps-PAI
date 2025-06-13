@@ -1,11 +1,13 @@
 package PAI.persistence.springdata.courseEditionEnrolment;
 
+import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
 import PAI.persistence.datamodel.courseEditionEnrolment.CourseEditionEnrolmentDataModel;
 import PAI.persistence.datamodel.courseEditionEnrolment.CourseEditionEnrolmentGeneratedIDDataModel;
 import PAI.persistence.datamodel.courseEditionEnrolment.CourseEditionEnrolmentIDDataModel;
 import PAI.persistence.datamodel.student.StudentIDDataModel;
-import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
 import java.util.Optional;
 
 public interface ICourseEditionEnrolmentRepositorySpringData extends JpaRepository<CourseEditionEnrolmentDataModel, CourseEditionEnrolmentIDDataModel> {
@@ -19,4 +21,7 @@ public interface ICourseEditionEnrolmentRepositorySpringData extends JpaReposito
     boolean existsByGeneratedID(CourseEditionEnrolmentGeneratedIDDataModel generatedID);
 
     Optional<CourseEditionEnrolmentDataModel> findByGeneratedID(CourseEditionEnrolmentGeneratedIDDataModel generatedID);
+
+    List<CourseEditionEnrolmentDataModel> findById_StudentID (StudentIDDataModel studentID);
+
 }

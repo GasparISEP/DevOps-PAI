@@ -5,6 +5,8 @@ import jakarta.persistence.Embeddable;
 import java.io.Serializable;
 import java.util.UUID;
 
+import static PAI.utils.ValidationUtils.validateNotNull;
+
 @Embeddable
 public class ProgrammeEditionGeneratedIDDataModel implements Serializable {
     @Column(name = "generated_id", nullable = false, unique = true)
@@ -14,10 +16,8 @@ public class ProgrammeEditionGeneratedIDDataModel implements Serializable {
     }
 
     public ProgrammeEditionGeneratedIDDataModel(UUID generatedId) {
-        if (generatedId == null) {
-            throw new IllegalArgumentException("Generated ID cannot be null");
-        }
-        this.generatedId = generatedId;
+
+        this.generatedId = validateNotNull(generatedId, "Generated ID");
     }
 
     public UUID getGeneratedId() {

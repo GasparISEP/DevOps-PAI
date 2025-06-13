@@ -1,9 +1,6 @@
 package PAI.service.programmeEnrolment;
 
-import PAI.VOs.CourseEditionID;
-import PAI.VOs.CourseID;
-import PAI.VOs.CourseInStudyPlanID;
-import PAI.VOs.ProgrammeEditionID;
+import PAI.VOs.*;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.domain.repositoryInterfaces.courseEdition.ICourseEditionRepository;
 import PAI.domain.repositoryInterfaces.courseInStudyPlan.ICourseInStudyPlanRepository;
@@ -62,8 +59,21 @@ public class AvailableCoursesServiceImpl implements IAvailableCoursesService {
         return courseIDS;
     }
 
+    public List<AvailableCourseInfo> getListOfCourseInfo(List<CourseInStudyPlan> courseInStudyPlans){
+        List<AvailableCourseInfo> courseInfos = new ArrayList<>();
+        for (CourseInStudyPlan existingCourse : courseInStudyPlans){
+            AvailableCourseInfo availableCourseInfo = new AvailableCourseInfo(existingCourse.getCourseID(),existingCourse.getQuantityOfCreditsEcts());
+            courseInfos.add(availableCourseInfo);
+        }
+        return courseInfos;
+    }
+
     @Override
     public List<CourseID> getListOfCourseIdForAGivenProgrammeEdition(ProgrammeEditionID programmeEditionID){
         return getListOfCoursesID(getByIdentity(allCoursesInStudyFromProgrammeEdition(allCourseEditionIdsFromProgrammeEdition(programmeEditionID))));
+    }
+
+    public List<AvailableCourseInfo> getListOfAvailableCourseInfoForAGivenProgrammeEdition(ProgrammeEditionID programmeEditionID){
+        return getListOfCourseInfo(getByIdentity(allCoursesInStudyFromProgrammeEdition(allCourseEditionIdsFromProgrammeEdition(programmeEditionID))));
     }
 }

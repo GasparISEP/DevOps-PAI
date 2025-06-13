@@ -1,25 +1,11 @@
 package PAI.assembler.courseEditionEnrolment;
 
-import java.util.Optional;
-import java.util.UUID;
-
-import org.springframework.stereotype.Component;
-
-
+import PAI.VOs.*;
 import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
 import PAI.dto.courseEditionEnrolment.CourseEditionEnrolmentDto;
-import PAI.VOs.Acronym;
-import PAI.VOs.CourseEditionID;
-import PAI.VOs.CourseID;
-import PAI.VOs.CourseInStudyPlanID;
-import PAI.VOs.Date;
-import PAI.VOs.Name;
-import PAI.VOs.NameWithNumbersAndSpecialChars;
-import PAI.VOs.ProgrammeEditionID;
-import PAI.VOs.ProgrammeID;
-import PAI.VOs.SchoolYearID;
-import PAI.VOs.StudentID;
-import PAI.VOs.StudyPlanID;
+import org.springframework.stereotype.Component;
+
+import java.util.UUID;
 
 @Component
 public class CourseEditionEnrolmentAssemblerImpl implements ICourseEditionEnrolmentAssembler {
@@ -76,4 +62,20 @@ public class CourseEditionEnrolmentAssemblerImpl implements ICourseEditionEnrolm
     private CourseEditionID createCourseEditionID(ProgrammeEditionID programmeEditionID, CourseInStudyPlanID courseInStudyPlanID) throws Exception {
         return new CourseEditionID(programmeEditionID, courseInStudyPlanID);
     }
+
+    @Override
+    public CourseEditionEnrolmentDto toDto(CourseEditionEnrolment enrolment) {
+        CourseEditionID ceid = enrolment.getCourseEditionEnrolmentID().getCourseEditionID();
+
+        return new CourseEditionEnrolmentDto(
+                enrolment.getCourseEditionEnrolmentID().getStudentID().getUniqueNumber(),
+                ceid.getProgrammeEditionID().getProgrammeID().getAcronym().toString(),
+                ceid.getProgrammeEditionID().getSchoolYearID().toString(),
+                ceid.getCourseInStudyPlanID().getCourseID().getAcronym().toString(),
+                "", // o nome do curso ainda não está disponível
+                ceid.getCourseInStudyPlanID().getStudyPlanID().getLocalDate().toString()
+        );
+    }
+
+
 }

@@ -14,8 +14,11 @@ import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
 import PAI.persistence.datamodel.programmeEnrolment.ProgrammeEnrolmentDataModel;
 import PAI.persistence.datamodel.programmeEnrolment.ProgrammeEnrolmentIDDataModel;
 import PAI.persistence.datamodel.student.StudentIDDataModel;
+import PAI.persistence.mem.programmeEnrolment.IProgrammeEnrolmentListFactory;
+import PAI.persistence.mem.programmeEnrolment.ProgrammeEnrolmentRepositoryImpl;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -520,50 +523,41 @@ class ProgrammeEnrolmentRepositorySpringDataImplTest {
     }
 
     @Test
-    void shouldReturnListOfProgrammeIDs() {
-        // arrange
+    void shouldReturnListOfProgrammeEnrolmentsForStudent() {
+        //arrange
         IProgrammeEnrolmentRepositorySpringData jpaRepo = mock(IProgrammeEnrolmentRepositorySpringData.class);
-        IStudentIDMapper studentIDMapper = mock(StudentIDMapperImpl.class);
-        IProgrammeIDMapper programmeIDMapper = mock(ProgrammeIDMapperImpl.class);
-        IProgrammeEnrolmentIDMapper iProgrammeEnrolmentIDMapper = mock(ProgrammeEnrolmentIDMapperImpl.class);
-        IProgrammeEnrolmentMapper iProgrammeEnrolmentMapper = mock(ProgrammeEnrolmentMapperImpl.class);
+        IStudentIDMapper studentIDMapper = mock(IStudentIDMapper.class);
+        IProgrammeIDMapper programmeIDMapper = mock(IProgrammeIDMapper.class);
+        IProgrammeEnrolmentIDMapper iProgrammeEnrolmentIDMapper = mock(IProgrammeEnrolmentIDMapper.class);
+        IProgrammeEnrolmentMapper programmeEnrolmentMapper = mock(IProgrammeEnrolmentMapper.class);
 
         ProgrammeEnrolmentRepositorySpringDataImpl repository =
-                new ProgrammeEnrolmentRepositorySpringDataImpl(jpaRepo, iProgrammeEnrolmentIDMapper, iProgrammeEnrolmentMapper, studentIDMapper, programmeIDMapper);
+                new ProgrammeEnrolmentRepositorySpringDataImpl(
+                        jpaRepo, iProgrammeEnrolmentIDMapper, programmeEnrolmentMapper, studentIDMapper, programmeIDMapper);
 
-        StudentID studentID = mock(StudentID.class);
+        StudentID domainStudentID = mock(StudentID.class);
+        StudentIDDataModel dbStudentID = mock(StudentIDDataModel.class);
 
-        ProgrammeEnrolmentID domainID1 = mock(ProgrammeEnrolmentID.class);
-        ProgrammeEnrolmentID domainID2 = mock(ProgrammeEnrolmentID.class);
+        ProgrammeEnrolmentDataModel enrolmentDataModel1 = mock(ProgrammeEnrolmentDataModel.class);
+        ProgrammeEnrolmentDataModel enrolmentDataModel2 = mock(ProgrammeEnrolmentDataModel.class);
 
-        ProgrammeEnrolment enrolments1 = mock(ProgrammeEnrolment.class);
-        ProgrammeEnrolment enrolments2 = mock(ProgrammeEnrolment.class);
-        ProgrammeEnrolment enrolments3 = mock(ProgrammeEnrolment.class);
+        ProgrammeEnrolment domainEnrolment1 = mock(ProgrammeEnrolment.class);
+        ProgrammeEnrolment domainEnrolment2 = mock(ProgrammeEnrolment.class);
 
-        ProgrammeEnrolmentDataModel enrolment1 = mock(ProgrammeEnrolmentDataModel.class);
-        ProgrammeEnrolmentDataModel enrolment2 = mock(ProgrammeEnrolmentDataModel.class);
-        ProgrammeEnrolmentDataModel enrolment3 = mock(ProgrammeEnrolmentDataModel.class);
+        when(studentIDMapper.domainToDataModel(domainStudentID)).thenReturn(dbStudentID);
 
-        when(jpaRepo.findAll()).thenReturn(List.of(enrolment1, enrolment2, enrolment3));
+        when(jpaRepo.findByProgrammeEnrolmentID_PeStudentID(dbStudentID)).thenReturn(List.of(enrolmentDataModel1, enrolmentDataModel2));
 
-        when(iProgrammeEnrolmentMapper.toDomain(enrolment1)).thenReturn(enrolments1);
-        when(iProgrammeEnrolmentMapper.toDomain(enrolment2)).thenReturn(enrolments2);
-        when(iProgrammeEnrolmentMapper.toDomain(enrolment3)).thenReturn(enrolments3);
+        when(programmeEnrolmentMapper.toDomain(enrolmentDataModel1)).thenReturn(domainEnrolment1);
+        when(programmeEnrolmentMapper.toDomain(enrolmentDataModel2)).thenReturn(domainEnrolment2);
 
-        when(enrolments1.hasSameStudent(studentID)).thenReturn(true);
-        when(enrolments2.hasSameStudent(studentID)).thenReturn(true);
-        when(enrolments3.hasSameStudent(studentID)).thenReturn(false);
+        //act
+        List<ProgrammeEnrolment> result = repository.getProgrammesStudentIsEnrolledIn(domainStudentID);
 
-        when(enrolments1.identity()).thenReturn(domainID1);
-        when(enrolments2.identity()).thenReturn(domainID2);
-
-        // act
-        List<ProgrammeEnrolment> result = repository.listOfProgrammesStudentIsEnrolledIn(studentID);
-
-        // assert
+        //assert
+        assertNotNull(result);
         assertEquals(2, result.size());
-        assertTrue(result.contains(enrolments1));
-        assertTrue(result.contains(enrolments2));
+        assertTrue(result.contains(domainEnrolment1));
+        assertTrue(result.contains(domainEnrolment2));
     }
-
 }

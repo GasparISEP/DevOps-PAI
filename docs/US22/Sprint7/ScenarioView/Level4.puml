@@ -7,7 +7,8 @@ actor RUC
 participant ":UI" as ui #application
 participant ":CourseEditionRestController" as ctrlrREST #business
 participant ":GradeAStudentServiceImpl" as service #motivation
-participant ":StudentGradeRepresentationModelAssembler" as assembler #implementation
+participant ":StudentGradeAssembler" as dtoAssembler #orchid
+participant ":StudentGradeRepresentationModelAssembler" as hateoasAssembler #lightblue
 participant ":StudentGradeRepositorySpringDataImpl" as sgr #lightgreen
 participant ":StudentGradeMapperImpl" as sgmp #mistyrose
 participant ":IStudentGradeRepositorySpringData" as repoSpringData #khaki
@@ -15,41 +16,44 @@ participant ":IStudentGradeRepositorySpringData" as repoSpringData #khaki
 RUC -> ui : I want to **grade a Student** in a Course Edition
 activate ui
 
-ref over ui : \t    **Interaction Use #1** \n \n \t **(GET)** \n \t \t Retrieves All Course Editions from Database
+ref over ui : \t    **Interaction Use #1** \n \n \t **(GET)** \n \t \t Retrieves all Course Editions \n \t where the student is enrolled
 
 ui --> RUC : Which CourseEdition?
-RUC -> ui : This CourseEdition!
+RUC -> ui : Select this CourseEdition!
 
-ui --> RUC : Fill in the **Student grading** information
-RUC -> ui : grade, date, courseEditionID, studentID!
+ui --> RUC : Fill in the **grading form** with: \n studentUniqueNumber, grade, date, programmeAcronym, etc.
+RUC -> ui : Submit!
 
-note over ui : Spring Boot automatically converts JSON into `GradeAStudentRequestDTO`
+note over ui : Spring Boot deserializes JSON → `GradeAStudentRequestDTO`
 
 ui -> ctrlrREST : **(POST)** \n gradeAStudent(GradeAStudentRequestDTO)
 activate ctrlrREST
 
-ref over ctrlrREST : \t \t \t \t  **Interaction Use #2** \n \n \t \t \t \t \t Convert DTO → Command
+ctrlrREST -> dtoAssembler : toDomain(dto)
+activate dtoAssembler
+dtoAssembler --> ctrlrREST : GradeAStudentCommand
+deactivate dtoAssembler
 
-ctrlrREST -> service : gradeAStudent(GradeAStudentCommand)
+ctrlrREST -> service : gradeAStudent(command)
 activate service
 
-ref over service : \t \t \t \t  **Interaction Use #3** \n \n \t \t \t Validations + Create Aggregate `StudentGrade`
+ref over service : Validates: \n - Student is enrolled \n - No duplicate grade \n - Dates are valid \n Then creates `StudentGrade` aggregate
 
 service -> sgr : save(studentGrade)
 activate sgr
 
 sgr -> sgmp : toData(studentGrade)
 activate sgmp
-sgmp --> sgr : StudentGradeDM
+sgmp --> sgr : StudentGradeDataModel
 deactivate sgmp
 
-sgr -> repoSpringData : save(StudentGradeDM)
+sgr -> repoSpringData : save(StudentGradeDataModel)
 activate repoSpringData
-repoSpringData -> : INSERT INTO student_grades
-repoSpringData <-- : persisted StudentGradeDM
+repoSpringData -> : INSERT INTO `student_grade`
+repoSpringData <-- : persisted StudentGradeDataModel
 deactivate repoSpringData
 
-sgr -> sgmp : toDomain(StudentGradeDM)
+sgr -> sgmp : toDomain(StudentGradeDataModel)
 activate sgmp
 sgmp --> sgr : StudentGrade
 deactivate sgmp
@@ -57,20 +61,20 @@ deactivate sgmp
 sgr --> service : StudentGrade
 deactivate sgr
 
-service -> assembler : toModel(StudentGradeResponseDTO)
-activate assembler
-note over assembler : Adds `_links` → self, student, courseEdition, update
-assembler --> service : EntityModel<StudentGradeResponseDTO>
-deactivate assembler
+service -> hateoasAssembler : toModel(responseDTO)
+activate hateoasAssembler
+note over hateoasAssembler : Adds `_links`: \n - self \n - averageGrade \n - approval-rate
+hateoasAssembler --> service : EntityModel<GradeAStudentResponseDTO>
+deactivate hateoasAssembler
 
-service --> ctrlrREST : EntityModel<StudentGradeResponseDTO>
+service --> ctrlrREST : EntityModel<GradeAStudentResponseDTO>
 deactivate service
 
 ctrlrREST --> ui : HTTP 201 Created \n body: DTO + _links
 deactivate ctrlrREST
 
-note over ui : Spring Boot automatically serializes EntityModel to HAL-JSON
+note over ui : Spring serializes EntityModel as HAL-compliant JSON
 
-ui --> RUC : Student graded successfully! (with hypermedia)
+ui --> RUC : Student graded successfully!
 deactivate ui
 @enduml

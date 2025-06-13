@@ -1,0 +1,30 @@
+.teacherCareerProgression-form-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 0.5rem;
+    table-layout: auto;
+}
+
+.teacherCareerProgression-form-table th, .teacherCareerProgression-form-table td {
+    padding: 0.75rem 1.5rem;
+    text-align: left;
+    font-size: 1.5rem;
+
+}
+
+.teacherCareerProgression-form-table th {
+    background: #9a1a24;
+    color: #fff;
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    text-align: left;
+    font-size: 1.5rem;
+}
+
+.teacherCareerProgression-form-table tr {
+    background: #fff;
+}
+
+.teacherCareerProgression-form-table tbody tr:hover {
+    background: #f0f8ff;
+}

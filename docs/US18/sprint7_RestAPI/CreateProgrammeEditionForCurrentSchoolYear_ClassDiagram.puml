@@ -1,0 +1,337 @@
+@startuml
+title US20 \n As a Programme Director, I want to define the RUC for a programme edition \n Class Diagram
+skinparam dpi 150
+skinparam ranksep 30
+skinparam nodesep 20
+skinparam shadowing false
+skinparam ClassPadding 2
+skinparam ClassMargin 2
+skinparam classFontSize 10
+skinparam linetype ortho
+skinparam dpi 300
+
+together {
+    package Controller {
+        class ProgrammeEditionRestController #f0fff0 {
+            + createAProgrammeEditionForTheCurrentSchoolYear(requestDto: ProgrammeEditionRequestDTO):  ResponseEntity<?>
+
+        }
+    }
+}
+
+together {
+    package Service {
+        package SchoolYear {
+            class SchoolYearServiceImpl #fff0f5 {
+                +  getCurrentSchoolYearID(): Optional<SchoolYearID>
+            }
+            interface ISchoolYearService #f0fff0 {
+                +  getCurrentSchoolYearID(): Optional<SchoolYearID>
+            }
+        }
+
+        package Programme {
+            class ProgrammeServiceImpl #fff0f5 {
+             +  getProgrammeByID(id: ProgrammeID): Optional<Programme>
+            }
+            interface IProgrammeService #f0fff0 {
+               +  getProgrammeByID(id: ProgrammeID): Optional<Programme>
+            }
+        }
+
+        package ProgrammeEdition {
+            class ProgrammeEditionServiceImpl #fff0f5 {
+                +  saveProgrammeEdition(programmeEdition: ProgrammeEdition): Optional<ProgrammeEdition>
+                +  createProgrammeEditionAndSave(programmeEditionDTO: ProgrammeEditionRequestServiceDTO): ProgrammeEditionResponseServiceDTO
+            }
+            interface IProgrammeEditionService #f0fff0 {
+                +  saveProgrammeEdition(programmeEdition: ProgrammeEdition): Optional<ProgrammeEdition>
+                +  createProgrammeEditionAndSave(programmeEditionDTO: ProgrammeEditionRequestServiceDTO): ProgrammeEditionResponseServiceDTO
+            }
+        }
+    }
+}
+
+together {
+    package Assemblers {
+        package ControllerAssembler {
+             class ProgrammeEditionControllerAssemblerImpl #f0fff0 {
+                +  toServiceDTOFromRequestDTO(programmeEditionRequest: ProgrammeEditionRequestDTO): ProgrammeEditionRequestServiceDTO
+                +  toResponseDTOFromServiceDTO(responseDTO: ProgrammeEditionResponseServiceDTO): ProgrammeEditionResponseDTO
+             }
+             interface IProgrammeEditionControllerAssembler #f0fff0 {
+                +  toServiceDTOFromRequestDTO(programmeEditionRequest: ProgrammeEditionRequestDTO): ProgrammeEditionRequestServiceDTO
+                +  toResponseDTOFromServiceDTO(responseDTO: ProgrammeEditionResponseServiceDTO): ProgrammeEditionResponseDTO
+             }
+             }
+
+        package ServiceAssembler {
+             class ProgrammeEditionServiceAssemblerImpl #f0fff0 {
+                   + toProgrammeID(programmeEditionRequestServiceDTO: ProgrammeEditionRequestServiceDTO): ProgrammeID
+                   + toServiceResponseDTOFromIDs(programmeID: ProgrammeID, schoolYearID: SchoolYearID): ProgrammeEditionResponseServiceDTO
+            }
+             interface IProgrammeEditionServiceAssembler #f0fff0 {
+                   +  toResponseServiceDTOFromProgrammeEdition(programmeEdition: ProgrammeEdition): ProgrammeEditionResponseServiceDTO
+                   +  toProgrammeEditionFromRequestServiceDTO(dto: RequestServiceDto): ProgrammeEdition
+             }
+
+                 package DTO's {
+                 class ProgrammeEditionRequestServiceDTO #f0fff0
+                 class ProgrammeEditionResponseServiceDTO #f0fff0 {
+                     -  schoolYearId: String
+                 }
+                 class ProgrammeEditionRequestDTO #f0fff0
+                 class  ProgrammeEditionResponseDTO #f0fff0 {
+                     -  schoolYearId: String
+                 }
+                 class ProgrammeIDDTO #f0fff0 {
+                     - acronym: String
+                 }
+                 }
+        }
+
+       package HateoasAssembler {
+                class ProgrammeEditionHateoasAssemblerImpl #f0fff0 {
+                    + toModel(dto: ProgrammeEditionResponseDTO): EntityModel<ProgrammeEditionResponseDTO>
+                }
+                interface IProgrammeEditionHateoasAssembler  #f0fff0 {
+                    +   + toModel(dto: ProgrammeEditionResponseDTO): EntityModel<ProgrammeEditionResponseDTO>
+                }
+    }
+}
+
+package repository {
+
+    together {
+        class SchoolYearRepositorySpringDataImpl  #f0fff0 {
+             + getCurrentSchoolYear(): Optional<SchoolYear>
+             + ofIdentity(id: SchoolYearID): Optional<SchoolYear>
+        }
+        interface ISchoolYearRepository <<interface>>  #ffffe0 {
+            +  getCurrentSchoolYear(): Optional<SchoolYear>
+        }
+        interface ISchoolYearRepositorySpringData <<interface>>  #e6f2ff {
+            + findCurrentSchoolYear(): Optional<SchoolYearDataModel>
+        }
+    }
+
+    together {
+        class ProgrammeRepositorySpringDataImpl  #f0fff0 {
+            +  containsOfIdentity(id: ProgrammeID): boolean
+        }
+        interface IProgrammeRepository <<interface>>  #ffffe0
+        interface IProgrammeRepositorySpringData <<interface>> #e6f2ff
+    }
+
+    together {
+        class ProgrammeEditionRepositorySpringDataImpl  #f0fff0 {
+            +  save(entity: ProgrammeEdition): ProgrammeEdition
+            +  containsOfIdentity (id: ProgrammeEditionID): boolean
+        }
+        interface IProgrammeEditionRepository <<interface>>  #ffffe0 {
+            +  save(entity: ProgrammeEdition): ProgrammeEdition
+            +  containsOfIdentity (id: ProgrammeEditionID): boolean
+        }
+        interface IProgrammeEditionRepositorySpringData <<interface>> #e6f2ff
+    }
+}
+
+package datamodel {
+    together {
+        interface ISchoolYearMapper <<interface>> #f0fff0 {
+          + toDataModel(schoolYear: SchoolYear):  Optional<SchoolYear>
+          + toDomain(schoolYearDataModel: SchoolYearDataModel): Optional<SchoolYear>
+        }
+        class SchoolYearMapperImpl #f0fff0 {
+          + toDataModel(schoolYear: SchoolYear):  Optional<SchoolYear>
+                  + toDomain(schoolYearDataModel: SchoolYearDataModel): Optional<SchoolYear>
+        }
+        class SchoolYearDataModel #f0fff0 {
+        -  id: SchoolYearIDDataModel
+        -  description: String
+        -  startDate: LocalDate
+        -  endDate: LocalDate
+        }
+    }
+
+    together {
+        interface IProgrammeMapper <<interface>> #f0fff0 {
+             + toDataModel(programme: Programme):  Optional<ProgrammeDataModel>
+             + toDomain(programmeDataModel: ProgrammeDataModel): Optional<Programme>
+        }
+        class ProgrammeMapperImpl #f0fff0 {
+          + toDataModel(programme: Programme):  Optional<ProgrammeDataModel>
+          + toDomain(programmeDataModel: ProgrammeDataModel): Optional<Programme>
+        }
+        class ProgrammeDataModel #f0fff0 {
+                 - programmeIdDataModel: ProgrammeIdDataModel
+        }
+    }
+
+    together {
+        interface IProgrammeEditionMapper <<interface>> #f0fff0 {
+           + toDataModel(programmeEdition: ProgrammeEdition):  Optional<ProgrammeEditionDataModel>
+           + toDomain(programmeEditionDataModel: ProgrammeEditionDataModel): Optional<ProgrammeEdition>
+        }
+        class ProgrammeEditionMapperImpl #f0fff0 {
+          + toDataModel(programmeEdition: ProgrammeEdition):  Optional<ProgrammeEditionDataModel>
+          + toDomain(programmeEditionDataModel: ProgrammeEditionDataModel): Optional<ProgrammeEdition>
+        }
+        class ProgrammeEditionDataModel #f0fff0 {
+         - programmeEditionIdDataModel: ProgrammeEditionIdDataModel
+         - programmeEditionGeneratedIDDataModel: ProgrammeEditionGeneratedIDDataModel
+        }
+    }
+}
+
+package domain {
+    package "SchoolYear Aggregate" {
+        class "<<Value Object>>\nSchoolYearID" #ffffe0 {
+        -  _schoolYearID: UUID
+        }
+    }
+
+    package "Programme Aggregate" {
+        class "<<Value Object>>\nProgrammeID" #ffffe0 {
+         -  _acronym: Acronym
+        }
+    }
+
+    package "ProgrammeEdition Aggregate" {
+        entity "<<Root>>\n<<Entity>>\nProgrammeEdition" #ffffe0
+        }
+        class "<<Value Object>>\nProgrammeEditionID" #ffffe0
+        class "<<Value Object>>\nProgrammeEditionGeneratedID" #ffffe0 {
+        - programmeEditionGID: UUID
+        }
+        interface IProgrammeEditionFactory <<interface>> #ffffe0 {
+           +  createProgrammeEdition(programmeID: ProgrammeID, schoolYearID: SchoolYearID): ProgrammeEdition
+           +  createProgrammeEdition(programmeEditionID: ProgrammeEditionID, programmeID: ProgrammeID, schoolYearID: SchoolYearID, programmeEditionGeneratedID: ProgrammeEditionGeneratedID): ProgrammeEdition
+        }
+        class ProgrammeEditionFactoryImpl #ffffe0 {
+        +  createProgrammeEdition(programmeID: ProgrammeID, schoolYearID: SchoolYearID): ProgrammeEdition
+        +  createProgrammeEdition(programmeEditionID: ProgrammeEditionID, programmeID: ProgrammeID, schoolYearID: SchoolYearID, programmeEditionGeneratedID: ProgrammeEditionGeneratedID): ProgrammeEdition
+        }
+    }
+}
+
+' Layout constraints - force vertical alignment
+ProgrammeEditionRestController "1" -> "1 _programmeEditionService" IProgrammeEditionService
+ProgrammeEditionRestController  "1" ->  "1 _controllerAssembler" IProgrammeEditionControllerAssembler
+ProgrammeEditionRestController  "1" ->  "1 _hateoasAssembler" IProgrammeEditionHateoasAssembler
+ProgrammeEditionRestController  "1" ..> "*" ProgrammeEditionRequestDTO
+ProgrammeEditionRestController  "1" ..> "*" ProgrammeEditionResponseDTO
+ProgrammeEditionRestController  "1" ..> "*" ProgrammeEditionRequestServiceDTO
+ProgrammeEditionRestController  "1" ..> "*" ProgrammeEditionResponseServiceDTO
+
+
+ProgrammeEditionHateoasAssemblerImpl .up.|> IProgrammeEditionHateoasAssembler
+ProgrammeEditionHateoasAssemblerImpl "1" ..> "*" ProgrammeEditionResponseDTO
+
+ProgrammeEditionControllerAssemblerImpl  .up.|> IProgrammeEditionControllerAssembler
+ProgrammeEditionControllerAssemblerImpl "1" ..> "*" ProgrammeEditionResponseDTO
+ProgrammeEditionControllerAssemblerImpl "1" ..> "*" ProgrammeEditionRequestDTO
+ProgrammeEditionControllerAssemblerImpl "1" ..> "*" ProgrammeEditionResponseServiceDTO
+ProgrammeEditionControllerAssemblerImpl "1" ..> "*" ProgrammeEditionRequestServiceDTO
+
+
+ProgrammeEditionServiceAssemblerImpl .up.|> IProgrammeEditionServiceAssembler
+ProgrammeEditionServiceAssemblerImpl ..> ProgrammeEditionResponseServiceDTO
+ProgrammeEditionServiceAssemblerImpl ..> ProgrammeEditionRequestServiceDTO
+ProgrammeEditionServiceAssemblerImpl ..> "<<Value Object>>\nProgrammeID"
+
+
+ProgrammeEditionServiceImpl .up.|> IProgrammeEditionService
+ProgrammeEditionServiceImpl "1" --> "1 _factory" IProgrammeEditionFactory
+ProgrammeEditionServiceImpl "1" --> "1 _repo" IProgrammeEditionRepository
+ProgrammeEditionServiceImpl "1" --> "1 _programmeService" IProgrammeService
+ProgrammeEditionServiceImpl "1" --> "1" IProgrammeEditionServiceAssembler
+ProgrammeEditionServiceImpl "1" --> "1 _schoolYearService" ISchoolYearService
+ProgrammeEditionServiceImpl "1" ..> "*" "<<Value Object>>\nProgrammeID"
+ProgrammeEditionServiceImpl "1" ..> "*" "<<Value Object>>\nSchoolYearID"
+ProgrammeEditionServiceImpl "1" ..> "*" ProgrammeEditionRequestServiceDTO
+ProgrammeEditionServiceImpl "1" ..> "*" ProgrammeEditionResponseServiceDTO
+
+
+ProgrammeServiceImpl .up.|> IProgrammeService
+ProgrammeServiceImpl "1" --> "1 _repo" IProgrammeRepository
+
+
+SchoolYearServiceImpl .up.|> ISchoolYearService
+SchoolYearServiceImpl "1" --> "1 _repo" ISchoolYearRepository
+
+ProgrammeEditionRequestDTO "1" --> "1" ProgrammeIDDTO
+ProgrammeEditionResponseDTO "1" --> "1" ProgrammeIDDTO
+ProgrammeEditionRequestServiceDTO "1" -->"1" ProgrammeIDDTO
+ProgrammeEditionResponseServiceDTO "1" --> "1" ProgrammeIDDTO
+
+
+SchoolYearRepositorySpringDataImpl "*" ..|> "1" ISchoolYearRepository
+SchoolYearRepositorySpringDataImpl "*" ..> "1" ISchoolYearRepositorySpringData
+
+
+ProgrammeEditionRepositorySpringDataImpl "*" ..|> "1" IProgrammeEditionRepository
+ProgrammeEditionRepositorySpringDataImpl "*" ..> "1" IProgrammeEditionRepositorySpringData
+
+
+ProgrammeRepositorySpringDataImpl "*" ..|> "1" IProgrammeRepository
+ProgrammeRepositorySpringDataImpl "*" ..> "1" IProgrammeRepositorySpringData
+
+
+'Mappers & DataModels
+SchoolYearMapperImpl ..|> ISchoolYearMapper
+ISchoolYearMapper ..> SchoolYearDataModel
+ProgrammeMapperImpl ..|> IProgrammeMapper
+IProgrammeMapper ..> ProgrammeDataModel
+ProgrammeEditionMapperImpl ..|> IProgrammeEditionMapper
+IProgrammeEditionMapper ..> ProgrammeEditionDataModel
+
+'Repository & Mapper
+ISchoolYearRepository --> "SchoolYear Aggregate"
+IProgrammeRepository --> "Programme Aggregate"
+IProgrammeEditionRepository --> "ProgrammeEdition Aggregate"
+ISchoolYearRepositorySpringData ..> ISchoolYearMapper
+IProgrammeRepositorySpringData ..> IProgrammeMapper
+IProgrammeEditionRepositorySpringData ..> IProgrammeEditionMapper
+
+
+'Repository & ID's
+'SchoolYearRepositorySpringDataImpl --> "<<Value Object>>\nSchoolYearID"
+'ProgrammeRepositorySpringDataImpl --> "<<Value Object>>\nProgrammeID"
+'ProgrammeEditionRepositorySpringDataImpl --> "<<Value Object>>\nProgrammeEditionID"
+
+'Services Uses Factory
+ProgrammeEditionServiceImpl -down-> IProgrammeEditionFactory
+ProgrammeEditionServiceImpl "1" -> IProgrammeEditionFactory
+
+'Domain
+'ProgrammeEdition
+IProgrammeEditionFactory "1" ..> "1..*" "<<Root>>\n<<Entity>>\nProgrammeEdition"
+ProgrammeEditionFactoryImpl ..|> IProgrammeEditionFactory
+"<<Root>>\n<<Entity>>\nProgrammeEdition" --> "<<Value Object>>\nProgrammeEditionID"
+IProgrammeEditionMapper ..> "ProgrammeEdition Aggregate"
+
+"<<Root>>\n<<Entity>>\nProgrammeEdition" --> "<<Value Object>>\nSchoolYearID"
+"<<Root>>\n<<Entity>>\nProgrammeEdition" --> "<<Value Object>>\nProgrammeID"
+
+
+"<<Root>>\n<<Entity>>\nProgrammeEdition" --> "<<Value Object>>\nProgrammeEditionGeneratedID"
+
+"<<Value Object>>\nProgrammeEditionID" --> "<<Value Object>>\nProgrammeID"
+"<<Value Object>>\nProgrammeEditionID" --> "<<Value Object>>\nSchoolYearID"
+
+Controller -[hidden]d-> Service
+repository -[hidden]r- datamodel
+repository -[hidden]d-> domain
+datamodel -[hidden]d-> domain
+SchoolYearRepositorySpringDataImpl -[hidden]l-> SchoolYearServiceImpl
+
+' ======= LEGEND =======
+legend left
+|= Color |= Layer |
+|Light Pink | Application Services |
+|Light Yellow | Domain Layer |
+|Green | Interface Adapters |
+|Light Blue | Frameworks & Drivers |
+end legend
+@enduml

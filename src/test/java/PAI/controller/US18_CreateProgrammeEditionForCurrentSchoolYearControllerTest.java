@@ -483,7 +483,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
             );
         });
 
-        assertEquals("ProgrammeService cannot be null!", exception.getMessage());
+        assertEquals("ProgrammeService cannot be null.", exception.getMessage());
     }
 
     @Test

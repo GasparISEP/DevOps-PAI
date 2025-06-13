@@ -1,44 +1,40 @@
 package PAI.controllerRest;
+
 import PAI.VOs.*;
 import PAI.assembler.courseEdition.ICourseEditionAssembler;
 import PAI.assembler.courseEdition.ICourseEditionHateoasAssembler;
 import PAI.assembler.courseEdition.IStudentCountAssembler;
+import PAI.assembler.courseEditionEnrolment.ICourseEditionEnrolmentAssembler;
+import PAI.assembler.courseEditionEnrolment.ICourseEditionEnrolmentHateoasAssembler;
+import PAI.assembler.programmeEdition.IProgrammeEditionServiceAssembler;
 import PAI.assembler.studentGrade.IStudentGradeAssembler;
 import PAI.domain.courseEdition.CourseEdition;
+import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
 import PAI.dto.approvalRate.ApprovalRateResponseDTO;
 import PAI.dto.courseEdition.*;
+import PAI.dto.courseEditionEnrolment.CourseEditionEnrolmentDto;
 import PAI.dto.studentGrade.GradeAStudentCommand;
 import PAI.dto.studentGrade.GradeAStudentRequestDTO;
 import PAI.dto.studentGrade.GradeAStudentResponseDTO;
-import PAI.exception.NotFoundException;
 import PAI.service.courseEdition.ICourseEditionService;
 import PAI.service.courseEdition.ICreateCourseEditionService;
 import PAI.service.courseEdition.IDefineRucService;
+import PAI.service.courseEditionEnrolment.ICourseEditionEnrolmentService;
 import PAI.service.studentGrade.IGradeAStudentService;
 import jakarta.validation.Valid;
-
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import PAI.assembler.courseEditionEnrolment.ICourseEditionEnrolmentAssembler;
-import PAI.assembler.courseEditionEnrolment.ICourseEditionEnrolmentHateoasAssembler;
-import PAI.assembler.programmeEdition.IProgrammeEditionServiceAssembler;
-import PAI.dto.courseEditionEnrolment.CourseEditionEnrolmentDto;
-import PAI.service.courseEditionEnrolment.ICourseEditionEnrolmentService;
-
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.ArrayList;
 import java.util.UUID;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-
 @RestController
-@RequestMapping("/courseeditions")
+@RequestMapping("/course-editions")
 public class CourseEditionRestController {
 
     private final ICourseEditionEnrolmentService courseEditionEnrolmentService;
@@ -117,15 +113,17 @@ public CourseEditionRestController(
     }
 
     @PostMapping
-    public ResponseEntity<?> createCourseEdition(@RequestBody CourseEditionRequestDTO dto) {
+    public ResponseEntity<?> createCourseEdition(@Valid @RequestBody CourseEditionRequestDTO dto) {
         try {
             CreateCourseEditionCommand command = courseEditionAssembler.toCommand(dto);
 
             ProgrammeID programmeID = new ProgrammeID(command.programmeAcronym());
 
+            Date studyPlanDate = command.studyPlanImplementationDate();
+
             CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(
                     new CourseID(command.courseAcronym(), command.courseName()),
-                    new StudyPlanID(programmeID, new Date(String.valueOf(command.studyPlanImplementationDate())))
+                    new StudyPlanID(programmeID, studyPlanDate)
             );
 
             ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(
@@ -140,12 +138,16 @@ public CourseEditionRestController(
                 return ResponseEntity.badRequest().build();
             }
 
+            //String safeID = URLEncoder.encode(responseDTO.courseEditionID(), StandardCharsets.UTF_8);
+
             return ResponseEntity
-                    .created(URI.create("/courseeditions/" + responseDTO.courseEditionID()))
+                    .created(URI.create("/course-editions/")) //+ safeID))
                     .body(responseDTO);
 
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal server error");
         }
     }
 @PatchMapping("/{id}/ruc")
@@ -271,17 +273,25 @@ public ResponseEntity<?> defineRucForCourseEdition(
         }
     }
 
+    @GetMapping("/{id}/enrolments/count")
+    public ResponseEntity<StudentCountDTO> getNumberOfStudentsInCourseEdition(@PathVariable("id") UUID uuid) throws Exception {
 
-    @PostMapping("/studentscount")
-    public ResponseEntity<StudentCountDTO> getNumberOfStudentsInCourseEdition(@RequestBody @Valid SelectedCourseEditionIdDTO dto) {
-        try {
-            CourseEditionID courseEditionID = courseEditionAssembler.fromDtoToCourseEditionID(dto);
-            int studentCount = courseEditionEnrolmentService.numberOfStudentsEnrolledInCourseEdition(courseEditionID);
-            StudentCountDTO studentCountDTO = studentCountAssembler.fromDomainToDTO(studentCount);
-            return ResponseEntity.ok(studentCountDTO);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.badRequest().body(null);
-        }
+        CourseEditionGeneratedID generatedID = new CourseEditionGeneratedID(uuid);
+
+        CourseEditionID courseEditionID = courseEditionService.findCourseEditionByGeneratedID(generatedID);
+
+        int studentCount = courseEditionEnrolmentService.numberOfStudentsEnrolledInCourseEdition(courseEditionID);
+        StudentCountDTO studentCountDTO = studentCountAssembler.fromDomainToDTO(studentCount);
+        return ResponseEntity.ok(studentCountDTO);
     }
+
+    @GetMapping("/students/{studentID}/courseeditionenrolments")
+    public ResponseEntity<List<CourseEditionEnrolmentDto>> getEnrolmentsForStudent(@PathVariable("studentID") int studentID) {
+        List<CourseEditionEnrolment> enrolments = courseEditionEnrolmentService.findByStudentID(studentID);
+        List<CourseEditionEnrolmentDto> dtos = enrolments.stream()
+                .map(courseEditionEnrolmentAssembler::toDto)
+                .toList();
+        return ResponseEntity.ok(dtos);
+    }
+
 }

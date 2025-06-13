@@ -116,15 +116,12 @@ public class ProgrammeEnrolmentRepositorySpringDataImpl implements IProgrammeEnr
     }
 
     @Override
-    public List<ProgrammeEnrolment> listOfProgrammesStudentIsEnrolledIn(StudentID studentID) {
-        List<ProgrammeEnrolment> listOfEnrolments = new ArrayList<>();
-        Iterable<ProgrammeEnrolment> allEnrolments = findAll();
-        for (ProgrammeEnrolment existingEnrolment : allEnrolments) {
-            if (existingEnrolment.hasSameStudent(studentID)) {
-                listOfEnrolments.add(existingEnrolment);
-            }
-        }
-        return listOfEnrolments;
+    public List<ProgrammeEnrolment> getProgrammesStudentIsEnrolledIn(StudentID studentID) {
+        StudentIDDataModel studentIDDataModel = studentIDMapper.domainToDataModel(studentID);
+        List<ProgrammeEnrolmentDataModel> dataModels = jpaRepo.findByProgrammeEnrolmentID_PeStudentID(studentIDDataModel);
+        return dataModels.stream()
+                .map(programmeEnrolmentMapper::toDomain)
+                .collect(Collectors.toList());
     }
 }
 

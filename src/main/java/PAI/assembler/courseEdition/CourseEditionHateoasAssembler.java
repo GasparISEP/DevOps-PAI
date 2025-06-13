@@ -22,8 +22,7 @@ public class CourseEditionHateoasAssembler implements RepresentationModelAssembl
     public EntityModel<DefineRucResponseDTO> toModel(DefineRucResponseDTO dto) {
         try {
             DefineRucRequestDTO requestDto = new DefineRucRequestDTO(
-                    dto.teacherID(),
-                    dto.courseEditionID()
+                    dto.teacherID()
             );
             return EntityModel.of(dto,
                     linkTo(methodOn(CourseEditionRestController.class)
@@ -43,16 +42,7 @@ public class CourseEditionHateoasAssembler implements RepresentationModelAssembl
         List<EntityModel<CourseEditionResponseDTO>> listOfCourseEditionResponseDtosWithHypermedia = courseEditionResponseDTOs.stream()
             .map(dto -> EntityModel.of(dto,
                 linkTo(methodOn(CourseEditionRestController.class)
-                    .getCourseEditionsByProgrammeEditionID(null))
-                    .withSelfRel(),
-                linkTo(methodOn(CourseEditionRestController.class)
-                    .enrolStudentInCourseEdition(0, null))
-                    .withRel("enroll-student"),
-                linkTo(methodOn(CourseEditionRestController.class)
-                    .findAllCourseEditions())
-                    .withRel("find-all-course-editions"),
-                linkTo(methodOn(CourseEditionRestController.class)
-                            .getCourseEditionApprovalRate(null,null,null, null))
+                            .getCourseEditionApprovalRate(dto.programmeAcronym(), dto.schoolYearID().toString(), dto.courseAcronym(), dto.studyPlanImplementationDate().toString()))
                             .withRel("approval-rate")
             ))
             .collect(Collectors.toList());

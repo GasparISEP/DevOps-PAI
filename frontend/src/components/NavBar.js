@@ -36,6 +36,11 @@ const NavBar = () => {
                     Display Teachers
                   </Link>
                 </li>
+                <li>
+                  <Link to="/teachers/updateTeacherCategory" className="navbar-link" onClick={() => setIsTeacherOpen(false)}>
+                    Update Teacher Category
+                  </Link>
+                </li>
               </ul>
             </li>
 
@@ -52,6 +57,11 @@ const NavBar = () => {
                 <li>
                   <Link to="/students/register" className="navbar-link" onClick={() => setIsStudentOpen(false)}>
                     Register Student
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/students/enroll" className="navbar-link" onClick={() => setIsStudentOpen(false)}>
+                    Enroll Student
                   </Link>
                 </li>
                 <li>
@@ -94,6 +104,11 @@ const NavBar = () => {
                 <li>
                   <Link to="/courseeditions/display" className="navbar-link">
                     Display Course Editions
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/course-editions/average-grade" className="navbar-link">
+                    Average Grade
                   </Link>
                 </li>
               </ul>

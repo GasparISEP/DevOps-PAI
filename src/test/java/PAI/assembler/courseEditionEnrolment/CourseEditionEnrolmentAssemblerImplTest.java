@@ -1,13 +1,18 @@
 package PAI.assembler.courseEditionEnrolment;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-
+import PAI.VOs.*;
+import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
+import PAI.dto.courseEditionEnrolment.CourseEditionEnrolmentDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import PAI.VOs.*;
-import PAI.dto.courseEditionEnrolment.CourseEditionEnrolmentDto;
+import java.time.LocalDate;
+import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class CourseEditionEnrolmentAssemblerImplTest {
 
@@ -52,4 +57,52 @@ class CourseEditionEnrolmentAssemblerImplTest {
         assertEquals(dto.courseName(), courseEditionID.getCourseInStudyPlanID().getCourseID().getCourseNameValue());
         assertEquals(dto.studyPlanDate(), courseEditionID.getCourseInStudyPlanID().getStudyPlanID().getDate().toString());
     }
+
+    @Test
+    void toDto_shouldReturnCorrectDto() throws Exception {
+        // Arrange
+        // VO básicos
+        Acronym programmeAcronym = new Acronym("LEI");
+        ProgrammeID programmeID = new ProgrammeID(programmeAcronym);
+        UUID schoolYearUUID = UUID.randomUUID();
+        SchoolYearID schoolYearID = new SchoolYearID(schoolYearUUID);
+        ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID, schoolYearID);
+
+        Acronym courseAcronym = new Acronym("ESOFT");
+        Name courseName = new Name("Engenharia de Software");
+        CourseID courseID = new CourseID(courseAcronym, courseName);
+
+        Date studyPlanDate = new Date(LocalDate.of(2023, 9, 1));
+        StudyPlanID studyPlanID = new StudyPlanID(programmeID, studyPlanDate);
+        CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(courseID, studyPlanID);
+
+        CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID, courseInStudyPlanID);
+        StudentID studentID = new StudentID(1234567);
+        Date enrolmentDate = new Date(LocalDate.of(2025, 6, 13));
+        EnrolmentStatus isActive = new EnrolmentStatus(true);
+        CourseEditionEnrolmentGeneratedID generatedID = new CourseEditionEnrolmentGeneratedID();
+
+        CourseEditionEnrolment enrolment = new CourseEditionEnrolment(
+                generatedID,
+                studentID,
+                courseEditionID,
+                enrolmentDate,
+                isActive
+        );
+
+        CourseEditionEnrolmentAssemblerImpl assembler = new CourseEditionEnrolmentAssemblerImpl();
+
+        // Act
+        CourseEditionEnrolmentDto dto = assembler.toDto(enrolment);
+
+        // Assert
+        assertEquals(1234567, dto.studentUniqueNumber());
+        assertEquals("LEI", dto.programmeAcronym());
+        assertEquals(schoolYearUUID.toString(), dto.schoolYearId());
+        assertEquals("ESOFT", dto.courseAcronym());
+        assertEquals("2023-09-01", dto.studyPlanDate()); // Date.toString() default ISO format
+        assertEquals("", dto.courseName()); // Ainda não está disponível no domínio
+    }
+
+
 }

@@ -421,7 +421,7 @@ class ProgrammeEnrolmentRepositoryTest {
         ProgrammeEnrolmentRepositoryImpl repo = new ProgrammeEnrolmentRepositoryImpl(listFactoryDouble);
 
         // Act
-        List<ProgrammeEnrolment> res = repo.listOfProgrammesStudentIsEnrolledIn(studentID);
+        List<ProgrammeEnrolment> res = repo.getProgrammesStudentIsEnrolledIn(studentID);
 
         // Assert
         assertNotNull(res);
@@ -446,14 +446,12 @@ class ProgrammeEnrolmentRepositoryTest {
         ProgrammeEnrolmentRepositoryImpl repo = new ProgrammeEnrolmentRepositoryImpl(listFactoryDouble);
 
         // Act
-        List<ProgrammeEnrolment> res = repo.listOfProgrammesStudentIsEnrolledIn(studentID);
+        List<ProgrammeEnrolment> res = repo.getProgrammesStudentIsEnrolledIn(studentID);
 
         // Assert
         assertNotNull(res);
         assertTrue(res.isEmpty(), "Expected an empty list when no enrolments match the student ID");
     }
-
-
 }
 
 

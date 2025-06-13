@@ -7,25 +7,25 @@ autonumber
 actor ASC #F5B041
 participant "PAI" as system <<System>> #ABEBA1
 
-activate system
-ASC -> system: **requestProgrammeRegistration**()
-system --> ASC: **provideRequiredDataFields**()
+activate ASC
+ASC -> system++: **requestProgrammeRegistration**()
+system --> ASC--: **provideRequiredDataFields**()
 |||
-ASC -> system: **getAvailableDegreeTypes**()
-system --> ASC: degreeTypesList
+ASC -> system++: **getAvailableDegreeTypes**()
+system --> ASC--: degreeTypesList
 |||
-ASC -> system: **getAvailableDepartments**()
-system --> ASC: departmentsList
+ASC -> system++: **getAvailableDepartments**()
+system --> ASC--: departmentsList
 |||
-ASC -> system: **getAvailableTeachers**()
-system --> ASC: teachersList
+ASC -> system++: **getAvailableTeachers**()
+system --> ASC--: teachersList
 |||
-ASC -> system: **submitProgrammeData**(name, acronym, ects, semesters, \ndegreeType, department, programmeDirector)
-system --> ASC: createdProgramme
+ASC -> system++: **submitProgrammeData**(name, acronym, ects, semesters, \ndegreeType, department, programmeDirector)
+system --> ASC--: createdProgramme
 |||
-ASC -> system: **selectIncludeStudyPlanOption**(yes)
-system --> ASC: **provideStudyPlanDataFields**()
+ASC -> system++: **selectIncludeStudyPlanOption**(yes)
+system --> ASC--: **provideStudyPlanDataFields**()
 |||
-ASC -> system: **submitStudyPlanData**(programmeName, \nprogrammeAcronym, startDate)
-system --> ASC: createdStudyPlan
+ASC -> system++: **submitStudyPlanData**(programmeName, \nprogrammeAcronym, startDate)
+system --> ASC--: createdStudyPlan
 @enduml

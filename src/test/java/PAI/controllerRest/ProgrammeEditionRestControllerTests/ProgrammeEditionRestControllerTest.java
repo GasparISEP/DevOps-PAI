@@ -13,7 +13,6 @@ import PAI.service.programmeEdition.IProgrammeEditionService;
 import PAI.service.programmeEdition.ProgrammeEditionService;
 import PAI.service.programmeEnrolment.IAvailableCoursesService;
 import org.junit.jupiter.api.Test;
-import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,17 +45,20 @@ class ProgrammeEditionRestControllerTest {
 
     @Test
     void shouldThrowExceptionAndNotCreateControllerIfServiceNull() {
-        //Arrange
+
+        //arrange
         IProgrammeEditionService service = null;
         IProgrammeEditionControllerAssembler controllerAssembler = mock(IProgrammeEditionControllerAssembler.class);
         ICourseAssembler courseAssembler = mock(ICourseAssembler.class);
         IAvailableCoursesService availableCoursesService = mock(IAvailableCoursesService.class);
         IProgrammeEditionHateoasAssembler hateoasAssembler = mock(IProgrammeEditionHateoasAssembler.class);
 
-
-        //Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionRestController(service, controllerAssembler,availableCoursesService,
+        // act
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionRestController(service, controllerAssembler,availableCoursesService,
                 courseAssembler, hateoasAssembler));
+
+        // assert
+        assertEquals("ProgrammeEditionService cannot be null.", exception.getMessage());
     }
 
     @Test
@@ -136,23 +138,29 @@ class ProgrammeEditionRestControllerTest {
         IAvailableCoursesService availableCoursesService = mock(IAvailableCoursesService.class);
         IProgrammeEditionHateoasAssembler hateoasAssembler = mock(IProgrammeEditionHateoasAssembler.class);
 
-        //Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionRestController(service, controllerAssembler,availableCoursesService,
+        // act
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionRestController(service, controllerAssembler,availableCoursesService,
                 courseAssembler, hateoasAssembler));
+        // assert
+        assertEquals("ProgrammeEditionControllerAssembler cannot be null.", exception.getMessage());
     }
 
     @Test
     void shouldThrowExceptionAndNotCreateControllerIfHateoasAssemblerNull() {
-        //Arrange
+
+        //arrange
         IProgrammeEditionService service = mock(IProgrammeEditionService.class);
         IProgrammeEditionControllerAssembler controllerAssembler = null;
         ICourseAssembler courseAssembler = mock(ICourseAssembler.class);
         IAvailableCoursesService availableCoursesService = mock(IAvailableCoursesService.class);
         IProgrammeEditionHateoasAssembler hateoasAssembler = null;
 
-        //Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionRestController(service, controllerAssembler,availableCoursesService,
+        // act
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> new ProgrammeEditionRestController(service, controllerAssembler,availableCoursesService,
                 courseAssembler, hateoasAssembler));
+
+        // assert
+        assertEquals("ProgrammeEditionControllerAssembler cannot be null.", exception.getMessage());
     }
 
     @Test
@@ -274,7 +282,6 @@ class ProgrammeEditionRestControllerTest {
 
         // Assert
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertNotNull(response.getBody());
     }
 
     @Test
@@ -307,7 +314,7 @@ class ProgrammeEditionRestControllerTest {
     }
 
     @Test
-    void shouldReturnBadRequestIfInvalidProgrammeEditionIdDto() {
+    void shouldReturnOkWithListOfCoursesForValidProgrammeEditionIdDto() {
         // arrange
         IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
         IProgrammeEditionControllerAssembler controllerAssembler = mock(IProgrammeEditionControllerAssembler.class);
@@ -342,6 +349,28 @@ class ProgrammeEditionRestControllerTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(list1, response.getBody());
     }
+    @Test
+    void shouldReturnBadRequestWhensSchoolYearIdIsInvalid() {
+        // Arrange
+        IProgrammeEditionService programmeEditionService = mock(IProgrammeEditionService.class);
+        IProgrammeEditionControllerAssembler controllerAssembler = mock(IProgrammeEditionControllerAssembler.class);
+        ICourseAssembler courseAssembler = mock(ICourseAssembler.class);
+        IAvailableCoursesService availableCoursesService = mock(IAvailableCoursesService.class);
+        IProgrammeEditionHateoasAssembler hateoasAssembler = mock(IProgrammeEditionHateoasAssembler.class);
+
+        ProgrammeEditionRestController controller = new ProgrammeEditionRestController(
+                programmeEditionService, controllerAssembler, availableCoursesService, courseAssembler, hateoasAssembler
+        );
+
+        ProgrammeEditionIdDto invalidDto = new ProgrammeEditionIdDto("LEI", "not-a-valid-uuid");
+
+        // Act
+        ResponseEntity<List<CourseIDDTO>> response = controller.getAvailableCourses(invalidDto);
+
+        // Assert
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
 
     @Test
     void shouldThrowExceptionAndNotCreateControllerIfAvailableCoursesNull() {
@@ -353,10 +382,13 @@ class ProgrammeEditionRestControllerTest {
         IAvailableCoursesService availableCoursesService = null;
         IProgrammeEditionHateoasAssembler hateoasAssembler = mock(IProgrammeEditionHateoasAssembler.class);
 
-        // act + assert
-        assertThrows(IllegalArgumentException.class, () ->
+        // act
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
                 new ProgrammeEditionRestController(service, controllerAssembler, availableCoursesService, courseAssembler, hateoasAssembler)
         );
+
+        // assert
+        assertEquals("AvailableCoursesService cannot be null.", exception.getMessage());
     }
 
     @Test
@@ -369,9 +401,12 @@ class ProgrammeEditionRestControllerTest {
         IAvailableCoursesService availableCoursesService = mock(IAvailableCoursesService.class);
         IProgrammeEditionHateoasAssembler hateoasAssembler = mock(IProgrammeEditionHateoasAssembler.class);
 
-        // act + assert
-        assertThrows(IllegalArgumentException.class, () ->
+        // act
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
                 new ProgrammeEditionRestController(service, controllerAssembler, availableCoursesService, courseAssembler, hateoasAssembler)
         );
+
+        // assert
+        assertEquals("CourseAssembler cannot be null.", exception.getMessage());
     }
 }

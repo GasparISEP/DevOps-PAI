@@ -91,6 +91,12 @@ public class StudentProgrammeEditionEnrolmentServiceImpl implements IStudentProg
 
     }
 
+    public StudentID findStudentIDByProgrammeEnrolmentGeneratedID(ProgrammeEnrolmentGeneratedID programmeEnrolmentGeneratedID) {
+        Optional<ProgrammeEnrolment> programmeEnrolmentOptional = programmeEnrolmentRepository.findByGeneratedID(programmeEnrolmentGeneratedID);
+
+        return programmeEnrolmentOptional.get().getStudentID();
+    }
+
     public LocalDate findDateByProgrammeEnrolmentGeneratedID(ProgrammeEnrolmentGeneratedID programmeEnrolmentGeneratedID) {
         return programmeEnrolmentRepository.findByGeneratedID(programmeEnrolmentGeneratedID)
                 .map(enrolment -> enrolment.getDate().getLocalDate())

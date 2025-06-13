@@ -4,8 +4,11 @@ import PAI.VOs.*;
 import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
 import PAI.domain.programmeEnrolment.IProgrammeEnrolmentFactory;
 import PAI.domain.repositoryInterfaces.programmeEnrolment.IProgrammeEnrolmentRepository;
+import PAI.persistence.mem.programmeEnrolment.IProgrammeEnrolmentListFactory;
+import PAI.persistence.mem.programmeEnrolment.ProgrammeEnrolmentRepositoryImpl;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -216,7 +219,7 @@ class ProgrammeEnrolmentServiceImplTest {
                 new ProgrammeEnrolmentServiceImpl(_peFactoryDouble, _peRepositoryDouble);
 
         List<ProgrammeEnrolment> expectedProgrammeIDs = List.of(mock(ProgrammeEnrolment.class), mock(ProgrammeEnrolment.class));
-        when(_peRepositoryDouble.listOfProgrammesStudentIsEnrolledIn(_studentIDDouble))
+        when(_peRepositoryDouble.getProgrammesStudentIsEnrolledIn(_studentIDDouble))
                 .thenReturn(expectedProgrammeIDs);
 
         // act
@@ -224,6 +227,29 @@ class ProgrammeEnrolmentServiceImplTest {
 
         // assert
         assertEquals(expectedProgrammeIDs, result);
+    }
+
+    @Test
+    void shouldReturnListOfProgrammeIDs() {
+        //arrange
+        createDoubles();
+        ProgrammeEnrolmentServiceImpl peService =
+                new ProgrammeEnrolmentServiceImpl(_peFactoryDouble, _peRepositoryDouble);
+
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        ProgrammeEnrolment enrolment = mock(ProgrammeEnrolment.class);
+        when(enrolment.getProgrammeID()).thenReturn(programmeID);
+
+        ArrayList<ProgrammeEnrolment> listDouble = new ArrayList<>();
+        listDouble.add(enrolment);
+
+        //act
+        List<ProgrammeID> res = peService.getProgrammeIDsByProgrammeEnrolment(listDouble);
+
+        //assert
+        assertNotNull(res);
+        assertEquals(1, res.size());
+        assertEquals(programmeID, res.get(0));
     }
 
 }

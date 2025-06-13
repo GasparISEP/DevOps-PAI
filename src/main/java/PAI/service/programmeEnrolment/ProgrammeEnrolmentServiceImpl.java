@@ -6,6 +6,7 @@ import PAI.domain.programmeEnrolment.IProgrammeEnrolmentFactory;
 import PAI.domain.repositoryInterfaces.programmeEnrolment.IProgrammeEnrolmentRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,6 +53,15 @@ public class ProgrammeEnrolmentServiceImpl implements IProgrammeEnrolmentService
 
     @Override
     public List<ProgrammeEnrolment> listOfProgrammesStudentIsEnrolledIn(StudentID studentID) {
-        return _peRepository.listOfProgrammesStudentIsEnrolledIn(studentID);
+        return _peRepository.getProgrammesStudentIsEnrolledIn(studentID);
+    }
+
+    public List<ProgrammeID> getProgrammeIDsByProgrammeEnrolment (List<ProgrammeEnrolment> list) {
+        List<ProgrammeID> programmeIDList = new ArrayList<>();
+        for (ProgrammeEnrolment everyProgEnrol : list) {
+            ProgrammeID programmeID = everyProgEnrol.getProgrammeID();
+            programmeIDList.add(programmeID);
+        }
+        return programmeIDList;
     }
 }

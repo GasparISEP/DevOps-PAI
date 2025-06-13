@@ -2,6 +2,8 @@ package PAI.persistence.datamodel.programmeEdition;
 
 import jakarta.persistence.*;
 
+import static PAI.utils.ValidationUtils.validateNotNull;
+
 @Entity
 @Table(name = "Programme_Edition")
 public class ProgrammeEditionDataModel {
@@ -23,14 +25,9 @@ public class ProgrammeEditionDataModel {
 
     public ProgrammeEditionDataModel(ProgrammeEditionIdDataModel programmeEditionIdDataModel,
                                      ProgrammeEditionGeneratedIDDataModel programmeEditionGeneratedIDDataModel) {
-        if (programmeEditionIdDataModel == null) {
-            throw new IllegalArgumentException("programmeEditionID cannot be null");
-        }
-        if (programmeEditionGeneratedIDDataModel == null) {
-            throw new IllegalArgumentException("programmeEditionGeneratedID cannot be null");
-        }
-        this.programmeEditionIdDataModel = programmeEditionIdDataModel;
-        this.programmeEditionGeneratedIDDataModel = programmeEditionGeneratedIDDataModel;
+
+        this.programmeEditionIdDataModel = validateNotNull(programmeEditionIdDataModel,"ProgrammeEditionIdDataModel");
+        this.programmeEditionGeneratedIDDataModel = validateNotNull(programmeEditionGeneratedIDDataModel,"ProgrammeEditionGeneratedIDDataModel");
     }
 
     public ProgrammeEditionIdDataModel getProgrammeEditionIDDataModel() {
