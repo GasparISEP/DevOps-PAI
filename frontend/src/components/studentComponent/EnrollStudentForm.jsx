@@ -125,6 +125,7 @@ export default function EnrollStudentForm() {
 
             try {
                 const courseList = await getAvailableCourses(payload);
+                console.log("Courses returned:", courseList);
                 setCourses(courseList);
             } catch (err) {
                 console.error(err);
@@ -133,7 +134,7 @@ export default function EnrollStudentForm() {
         };
 
         fetchCourses();
-    }, [form.edition, editions, form.programme]); // ✅ fixed dependency warning
+    }, [form.edition, editions, form.programme]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -144,17 +145,30 @@ export default function EnrollStudentForm() {
         }
 
         const selectedEdition = editions.find(e => e.value === form.edition);
-        if (!selectedEdition) return;
+        if (!selectedEdition) {
+            setError('Edição do programa inválida.');
+            return;
+        }
 
         const payload = {
             studentId: parseInt(form.studentId),
             programmeAcronym: selectedEdition.acronym,
             schoolYearId: selectedEdition.value,
-            courseIds: form.selectedCourses.map(acronym => ({ acronym }))
+            courseIds: form.selectedCourses.map(acronym => {
+                const course = courses.find(c => c.acronym === acronym);
+                return {
+                    acronym: course.acronym,
+                    name: course.name,
+                    studyPlanDate: course.studyPlanDate,
+                    programmeAcronym: course.programmeAcronym
+                };
+            })
         };
 
+        console.log("Payload being sent:", payload);
+
         try {
-            await enrolStudent(form.studentId, payload); // ✅ removed unused 'result'
+            await enrolStudent(form.studentId, payload);
             setSuccess({
                 studentID: form.studentId,
                 programmeEdition: `${selectedEdition.acronym} - ${selectedEdition.value}`,
@@ -199,7 +213,6 @@ export default function EnrollStudentForm() {
                                             {p.programmeID}
                                         </option>
                                     ))}
-
                                 </select>
                             </div>
 
