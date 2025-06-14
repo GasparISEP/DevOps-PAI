@@ -2,6 +2,7 @@ package PAI.service.courseEditionEnrolment;
 
 import PAI.VOs.*;
 import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
+import PAI.VOs.US35EnrolledCourseDetails;
 
 import java.util.List;
 
@@ -20,4 +21,6 @@ public interface ICourseEditionEnrolmentService {
     int numberOfStudentsEnrolledInCourseEdition(CourseEditionID courseEditionId) throws Exception;
 
     List<CourseEditionEnrolment> findByStudentID(int studentUniqueNumber);
+
+    List<US35EnrolledCourseDetails> findEnrolledCourseEditionsForStudent(StudentID studentID);
 }
