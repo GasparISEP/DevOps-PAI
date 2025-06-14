@@ -6,13 +6,17 @@ import PAI.assembler.programme.ProgrammeAssembler;
 import PAI.domain.degreeType.DegreeTypeFactoryImpl;
 import PAI.domain.degreeType.IDegreeTypeFactory;
 import PAI.domain.department.Department;
+import PAI.domain.department.IDepartmentFactory;
 import PAI.domain.programmeEditionEnrolment.IProgrammeEditionEnrolmentFactory;
 import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolment;
 import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolmentFactoryImpl;
 import PAI.domain.repositoryInterfaces.degreeType.IDegreeTypeRepository;
+import PAI.domain.repositoryInterfaces.teacher.ITeacherRepository;
 import PAI.domain.schoolYear.ISchoolYearFactory;
 import PAI.assembler.schoolYear.ISchoolYearAssembler;
 import PAI.assembler.schoolYear.SchoolYearAssembler;
+import PAI.domain.teacher.ITeacherFactory;
+import PAI.domain.teacher.TeacherFactoryImpl;
 import PAI.persistence.mem.degreeType.DegreeTypeListFactoryImpl;
 import PAI.persistence.mem.degreeType.DegreeTypeRepositoryImpl;
 import PAI.persistence.mem.degreeType.IDegreeTypeListFactory;
@@ -50,6 +54,8 @@ import PAI.persistence.mem.programmeEditionEnrolment.ProgrammeEditionEnrolmentRe
 import PAI.persistence.mem.programmeEnrolment.ProgrammeEnrolmentRepositoryImpl;
 import PAI.domain.repositoryInterfaces.programmeEdition.IProgrammeEditionRepository;
 import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
+import PAI.persistence.springdata.department.DepartmentRepositorySpringDataImpl;
+import PAI.persistence.springdata.teacher.TeacherRepositorySpringDataImpl;
 import PAI.service.degreeType.DegreeTypeRegistrationServiceImpl;
 import PAI.service.degreeType.DegreeTypeService;
 import PAI.service.degreeType.IDegreeTypeRegistrationService;
@@ -62,6 +68,8 @@ import PAI.service.programme.IProgrammeService;
 import PAI.service.programme.ProgrammeServiceImpl;
 import PAI.service.schoolYear.ISchoolYearService;
 import PAI.service.schoolYear.SchoolYearServiceImpl;
+import PAI.service.teacher.ITeacherService;
+import PAI.service.teacher.TeacherServiceImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -519,7 +527,11 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
         IDegreeTypeRegistrationService degreeTypeRegistrationService = new DegreeTypeRegistrationServiceImpl(degreeTypeFactory, degreeTypeRepository);
 
-        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService);
+        ITeacherFactory teacherFactory = mock(TeacherFactoryImpl.class);
+        ITeacherRepository teacherRepository = mock(TeacherRepositorySpringDataImpl.class);
+        ITeacherService teacherService = new TeacherServiceImpl(teacherFactory, teacherRepository);
+
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService, departmentService, teacherService);
 
 
         US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller = new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(programmeEditionEnrolmentService, schoolYearService, departmentService, programmeService);
@@ -660,7 +672,11 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
         IDegreeTypeRegistrationService degreeTypeRegistrationService = new DegreeTypeRegistrationServiceImpl(degreeTypeFactory, degreeTypeRepository);
 
-        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService);
+        ITeacherFactory teacherFactory = mock(TeacherFactoryImpl.class);
+        ITeacherRepository teacherRepository = mock(TeacherRepositorySpringDataImpl.class);
+        ITeacherService teacherService = new TeacherServiceImpl(teacherFactory, teacherRepository);
+
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService, departmentService, teacherService);
 
         // act
         Exception exception = assertThrows(Exception.class, () -> {
@@ -793,7 +809,6 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
         ISchoolYearAssembler schoolYearMapperDTO = new SchoolYearAssembler(schoolYearFactory);
         SchoolYearServiceImpl schoolYearService = new SchoolYearServiceImpl(schoolYearRepository,schoolYearFactoryImpl, schoolYearMapperDTO);
-        DepartmentServiceImpl departmentService = null;
         IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
 
         IDegreeTypeListFactory degreeTypeListFactory = new DegreeTypeListFactoryImpl();
@@ -801,11 +816,14 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
         IDegreeTypeRegistrationService degreeTypeRegistrationService = new DegreeTypeRegistrationServiceImpl(degreeTypeFactory, degreeTypeRepository);
 
-        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService);
+        IDepartmentService departmentService = mock(IDepartmentService.class);
+        ITeacherService teacherService = mock(TeacherServiceImpl.class);
+
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService, departmentService, teacherService);
 
         // act
         Exception exception = assertThrows(Exception.class, () -> {
-            US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller = new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(programmeEditionEnrolmentService, schoolYearService, departmentService, programmeService);
+            US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller = new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(programmeEditionEnrolmentService, schoolYearService, null, programmeService);
             controller.countStudentsInProgrammesFromDepartmentInSchoolYear(department.identity(), schoolYear1.identity());
         });
         // Assert
@@ -922,7 +940,11 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
         IDegreeTypeRegistrationService degreeTypeRegistrationService = new DegreeTypeRegistrationServiceImpl(degreeTypeFactory, degreeTypeRepository);
 
-        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService);
+        ITeacherFactory teacherFactory = mock(TeacherFactoryImpl.class);
+        ITeacherRepository teacherRepository = mock(TeacherRepositorySpringDataImpl.class);
+        ITeacherService teacherService = new TeacherServiceImpl(teacherFactory, teacherRepository);
+
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService, departmentService, teacherService);
 
         // act
         Exception exception = assertThrows(Exception.class, () -> {
@@ -1199,7 +1221,11 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
         IDegreeTypeRegistrationService degreeTypeRegistrationService = new DegreeTypeRegistrationServiceImpl(degreeTypeFactory, degreeTypeRepository);
 
-        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService);
+        ITeacherFactory teacherFactory = mock(TeacherFactoryImpl.class);
+        ITeacherRepository teacherRepository = mock(TeacherRepositorySpringDataImpl.class);
+        ITeacherService teacherService = new TeacherServiceImpl(teacherFactory, teacherRepository);
+
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService, departmentService, teacherService);
 
         US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller = new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(programmeEditionEnrolmentService, schoolYearService, departmentService, programmeService);
 
@@ -1343,7 +1369,11 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
         IDegreeTypeRegistrationService degreeTypeRegistrationService = new DegreeTypeRegistrationServiceImpl(degreeTypeFactory, degreeTypeRepository);
 
-        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService);
+        ITeacherFactory teacherFactory = mock(TeacherFactoryImpl.class);
+        ITeacherRepository teacherRepository = mock(TeacherRepositorySpringDataImpl.class);
+        ITeacherService teacherService = new TeacherServiceImpl(teacherFactory, teacherRepository);
+
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService, departmentService, teacherService);
 
         US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller = new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(programmeEditionEnrolmentService, schoolYearService, departmentService, programmeService);
 
@@ -1486,7 +1516,11 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
         IDegreeTypeRegistrationService degreeTypeRegistrationService = new DegreeTypeRegistrationServiceImpl(degreeTypeFactory, degreeTypeRepository);
 
-        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService);
+        ITeacherFactory teacherFactory = mock(TeacherFactoryImpl.class);
+        ITeacherRepository teacherRepository = mock(TeacherRepositorySpringDataImpl.class);
+        ITeacherService teacherService = new TeacherServiceImpl(teacherFactory, teacherRepository);
+
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService, departmentService, teacherService);
 
         US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller = new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(programmeEditionEnrolmentService, schoolYearService, departmentService, programmeService);
 
@@ -1631,7 +1665,11 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
         IDegreeTypeRegistrationService degreeTypeRegistrationService = new DegreeTypeRegistrationServiceImpl(degreeTypeFactory, degreeTypeRepository);
 
-        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService);
+        ITeacherFactory teacherFactory = mock(TeacherFactoryImpl.class);
+        ITeacherRepository teacherRepository = mock(TeacherRepositorySpringDataImpl.class);
+        ITeacherService teacherService = new TeacherServiceImpl(teacherFactory, teacherRepository);
+
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService, departmentService, teacherService);;
 
         US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller = new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(programmeEditionEnrolmentService, schoolYearService, departmentService, programmeService);
 
@@ -1777,7 +1815,11 @@ class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearControllerTest {
         IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
         IDegreeTypeRegistrationService degreeTypeRegistrationService = new DegreeTypeRegistrationServiceImpl(degreeTypeFactory, degreeTypeRepository);
 
-        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService);
+        ITeacherFactory teacherFactory = mock(TeacherFactoryImpl.class);
+        ITeacherRepository teacherRepository = mock(TeacherRepositorySpringDataImpl.class);
+        ITeacherService teacherService = new TeacherServiceImpl(teacherFactory, teacherRepository);
+
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService, departmentService, teacherService);
 
         US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController controller = new US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController(programmeEditionEnrolmentService, schoolYearService, departmentService, programmeService);
 

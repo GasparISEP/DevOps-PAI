@@ -46,12 +46,16 @@ import PAI.service.course.CourseServiceImpl;
 import PAI.service.courseInStudyPlan.CourseInStudyPlanServiceImpl;
 import PAI.service.degreeType.DegreeTypeRegistrationServiceImpl;
 import PAI.service.degreeType.IDegreeTypeRegistrationService;
+import PAI.service.department.DepartmentServiceImpl;
+import PAI.service.department.IDepartmentService;
 import PAI.service.programme.ProgrammeServiceImpl;
 import PAI.service.studyPlan.IStudyPlanService;
 import PAI.service.course.ICourseService;
 import PAI.service.courseInStudyPlan.ICourseInStudyPlanService;
 import PAI.service.programme.IProgrammeService;
 import PAI.service.studyPlan.StudyPlanServiceImpl;
+import PAI.service.teacher.ITeacherService;
+import PAI.service.teacher.TeacherServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -293,7 +297,9 @@ public class US03AddCourseToProgrammeControllerTest {
         degreeTypeListFactory = new DegreeTypeListFactoryImpl();
         degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
         programmeAssembler = new ProgrammeAssembler();
-        programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService);
+        IDepartmentService departmentService = mock(DepartmentServiceImpl.class);
+        ITeacherService teacherService = mock(TeacherServiceImpl.class);
+        programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService, departmentService, teacherService);
 
         courseFactory = new CourseFactoryImpl();
         courseRepositoryListFactory = new CourseRepositoryListFactoryImpl();
