@@ -14,6 +14,8 @@ import PAI.exception.AlreadyRegisteredException;
 import PAI.exception.BusinessRuleViolationException;
 import PAI.exception.NotFoundException;
 import PAI.service.degreeType.IDegreeTypeRegistrationService;
+import PAI.service.department.IDepartmentService;
+import PAI.service.teacher.ITeacherService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -27,9 +29,11 @@ public class ProgrammeServiceImpl implements IProgrammeService {
     private final IProgrammeRepository _programmeRepository;
     private final IProgrammeAssembler _programmeAssembler;
     private final IDegreeTypeRegistrationService _degreeTypeService;
+    private final IDepartmentService _departmentService;
+    private final ITeacherService _teacherService;
 
     public ProgrammeServiceImpl(IProgrammeFactory programmeFactory, IProgrammeRepository programmeRepository,
-                                IProgrammeAssembler programmeAssembler, IDegreeTypeRegistrationService degreeTypeService) {
+                                IProgrammeAssembler programmeAssembler, IDegreeTypeRegistrationService degreeTypeService, IDepartmentService departmentService, ITeacherService teacherService) {
 
         if (programmeFactory == null) {
             throw new IllegalArgumentException("Programme Factory cannot be null");
@@ -47,9 +51,19 @@ public class ProgrammeServiceImpl implements IProgrammeService {
         this._programmeAssembler = programmeAssembler;
 
         if (degreeTypeService == null)
-            throw new IllegalArgumentException("Degree Type Registration Service cannot be null");
+            throw new IllegalArgumentException("Degree Type Service cannot be null");
 
         _degreeTypeService = degreeTypeService;
+
+        if (departmentService == null)
+            throw new IllegalArgumentException("Department Service cannot be null");
+
+        _departmentService = departmentService;
+
+        if (teacherService == null)
+            throw new IllegalArgumentException("Teacher Service cannot be null");
+
+        _teacherService = teacherService;
     }
 
     public Programme registerProgramme(ProgrammeVOsDTO programmeVOsDTO) throws Exception {
