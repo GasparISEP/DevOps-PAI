@@ -1,15 +1,15 @@
-const API_URL = process.env.REACT_APP_API_URL
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8081';
 
 export async function updateTeacherCategory (payload) {
-    const { teacher, ...rest } = payload;
+    const { teacherId, teacherCategoryID, date } = payload;
 
-    const response = await fetch(`${API_URL}/teachers/${teacher}/careerprogressions/category`, {
+    const response = await fetch(`${API_URL}/teachers/${teacherId}/careerprogressions/category`, {
         method: 'POST',
         headers: {
             'Content-type': 'application/json'
         },
         body: JSON.stringify({
-            teacherCategoryID: payload.teacherCategory,
+            teacherCategoryID: payload.teacherCategoryID,
             date: payload.date
         })
     });
