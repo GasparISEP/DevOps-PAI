@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.UUID;
 
 @Component
 public class CourseEditionServiceAssemblerImpl implements ICourseEditionServiceAssembler {
@@ -20,6 +21,7 @@ public class CourseEditionServiceAssemblerImpl implements ICourseEditionServiceA
         if (courseEdition == null) {
             throw new IllegalArgumentException("CourseEdition cannot be null");
         }
+        UUID generatedId = courseEdition.getCourseEditionGeneratedID().getCourseEditionGeneratedID();
         CourseInStudyPlanID cspID = courseEdition.getCourseInStudyPlanID();
         ProgrammeEditionID peID = courseEdition.getProgrammeEditionID();
 
@@ -37,7 +39,7 @@ public class CourseEditionServiceAssemblerImpl implements ICourseEditionServiceA
         );
 
         return new CourseEditionServiceResponseDTO(
-                courseEdition.getCourseEditionGeneratedID().getCourseEditionGeneratedID(),
+                generatedId,
                 programmeID.getProgrammeAcronym(),
                 schoolYearID.getSchoolYearID(),
                 cspID.getCourseID().getCourseAcronymValue(),
