@@ -1,5 +1,6 @@
 .teacher-category-img-background {
     background-image: url("../../src/assets/images/teacher-category-image.jpg") !important;
+    background-position: top center;
 }
 
 input[type=number]::-webkit-inner-spin-button,
