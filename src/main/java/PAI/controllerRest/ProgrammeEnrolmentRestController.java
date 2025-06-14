@@ -65,15 +65,20 @@ public class ProgrammeEnrolmentRestController {
     public ResponseEntity<List<ProgrammeEditionIdDto>> getProgrammeEditionsWhereStudentCanBeEnrolled(
             @PathVariable("programmeEnrolmentGID") UUID programmeEnrolmentGID) {
         try {
-            ProgrammeEnrolmentIdDTO dto = new ProgrammeEnrolmentIdDTO(programmeEnrolmentGID);
+            System.out.println("GID recebido: " + programmeEnrolmentGID);
 
+            ProgrammeEnrolmentIdDTO dto = new ProgrammeEnrolmentIdDTO(programmeEnrolmentGID);
             ProgrammeEnrolmentGeneratedID programmeEnrolmentGeneratedID = iprogrammeEnrolmentAssembler.toProgrammeEnrolmentGeneratedID(dto);
 
             LocalDate programmeEnrolmentDate = iStudentProgrammeEnrolmentService.findDateByProgrammeEnrolmentGeneratedID(programmeEnrolmentGeneratedID);
-
             ProgrammeID programmeID = iStudentProgrammeEnrolmentService.findProgrammeIDByProgrammeEnrolmentGeneratedID(programmeEnrolmentGeneratedID);
 
+            System.out.println("Programa ID: " + programmeID);
+            System.out.println("Data de inscrição: " + programmeEnrolmentDate);
+
             List<ProgrammeEditionID> editions = iStudentProgrammeEnrolmentService.getAvailableProgrammeEditions(programmeID, programmeEnrolmentDate);
+
+            System.out.println("Editions encontradas: " + editions.size());
 
             List<ProgrammeEditionIdDto> dtos = editions.stream()
                     .map(iProgrammeEditionControllerAssembler::toIdDto)
@@ -81,6 +86,7 @@ public class ProgrammeEnrolmentRestController {
 
             return ResponseEntity.ok(dtos);
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }

@@ -137,8 +137,8 @@ class TeacherCategoryExternalAssemblerImplTest {
 
         //assert
         assertNotNull(result);
-        assertEquals("3f7bfe9a-d0e7-4b18-9b42-4b0a3f3e0c85", result.name());
-        assertEquals("Assistant Professor", result.id());
+        assertEquals("3f7bfe9a-d0e7-4b18-9b42-4b0a3f3e0c85", result.id());
+        assertEquals("Assistant Professor", result.name());
     }
 
     @Test

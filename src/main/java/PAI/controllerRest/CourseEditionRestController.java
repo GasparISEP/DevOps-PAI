@@ -68,17 +68,17 @@ public CourseEditionRestController(
         IStudentCountAssembler studentCountAssembler, ICourseEditionEnrolmentHateoasAssembler courseEditionEnrolmentHateoasAssembler
 ) {
     this.courseEditionEnrolmentService = validateNotNull(courseEditionEnrolmentService, "CourseEditionEnrolmentService");
-    this.courseEditionEnrolmentAssembler = courseEditionEnrolmentAssembler;
-    this.createCourseEditionService = createCourseEditionService;
-    this.courseEditionService = courseEditionService;
-    this.courseEditionAssembler = courseEditionAssembler;
-    this.gradeAStudentService = gradeAStudentService;
-    this.studentGradeAssembler = studentGradeAssembler;
-    this.programmeEditionAssembler = programmeEditionAssembler;
-    this.defineRucService = defineRucService;
-    this.courseEditionHateoasAssembler = courseEditionHateoasAssembler;
-    this.studentCountAssembler = studentCountAssembler;
-    this.courseEditionEnrolmentHateoasAssembler = Objects.requireNonNull(courseEditionEnrolmentHateoasAssembler);
+    this.courseEditionEnrolmentAssembler = validateNotNull(courseEditionEnrolmentAssembler, "CourseEditionEnrolmentAssembler");
+    this.createCourseEditionService = validateNotNull(createCourseEditionService, "CreateCourseEditionService");
+    this.courseEditionService = validateNotNull(courseEditionService, "CourseEditionService");
+    this.courseEditionAssembler = validateNotNull(courseEditionAssembler, "CourseEditionAssembler");
+    this.gradeAStudentService = validateNotNull(gradeAStudentService, "GradeAStudentService");
+    this.studentGradeAssembler = validateNotNull(studentGradeAssembler, "StudentGradeAssembler");
+    this.programmeEditionAssembler = validateNotNull(programmeEditionAssembler, "ProgrammeEditionServiceAssembler");
+    this.defineRucService = validateNotNull(defineRucService, "DefineRucService");
+    this.courseEditionHateoasAssembler = validateNotNull(courseEditionHateoasAssembler, "CourseEditionHateoasAssembler");
+    this.studentCountAssembler = validateNotNull(studentCountAssembler, "StudentCountAssembler");
+    this.courseEditionEnrolmentHateoasAssembler = validateNotNull(courseEditionEnrolmentHateoasAssembler, "CourseEditionEnrolmentHateoasAssembler");
 }
 
     @PostMapping("/students/{id}/courses-edition-enrolments")
