@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { defineRucInCourseEdition, getAllSchoolYears } from '../../services/defineRucInCourseEditionService';
+import { defineRucInCourseEdition, getAllSchoolYears } from '../../services/DefineRucInCourseEditionService';
 import ISEPLogoBranco from '../../assets/images/ISEP_logo-branco.png';
 import '../../styles/Form.css';
 import '../../styles/NavBar.css';
