@@ -28,7 +28,7 @@ describe('CategorySelect', () => {
         setup();
         const options = screen.getAllByRole('option');
         expect(options).toHaveLength(mockOptions.length + 1); // includes default
-        expect(options[0].textContent).toBe('-- Select a Category --');
+        expect(options[0].textContent).toBe('Select a Teacher Category');
         expect(options[1].textContent).toBe('Beginner');
         expect(options[2].textContent).toBe('Advanced');
     });
