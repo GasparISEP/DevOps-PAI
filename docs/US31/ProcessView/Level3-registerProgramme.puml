@@ -3,12 +3,16 @@
 autonumber
 
 participant "<<Component>>\n:Router" as RT #lightpink
-participant "<<Component>>\n:ProgrammeRestController" as C #lightgreen
-participant "<<Component>>\n:ProgrammeService" as PS #lightblue
-participant "<<Component>>\n:DegreeTypeService" as DTS #lightblue
-participant "<<Component>>\n:ProgrammeRepository" as PR #lightyellow
-participant "<<Component>>\n:DegreeTypeRepository" as DTR #lightyellow
+participant "<<Component>>\npCtrl:ProgrammeRestController" as C #lightgreen
+participant "<<Component>>\npService:ProgrammeService" as PS #lightblue
+participant "<<Component>>\ndService:DepartmentService" as DS #lightpink
+participant "<<Component>>\ntService:TeacherService" as TS #lightgreen
+participant "<<Component>>\ndtService:DegreeTypeService" as DTS #lightblue
+participant "<<Component>>\npRepo:ProgrammeRepository" as PR #lightyellow
+participant "<<Component>>\ndtRepo:DegreeTypeRepository" as DTR #lightyellow
 participant "<<Component>>\n:Domain" as D #lightpink
+participant "<<Component>>\ndRepo:DepartmentRepository" as DR #lightblue
+participant "<<Component>>\ntRepo:TeacherRepository" as TR #lightgreen
 participant "Programme1:Programme" as P
 participant "<<Component>>\n:Drivers" as Drivers #lightyellow
 
@@ -17,12 +21,28 @@ participant "<<Component>>\n:Drivers" as Drivers #lightyellow
 RT -> C ++: registerProgramme (ProgrammeDTO)
 C -> PS ++: registerProgramme (ProgrammeVOsDTO)
 
-PS -> D ++: registerProgramme (name, acronym, maxECTS, \nquantSemesters, degreeType, department, programmeDirector)
-D -> P** : newProgramme (name, acronym, maxECTS, \nquantSemesters, degreeType, department, programmeDirector)
+PS -> D ++: registerProgramme (name, acronym, maxECTS, \nquantSemesters, degreeTypeID, departmentID, teacherID)
+D -> P** : newProgramme (name, acronym, maxECTS, \nquantSemesters, degreeTypeID, departmentID, teacherID)
 activate P
 P --> D: Programme1
 deactivate P
 D --> PS --: Programme1
+
+PS -> DS ++: containsOfIdentity(departmentID)
+DS -> Drivers ++: containsOfIdentity(departmentID)
+Drivers ->o] : containsOfIdentity(departmentID)
+Drivers <--o] : True
+Drivers --> DS --: True
+DS --> PS --: True
+
+PS -> TS ++: containsOfIdentity(teacherID)
+TS -> TR ++: containsOfIdentity(teacherID)
+TR -> Drivers ++: containsOfIdentity(teacherID)
+Drivers ->o] : containsOfIdentity(teacherID)
+Drivers <--o] : True
+Drivers --> TR --: True
+TR --> TS --: True
+TS --> PS --: True
 
 PS -> DTS ++: getDegreeTypeByID(degreeTypeID)
 DTS -> DTR ++: ofIdentity(degreeTypeID)
@@ -43,17 +63,17 @@ Drivers --> PR --: False
 PR --> PS --: False
 
 PS -> PR ++: isAcronymAlreadyRegistered (acronym)
-PR -> Drivers ++: existsByAcronym (name)
-Drivers ->o] : existsByAcronym (name)
+PR -> Drivers ++: containsOfIdentity (acronym)
+Drivers ->o] : containsOfIdentity (acronym)
 Drivers <--o] : False
 Drivers --> PR --: False
 PR --> PS --: False
 
 PS -> PR ++: save(Programme1)
 PR -> Drivers ++: save(Programme1)
-Drivers ->o] : save(Programme1)
-Drivers <--o] : Programme1
-Drivers --> PR --: Programme1
+Drivers ->o] : save(ProgrammeDataModel)
+Drivers <--o] : ProgrammeDataModel
+Drivers --> PR --: ProgrammeDataModel
 PR --> PS --: Programme1
 
 PS --> C --: Programme1

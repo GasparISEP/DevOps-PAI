@@ -11,6 +11,8 @@ participant "tCtrl:TeacherRestController" as tC #lightyellow
 participant "pCtrl:ProgrammeRestController" as C #implementation
 participant "pService:ProgrammeService" as PS #physical
 participant "pFactory:ProgrammeFactory" as PF #strategy
+participant "dService:DepartmentService" as DS #lightpink
+participant "tService:TeacherService" as TS #lightgreen
 participant "PID1:ProgrammeId" as PID #lightgrey
 participant "P1:Programme" as P #lightpink
 participant "pRepo:ProgrammeRepository" as PR #lightcyan
@@ -67,6 +69,19 @@ activate P
 
 P --> PF --: P1
 PF --> PS --: P1
+
+PS -> DS ++: containsOfIdentity(departmentID)
+DS ->o] : containsOfIdentity(departmentID)
+DS <--o] : True
+DS --> PS --: True
+
+PS -> TS ++: containsOfIdentity(teacherID)
+TS -> Drivers ++: containsOfIdentity(teacherID)
+Drivers ->o] : containsOfIdentity(teacherID)
+Drivers <--o] : True
+Drivers --> TS --: True
+TS --> PS --: True
+
 
 ref over PS
     Verify if the Quantity of Semesters and the Degree Type are aligned
