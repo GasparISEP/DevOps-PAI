@@ -17,7 +17,7 @@ import java.util.UUID;
 public class CourseEditionServiceAssemblerImpl implements ICourseEditionServiceAssembler {
 
     @Override
-    public CourseEditionServiceResponseDTO toResponseDTO(CourseEdition courseEdition) {
+    public CourseEditionServiceResponseDTO toServiceResponseDTO(CourseEdition courseEdition) {
         if (courseEdition == null) {
             throw new IllegalArgumentException("CourseEdition cannot be null");
         }

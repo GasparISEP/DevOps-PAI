@@ -56,7 +56,7 @@ class CourseEditionServiceAssemblerImplTest {
         when(courseEdition.getCourseInStudyPlanID()).thenReturn(courseInStudyPlanID);
 
         // Act
-        CourseEditionServiceResponseDTO dto = assembler.toResponseDTO(courseEdition);
+        CourseEditionServiceResponseDTO dto = assembler.toServiceResponseDTO(courseEdition);
 
         // Assert
         String expectedFormattedID = URLEncoder.encode(
@@ -85,7 +85,7 @@ class CourseEditionServiceAssemblerImplTest {
 
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> {
-            assembler.toResponseDTO(null);
+            assembler.toServiceResponseDTO(null);
         });
     }
 
