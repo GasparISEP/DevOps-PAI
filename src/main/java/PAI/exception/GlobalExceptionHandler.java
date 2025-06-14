@@ -101,4 +101,14 @@ public class GlobalExceptionHandler {
         ErrorResponse errorResponse = new ErrorResponse(message, "BAD_REQUEST");
         return ResponseEntity.badRequest().body(errorResponse);
     }
+
+    @ExceptionHandler(CourseEditionCreationException.class)
+    public ResponseEntity<ErrorResponse> handleCourseEditionCreationException(CourseEditionCreationException ex) {
+        ErrorResponse error = new ErrorResponse(
+                "CREATION_FAILED",
+                ex.getMessage()
+        );
+        return ResponseEntity.badRequest().body(error);
+    }
+
 }
