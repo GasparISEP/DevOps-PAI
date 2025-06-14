@@ -3,6 +3,8 @@ package PAI.service.programme;
 import PAI.VOs.*;
 import PAI.assembler.programme.IProgrammeAssembler;
 import PAI.domain.degreeType.DegreeType;
+import PAI.domain.department.IDepartmentFactory;
+import PAI.domain.repositoryInterfaces.department.IDepartmentRepository;
 import PAI.domain.teacher.Teacher;
 import PAI.domain.programme.Programme;
 import PAI.domain.programme.IProgrammeFactory;
@@ -15,6 +17,7 @@ import PAI.exception.BusinessRuleViolationException;
 import PAI.exception.NotFoundException;
 import PAI.service.degreeType.DegreeTypeRegistrationServiceImpl;
 import PAI.service.degreeType.IDegreeTypeRegistrationService;
+import PAI.service.department.DepartmentServiceImpl;
 import org.apache.commons.lang3.stream.Streams;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -935,5 +938,45 @@ class ProgrammeServiceImplTest {
         assertEquals(2, result.size());
         assertTrue(result.contains(_programmeDouble));
         assertTrue(result.contains(_programme2Double));
+    }
+
+    @Test
+    void shouldReturnTrueWhenContainsIdentity(){
+        //Arrange
+        createDoubles();
+        IProgrammeService programmeService = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService);
+
+        when(_programmeRepositoryDouble.containsOfIdentity(_programmeIDDouble)).thenReturn(true);
+
+        //Act
+        boolean result = programmeService.containsOfIdentity(_programmeIDDouble);
+
+        //Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenDoesntContainsIdentity(){
+        //Arrange
+        createDoubles();
+        IProgrammeService programmeService = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService);
+
+        when(_programmeRepositoryDouble.containsOfIdentity(_programmeIDDouble)).thenReturn(false);
+
+        //Act
+        boolean result = programmeService.containsOfIdentity(_programmeIDDouble);
+
+        //Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldThrowExceptionIfNullParameterForContainsOfIdentity(){
+        //Arrange
+        createDoubles();
+        IProgrammeService programmeService = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService);
+
+        //Act
+        assertThrows(IllegalArgumentException.class,() -> programmeService.containsOfIdentity(null));
     }
 }
