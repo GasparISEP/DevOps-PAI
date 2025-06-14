@@ -5,5 +5,7 @@ import PAI.dto.courseEdition.CourseEditionResponseDTO;
 import PAI.dto.courseEdition.CourseEditionServiceResponseDTO;
 
 public interface ICourseEditionServiceAssembler {
-    CourseEditionServiceResponseDTO toResponseDTO(CourseEdition courseEdition);
+
+    CourseEditionServiceResponseDTO toServiceResponseDTO(CourseEdition courseEdition);
+
 }
