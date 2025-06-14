@@ -1,24 +1,57 @@
+/* ======== LAYOUT DA PÁGINA (AUTO-CONTIDO) ======== */
+
+.component-page-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f4f5f7; /* Fundo suave para a página inteira */
+}
+
+.component-main-content {
+    flex-grow: 1; /* Esta área cresce para ocupar o espaço livre */
+    display: flex; /* Adicionado para ajudar a centrar o cartão */
+    flex-direction: column;
+    justify-content: center; /* Centra o cartão verticalmente se houver muito espaço */
+}
+
+.component-footer-wrapper {
+    background-color: #1f0507; /* Cor de fundo escura para a faixa do rodapé */
+    width: 100%;
+}
+
+
+/* ======== ESTILOS DO CARTÃO DE CONTEÚDO ======== */
+
 .tcp-container {
     max-width: fit-content;
-    margin: 2rem auto;
+    /* Margem para centrar horizontalmente e dar espaço em cima e baixo */
+    margin: 5rem auto;
     padding: 1rem;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: rgba(250, 250, 250, 0.8);
+    background-color: #ffffff;
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    display: block;
-    width: fit-content;
+
+    /* A tua borda e sombra vermelha preferida, combinada com a sombra de profundidade */
     border: 2px solid rgba(154, 26, 36, 0.3);
-    box-shadow: 0 0 10px rgba(154, 26, 36, 0.4);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 0 12px 4px rgba(154, 26, 36, 0.35);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tcp-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 28px -5px rgba(0, 0, 0, 0.15), 0 0 15px 5px rgba(154, 26, 36, 0.4);
 }
 
 .tcp-title {
     text-align: center;
     margin-bottom: 2rem;
     font-weight: 700;
-    font-size: 2rem;
-    color: #9a1a24;
+    font-size: 2.2rem;
+    color: #1a1a1a;
 }
+
+
+/* ======== ESTILOS DA TABELA ======== */
 
 .tcp-table {
     width: auto;
@@ -26,7 +59,6 @@
     border-spacing: 0 0.5rem;
     table-layout: auto;
     margin: 0 auto;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .tcp-row {
@@ -35,7 +67,7 @@
 }
 
 .tcp-label {
-    background: rgba(154, 26, 36);
+    background: #9a1a24;
     color: #fff;
     font-weight: 600;
     padding: 0.75rem 1.5rem;
@@ -44,22 +76,22 @@
     white-space: nowrap;
     border-radius: 6px 0 0 6px;
     width: 1px;
-    max-width: 200px;
 }
 
 .tcp-value {
     padding: 0.75rem 1.5rem;
     font-size: 1.5rem;
-    color: #111;
-    font-weight: 400;
+    color: #333;
+    font-weight: 500;
     text-align: left;
     white-space: nowrap;
     border-radius: 0 6px 6px 0;
+    border: 1px solid #eee;
+    border-left: none;
 }
 
-.tcp-table tbody tr:hover td {
-    background-color: #f0f8ff;
-}
+
+/* ======== ESTILOS DE ESTADO (LOADING/ERRO) ======== */
 
 .loading,
 .error,
