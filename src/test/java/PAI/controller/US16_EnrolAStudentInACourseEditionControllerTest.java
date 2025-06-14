@@ -47,6 +47,20 @@ import static org.mockito.Mockito.when;
 
 class US16_EnrolAStudentInACourseEditionControllerTest {
 
+    private CourseEditionEnrolmentGeneratedID _ceeGeneratedIDDouble;
+    private StudentID _studentIDDouble;
+    private CourseEditionID _ceIDDouble;
+    private Date _enrolmentDateDouble;
+    private EnrolmentStatus _statusDouble;
+
+    void createDoubles() {
+        _ceeGeneratedIDDouble = mock(CourseEditionEnrolmentGeneratedID.class);
+        _studentIDDouble = mock(StudentID.class);
+        _ceIDDouble = mock(CourseEditionID.class);
+        _enrolmentDateDouble = mock(Date.class);
+        _statusDouble = mock(EnrolmentStatus.class);
+    }
+
     //testing constructor of US16 controller
 
     @Test
@@ -156,13 +170,10 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(
                 doubleCeeServiceInterface);
 
-        StudentID doubleStudentID = mock(StudentID.class);
-        CourseEditionID doubleCEID = mock(CourseEditionID.class);
-
-        when(doubleCeeServiceInterface.enrolStudentInACourseEdition(doubleStudentID, doubleCEID)).thenReturn(true);
+        when(doubleCeeServiceInterface.enrolStudentInACourseEditionFromPersistence(_ceeGeneratedIDDouble, _studentIDDouble, _ceIDDouble, _enrolmentDateDouble, _statusDouble)).thenReturn(true);
 
         //act
-        boolean result = controller.enrolStudentInCourseEdition(doubleStudentID, doubleCEID);
+        boolean result = controller.enrolStudentInCourseEdition(_ceeGeneratedIDDouble, _studentIDDouble, _ceIDDouble, _enrolmentDateDouble, _statusDouble);
 
         //assert
         assertTrue(result);
@@ -180,14 +191,14 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseEditionID doubleCEID = mock(CourseEditionID.class);
         StudentID doubleStudentID2 = mock(StudentID.class);
 
-        when(doubleCeeServiceInterface.enrolStudentInACourseEdition(doubleStudentID1, doubleCEID)).thenReturn(true);
+        when(doubleCeeServiceInterface.enrolStudentInACourseEditionFromPersistence(_ceeGeneratedIDDouble, doubleStudentID1, doubleCEID, _enrolmentDateDouble, _statusDouble)).thenReturn(true);
 
-        controller.enrolStudentInCourseEdition(doubleStudentID1, doubleCEID);
+        controller.enrolStudentInCourseEdition(_ceeGeneratedIDDouble, doubleStudentID1, doubleCEID, _enrolmentDateDouble, _statusDouble);
 
-        when(doubleCeeServiceInterface.enrolStudentInACourseEdition(doubleStudentID2, doubleCEID)).thenReturn(true);
+        when(doubleCeeServiceInterface.enrolStudentInACourseEditionFromPersistence(_ceeGeneratedIDDouble, doubleStudentID2, doubleCEID, _enrolmentDateDouble, _statusDouble)).thenReturn(true);
 
         //act
-        boolean result = controller.enrolStudentInCourseEdition(doubleStudentID2, doubleCEID);
+        boolean result = controller.enrolStudentInCourseEdition(_ceeGeneratedIDDouble, doubleStudentID2, doubleCEID, _enrolmentDateDouble, _statusDouble);
 
         //assert
         assertTrue(result);
@@ -207,14 +218,14 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         StudentID doubleStudentID2 = mock(StudentID.class);
         CourseEditionID doubleCEID2 = mock(CourseEditionID.class);
 
-        when(doubleCeeServiceInterface.enrolStudentInACourseEdition(doubleStudentID1, doubleCEID1)).thenReturn(true);
+        when(doubleCeeServiceInterface.enrolStudentInACourseEditionFromPersistence(_ceeGeneratedIDDouble, doubleStudentID1, doubleCEID1, _enrolmentDateDouble, _statusDouble)).thenReturn(true);
 
-        controller.enrolStudentInCourseEdition(doubleStudentID1, doubleCEID1);
+        controller.enrolStudentInCourseEdition(_ceeGeneratedIDDouble, doubleStudentID1, doubleCEID1, _enrolmentDateDouble, _statusDouble);
 
-        when(doubleCeeServiceInterface.enrolStudentInACourseEdition(doubleStudentID2, doubleCEID2)).thenReturn(true);
+        when(doubleCeeServiceInterface.enrolStudentInACourseEditionFromPersistence(_ceeGeneratedIDDouble, doubleStudentID2, doubleCEID2, _enrolmentDateDouble, _statusDouble)).thenReturn(true);
 
         //act
-        boolean result = controller.enrolStudentInCourseEdition(doubleStudentID2, doubleCEID2);
+        boolean result = controller.enrolStudentInCourseEdition(_ceeGeneratedIDDouble, doubleStudentID2, doubleCEID2, _enrolmentDateDouble, _statusDouble);
 
         //assert
         assertTrue(result);
@@ -233,14 +244,14 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         CourseEditionID doubleCeID2 = mock(CourseEditionID.class);
 
-        when(doubleCeeServiceInterface.enrolStudentInACourseEdition(doubleStID1, doubleCeID1)).thenReturn(true);
+        when(doubleCeeServiceInterface.enrolStudentInACourseEditionFromPersistence(_ceeGeneratedIDDouble, doubleStID1, doubleCeID1, _enrolmentDateDouble, _statusDouble)).thenReturn(true);
 
-        controller.enrolStudentInCourseEdition(doubleStID1, doubleCeID1);
+        controller.enrolStudentInCourseEdition(_ceeGeneratedIDDouble, doubleStID1, doubleCeID1, _enrolmentDateDouble, _statusDouble);
 
-        when(doubleCeeServiceInterface.enrolStudentInACourseEdition(doubleStID1, doubleCeID2)).thenReturn(true);
+        when(doubleCeeServiceInterface.enrolStudentInACourseEditionFromPersistence(_ceeGeneratedIDDouble, doubleStID1, doubleCeID2, _enrolmentDateDouble, _statusDouble)).thenReturn(true);
 
         //act
-        boolean result = controller.enrolStudentInCourseEdition(doubleStID1, doubleCeID2);
+        boolean result = controller.enrolStudentInCourseEdition(_ceeGeneratedIDDouble, doubleStID1, doubleCeID2, _enrolmentDateDouble, _statusDouble);
 
         //assert
         assertTrue(result);
@@ -257,10 +268,10 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         StudentID doubleStudentID = mock(StudentID.class);
         CourseEditionID doubleCEID = mock(CourseEditionID.class);
 
-        when(doubleCeeServiceInterface.enrolStudentInACourseEdition(doubleStudentID, doubleCEID)).thenReturn(false);
+        when(doubleCeeServiceInterface.enrolStudentInACourseEditionFromPersistence(_ceeGeneratedIDDouble, doubleStudentID, doubleCEID, _enrolmentDateDouble, _statusDouble)).thenReturn(false);
 
         //act
-        boolean result = controller.enrolStudentInCourseEdition(doubleStudentID, doubleCEID);
+        boolean result = controller.enrolStudentInCourseEdition(_ceeGeneratedIDDouble, doubleStudentID, doubleCEID, _enrolmentDateDouble, _statusDouble);
 
         //assert
         assertFalse(result);
@@ -447,8 +458,11 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeService);
 
+        CourseEditionEnrolmentGeneratedID ceeGeneratedID = new CourseEditionEnrolmentGeneratedID();
         StudentID studentID = mock(StudentID.class);
         StudentID studentID2 = mock(StudentID.class);
+        Date enrolmentDate = new Date("15-07-2016");
+        EnrolmentStatus status = new EnrolmentStatus(true);
 
         Acronym acronym1 = new Acronym("P1");
         ProgrammeID programmeID1 = new ProgrammeID(acronym1);
@@ -486,7 +500,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         ceeRepository.save(cee);
 
         //act
-        boolean result = controller.enrolStudentInCourseEdition(studentID2,ceID1);
+        boolean result = controller.enrolStudentInCourseEdition(ceeGeneratedID, studentID2,ceID1, enrolmentDate, status);
 
         //assert
         assertTrue(result);
@@ -512,7 +526,10 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeService);
 
+        CourseEditionEnrolmentGeneratedID ceeGeneratedID = new CourseEditionEnrolmentGeneratedID();
         StudentID studentID = mock(StudentID.class);
+        Date enrolmentDate = new Date("15-07-2016");
+        EnrolmentStatus status = new EnrolmentStatus(true);
 
         Acronym acronym1 = new Acronym("P1");
         ProgrammeID programmeID1 = new ProgrammeID(acronym1);
@@ -558,7 +575,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         ceeRepository.save(cee);
 
         //act
-        boolean result = controller.enrolStudentInCourseEdition(studentID,ceID2);
+        boolean result = controller.enrolStudentInCourseEdition(ceeGeneratedID, studentID,ceID2, enrolmentDate, status);
 
         //assert
         assertTrue(result);
@@ -584,9 +601,11 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeService);
 
+        CourseEditionEnrolmentGeneratedID ceeGeneratedID = new CourseEditionEnrolmentGeneratedID();
         StudentID studentID = mock(StudentID.class);
         StudentID studentID2 = mock(StudentID.class);
-
+        Date enrolmentDate = new Date("15-07-2016");
+        EnrolmentStatus status = new EnrolmentStatus(true);
 
         Acronym acronym1 = new Acronym("P1");
         ProgrammeID programmeID1 = new ProgrammeID(acronym1);
@@ -632,7 +651,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         ceeRepository.save(cee);
 
         //act
-        boolean result = controller.enrolStudentInCourseEdition(studentID2,ceID2);
+        boolean result = controller.enrolStudentInCourseEdition(ceeGeneratedID, studentID2,ceID2, enrolmentDate, status);
 
         //assert
         assertTrue(result);
@@ -658,7 +677,10 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
 
         US16_EnrolAStudentInACourseEditionController controller = new US16_EnrolAStudentInACourseEditionController(ceeService);
 
+        CourseEditionEnrolmentGeneratedID ceeGeneratedID = new CourseEditionEnrolmentGeneratedID();
         StudentID studentID = mock(StudentID.class);
+        Date enrolmentDate = new Date("15-07-2016");
+        EnrolmentStatus status = new EnrolmentStatus(true);
 
         Acronym acronym1 = new Acronym("P1");
         ProgrammeID programmeID1 = new ProgrammeID(acronym1);
@@ -695,7 +717,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         ceeRepository.save(cee);
 
         //act
-        boolean result = controller.enrolStudentInCourseEdition(studentID,ceID1);
+        boolean result = controller.enrolStudentInCourseEdition(ceeGeneratedID, studentID,ceID1, enrolmentDate, status);
 
         //assert
         assertFalse(result);

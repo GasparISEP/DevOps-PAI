@@ -40,7 +40,7 @@ export default function TeacherForm() {
         async function loadDepartments() {
             try {
                 const deptData = await fetchDepartments();
-                setDepartments(deptData);
+                setDepartments(deptData._embedded?.departmentDTOList || []);
             } catch (err) {
                 console.error("Failed to load departments:", err);
             }

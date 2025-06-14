@@ -26,6 +26,8 @@ export default function ProgrammeForm() {
     const [success, setSuccess] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [showErrorModal, setShowErrorModal] = useState(false);
+    const [detailsDisplayed, setDetailsDisplayed] = useState(false);
+    const [loadingDetails, setLoadingDetails] = useState(false);
 
     useEffect(() => {
         async function fetchOptions() {
@@ -112,6 +114,31 @@ export default function ProgrammeForm() {
             setLoading(false);
         }
     }
+
+    async function handleDisplayDetails() {
+        if (!success?._links?.self?.href) {
+            setError("No details link available");
+            setShowErrorModal(true);
+            return;
+        }
+
+        setLoadingDetails(true);
+
+        try {
+            const res = await fetch(success._links.self.href);
+            if (!res.ok) throw new Error("Failed to fetch programme details");
+
+            const displayProgramme = await res.json();
+            setSuccess(displayProgramme);
+            setDetailsDisplayed(true);
+        } catch (err) {
+            setError(err.message || "Failed to load details");
+            setShowErrorModal(true);
+        } finally {
+            setLoadingDetails(false);
+        }
+    }
+
 
     const selectedDegree = degreeTypes.find(d => d.id.toString() === form.degreeTypeID);
 
@@ -218,7 +245,9 @@ export default function ProgrammeForm() {
                     degreeTypes={degreeTypes}
                     departments={departments}
                     teachers={teachers}
+                    onDisplay={handleDisplayDetails}
                     onClose={() => setShowModal(false)}
+                    detailsDisplayed={detailsDisplayed}
                 />
             )}
 

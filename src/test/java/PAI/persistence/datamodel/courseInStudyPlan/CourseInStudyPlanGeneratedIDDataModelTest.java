@@ -20,7 +20,7 @@ class CourseInStudyPlanGeneratedIDDataModelTest {
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             new CourseInStudyPlanGeneratedIDDataModel(null);
         });
-        assertEquals("Generated ID cannot be null", exception.getMessage());
+        assertEquals("Generated ID cannot be null.", exception.getMessage());
     }
 
     @Test

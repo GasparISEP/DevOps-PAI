@@ -5,6 +5,7 @@ import PAI.assembler.course.ICourseAssembler;
 import PAI.assembler.programmeEdition.IProgrammeEditionControllerAssembler;
 import PAI.assembler.programmeEdition.IProgrammeEditionHateoasAssembler;
 import PAI.dto.Programme.ProgrammeIDDTO;
+import PAI.dto.ProgrammeAndCourses.AvailableCoursesInfoRspDTO;
 import PAI.dto.course.CourseIDDTO;
 import PAI.dto.programmeEdition.*;
 import PAI.dto.programmeEdition.RequestServiceDto;
@@ -108,14 +109,15 @@ public class ProgrammeEditionRestController {
     }
 
     @PostMapping ("/available-courses")
-    public ResponseEntity<List<CourseIDDTO>> getAvailableCourses(@RequestBody ProgrammeEditionIdDto programmeEditionIdDto){
+    public ResponseEntity<List<AvailableCoursesInfoRspDTO>> getAvailableCourses(@RequestBody ProgrammeEditionIdDto programmeEditionIdDto){
         try {
             Acronym acronym = new Acronym(programmeEditionIdDto.programmeAcronym());
             ProgrammeID programmeID = new ProgrammeID(acronym);
             SchoolYearID schoolYearID = new SchoolYearID(UUID.fromString(programmeEditionIdDto.schoolYearId()));
             ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID,schoolYearID);
-            List<CourseID> courseIDS = availableCoursesService.getListOfCourseIdForAGivenProgrammeEdition(programmeEditionID);
-            List<CourseIDDTO> responseDTOS = courseAssembler.toDTOList(courseIDS);
+            List<AvailableCourseInfo> courseIDS = availableCoursesService.getListOfAvailableCourseInfoForAGivenProgrammeEdition(programmeEditionID);
+
+            List<AvailableCoursesInfoRspDTO> responseDTOS = courseAssembler.toAvailableCourseDTOs(courseIDS);
             return ResponseEntity.ok(responseDTOS);
 
         } catch (Exception e) {

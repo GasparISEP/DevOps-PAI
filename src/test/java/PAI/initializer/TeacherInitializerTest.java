@@ -29,24 +29,23 @@ class TeacherInitializerTest {
 
         // assert
         verify(controller).registerTeacher(
-                "AAA", "AAA", "AAA@isep.ipp.pt", "112233445", "911234569",
-                "Bachelor in Astronomy", "Rua Numero 1", "4000-100",
-                "Porto", "Portugal", "AAA", "01-02-2022",
-                "c201a88d-e139-4aea-80f7-5d342c7fac2a", 25, "+351"
+                "AAA", "Alexandra Castro", "AAA@isep.ipp.pt", "112233445", "911234569",
+                "Bachelor in Astronomy", "Rua Número 1", "4000-100",
+                "Porto", "Portugal", "AAU", "01-02-2022",
+                "4b68bc54-1a5f-4d90-af6f-43d65e3a166d", 25, "+351"
         );
 
         verify(controller).registerTeacher(
-                "AAB", "AAB", "AAB@isep.ipp.pt", "112233446", "911234570",
-                "Master in Astronomy", "Praceta Numero 2", "4000-101",
+                "AAB", "Raquel Pinho-Nogueira", "AAB@isep.ipp.pt", "112233446", "911234570",
+                "Master in Astronomy", "Praceta Número 2", "4000-101",
                 "Porto", "Portugal", "AAA", "02-02-2022",
-                "bc4640e6-b793-4db3-9a5f-baa5006453a1", 50, "+351"
+                "582f96e9-16c1-4dec-a871-9353b59ceb6a", 100, "+351"
         );
 
         verify(controller).registerTeacher(
-                "AAC", "AAC", "AAC@isep.ipp.pt", "112233447", "911234571",
-                "PhD in Astronomy", "Rua Numero 3", "4000-102",
-                "Porto", "Portugal", "AAA", "03-02-2022",
-                "aeb0be5c-1b9f-4f51-ace3-35a572a52c2e", 100, "+351"
+                "AAC", "Alexandra Costa", "AAC@isep.ipp.pt", "112233447", "911234571",
+                "Master in History", "Rua Número 3", "4000-102","Porto","Portugal","AAF",
+                "03-02-2022","f937e46e-8b73-4975-93fa-8dfb7640cebc",75,"+351"
         );
     }
 }

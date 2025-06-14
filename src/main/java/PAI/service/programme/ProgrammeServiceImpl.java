@@ -155,13 +155,10 @@ public class ProgrammeServiceImpl implements IProgrammeService {
         return _programmeRepository.findAll();
     }
 
-    public Optional<Programme> getProgrammeByID(ProgrammeID id) {
-        for (Programme programme : _programmeRepository.findAll()) {
-            if (programme.identity().equals(id)) {
-                return Optional.of(programme);
-            }
-        }
-        return Optional.empty();
+    @Override
+    public Optional<ProgrammeDTO> getProgrammeByID(ProgrammeID id) {
+        return _programmeRepository.ofIdentity(id)
+                .map(_programmeAssembler::fromDomainToDTO);
     }
 
     @Override

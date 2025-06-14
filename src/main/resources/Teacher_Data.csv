@@ -1,31 +1,29 @@
 TeacherAcronym;Name;Email;NIF;PhoneNumber;AcademicBackground;Street;PostalCode;Location;Country;DepartmentAcronym;CountryCode;Date;TeacherCategory;WorkingPercentage
-AAA;AAA;AAA@isep.ipp.pt;112233445;911234569;Bachelor in Astronomy;Rua Numero 1;4000-100;Porto;Portugal;AAA;+351;01-02-2022;c201a88d-e139-4aea-80f7-5d342c7fac2a;25
-AAB;AAB;AAB@isep.ipp.pt;112233446;911234570;Master in Astronomy;Praceta Numero 2;4000-101;Porto;Portugal;AAA;+351;02-02-2022;bc4640e6-b793-4db3-9a5f-baa5006453a1;50
-AAC;AAC;AAC@isep.ipp.pt;112233447;911234571;PhD in Astronomy;Rua Numero 3;4000-102;Porto;Portugal;AAA;+351;03-02-2022;aeb0be5c-1b9f-4f51-ace3-35a572a52c2e;100
-AAD;AAD;AAD@isep.ipp.pt;112233448;911234572;Master in Astronomy;Praceta Numero 4;4000-103;Porto;Portugal;AAA;+351;04-02-2022;d84f08e3-6cf0-4563-bd24-d644cd019a74;75
-AAE;AAE;AAE@isep.ipp.pt;112233449;911234573;Bachelor in Astronomy;Rua Numero 5;4000-104;Porto;Portugal;AAA;+351;05-02-2022;a91c12c8-8485-45c4-9cac-854fa4901c0c;75
-AAF;AAF;AAF@isep.ipp.pt;112233450;911234574;Master in Magic;Praceta Numero 6;4000-105;Porto;Portugal;AAF;+351;06-02-2022;792b9747-41a2-4df6-9569-823f835a7d80;25
-AAG;AAG;AAG@isep.ipp.pt;112233451;911234575;PhD in Magic;Rua Numero 7;4000-106;Porto;Portugal;AAF;+351;07-02-2022;725a85c4-4cb3-413d-af2f-0c2e38d45b07;75
-AAH;AAH;AAH@isep.ipp.pt;112233452;911234576;Master in Magic;Praceta Numero 8;4000-107;Porto;Portugal;AAF;+351;08-02-2022;ba1485bb-8d95-4b27-8f46-4b7f9ed654bc;75
-AAI;AAI;AAI@isep.ipp.pt;112233453;911234577;Integrated Master in Magic;Rua Numero 9;4000-108;Porto;Portugal;AAF;+351;09-02-2022;c28fdb35-38bf-42bb-81c7-4e0726d8800e;50
-AAJ;AAJ;AAJ@isep.ipp.pt;112233454;911234578;PhD in Magic;Praceta Numero 10;4000-109;Porto;Portugal;AAF;+351;10-02-2022;fc1626fd-71c8-4ded-b1dd-1f571a6c1041;75
-AAK;AAK;AAK@isep.ipp.pt;112233455;911234579;Master in Magic;Rua Numero 11;4000-110;Porto;Portugal;AAF;+351;11-02-2022;8183d117-a2d0-4f1a-acb9-398f490d8140;75
-AAL;AAL;AAL@isep.ipp.pt;112233456;911234580;Bachelor in Magic;Praceta Numero 12;4000-111;Porto;Portugal;AAF;+351;12-02-2022;5edc6474-763b-43b9-a1e4-18d59b3ec210;75
-AAM;AAM;AAM@isep.ipp.pt;112233457;911234581;PhD in Magic;Rua Numero 13;4000-112;Porto;Portugal;AAF;+351;13-02-2022;f464f357-f148-48a4-b314-a3fea9824428;100
-AAN;AAN;AAN@isep.ipp.pt;112233458;911234582;Master in Astronomy;Praceta Numero 14;4000-113;Porto;Portugal;AAA;+351;14-02-2022;2dd9b75c-778e-484f-9512-9fe07214ca11;100
-AAO;AAO;AAO@isep.ipp.pt;112233459;911234583;Master in Magic;Rua Numero 15;4000-114;Porto;Portugal;AAF;+351;15-02-2022;f973741d-1f69-44c2-b206-d28dc52e67c5;75
-AAP;AAP;AAP@isep.ipp.pt;112233460;911234584;Bachelor in Magic;Praceta Numero 16;4000-115;Porto;Portugal;AAF;+351;16-02-2022;6154cc40-db3c-4fa3-8eaf-e8e841f0596b;75
-AAQ;AAQ;AAQ@isep.ipp.pt;112233461;911234585;Master in Magic;Rua Numero 17;4000-116;Porto;Portugal;AAF;+351;17-02-2022;5a237a23-70e9-44b7-8b90-1c8244dd62da;75
-AAR;AAR;AAR@isep.ipp.pt;112233462;911234586;PhD in History;Praceta Numero 18;4000-117;Porto;Portugal;AAR;+351;18-02-2022;36ff24c1-3ce9-4ee9-a309-3f126a34111e;75
-AAS;AAS;AAS@isep.ipp.pt;112233463;911234587;Integrated Master in History;Rua Numero 19;4000-118;Porto;Portugal;AAR;+351;19-02-2022;4a0a8c96-c9f0-4993-96ee-1592b42bf3d5;75
-AAT;AAT;AAT@isep.ipp.pt;112233464;911234588;PhD in History;Praceta Numero 20;4000-119;Porto;Portugal;AAR;+351;20-02-2022;4972af35-5d69-433a-8937-01483b1aed15;100
-AAU;AAU;AAU@isep.ipp.pt;112233465;911234589;Master in Potions;Rua Numero 21;4000-120;Porto;Portugal;AAU;+351;21-02-2022;1b011d09-789f-427d-b9e2-f36b82b5cf0b;25
-AAV;AAV;AAV@isep.ipp.pt;112233466;911234590;Bachelor in Potions;Praceta Numero 22;4000-121;Porto;Portugal;AAU;+351;22-02-2022;f54ee90e-81e9-4df1-83c7-8ec4cec16c1d;25
-AAW;AAW;AAW@isep.ipp.pt;112233467;911234591;Master in Potions;Rua Numero 23;4000-122;Porto;Portugal;AAU;+351;23-02-2022;4b1aa8aa-34f6-46e5-b38a-a8f2fb92ac23;25
-AAX;AAX;AAX@isep.ipp.pt;112233468;911234592;PhD in Potions;Praceta Numero 24;4000-123;Porto;Portugal;AAU;+351;24-02-2022;9c54e03c-0369-4a2e-b66e-8c89c265a9f0;100
-AAY;AAY;AAY@isep.ipp.pt;112233469;911234593;Bachelor in Potions;Rua Numero 25;4000-124;Porto;Portugal;AAU;+351;25-02-2022;f1eaf866-018e-426e-9d83-8c821921b28b;100
-AAZ;AAZ;AAZ@isep.ipp.pt;112233470;911234594;Master in History;Praceta Numero 26;4000-125;Porto;Portugal;AAR;+351;26-02-2022;bf986553-fb7e-4826-8543-07d3d9edf236;50
-ABA;ABA;ABA@isep.ipp.pt;112233471;911234595;PhD in Magic;Rua Numero 27;4000-126;Porto;Portugal;AAF;+351;27-02-2022;d8299769-d8cc-46f4-a765-2fadeaa234c6;50
-ABB;ABB;ABB@isep.ipp.pt;112233472;911234596;Master in Magic;Praceta Numero 28;4000-127;Porto;Portugal;AAF;+351;28-02-2022;a7f98bed-a7d0-4459-bf52-c30f01494e73;50
-ABC;ABC;ABC@isep.ipp.pt;112233473;911234597;Bachelor in Magic;Rua Numero 29;4000-128;Porto;Portugal;AAF;+351;01-03-2022;5054d680-81ae-4d45-9699-90678f9bb8ff;75
-ABD;ABD;ABD@isep.ipp.pt;112233474;911234598;PhD in Magic;Praceta Numero 30;4000-129;Porto;Portugal;AAF;+351;02-03-2022;c8ec0fb3-1d99-41c6-b6a5-941a26fa18c1;100
+AAA;Alexandra Castro;AAA@isep.ipp.pt;112233445;911234569;Bachelor in Astronomy;Rua Número 1;4000-100;Porto;Portugal;AAU;+351;01-02-2022;4b68bc54-1a5f-4d90-af6f-43d65e3a166d;25
+AAB;Raquel Pinho-Nogueira;AAB@isep.ipp.pt;112233446;911234570;Master in Astronomy;Praceta Número 2;4000-101;Porto;Portugal;AAA;+351;02-02-2022;582f96e9-16c1-4dec-a871-9353b59ceb6a;100
+AAC;Alexandra Costa;AAC@isep.ipp.pt;112233447;911234571;Master in History;Rua Número 3;4000-102;Porto;Portugal;AAF;+351;03-02-2022;f937e46e-8b73-4975-93fa-8dfb7640cebc;75
+AAD;Noah da Reis;AAD@isep.ipp.pt;112233448;911234572;Bachelor in Biology;Praceta Número 4;4000-103;Porto;Portugal;AAU;+351;04-02-2022;9761dfef-5ef7-4589-b4f3-aa583a9557b8;50
+AAE;Dinis Morais;AAE@isep.ipp.pt;112233449;911234573;Bachelor in Astronomy;Rua Número 5;4000-104;Porto;Portugal;AAA;+351;05-02-2022;b6c587e0-1fd4-4f5e-a590-b2af2a8b9681;50
+AAF;Artur Cunha;AAF@isep.ipp.pt;112233450;911234574;Bachelor in Astronomy;Praceta Número 6;4000-105;Porto;Portugal;AAU;+351;06-02-2022;c1e042f1-fd37-454b-91a4-dd4668db3549;25
+AAG;Santiago da Cardoso;AAG@isep.ipp.pt;112233451;911234575;Bachelor in Maths;Rua Número 7;4000-106;Porto;Portugal;AAU;+351;07-02-2022;3f0983c5-24ee-460e-9b81-5e0a1c623bc1;50
+AAH;Martim Cardoso;AAH@isep.ipp.pt;112233452;911234576;PhD in History;Praceta Número 8;4000-107;Porto;Portugal;AAF;+351;08-02-2022;d1adb50a-b994-4d9c-baaf-dc1f6f27a677;75
+AAI;Júlia Miranda;AAI@isep.ipp.pt;112233453;911234577;Bachelor in History;Rua Número 9;4000-108;Porto;Portugal;AAF;+351;09-02-2022;074ad2fb-041a-417c-a8af-8785053a7213;25
+AAJ;Eva Amaral;AAJ@isep.ipp.pt;112233454;911234578;Bachelor in Biology;Praceta Número 10;4000-109;Porto;Portugal;AAU;+351;10-02-2022;efbdc4eb-ad59-4ebb-9c0a-b4002588d755;100
+AAK;Dinis da Sousa;AAK@isep.ipp.pt;112233455;911234579;Bachelor in Astronomy;Rua Número 11;4000-110;Porto;Portugal;AAU;+351;11-02-2022;a2dbbf01-403b-4420-a73d-c5d3cc890637;75
+AAL;José Mota;AAL@isep.ipp.pt;112233456;911234580;PhD in History;Praceta Número 12;4000-111;Porto;Portugal;AAU;+351;12-02-2022;13fa7efd-177a-44ba-b936-dff726ad66d9;50
+AAM;Edgar Mota;AAM@isep.ipp.pt;112233457;911234581;Master in Astronomy;Rua Número 13;4000-112;Porto;Portugal;AAA;+351;13-02-2022;1e80b5ea-4cf8-470d-b9df-20c3e0c5fc79;50
+AAN;Duarte Gaspar;AAN@isep.ipp.pt;112233458;911234582;Bachelor in Biology;Praceta Número 14;4000-113;Porto;Portugal;AAU;+351;14-02-2022;b02febc4-6b6c-4610-8711-695c60daed68;50
+AAO;Guilherme Paiva;AAO@isep.ipp.pt;112233459;911234583;PhD in History;Rua Número 15;4000-114;Porto;Portugal;AAA;+351;15-02-2022;8e54b328-15fe-45e8-a094-54ecd7c9e180;50
+AAP;Ricardo Esteves;AAP@isep.ipp.pt;112233460;911234584;PhD in Maths;Praceta Número 16;4000-115;Porto;Portugal;AAU;+351;16-02-2022;01215dd5-a8c4-444c-96c1-592c8e5f9a20;75
+AAQ;Luana Pereira;AAQ@isep.ipp.pt;112233461;911234585;PhD in History;Rua Número 17;4000-116;Porto;Portugal;AAA;+351;17-02-2022;57bc7818-ee2f-4b7b-93c6-49b937dad275;25
+AAR;Nelson Henriques;AAR@isep.ipp.pt;112233462;911234586;PhD in Maths;Praceta Número 18;4000-117;Porto;Portugal;AAA;+351;18-02-2022;79af437b-2fdf-4408-99e4-9b41fed63ab3;50
+AAS;Carlota de Abreu;AAS@isep.ipp.pt;112233463;911234587;PhD in Astronomy;Rua Número 19;4000-118;Porto;Portugal;AAA;+351;19-02-2022;ebfd7e4b-9dbb-42c1-9426-029d8ce7d8cc;100
+AAT;Francisca Cardoso;AAT@isep.ipp.pt;112233464;911234588;Master in Biology;Praceta Número 20;4000-119;Porto;Portugal;AAF;+351;20-02-2022;0bf5f9c0-10e6-4ed4-8265-420241579b2f;25
+AAU;Bernardo Mendes;AAU@isep.ipp.pt;112233465;911234589;Master in Biology;Rua Número 21;4000-120;Porto;Portugal;AAF;+351;21-02-2022;0e9a3471-7d59-4752-b0c9-4f401124bcef;100
+AAV;Maria Branco;AAV@isep.ipp.pt;112233466;911234590;Master in History;Praceta Número 22;4000-121;Porto;Portugal;AAR;+351;22-02-2022;1962d4c5-42e9-452c-9e5d-3ea5147e317c;75
+AAW;Eduardo Rodrigues;AAW@isep.ipp.pt;112233467;911234591;PhD in Maths;Rua Número 23;4000-122;Porto;Portugal;AAF;+351;23-02-2022;46a5bbc7-d9fc-4bb8-855e-bd3964d609c6;75
+AAX;Diana-Irina Azevedo;AAX@isep.ipp.pt;112233468;911234592;PhD in History;Praceta Número 24;4000-123;Porto;Portugal;AAU;+351;24-02-2022;ee12ee1e-ef55-4d0b-b593-2c8e8118fc58;100
+AAY;Vitória do Sousa;AAY@isep.ipp.pt;112233469;911234593;Master in Biology;Rua Número 25;4000-124;Porto;Portugal;AAF;+351;25-02-2022;4c74ce9d-eecc-4c8b-9ada-d2490934c78d;100
+AAZ;Lúcia-Teresa Batista;AAZ@isep.ipp.pt;112233470;911234594;PhD in Astronomy;Praceta Número 26;4000-125;Porto;Portugal;AAF;+351;26-02-2022;0ebe0a8c-a7dc-4ad8-81dc-53ad5b56e3dd;100
+ABA;Lisandro Coelho;ABA@isep.ipp.pt;112233471;911234595;Master in Maths;Rua Número 27;4000-126;Porto;Portugal;AAU;+351;27-02-2022;7358f26d-32b1-4205-a808-d6a37746163b;25
+ABB;Joana de Ribeiro;ABB@isep.ipp.pt;112233472;911234596;Master in Astronomy;Praceta Número 28;4000-127;Porto;Portugal;AAF;+351;28-02-2022;64917180-6397-45e9-a73d-12a8248347b6;50

@@ -310,4 +310,51 @@ class CourseEditionAssemblerImplTest {
         // Act & Assert
         assertThrows(Exception.class, () -> assembler.toCourseInStudyPlanID(dto));
     }
+    @Test
+    void fromDtoToCourseEditionGeneratedID_ShouldThrowException_WhenInvalidSelectedCourseEditionGeneratedIdDTO() {
+        // Arrange
+        SelectedCourseEditionGeneratedIdDTO dto = mock(SelectedCourseEditionGeneratedIdDTO.class);
+        // Act & Assert
+        assertThrows(Exception.class, () -> assembler.fromDtoToCourseEditionGeneratedID(dto));
+    }
+    @Test
+    void fromDtoToCourseEditionGeneratedID_ShouldReturnCourseEditionGeneratedID() {
+        // Arrange
+        UUID generatedID = UUID.randomUUID();
+        SelectedCourseEditionGeneratedIdDTO dto = mock(SelectedCourseEditionGeneratedIdDTO.class);
+
+        when(dto.courseEditionID()).thenReturn(generatedID);
+        // Act
+        CourseEditionGeneratedID result = assembler.fromDtoToCourseEditionGeneratedID(dto);
+        //assert
+        assertNotNull(result);
+        assertEquals(result.getCourseEditionGeneratedID(), generatedID);
+    }
+    @Test
+    void toResponseDTOList_ShouldThrowException_WhenInvalidCourseEditionRequestDTO () {
+        // Arrange
+
+        List<CourseEditionID> courseEditionIDs = null;
+        // Act & Assert
+        assertThrows(Exception.class, () -> assembler.toResponseIDDTOList(courseEditionIDs));
+    }
+    @Test
+    void toProgrammeEditionID_shouldThrowException_whenNull() {
+        // Arrange
+        CourseEditionAssemblerImpl assembler = new CourseEditionAssemblerImpl();
+        // Act & Assert
+        Exception exception = assertThrows(Exception.class, () -> assembler.toProgrammeEditionID(null));
+        assertEquals("CourseEditionRequestDTO cannot be null", exception.getMessage());
+    }
+    @Test
+    void toCourseInStudyPlanID_shouldThrowException_whenNull() {
+        // Arrange
+        CourseEditionAssemblerImpl assembler = new CourseEditionAssemblerImpl();
+        // Act & Assert
+        Exception exception = assertThrows(Exception.class, () -> assembler.toCourseInStudyPlanID(null));
+
+        assertEquals("CourseEditionRequestDTO cannot be null", exception.getMessage());
+    }
+
+
 }

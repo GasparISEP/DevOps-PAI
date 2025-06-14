@@ -1,7 +1,7 @@
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8081';
 
 export async function gradeAStudent(gradeAStudentRequestDTO) {
-    const response = await fetch(`${API_URL}/courseeditions/studentgrades/register`, { // Corrigido o endpoint
+    const response = await fetch(`${API_URL}/course-ditions/studentgrades/register`, { // Corrigido o endpoint
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -31,7 +31,7 @@ export async function gradeAStudent(gradeAStudentRequestDTO) {
 }
 
 export async function findAllCourseEditions() {
-    const response = await fetch(`${API_URL}/courseeditions`);
+    const response = await fetch(`${API_URL}/course-editions`);
 
     if (!response.ok) {
         throw new Error('Failed to fetch Course Editions');

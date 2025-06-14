@@ -17,7 +17,7 @@ public interface IProgrammeService {
     Optional<Programme> getProgrammeByAcronym(Acronym acronym);
     List<ProgrammeID> getAllProgrammeIDs();
     Iterable<Programme> findAll();
-    Optional <Programme> getProgrammeByID(ProgrammeID id);
+    Optional <ProgrammeDTO> getProgrammeByID(ProgrammeID id);
     Programme registerProgramme(ProgrammeVOsDTO programmeVOsDTO) throws Exception;
     List<ProgrammeIDDTO> getAllProgrammeIDDTOs();
     List<ProgrammeIDDTO> getProgrammeIDDTOsByDegreeTypeID(DegreeTypeID id);

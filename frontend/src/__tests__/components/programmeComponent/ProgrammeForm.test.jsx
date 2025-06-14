@@ -143,4 +143,25 @@ describe('ProgrammeForm', () => {
         fireEvent.click(closeBtn);
         await waitFor(() => expect(closeBtn).not.toBeInTheDocument());
     });
+
+    test('should show error if no details link exists', async () => {
+        defaultFetch();
+
+        render(
+            <MemoryRouter {...routerProps}>
+                <ProgrammeForm />
+            </MemoryRouter>
+        );
+
+        const registerBtn = screen.getByText('REGISTER');
+        fireEvent.click(registerBtn);
+
+        await waitFor(() => {
+            expect(screen.getByText(/degree type not selected/i)).toBeInTheDocument();
+        });
+
+        const closeBtn = screen.getByRole('button', { name: /close/i });
+        fireEvent.click(closeBtn);
+    });
+
 });

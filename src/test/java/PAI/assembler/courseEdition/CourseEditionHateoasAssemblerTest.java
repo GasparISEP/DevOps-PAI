@@ -161,4 +161,18 @@ class CourseEditionHateoasAssemblerTest {
         // Assert
         assertNotNull(result);
     }
+    @Test
+    void toModel_shouldThrowRuntimeException_whenExceptionOccurs() {
+        CourseEditionHateoasAssembler assembler = new CourseEditionHateoasAssembler();
+
+        DefineRucResponseDTO dto = mock(DefineRucResponseDTO.class);
+        when(dto.teacherID()).thenThrow(new RuntimeException("Forced exception"));
+
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            assembler.toModel(dto);
+        });
+
+        assertEquals("Forced exception", exception.getCause().getMessage());
+    }
+
 }

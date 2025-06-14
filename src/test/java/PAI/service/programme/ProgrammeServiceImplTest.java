@@ -557,14 +557,17 @@ class ProgrammeServiceImplTest {
         ProgrammeID id = new ProgrammeID(_acronymDouble);
 
         when(_programmeDouble.identity()).thenReturn(id);
-        when(_programmeRepositoryDouble.findAll()).thenReturn(List.of(_programmeDouble));
+        when(_programmeRepositoryDouble.ofIdentity(id)).thenReturn(Optional.of(_programmeDouble));
+
+        ProgrammeDTO expectedDTO = mock(ProgrammeDTO.class);
+        when(_programmeAssemblerDouble.fromDomainToDTO(_programmeDouble)).thenReturn(expectedDTO);
 
         // Act
-        Optional<Programme> result = service.getProgrammeByID(id);
+        Optional<ProgrammeDTO> result = service.getProgrammeByID(id);
 
         // Assert
         assertTrue(result.isPresent());
-        assertEquals(_programmeDouble, result.get());
+        assertEquals(expectedDTO, result.get());
     }
 
     @Test
@@ -580,7 +583,7 @@ class ProgrammeServiceImplTest {
         when(_programmeRepositoryDouble.findAll()).thenReturn(List.of(_programme2Double));
 
         // Act
-        Optional<Programme> result = service.getProgrammeByID(id);
+        Optional<ProgrammeDTO> result = service.getProgrammeByID(id);
 
         // Assert
         assertTrue(result.isEmpty());
@@ -598,7 +601,7 @@ class ProgrammeServiceImplTest {
         when(_programmeRepositoryDouble.findAll()).thenReturn(List.of());
 
         // Act
-        Optional<Programme> result = service.getProgrammeByID(id);
+        Optional<ProgrammeDTO> result = service.getProgrammeByID(id);
 
         // Assert
         assertTrue(result.isEmpty());

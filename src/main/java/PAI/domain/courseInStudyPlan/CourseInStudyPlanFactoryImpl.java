@@ -4,6 +4,8 @@ import PAI.dto.courseInStudyPlan.CourseInStudyPlanCommand;
 import PAI.VOs.*;
 import org.springframework.stereotype.Component;
 
+import static PAI.utils.ValidationUtils.validateNotNull;
+
 @Component
 public class CourseInStudyPlanFactoryImpl implements ICourseInStudyPlanFactory {
 
@@ -25,9 +27,7 @@ public class CourseInStudyPlanFactoryImpl implements ICourseInStudyPlanFactory {
 
     @Override
     public CourseInStudyPlan newCourseInStudyPlan(CourseInStudyPlanCommand command) throws Exception {
-        if (command == null) {
-            throw new IllegalArgumentException("Command cannot be null");
-        }
+        validateNotNull(command, "Command");
 
         Semester semester = command.semester();
         CurricularYear curricularYear = command.curricularYear();

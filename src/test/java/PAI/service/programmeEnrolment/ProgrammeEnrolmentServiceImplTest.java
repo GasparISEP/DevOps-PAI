@@ -1,16 +1,21 @@
 package PAI.service.programmeEnrolment;
 
 import PAI.VOs.*;
+import PAI.domain.programme.Programme;
 import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
 import PAI.domain.programmeEnrolment.IProgrammeEnrolmentFactory;
 import PAI.domain.repositoryInterfaces.programmeEnrolment.IProgrammeEnrolmentRepository;
 import PAI.persistence.mem.programmeEnrolment.IProgrammeEnrolmentListFactory;
 import PAI.persistence.mem.programmeEnrolment.ProgrammeEnrolmentRepositoryImpl;
+import PAI.service.programme.IProgrammeService;
+import PAI.service.student.IStudentService;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -26,6 +31,8 @@ class ProgrammeEnrolmentServiceImplTest {
     private Date _dateDouble;
     private ProgrammeEnrolment _peDouble;
     private ProgrammeEnrolmentID _peIDDouble;
+    private IStudentService _sService;
+    private IProgrammeService _progService;
 
     private void createDoubles() {
         _peFactoryDouble = mock(IProgrammeEnrolmentFactory.class);
@@ -36,6 +43,8 @@ class ProgrammeEnrolmentServiceImplTest {
         _dateDouble = mock(Date.class);
         _peDouble = mock(ProgrammeEnrolment.class);
         _peIDDouble = mock(ProgrammeEnrolmentID.class);
+        _sService = mock(IStudentService.class);
+        _progService = mock(IProgrammeService.class);
     }
 
     @Test
@@ -44,7 +53,7 @@ class ProgrammeEnrolmentServiceImplTest {
         createDoubles();
 
         //Act
-        ProgrammeEnrolmentServiceImpl peService = new ProgrammeEnrolmentServiceImpl(_peFactoryDouble, _peRepositoryDouble);
+        ProgrammeEnrolmentServiceImpl peService = new ProgrammeEnrolmentServiceImpl(_peFactoryDouble, _peRepositoryDouble, _sService, _progService);
         //Assert
         assertNotNull(peService);
 
@@ -56,7 +65,7 @@ class ProgrammeEnrolmentServiceImplTest {
         createDoubles();
 
         //Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolmentServiceImpl(null, _peRepositoryDouble));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolmentServiceImpl(null, _peRepositoryDouble, _sService, _progService));
     }
 
     @Test
@@ -65,14 +74,32 @@ class ProgrammeEnrolmentServiceImplTest {
         createDoubles();
 
         //Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolmentServiceImpl(_peFactoryDouble, null));
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolmentServiceImpl(_peFactoryDouble, null, _sService, _progService));
+    }
+
+    @Test
+    void shouldThrowExceptionAndNotCreateProgrammeEnrolmentServiceIfStudentServiceNull() {
+        //Arrange
+        createDoubles();
+
+        //Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolmentServiceImpl(_peFactoryDouble, _peRepositoryDouble, null, _progService));
+    }
+
+    @Test
+    void shouldThrowExceptionAndNotCreateProgrammeEnrolmentServiceIfProgServiceNull() {
+        //Arrange
+        createDoubles();
+
+        //Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> new ProgrammeEnrolmentServiceImpl(_peFactoryDouble, _peRepositoryDouble, _sService, null));
     }
 
     @Test
     void shouldCreateNewProgrammeEnrolmentAndPersist() throws Exception {
         //Arrange
         createDoubles();
-        ProgrammeEnrolmentServiceImpl peService = new ProgrammeEnrolmentServiceImpl(_peFactoryDouble, _peRepositoryDouble);
+        ProgrammeEnrolmentServiceImpl peService = new ProgrammeEnrolmentServiceImpl(_peFactoryDouble, _peRepositoryDouble, _sService, _progService);
 
         when(_peFactoryDouble.createProgrammeEnrolment(_studentIDDouble, _amIDDouble, _programmeIDDouble, _dateDouble)).thenReturn(_peDouble);
         when(_peDouble.getProgrammeEnrolmentID()).thenReturn(_peIDDouble);
@@ -89,7 +116,7 @@ class ProgrammeEnrolmentServiceImplTest {
     void shouldThrowExceptionAndNotCreateProgrammeEnrolmentIfStudentIDNull() {
         //Arrange
         createDoubles();
-        ProgrammeEnrolmentServiceImpl peService = new ProgrammeEnrolmentServiceImpl(_peFactoryDouble, _peRepositoryDouble);
+        ProgrammeEnrolmentServiceImpl peService = new ProgrammeEnrolmentServiceImpl(_peFactoryDouble, _peRepositoryDouble, _sService, _progService);
 
         // Act & Assert:
         Exception ex = assertThrows(Exception.class, () -> peService.enrolStudentInProgramme(null, _amIDDouble, _programmeIDDouble, _dateDouble));
@@ -99,7 +126,7 @@ class ProgrammeEnrolmentServiceImplTest {
     void shouldThrowExceptionAndNotCreateProgrammeEnrolmentIfAccessMethodIDNull() {
         //Arrange
         createDoubles();
-        ProgrammeEnrolmentServiceImpl peService = new ProgrammeEnrolmentServiceImpl(_peFactoryDouble, _peRepositoryDouble);
+        ProgrammeEnrolmentServiceImpl peService = new ProgrammeEnrolmentServiceImpl(_peFactoryDouble, _peRepositoryDouble, _sService, _progService);
 
         //Act + assert
         Exception ex = assertThrows(
@@ -117,7 +144,7 @@ class ProgrammeEnrolmentServiceImplTest {
     void shouldThrowExceptionAndNotCreateProgrammeEnrolmentIfProgrammeIDNull() {
         //Arrange
         createDoubles();
-        ProgrammeEnrolmentServiceImpl peService = new ProgrammeEnrolmentServiceImpl(_peFactoryDouble, _peRepositoryDouble);
+        ProgrammeEnrolmentServiceImpl peService = new ProgrammeEnrolmentServiceImpl(_peFactoryDouble, _peRepositoryDouble, _sService, _progService);
 
         //Act + Assert
         Exception ex = assertThrows(
@@ -135,7 +162,7 @@ class ProgrammeEnrolmentServiceImplTest {
     void shouldThrowExceptionAndNotCreateProgrammeEnrolmentIfDateIDNull() {
         //Arrange
         createDoubles();
-        ProgrammeEnrolmentServiceImpl peService = new ProgrammeEnrolmentServiceImpl(_peFactoryDouble, _peRepositoryDouble);
+        ProgrammeEnrolmentServiceImpl peService = new ProgrammeEnrolmentServiceImpl(_peFactoryDouble, _peRepositoryDouble, _sService, _progService);
 
         //Act + Assert
         Exception ex = assertThrows(
@@ -164,7 +191,7 @@ class ProgrammeEnrolmentServiceImplTest {
         when(_peRepositoryDouble.containsOfIdentity(_peIDDouble)).thenReturn(true);
 
 
-        ProgrammeEnrolmentServiceImpl peService = new ProgrammeEnrolmentServiceImpl(_peFactoryDouble, _peRepositoryDouble);
+        ProgrammeEnrolmentServiceImpl peService = new ProgrammeEnrolmentServiceImpl(_peFactoryDouble, _peRepositoryDouble, _sService, _progService);
 
         // Act & Assert:
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> peService.enrolStudentInProgramme(_studentIDDouble, _amIDDouble, _programmeIDDouble, _dateDouble));
@@ -177,7 +204,7 @@ class ProgrammeEnrolmentServiceImplTest {
         createDoubles();
 
         ProgrammeEnrolmentServiceImpl peService =
-                new ProgrammeEnrolmentServiceImpl(_peFactoryDouble, _peRepositoryDouble);
+                new ProgrammeEnrolmentServiceImpl(_peFactoryDouble, _peRepositoryDouble, _sService, _progService);
 
 
         when(_peRepositoryDouble.findByStudentIDAndProgrammeID(_studentIDDouble, _programmeIDDouble))
@@ -197,7 +224,7 @@ class ProgrammeEnrolmentServiceImplTest {
         // Arrange
         createDoubles();
         ProgrammeEnrolmentServiceImpl peService =
-                new ProgrammeEnrolmentServiceImpl(_peFactoryDouble, _peRepositoryDouble);
+                new ProgrammeEnrolmentServiceImpl(_peFactoryDouble, _peRepositoryDouble, _sService, _progService);
 
 
         when(_peRepositoryDouble.findByStudentIDAndProgrammeID(_studentIDDouble, _programmeIDDouble))
@@ -212,21 +239,46 @@ class ProgrammeEnrolmentServiceImplTest {
     }
 
     @Test
-    void shouldReturnListOfProgrammes() {
-        //arrange
+    void testGetProgrammesStudentIsEnrolled() {
+        // Arrange
         createDoubles();
         ProgrammeEnrolmentServiceImpl peService =
-                new ProgrammeEnrolmentServiceImpl(_peFactoryDouble, _peRepositoryDouble);
+                new ProgrammeEnrolmentServiceImpl(_peFactoryDouble, _peRepositoryDouble, _sService, _progService);
 
-        List<ProgrammeEnrolment> expectedProgrammeIDs = List.of(mock(ProgrammeEnrolment.class), mock(ProgrammeEnrolment.class));
-        when(_peRepositoryDouble.getProgrammesStudentIsEnrolledIn(_studentIDDouble))
-                .thenReturn(expectedProgrammeIDs);
+        MaxEcts maxEcts = new MaxEcts(12);
+        QuantSemesters quantSemesters = new QuantSemesters(2);
+        DegreeTypeID degreeTypeID = new DegreeTypeID();
+        DepartmentAcronym departmentAcronym = new DepartmentAcronym("OLA");
+        DepartmentID departmentID = new DepartmentID(departmentAcronym);
+        TeacherAcronym teacherAcronym = new TeacherAcronym("OLA");
+        TeacherID teacherID = new TeacherID(teacherAcronym);
+        StudentID studentID = new StudentID(1234567);
+        Acronym acronym = new Acronym("OLA");
+        ProgrammeID programmeID = new ProgrammeID(acronym);
+        ProgrammeEnrolmentGeneratedID enrolmentGID = new ProgrammeEnrolmentGeneratedID(UUID.randomUUID());
+        NameWithNumbersAndSpecialChars progName = new NameWithNumbersAndSpecialChars("Engineering");
+        Name studentName = new Name("John Doe");
+        AccessMethodID accessMethodID = new AccessMethodID(UUID.randomUUID());
+        Date date = new Date(LocalDate.of(2025,12,12));
 
-        // act
-        List<ProgrammeEnrolment> result = peService.listOfProgrammesStudentIsEnrolledIn(_studentIDDouble);
+        ProgrammeEnrolment enrolment = new ProgrammeEnrolment(
+                studentID, accessMethodID, programmeID, date, enrolmentGID
+        );
 
-        // assert
-        assertEquals(expectedProgrammeIDs, result);
+        Programme programme = new Programme(progName,acronym,maxEcts,quantSemesters,degreeTypeID,departmentID,teacherID,programmeID);
+
+        when(_peRepositoryDouble.getProgrammesStudentIsEnrolledIn(studentID)).thenReturn(List.of(enrolment));
+        when(_progService.getProgrammesByProgrammeIDs(List.of(programmeID))).thenReturn(List.of(programme));
+        when(_sService.getNameByStudentID(studentID)).thenReturn(studentName);
+
+        // Act
+        US34ListOfProgrammes actual = peService.getProgrammesStudentIsEnrolled(studentID);
+
+        // Assert
+        ProgrammeSummary expectedSummary = new ProgrammeSummary(programmeID, progName, enrolmentGID);
+        US34ListOfProgrammes expected = new US34ListOfProgrammes(List.of(expectedSummary), studentName);
+
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -234,7 +286,7 @@ class ProgrammeEnrolmentServiceImplTest {
         //arrange
         createDoubles();
         ProgrammeEnrolmentServiceImpl peService =
-                new ProgrammeEnrolmentServiceImpl(_peFactoryDouble, _peRepositoryDouble);
+                new ProgrammeEnrolmentServiceImpl(_peFactoryDouble, _peRepositoryDouble, _sService, _progService);
 
         ProgrammeID programmeID = mock(ProgrammeID.class);
         ProgrammeEnrolment enrolment = mock(ProgrammeEnrolment.class);
@@ -251,5 +303,40 @@ class ProgrammeEnrolmentServiceImplTest {
         assertEquals(1, res.size());
         assertEquals(programmeID, res.get(0));
     }
+
+    @Test
+    public void testMappingVOsIntoRecord_withMockedData() {
+        //arrange
+        createDoubles();
+        ProgrammeEnrolmentServiceImpl peService =
+                new ProgrammeEnrolmentServiceImpl(_peFactoryDouble, _peRepositoryDouble, _sService, _progService);
+
+        when(_programmeIDDouble.toString()).thenReturn("PPP");
+
+        Programme mockProgramme = mock(Programme.class);
+        NameWithNumbersAndSpecialChars mockProgName = mock(NameWithNumbersAndSpecialChars.class);
+        when(mockProgramme.getProgrammeID()).thenReturn(_programmeIDDouble);
+        when(mockProgramme.getProgrammeName()).thenReturn(mockProgName);
+
+        ProgrammeEnrolmentGeneratedID mockEnrolmentGID = mock(ProgrammeEnrolmentGeneratedID.class);
+        when(_peDouble.getProgrammeID()).thenReturn(_programmeIDDouble);
+        when(_peDouble.getProgrammeEnrolmentGeneratedID()).thenReturn(mockEnrolmentGID);
+
+        List<ProgrammeEnrolment> enrolments = List.of(_peDouble);
+        List<Programme> programmes = List.of(mockProgramme);
+
+        //act
+        List<ProgrammeSummary> summaries = peService.mappingVOsIntoRecord(enrolments, programmes);
+
+        //assert
+        assertNotNull(summaries);
+        assertEquals(1, summaries.size());
+
+        ProgrammeSummary summary = summaries.get(0);
+        assertEquals(_programmeIDDouble, summary.programmeID());
+        assertEquals(mockProgName, summary.programmeName());
+        assertEquals(mockEnrolmentGID, summary.generatedID());
+    }
+
 
 }

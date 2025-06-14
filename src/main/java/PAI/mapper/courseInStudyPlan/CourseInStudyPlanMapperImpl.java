@@ -9,6 +9,7 @@ import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanDataModel;
 import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanGeneratedIDDataModel;
 import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanIDDataModel;
 import org.springframework.stereotype.Component;
+import static PAI.utils.ValidationUtils.*;
 
 @Component
 public class CourseInStudyPlanMapperImpl implements ICourseInStudyPlanMapper {
@@ -21,25 +22,11 @@ public class CourseInStudyPlanMapperImpl implements ICourseInStudyPlanMapper {
 
 
     public CourseInStudyPlanMapperImpl(ICourseIDMapper courseIDMapper, IStudyPlanIDMapper studyPlanIDMapper, ICourseInStudyPlanIDMapper courseInStudyPlanIDMapper, ICourseInStudyPlanFactory courseInStudyPlanFactory, ICourseInStudyPlanGeneratedIDMapper generatedIDMapper) throws Exception {
-        if (studyPlanIDMapper == null)
-            throw new IllegalArgumentException("StudyPlanIDMapper cannot be null");
-        _studyPlanIDMapper = studyPlanIDMapper;
-
-        if (courseIDMapper == null)
-            throw new IllegalArgumentException("CourseIDMapper cannot be null");
-        _courseIDMapper = courseIDMapper;
-
-        if (courseInStudyPlanIDMapper == null)
-            throw new IllegalArgumentException("CourseInStudyPlanIDMapper cannot be null");
-        _courseInStudyPlanIDMapper = courseInStudyPlanIDMapper;
-
-        if (courseInStudyPlanFactory == null)
-            throw new IllegalArgumentException("CourseInStudyPlanFactory cannot be null");
-        _courseInStudyPlanFactory = courseInStudyPlanFactory;
-
-        if (generatedIDMapper == null)
-            throw new IllegalArgumentException("CourseInStudyPlanGeneratedIDMapper cannot be null");
-        _generatedIDMapper = generatedIDMapper;
+        this._studyPlanIDMapper = validateNotNull(studyPlanIDMapper, "StudyPlanIDMapper");
+        this._courseIDMapper = validateNotNull(courseIDMapper, "CourseIDMapper");
+        this._courseInStudyPlanIDMapper = validateNotNull(courseInStudyPlanIDMapper, "CourseInStudyPlanIDMapper");
+        this._courseInStudyPlanFactory = validateNotNull(courseInStudyPlanFactory, "CourseInStudyPlanFactory");
+        this._generatedIDMapper = validateNotNull(generatedIDMapper, "CourseInStudyPlanGeneratedIDMapper");
     }
 
     public CourseInStudyPlanDataModel toDataModel(CourseInStudyPlan courseInStudyPlan) {
