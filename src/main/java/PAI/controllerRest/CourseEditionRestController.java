@@ -70,7 +70,7 @@ public CourseEditionRestController(
     this.courseEditionEnrolmentService = validateNotNull(courseEditionEnrolmentService, "CourseEditionEnrolmentService");
     this.courseEditionEnrolmentAssembler = validateNotNull(courseEditionEnrolmentAssembler, "CourseEditionEnrolmentAssembler");
     this.createCourseEditionService = validateNotNull(createCourseEditionService, "CreateCourseEditionService");
-    this.courseEditionService = courseEditionService;
+    this.courseEditionService = validateNotNull(courseEditionService, "CourseEditionService");
     this.courseEditionAssembler = courseEditionAssembler;
     this.gradeAStudentService = gradeAStudentService;
     this.studentGradeAssembler = studentGradeAssembler;
