@@ -1,23 +1,27 @@
 package PAI.service.programmeEditionEnrolment;
 
 import PAI.VOs.*;
+import PAI.VOs.Date;
+import PAI.assembler.programmeEdition.IProgrammeEditionControllerAssembler;
 import PAI.assembler.programmeEditionEnrolment.StudentProgrammeEditionEnrolmentAssemblerImpl;
+import PAI.domain.programme.Programme;
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.domain.programmeEditionEnrolment.IProgrammeEditionEnrolmentFactory;
 import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolment;
 import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
+import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
 import PAI.domain.repositoryInterfaces.programmeEdition.IProgrammeEditionRepository;
 import PAI.domain.repositoryInterfaces.programmeEditionEnrolment.IProgrammeEditionEnrolmentRepository;
 import PAI.domain.repositoryInterfaces.programmeEnrolment.IProgrammeEnrolmentRepository;
+import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
+import PAI.domain.schoolYear.SchoolYear;
+import PAI.dto.programmeEdition.ProgrammeEditionWithNameAndDescriptionResponseDTO;
 import PAI.dto.programmeEditionEnrolment.StudentProgrammeEditionEnrolmentDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -29,6 +33,9 @@ class StudentProgrammeEditionEnrolmentServiceImplTest {
     private IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository;
     private IProgrammeEditionEnrolmentFactory programmeEditionEnrolmentFactory;
     private StudentProgrammeEditionEnrolmentAssemblerImpl assembler;
+    private IProgrammeEditionControllerAssembler programmeEditionControllerAssembler;
+    private ISchoolYearRepository schoolYearRepository;
+    private IProgrammeRepository programmeRepository;
 
     private StudentProgrammeEditionEnrolmentServiceImpl service;
 
@@ -39,14 +46,21 @@ class StudentProgrammeEditionEnrolmentServiceImplTest {
         programmeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
         programmeEditionEnrolmentFactory = mock(IProgrammeEditionEnrolmentFactory.class);
         assembler = mock(StudentProgrammeEditionEnrolmentAssemblerImpl.class);
+        programmeEditionControllerAssembler = mock(IProgrammeEditionControllerAssembler.class);
+        schoolYearRepository = mock(ISchoolYearRepository.class);
+        programmeRepository = mock(IProgrammeRepository.class);
 
         service = new StudentProgrammeEditionEnrolmentServiceImpl(
                 programmeEnrolmentRepository,
                 programmeEditionRepository,
                 programmeEditionEnrolmentRepository,
                 programmeEditionEnrolmentFactory,
-                assembler
-        );
+                assembler,
+                programmeEditionControllerAssembler,
+                schoolYearRepository,
+                programmeRepository
+
+                );
     }
 
     @Test
@@ -272,4 +286,120 @@ class StudentProgrammeEditionEnrolmentServiceImplTest {
         );
     }
 
+    @Test
+    void whenStudentIsEnrolledInTwoEditions_thenReturnTwoProgrammeEditionIDs() {
+        StudentID studentID = mock(StudentID.class);
+
+        List<ProgrammeEditionID> expected = List.of(
+                mock(ProgrammeEditionID.class),
+                mock(ProgrammeEditionID.class)
+        );
+
+        when(programmeEditionEnrolmentRepository.findProgrammeEditionsThatStudentIsEnrolled(studentID))
+                .thenReturn(expected);
+
+        List<ProgrammeEditionID> result = service.getProgrammesEditionsIdWhereStudentIsEnrolled(studentID);
+
+        assertEquals(2, result.size());
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void whenStudentIsNotEnrolledInAnyEdition_thenReturnEmptyList() {
+        StudentID studentID = mock(StudentID.class);
+
+        when(programmeEditionEnrolmentRepository.findProgrammeEditionsThatStudentIsEnrolled(studentID))
+                .thenReturn(List.of());
+
+        List<ProgrammeEditionID> result = service.getProgrammesEditionsIdWhereStudentIsEnrolled(studentID);
+
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void givenSomeEditionsAlreadyEnrolled_thenReturnRemainingAvailableEditions() {
+        ProgrammeEditionID id1 = mock(ProgrammeEditionID.class);
+        ProgrammeEditionID id2 = mock(ProgrammeEditionID.class);
+        ProgrammeEditionID id3 = mock(ProgrammeEditionID.class);
+
+        List<ProgrammeEditionID> available = new ArrayList<>(List.of(id1, id2, id3));
+        List<ProgrammeEditionID> alreadyEnrolled = List.of(id2);
+
+        List<ProgrammeEditionID> result = service.possibleProgrammeEditionsWhereStudentCanBeEnrolled(available, alreadyEnrolled);
+
+        assertEquals(2, result.size());
+        assertFalse(result.contains(id2));
+    }
+
+    @Test
+    void whenNoEditionsAlreadyEnrolled_thenReturnAllAvailable() {
+        ProgrammeEditionID id1 = mock(ProgrammeEditionID.class);
+        ProgrammeEditionID id2 = mock(ProgrammeEditionID.class);
+
+        List<ProgrammeEditionID> available = new ArrayList<>(List.of(id1, id2));
+        List<ProgrammeEditionID> alreadyEnrolled = List.of();
+
+        List<ProgrammeEditionID> result = service.possibleProgrammeEditionsWhereStudentCanBeEnrolled(available, alreadyEnrolled);
+
+        assertEquals(2, result.size());
+        assertTrue(result.containsAll(available));
+    }
+
+    @Test
+    void whenAllEditionsAlreadyEnrolled_thenReturnEmptyList() {
+        ProgrammeEditionID id1 = mock(ProgrammeEditionID.class);
+
+        List<ProgrammeEditionID> available = new ArrayList<>(List.of(id1));
+        List<ProgrammeEditionID> alreadyEnrolled = List.of(id1);
+
+        List<ProgrammeEditionID> result = service.possibleProgrammeEditionsWhereStudentCanBeEnrolled(available, alreadyEnrolled);
+
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void whenProgrammeAndSchoolYearExist_thenReturnDTO() {
+        ProgrammeEditionID editionID = mock(ProgrammeEditionID.class);
+        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
+        Programme programme = mock(Programme.class);
+        SchoolYear schoolYear = mock(SchoolYear.class);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+
+        when(programmeEditionRepository.ofIdentity(editionID)).thenReturn(Optional.of(programmeEdition));
+        when(programmeEdition.findProgrammeIDInProgrammeEdition()).thenReturn(programmeID);
+        when(programmeRepository.ofIdentity(programmeID)).thenReturn(Optional.of(programme));
+        when(programmeEdition.findSchoolYearIDInProgrammeEdition()).thenReturn(schoolYearID);
+        when(schoolYearRepository.findBySchoolYearID(schoolYearID)).thenReturn(Optional.of(schoolYear));
+
+        ProgrammeEditionWithNameAndDescriptionResponseDTO expectedDto = new ProgrammeEditionWithNameAndDescriptionResponseDTO("SWD", "2025", "Software", "Descrição");
+        when(programmeEditionControllerAssembler.toProgrammeEditionIdResponseDto(programme, schoolYear)).thenReturn(expectedDto);
+
+        ProgrammeEditionWithNameAndDescriptionResponseDTO result = service.programmeEditionWithNameAndDescription(editionID);
+
+        assertEquals(expectedDto, result);
+    }
+
+    @Test
+    void whenProgrammeEditionNotFound_thenThrowException() {
+        ProgrammeEditionID editionID = mock(ProgrammeEditionID.class);
+        when(programmeEditionRepository.ofIdentity(editionID)).thenReturn(Optional.empty());
+
+        assertThrows(IllegalArgumentException.class, () -> service.programmeEditionWithNameAndDescription(editionID));
+    }
+
+
+    @Test
+    void whenProgrammeNotFound_thenThrowException() {
+        ProgrammeEditionID editionID = mock(ProgrammeEditionID.class);
+        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+
+        when(programmeEditionRepository.ofIdentity(editionID)).thenReturn(Optional.of(programmeEdition));
+        when(programmeEdition.findProgrammeIDInProgrammeEdition()).thenReturn(programmeID);
+        when(programmeRepository.ofIdentity(programmeID)).thenReturn(Optional.empty());
+
+        assertThrows(IllegalArgumentException.class, () ->
+                service.programmeEditionWithNameAndDescription(editionID));
+    }
 }

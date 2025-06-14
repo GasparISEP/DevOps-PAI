@@ -37,7 +37,7 @@ const NavBar = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link to="/teachers/updateTeacherCategory" className="navbar-link" onClick={() => setIsTeacherOpen(false)}>
+                  <Link to="/teachers/update-category" className="navbar-link" onClick={() => setIsTeacherOpen(false)}>
                     Update Teacher Category
                   </Link>
                 </li>
@@ -121,9 +121,13 @@ const NavBar = () => {
                     Average Grade
                   </Link>
                 </li>
+                <li>
+                  <Link to="/course-editions/Define-ruc " className="navbar-link">
+                    Define Ruc
+                  </Link>
+                </li>
               </ul>
             </li>
-
           </ul>
         </nav>
       </div>

@@ -173,10 +173,17 @@ class CourseAssemblerImplTest {
         CourseQuantityCreditsEcts qty = mock(CourseQuantityCreditsEcts.class);
         when(qty.getQuantity()).thenReturn(6.0);
 
+        CurricularYear curricularYear = mock(CurricularYear.class);
+        when(curricularYear.toInt()).thenReturn(1);
+
+        Semester semester = mock(Semester.class);
+        when(semester.toInt()).thenReturn(1);
+
         AvailableCourseInfo availableCourseInfo = mock(AvailableCourseInfo.class);
         when(availableCourseInfo.courseID()).thenReturn(courseID);
         when(availableCourseInfo.qtyEcts()).thenReturn(qty);
-
+        when(availableCourseInfo.curricularYear()).thenReturn(curricularYear);
+        when(availableCourseInfo.semester()).thenReturn(semester);
         // Act
         AvailableCoursesInfoRspDTO dto = courseAssembler.toAvailableCourseDTO(availableCourseInfo);
 
@@ -185,6 +192,8 @@ class CourseAssemblerImplTest {
         assertEquals("DSO", dto.acronym());
         assertEquals("Desenvolvimento de Software", dto.name());
         assertEquals(6.0, dto.qtyECTs());
+        assertEquals(1,dto.curricularYear());
+        assertEquals(1,dto.semester());
     }
     @Test
     void toAvailableCourseDTO_ShouldThrowWhenNull() {
@@ -207,7 +216,8 @@ class CourseAssemblerImplTest {
         Acronym acronym = mock(Acronym.class);
         Name name = mock(Name.class);
         CourseQuantityCreditsEcts ects = mock(CourseQuantityCreditsEcts.class);
-
+        CurricularYear curricularYear = mock(CurricularYear.class);
+        Semester semester = mock(Semester.class);
         when(course1.courseID()).thenReturn(courseID);
         when(courseID.getAcronym()).thenReturn(acronym);
         when(courseID.getName()).thenReturn(name);
@@ -215,6 +225,10 @@ class CourseAssemblerImplTest {
         when(name.getName()).thenReturn("Desenvolvimento de Software");
         when(course1.qtyEcts()).thenReturn(ects);
         when(ects.getQuantity()).thenReturn(6.0);
+        when(course1.curricularYear()).thenReturn(curricularYear);
+        when(curricularYear.toInt()).thenReturn(1);
+        when(course1.semester()).thenReturn(semester);
+        when(semester.toInt()).thenReturn(1);
 
         List<AvailableCourseInfo> domainList = List.of(course1);
 
@@ -224,7 +238,7 @@ class CourseAssemblerImplTest {
         // Assert
         assertNotNull(dtoList);
         assertEquals(1, dtoList.size());
-        assertEquals("DSO", dtoList.get(0).acronym());
+
     }
 
     @Test

@@ -63,7 +63,7 @@ public class AvailableCoursesServiceImpl implements IAvailableCoursesService {
     public List<AvailableCourseInfo> getListOfCourseInfo(List<CourseInStudyPlan> courseInStudyPlans){
         List<AvailableCourseInfo> courseInfos = new ArrayList<>();
         for (CourseInStudyPlan existingCourse : courseInStudyPlans){
-            AvailableCourseInfo availableCourseInfo = new AvailableCourseInfo(existingCourse.getCourseID(),existingCourse.getQuantityOfCreditsEcts());
+            AvailableCourseInfo availableCourseInfo = new AvailableCourseInfo(existingCourse.getCourseID(),existingCourse.getQuantityOfCreditsEcts(),existingCourse.getCurricularYear(),existingCourse.getSemester());
             courseInfos.add(availableCourseInfo);
         }
         return courseInfos;

@@ -1,7 +1,9 @@
 package PAI.assembler.programmeEdition;
 
 import PAI.VOs.*;
+import PAI.domain.programme.Programme;
 import PAI.domain.programmeEdition.ProgrammeEdition;
+import PAI.domain.schoolYear.SchoolYear;
 import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.programmeEdition.*;
 import org.junit.jupiter.api.Test;
@@ -148,5 +150,58 @@ class ProgrammeEditionControllerAssemblerTest {
         });
 
         assertEquals("ProgrammeEditionID cannot be null", exception.getMessage());
+    }
+
+    @Test
+    void whenValidProgrammeAndSchoolYear_thenReturnCorrectDTO() {
+        // Arrange
+        Programme programme = mock(Programme.class);
+        NameWithNumbersAndSpecialChars programmeName = mock(NameWithNumbersAndSpecialChars.class);
+        Acronym acronym = mock(Acronym.class);
+
+        when(programme.getProgrammeName()).thenReturn(programmeName);
+        when(programmeName.getNameWithNumbersAndSpecialChars()).thenReturn("Software");
+
+        when(programme.getAcronym()).thenReturn(acronym);
+        when(acronym.getAcronym()).thenReturn("SWD");
+
+        UUID uuid = UUID.randomUUID();
+        SchoolYear schoolYear = mock(SchoolYear.class);
+        Description description = mock(Description.class);
+
+        when(schoolYear.identity()).thenReturn(new SchoolYearID(uuid));
+        when(schoolYear.getDescription()).thenReturn(description);
+        when(description.getDescription()).thenReturn("2025");
+
+        ProgrammeEditionControllerAssembler assembler = new ProgrammeEditionControllerAssembler();
+
+        // Act
+        ProgrammeEditionWithNameAndDescriptionResponseDTO dto = assembler.toProgrammeEditionIdResponseDto(programme, schoolYear);
+
+        // Assert
+        assertEquals("SWD", dto.programmeAcronym());
+        assertEquals(uuid.toString(), dto.schoolYearId());
+        assertEquals("Software", dto.programmeName());
+        assertEquals("2025", dto.description());
+    }
+
+    @Test
+    void whenProgrammeIsNull_thenThrowIllegalArgumentException() {
+        SchoolYear schoolYear = mock(SchoolYear.class);
+        ProgrammeEditionControllerAssembler assembler = new ProgrammeEditionControllerAssembler();
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            assembler.toProgrammeEditionIdResponseDto(null, schoolYear);
+        });
+    }
+
+    @Test
+    void whenSchoolYearIsNull_thenThrowIllegalArgumentException() {
+        Programme programme = mock(Programme.class);
+        ProgrammeEditionControllerAssembler assembler = new ProgrammeEditionControllerAssembler();
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            assembler.toProgrammeEditionIdResponseDto(programme, null);
+        });
     }
 }

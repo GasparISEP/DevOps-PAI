@@ -4,15 +4,20 @@ import PAI.VOs.CourseEditionGeneratedID;
 import PAI.persistence.datamodel.courseEdition.CourseEditionGeneratedIDDataModel;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
 
-    @Service
+
+@Service
     public class CourseEditionGeneratedIDMapperImpl implements ICourseEditionGeneratedIDMapper {
 
         @Override
-        public CourseEditionGeneratedID toDomain (CourseEditionGeneratedIDDataModel courseEditionGeneratedIDDataModel) {
+        public CourseEditionGeneratedID toDomain(CourseEditionGeneratedIDDataModel courseEditionGeneratedIDDataModel) {
             if (courseEditionGeneratedIDDataModel == null)
                 throw new IllegalArgumentException("CourseEditionGeneratedIDDataModel cannot be null");
-            return new CourseEditionGeneratedID();
+
+            UUID generatedId = UUID.fromString(courseEditionGeneratedIDDataModel.getId());
+
+            return new CourseEditionGeneratedID(generatedId);
         }
 
         @Override
