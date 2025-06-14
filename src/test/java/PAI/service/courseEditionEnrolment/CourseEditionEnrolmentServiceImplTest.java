@@ -1,8 +1,6 @@
 package PAI.service.courseEditionEnrolment;
 
-import PAI.VOs.CourseEditionID;
-import PAI.VOs.ProgrammeEditionID;
-import PAI.VOs.StudentID;
+import PAI.VOs.*;
 import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
 import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolment;
 
@@ -437,6 +435,286 @@ class CourseEditionEnrolmentServiceImplTest {
         assertFalse(result);
     }
 
+    //---------
+
+    @Test
+    void shouldReturnTrueIfIsAValidCourseEditionEnrollmentFromPersistence() throws Exception {
+        //arrange
+        ICourseEditionEnrolmentFactory doubleCeeFactoryInterface = mock(ICourseEditionEnrolmentFactory.class);
+        ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
+        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
+        ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
+
+        CourseEditionEnrolmentServiceImpl service = new CourseEditionEnrolmentServiceImpl(
+                doubleCeeFactoryInterface,doubleCeeRepositoryInterface, doublePeeRepositoryInterface, doubleCourseEditionRepositoryInterface);
+
+        CourseEditionEnrolmentGeneratedID ceeGeneratedIDDouble = mock(CourseEditionEnrolmentGeneratedID.class);
+        StudentID doubleStudentID = mock(StudentID.class);
+        CourseEditionID doubleCEID = mock(CourseEditionID.class);
+        CourseEditionEnrolment doubleCEE = mock (CourseEditionEnrolment.class);
+        Date enrolmentDate = mock(Date.class);
+        EnrolmentStatus status = mock(EnrolmentStatus.class);
+
+        when(doubleCeeFactoryInterface.createWithEnrolmentDateAndUUID(ceeGeneratedIDDouble, doubleStudentID, doubleCEID, enrolmentDate, status)).thenReturn(doubleCEE);
+
+        when(doubleCeeRepositoryInterface.isStudentEnrolledInCourseEdition(doubleStudentID, doubleCEID)).thenReturn(false);
+
+        when(doubleCeeRepositoryInterface.save(doubleCEE)).thenReturn(doubleCEE);
+
+        //act
+        boolean result = service.enrolStudentInACourseEditionFromPersistence(ceeGeneratedIDDouble, doubleStudentID, doubleCEID, enrolmentDate, status);
+
+        //assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnTrueWhenDifferentStudentsEnrollInSameCourseEditionFromPersistence() throws Exception {
+        //arrange
+        ICourseEditionEnrolmentFactory doubleCeeFactoryInterface = mock(ICourseEditionEnrolmentFactory.class);
+        ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
+        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
+        ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
+
+        CourseEditionEnrolmentServiceImpl service = new CourseEditionEnrolmentServiceImpl(
+                doubleCeeFactoryInterface,doubleCeeRepositoryInterface, doublePeeRepositoryInterface, doubleCourseEditionRepositoryInterface);
+
+        CourseEditionEnrolmentGeneratedID ceeGeneratedIDDouble = mock(CourseEditionEnrolmentGeneratedID.class);
+        StudentID doubleStudentID1 = mock(StudentID.class);
+        CourseEditionID doubleCEID = mock(CourseEditionID.class);
+        StudentID doubleStudentID2 = mock(StudentID.class);
+        CourseEditionEnrolment doubleCEE1 = mock (CourseEditionEnrolment.class);
+        CourseEditionEnrolment doubleCEE2 = mock (CourseEditionEnrolment.class);
+        Date enrolmentDate = mock(Date.class);
+        EnrolmentStatus status = mock(EnrolmentStatus.class);
+
+        when(doubleCeeFactoryInterface.createWithEnrolmentDateAndUUID(ceeGeneratedIDDouble, doubleStudentID1, doubleCEID, enrolmentDate, status)).thenReturn(doubleCEE1);
+        when(doubleCeeFactoryInterface.createWithEnrolmentDateAndUUID(ceeGeneratedIDDouble, doubleStudentID2, doubleCEID, enrolmentDate, status)).thenReturn(doubleCEE2);
+
+        when(doubleCeeRepositoryInterface.isStudentEnrolledInCourseEdition(doubleStudentID1,doubleCEID)).thenReturn(false);
+
+        when(doubleCeeRepositoryInterface.save(doubleCEE1)).thenReturn(doubleCEE1);
+        service.enrolStudentInACourseEdition(doubleStudentID1, doubleCEID);
+
+        when(doubleCeeRepositoryInterface.save(doubleCEE2)).thenReturn(doubleCEE2);
+
+        //act
+        boolean result = service.enrolStudentInACourseEditionFromPersistence(ceeGeneratedIDDouble, doubleStudentID2, doubleCEID, enrolmentDate, status);
+
+        //assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnTrueWhenDifferentStudentsEnrollInDifferentCourseEditionsFromPersistence() throws Exception {
+        //arrange
+        ICourseEditionEnrolmentFactory doubleCeeFactoryInterface = mock(ICourseEditionEnrolmentFactory.class);
+        ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
+        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
+        ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
+
+        CourseEditionEnrolmentServiceImpl service = new CourseEditionEnrolmentServiceImpl(
+                doubleCeeFactoryInterface,doubleCeeRepositoryInterface, doublePeeRepositoryInterface, doubleCourseEditionRepositoryInterface);
+
+        CourseEditionEnrolmentGeneratedID ceeGeneratedIDDouble = mock(CourseEditionEnrolmentGeneratedID.class);
+        StudentID doubleStudentID1 = mock(StudentID.class);
+        CourseEditionID doubleCEID1 = mock(CourseEditionID.class);
+        StudentID doubleStudentID2 = mock(StudentID.class);
+        CourseEditionID doubleCEID2 = mock(CourseEditionID.class);
+        Date enrolmentDate = mock(Date.class);
+        EnrolmentStatus status = mock(EnrolmentStatus.class);
+
+        CourseEditionEnrolment doubleCEE1 = mock (CourseEditionEnrolment.class);
+        CourseEditionEnrolment doubleCEE2 = mock (CourseEditionEnrolment.class);
+
+        when(doubleCeeFactoryInterface.createWithEnrolmentDateAndUUID(ceeGeneratedIDDouble, doubleStudentID1, doubleCEID1, enrolmentDate, status)).thenReturn(doubleCEE1);
+        when(doubleCeeFactoryInterface.createWithEnrolmentDateAndUUID(ceeGeneratedIDDouble, doubleStudentID2, doubleCEID2, enrolmentDate, status)).thenReturn(doubleCEE2);
+
+        when(doubleCeeRepositoryInterface.isStudentEnrolledInCourseEdition(doubleStudentID1,doubleCEID1)).thenReturn(false);
+
+        when(doubleCeeRepositoryInterface.save(doubleCEE1)).thenReturn(doubleCEE1);
+        service.enrolStudentInACourseEdition(doubleStudentID1, doubleCEID1);
+
+        when(doubleCeeRepositoryInterface.save(doubleCEE2)).thenReturn(doubleCEE2);
+
+        //act
+        boolean result = service.enrolStudentInACourseEditionFromPersistence(ceeGeneratedIDDouble, doubleStudentID2, doubleCEID2, enrolmentDate, status);
+
+        //assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnTrueWhenSameStudentEnrollInDifferentCourseEditionsFromPersistence() throws Exception {
+        //arrange
+        ICourseEditionEnrolmentFactory doubleCeeFactoryInterface = mock(ICourseEditionEnrolmentFactory.class);
+        ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
+        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
+        ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
+
+        CourseEditionEnrolmentServiceImpl service = new CourseEditionEnrolmentServiceImpl(
+                doubleCeeFactoryInterface,doubleCeeRepositoryInterface, doublePeeRepositoryInterface, doubleCourseEditionRepositoryInterface);
+
+        CourseEditionEnrolmentGeneratedID ceeGeneratedIDDouble = mock(CourseEditionEnrolmentGeneratedID.class);
+        StudentID doubleStudentID1 = mock(StudentID.class);
+        CourseEditionID doubleCEID1 = mock(CourseEditionID.class);
+        CourseEditionID doubleCEID2 = mock(CourseEditionID.class);
+        Date enrolmentDate = mock(Date.class);
+        EnrolmentStatus status = mock(EnrolmentStatus.class);
+
+        CourseEditionEnrolment doubleCEE1 = mock (CourseEditionEnrolment.class);
+        CourseEditionEnrolment doubleCEE2 = mock (CourseEditionEnrolment.class);
+
+        when(doubleCeeFactoryInterface.createWithEnrolmentDateAndUUID(ceeGeneratedIDDouble, doubleStudentID1, doubleCEID1, enrolmentDate, status)).thenReturn(doubleCEE1);
+        when(doubleCeeFactoryInterface.createWithEnrolmentDateAndUUID(ceeGeneratedIDDouble, doubleStudentID1, doubleCEID2, enrolmentDate, status)).thenReturn(doubleCEE2);
+
+        when(doubleCeeRepositoryInterface.isStudentEnrolledInCourseEdition(doubleStudentID1,doubleCEID1)).thenReturn(false);
+
+        when(doubleCeeRepositoryInterface.save(doubleCEE1)).thenReturn(doubleCEE1);
+        service.enrolStudentInACourseEdition(doubleStudentID1, doubleCEID1);
+
+        when(doubleCeeRepositoryInterface.save(doubleCEE2)).thenReturn(doubleCEE2);
+
+        //act
+        boolean result = service.enrolStudentInACourseEditionFromPersistence(ceeGeneratedIDDouble, doubleStudentID1, doubleCEID2, enrolmentDate, status);
+
+        //assert
+        assertTrue(result);
+    }
+
+    @Test
+    void shouldReturnFalseWhenCourseEditionEnrolmentWasNotSavedFromPersistence() throws Exception {
+        //arrange
+        ICourseEditionEnrolmentFactory doubleCeeFactoryInterface = mock(ICourseEditionEnrolmentFactory.class);
+        ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
+        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
+        ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
+
+        CourseEditionEnrolmentServiceImpl service = new CourseEditionEnrolmentServiceImpl(
+                doubleCeeFactoryInterface,doubleCeeRepositoryInterface, doublePeeRepositoryInterface, doubleCourseEditionRepositoryInterface);
+
+        CourseEditionEnrolmentGeneratedID ceeGeneratedIDDouble = mock(CourseEditionEnrolmentGeneratedID.class);
+        StudentID doubleStudentID = mock(StudentID.class);
+        CourseEditionID doubleCEID = mock(CourseEditionID.class);
+        Date enrolmentDate = mock(Date.class);
+        EnrolmentStatus status = mock(EnrolmentStatus.class);
+
+        CourseEditionEnrolment doubleCEE = mock (CourseEditionEnrolment.class);
+
+        when(doubleCeeFactoryInterface.createCourseEditionEnrolment(doubleStudentID,doubleCEID)).thenReturn(doubleCEE);
+
+        when(doubleCeeRepositoryInterface.isStudentEnrolledInCourseEdition(doubleStudentID, doubleCEID)).thenReturn(false);
+
+        when(doubleCeeRepositoryInterface.save(doubleCEE)).thenThrow();
+
+        //act
+        boolean result = service.enrolStudentInACourseEditionFromPersistence(ceeGeneratedIDDouble, doubleStudentID, doubleCEID, enrolmentDate, status);
+
+        //assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfStudentIDIsNullFromPersistence(){
+        //arrange
+        ICourseEditionEnrolmentFactory doubleCeeFactoryInterface = mock(ICourseEditionEnrolmentFactory.class);
+        ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
+        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
+        ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
+
+        CourseEditionEnrolmentServiceImpl service = new CourseEditionEnrolmentServiceImpl(
+                doubleCeeFactoryInterface,doubleCeeRepositoryInterface, doublePeeRepositoryInterface, doubleCourseEditionRepositoryInterface);
+
+        CourseEditionEnrolmentGeneratedID ceeGeneratedIDDouble = mock(CourseEditionEnrolmentGeneratedID.class);
+        CourseEditionID doubleCEID = mock(CourseEditionID.class);
+        Date enrolmentDate = mock(Date.class);
+        EnrolmentStatus status = mock(EnrolmentStatus.class);
+
+        //act
+        boolean result = service.enrolStudentInACourseEditionFromPersistence(ceeGeneratedIDDouble, null, doubleCEID, enrolmentDate, status);
+
+        //assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfCourseEditionIDIsNullFromPersistence(){
+        //arrange
+        ICourseEditionEnrolmentFactory doubleCeeFactoryInterface = mock(ICourseEditionEnrolmentFactory.class);
+        ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
+        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
+        ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
+
+        CourseEditionEnrolmentServiceImpl service = new CourseEditionEnrolmentServiceImpl(
+                doubleCeeFactoryInterface,doubleCeeRepositoryInterface, doublePeeRepositoryInterface, doubleCourseEditionRepositoryInterface);
+
+        CourseEditionEnrolmentGeneratedID ceeGeneratedIDDouble = mock(CourseEditionEnrolmentGeneratedID.class);
+        StudentID doubleStudentID = mock(StudentID.class);
+        Date enrolmentDate = mock(Date.class);
+        EnrolmentStatus status = mock(EnrolmentStatus.class);
+
+        //act
+        boolean result = service.enrolStudentInACourseEditionFromPersistence(ceeGeneratedIDDouble, doubleStudentID, null, enrolmentDate, status);
+
+        //assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfStudentIsAlreadyEnrolledFromPersistence() throws Exception {
+        //arrange
+        ICourseEditionEnrolmentFactory doubleCeeFactoryInterface = mock(ICourseEditionEnrolmentFactory.class);
+        ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
+        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
+        ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
+
+        CourseEditionEnrolmentServiceImpl service = new CourseEditionEnrolmentServiceImpl(
+                doubleCeeFactoryInterface,doubleCeeRepositoryInterface, doublePeeRepositoryInterface, doubleCourseEditionRepositoryInterface);
+
+        CourseEditionEnrolmentGeneratedID ceeGeneratedIDDouble = mock(CourseEditionEnrolmentGeneratedID.class);
+        StudentID doubleStudentID = mock(StudentID.class);
+        CourseEditionID doubleCEID = mock(CourseEditionID.class);
+        Date enrolmentDate = mock(Date.class);
+        EnrolmentStatus status = mock(EnrolmentStatus.class);
+
+        CourseEditionEnrolment doubleCEE = mock (CourseEditionEnrolment.class);
+
+        when(doubleCeeFactoryInterface.createCourseEditionEnrolment(doubleStudentID,doubleCEID)).thenReturn(doubleCEE);
+
+        when(doubleCeeRepositoryInterface.isStudentEnrolledInCourseEdition(doubleStudentID, doubleCEID)).thenReturn(true);
+
+        //act
+        boolean result = service.enrolStudentInACourseEditionFromPersistence(ceeGeneratedIDDouble, doubleStudentID, doubleCEID, enrolmentDate, status);
+
+        //assert
+        assertFalse(result);
+    }
+
+    @Test
+    void shouldReturnFalseIfIsNotPossibleTheCreationOfCourseEditionEnrolmentFromPersistence(){
+        //arrange
+        ICourseEditionEnrolmentFactory doubleCeeFactoryInterface = mock(ICourseEditionEnrolmentFactory.class);
+        ICourseEditionRepository doubleCourseEditionRepositoryInterface = mock(ICourseEditionRepository.class);
+        IProgrammeEditionEnrolmentRepository doublePeeRepositoryInterface = mock(IProgrammeEditionEnrolmentRepository.class);
+        ICourseEditionEnrolmentRepository doubleCeeRepositoryInterface = mock(ICourseEditionEnrolmentRepository.class);
+
+        CourseEditionEnrolmentServiceImpl service = new CourseEditionEnrolmentServiceImpl(
+                doubleCeeFactoryInterface,doubleCeeRepositoryInterface, doublePeeRepositoryInterface, doubleCourseEditionRepositoryInterface);
+
+        CourseEditionEnrolmentGeneratedID ceeGeneratedIDDouble = mock(CourseEditionEnrolmentGeneratedID.class);
+        StudentID doubleStudentID = mock(StudentID.class);
+        CourseEditionID doubleCEID = mock(CourseEditionID.class);
+        Date enrolmentDate = mock(Date.class);
+        EnrolmentStatus status = mock(EnrolmentStatus.class);
+
+        when(doubleCeeFactoryInterface.createCourseEditionEnrolment(doubleStudentID, doubleCEID)).thenThrow();
+
+        //act
+        boolean result = service.enrolStudentInACourseEditionFromPersistence(ceeGeneratedIDDouble, doubleStudentID, doubleCEID, enrolmentDate, status);
+
+        //assert
+        assertFalse(result);
+    }
 
     //---------------Enrolment Removal Tests--------------
 

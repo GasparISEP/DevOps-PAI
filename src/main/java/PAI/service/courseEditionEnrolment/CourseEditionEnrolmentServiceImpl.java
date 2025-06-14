@@ -1,8 +1,7 @@
 package PAI.service.courseEditionEnrolment;
 
-import PAI.VOs.CourseEditionID;
-import PAI.VOs.ProgrammeEditionID;
-import PAI.VOs.StudentID;
+import PAI.VOs.*;
+import PAI.VOs.Date;
 import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolment;
 import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
 import PAI.domain.courseEditionEnrolment.ICourseEditionEnrolmentFactory;
@@ -63,6 +62,28 @@ public class CourseEditionEnrolmentServiceImpl implements ICourseEditionEnrolmen
     public boolean enrolStudentInACourseEdition(StudentID studentId, CourseEditionID courseEditionId) {
         try {
             CourseEditionEnrolment cee = createCourseEditionEnrolment(studentId, courseEditionId);
+
+            if(cee == null){
+                return false;
+            }
+
+            if (_ceeRepositoryInterface.isStudentEnrolledInCourseEdition(studentId, courseEditionId)) {
+                return false;
+            }
+
+            _ceeRepositoryInterface.save (cee);
+
+            return true;
+
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    //save course edition enrolment from persistence
+    public boolean enrolStudentInACourseEditionFromPersistence(CourseEditionEnrolmentGeneratedID uuid, StudentID studentId, CourseEditionID courseEditionId, Date enrolmentDate, EnrolmentStatus status) {
+        try {
+            CourseEditionEnrolment cee = _courseEditionEnrolmentFactoryInterface.createWithEnrolmentDateAndUUID(uuid, studentId, courseEditionId, enrolmentDate, status);
 
             if(cee == null){
                 return false;

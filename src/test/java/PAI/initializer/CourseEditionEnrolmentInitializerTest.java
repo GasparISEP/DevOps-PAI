@@ -1,7 +1,6 @@
 package PAI.initializer;
 
-import PAI.VOs.CourseEditionID;
-import PAI.VOs.StudentID;
+import PAI.VOs.*;
 import PAI.controller.US16_EnrolAStudentInACourseEditionController;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -40,7 +39,7 @@ public class CourseEditionEnrolmentInitializerTest {
         initializer.loadCourseEditionEnrolments(controller).run();
 
         // assert
-        verify(controller, atLeastOnce()).enrolStudentInCourseEdition(any(), any());
+        verify(controller, atLeastOnce()).enrolStudentInCourseEdition(any(), any(), any(), any(), any());
     }
 
 
@@ -69,7 +68,7 @@ public class CourseEditionEnrolmentInitializerTest {
     void shouldPrintStackTraceWhenControllerThrows() throws Exception {
         // Arrange: force controller to throw
         doThrow(new RuntimeException("boom"))
-                .when(controller).enrolStudentInCourseEdition(any(StudentID.class), any(CourseEditionID.class));
+                .when(controller).enrolStudentInCourseEdition(any(CourseEditionEnrolmentGeneratedID.class) , any(StudentID.class), any(CourseEditionID.class), any(Date.class), any(EnrolmentStatus.class));
 
         // Capture System.err
         ByteArrayOutputStream errContent = new ByteArrayOutputStream();
