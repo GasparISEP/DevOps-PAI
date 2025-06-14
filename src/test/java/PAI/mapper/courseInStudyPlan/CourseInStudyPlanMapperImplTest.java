@@ -64,7 +64,7 @@ class CourseInStudyPlanMapperImplTest {
                         new CourseInStudyPlanGeneratedIDMapperImpl()
                 )
         );
-        assertEquals("StudyPlanIDMapper cannot be null", ex.getMessage());
+        assertEquals("StudyPlanIDMapper cannot be null.", ex.getMessage());
     }
 
     @Test
@@ -79,7 +79,7 @@ class CourseInStudyPlanMapperImplTest {
                         new CourseInStudyPlanGeneratedIDMapperImpl()
                 )
         );
-        assertEquals("CourseIDMapper cannot be null", ex.getMessage());
+        assertEquals("CourseIDMapper cannot be null.", ex.getMessage());
     }
 
     @Test
@@ -94,7 +94,7 @@ class CourseInStudyPlanMapperImplTest {
                         new CourseInStudyPlanGeneratedIDMapperImpl()
                 )
         );
-        assertEquals("CourseInStudyPlanIDMapper cannot be null", ex.getMessage());
+        assertEquals("CourseInStudyPlanIDMapper cannot be null.", ex.getMessage());
     }
 
     @Test
@@ -109,7 +109,7 @@ class CourseInStudyPlanMapperImplTest {
                         new CourseInStudyPlanGeneratedIDMapperImpl()
                 )
         );
-        assertEquals("CourseInStudyPlanFactory cannot be null", ex.getMessage());
+        assertEquals("CourseInStudyPlanFactory cannot be null.", ex.getMessage());
     }
 
     @Test
@@ -124,7 +124,7 @@ class CourseInStudyPlanMapperImplTest {
                         null
                 )
         );
-        assertEquals("CourseInStudyPlanGeneratedIDMapper cannot be null", ex.getMessage());
+        assertEquals("CourseInStudyPlanGeneratedIDMapper cannot be null.", ex.getMessage());
     }
 
     @Test
