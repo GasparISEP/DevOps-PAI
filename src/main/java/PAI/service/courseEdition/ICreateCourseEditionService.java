@@ -8,12 +8,15 @@ import PAI.domain.programme.Programme;
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.domain.studyPlan.StudyPlan;
 import PAI.dto.courseEdition.CourseEditionServiceResponseDTO;
+import PAI.dto.courseEdition.CreateCourseEditionCommand;
 
 import java.util.List;
 
 public interface ICreateCourseEditionService {
 
     public CourseEdition createAndSaveCourseEdition(CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID);
+
+    CourseEditionServiceResponseDTO createCourseEditionForRestApi(CreateCourseEditionCommand command);
 
     public List<DegreeType> getAllDegreeTypes();
 
@@ -29,5 +32,5 @@ public interface ICreateCourseEditionService {
 
     List<CourseEditionServiceResponseDTO> findAll();
 
-    CourseEditionServiceResponseDTO createCourseEditionAndReturnDTO(CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID);
+    //CourseEditionServiceResponseDTO createCourseEditionAndReturnDTO(CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID);
 }
