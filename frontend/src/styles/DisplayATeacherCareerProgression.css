@@ -1,37 +1,30 @@
-/* ======== LAYOUT DA PÁGINA (AUTO-CONTIDO) ======== */
-
 .component-page-wrapper {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background-color: #f4f5f7; /* Fundo suave para a página inteira */
+    background-color: #f4f5f7;
 }
 
 .component-main-content {
-    flex-grow: 1; /* Esta área cresce para ocupar o espaço livre */
-    display: flex; /* Adicionado para ajudar a centrar o cartão */
+    flex-grow: 1;
+    display: flex;
     flex-direction: column;
-    justify-content: center; /* Centra o cartão verticalmente se houver muito espaço */
+    justify-content: center;
 }
 
 .component-footer-wrapper {
-    background-color: #1f0507; /* Cor de fundo escura para a faixa do rodapé */
+    background-color: #1f0507;
     width: 100%;
 }
 
-
-/* ======== ESTILOS DO CARTÃO DE CONTEÚDO ======== */
-
 .tcp-container {
     max-width: fit-content;
-    /* Margem para centrar horizontalmente e dar espaço em cima e baixo */
     margin: 5rem auto;
     padding: 1rem;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #ffffff;
     border-radius: 12px;
 
-    /* A tua borda e sombra vermelha preferida, combinada com a sombra de profundidade */
     border: 2px solid rgba(154, 26, 36, 0.3);
     box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 0 12px 4px rgba(154, 26, 36, 0.35);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -49,9 +42,6 @@
     font-size: 2.2rem;
     color: #1a1a1a;
 }
-
-
-/* ======== ESTILOS DA TABELA ======== */
 
 .tcp-table {
     width: auto;
@@ -89,9 +79,6 @@
     border: 1px solid #eee;
     border-left: none;
 }
-
-
-/* ======== ESTILOS DE ESTADO (LOADING/ERRO) ======== */
 
 .loading,
 .error,

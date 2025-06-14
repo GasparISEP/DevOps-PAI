@@ -2,8 +2,6 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import '../../styles/DisplayATeacherCareerProgression.css';
-
-// Importamos todos os componentes necessários para esta "página"
 import NavBar from '../NavBar';
 import Footer from '../Footer';
 
@@ -27,12 +25,11 @@ const TeacherCareerProgressionComponent = () => {
             });
     }, [id]);
 
-    // O return dos estados de loading/erro não precisa do layout completo
+
     if (loading) return <p className="loading">Loading data...</p>;
     if (error) return <p className="error">Error: {error}</p>;
     if (!progression) return <p className="no-data">No data found.</p>;
 
-    // O return principal agora constrói a página inteira
     return (
         <div className="component-page-wrapper">
             <NavBar />
