@@ -171,6 +171,18 @@ class DepartmentServiceImplTest {
         // Assert
         assertFalse(result);
     }
+
+    @Test
+    void shouldThrowExceptionIfNullParameterForContainsOfIdentity(){
+        //Arrange
+        IDepartmentRepository departmentRepoDouble = mock(IDepartmentRepository.class);
+        IDepartmentFactory departmentFactoryDouble = mock(IDepartmentFactory.class);
+        IDepartmentService departmentService = new DepartmentServiceImpl(departmentFactoryDouble, departmentRepoDouble);
+
+        //Act
+        assertThrows(IllegalArgumentException.class,() -> departmentService.containsOfIdentity(null));
+    }
+
     @Test
     void shouldReturnDepartmentIterableWhenFindAll() {
         // Arrange
