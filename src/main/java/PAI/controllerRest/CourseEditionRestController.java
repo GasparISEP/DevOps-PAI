@@ -74,7 +74,7 @@ public CourseEditionRestController(
     this.courseEditionAssembler = validateNotNull(courseEditionAssembler, "CourseEditionAssembler");
     this.gradeAStudentService = validateNotNull(gradeAStudentService, "GradeAStudentService");
     this.studentGradeAssembler = validateNotNull(studentGradeAssembler, "StudentGradeAssembler");
-    this.programmeEditionAssembler = programmeEditionAssembler;
+    this.programmeEditionAssembler = validateNotNull(programmeEditionAssembler, "ProgrammeEditionServiceAssembler");
     this.defineRucService = defineRucService;
     this.courseEditionHateoasAssembler = courseEditionHateoasAssembler;
     this.studentCountAssembler = studentCountAssembler;
