@@ -123,7 +123,11 @@ const NavBar = () => {
                 </li>
               </ul>
             </li>
-
+            <li>
+              <Link to="/course-editions/define-ruc " className="navbar-link">
+                Define Ruc
+              </Link>
+            </li>
           </ul>
         </nav>
       </div>
