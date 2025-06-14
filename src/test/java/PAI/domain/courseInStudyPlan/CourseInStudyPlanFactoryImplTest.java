@@ -80,7 +80,7 @@ class CourseInStudyPlanFactoryImplTest {
             courseInStudyPlanFactory.newCourseInStudyPlan(null);
         });
 
-        assertEquals("Command cannot be null", exception.getMessage());
+        assertEquals("Command cannot be null.", exception.getMessage());
     }
     @Test
     void should_CreateCourseInStudyPlan_When_AllValuesAreValid() throws Exception {
