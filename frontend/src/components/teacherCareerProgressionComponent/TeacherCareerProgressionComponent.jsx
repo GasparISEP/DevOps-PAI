@@ -1,6 +1,6 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom'; // Importa o Link
+import { useParams, Link } from 'react-router-dom';
 import '../../styles/DisplayATeacherCareerProgression.css';
 import NavBar from '../NavBar';
 import Footer from '../Footer';
@@ -12,7 +12,6 @@ const TeacherCareerProgressionComponent = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        // A sua lógica de fetch continua igual
         fetch(`http://localhost:8081/teacher-career-progressions/${id}`)
             .then(response => response.ok ? response.json() : Promise.reject('Failed to fetch'))
             .then(data => {
