@@ -41,6 +41,11 @@ const NavBar = () => {
                     Update Teacher Category
                   </Link>
                 </li>
+                <li>
+                  <Link to="/teachers/displayTeacherCategories" className="navbar-link" onClick={() => setIsTeacherOpen(false)}>
+                    Display Teacher Categories
+                  </Link>
+                </li>
               </ul>
             </li>
 
