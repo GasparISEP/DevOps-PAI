@@ -31,7 +31,7 @@ package "Service Layer" {
   }
 }
 
-package "Assembler / DTO" {
+package "Assembler / DTO / Command" {
   interface "<<interface>>\nICourseEditionAssembler" as ICourseEditionAssembler
   class CourseEditionAssemblerImpl {
 +toCommand(dto: CourseEditionRequestDTO):\n CreateCourseEditionCommand
@@ -69,17 +69,15 @@ package "Assembler / DTO" {
     - courseName : String
     - studyPlanImplementationDate : LocalDate
   }
-}
 
-package "Commands" {
-class CreateCourseEditionCommand {
-    - programmeName : NameWithNumbersAndSpecialChars
-    - programmeAcronym : Acronym
-    - schoolYearID : SchoolYearID
-    - courseAcronym : Acronym
-    - courseName : Name
-    - studyPlanImplementationDate : Date
-}
+  class CreateCourseEditionCommand {
+      - programmeName : NameWithNumbersAndSpecialChars
+      - programmeAcronym : Acronym
+      - schoolYearID : SchoolYearID
+      - courseAcronym : Acronym
+      - courseName : Name
+      - studyPlanImplementationDate : Date
+  }
 }
 
 package "Domain Layer" {
@@ -139,14 +137,14 @@ ICreateCourseEditionService <|.. CreateCourseEditionServiceImpl
 
 
 
-CourseEditionRestController --> ICourseEditionAssembler : toCommand(dto)
+CourseEditionRestController --> ICourseEditionAssembler : toCommand(requestDTO)
 ICourseEditionAssembler <|.. CourseEditionAssemblerImpl
 ICourseEditionServiceAssembler <|.. CourseEditionServiceAssemblerImpl
 
 CreateCourseEditionServiceImpl --> ICourseEditionFactory
 ICourseEditionFactory <|.. CourseEditionFactoryImpl
 
-CreateCourseEditionServiceImpl --> ICourseEditionServiceAssembler : toResponseDTO(domain)
+CreateCourseEditionServiceImpl --> ICourseEditionServiceAssembler : toServiceResponseDTO(domain)
 
 CreateCourseEditionServiceImpl --> ICourseEditionRepository
 ICourseEditionRepository <|.. CourseEditionRepositoryImpl
@@ -173,7 +171,7 @@ CourseEditionAssemblerImpl -> CourseEditionServiceDTO
 CourseEditionAssemblerImpl -> CourseEditionResponseDTO
 
 
-CourseEditionRestController ..> CreateCourseEditionCommand
+
 
 note left of "Domain Layer"
 This is a simplified version of the class diagram of US19, where Value Objects are represented
