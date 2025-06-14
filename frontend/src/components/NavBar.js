@@ -43,7 +43,7 @@ const NavBar = () => {
                 </li>
                 <li>
                   <Link to="/teachers/displayTeacherCareerProgression" className="navbar-link" onClick={() => setIsTeacherOpen(false)}>
-                    Display Teacher Carrer Progression
+                    Display Teacher Career Progression
                   </Link>
                 </li>
               </ul>
