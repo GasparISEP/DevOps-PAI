@@ -68,7 +68,7 @@ public CourseEditionRestController(
         IStudentCountAssembler studentCountAssembler, ICourseEditionEnrolmentHateoasAssembler courseEditionEnrolmentHateoasAssembler
 ) {
     this.courseEditionEnrolmentService = validateNotNull(courseEditionEnrolmentService, "CourseEditionEnrolmentService");
-    this.courseEditionEnrolmentAssembler = courseEditionEnrolmentAssembler;
+    this.courseEditionEnrolmentAssembler = validateNotNull(courseEditionEnrolmentAssembler, "CourseEditionEnrolmentAssembler");
     this.createCourseEditionService = createCourseEditionService;
     this.courseEditionService = courseEditionService;
     this.courseEditionAssembler = courseEditionAssembler;
