@@ -245,4 +245,16 @@ class ProgrammeEnrolmentRestControllerTest {
                 .andExpect(content().string(""));
     }
 
+    @Test
+    void testPostEndpointReturnsCorrectResponse() throws Exception {
+        // Arrange
+        UUID uuid = UUID.randomUUID();
+        ProgrammeEnrolmentIdDTO dto = new ProgrammeEnrolmentIdDTO(uuid);
+
+        // Act & Assert
+        mockMvc.perform(post("/programme-enrolments")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(status().isOk());
+    }
 }

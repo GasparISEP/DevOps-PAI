@@ -17,4 +17,6 @@ public interface IDegreeTypeService {
     List<DegreeType> getAllDegreeTypes();
 
     boolean registerDegreeTypeWithUUID(DegreeTypeID degreeTypeID, Name name, MaxEcts maxEcts) throws Exception;
+
+    boolean containsOfIdentity(DegreeTypeID id);
 }
