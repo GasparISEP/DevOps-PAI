@@ -7,28 +7,28 @@ jest.mock('../../components/teacherCareerProgressionComponent/UpdateTeacherCateg
 jest.mock('../../components/NavBar', () => () => <nav data-testid="navbar">NavBar</nav>);
 jest.mock('../../components/Footer', () => () => <footer data-testid="footer">Footer</footer>);
 
-
+describe('UpdateTeacherCategoryPage', () => {
     test('renders without crashing', () => {
-        render(<UpdateTeacherCategoryPage />);
+        render(<UpdateTeacherCategoryPage/>);
         expect(screen.getByTestId('navbar')).toBeInTheDocument();
         expect(screen.getByTestId('update-form')).toBeInTheDocument();
         expect(screen.getByTestId('footer')).toBeInTheDocument();
     });
 
     test('NavBar is rendered at the top', () => {
-        render(<UpdateTeacherCategoryPage />);
+        render(<UpdateTeacherCategoryPage/>);
         const nav = screen.getByTestId('navbar');
         expect(nav).toHaveTextContent('NavBar');
     });
 
     test('UpdateTeacherCategoryForm is rendered correctly', () => {
-        render(<UpdateTeacherCategoryPage />);
+        render(<UpdateTeacherCategoryPage/>);
         const form = screen.getByTestId('update-form');
         expect(form).toBeInTheDocument();
     });
 
     test('Footer is rendered at the bottom', () => {
-        render(<UpdateTeacherCategoryPage />);
+        render(<UpdateTeacherCategoryPage/>);
         const footer = screen.getByTestId('footer');
         expect(footer).toHaveTextContent('Footer');
     });
@@ -40,7 +40,7 @@ jest.mock('../../components/Footer', () => () => <footer data-testid="footer">Fo
         jest.doMock('../../components/Footer', () => () => null);
 
         const UpdateTeacherCategoryPageWithNulls = require('../../pages/teacherCategoryPage/UpdateTeacherCategoryPage').default;
-        render(<UpdateTeacherCategoryPageWithNulls />);
+        render(<UpdateTeacherCategoryPageWithNulls/>);
         // If it doesn't crash, test passes
         expect(true).toBe(true);
     });
@@ -51,12 +51,14 @@ jest.mock('../../components/Footer', () => () => <footer data-testid="footer">Fo
             throw new Error('CSS load failed');
         });
 
-        const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-        expect(() => render(<UpdateTeacherCategoryPage />)).not.toThrow();
+        const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {
+        });
+        expect(() => render(<UpdateTeacherCategoryPage/>)).not.toThrow();
         consoleSpy.mockRestore();
     });
 
     test('Does not render unexpected elements', () => {
-        render(<UpdateTeacherCategoryPage />);
+        render(<UpdateTeacherCategoryPage/>);
         expect(screen.queryByText('Unexpected')).not.toBeInTheDocument();
     });
+});
