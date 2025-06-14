@@ -60,11 +60,4 @@ public class DegreeTypeService implements IDegreeTypeService {
     public List<DegreeType> getAllDegreeTypes() {
         return repository.getAllDegreeTypes();
     }
-
-    public boolean containsOfIdentity(DegreeTypeID id) {
-        if (id == null){
-            throw new IllegalArgumentException("Parameter cannot be null.");
-        }
-        return repository.containsOfIdentity(id);
-    }
 }

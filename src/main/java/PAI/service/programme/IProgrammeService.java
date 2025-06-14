@@ -23,6 +23,5 @@ public interface IProgrammeService {
     List<ProgrammeIDDTO> getProgrammeIDDTOsByDegreeTypeID(DegreeTypeID id);
     Iterable<ProgrammeDTO> getAllProgrammes();
     List<Programme> getProgrammesByProgrammeIDs (List<ProgrammeID> list);
-    boolean containsOfIdentity(ProgrammeID id);
 }
 

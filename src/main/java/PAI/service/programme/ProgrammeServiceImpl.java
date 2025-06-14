@@ -229,11 +229,4 @@ public class ProgrammeServiceImpl implements IProgrammeService {
         }
         return programmeList;
     }
-
-    public boolean containsOfIdentity (ProgrammeID acronym){
-        if (acronym == null){
-            throw new IllegalArgumentException("Parameter cannot be null.");
-        }
-        return _programmeRepository.containsOfIdentity(acronym);
-    }
 }

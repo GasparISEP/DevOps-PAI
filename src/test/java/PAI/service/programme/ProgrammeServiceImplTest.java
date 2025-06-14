@@ -940,44 +940,4 @@ class ProgrammeServiceImplTest {
         assertTrue(result.contains(_programmeDouble));
         assertTrue(result.contains(_programme2Double));
     }
-
-    @Test
-    void shouldReturnTrueWhenContainsIdentity(){
-        //Arrange
-        createDoubles();
-        IProgrammeService programmeService = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService, _departmentServiceDouble, _teacherServiceDouble);
-
-        when(_programmeRepositoryDouble.containsOfIdentity(_programmeIDDouble)).thenReturn(true);
-
-        //Act
-        boolean result = programmeService.containsOfIdentity(_programmeIDDouble);
-
-        //Assert
-        assertTrue(result);
-    }
-
-    @Test
-    void shouldReturnFalseWhenDoesntContainsIdentity(){
-        //Arrange
-        createDoubles();
-        IProgrammeService programmeService = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService, _departmentServiceDouble, _teacherServiceDouble);
-
-        when(_programmeRepositoryDouble.containsOfIdentity(_programmeIDDouble)).thenReturn(false);
-
-        //Act
-        boolean result = programmeService.containsOfIdentity(_programmeIDDouble);
-
-        //Assert
-        assertFalse(result);
-    }
-
-    @Test
-    void shouldThrowExceptionIfNullParameterForContainsOfIdentity(){
-        //Arrange
-        createDoubles();
-        IProgrammeService programmeService = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService, _departmentServiceDouble, _teacherServiceDouble);
-
-        //Act + Assert
-        assertThrows(IllegalArgumentException.class,() -> programmeService.containsOfIdentity(null));
-    }
 }

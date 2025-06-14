@@ -185,38 +185,4 @@ class DegreeTypeServiceTest {
         verify(factory).recreate(id, name, ects);
         verifyNoMoreInteractions(factory, repository);
     }
-
-    @Test
-    void shouldReturnTrueWhenContainsIdentity(){
-        //Arrange
-        DegreeTypeID idDouble = mock(DegreeTypeID.class);
-        when(repository.containsOfIdentity(idDouble)).thenReturn(true);
-
-        //Act
-        boolean result = service.containsOfIdentity(idDouble);
-
-        //Assert
-        assertTrue(result);
-    }
-
-    @Test
-    void shouldReturnFalseWhenDoesntContainsIdentity(){
-        //Arrange
-        DegreeTypeID idDouble = mock(DegreeTypeID.class);
-        when(repository.containsOfIdentity(idDouble)).thenReturn(false);
-
-        //Act
-        boolean result = service.containsOfIdentity(idDouble);
-
-        //Assert
-        assertFalse(result);
-    }
-
-    @Test
-    void shouldThrowExceptionIfNullParameterForContainsOfIdentity(){
-        //Arrange
-
-        //Act
-        assertThrows(IllegalArgumentException.class,() -> service.containsOfIdentity(null));
-    }
 }
