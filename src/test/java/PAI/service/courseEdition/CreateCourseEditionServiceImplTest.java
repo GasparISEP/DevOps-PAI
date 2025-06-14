@@ -1,6 +1,7 @@
 package PAI.service.courseEdition;
 
 import PAI.VOs.*;
+import PAI.assembler.courseEdition.ICourseEditionAssembler;
 import PAI.assembler.courseEdition.ICourseEditionServiceAssembler;
 import PAI.domain.courseEdition.CourseEdition;
 import PAI.domain.courseEdition.ICourseEditionFactory;
@@ -17,17 +18,183 @@ import PAI.domain.repositoryInterfaces.studyPlan.IStudyPlanRepository;
 import PAI.domain.studyPlan.StudyPlan;
 import PAI.dto.courseEdition.CourseEditionResponseDTO;
 import PAI.dto.courseEdition.CourseEditionServiceResponseDTO;
+import PAI.dto.courseEdition.CreateCourseEditionCommand;
+import PAI.exception.AlreadyRegisteredException;
+import PAI.exception.CourseEditionCreationException;
 import PAI.persistence.springdata.courseEdition.CourseEditionRepositorySpringDataImpl;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
 
 import java.util.List;
 
 import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class CreateCourseEditionServiceImplTest {
+
+    @Test
+    void testCreateCourseEditionForRestApi_Success() throws Exception {
+        // Arrange
+        ICourseEditionFactory factory = mock(ICourseEditionFactory.class);
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        IDegreeTypeRepository degreeTypeRepository = mock(IDegreeTypeRepository.class);
+        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
+        IStudyPlanRepository studyPlanRepository = mock(IStudyPlanRepository.class);
+        ICourseInStudyPlanRepository courseInStudyPlanRepository = mock(ICourseInStudyPlanRepository.class);
+        IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
+        ICourseEditionServiceAssembler courseEditionAssembler = mock(ICourseEditionServiceAssembler.class);
+
+        CreateCourseEditionServiceImpl service = new CreateCourseEditionServiceImpl(
+                factory, courseEditionRepository, degreeTypeRepository,
+                programmeRepository, studyPlanRepository,
+                courseInStudyPlanRepository, programmeEditionRepository,
+                courseEditionAssembler
+        );
+
+        CreateCourseEditionCommand command = new CreateCourseEditionCommand(
+                new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Informática"),
+                new Acronym("LEI"),
+                mock(SchoolYearID.class),
+                new Acronym("ES"),
+                new Name("Engenharia de Software"),
+                new Date("31-03-2025")
+        );
+
+        CourseEdition courseEdition = mock(CourseEdition.class);
+        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+        CourseEditionServiceResponseDTO responseDTO = mock(CourseEditionServiceResponseDTO.class);
+
+        when(factory.createCourseEditionToDomain(any(), any())).thenReturn(courseEdition);
+        when(courseEdition.identity()).thenReturn(courseEditionID);
+        when(courseEditionRepository.containsOfIdentity(courseEditionID)).thenReturn(false);
+        when(courseEditionRepository.save(courseEdition)).thenReturn(courseEdition);
+        when(courseEditionAssembler.toServiceResponseDTO(courseEdition)).thenReturn(responseDTO);
+
+        // Act
+        CourseEditionServiceResponseDTO result = service.createCourseEditionForRestApi(command);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(responseDTO, result);
+    }
+
+    @Test
+    void testCreateCourseEditionForRestApi_CommandIsNull_ThrowsIllegalArgumentException() {
+        // Arrange
+        ICourseEditionFactory factory = mock(ICourseEditionFactory.class);
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        IDegreeTypeRepository degreeTypeRepository = mock(IDegreeTypeRepository.class);
+        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
+        IStudyPlanRepository studyPlanRepository = mock(IStudyPlanRepository.class);
+        ICourseInStudyPlanRepository courseInStudyPlanRepository = mock(ICourseInStudyPlanRepository.class);
+        IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
+        ICourseEditionServiceAssembler courseEditionAssembler = mock(ICourseEditionServiceAssembler.class);
+
+        CreateCourseEditionServiceImpl service = new CreateCourseEditionServiceImpl(
+                factory, courseEditionRepository, degreeTypeRepository,
+                programmeRepository, studyPlanRepository,
+                courseInStudyPlanRepository, programmeEditionRepository,
+                courseEditionAssembler
+        );
+
+        // Act & Assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            service.createCourseEditionForRestApi(null);
+        });
+
+        assertEquals("CreateCourseEditionCommand cannot be null.", exception.getMessage());
+    }
+
+    @Test
+    void testCreateCourseEditionForRestApi_AlreadyExists_ThrowsAlreadyRegisteredException() {
+        // Arrange
+        ICourseEditionFactory factory = mock(ICourseEditionFactory.class);
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        IDegreeTypeRepository degreeTypeRepository = mock(IDegreeTypeRepository.class);
+        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
+        IStudyPlanRepository studyPlanRepository = mock(IStudyPlanRepository.class);
+        ICourseInStudyPlanRepository courseInStudyPlanRepository = mock(ICourseInStudyPlanRepository.class);
+        IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
+        ICourseEditionServiceAssembler courseEditionAssembler = mock(ICourseEditionServiceAssembler.class);
+
+        CreateCourseEditionServiceImpl service = new CreateCourseEditionServiceImpl(
+                factory, courseEditionRepository, degreeTypeRepository,
+                programmeRepository, studyPlanRepository,
+                courseInStudyPlanRepository, programmeEditionRepository,
+                courseEditionAssembler
+        );
+
+        CreateCourseEditionCommand command = new CreateCourseEditionCommand(
+                new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Informática"),
+                new Acronym("LEI"),
+                mock(SchoolYearID.class),
+                new Acronym("ES"),
+                new Name("Engenharia de Software"),
+                new Date("31-03-2025")
+        );
+
+        CourseEdition courseEdition = mock(CourseEdition.class);
+        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+
+        when(factory.createCourseEditionToDomain(any(), any())).thenReturn(courseEdition);
+        when(courseEdition.identity()).thenReturn(courseEditionID);
+        when(courseEditionRepository.containsOfIdentity(courseEditionID)).thenReturn(true);
+
+        // Act & Assert
+        assertThrows(AlreadyRegisteredException.class, () -> {
+            service.createCourseEditionForRestApi(command);
+        });
+    }
+
+    @Test
+    void testCreateCourseEditionForRestApi_SaveThrowsException_ThrowsCourseEditionCreationException() throws Exception {
+        // Arrange
+        ICourseEditionFactory factory = mock(ICourseEditionFactory.class);
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        IDegreeTypeRepository degreeTypeRepository = mock(IDegreeTypeRepository.class);
+        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
+        IStudyPlanRepository studyPlanRepository = mock(IStudyPlanRepository.class);
+        ICourseInStudyPlanRepository courseInStudyPlanRepository = mock(ICourseInStudyPlanRepository.class);
+        IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
+        ICourseEditionServiceAssembler courseEditionAssembler = mock(ICourseEditionServiceAssembler.class);
+
+        CreateCourseEditionServiceImpl service = new CreateCourseEditionServiceImpl(
+                factory, courseEditionRepository, degreeTypeRepository,
+                programmeRepository, studyPlanRepository,
+                courseInStudyPlanRepository, programmeEditionRepository,
+                courseEditionAssembler
+        );
+
+        CreateCourseEditionCommand command = new CreateCourseEditionCommand(
+                new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Informática"),
+                new Acronym("LEI"),
+                mock(SchoolYearID.class),
+                new Acronym("ES"),
+                new Name("Engenharia de Software"),
+                new Date("31-03-2025")
+        );
+
+        CourseEdition courseEdition = mock(CourseEdition.class);
+        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+
+        when(factory.createCourseEditionToDomain(any(), any())).thenReturn(courseEdition);
+        when(courseEdition.identity()).thenReturn(courseEditionID);
+        when(courseEditionRepository.containsOfIdentity(courseEditionID)).thenReturn(false);
+        when(courseEditionRepository.save(courseEdition)).thenThrow(new RuntimeException("DB error"));
+
+        // Act & Assert
+        assertThrows(CourseEditionCreationException.class, () -> {
+            service.createCourseEditionForRestApi(command);
+        });
+    }
+
 
     @Test
     public void testCreateAndSaveCourseEdition_Success() throws Exception {
@@ -375,75 +542,5 @@ class CreateCourseEditionServiceImplTest {
         assertEquals(1, result.size());
     }
 
-    @Test
-    public void testCreateCourseEditionAndReturnDTO_Success() throws Exception {
-        // Arrange
-        ICourseEditionFactory factory = mock(ICourseEditionFactory.class);
-        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
-        IDegreeTypeRepository degreeTypeRepository = mock(IDegreeTypeRepository.class);
-        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
-        IStudyPlanRepository studyPlanRepository = mock(IStudyPlanRepository.class);
-        ICourseInStudyPlanRepository courseInStudyPlanRepository = mock(ICourseInStudyPlanRepository.class);
-        IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
-        ICourseEditionServiceAssembler courseEditionAssembler = mock(ICourseEditionServiceAssembler.class);
 
-        CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
-        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
-        CourseEdition courseEdition = mock(CourseEdition.class);
-        CourseEditionID courseEditionID = mock(CourseEditionID.class);
-        CourseEditionServiceResponseDTO dto = mock(CourseEditionServiceResponseDTO.class);
-
-        when(courseEdition.identity()).thenReturn(courseEditionID);
-        when(courseEditionID.toString()).thenReturn("fake-id");
-
-        when(factory.createCourseEditionToDomain(courseInStudyPlanID, programmeEditionID)).thenReturn(courseEdition);
-        when(courseEditionRepository.containsOfIdentity(courseEditionID)).thenReturn(false);
-        when(courseEditionRepository.save(courseEdition)).thenReturn(courseEdition);
-        when(courseEditionAssembler.toResponseDTO(courseEdition)).thenReturn(dto);
-
-        CreateCourseEditionServiceImpl service = new CreateCourseEditionServiceImpl(
-                factory, courseEditionRepository, degreeTypeRepository,
-                programmeRepository, studyPlanRepository,
-                courseInStudyPlanRepository, programmeEditionRepository,
-                courseEditionAssembler
-        );
-
-        // Act
-        CourseEditionServiceResponseDTO result = service.createCourseEditionAndReturnDTO(courseInStudyPlanID, programmeEditionID);
-
-        // Assert
-        assertNotNull(result);
-        assertEquals(dto, result);
-    }
-
-    @Test
-    public void testCreateCourseEditionAndReturnDTO_Failure_ReturnsNull() throws Exception {
-        // Arrange
-        ICourseEditionFactory factory = mock(ICourseEditionFactory.class);
-        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
-        IDegreeTypeRepository degreeTypeRepository = mock(IDegreeTypeRepository.class);
-        IProgrammeRepository programmeRepository = mock(IProgrammeRepository.class);
-        IStudyPlanRepository studyPlanRepository = mock(IStudyPlanRepository.class);
-        ICourseInStudyPlanRepository courseInStudyPlanRepository = mock(ICourseInStudyPlanRepository.class);
-        IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
-        ICourseEditionServiceAssembler courseEditionAssembler = mock(ICourseEditionServiceAssembler.class);
-
-        CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
-        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
-
-        when(factory.createCourseEditionToDomain(courseInStudyPlanID, programmeEditionID)).thenReturn(null);
-
-        CreateCourseEditionServiceImpl service = new CreateCourseEditionServiceImpl(
-                factory, courseEditionRepository, degreeTypeRepository,
-                programmeRepository, studyPlanRepository,
-                courseInStudyPlanRepository, programmeEditionRepository,
-                courseEditionAssembler
-        );
-
-        // Act
-        CourseEditionServiceResponseDTO result = service.createCourseEditionAndReturnDTO(courseInStudyPlanID, programmeEditionID);
-
-        // Assert
-        assertNull(result);
-    }
 }
