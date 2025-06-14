@@ -1,14 +1,17 @@
 package PAI.service.programmeEditionEnrolment;
 
 import PAI.VOs.*;
+import PAI.assembler.programmeEdition.IProgrammeEditionControllerAssembler;
 import PAI.assembler.programmeEditionEnrolment.StudentProgrammeEditionEnrolmentAssemblerImpl;
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.domain.programmeEditionEnrolment.IProgrammeEditionEnrolmentFactory;
 import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolment;
 import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
+import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
 import PAI.domain.repositoryInterfaces.programmeEdition.IProgrammeEditionRepository;
 import PAI.domain.repositoryInterfaces.programmeEditionEnrolment.IProgrammeEditionEnrolmentRepository;
 import PAI.domain.repositoryInterfaces.programmeEnrolment.IProgrammeEnrolmentRepository;
+import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
 import PAI.dto.programmeEditionEnrolment.StudentProgrammeEditionEnrolmentDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,6 +32,9 @@ class StudentProgrammeEditionEnrolmentServiceImplTest {
     private IProgrammeEditionEnrolmentRepository programmeEditionEnrolmentRepository;
     private IProgrammeEditionEnrolmentFactory programmeEditionEnrolmentFactory;
     private StudentProgrammeEditionEnrolmentAssemblerImpl assembler;
+    private IProgrammeEditionControllerAssembler programmeEditionControllerAssembler;
+    private ISchoolYearRepository schoolYearRepository;
+    private IProgrammeRepository programmeRepository;
 
     private StudentProgrammeEditionEnrolmentServiceImpl service;
 
@@ -39,14 +45,21 @@ class StudentProgrammeEditionEnrolmentServiceImplTest {
         programmeEditionEnrolmentRepository = mock(IProgrammeEditionEnrolmentRepository.class);
         programmeEditionEnrolmentFactory = mock(IProgrammeEditionEnrolmentFactory.class);
         assembler = mock(StudentProgrammeEditionEnrolmentAssemblerImpl.class);
+        programmeEditionControllerAssembler = mock(IProgrammeEditionControllerAssembler.class);
+        schoolYearRepository = mock(ISchoolYearRepository.class);
+        programmeRepository = mock(IProgrammeRepository.class);
 
         service = new StudentProgrammeEditionEnrolmentServiceImpl(
                 programmeEnrolmentRepository,
                 programmeEditionRepository,
                 programmeEditionEnrolmentRepository,
                 programmeEditionEnrolmentFactory,
-                assembler
-        );
+                assembler,
+                programmeEditionControllerAssembler,
+                schoolYearRepository,
+                programmeRepository
+
+                );
     }
 
     @Test
