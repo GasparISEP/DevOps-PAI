@@ -43,18 +43,38 @@ const TeacherCareerProgressionComponent = () => {
                     <h2 className="tcp-title">Teacher Career Progression Details</h2>
                     <table className="tcp-table">
                         <tbody>
-                        <tr className="tcp-row"><th className="tcp-label">Progression ID</th><td className="tcp-value">{progression.teacherCareerProgressionId}</td></tr>
-                        <tr className="tcp-row"><th className="tcp-label">Date</th><td className="tcp-value">{new Date(progression.date).toLocaleDateString()}</td></tr>
-                        <tr className="tcp-row"><th className="tcp-label">Teacher ID</th><td className="tcp-value">{progression.teacherID}</td></tr>
-                        <tr className="tcp-row"><th className="tcp-label">Category ID</th><td className="tcp-value">{progression.teacherCategoryID}</td></tr>
-                        <tr className="tcp-row"><th className="tcp-label">Working Percentage</th><td className="tcp-value">{progression.workingPercentage}%</td></tr>
+                        <tr className="tcp-row">
+                            <th className="tcp-label">Progression ID</th>
+                            <td className="tcp-value">{progression.teacherCareerProgressionId}</td>
+                        </tr>
+                        <tr className="tcp-row">
+                            <th className="tcp-label">Date</th>
+                            <td className="tcp-value">
+                                {(() => {
+                                    const [day, month, year] = progression.date.split('-');
+                                    return `${day}-${month}-${year}`;
+                                })()}
+                            </td>
+                        </tr>
+                        <tr className="tcp-row">
+                            <th className="tcp-label">Teacher ID</th>
+                            <td className="tcp-value">{progression.teacherID}</td>
+                        </tr>
+                        <tr className="tcp-row">
+                            <th className="tcp-label">Category ID</th>
+                            <td className="tcp-value">{progression.teacherCategoryID}</td>
+                        </tr>
+                        <tr className="tcp-row">
+                            <th className="tcp-label">Working Percentage</th>
+                            <td className="tcp-value">{progression.workingPercentage}%</td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
 
             <div className="component-footer-wrapper">
-                <Footer />
+                <Footer/>
             </div>
         </div>
     );
