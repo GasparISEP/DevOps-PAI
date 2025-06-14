@@ -1,6 +1,7 @@
 package PAI.service.programmeEditionEnrolment;
 
 import PAI.VOs.*;
+import PAI.dto.programmeEdition.ProgrammeEditionWithNameAndDescriptionResponseDTO;
 import PAI.dto.programmeEditionEnrolment.StudentProgrammeEditionEnrolmentDTO;
 
 import java.time.LocalDate;
@@ -18,4 +19,10 @@ public interface IStudentProgrammeEditionEnrolmentService {
     List<ProgrammeEditionID> getAvailableProgrammeEditions(ProgrammeID programmeID, LocalDate date);
 
     ProgrammeID findProgrammeIDByProgrammeEnrolmentGeneratedID (ProgrammeEnrolmentGeneratedID programmeEnrolmentGeneratedID);
+
+    List<ProgrammeEditionID> getProgrammesEditionsIdWhereStudentIsEnrolled(StudentID studentID);
+
+    List<ProgrammeEditionID> possibleProgrammeEditionsWhereStudentCanBeEnrolled(List<ProgrammeEditionID> ProgrammeEditionsIdsAvailable, List<ProgrammeEditionID> ProgrammeEditionsIdsAlreadyTaken);
+
+    ProgrammeEditionWithNameAndDescriptionResponseDTO programmeEditionWithNameAndDescription(ProgrammeEditionID programmeEditionID);
 }

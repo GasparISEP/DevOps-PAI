@@ -121,9 +121,13 @@ const NavBar = () => {
                     Average Grade
                   </Link>
                 </li>
+                <li>
+                  <Link to="/course-editions/Define-ruc " className="navbar-link">
+                    Define Ruc
+                  </Link>
+                </li>
               </ul>
             </li>
-
           </ul>
         </nav>
       </div>

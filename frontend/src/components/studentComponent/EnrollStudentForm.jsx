@@ -68,10 +68,7 @@ export default function EnrollStudentForm() {
         if (!form.studentId) return;
 
         try {
-            const response = await getEnrolledProgrammes(form.studentId);
-
-            // ✅ Usa o campo certo do DTO:
-            const programmes = response.programmeInfo || [];
+            const programmes = await getEnrolledProgrammes(form.studentId);
 
             if (programmes.length === 0) {
                 setError('Este estudante não está inscrito em nenhum programa.');
@@ -128,6 +125,7 @@ export default function EnrollStudentForm() {
 
             try {
                 const courseList = await getAvailableCourses(payload);
+                console.log("Courses returned:", courseList);
                 setCourses(courseList);
             } catch (err) {
                 console.error(err);
@@ -136,7 +134,7 @@ export default function EnrollStudentForm() {
         };
 
         fetchCourses();
-    }, [form.edition]);
+    }, [form.edition, editions, form.programme]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -147,17 +145,30 @@ export default function EnrollStudentForm() {
         }
 
         const selectedEdition = editions.find(e => e.value === form.edition);
-        if (!selectedEdition) return;
+        if (!selectedEdition) {
+            setError('Edição do programa inválida.');
+            return;
+        }
 
         const payload = {
             studentId: parseInt(form.studentId),
             programmeAcronym: selectedEdition.acronym,
             schoolYearId: selectedEdition.value,
-            courseIds: form.selectedCourses.map(acronym => ({ acronym }))
+            courseIds: form.selectedCourses.map(acronym => {
+                const course = courses.find(c => c.acronym === acronym);
+                return {
+                    acronym: course.acronym,
+                    name: course.name,
+                    studyPlanDate: course.studyPlanDate,
+                    programmeAcronym: course.programmeAcronym
+                };
+            })
         };
 
+        console.log("Payload being sent:", payload);
+
         try {
-            const result = await enrolStudent(form.studentId, payload);
+            await enrolStudent(form.studentId, payload);
             setSuccess({
                 studentID: form.studentId,
                 programmeEdition: `${selectedEdition.acronym} - ${selectedEdition.value}`,
@@ -198,7 +209,9 @@ export default function EnrollStudentForm() {
                                 <select name="programme" id="programme" className="form-input" value={form.programme} onChange={handleChange}>
                                     <option value="">-- Choose Programme --</option>
                                     {programmes.map(p => (
-                                        <option key={p.programmeEnrolmentGeneratedID} value={p.programmeEnrolmentGeneratedID}>{p.programmeAcronym}</option>
+                                        <option key={p.generatedID} value={p.generatedID}>
+                                            {p.programmeID}
+                                        </option>
                                     ))}
                                 </select>
                             </div>

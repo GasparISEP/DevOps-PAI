@@ -5,6 +5,7 @@ import PAI.assembler.programmeEdition.IProgrammeEditionControllerAssembler;
 import PAI.assembler.programmeEnrolment.IProgrammeEnrolmentAssembler;
 import PAI.assembler.totalEnrolledStudentsInProgrammesByDepartmentAndSchoolYear.ITotalEnrolledStudentsAssembler;
 
+import PAI.dto.programmeEdition.ProgrammeEditionWithNameAndDescriptionResponseDTO;
 import PAI.dto.totalEnrolledStudents.TotalEnrolledStudentsCommand;
 import PAI.dto.totalEnrolledStudents.TotalEnrolledStudentsRequest;
 
@@ -200,28 +201,34 @@ class ProgrammeEnrolmentRestControllerTest {
         UUID gid = UUID.fromString("123e4567-e89b-12d3-a456-426614174002");
         ProgrammeEnrolmentGeneratedID genId = new ProgrammeEnrolmentGeneratedID(gid);
         LocalDate enrolDate = LocalDate.of(2020, 1, 1);
-        SchoolYearID schoolYearID = new SchoolYearID(UUID.fromString("d19b1a3f-9b68-41c4-9f35-b061e4799d9d"));
         ProgrammeID programmeID = new ProgrammeID(new Acronym("CSD"));
-        ProgrammeEditionID edId = new ProgrammeEditionID(programmeID, schoolYearID);
+        SchoolYearID schoolYearID = new SchoolYearID(UUID.fromString("d19b1a3f-9b68-41c4-9f35-b061e4799d9d"));
+        ProgrammeEditionID editionID = new ProgrammeEditionID(programmeID, schoolYearID);
+        StudentID studentID = new StudentID(1234567);
 
-        ProgrammeEditionIdDto dto = new ProgrammeEditionIdDto("CSD", "d19b1a3f-9b68-41c4-9f35-b061e4799d9d");
+        ProgrammeEditionWithNameAndDescriptionResponseDTO dto =
+                new ProgrammeEditionWithNameAndDescriptionResponseDTO(
+                        "CSD",
+                        "d19b1a3f-9b68-41c4-9f35-b061e4799d9d",
+                        "Programme Name",
+                        "Programme Description"
+                );
 
-        when(programmeEnrolmentAssembler.toProgrammeEnrolmentGeneratedID(any(ProgrammeEnrolmentIdDTO.class)))
-            .thenReturn(genId);
-        when(iStudentProgrammeEnrolmentService.findDateByProgrammeEnrolmentGeneratedID(genId))
-            .thenReturn(enrolDate);
-        when(iStudentProgrammeEnrolmentService.findProgrammeIDByProgrammeEnrolmentGeneratedID(genId))
-            .thenReturn(programmeID);
-        when(iStudentProgrammeEnrolmentService.getAvailableProgrammeEditions(programmeID, enrolDate))
-            .thenReturn(List.of(edId));
-        when(iProgrammeEditionControllerAssembler.toIdDto(edId)).thenReturn(dto);
+        when(programmeEnrolmentAssembler.toProgrammeEnrolmentGeneratedID(any())).thenReturn(genId);
+        when(iStudentProgrammeEnrolmentService.findStudentIDByProgrammeEnrolmentGeneratedID(genId)).thenReturn(studentID);
+        when(iStudentProgrammeEnrolmentService.getProgrammesEditionsIdWhereStudentIsEnrolled(studentID)).thenReturn(List.of());
+        when(iStudentProgrammeEnrolmentService.findDateByProgrammeEnrolmentGeneratedID(genId)).thenReturn(enrolDate);
+        when(iStudentProgrammeEnrolmentService.findProgrammeIDByProgrammeEnrolmentGeneratedID(genId)).thenReturn(programmeID);
+        when(iStudentProgrammeEnrolmentService.getAvailableProgrammeEditions(programmeID, enrolDate)).thenReturn(List.of(editionID));
+        when(iStudentProgrammeEnrolmentService.possibleProgrammeEditionsWhereStudentCanBeEnrolled(any(), any())).thenReturn(List.of(editionID));
+        when(iStudentProgrammeEnrolmentService.programmeEditionWithNameAndDescription(editionID)).thenReturn(dto);
 
-        String expectedJson = "[" + objectMapper.writeValueAsString(dto) + "]";
+        String expectedJson = objectMapper.writeValueAsString(List.of(dto));
 
         mockMvc.perform(get("/programme-enrolments/{programmeEnrolmentGID}/available-programme-editions", gid)
-                .accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk())
-                .andExpect(content().string(expectedJson));
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json(expectedJson));
     }
 
     @Test
