@@ -78,7 +78,7 @@ public CourseEditionRestController(
     this.defineRucService = validateNotNull(defineRucService, "DefineRucService");
     this.courseEditionHateoasAssembler = validateNotNull(courseEditionHateoasAssembler, "CourseEditionHateoasAssembler");
     this.studentCountAssembler = validateNotNull(studentCountAssembler, "StudentCountAssembler");
-    this.courseEditionEnrolmentHateoasAssembler = Objects.requireNonNull(courseEditionEnrolmentHateoasAssembler);
+    this.courseEditionEnrolmentHateoasAssembler = validateNotNull(courseEditionEnrolmentHateoasAssembler, "CourseEditionEnrolmentHateoasAssembler");
 }
 
     @PostMapping("/students/{id}/courses-edition-enrolments")
