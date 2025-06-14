@@ -10,6 +10,15 @@ public record AvailableCoursesInfoRspDTO(
         String name,
         @Min(value = 1)
         @Max(value = 60)
-        double qtyECTs
+        double qtyECTs,
+        @Min(value = 1)
+        @Max(value = 10)
+        int curricularYear,
+        @Min(1)
+        @Max(2)
+        int semester
+
+
+
 ) {
 }

@@ -73,7 +73,9 @@ public class CourseAssemblerImpl implements ICourseAssembler {
         String acronym = availableCourseInfo.courseID().getAcronym().toString();
         String name = availableCourseInfo.courseID().getName().getName();
         double qtyECTs = availableCourseInfo.qtyEcts().getQuantity();
-        return new AvailableCoursesInfoRspDTO(acronym,name,qtyECTs);
+        int curricularYear = availableCourseInfo.curricularYear().toInt();
+        int semester = availableCourseInfo.semester().toInt();
+        return new AvailableCoursesInfoRspDTO(acronym,name,qtyECTs,curricularYear,semester);
     }
 
     public List<AvailableCoursesInfoRspDTO> toAvailableCourseDTOs (List<AvailableCourseInfo> list){

@@ -13,6 +13,8 @@ import RegisterGradeStudentPage from "./pages/gradeStudentPage/RegisterGradeStud
 import CourseEditionAverageGradePage from "./pages/CourseEditionAverageGradePage";
 import TeacherCareerProgressionComponent from './components/teacherCareerProgressionComponent/TeacherCareerProgressionComponent';
 import DefineRucPage from "./pages/CourseEditionPage/DefineRucPage";
+import UpdateTeacherCategoryPage from './pages/teacherCategoryPage/UpdateTeacherCategoryPage';
+
 function AppRoutes() {
         return (
             <Routes>
@@ -23,6 +25,7 @@ function AppRoutes() {
                     <Route path="/students/enroll" element={<EnrollStudentInCoursesPage />} />
                     <Route path="/teachers/register" element={<RegisterTeacherPage />} />
                     <Route path="/teachers/display" element={<DisplayTeacherPage />} />
+                    <Route path="/teachers/update-category" element={<UpdateTeacherCategoryPage />} />
                     <Route path="/programmes" element={<RegisterProgrammePage />} />
                     <Route path="/courses" element={<RegisterCourseInStudyPlanPage />} />
                     <Route path="/courseeditions/display" element={<DisplayCourseEditionPage />} />

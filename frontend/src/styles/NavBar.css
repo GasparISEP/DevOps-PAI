@@ -75,6 +75,7 @@
   /*width: 100%;*/
   /*min-width: 180px;*/
   padding: 0;
+  z-index: 9999;
 }
 
 .navbar-dropdown-menu.show {
@@ -186,6 +187,7 @@
 @media screen and (max-width: 480px) {
   .main-navbar-div {
     padding: 0 1rem;
+    z-index: 9999
   }
 
   .navbar {
