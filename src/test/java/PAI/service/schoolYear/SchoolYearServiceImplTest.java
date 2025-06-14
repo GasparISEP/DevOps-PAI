@@ -11,6 +11,7 @@ import PAI.domain.schoolYear.SchoolYear;
 import PAI.domain.schoolYear.SchoolYearFactoryImpl;
 import PAI.dto.schoolYear.CurrentSchoolYearDTO;
 import PAI.dto.schoolYear.SchoolYearDTO;
+import PAI.dto.schoolYear.SchoolYearIDDescriptionResponseDTO;
 import PAI.persistence.mem.schoolYear.SchoolYearRepositoryImpl;
 import org.junit.jupiter.api.Test;
 
@@ -486,4 +487,26 @@ class SchoolYearServiceImplTest {
         assertTrue(opt1.isPresent());
     }
 
+    @Test
+    void getAllSchoolYearsIDDescriptions_returnsCorrectDTOs() {
+        ISchoolYearRepository repo = mock(ISchoolYearRepository.class);
+        ISchoolYearFactory schoolYearFactory = mock(ISchoolYearFactory.class);
+        ISchoolYearAssembler schoolYearAssembler = mock(ISchoolYearAssembler.class);
+        SchoolYearServiceImpl service = new SchoolYearServiceImpl(repo, schoolYearFactory, schoolYearAssembler);
+
+        SchoolYear schoolYear = mock(SchoolYear.class);
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+        when(schoolYear.identity()).thenReturn(schoolYearID);
+        when(schoolYearID.toString()).thenReturn("id1");
+        Description description = mock(Description.class);
+        when(schoolYear.getDescription()).thenReturn(description);
+        when(description.getDescription()).thenReturn("2015");
+        when(repo.findAll()).thenReturn(List.of(schoolYear));
+
+        List<SchoolYearIDDescriptionResponseDTO> result = service.getAllSchoolYearsIDDescriptions();
+
+        assertEquals(1, result.size());
+        assertEquals("id1", result.get(0).id());
+        assertEquals("2015", result.get(0).description());
+    }
 }
