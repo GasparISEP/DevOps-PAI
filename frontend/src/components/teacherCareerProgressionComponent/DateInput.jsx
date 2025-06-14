@@ -42,7 +42,7 @@ export default function DateInput({ value, onChange, error }) {
                     onChange(formatted);
                 }}
                 dateFormat="dd-MM-yyyy"
-                placeholderText="-- Select a Date --"
+                placeholderText="Select a Date"
                 customInput={<CustomDateInput />}
             />
             {error && <div className="form-error">{error}</div>}

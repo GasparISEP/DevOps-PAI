@@ -28,7 +28,7 @@ describe('TeacherSelect component', () => {
         setup();
         const options = screen.getAllByRole('option');
         expect(options).toHaveLength(mockOptions.length + 1); // including default
-        expect(options[0].textContent).toBe('-- Select a Teacher --');
+        expect(options[0].textContent).toBe('Select a Teacher');
         expect(options[1].textContent).toContain('t1 - Alice Johnson');
         expect(options[2].textContent).toContain('t2 - Bob Smith');
     });
