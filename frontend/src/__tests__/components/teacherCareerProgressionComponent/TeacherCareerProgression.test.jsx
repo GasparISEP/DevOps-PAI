@@ -1,5 +1,6 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import TeacherCareerProgressionComponent from '../../../components/teacherCareerProgressionComponent/TeacherCareerProgressionComponent';
 
@@ -56,7 +57,7 @@ describe('TeacherCareerProgressionComponent', () => {
         expect(screen.getByText('prog-abc-123')).toBeInTheDocument();
 
         expect(screen.getByText('Date')).toBeInTheDocument();
-        expect(screen.getByText('2025-06-14')).toBeInTheDocument();
+        expect(screen.getByText('14/06/2025')).toBeInTheDocument();
 
         expect(screen.getByText('Teacher ID')).toBeInTheDocument();
         expect(screen.getByText('T-456')).toBeInTheDocument();
@@ -109,5 +110,40 @@ describe('TeacherCareerProgressionComponent', () => {
         await screen.findByText(/No data found./i);
 
         expect(screen.getByText(/No data found./i)).toBeInTheDocument();
+    });
+
+    test('navigates to the home page when the "Back to Home Page" link is clicked', async () => {
+        const user = userEvent.setup();
+        const DummyHomeComponent = () => <h1>Welcome to the Home Page</h1>;
+
+        global.fetch = jest.fn(() =>
+            Promise.resolve({
+                ok: true,
+                json: () => Promise.resolve({
+                    teacherCareerProgressionId: 'prog-123',
+                    date: '2025-06-15',
+                    teacherID: 'T-123',
+                    teacherCategoryID: 'CAT-B',
+                    workingPercentage: 100,
+                }),
+            })
+        );
+
+        render(
+            <MemoryRouter initialEntries={['/teacher-career-progressions/123']}>
+                <Routes>
+                    <Route path="/teacher-career-progressions/:id" element={<TeacherCareerProgressionComponent />} />
+                    <Route path="/" element={<DummyHomeComponent />} />
+                </Routes>
+            </MemoryRouter>
+        );
+
+        await screen.findByText('Teacher Career Progression Details');
+
+        const backLink = screen.getByRole('link', { name: /back to home page/i });
+
+        await user.click(backLink);
+
+        expect(screen.getByText(/Welcome to the Home Page/i)).toBeInTheDocument();
     });
 });
