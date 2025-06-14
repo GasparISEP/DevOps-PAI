@@ -1,6 +1,8 @@
 package PAI.assembler.programmeEdition;
 
 import PAI.VOs.*;
+import PAI.domain.programme.Programme;
+import PAI.domain.schoolYear.SchoolYear;
 import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.programmeEdition.*;
 import org.springframework.stereotype.Component;
@@ -44,5 +46,22 @@ public class ProgrammeEditionControllerAssembler implements IProgrammeEditionCon
         String acronym = id.getProgrammeID().getAcronym().getAcronym();
         String schoolYearId = id.getSchoolYearID().getSchoolYearID().toString();
         return new ProgrammeEditionIdDto(acronym, schoolYearId);
+    }
+
+    public ProgrammeEditionWithNameAndDescriptionResponseDTO toProgrammeEditionIdResponseDto(Programme programme, SchoolYear schoolYear) {
+        if (programme == null) {
+            throw new IllegalArgumentException("ProgrammeEdition cannot be null");
+        }
+
+        if (schoolYear == null) {
+            throw new IllegalArgumentException("ProgrammeEdition cannot be null");
+        }
+
+        String name = programme.getProgrammeName().getNameWithNumbersAndSpecialChars();
+        String acronym = programme.getAcronym().getAcronym();
+        String schoolYearId = schoolYear.identity().toString();
+        String description = schoolYear.getDescription().getDescription();
+
+        return new ProgrammeEditionWithNameAndDescriptionResponseDTO(acronym,schoolYearId, name, description);
     }
 }
