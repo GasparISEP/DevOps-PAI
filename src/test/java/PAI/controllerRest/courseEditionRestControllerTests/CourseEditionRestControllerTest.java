@@ -12,6 +12,8 @@ import PAI.dto.studentGrade.GradeAStudentCommand;
 import PAI.dto.studentGrade.GradeAStudentRequestDTO;
 import PAI.dto.studentGrade.GradeAStudentResponseDTO;
 import PAI.dto.courseEdition.*;
+import PAI.exception.ErrorResponse;
+import PAI.exception.GlobalExceptionHandler;
 import PAI.exception.NotFoundException;
 import PAI.service.courseEdition.ICourseEditionService;
 import PAI.service.courseEdition.ICreateCourseEditionService;
@@ -37,6 +39,8 @@ import PAI.assembler.courseEditionEnrolment.ICourseEditionEnrolmentAssembler;
 import PAI.dto.courseEditionEnrolment.CourseEditionEnrolmentDto;
 import PAI.service.courseEditionEnrolment.ICourseEditionEnrolmentService;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -248,8 +252,12 @@ class CourseEditionRestControllerTest {
         );
 
         CreateCourseEditionCommand command = new CreateCourseEditionCommand(
-                new NameWithNumbersAndSpecialChars(dto.programmeName()), new Acronym(dto.programmeAcronym()), new SchoolYearID(dto.schoolYearID()),
-                new Acronym(dto.courseAcronym()), new Name(dto.courseName()), new Date(dto.studyPlanImplementationDate())
+                new NameWithNumbersAndSpecialChars(dto.programmeName()),
+                new Acronym(dto.programmeAcronym()),
+                new SchoolYearID(dto.schoolYearID()),
+                new Acronym(dto.courseAcronym()),
+                new Name(dto.courseName()),
+                new Date(dto.studyPlanImplementationDate())
         );
 
         CourseEditionServiceResponseDTO serviceResponseDTO = new CourseEditionServiceResponseDTO(
@@ -263,20 +271,19 @@ class CourseEditionRestControllerTest {
         );
 
         when(courseEditionAssembler.toCommand(dto)).thenReturn(command);
-        when(createCourseEditionService.createCourseEditionAndReturnDTO(any(), any())).thenReturn(serviceResponseDTO);
+        when(createCourseEditionService.createCourseEditionForRestApi(command)).thenReturn(serviceResponseDTO);
         when(courseEditionAssembler.toResponseDTO(serviceResponseDTO)).thenReturn(responseDTO);
 
         // Act
-        ResponseEntity<?> response = courseEditionRestController.createCourseEdition(dto);
+        ResponseEntity<CourseEditionResponseDTO> response = courseEditionRestController.createCourseEdition(dto);
 
         // Assert
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertNotNull(response.getHeaders().getLocation());
         assertEquals("/course-editions/" + generatedID.toString(), response.getHeaders().getLocation().toString());
         assertNotNull(response.getBody());
-        assertTrue(response.getBody() instanceof CourseEditionResponseDTO);
 
-        CourseEditionResponseDTO actualBody = (CourseEditionResponseDTO) response.getBody();
+        CourseEditionResponseDTO actualBody = response.getBody();
 
         assertEquals(responseDTO.courseEditionID(), actualBody.courseEditionID());
         assertEquals(responseDTO.programmeAcronym(), actualBody.programmeAcronym());
@@ -286,28 +293,33 @@ class CourseEditionRestControllerTest {
         assertEquals(responseDTO.studyPlanImplementationDate(), actualBody.studyPlanImplementationDate());
     }
 
-
     @Test
-    void whenServiceReturnsNull_thenReturnsBadRequest() {
-        // Arrange
+    void whenServiceThrowsIllegalArgumentException_thenReturnsBadRequest() throws Exception {
         CourseEditionRequestDTO dto = new CourseEditionRequestDTO(
                 "LEI", "LEIC", UUID.randomUUID(),
                 "SA", "Software Architecture", LocalDate.of(2023, 9, 1)
         );
 
-        when(courseEditionAssembler.toCommand(any())).thenReturn(mock(CreateCourseEditionCommand.class));
-        when(createCourseEditionService.createCourseEditionAndReturnDTO(any(), any())).thenReturn(null);
+        CreateCourseEditionCommand command = mock(CreateCourseEditionCommand.class);
+        when(courseEditionAssembler.toCommand(any())).thenReturn(command);
+        when(createCourseEditionService.createCourseEditionForRestApi(command))
+                .thenThrow(new IllegalArgumentException("Invalid request"));
 
-        // Act
-        ResponseEntity<?> response = courseEditionRestController.createCourseEdition(dto);
-
-        // Assert
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        mockMvc.perform(post("/course-editions")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value("ARGUMENT_INVALID"))
+                .andExpect(jsonPath("$.message").value("Invalid request"));
     }
 
+
     @Test
-    void whenExceptionThrown_thenReturnsBadRequestWithMessage() {
-        // Arrange
+    void whenExceptionThrown_thenReturnsBadRequestWithMessage() throws Exception {
+        mockMvc = MockMvcBuilders.standaloneSetup(courseEditionRestController)
+                .setControllerAdvice(new GlobalExceptionHandler()) // adiciona aqui o ControllerAdvice
+                .build();
+
         CourseEditionRequestDTO dto = new CourseEditionRequestDTO(
                 "LEI", "LEIC", UUID.randomUUID(),
                 "SA", "Software Architecture", LocalDate.of(2023, 9, 1)
@@ -315,13 +327,14 @@ class CourseEditionRestControllerTest {
 
         when(courseEditionAssembler.toCommand(any())).thenThrow(new IllegalArgumentException("Invalid request"));
 
-        // Act
-        ResponseEntity<?> response = courseEditionRestController.createCourseEdition(dto);
-
-        // Assert
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertEquals("Invalid request", response.getBody());
+        mockMvc.perform(post("/course-editions") // aqui o endpoint real
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value("ARGUMENT_INVALID"))
+                .andExpect(jsonPath("$.message").value("Invalid request"));
     }
+
 
     @Test
     void findAllCourseEditionsShouldReturnAllCourseEditions() throws Exception {
