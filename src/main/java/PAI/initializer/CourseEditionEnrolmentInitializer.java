@@ -54,7 +54,7 @@ public class CourseEditionEnrolmentInitializer {
 
                             CourseEditionEnrolmentGeneratedID cceGeneraedid = new CourseEditionEnrolmentGeneratedID(ceeGeneratedUUID);
                             SchoolYearID schoolYearID = new SchoolYearID(schoolYear);
-                            Date studyPlanYear = new Date(LocalDate.of(studyPlanStartYear,1,1));
+                            Date studyPlanYear = new Date(LocalDate.of(studyPlanStartYear,9,1));
                             StudentID studentID = new StudentID(studentNum);
                             ProgrammeID programmeID = new ProgrammeID(programmeAcronym);
                             ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID, schoolYearID);

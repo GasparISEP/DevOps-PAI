@@ -1,5 +1,10 @@
 package PAI.service.courseEditionEnrolment;
 
+import PAI.VOs.CourseEditionID;
+import PAI.VOs.ProgrammeEditionID;
+import PAI.VOs.StudentID;
+import PAI.VOs.US35EnrolledCourseDetails;
+import PAI.domain.courseEdition.CourseEdition;
 import PAI.VOs.*;
 import PAI.VOs.Date;
 import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolment;
@@ -190,4 +195,39 @@ public class CourseEditionEnrolmentServiceImpl implements ICourseEditionEnrolmen
         return _ceeRepositoryInterface.findByStudentID(studentID);
     }
 
+
+    @Override
+    public List<US35EnrolledCourseDetails> findEnrolledCourseEditionsForStudent(StudentID studentID) {
+        if (studentID == null) {
+            return Collections.emptyList();
+        }
+
+        List<US35EnrolledCourseDetails> results = new ArrayList<>();
+        List<CourseEditionEnrolment> studentEnrolments = _ceeRepositoryInterface.findActiveEnrolmentsByStudentID(studentID);
+
+        for (CourseEditionEnrolment enrolment : studentEnrolments) {
+            CourseEditionID courseEditionIdVO = enrolment.knowCourseEdition();
+
+            Optional<CourseEdition> courseEditionOptional;
+            try {
+                courseEditionOptional = _courseEditionRepositoryInterface.ofIdentity(courseEditionIdVO);
+
+            } catch (Exception e) {
+                System.err.println("Error getting CourseEdition by ID " + courseEditionIdVO + " for enrolment " +
+                        enrolment.getGeneratedID() + ": " + e.getMessage()); //We check which Enrolment has thrown an exception
+                continue;
+            }
+
+            if (courseEditionOptional.isPresent()) {
+                CourseEdition actualCourseEdition = courseEditionOptional.get();
+
+                results.add(new US35EnrolledCourseDetails(actualCourseEdition, enrolment.getGeneratedID()));
+
+            } else {
+                System.err.println("Course Edition not found for CourseEditionID " + courseEditionIdVO +
+                        " referenced by enrolment ID " + enrolment.getGeneratedID());
+            }
+        }
+        return results;
+    }
 }

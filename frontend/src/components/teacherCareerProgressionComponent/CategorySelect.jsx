@@ -5,7 +5,7 @@ export default function CategorySelect({ value, onChange, options, error }) {
         <>
             <label className="form-label" htmlFor="teacherCategory">Teacher Category</label>
             <select className="form-input" id="teacherCategory" name="teacherCategory" value={value} onChange={onChange}>
-                <option value="">-- Select a Category --</option>
+                <option value="">Select a Teacher Category</option>
                 {options.map((cat) => (
                     <option key={cat.id} value={cat.id}>{cat.name}</option>
                 ))}

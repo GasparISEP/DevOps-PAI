@@ -10,6 +10,17 @@ const renderWithRouter = (ui) => {
     return render(<MemoryRouter>{ui}</MemoryRouter>);
 };
 
+jest.mock('../../../components/teacherCareerProgressionComponent/DateInput', () => (props) => {
+    return (
+        <input
+            type="text"
+            placeholder="Select a Date"
+            value={props.value}
+            onChange={(e) => props.onChange(e.target.value)}
+        />
+    );
+});
+
 describe('UpdateTeacherCategoryForm', () => {
     beforeEach(() => {
         jest.resetAllMocks();
@@ -52,4 +63,130 @@ describe('UpdateTeacherCategoryForm', () => {
             expect(screen.getByText((content) => content.includes('⚠️ Insert the date.'))).toBeInTheDocument();
         });
     });
+
+    it('updates form fields on change', async () => {
+        renderWithRouter(<UpdateTeacherCategoryForm />);
+
+        fireEvent.change(screen.getByLabelText(/teacher$/i), {
+            target: { value: 't1' }
+        });
+
+        fireEvent.change(screen.getByLabelText(/teacher category/i), {
+            target: { value: 'c1' }
+        });
+
+        const dateInput = screen.getByPlaceholderText(/date/i);
+        fireEvent.change(dateInput, { target: { value: '2025-06-19' } });
+
+        expect(dateInput.value).toBe('2025-06-19');
+    });
+
+    it('clears the form when clicking CLEAR', async () => {
+        renderWithRouter(<UpdateTeacherCategoryForm />);
+
+        const teacherSelect = screen.getByLabelText(/teacher$/i);
+        fireEvent.change(teacherSelect, { target: { value: 't1' } });
+
+        fireEvent.click(screen.getByRole('button', { name: /clear/i }));
+
+        expect(teacherSelect.value).toBe('');
+    });
+
+    it('submits form successfully and shows success modal', async () => {
+        const mockResponse = {
+            teacher: 'Teacher One',
+            teacherCategory: 'Category One',
+            date: '2025-06-19',
+            _links: {}
+        };
+
+        updateService.updateTeacherCategory.mockResolvedValueOnce({ data: mockResponse });
+
+        renderWithRouter(<UpdateTeacherCategoryForm />);
+
+        await screen.findByText(/Teacher One/);
+        await screen.findByText(/Category One/);
+
+        fireEvent.change(screen.getByLabelText(/teacher$/i), { target: { value: 't1' } });
+        fireEvent.change(screen.getByLabelText(/teacher category/i), { target: { value: 'c1' } });
+        fireEvent.change(screen.getByPlaceholderText(/date/i), { target: { value: '2025-06-19' } });
+
+        fireEvent.click(screen.getByRole('button', { name: /update/i }));
+
+        await waitFor(() => {
+            expect(updateService.updateTeacherCategory).toHaveBeenCalledWith({
+                teacherId: 't1',
+                teacherCategoryID: 'c1',
+                date: '2025-06-19'
+            });
+        });
+
+        await screen.findByText(/the teacher category was updated successfully/i);
+    });
+
+    it('shows error modal on failed submit and closes it when clicking Close', async () => {
+        updateService.updateTeacherCategory.mockRejectedValueOnce({
+            response: { data: { message: 'Server error' } }
+        });
+
+        renderWithRouter(<UpdateTeacherCategoryForm />);
+
+        await screen.findByText(/Teacher One/);
+        await screen.findByText(/Category One/);
+
+        fireEvent.change(screen.getByLabelText(/teacher$/i), { target: { value: 't1' } });
+        fireEvent.change(screen.getByLabelText(/teacher category/i), { target: { value: 'c1' } });
+        fireEvent.change(screen.getByPlaceholderText(/date/i), { target: { value: '2025-06-19' } });
+
+        fireEvent.click(screen.getByRole('button', { name: /update/i }));
+
+        await screen.findByText(/server error/i);
+
+        fireEvent.click(screen.getByRole('button', { name: /close/i }));
+
+        expect(screen.queryByText(/server error/i)).not.toBeInTheDocument();
+    });
+
+    it('logs error if fetch options fail', async () => {
+        console.error = jest.fn(); // mock do console.error
+
+        global.fetch = jest.fn(() => Promise.reject(new Error('Network error')));
+
+        renderWithRouter(<UpdateTeacherCategoryForm />);
+
+        await waitFor(() => {
+            expect(console.error).toHaveBeenCalledWith("Failed to load options:", expect.any(Error));
+        });
+    });
+
+    it('clears form and closes modal when SuccessModal onClose is triggered', async () => {
+        const mockResponse = {
+            teacher: 'Teacher One',
+            teacherCategory: 'Category One',
+            date: '2025-06-19',
+            _links: {}
+        };
+
+        updateService.updateTeacherCategory.mockResolvedValueOnce({ data: mockResponse });
+
+        renderWithRouter(<UpdateTeacherCategoryForm />);
+
+        await screen.findByText(/Teacher One/);
+        await screen.findByText(/Category One/);
+
+        fireEvent.change(screen.getByLabelText(/teacher$/i), { target: { value: 't1' } });
+        fireEvent.change(screen.getByLabelText(/teacher category/i), { target: { value: 'c1' } });
+        fireEvent.change(screen.getByPlaceholderText(/date/i), { target: { value: '2025-06-19' } });
+
+        fireEvent.click(screen.getByRole('button', { name: /update/i }));
+
+        await screen.findByText(/the teacher category was updated successfully/i);
+
+        fireEvent.click(screen.getByRole('button', { name: /close/i }));
+
+        expect(screen.getByLabelText(/teacher$/i).value).toBe('');
+        expect(screen.getByLabelText(/teacher category/i).value).toBe('');
+        expect(screen.getByPlaceholderText(/date/i).value).toBe('');
+    });
+
 });

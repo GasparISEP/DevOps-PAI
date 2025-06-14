@@ -24,7 +24,7 @@ jest.mock('react-datepicker', () => {
 describe('DateInput Component', () => {
     it('renders with placeholder and no value', () => {
         render(<DateInput value={null} onChange={jest.fn()} error={null} />);
-        expect(screen.getByPlaceholderText('-- Select a Date --')).toBeInTheDocument();
+        expect(screen.getByPlaceholderText('Select a Date')).toBeInTheDocument();
     });
 
     it('renders with a selected date', () => {
@@ -36,7 +36,7 @@ describe('DateInput Component', () => {
     it('calls onChange with formatted date when date is selected', async () => {
         const handleChange = jest.fn();
         render(<DateInput value={null} onChange={handleChange} error={null} />);
-        const input = screen.getByPlaceholderText('-- Select a Date --');
+        const input = screen.getByPlaceholderText('Select a Date');
         await userEvent.click(input);
         expect(handleChange).toHaveBeenCalledWith('2025-01-01');
     });
@@ -48,7 +48,7 @@ describe('DateInput Component', () => {
 
     it('has correct styles on placeholder and value', () => {
         render(<DateInput value={null} onChange={jest.fn()} error={null} />);
-        const input = screen.getByPlaceholderText('-- Select a Date --');
+        const input = screen.getByPlaceholderText('Select a Date');
         expect(input).toHaveClass('custom-date-input');
         expect(input).toHaveStyle('color: #333');
     });

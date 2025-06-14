@@ -46,7 +46,7 @@ public class CourseEditionMapperImpl implements ICourseEditionMapper {
     }
 
     @Override
-    public CourseEdition toDomain(CourseEditionDataModel courseEditionDataModel) throws Exception {
+    public CourseEdition toDomain(CourseEditionDataModel courseEditionDataModel){
 
         if (courseEditionDataModel == null)
             throw new IllegalArgumentException("courseEditionDataModel cannot be null");
@@ -67,7 +67,7 @@ public class CourseEditionMapperImpl implements ICourseEditionMapper {
     }
 
     @Override
-    public CourseEditionDataModel toDataModel(CourseEdition courseEdition) throws Exception{
+    public CourseEditionDataModel toDataModel(CourseEdition courseEdition){
 
         if (courseEdition == null)
             throw new IllegalArgumentException("courseEdition cannot be null");

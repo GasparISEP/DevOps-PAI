@@ -7,11 +7,11 @@ public class ProgrammeEditionID implements DomainId {
     private final ProgrammeID programmeID;
     private final SchoolYearID schoolYearID;
 
-    public ProgrammeEditionID(ProgrammeID programmeID, SchoolYearID schoolYearID) throws Exception {
+    public ProgrammeEditionID(ProgrammeID programmeID, SchoolYearID schoolYearID) {
         if (programmeID == null)
-            throw new Exception("programmeID cannot be null");
+            throw new IllegalArgumentException("programmeID cannot be null");
         if (schoolYearID == null)
-            throw new Exception("schoolYearID cannot be null");
+            throw new IllegalArgumentException("schoolYearID cannot be null");
 
         this.programmeID = programmeID;
         this.schoolYearID = schoolYearID;

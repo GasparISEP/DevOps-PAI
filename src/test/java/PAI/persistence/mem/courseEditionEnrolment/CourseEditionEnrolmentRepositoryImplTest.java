@@ -979,5 +979,32 @@ class CourseEditionEnrolmentRepositoryImplTest {
         assertTrue(result.contains(enrolment1), "The internal set should contain the added enrolment.");
     }
 
+    @Test
+    void shouldReturnEnrolments_whenStudentHasEnrolments() {
+        // Arrange
+        ICourseEditionEnrolmentListFactory factoryDouble = mock(ICourseEditionEnrolmentListFactory.class);
 
+        StudentID student1ID = new StudentID(1241555);
+
+        CourseEditionID course1IDDouble = mock(CourseEditionID.class);
+        CourseEditionID course2IDDouble = mock(CourseEditionID.class);
+
+        CourseEditionEnrolment enrolment1_s1_c1 = new CourseEditionEnrolment(student1ID, course1IDDouble);
+        CourseEditionEnrolment enrolment2_s1_c2 = new CourseEditionEnrolment(student1ID, course2IDDouble);
+
+        Set<CourseEditionEnrolment> initialEnrolments = new HashSet<>();
+        initialEnrolments.add(enrolment1_s1_c1);
+        initialEnrolments.add(enrolment2_s1_c2);
+
+        // Stub the mock factory
+        when(factoryDouble.getCourseEditionEnrolmentList()).thenReturn(initialEnrolments);
+
+        CourseEditionEnrolmentRepositoryImpl repository = new CourseEditionEnrolmentRepositoryImpl(factoryDouble);
+
+        // Act
+        List<CourseEditionEnrolment> result = repository.findByStudentID(student1ID);
+
+        // Assert
+        assertEquals(2, result.size(), "The result list should contain exactly 2 enrolments for student1ID");
+    }
 }

@@ -76,14 +76,12 @@ public class CourseEditionRepositorySpringDataImpl implements ICourseEditionRepo
     public CourseEdition save(CourseEdition entity) {
 
         if (entity == null)
-            return null;
-        try {
-            CourseEditionDataModel courseEditionDataModel = courseEditionMapper.toDataModel(entity);
-            courseEditionRepositorySpringData.save(courseEditionDataModel);
-            return courseEditionMapper.toDomain(courseEditionDataModel);
-        } catch (Exception e) {
-            return null;
-        }
+            throw new IllegalArgumentException("CourseEdition cannot be null");
+
+        CourseEditionDataModel courseEditionDataModel = courseEditionMapper.toDataModel(entity);
+        courseEditionRepositorySpringData.save(courseEditionDataModel);
+        return courseEditionMapper.toDomain(courseEditionDataModel);
+
     }
 
     @Override

@@ -118,47 +118,19 @@ public CourseEditionRestController(
     }
 
     @PostMapping
-    public ResponseEntity<?> createCourseEdition(@Valid @RequestBody CourseEditionRequestDTO dto) {
-        try {
-            CreateCourseEditionCommand command = courseEditionAssembler.toCommand(dto);
+    public ResponseEntity<CourseEditionResponseDTO> createCourseEdition(@Valid @RequestBody CourseEditionRequestDTO requestDTO) {
+        CreateCourseEditionCommand command = courseEditionAssembler.toCommand(requestDTO);
+        CourseEditionServiceResponseDTO serviceResponseDTO = createCourseEditionService.createCourseEditionForRestApi(command);
+        CourseEditionResponseDTO courseEditionResponseDTO = courseEditionAssembler.toResponseDTO(serviceResponseDTO);
 
-            ProgrammeID programmeID = new ProgrammeID(command.programmeAcronym());
-
-            Date studyPlanDate = command.studyPlanImplementationDate();
-
-            CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(
-                    new CourseID(command.courseAcronym(), command.courseName()),
-                    new StudyPlanID(programmeID, studyPlanDate)
-            );
-
-            ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(
-                    programmeID,
-                    command.schoolYearID()
-            );
-
-            CourseEditionServiceResponseDTO responseDTO =
-                    createCourseEditionService.createCourseEditionAndReturnDTO(courseInStudyPlanID, programmeEditionID);
-
-            if (responseDTO == null) {
-                return ResponseEntity.badRequest().build();
-            }
-
-            CourseEditionResponseDTO courseEditionResponseDTO = courseEditionAssembler.toResponseDTO(responseDTO);
-
-
-            return ResponseEntity
-                    .created(URI.create("/course-editions/" + responseDTO.courseEditionID())) //+ safeID))
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .body(courseEditionResponseDTO);
-
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal server error");
-        }
+        return ResponseEntity
+                .created(URI.create("/course-editions/" + serviceResponseDTO.courseEditionID()))
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(courseEditionResponseDTO);
     }
 
-@PatchMapping("/{id}/ruc")
+
+    @PatchMapping("/{id}/ruc")
 public ResponseEntity<?> defineRucForCourseEdition(
         @PathVariable("id") UUID id,
         @RequestBody DefineRucRequestDTO defineRucRequestDTO) {
