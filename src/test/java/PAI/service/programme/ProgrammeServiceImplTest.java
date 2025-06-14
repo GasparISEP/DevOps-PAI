@@ -976,7 +976,7 @@ class ProgrammeServiceImplTest {
         createDoubles();
         IProgrammeService programmeService = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService);
 
-        //Act
+        //Act + Assert
         assertThrows(IllegalArgumentException.class,() -> programmeService.containsOfIdentity(null));
     }
 }

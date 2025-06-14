@@ -179,7 +179,7 @@ class DepartmentServiceImplTest {
         IDepartmentFactory departmentFactoryDouble = mock(IDepartmentFactory.class);
         IDepartmentService departmentService = new DepartmentServiceImpl(departmentFactoryDouble, departmentRepoDouble);
 
-        //Act
+        //Act + Assert
         assertThrows(IllegalArgumentException.class,() -> departmentService.containsOfIdentity(null));
     }
 
