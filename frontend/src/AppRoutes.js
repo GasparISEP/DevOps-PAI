@@ -29,7 +29,7 @@ function AppRoutes() {
                     <Route path="/courseeditions/register-grade-student" element={<RegisterGradeStudentPage />} />
                     <Route path="/course-editions/average-grade" element={<CourseEditionAverageGradePage />} />
                     <Route path="/teacher-career-progressions/:id" element={<TeacherCareerProgressionComponent />} />
-                    <Route path="/course-editions/define-ruc" element={<DefineRucPage />} />
+                    <Route path="/course-editions/Define-ruc" element={<DefineRucPage />} />
             </Routes>
         );
 }
