@@ -15,10 +15,6 @@ skinparam defaultTextAlignment center
 skinparam shadowing true
 
 participant "<<component>>\n:Router" as Router #E1F5FE
-participant "<<component>>\n:DegreeTypeRestController\n(REST Controller)" as DegreeTypeController #E1F5FE
-participant "<<component>>\n:ProgrammeRestController\n(REST Controller)" as ProgrammeController #E1F5FE
-participant "<<component>>\n:CourseInStudyPlanRestController\n(REST Controller)" as CSPController #E1F5FE
-participant "<<component>>\n:ProgrammeEditionRestController\n(REST Controller)" as PEController #E1F5FE
 participant "<<component>>\n:CourseEditionRestController\n(REST Controller)" as Controller #E1F5FE
 participant "<<component>>\n:ICourseEditionAssembler\n(Assembler)" as Assembler #E1F5FE
 participant "<<component>>\n:ICreateCourseEditionService\n(Service)" as Service #E1F5FE
@@ -27,75 +23,6 @@ participant "<<component>>\n:ICourseEditionRepository\n(Repository)" as Reposito
 participant "<<component>>\n:ICourseEditionServiceAssembler\n(Assembler)" as SAssembler #E1F5FE
 
 database DB as DB #E1F5FE
-
--> Router: GET /degreetypes
-activate Router
-Router -> DegreeTypeController: getAllDegreeTypes()
-activate DegreeTypeController
-note over DegreeTypeController #EEEEEE
-Spring Boot automatically converts
- incoming JSON into DTOs
-end note
-ref over DegreeTypeController
-<<Reference1_ListOfDegreeTypes>>
-   <b>List of Degree Types</b>
-end ref
-DegreeTypeController --> Router: degreeTypesList
-deactivate DegreeTypeController
-<-- Router: degreeTypesList
-deactivate Router
-
--> Router: GET /programmes/{degreeTypeID}
-activate Router
-Router -> ProgrammeController: getProgrammesByDegreeTypeID\n(degreeTypeID)
-activate ProgrammeController
-note over ProgrammeController #EEEEEE
-Spring Boot automatically converts
- incoming JSON into DTOs
-end note
-ref over ProgrammeController
-<<Reference2_ListOfProgrammes>>
-   <b>List of Programmes</b>
-end ref
-ProgrammeController --> Router: programmesList
-deactivate ProgrammeController
-<-- Router: programmesList
-deactivate Router
-
--> Router: GET /coursesinstudyplan/{acronym}
-activate Router
-Router -> CSPController: getCoursesInStudyPlanByProgrammeID\n(programmeAcronym)
-activate CSPController
-note over CSPController #EEEEEE
-Spring Boot automatically converts
- incoming JSON into DTOs
-end note
-ref over CSPController
-<<Reference3_ListOfCoursesInStudyPlan>>
-   <b>List of Courses In Study Plan</b>
-end ref
-CSPController --> Router: coursesInStudyPlanList
-deactivate CSPController
-<-- Router: coursesInStudyPlanList
-deactivate Router
-
--> Router: GET /programmeeditions/programme/\n{programmeAcronym}
-activate Router
-Router -> PEController: getProgrammeEditionsByProgrammeID\n(programmeAcronym)
-activate PEController
-note over PEController #EEEEEE
-Spring Boot automatically converts
- incoming JSON into DTOs
-end note
-ref over PEController
-<<Reference4_ListOfProgrammeEditions>>
-   <b>List of Programme Editions</b>
-end ref
-PEController --> Router: programmeEditionsList
-deactivate PEController
-<-- Router: programmeEditionsList
-deactivate Router
-
 
 -> Router: POST /courseeditions (JSON)
 activate Router
@@ -116,27 +43,25 @@ activate Assembler
 Assembler --> Controller: CreateCourseEditionCommand
 deactivate Assembler
 
-
-
-Controller -> Service: createCourseEditionAndReturnDTO\n(courseInStudyPlanID, programmeEditionID)
+Controller -> Service: createCourseEditionForRestApi(command)
 activate Service
 
 
 Service -> Factory: createCourseEditionToDomain\n(courseInStudyPlanID,\n programmeEditionID)
 activate Factory
 
-Factory --> Service: CourseEdition (domain object)
+Factory --> Service: CourseEdition
 deactivate Factory
 
 Service -> Repository: containsOfIdentity(courseEdition.identity())
 activate Repository
-Repository --> Service: false (not exists)
+Repository --> Service: false
 deactivate Repository
 
 Service -> Repository: save(courseEdition)
 activate Repository
 
-Repository -> DB: INSERT course_edition data
+Repository -> DB: INSERT course_edition
 activate DB
 DB --> Repository: success
 deactivate DB
@@ -145,16 +70,21 @@ Repository --> Service: saved CourseEdition
 deactivate Repository
 
 
-alt if CourseEdition is not null
-    Service -> SAssembler: toResponseDTO(courseEdition)
-    activate SAssembler
-    SAssembler --> Service: CourseEditionResponseDTO
-    deactivate SAssembler
-    Service --> Controller: CourseEditionResponseDTO
-    deactivate Service
-    Controller --> Router: 201 Created + CourseEditionResponseDTO (JSON)
 
-end
+    Service -> SAssembler: toServiceResponseDTO(courseEdition)
+    activate SAssembler
+    SAssembler --> Service: CourseEditionServiceResponseDTO
+    deactivate SAssembler
+    Service --> Controller: CourseEditionServiceResponseDTO
+    deactivate Service
+    Controller -> Assembler: toResponseDTO(CourseEditionServiceResponseDTO)
+    activate Assembler
+    Assembler --> Controller: CourseEditionResponseDTO
+    deactivate Assembler
+
+    Controller --> Router: 201 Created + CourseEditionResponseDTO
+
+
 
 deactivate Controller
 
