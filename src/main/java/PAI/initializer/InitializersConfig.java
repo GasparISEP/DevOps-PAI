@@ -34,4 +34,12 @@ public class InitializersConfig {
             initializer.loadAccessMethod(controller, "src/main/resources/AccessMethodData.csv");
         };
     }
+
+    @Bean
+    @Order(1)
+    public CommandLineRunner loadDataDepartment(US05_DepartmentRegistryController controller, DepartmentInitializer initializer) {
+        return (args) -> {
+            initializer.loadDepartment(controller, "src/main/resources/Department.csv");
+        };
+    }
 }

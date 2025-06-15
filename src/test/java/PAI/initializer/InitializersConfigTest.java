@@ -1,6 +1,7 @@
 package PAI.initializer;
 
 import PAI.controller.US02_ConfigureAccessMethodController;
+import PAI.controller.US05_DepartmentRegistryController;
 import PAI.controller.US10_IWantToConfigureDegreeTypesLevelsController;
 import PAI.service.course.ICourseService;
 import org.junit.jupiter.api.BeforeEach;
@@ -60,6 +61,21 @@ class InitializersConfigTest {
 
         // Assert
         verify(initializerDouble).loadAccessMethod(controller, "src/main/resources/AccessMethodData.csv");
+        verifyNoMoreInteractions(initializerDouble);
+    }
+
+    @Test
+    void shouldInvokeLoadDataDepartmentWhenCommandLineRunnerRuns() throws Exception {
+        // Arrange
+        US05_DepartmentRegistryController controller = mock(US05_DepartmentRegistryController.class);
+        DepartmentInitializer initializerDouble = mock(DepartmentInitializer.class);
+
+        // Act
+        CommandLineRunner commandLineRunner = _initializer.loadDataDepartment(controller, initializerDouble);
+        commandLineRunner.run(new String[]{});
+
+        // Assert
+        verify(initializerDouble).loadDepartment(controller, "src/main/resources/Department.csv");
         verifyNoMoreInteractions(initializerDouble);
     }
 }
