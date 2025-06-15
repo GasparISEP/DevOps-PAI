@@ -1,0 +1,43 @@
+@startuml
+autonumber
+
+participant ":DepartmentRestController" as C #lightpink
+participant ":DepartmentResgistrationService" as DS #lightgreen
+participant "dRepo:DepartmentRepository" as DPR #lightcyan
+participant ":DepartmentMapper" as M #lightyellow
+participant "dFactory:DepartmentFactory" as F #lightpink
+participant ":DepartmentAssember" as DA #moccasin
+participant ":DepartmentHateoasAssember" as DHA #peachpuff
+
+
+
+participant "department[i]:Department" as DT #lightcyan
+
+activate C
+C -> DS ++: getAllDepartments()
+
+DS -> DPR ++: findAll()
+
+DPR ->o] : findAll()
+DPR <--o] : List<DepartmentDataModel>
+
+loop for DepartmentDataModel[i]
+DPR -> M ++: toDomain(departmentDataModel[i])
+M -> F ++: newDepartment\n(departmentDataModel[i])
+F -> DT**: newDepartment(acronym :DepartmentAcronym, name :Name, directorID :TeacherID)
+activate DT
+DT --> F --: department :Department
+
+F --> M --: department
+M --> DPR --: department
+end
+
+DPR --> DS --: List<Department>
+DS --> C --: Iterable<Department>
+C --> DA ++: toDWDDTOs(Iterable<Department>)
+
+DA --> C --: Iterable<(Iterable<DepartmentWithDirectorDTO>)>
+C -> DHA ++: toDiretorCollectionModel(Iterable<DepartmentWithDirectorDTO>)
+DHA --> C --: CollectionModel<EntityModel<DepartmentWithDirectorDTO>>
+deactivate C
+@enduml
