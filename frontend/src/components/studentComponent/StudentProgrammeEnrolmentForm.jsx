@@ -66,10 +66,10 @@ export default function StudentProgrammeEnrolmentForm() {
         setForm(f => ({ ...f, programmeAcronym: option?.value ?? '' }));
     }
 
-    function handleInputChange(e) {
+    /*function handleInputChange(e) {
         const { name, value } = e.target;
         setForm(f => ({ ...f, [name]: value }));
-    }
+    }*/
 
     function handleaccessMethodIDChange(option) {
         setForm(f => ({ ...f, accessMethodID: option?.value ?? '' }));
@@ -189,11 +189,13 @@ export default function StudentProgrammeEnrolmentForm() {
                                 <Select
                                     id="departmentID"
                                     name="departmentID"
+                                    aria-label="Department"
                                     options={departmentOptions}
                                     value={departmentOptions.find(o => o.value === form.departmentID)}
                                     onChange={handleDepartmentChange}
                                     placeholder="Select Department"
                                     isSearchable
+                                    isClearable
                                     styles={{
                                         control: base => ({
                                             ...base,
