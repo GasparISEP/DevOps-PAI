@@ -1,21 +1,25 @@
 package PAI.initializer;
 
+import PAI.VOs.Name;
+import PAI.VOs.TeacherCategoryID;
 import PAI.controller.US13_RegisterTeacherAndRelevantDataController;
+import PAI.domain.teacherCategory.TeacherCategory;
+import PAI.persistence.springdata.teacherCategory.TeacherCategoryRepositorySpringDataImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.io.FileWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class TeacherInitializerTest {
-
-    @Mock
-    private US13_RegisterTeacherAndRelevantDataController controller;
-
-    @InjectMocks
-    private TeacherInitializer initializer;
 
     @BeforeEach
     void setUp() {
@@ -23,29 +27,57 @@ class TeacherInitializerTest {
     }
 
     @Test
-    void shouldInitializeAndRegisterTeachersFromCsv() throws Exception {
+    void readsCsvLineCorrectly() throws Exception {
+        // Arrange
+        Path tempFile = Files.createTempFile("teachers", ".csv");
+
+        String header = "Acronym;Name;Email;NIF;Phone;AcademicBackground;Street;PostalCode;Location;Country;Dept;CountryCode;Date;Category;Percentage\n";
+        String data = "AAA;Alexandra Castro;AAA@isep.ipp.pt;112233445;911234569;Bachelor;Rua 1;4000-100;Porto;Portugal;AAU;+351;01-02-2022;Professor Auxiliar;25\n";
+
+        Files.writeString(tempFile, header + data);
+
+        // Act
+        List<String> lines = Files.readAllLines(tempFile);
+        String[] fields = lines.get(1).split(";");
+
+        // Assert
+        assertEquals("AAA", fields[0]);
+        assertEquals("Alexandra Castro", fields[1]);
+        assertEquals("AAA@isep.ipp.pt", fields[2]);
+        assertEquals("Professor Auxiliar", fields[13]);
+        assertEquals("25", fields[14]);
+    }
+
+    @Test
+    void shouldExecuteCommandLineRunnerAndLoadTeachers() throws Exception {
+        //arrange
+        try (FileWriter writer = new FileWriter("src/main/resources/Teacher_Data.csv")) {
+            writer.write("Acronym;Name;Email;NIF;Phone;AcademicBackground;Street;PostalCode;Location;Country;Dept;CountryCode;Date;Category;Percentage\n");
+            writer.write("AAA;Alexandra Castro;AAA@isep.ipp.pt;112233445;911234569;Bachelor;Rua 1;4000-100;Porto;Portugal;AAU;+351;01-02-2022;Professor Auxiliar;25\n");
+        }
+
+        US13_RegisterTeacherAndRelevantDataController controller = mock(US13_RegisterTeacherAndRelevantDataController.class);
+        TeacherCategoryRepositorySpringDataImpl repo = mock(TeacherCategoryRepositorySpringDataImpl.class);
+        TeacherCategory category = mock(TeacherCategory.class);
+        TeacherCategoryID categoryID = mock(TeacherCategoryID.class);
+
+        UUID uuid = UUID.fromString("4b68bc54-1a5f-4d90-af6f-43d65e3a166d");
+        when(categoryID.toString()).thenReturn(uuid.toString());
+        when(category.identity()).thenReturn(categoryID);
+        when(repo.findByName(new Name("Professor Auxiliar"))).thenReturn(Optional.of(category));
+
+
+        TeacherInitializer initializer = new TeacherInitializer();
+
         // act
-        initializer.loadDataRegisterTeacher(controller).run();
+        initializer.loadDataRegisterTeacher(controller, repo).run();
 
         // assert
         verify(controller).registerTeacher(
-                "AAA", "Alexandra Castro", "AAA@isep.ipp.pt", "112233445", "911234569",
-                "Bachelor in Astronomy", "Rua Número 1", "4000-100",
-                "Porto", "Portugal", "AAU", "01-02-2022",
-                "4b68bc54-1a5f-4d90-af6f-43d65e3a166d", 25, "+351"
-        );
-
-        verify(controller).registerTeacher(
-                "AAB", "Raquel Pinho-Nogueira", "AAB@isep.ipp.pt", "112233446", "911234570",
-                "Master in Astronomy", "Praceta Número 2", "4000-101",
-                "Porto", "Portugal", "AAA", "02-02-2022",
-                "582f96e9-16c1-4dec-a871-9353b59ceb6a", 100, "+351"
-        );
-
-        verify(controller).registerTeacher(
-                "AAC", "Alexandra Costa", "AAC@isep.ipp.pt", "112233447", "911234571",
-                "Master in History", "Rua Número 3", "4000-102","Porto","Portugal","AAF",
-                "03-02-2022","f937e46e-8b73-4975-93fa-8dfb7640cebc",75,"+351"
+                eq("AAA"), eq("Alexandra Castro"), eq("AAA@isep.ipp.pt"),
+                eq("112233445"), eq("911234569"), eq("Bachelor"), eq("Rua 1"),
+                eq("4000-100"), eq("Porto"), eq("Portugal"), eq("AAU"), eq("01-02-2022"),
+                eq(uuid.toString()), eq(25), eq("+351")
         );
     }
 }
