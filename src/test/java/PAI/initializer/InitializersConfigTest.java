@@ -4,6 +4,7 @@ import PAI.controller.*;
 import PAI.domain.repositoryInterfaces.degreeType.IDegreeTypeRepository;
 import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
 import PAI.service.course.ICourseService;
+import PAI.service.courseInStudyPlan.ICourseInStudyPlanService;
 import PAI.service.programmeEdition.IProgrammeEditionService;
 import PAI.service.programmeEditionEnrolment.IProgrammeEditionEnrolmentService;
 import org.junit.jupiter.api.BeforeEach;
@@ -233,6 +234,21 @@ class InitializersConfigTest {
         // Assert
         verify(initializerDouble).loadProgrammeEditionEnrolment(serviceDouble,
                                         "src/main/resources/ProgrammeEditionEnrolmentInitializer.csv");
+        verifyNoMoreInteractions(initializerDouble);
+    }
+
+    @Test
+    void shouldInvokeLoadCourseInStudyPlanWhenCommandLineRunnerRuns() throws Exception {
+        // Arrange
+        ICourseInStudyPlanService serviceDouble = mock(ICourseInStudyPlanService.class);
+        CourseInStudyPlanInitializer initializerDouble = mock(CourseInStudyPlanInitializer.class);
+
+        // Act
+        CommandLineRunner commandLineRunner = _initializer.loadDataCourseInStudyPlan(serviceDouble, initializerDouble);
+        commandLineRunner.run(new String[]{});
+
+        // Assert
+        verify(initializerDouble).loadCourseInStudyPlan(serviceDouble, "src/main/resources/CourseInStudyPlan.csv");
         verifyNoMoreInteractions(initializerDouble);
     }
 }
