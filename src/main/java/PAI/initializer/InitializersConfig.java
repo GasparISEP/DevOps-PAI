@@ -1,6 +1,7 @@
 package PAI.initializer;
 
 import PAI.controller.*;
+import PAI.service.course.ICourseService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +16,14 @@ public class InitializersConfig {
                                                 DegreeTypeInitializer initializer) {
         return (args) -> {
             initializer.loadDegreeType(controller, "src/main/resources/DegreeTypeData.csv");
+        };
+    }
+
+    @Bean
+    @Order(1)
+    public CommandLineRunner loadDataCourse(ICourseService service, CourseInitializer initializer) {
+        return (args) -> {
+            initializer.loadCourse(service, "src/main/resources/CourseData.csv");
         };
     }
 }

@@ -1,6 +1,7 @@
 package PAI.initializer;
 
 import PAI.controller.US10_IWantToConfigureDegreeTypesLevelsController;
+import PAI.service.course.ICourseService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.CommandLineRunner;
@@ -28,6 +29,21 @@ class InitializersConfigTest {
 
         // Assert
         verify(initializerDouble).loadDegreeType(controllerDouble, "src/main/resources/DegreeTypeData.csv");
+        verifyNoMoreInteractions(initializerDouble);
+    }
+
+    @Test
+    void shouldInvokeLoadCourseWhenCommandLineRunnerRuns() throws Exception {
+        // Arrange
+        ICourseService serviceDouble = mock(ICourseService.class);
+        CourseInitializer initializerDouble = mock(CourseInitializer.class);
+
+        // Act
+        CommandLineRunner commandLineRunner = _initializer.loadDataCourse(serviceDouble, initializerDouble);
+        commandLineRunner.run(new String[]{});
+
+        // Assert
+        verify(initializerDouble).loadCourse(serviceDouble, "src/main/resources/CourseData.csv");
         verifyNoMoreInteractions(initializerDouble);
     }
 }
