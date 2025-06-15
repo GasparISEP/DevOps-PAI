@@ -1,0 +1,37 @@
+@startuml
+title: (6ª referência)\nObter lista de ProgrammeEditionID a partir de uma SchoolYearID e uma lista de ProgrammeID
+
+autonumber
+
+participant ":TotalEnrolledStudentsInProgrammesByDepartmentAndYearService" as S #goldenrod
+participant ":ProgrammeEditionRepository" as programmeEditionRepository #lightcoral
+participant ":SchoolYearIDMapperImpl" as schoolYearIDMapper #lightblue
+participant ":ProgrammeIDMapperImpl" as programmeIDMapper #lightblue
+
+participant ":ProgrammeEditionIdMapperImpl" as programmeEditionIdMapper #lightblue
+participant ":ProgrammeEditionRepositorySpringData" as springRepo #wheat
+
+activate S
+S -> programmeEditionRepository ++ : findProgrammeEditionIDsBySchoolYearIDAndProgrammeIDs(schoolYearID, programmeIDs)
+
+programmeEditionRepository -> schoolYearIDMapper ++ : toDataModel(schoolYearID)
+schoolYearIDMapper --> programmeEditionRepository --: SchoolYearIDDataModel
+
+loop for each ProgrammeIDs[i]
+    programmeEditionRepository -> programmeIDMapper ++ : toData(programmeID)
+    programmeIDMapper --> programmeEditionRepository --: ProgrammeIDDataModel
+end
+
+programmeEditionRepository -> springRepo ++ : findProgrammeEditionIDsBySchoolYearIdAndProgrammeIds(schoolYearIDDataModel, programmeIDDataModels)
+springRepo ->o]: findProgrammeEditionIDsBySchoolYearIdAndProgrammeIds\n(SchoolYearIDDataModel, List<ProgrammeIDDataModel>)
+springRepo <--o]: List<ProgrammeEditionIDDataModel>
+springRepo --> programmeEditionRepository --: List<ProgrammeEditionIdDataModel>
+
+loop for each ProgrammeEditionIdDataModel[i]
+    programmeEditionRepository -> programmeEditionIdMapper ++ : toDomain(ProgrammeEditionIdDataModel)
+    programmeEditionIdMapper --> programmeEditionRepository --: ProgrammeEditionID
+end
+
+programmeEditionRepository --> S --: List<ProgrammeEditionID>
+
+@enduml
