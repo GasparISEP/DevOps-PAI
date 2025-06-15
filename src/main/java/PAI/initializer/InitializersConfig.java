@@ -5,6 +5,7 @@ import PAI.domain.repositoryInterfaces.degreeType.IDegreeTypeRepository;
 import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
 import PAI.service.course.ICourseService;
 import PAI.service.programmeEdition.IProgrammeEditionService;
+import PAI.service.programmeEditionEnrolment.IProgrammeEditionEnrolmentService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -118,6 +119,16 @@ public class InitializersConfig {
                                                            ISchoolYearRepository schoolYearRepository, CourseEditionInitializer initializer) {
         return args -> {
             initializer.loadCourseEdition(controller, schoolYearRepository, "src/main/resources/CourseEdition.csv");
+        };
+    }
+
+    @Bean
+    @Order(5)
+    public CommandLineRunner loadDataProgrammeEditionEnrolment(IProgrammeEditionEnrolmentService service,
+                                                               ProgrammeEditionEnrolmentInitializer initializer) {
+        return args -> {
+            initializer.loadProgrammeEditionEnrolment(service,
+                    "src/main/resources/ProgrammeEditionEnrolmentInitializer.csv");
         };
     }
 }

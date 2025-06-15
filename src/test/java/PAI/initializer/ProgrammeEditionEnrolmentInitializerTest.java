@@ -8,8 +8,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
+import java.io.*;
+import java.nio.file.Files;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -23,29 +24,44 @@ class ProgrammeEditionEnrolmentInitializerTest {
     @InjectMocks
     private ProgrammeEditionEnrolmentInitializer initializer;
 
+    private File tempCsv;
+
     @BeforeEach
-    void setUp() {
+    void setUp() throws IOException {
         MockitoAnnotations.openMocks(this);
+        tempCsv = File.createTempFile("ProgrammeEditionEnrolmentInitializerTest", ".csv");
+        tempCsv.deleteOnExit();
+    }
+
+    private void writeCsvContent(String content) throws IOException {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(tempCsv))) {
+            writer.write(content);
+        }
     }
 
     @Test
     void testLoadProgrammeEditionEnrolments() throws Exception {
-        // Act
-        initializer.loadProgrammeEditionEnrolments(service).run();
+        String csvContent = "studentNumber,programmeAcronym,schoolYearUUID,enrolmentUUID\n" +
+                "1234567,LTI," + UUID.randomUUID() + "," + UUID.randomUUID() + "\n";
+        writeCsvContent(csvContent);
 
-        // Assert: pelo menos uma chamada deve ter sido feita
-        verify(service, atLeastOnce()).enrolStudentInProgrammeEdition(any(StudentID.class), any(ProgrammeEditionID.class));
+        initializer.loadProgrammeEditionEnrolment(service, tempCsv.getAbsolutePath());
+
+        verify(service, times(1)).enrolStudentInProgrammeEdition(any(StudentID.class), any(ProgrammeEditionID.class));
     }
 
     @Test
     void shouldPrintStackTraceWhenServiceIsNull() throws Exception {
-        // Capture stderr
+        String csvContent = "studentNumber,programmeAcronym,schoolYearUUID,enrolmentUUID\n" +
+                "1234567,LTI," + UUID.randomUUID() + "," + UUID.randomUUID() + "\n";
+        writeCsvContent(csvContent);
+
         ByteArrayOutputStream errContent = new ByteArrayOutputStream();
         PrintStream originalErr = System.err;
         System.setErr(new PrintStream(errContent));
 
         try {
-            initializer.loadProgrammeEditionEnrolments(null).run();
+            initializer.loadProgrammeEditionEnrolment(null, tempCsv.getAbsolutePath());
         } finally {
             System.setErr(originalErr);
         }
@@ -56,6 +72,10 @@ class ProgrammeEditionEnrolmentInitializerTest {
 
     @Test
     void shouldHandleServiceException() throws Exception {
+        String csvContent = "studentNumber,programmeAcronym,schoolYearUUID,enrolmentUUID\n" +
+                "1234567,LTI," + UUID.randomUUID() + "," + UUID.randomUUID() + "\n";
+        writeCsvContent(csvContent);
+
         doThrow(new RuntimeException("exploded"))
                 .when(service).enrolStudentInProgrammeEdition(any(StudentID.class), any(ProgrammeEditionID.class));
 
@@ -64,7 +84,7 @@ class ProgrammeEditionEnrolmentInitializerTest {
         System.setErr(new PrintStream(errContent));
 
         try {
-            initializer.loadProgrammeEditionEnrolments(service).run();
+            initializer.loadProgrammeEditionEnrolment(service, tempCsv.getAbsolutePath());
         } finally {
             System.setErr(originalErr);
         }
@@ -75,12 +95,16 @@ class ProgrammeEditionEnrolmentInitializerTest {
 
     @Test
     void shouldPrintLoadingTime() throws Exception {
+        String csvContent = "studentNumber,programmeAcronym,schoolYearUUID,enrolmentUUID\n" +
+                "1234567,LTI," + UUID.randomUUID() + "," + UUID.randomUUID() + "\n";
+        writeCsvContent(csvContent);
+
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(outContent));
 
         try {
-            initializer.loadProgrammeEditionEnrolments(service).run();
+            initializer.loadProgrammeEditionEnrolment(service, tempCsv.getAbsolutePath());
         } finally {
             System.setOut(originalOut);
         }
@@ -89,4 +113,3 @@ class ProgrammeEditionEnrolmentInitializerTest {
         assertTrue(output.contains("ProgrammeEditionEnrolment loading time:"));
     }
 }
-
