@@ -1,6 +1,8 @@
 package PAI.initializer;
 
+import PAI.VOs.Name;
 import PAI.controller.US13_RegisterTeacherAndRelevantDataController;
+import PAI.persistence.springdata.teacherCategory.TeacherCategoryRepositorySpringDataImpl;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,13 +16,15 @@ import java.io.FileReader;
 public class TeacherInitializer {
 
     @Bean
-    public CommandLineRunner loadDataRegisterTeacher(US13_RegisterTeacherAndRelevantDataController controller) {
+    public CommandLineRunner loadDataRegisterTeacher(US13_RegisterTeacherAndRelevantDataController controller,
+                                                     TeacherCategoryRepositorySpringDataImpl teacherCategoryRepository) {
         return (args) -> {
-            loadTeachers(controller);
+            loadTeachers(controller, teacherCategoryRepository);
         };
     }
 
-    private void loadTeachers(US13_RegisterTeacherAndRelevantDataController controller) {
+    private void loadTeachers(US13_RegisterTeacherAndRelevantDataController controller,
+                              TeacherCategoryRepositorySpringDataImpl teacherCategoryRepository ) {
         String csvFile = "src/main/resources/Teacher_Data.csv";
 
         long startTime = System.currentTimeMillis();
@@ -49,8 +53,14 @@ public class TeacherInitializer {
                 String country = fields[9];
                 String departmentAcronym = fields[10];
                 String date = fields[12];
-                String teacherCategoryID = fields[13];
+                String teacherCategoryName = fields[13];
                 int workingPercentage = Integer.parseInt(fields[14]);
+
+                Name teacherCategoryNameVO = new Name(teacherCategoryName);
+
+                String teacherCategoryID = teacherCategoryRepository.findByName(teacherCategoryNameVO)
+                        .orElseThrow(() -> new IllegalArgumentException("Teacher category not found: " + teacherCategoryNameVO))
+                        .identity().toString();
 
                 controller.registerTeacher(acronym, name, email, nif, phoneNumber, academicBackground, street,
                         postalCode, location, country, departmentAcronym, date, teacherCategoryID, workingPercentage, countryCode);

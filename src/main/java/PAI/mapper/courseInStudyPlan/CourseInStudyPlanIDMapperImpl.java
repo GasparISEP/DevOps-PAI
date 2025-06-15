@@ -10,6 +10,8 @@ import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanIDDataModel;
 import PAI.persistence.datamodel.studyPlan.StudyPlanIDDataModel;
 import org.springframework.stereotype.Component;
 
+import static PAI.utils.ValidationUtils.validateNotNull;
+
 @Component
 public class CourseInStudyPlanIDMapperImpl implements ICourseInStudyPlanIDMapper {
 
@@ -17,13 +19,8 @@ public class CourseInStudyPlanIDMapperImpl implements ICourseInStudyPlanIDMapper
     private final IStudyPlanIDMapper _studyPlanIDMapper;
 
     public CourseInStudyPlanIDMapperImpl(IStudyPlanIDMapper studyPlanIDMapper, ICourseIDMapper courseIDMapper) {
-        if (studyPlanIDMapper == null)
-            throw new IllegalArgumentException("StudyPlanIDMapper cannot be null");
-        _studyPlanIDMapper = studyPlanIDMapper;
-
-        if (courseIDMapper == null)
-            throw new IllegalArgumentException("CourseIDMapper cannot be null");
-        _courseIDMapper = courseIDMapper;
+        _studyPlanIDMapper = validateNotNull(studyPlanIDMapper, "StudyPlanIDMapper");
+        _courseIDMapper = validateNotNull(courseIDMapper, "CourseIDMapper");
     }
 
     public CourseInStudyPlanIDDataModel toDataModel(CourseInStudyPlanID courseInStudyPlanID) {

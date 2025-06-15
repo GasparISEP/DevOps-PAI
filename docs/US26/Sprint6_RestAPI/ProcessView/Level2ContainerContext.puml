@@ -2,29 +2,39 @@
 title: (US26)\nAs a Department Director, I want to get the number of students enrolled in all programmes associated to my department, in a given school year.\n(Process View Level 2)
 
 actor DD
-participant ":Frontend" as FE
-participant ":Backend" as BE
-database DB
+participant "<<Container>> \n:Frontend" as FE #lightblue
+participant "<<Container>> \n:Backend" as BE #lightgreen
+participant "<<Container>> \n:Database" as DB #lightyellow
 
 autonumber
 
 activate DD
-DD -> FE++: Request to get the number of students enrolled in all programmes\nassociated to my department, in a given school year
-FE -> BE++: (GET) Request List Of Departments
-BE -> DB++: Fetch all departments
-DB --> BE--: List of departments
-BE --> FE--: List of departments
-FE --> DD--: Display departments
-DD -> FE++: Select department
-FE -> BE++: (GET) Request List Of SchoolYears
-BE -> DB++: Fetch all school years
-DB --> BE--: List of school years
-BE --> FE--: List of school years
-FE --> DD--: Display school years
-DD -> FE++: Select school year
-FE -> BE++: (GET) Request number of students enrolled
-BE -> DB++: Fetch number of students enrolled
-DB --> BE--: Number of students enrolled
-BE --> FE--: Number of students enrolled
+DD -> FE++: I want to get the number of students enrolled in all\nprogrammes associated to my department, in a given school year
+FE -> BE++: **GET** /departments
+BE -> DB++: **SELECT** retrieveAllDepartments()
+DB --> BE--: List <Departments>
+BE --> FE--: (OK, 200) List <Departments>
+FE -> BE++: **GET** /school-years
+BE -> DB++: **SELECT** retrieveAllSchoolYears()
+DB --> BE--: List <SchoolYears>
+BE --> FE--: (OK, 200) List <SchoolYears>
+FE --> DD--: Display form\n(dropdowns: Departments, School Years, Submit button)
+DD -> FE++: Submit filled form:\n(DepartmentId, SchoolYearId)
+FE -> BE++: **GET** /departments/{departmentId}/schoolYears/\n{schoolYearId}/programme-enrolments/count
+BE -> DB++: **SELECT EXISTS** existsById(departmentId)
+DB --> BE--: True
+BE -> DB++: **SELECT EXISTS** existsById(schoolYearId)
+DB --> BE--: True
+BE -> DB++: **SELECT** findProgrammesByDepartment(departmentId)
+DB --> BE--: List <programmeId>
+BE -> DB++: **SELECT** findProgrammeEditionIDsBySchoolYearIDAndProgrammeIDs(schoolYearId, List<programmeId>)
+DB --> BE--: List <programmeEditionId>
+BE -> DB++: **SELECT** retrieveAllProgrammeEnrollment()
+DB --> BE--: List <programmeEditionEnrollment>
+'note right of BE
+'Filter enrolments in-memory\nwhere editionId ∈ programmeEditionIDs
+'and count them
+'end note
+BE --> FE--: (OK, 200) count
 FE --> DD--: Display number of students enrolled
 @enduml

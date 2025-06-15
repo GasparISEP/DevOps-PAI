@@ -13,9 +13,7 @@ import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
 import PAI.dto.totalEnrolledStudents.TotalEnrolledStudentsCommand;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class TotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearServiceImpl implements  ITotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearService {
@@ -47,16 +45,9 @@ public class TotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearServiceIm
     }
 
     @Override
-    public int getTotalEnrolledStudentsInProgrammesByDepartmentAndYear(TotalEnrolledStudentsCommand command) throws Exception {
+    public int getTotalEnrolledStudentsInProgrammesByDepartmentAndYear(TotalEnrolledStudentsCommand command) {
 
-        if (command == null)
-            throw new IllegalArgumentException("TotalEnrolledStudentsCommand must not be null");
-
-        if (command.departmentID() == null)
-            throw new IllegalArgumentException("Department ID cannot be null");
-
-        if (command.schoolYearID() == null)
-            throw new IllegalArgumentException("School Year ID cannot be null");
+        validateCommand(command);
 
         DepartmentID departmentID = command.departmentID();
         SchoolYearID schoolYearID = command.schoolYearID();
@@ -77,20 +68,24 @@ public class TotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearServiceIm
         return departmentRepository.containsOfIdentity(departmentID) && schoolYearRepository.containsOfIdentity(schoolYearID);
     }
 
-    private int countEnrollmentsMatchingProgrammeEditions(
-
-        Iterable<ProgrammeEditionEnrolment> enrolments,
-        List<ProgrammeEditionID> programmeEditionIDs) {
+    private int countEnrollmentsMatchingProgrammeEditions( Iterable<ProgrammeEditionEnrolment> enrolments, List<ProgrammeEditionID> programmeEditionIDs) {
 
         int count = 0;
         for (ProgrammeEditionEnrolment enrolment : enrolments) {
-            for (ProgrammeEditionID id : programmeEditionIDs) {
-                if (enrolment.hasSameProgrammeEdition(id)) {
-                    count++;
-                    break;
-                }
-            }
+            if (programmeEditionIDs.contains(enrolment.findProgrammeEditionInEnrolment()))
+                count++;
         }
         return count;
+    }
+
+    private void validateCommand(TotalEnrolledStudentsCommand command) {
+        if (command == null)
+            throw new IllegalArgumentException("TotalEnrolledStudentsCommand must not be null");
+
+        if (command.departmentID() == null)
+            throw new IllegalArgumentException("Department ID cannot be null");
+
+        if (command.schoolYearID() == null)
+            throw new IllegalArgumentException("School Year ID cannot be null");
     }
 }

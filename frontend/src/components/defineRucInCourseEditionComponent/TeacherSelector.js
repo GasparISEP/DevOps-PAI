@@ -7,7 +7,7 @@ export default function TeacherSelector({ teachers, value, onChange }) {
             <select
                 className="form-input"
                 id="teacher"
-                name="teacher"
+                name="teacherId"
                 value={value}
                 onChange={onChange}
                 required
@@ -15,7 +15,7 @@ export default function TeacherSelector({ teachers, value, onChange }) {
                 <option value="">Select a teacher</option>
                 {teachers.map((teacher, index) => (
                     <option key={index} value={teacher.id}>
-                        {teacher.name} - {teacher.email}
+                        {teacher.name}
                     </option>
                 ))}
             </select>

@@ -74,4 +74,27 @@ class DateTest {
         Date today = Date.now();
         assertEquals(LocalDate.now(), today.getLocalDate());
     }
+
+    @Test
+    void testToString() {
+        Date date = new Date(LocalDate.of(2025, 6, 15));
+        assertEquals("15-06-2025", date.toString());
+    }
+
+    @Test
+    void testHashCodeSameDate() {
+        LocalDate localDate = LocalDate.of(2025, 6, 15);
+        Date date1 = new Date(localDate);
+        Date date2 = new Date(localDate);
+
+        assertEquals(date1.hashCode(), date2.hashCode());
+    }
+
+    @Test
+    void testHashCodeDifferentDates() {
+        Date date1 = new Date(LocalDate.of(2025, 6, 15));
+        Date date2 = new Date(LocalDate.of(2024, 6, 15));
+
+        assertNotEquals(date1.hashCode(), date2.hashCode());
+    }
 }

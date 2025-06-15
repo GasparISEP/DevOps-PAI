@@ -1,4 +1,4 @@
-import { gradeAStudent, findAllCourseEditions } from '../../services/courseEditionGradeStudentService';
+import { gradeAStudentWithLink, getEnrolmentsForStudent } from '../../services/courseEditionGradeStudentService';
 
 global.fetch = jest.fn();
 
@@ -8,8 +8,7 @@ beforeEach(() => {
 
 describe('courseEditionGradeStudentService', () => {
 
-    // Mock GradeAStudentRequestDTO
-    describe('gradeAStudent', () => {
+    describe('gradeAStudentWithLink', () => {
         const mockGradeStudentDTO = {
             studentUniqueNumber: 123456,
             grade: 18.5,
@@ -22,27 +21,34 @@ describe('courseEditionGradeStudentService', () => {
             studyPlanImplementationDate: '15-08-2017'
         };
 
-        // Should successfully send a POST request and receive a valid response
-        it('should send a POST request and return the response data (success case)', async () => {
-            const mockResponseData = { id: 1, ...mockGradeStudentDTO };
+        // Teste de sucesso com link HATEOAS
+        it('should send a POST request and return response with student link', async () => {
+            const mockResponseData = {
+                id: 1,
+                ...mockGradeStudentDTO,
+                links: [{ rel: "student-details", href: "/students/123456" }]
+            };
 
             fetch.mockResolvedValueOnce({
                 ok: true,
                 json: jest.fn().mockResolvedValueOnce(mockResponseData)
             });
 
-            const result = await gradeAStudent(mockGradeStudentDTO);
-            expect(fetch).toHaveBeenCalledWith(expect.stringContaining('/courseeditions/studentgrades/register'), expect.objectContaining({
+            const result = await gradeAStudentWithLink(mockGradeStudentDTO);
+
+            expect(fetch).toHaveBeenCalledWith(expect.stringContaining('/studentgrades/register/hateoas'), expect.objectContaining({
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(mockGradeStudentDTO)
             }));
-            expect(result).toEqual(mockResponseData);
+
+            expect(result.data).toEqual(mockResponseData);
+            expect(result.studentLink).toBe("/students/123456");
         });
 
-        // Should throw an error if the response contains a JSON error message
-        it('should throw an error if the response is not ok with JSON error body', async () => {
-            const mockErrorData = { message: 'Erro ao registar a nota' };
+        // Teste de erro com mensagem JSON
+        it('should throw an error if response contains JSON error', async () => {
+            const mockErrorData = { message: 'Erro ao registrar a nota' };
 
             fetch.mockResolvedValueOnce({
                 ok: false,
@@ -50,61 +56,48 @@ describe('courseEditionGradeStudentService', () => {
                 json: jest.fn().mockResolvedValueOnce(mockErrorData)
             });
 
-            await expect(gradeAStudent({})).rejects.toThrow('Erro ao registar a nota');
+            await expect(gradeAStudentWithLink({})).rejects.toThrow('Erro ao registrar a nota');
         });
 
-        // Should throw an error if the response contains a plain text error message
-        it('should throw an error if the response is not ok with plain text body', async () => {
+        // Teste de erro com mensagem em texto
+        it('should throw an error if response contains plain text error', async () => {
             fetch.mockResolvedValueOnce({
                 ok: false,
                 headers: { get: () => 'text/plain' },
                 text: jest.fn().mockResolvedValueOnce('Erro em texto plano')
             });
 
-            await expect(gradeAStudent({})).rejects.toThrow('Erro em texto plano');
-        });
-
-        // Should issue a warning if response is successful but contains no JSON
-        it('should warn if response is ok but has no JSON body', async () => {
-            const mockResponse = {
-                ok: true,
-                json: jest.fn().mockImplementation(() => Promise.reject(new Error('Unexpected end of JSON input')))
-            };
-
-            fetch.mockResolvedValueOnce(mockResponse);
-            const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
-
-            const result = await gradeAStudent(mockGradeStudentDTO);
-
-            expect(result).toBe(null); // responseData remains null
-            expect(warnSpy).toHaveBeenCalledWith('Resposta sem corpo JSON');
-
-            warnSpy.mockRestore();
+            await expect(gradeAStudentWithLink({})).rejects.toThrow('Erro em texto plano');
         });
     });
 
-    describe('findAllCourseEditions', () => {
-        // Should successfully fetch all course editions
-        it('should fetch all course editions successfully', async () => {
-            const mockCourseEditions = [{ id: 1, courseName: 'Computer Science' }];
+    describe('getEnrolmentsForStudent', () => {
+        const studentID = 123456;
+        const mockEnrolments = [
+            { editionID: 'ed1', courseName: 'Computer Science' },
+            { editionID: 'ed2', courseName: 'Software Engineering' }
+        ];
 
+        // Teste de sucesso
+        it('should fetch enrolments for a student successfully', async () => {
             fetch.mockResolvedValueOnce({
                 ok: true,
-                json: jest.fn().mockResolvedValueOnce(mockCourseEditions)
+                json: jest.fn().mockResolvedValueOnce(mockEnrolments)
             });
 
-            const result = await findAllCourseEditions();
-            expect(fetch).toHaveBeenCalledWith(expect.stringContaining('/courseeditions'));
-            expect(result).toEqual(mockCourseEditions);
+            const result = await getEnrolmentsForStudent(studentID);
+
+            expect(fetch).toHaveBeenCalledWith(expect.stringContaining(`/students/${studentID}/courseeditionenrolments`));
+            expect(result).toEqual(mockEnrolments);
         });
 
-        // Should throw an error if fetching course editions fails
+        // Teste de erro ao buscar inscrições
         it('should throw an error if fetch fails', async () => {
             fetch.mockResolvedValueOnce({
                 ok: false
             });
 
-            await expect(findAllCourseEditions()).rejects.toThrow('Failed to fetch Course Editions');
+            await expect(getEnrolmentsForStudent(studentID)).rejects.toThrow(`Erro ao buscar inscrições do estudante ${studentID}`);
         });
     });
 });

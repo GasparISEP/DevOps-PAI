@@ -536,7 +536,8 @@ class CourseEditionRestControllerTest {
         String programmeAcronym = "LEI";
         String schoolYearId = "123e4567-e89b-12d3-a456-426614174000";
         String courseAcronym = "ESOFT";
-        String studyPlanDate = "01-01-2024";
+        String courseName = "Maths";
+        String localDate = "01-01-2024";
         double expectedApprovalRate = 85.5;
 
         when(gradeAStudentService.knowApprovalRate(any(CourseEditionID.class)))
@@ -546,7 +547,8 @@ class CourseEditionRestControllerTest {
                         .param("programmeAcronym", programmeAcronym)
                         .param("schoolYearId", schoolYearId)
                         .param("courseAcronym", courseAcronym)
-                        .param("studyPlanDate", studyPlanDate))
+                        .param("courseName", courseName)
+                        .param("localDate", localDate))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
                 .andExpect(jsonPath("$.approvalRate").value(expectedApprovalRate));
@@ -557,7 +559,8 @@ class CourseEditionRestControllerTest {
         String programmeAcronym = "LEI";
         String schoolYearId = "123e4567-e89b-12d3-a456-426614174000";
         String courseAcronym = "ESOFT";
-        String studyPlanDate = "01-01-2024";
+        String courseName = "Maths";
+        String localDate = "01-01-2024";
         double expectedApprovalRate = 0.0;
 
         when(gradeAStudentService.knowApprovalRate(any(CourseEditionID.class)))
@@ -567,7 +570,8 @@ class CourseEditionRestControllerTest {
                         .param("programmeAcronym", programmeAcronym)
                         .param("schoolYearId", schoolYearId)
                         .param("courseAcronym", courseAcronym)
-                        .param("studyPlanDate", studyPlanDate))
+                        .param("courseName", courseName)
+                        .param("localDate", localDate))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
                 .andExpect(jsonPath("$.approvalRate").value(expectedApprovalRate));
@@ -579,7 +583,8 @@ class CourseEditionRestControllerTest {
                         .param("programmeAcronym", "LEI")
                         .param("schoolYearId", "invalid-uuid")
                         .param("courseAcronym", "ESOFT")
-                        .param("studyPlanDate", "01-01-2024"))
+                        .param("courseName", "Maths")
+                        .param("localDate", "01-01-2024"))
                 .andExpect(status().isBadRequest());
     }
 
