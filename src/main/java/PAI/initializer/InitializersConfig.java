@@ -3,6 +3,7 @@ package PAI.initializer;
 import PAI.controller.*;
 import PAI.domain.repositoryInterfaces.degreeType.IDegreeTypeRepository;
 import PAI.service.course.ICourseService;
+import PAI.service.programmeEdition.IProgrammeEditionService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -90,6 +91,14 @@ public class InitializersConfig {
     public CommandLineRunner loadDataProgrammeEnrolment(US09_EnrolStudentInProgrammeController controller, ProgrammeEnrolmentInitializer initializer) {
         return (args) -> {
             initializer.loadProgrammeEnrolment(controller, "src/main/resources/ProgrammeEnrolment_Data.csv");
+        };
+    }
+
+    @Bean
+    @Order(4)
+    public CommandLineRunner loadDataProgrammeEdition(IProgrammeEditionService service, ProgrammeEditionInitializer initializer) {
+        return args -> {
+            initializer.loadProgrammeEdition(service, "src/main/resources/ProgrammeEdition.csv");
         };
     }
 }

@@ -3,6 +3,7 @@ package PAI.initializer;
 import PAI.controller.*;
 import PAI.domain.repositoryInterfaces.degreeType.IDegreeTypeRepository;
 import PAI.service.course.ICourseService;
+import PAI.service.programmeEdition.IProgrammeEditionService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.CommandLineRunner;
@@ -166,6 +167,21 @@ class InitializersConfigTest {
 
         // Assert
         verify(initializerDouble).loadProgrammeEnrolment(controllerDouble, "src/main/resources/ProgrammeEnrolment_Data.csv");
+        verifyNoMoreInteractions(initializerDouble);
+    }
+
+    @Test
+    void shouldInvokeLoadProgrammeEditionWhenCommandLineRunnerRuns() throws Exception {
+        // Arrange
+        IProgrammeEditionService serviceDouble = mock(IProgrammeEditionService.class);
+        ProgrammeEditionInitializer initializerDouble = mock(ProgrammeEditionInitializer.class);
+
+        // Act
+        CommandLineRunner commandLineRunner = _initializer.loadDataProgrammeEdition(serviceDouble, initializerDouble);
+        commandLineRunner.run(new String[]{});
+
+        // Assert
+        verify(initializerDouble).loadProgrammeEdition(serviceDouble, "src/main/resources/ProgrammeEdition.csv");
         verifyNoMoreInteractions(initializerDouble);
     }
 }
