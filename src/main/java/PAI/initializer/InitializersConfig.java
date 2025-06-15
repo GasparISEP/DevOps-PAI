@@ -140,4 +140,13 @@ public class InitializersConfig {
             initializer.loadCourseInStudyPlan(service, "src/main/resources/CourseInStudyPlan.csv");
         };
     }
+
+    @Bean
+    @Order(6)
+    public CommandLineRunner loadDataCourseEditionEnrolment(US16_EnrolAStudentInACourseEditionController controller,
+                                                            CourseEditionEnrolmentInitializer initializer) {
+        return (args) -> {
+            initializer.loadCourseEditionEnrolments(controller, "src/main/resources/CourseEditionEnrolment.csv");
+        };
+    }
 }

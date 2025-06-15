@@ -251,4 +251,19 @@ class InitializersConfigTest {
         verify(initializerDouble).loadCourseInStudyPlan(serviceDouble, "src/main/resources/CourseInStudyPlan.csv");
         verifyNoMoreInteractions(initializerDouble);
     }
+
+    @Test
+    void shouldInvokeLoadCourseEditionEnrolmentsWhenCommandLineRunnerRuns() throws Exception {
+        // Arrange
+        US16_EnrolAStudentInACourseEditionController controllerDouble = mock(US16_EnrolAStudentInACourseEditionController.class);
+        CourseEditionEnrolmentInitializer initializerDouble = mock(CourseEditionEnrolmentInitializer.class);
+
+        // Act
+        CommandLineRunner commandLineRunner = _initializer.loadDataCourseEditionEnrolment(controllerDouble, initializerDouble);
+        commandLineRunner.run(new String[]{});
+
+        // Assert
+        verify(initializerDouble).loadCourseEditionEnrolments(controllerDouble, "src/main/resources/CourseEditionEnrolment.csv");
+        verifyNoMoreInteractions(initializerDouble);
+    }
 }
