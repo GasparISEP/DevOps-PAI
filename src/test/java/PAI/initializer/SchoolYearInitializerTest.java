@@ -20,9 +20,13 @@ class SchoolYearInitializerTest {
     @InjectMocks
     private SchoolYearInitializer initializer;
 
+    private String _csvPath;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+
+        _csvPath = "src/main/resources/SchoolYear.csv";
     }
 
     @Test
@@ -34,7 +38,7 @@ class SchoolYearInitializerTest {
 
 
         // Act
-        initializer.init();
+        initializer.loadSchoolYear(controller, _csvPath);
 
         // Assert
         verify(controller).addSchoolYear("550e8400-e29b-41d4-a716-446655440001","2015", "01-09-2015", "31-07-2016");

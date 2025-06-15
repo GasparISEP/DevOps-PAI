@@ -17,8 +17,6 @@ import PAI.service.degreeType.DegreeTypeRegistrationServiceImpl;
 import PAI.service.degreeType.IDegreeTypeRegistrationService;
 import PAI.service.department.IDepartmentService;
 import PAI.service.teacher.ITeacherService;
-import org.apache.commons.lang3.stream.Streams;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -43,7 +41,6 @@ class ProgrammeServiceImplTest {
     private IDepartmentService _departmentServiceDouble;
     private ITeacherService _teacherServiceDouble;
     private NameWithNumbersAndSpecialChars _nameDouble;
-    private NameWithNumbersAndSpecialChars _name2Double;
     private Acronym _acronymDouble;
     private Acronym _acronym2Double;
     private MaxEcts _maxOfEctsDouble;
@@ -66,7 +63,6 @@ class ProgrammeServiceImplTest {
         _teacherServiceDouble = mock(ITeacherService.class);
         _degreeTypeService = mock(DegreeTypeRegistrationServiceImpl.class);
         _nameDouble = mock(NameWithNumbersAndSpecialChars.class);
-        _name2Double = mock(NameWithNumbersAndSpecialChars.class);
         _acronymDouble = mock(Acronym.class);
         _acronym2Double = mock(Acronym.class);
         _maxOfEctsDouble = mock(MaxEcts.class);
@@ -136,17 +132,20 @@ class ProgrammeServiceImplTest {
         when(_programmeVOsDTODouble.departmentID()).thenReturn(_departmentIDDouble);
         when(_programmeVOsDTODouble.teacherID()).thenReturn(_programmeDirectorIDDouble);
 
+        when(_departmentServiceDouble.containsOfIdentity(_departmentIDDouble)).thenReturn(true);
+        when(_teacherServiceDouble.existsById(_programmeDirectorIDDouble)).thenReturn(true);
+
         when(_degreeTypeService.getDegreeTypeById(_degreeTypeIDDouble)).thenReturn(Optional.ofNullable(degreeTypeDouble));
         when(degreeTypeDouble.getMaxEcts()).thenReturn(_maxOfEctsDouble);
         when(_quantityOfSemestersDouble.getQuantityOfSemesters()).thenReturn(numberOfSemesters);
         when(_maxOfEctsDouble.getMaxEcts()).thenReturn(numberOfEcts);
 
         when(_programmeFactoryDouble.registerProgramme(_nameDouble, _acronymDouble, _maxOfEctsDouble, _quantityOfSemestersDouble, _degreeTypeIDDouble, _departmentIDDouble, _programmeDirectorIDDouble)).thenReturn(_programmeDouble);
+
         when(_programmeDouble.identity()).thenReturn(_programmeIDDouble);
         when(_programmeRepositoryDouble.containsOfIdentity(_programmeIDDouble)).thenReturn(false);
+
         when(_programmeRepositoryDouble.save(_programmeDouble)).thenReturn(_programmeDouble);
-        when(_programmeRepositoryDouble.existsByName(_nameDouble)).thenReturn(false);
-        when(_programmeRepositoryDouble.existsByAcronym(_acronymDouble)).thenReturn(false);
 
         //Act
         Programme result = service.registerProgramme(_programmeVOsDTODouble);
@@ -156,13 +155,9 @@ class ProgrammeServiceImplTest {
     }
 
     @Test
-    void shouldNotRegisterProgrammeWhenProgrammeAlreadyExistsName() {
+    void shouldThrowExceptionWhenDepartmentIsNotFound() {
         //Arrange
         createDoubles();
-
-        DegreeType degreeTypeDouble = mock(DegreeType.class);
-        int numberOfSemesters = 6;
-        int numberOfEcts = 180;
 
         ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService, _departmentServiceDouble, _teacherServiceDouble);
 
@@ -174,20 +169,32 @@ class ProgrammeServiceImplTest {
         when(_programmeVOsDTODouble.departmentID()).thenReturn(_departmentIDDouble);
         when(_programmeVOsDTODouble.teacherID()).thenReturn(_programmeDirectorIDDouble);
 
-        when(_degreeTypeService.getDegreeTypeById(_degreeTypeIDDouble)).thenReturn(Optional.ofNullable(degreeTypeDouble));
-        when(degreeTypeDouble.getMaxEcts()).thenReturn(_maxOfEctsDouble);
-        when(_quantityOfSemestersDouble.getQuantityOfSemesters()).thenReturn(numberOfSemesters);
-        when(_maxOfEctsDouble.getMaxEcts()).thenReturn(numberOfEcts);
+        when(_departmentServiceDouble.containsOfIdentity(_departmentIDDouble)).thenReturn(false);
 
-        when(_programmeFactoryDouble.registerProgramme(_nameDouble, _acronymDouble, _maxOfEctsDouble, _quantityOfSemestersDouble, _degreeTypeIDDouble, _departmentIDDouble, _programmeDirectorIDDouble)).thenReturn(_programmeDouble);
-        when(_programmeDouble.identity()).thenReturn(_programmeIDDouble);
-        when(_programmeRepositoryDouble.existsByName(_nameDouble)).thenReturn(true);
+        //Act + Assert
+        assertThrows(BusinessRuleViolationException.class, () -> service.registerProgramme(_programmeVOsDTODouble));
+    }
 
-        //Act
-        Exception result = assertThrows(AlreadyRegisteredException.class, () -> service.registerProgramme(_programmeVOsDTODouble));
+    @Test
+    void shouldThrowExceptionWhenTeacherIsNotFound() {
+        //Arrange
+        createDoubles();
 
-        //Assert
-        assertEquals("Programme name is already registered.", result.getMessage());
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService, _departmentServiceDouble, _teacherServiceDouble);
+
+        when(_programmeVOsDTODouble.name()).thenReturn(_nameDouble);
+        when(_programmeVOsDTODouble.acronym()).thenReturn(_acronymDouble);
+        when(_programmeVOsDTODouble.maxEcts()).thenReturn(_maxOfEctsDouble);
+        when(_programmeVOsDTODouble.quantSemesters()).thenReturn(_quantityOfSemestersDouble);
+        when(_programmeVOsDTODouble.degreeTypeID()).thenReturn(_degreeTypeIDDouble);
+        when(_programmeVOsDTODouble.departmentID()).thenReturn(_departmentIDDouble);
+        when(_programmeVOsDTODouble.teacherID()).thenReturn(_programmeDirectorIDDouble);
+
+        when(_departmentServiceDouble.containsOfIdentity(_departmentIDDouble)).thenReturn(true);
+        when(_teacherServiceDouble.existsById(_programmeDirectorIDDouble)).thenReturn(false);
+
+        //Act + Assert
+        assertThrows(BusinessRuleViolationException.class, () -> service.registerProgramme(_programmeVOsDTODouble));
     }
 
     @Test
@@ -209,15 +216,18 @@ class ProgrammeServiceImplTest {
         when(_programmeVOsDTODouble.departmentID()).thenReturn(_departmentIDDouble);
         when(_programmeVOsDTODouble.teacherID()).thenReturn(_programmeDirectorIDDouble);
 
+        when(_departmentServiceDouble.containsOfIdentity(_departmentIDDouble)).thenReturn(true);
+        when(_teacherServiceDouble.existsById(_programmeDirectorIDDouble)).thenReturn(true);
+
         when(_degreeTypeService.getDegreeTypeById(_degreeTypeIDDouble)).thenReturn(Optional.ofNullable(degreeTypeDouble));
         when(degreeTypeDouble.getMaxEcts()).thenReturn(_maxOfEctsDouble);
         when(_quantityOfSemestersDouble.getQuantityOfSemesters()).thenReturn(numberOfSemesters);
         when(_maxOfEctsDouble.getMaxEcts()).thenReturn(numberOfEcts);
 
         when(_programmeFactoryDouble.registerProgramme(_nameDouble, _acronymDouble, _maxOfEctsDouble, _quantityOfSemestersDouble, _degreeTypeIDDouble, _departmentIDDouble, _programmeDirectorIDDouble)).thenReturn(_programmeDouble);
+
         when(_programmeDouble.identity()).thenReturn(_programmeIDDouble);
-        when(_programmeRepositoryDouble.existsByName(_nameDouble)).thenReturn(false);
-        when(_programmeRepositoryDouble.existsByAcronym(_acronymDouble)).thenReturn(true);
+        when(_programmeRepositoryDouble.containsOfIdentity(_programmeIDDouble)).thenReturn(true);
 
         //Act
         Exception result = assertThrows(AlreadyRegisteredException.class, () -> service.registerProgramme(_programmeVOsDTODouble));
@@ -244,6 +254,9 @@ class ProgrammeServiceImplTest {
         when(_programmeVOsDTODouble.degreeTypeID()).thenReturn(_degreeTypeIDDouble);
         when(_programmeVOsDTODouble.departmentID()).thenReturn(_departmentIDDouble);
         when(_programmeVOsDTODouble.teacherID()).thenReturn(_programmeDirectorIDDouble);
+
+        when(_departmentServiceDouble.containsOfIdentity(_departmentIDDouble)).thenReturn(true);
+        when(_teacherServiceDouble.existsById(_programmeDirectorIDDouble)).thenReturn(true);
 
         when(_degreeTypeService.getDegreeTypeById(_degreeTypeIDDouble)).thenReturn(Optional.ofNullable(degreeTypeDouble));
         when(degreeTypeDouble.getMaxEcts()).thenReturn(_maxOfEctsDouble);
@@ -278,6 +291,9 @@ class ProgrammeServiceImplTest {
         when(_programmeVOsDTODouble.departmentID()).thenReturn(_departmentIDDouble);
         when(_programmeVOsDTODouble.teacherID()).thenReturn(_programmeDirectorIDDouble);
 
+        when(_departmentServiceDouble.containsOfIdentity(_departmentIDDouble)).thenReturn(true);
+        when(_teacherServiceDouble.existsById(_programmeDirectorIDDouble)).thenReturn(true);
+
         when(_degreeTypeService.getDegreeTypeById(_degreeTypeIDDouble)).thenReturn(Optional.ofNullable(degreeTypeDouble));
         when(degreeTypeDouble.getMaxEcts()).thenReturn(_maxOfEctsDouble);
         when(_quantityOfSemestersDouble.getQuantityOfSemesters()).thenReturn(numberOfSemesters);
@@ -305,6 +321,9 @@ class ProgrammeServiceImplTest {
         when(_programmeVOsDTODouble.degreeTypeID()).thenReturn(_degreeTypeIDDouble);
         when(_programmeVOsDTODouble.departmentID()).thenReturn(_departmentIDDouble);
         when(_programmeVOsDTODouble.teacherID()).thenReturn(_programmeDirectorIDDouble);
+
+        when(_departmentServiceDouble.containsOfIdentity(_departmentIDDouble)).thenReturn(true);
+        when(_teacherServiceDouble.existsById(_programmeDirectorIDDouble)).thenReturn(true);
 
         when(_degreeTypeService.getDegreeTypeById(_degreeTypeIDDouble)).thenReturn(Optional.ofNullable(degreeTypeDouble));
         when(degreeTypeDouble.getMaxEcts()).thenReturn(_maxOfEctsDouble);

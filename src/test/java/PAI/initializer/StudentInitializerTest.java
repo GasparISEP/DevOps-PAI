@@ -17,15 +17,19 @@ class StudentInitializerTest {
     @InjectMocks
     private StudentInitializer initializer;
 
+    private String _csvPath;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+
+        _csvPath = "src/main/resources/Student_Data.csv";
     }
 
     @Test
     void shouldInitializeAndRegisterStudentsFromCsv() throws Exception {
         // act
-        initializer.loadDataRegisterStudent(controller).run();
+        initializer.loadStudents(controller, _csvPath);
 
         // assert
         verify(controller).registerStudent(

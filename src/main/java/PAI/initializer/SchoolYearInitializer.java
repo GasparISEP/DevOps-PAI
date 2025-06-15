@@ -1,40 +1,23 @@
 package PAI.initializer;
 
 import PAI.controller.US07_IWantToCreateASchoolYearController;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 
 import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.FileReader;
 
 @Configuration
-@Order(1)
 public class SchoolYearInitializer {
 
-    private final US07_IWantToCreateASchoolYearController controller;
-
-    public SchoolYearInitializer(US07_IWantToCreateASchoolYearController controller) {
-        this.controller = controller;
-    }
-
-    @Bean
-    public CommandLineRunner loadDataRegisterSchoolYear() {
-        return args -> init();
-    }
-
-    public void init() {
+    public void loadSchoolYear(US07_IWantToCreateASchoolYearController controller, String csvFilePath) {
 
         long startTime = System.currentTimeMillis();
-        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("SchoolYear.csv");
-             BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(csvFilePath))) {
 
             String line;
             boolean isFirstLine = true;
 
-            while ((line = br.readLine()) != null) {
+            while ((line = reader.readLine()) != null) {
                 if (isFirstLine) {
                     isFirstLine = false;
                     continue;

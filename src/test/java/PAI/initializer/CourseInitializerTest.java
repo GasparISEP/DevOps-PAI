@@ -20,9 +20,12 @@ class CourseInitializerTest {
     @InjectMocks
     private CourseInitializer initializer;
 
+    private String _csvpath;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+        _csvpath = "src/main/resources/CourseData.csv";
     }
 
     @Test
@@ -32,7 +35,7 @@ class CourseInitializerTest {
         when(courseService.createAndSaveCourse(any(Name.class), any(Acronym.class))).thenReturn(course);
 
         // act
-        initializer.init();
+        initializer.loadCourse(courseService, _csvpath);
 
         // assert
         verify(courseService).createAndSaveCourse(new Name("Alchemy"), new Acronym("ALCH"));
@@ -76,7 +79,7 @@ class CourseInitializerTest {
         Course course = mock(Course.class);
         when(courseService.createAndSaveCourse(any(Name.class), any(Acronym.class))).thenReturn(course);
 
-        initializer.init();
+        initializer.loadCourse(courseService, _csvpath);
 
         verify(courseService, times(32)).createAndSaveCourse(any(Name.class), any(Acronym.class));
     }

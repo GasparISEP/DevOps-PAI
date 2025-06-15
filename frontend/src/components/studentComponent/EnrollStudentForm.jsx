@@ -18,9 +18,11 @@ export default function EnrollStudentForm() {
         selectedCourses: []
     });
 
+    const [studentName, setStudentName] = useState('');
     const [programmes, setProgrammes] = useState([]);
     const [editions, setEditions] = useState([]);
     const [courses, setCourses] = useState([]);
+    const [totalEcts] = useState(60);
 
     const [error, setError] = useState('');
     const [success, setSuccess] = useState(null);
@@ -29,7 +31,6 @@ export default function EnrollStudentForm() {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-
         setForm(prev => ({
             ...prev,
             [name]: value,
@@ -38,12 +39,13 @@ export default function EnrollStudentForm() {
         }));
     };
 
-    const handleCheckboxChange = (course) => {
+    const handleCheckboxChange = (acronym) => {
+        const clean = acronym.trim().toUpperCase();
         setForm(prev => ({
             ...prev,
-            selectedCourses: prev.selectedCourses.includes(course)
-                ? prev.selectedCourses.filter(c => c !== course)
-                : [...prev.selectedCourses, course]
+            selectedCourses: prev.selectedCourses.includes(clean)
+                ? prev.selectedCourses.filter(c => c !== clean)
+                : [...prev.selectedCourses, clean]
         }));
     };
 
@@ -57,6 +59,7 @@ export default function EnrollStudentForm() {
         setProgrammes([]);
         setEditions([]);
         setCourses([]);
+        setStudentName('');
         setError('');
         setSuccess(null);
         setShowModal(false);
@@ -66,21 +69,18 @@ export default function EnrollStudentForm() {
     const handleStudentBlur = async () => {
         setError('');
         if (!form.studentId) return;
-
         try {
-            const programmes = await getEnrolledProgrammes(form.studentId);
-
-            if (programmes.length === 0) {
+            const res = await getEnrolledProgrammes(form.studentId);
+            setProgrammes(res.programmeInfo || []);
+            setStudentName(res.studentName || '');
+            if ((res.programmeInfo || []).length === 0) {
                 setError('Este estudante não está inscrito em nenhum programa.');
-                setProgrammes([]);
-                return;
             }
-
-            setProgrammes(programmes);
         } catch (err) {
             console.error(err);
-            setError('Erro ao carregar programas para este estudante.');
+            setError('Erro ao carregar programas.');
             setProgrammes([]);
+            setStudentName('');
         }
     };
 
@@ -90,89 +90,96 @@ export default function EnrollStudentForm() {
                 setEditions([]);
                 return;
             }
-
             try {
-                const editions = await getProgrammeEditions(form.programme);
-                const mapped = editions.map((e, index) => ({
-                    key: `${e.programmeAcronym} - ${index + 1}`,
+                const res = await getProgrammeEditions(form.programme);
+                setEditions(res.map(e => ({
+                    key: e.description,
                     value: e.schoolYearId,
                     acronym: e.programmeAcronym
-                }));
-                setEditions(mapped);
+                })));
             } catch (err) {
                 console.error(err);
-                setError('Erro ao carregar edições do programa.');
-                setEditions([]);
+                setError('Erro ao carregar edições.');
             }
         };
-
         fetchEditions();
     }, [form.programme]);
 
     useEffect(() => {
         const fetchCourses = async () => {
-            setCourses([]);
-
             if (!form.programme || !form.edition) return;
-
-            const selectedEdition = editions.find(e => e.value === form.edition);
-            if (!selectedEdition) return;
-
-            const payload = {
-                programmeAcronym: selectedEdition.acronym,
-                schoolYearId: selectedEdition.value
-            };
-
+            const edition = editions.find(e => e.value === form.edition);
+            if (!edition) return;
             try {
-                const courseList = await getAvailableCourses(payload);
-                console.log("Courses returned:", courseList);
-                setCourses(courseList);
+                const res = await getAvailableCourses({
+                    programmeAcronym: edition.acronym,
+                    schoolYearId: edition.value
+                });
+                const norm = res.map(c => ({
+                    ...c,
+                    qtyECTS: Number(c.qtyECTS) || 0,
+                    acronym: c.acronym.trim().toUpperCase()
+                }));
+                setCourses(norm);
             } catch (err) {
                 console.error(err);
-                setError('Erro ao carregar cursos para esta edição.');
+                setError('Erro ao carregar cursos.');
             }
         };
-
         fetchCourses();
     }, [form.edition, editions, form.programme]);
 
+    const selectedEcts = form.selectedCourses.reduce((sum, acr) => {
+        const c = courses.find(c => c.acronym === acr);
+        return sum + (c ? c.qtyECTS : 0);
+    }, 0);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         if (!form.studentId || !form.programme || !form.edition || form.selectedCourses.length === 0) {
-            setError('Preencha todos os campos e selecione pelo menos um curso.');
+            setError('Preencha todos os campos.');
             return;
         }
 
-        const selectedEdition = editions.find(e => e.value === form.edition);
-        if (!selectedEdition) {
-            setError('Edição do programa inválida.');
+        const edition = editions.find(e => e.value === form.edition);
+        const programme = programmes.find(p => p.generatedID === form.programme);
+        if (!edition || !programme) {
+            setError('Programa ou edição inválidos.');
             return;
         }
 
         const payload = {
             studentId: parseInt(form.studentId),
-            programmeAcronym: selectedEdition.acronym,
-            schoolYearId: selectedEdition.value,
-            courseIds: form.selectedCourses.map(acronym => {
-                const course = courses.find(c => c.acronym === acronym);
+            programmeAcronym: edition.acronym,
+            schoolYearId: edition.value,
+            courseIds: form.selectedCourses.map(acr => {
+                const c = courses.find(c => c.acronym === acr);
                 return {
-                    acronym: course.acronym,
-                    name: course.name,
-                    studyPlanDate: course.studyPlanDate,
-                    programmeAcronym: course.programmeAcronym
+                    acronym: c.acronym,
+                    name: c.name,
+                    studyPlanDate: c.studyPlanDate,
+                    programmeAcronym: c.programmeAcronym
                 };
             })
         };
 
-        console.log("Payload being sent:", payload);
+        const grouped = courses.reduce((acc, c) => {
+            const key = `${c.curricularYear}º ANO | ${c.semester}º SEMESTRE`;
+            if (!acc[key]) acc[key] = [];
+            acc[key].push(c);
+            return acc;
+        }, {});
 
         try {
             await enrolStudent(form.studentId, payload);
             setSuccess({
                 studentID: form.studentId,
-                programmeEdition: `${selectedEdition.acronym} - ${selectedEdition.value}`,
-                courses: form.selectedCourses
+                studentName: studentName,
+                programmeName: programme.programmeName,
+                editionDescription: edition.key,
+                groupedCourses: grouped,
+                selectedCourses: form.selectedCourses,
+                selectedEcts: selectedEcts
             });
             setShowModal(true);
         } catch (err) {
@@ -192,33 +199,32 @@ export default function EnrollStudentForm() {
                 </div>
 
                 <form className="form" onSubmit={handleSubmit}>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2rem' }}>
-                        <h1 style={{ margin: 0 }}>Enroll a Student</h1>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2rem' }}>
+                        <h1>Enroll a Student</h1>
                         <button type="button" className="pagination-btn2 pagination-btn-secondary" onClick={() => navigate("/")}>Back to Home Page</button>
                     </div>
 
                     <div className="form-and-buttons-main-div">
                         <div className="form-div">
                             <div className="form-group">
-                                <label htmlFor="studentId" className="form-label">Student Unique Number</label>
-                                <input type="text" name="studentId" id="studentId" className="form-input" value={form.studentId} onChange={handleChange} onBlur={handleStudentBlur} required />
+                                <label className="form-label">Student Unique Number</label>
+                                <input type="text" name="studentId" className="form-input" value={form.studentId} onChange={handleChange} onBlur={handleStudentBlur} required />
+                                {studentName && <p style={{ marginTop: '0.5rem', fontWeight: 'bold' }}>{studentName}</p>}
                             </div>
 
                             <div className="form-group">
-                                <label htmlFor="programme" className="form-label">Programme</label>
-                                <select name="programme" id="programme" className="form-input" value={form.programme} onChange={handleChange}>
+                                <label className="form-label">Programme</label>
+                                <select name="programme" className="form-input" value={form.programme} onChange={handleChange}>
                                     <option value="">-- Choose Programme --</option>
                                     {programmes.map(p => (
-                                        <option key={p.generatedID} value={p.generatedID}>
-                                            {p.programmeID}
-                                        </option>
+                                        <option key={p.generatedID} value={p.generatedID}>{p.programmeName}</option>
                                     ))}
                                 </select>
                             </div>
 
                             <div className="form-group">
-                                <label htmlFor="edition" className="form-label">Programme Edition</label>
-                                <select name="edition" id="edition" className="form-input" value={form.edition} onChange={handleChange}>
+                                <label className="form-label">Programme Edition</label>
+                                <select name="edition" className="form-input" value={form.edition} onChange={handleChange}>
                                     <option value="">-- Choose Edition --</option>
                                     {editions.map(e => (
                                         <option key={e.key} value={e.value}>{e.key}</option>
@@ -228,14 +234,29 @@ export default function EnrollStudentForm() {
 
                             <div className="form-group">
                                 <label className="form-label">Courses</label>
-                                <div className="form-checkbox-group">
-                                    {courses.map(c => (
-                                        <label key={c.acronym} className="form-label" style={{ fontWeight: 'normal' }}>
-                                            <input type="checkbox" value={c.acronym} checked={form.selectedCourses.includes(c.acronym)} onChange={() => handleCheckboxChange(c.acronym)} style={{ marginRight: '0.5rem' }} />
-                                            {c.name}
-                                        </label>
-                                    ))}
-                                </div>
+                                {form.edition && (
+                                    <p style={{ fontWeight: 'bold', marginBottom: '0.5rem' }}>ECTS — {selectedEcts} of {totalEcts}</p>
+                                )}
+                                {Object.entries(
+                                    courses.reduce((groups, c) => {
+                                        const key = `${c.curricularYear}º ANO | ${c.semester}º SEMESTRE`;
+                                        if (!groups[key]) groups[key] = [];
+                                        groups[key].push(c);
+                                        return groups;
+                                    }, {})
+                                ).map(([group, groupCourses]) => (
+                                    <div key={group} style={{ marginBottom: '1rem' }}>
+                                        <h4>{group}</h4>
+                                        <div className="form-checkbox-group">
+                                            {groupCourses.map(c => (
+                                                <label key={c.acronym} style={{ display: 'block' }}>
+                                                    <input type="checkbox" value={c.acronym} checked={form.selectedCourses.includes(c.acronym)} onChange={() => handleCheckboxChange(c.acronym)} style={{ marginRight: '0.5rem' }} />
+                                                    {c.name} ({c.qtyECTS} ECTS)
+                                                </label>
+                                            ))}
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
 
                             {error && <div className="error">{error}</div>}
@@ -251,18 +272,33 @@ export default function EnrollStudentForm() {
                 {showModal && success && (
                     <div className="modal-overlay">
                         <div className="modal-content">
-                            <h2>Success!</h2>
-                            <p>Enrollment completed successfully.</p>
-                            <div className="success" style={{ marginTop: '1rem', color: '#080' }}>
-                                <p><strong>Student ID:</strong> {success.studentID}</p>
-                                <p><strong>Programme Edition:</strong> {success.programmeEdition}</p>
-                                <p><strong>Courses:</strong></p>
-                                <ul>
-                                    {success.courses.map((course, index) => (
-                                        <li key={index}>{course}</li>
-                                    ))}
-                                </ul>
+                            <h2 style={{ color: 'green' }}>✅ Enrollment Successful</h2>
+                            <p><strong>Student ID:</strong> {success.studentID}</p>
+                            <p><strong>Student Name:</strong> {success.studentName}</p>
+                            <p><strong>Programme Edition:</strong> {success.programmeName} — {success.editionDescription}</p>
+
+                            <h3 style={{ fontSize: '1.2rem', marginTop: '1rem' }}>Courses:</h3>
+                            <div style={{ textAlign: 'left', margin: '0 auto', maxWidth: '400px', fontSize: '1rem' }}>
+                                {Object.entries(success.groupedCourses).map(([group, groupCourses]) => {
+                                    const selected = groupCourses.filter(c => success.selectedCourses.includes(c.acronym));
+                                    if (selected.length === 0) return null;
+                                    return (
+                                        <div key={group} style={{ marginBottom: '0.8rem' }}>
+                                            <strong>{group}</strong>
+                                            <ul style={{ margin: '0.4rem 0', paddingLeft: '1.2rem' }}>
+                                                {selected.map(c => (
+                                                    <li key={c.acronym}>{c.name} ({c.qtyECTS} ECTS)</li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    );
+                                })}
                             </div>
+
+                            <p style={{ marginTop: '1rem', fontWeight: 'bold', fontSize: '1rem' }}>
+                                ECTS Used: {success.selectedEcts} / {totalEcts}
+                            </p>
+
                             <button className="modal-btn" onClick={() => {
                                 setShowModal(false);
                                 window.location.reload();
