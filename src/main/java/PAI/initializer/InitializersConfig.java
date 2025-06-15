@@ -149,4 +149,12 @@ public class InitializersConfig {
             initializer.loadCourseEditionEnrolments(controller, "src/main/resources/CourseEditionEnrolment.csv");
         };
     }
+
+    @Bean
+    @Order(7)
+    public CommandLineRunner loadStudentGrades(US22_IWantToGradeAStudentInACourseEditionController controller, StudentGradeInitializer initializer) {
+        return args -> {
+            initializer.loadStudentGrade(controller, "src/main/resources/StudentGrade.csv");
+        };
+    }
 }
