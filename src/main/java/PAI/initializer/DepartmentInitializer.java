@@ -4,37 +4,25 @@ import PAI.VOs.DepartmentAcronym;
 
 import PAI.VOs.Name;
 import PAI.controller.US05_DepartmentRegistryController;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 import java.io.*;
 
 @Configuration
 public class DepartmentInitializer {
 
-    private final US05_DepartmentRegistryController controller;
-
-    public DepartmentInitializer(US05_DepartmentRegistryController controller) {
-        this.controller = controller;
-    }
-
-    @Bean
-    public CommandLineRunner loadDataRunner() {
-        return args -> init();
-    }
-
-    public void init() {
+    public void loadDepartment(US05_DepartmentRegistryController controller, String csvFilePath) {
 
         long startTime = System.currentTimeMillis();
-        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("Department.csv");
-             BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(csvFilePath))) {
 
             String line;
             boolean isFirstLine = true;
 
 
-            while ((line = br.readLine()) != null) {
+            while ((line = reader.readLine()) != null) {
                 if (isFirstLine) {
                     isFirstLine = false;
                     continue;

@@ -2,7 +2,7 @@
 autonumber
 skinparam sequenceMessageAlign center
 skinparam sequenceLifeLineBackgroundColor lightblue
-title As an ASC I want to remove the enrolment of a student in a course edition using a WEB UI \n (Process View Level 3 - findEnrolledCourseEditionsForStudent)
+title As an ASC I want to remove the enrolment of a student in a course edition using a WEB UI \n (Process View Level 3 - Backend - findEnrolledCourseEditionsForStudent)
 
 participant ":Router" as Router <<Component>> #lightpink
 participant ":StudentRestController" as Controller <<Component>> #motivation
@@ -10,7 +10,7 @@ participant ":CourseEditionEnrolmentService" as Service <<Component>> #business
 participant ":CourseEditionEnrolmentRepository" as Repository <<Component>> #lightgreen
 participant ":Drivers" as D <<Component>> #technology
 
-[o-> Router : **GET** students/{studentId}/enrolled-course-editions/
+[o-> Router : **GET** \n students/{studentId}/enrolled-course-editions/
 activate Router
 Router -> Controller : findEnrolledCourseEditionsForStudent(studentUniqueNumber)
 activate Controller
@@ -28,7 +28,7 @@ Service --> Controller : List<US35EnrolledCourseDetails>
 deactivate Service
 Controller --> Router : List<EnrolledCourseEditionDTO>
 deactivate Controller
-[o<-- Router : (200, OK) List<EnrolledCourseEditionDTO>
+[o<-- Router : (**200, OK**) \n List<EnrolledCourseEditionDTO>
 deactivate Router
 
 

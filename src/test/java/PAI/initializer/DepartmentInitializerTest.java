@@ -27,9 +27,13 @@ class DepartmentInitializerTest {
     @InjectMocks
     private DepartmentInitializer initializer;
 
+    private String _csvPath;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+
+        _csvPath = "src/main/resources/Department.csv";
     }
 
     @Test
@@ -39,7 +43,7 @@ class DepartmentInitializerTest {
                 .thenReturn(true);
 
         // Act
-        initializer.init();
+        initializer.loadDepartment(controller, _csvPath);
 
         // Assert
         verify(controller).registerDepartment(new DepartmentAcronym("AAA"), new Name("Astronomy"));

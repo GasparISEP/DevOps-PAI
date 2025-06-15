@@ -1,5 +1,8 @@
 package PAI.initializer;
 
+import PAI.controller.US02_ConfigureAccessMethodController;
+import PAI.controller.US05_DepartmentRegistryController;
+import PAI.controller.US07_IWantToCreateASchoolYearController;
 import PAI.controller.US10_IWantToConfigureDegreeTypesLevelsController;
 import PAI.service.course.ICourseService;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,6 +47,51 @@ class InitializersConfigTest {
 
         // Assert
         verify(initializerDouble).loadCourse(serviceDouble, "src/main/resources/CourseData.csv");
+        verifyNoMoreInteractions(initializerDouble);
+    }
+
+    @Test
+    void shouldInvokeLoadAccessMethodWhenCommandLineRunnerRuns() throws Exception {
+        // Arrange
+        US02_ConfigureAccessMethodController controller = mock(US02_ConfigureAccessMethodController.class);
+        AccessMethodInitializer initializerDouble = mock(AccessMethodInitializer.class);
+
+        // Act
+        CommandLineRunner commandLineRunner = _initializer.loadDataAccessMethod(controller, initializerDouble);
+        commandLineRunner.run(new String[]{});
+
+        // Assert
+        verify(initializerDouble).loadAccessMethod(controller, "src/main/resources/AccessMethodData.csv");
+        verifyNoMoreInteractions(initializerDouble);
+    }
+
+    @Test
+    void shouldInvokeLoadDataDepartmentWhenCommandLineRunnerRuns() throws Exception {
+        // Arrange
+        US05_DepartmentRegistryController controller = mock(US05_DepartmentRegistryController.class);
+        DepartmentInitializer initializerDouble = mock(DepartmentInitializer.class);
+
+        // Act
+        CommandLineRunner commandLineRunner = _initializer.loadDataDepartment(controller, initializerDouble);
+        commandLineRunner.run(new String[]{});
+
+        // Assert
+        verify(initializerDouble).loadDepartment(controller, "src/main/resources/Department.csv");
+        verifyNoMoreInteractions(initializerDouble);
+    }
+
+    @Test
+    void shouldInvokeLoadDataSchoolYearWhenCommandLineRunnerRuns() throws Exception {
+        // Arrange
+        US07_IWantToCreateASchoolYearController controller = mock(US07_IWantToCreateASchoolYearController.class);
+        SchoolYearInitializer initializerDouble = mock(SchoolYearInitializer.class);
+
+        // Act
+        CommandLineRunner commandLineRunner = _initializer.loadDataSchoolYear(controller, initializerDouble);
+        commandLineRunner.run(new String[]{});
+
+        // Assert
+        verify(initializerDouble).loadSchoolYear(controller, "src/main/resources/SchoolYear.csv");
         verifyNoMoreInteractions(initializerDouble);
     }
 }
