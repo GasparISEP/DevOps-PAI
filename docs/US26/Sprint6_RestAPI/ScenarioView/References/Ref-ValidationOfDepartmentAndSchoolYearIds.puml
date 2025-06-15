@@ -1,0 +1,31 @@
+@startuml
+title (US26) Validation of DepartmentID and SchoolYearID\n(Scenario View Level 4)
+
+autonumber
+
+participant ":TotalEnrolledStudentsInProgrammesByDepartmentAndYearService" as Service #goldenrod
+participant ":DepartmentRepository" as DepRepo #lightcoral
+participant ":DepartmentIDMapper" as DepMapper #lightblue
+participant ":SchoolYearRepository" as SYRepo #lightcoral
+participant ":SchoolYearIDMapper" as SYMapper #lightblue
+participant ":JpaRepository_SchoolYear" as SYJpa #lightyellow
+
+activate Service
+
+Service -> DepRepo ++: containsOfIdentity(departmentID)
+DepRepo -> DepMapper ++: toDataModel(departmentID)
+DepMapper --> DepRepo --: DepartmentIDDataModel
+
+DepRepo ->o]: existsById(DepartmentIDDataModel)
+DepRepo <--o]: True
+DepRepo --> Service --: True
+
+Service -> SYRepo ++: containsOfIdentity(schoolYearID)
+SYRepo -> SYMapper ++: toDataModel(schoolYearID)
+SYMapper --> SYRepo --: SchoolYearIDDataModel
+
+SYRepo ->o]: existsById(SchoolYearIDDataModel)
+SYRepo <--o]: True
+SYRepo --> Service --: True
+
+@enduml
