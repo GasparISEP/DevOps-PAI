@@ -536,6 +536,7 @@ class CourseEditionRestControllerTest {
         String programmeAcronym = "LEI";
         String schoolYearId = "123e4567-e89b-12d3-a456-426614174000";
         String courseAcronym = "ESOFT";
+        String courseName = "Maths";
         String studyPlanDate = "01-01-2024";
         double expectedApprovalRate = 85.5;
 
@@ -546,6 +547,7 @@ class CourseEditionRestControllerTest {
                         .param("programmeAcronym", programmeAcronym)
                         .param("schoolYearId", schoolYearId)
                         .param("courseAcronym", courseAcronym)
+                        .param("courseName", courseName)
                         .param("studyPlanDate", studyPlanDate))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
@@ -557,6 +559,7 @@ class CourseEditionRestControllerTest {
         String programmeAcronym = "LEI";
         String schoolYearId = "123e4567-e89b-12d3-a456-426614174000";
         String courseAcronym = "ESOFT";
+        String courseName = "Maths";
         String studyPlanDate = "01-01-2024";
         double expectedApprovalRate = 0.0;
 
@@ -567,6 +570,7 @@ class CourseEditionRestControllerTest {
                         .param("programmeAcronym", programmeAcronym)
                         .param("schoolYearId", schoolYearId)
                         .param("courseAcronym", courseAcronym)
+                        .param("courseName", courseName)
                         .param("studyPlanDate", studyPlanDate))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
@@ -579,6 +583,7 @@ class CourseEditionRestControllerTest {
                         .param("programmeAcronym", "LEI")
                         .param("schoolYearId", "invalid-uuid")
                         .param("courseAcronym", "ESOFT")
+                        .param("courseName", "Maths")
                         .param("studyPlanDate", "01-01-2024"))
                 .andExpect(status().isBadRequest());
     }

@@ -230,6 +230,7 @@ public ResponseEntity<?> defineRucForCourseEdition(
             @RequestParam("programmeAcronym") @Valid String programmeAcronym,
             @RequestParam("schoolYearId") @Valid String schoolYearId,
             @RequestParam("courseAcronym") @Valid String courseAcronym,
+            @RequestParam("courseName") @Valid String courseName,
             @RequestParam("studyPlanDate") @Valid String studyPlanDate)  {
      try {
          UUID schoolYearUUID = UUID.fromString(schoolYearId);
@@ -240,7 +241,7 @@ public ResponseEntity<?> defineRucForCourseEdition(
          CourseEditionID courseEditionID = new CourseEditionID(
                  new ProgrammeEditionID(programmeID, schoolYearID),
                  new CourseInStudyPlanID(
-                         new CourseID(new Acronym(courseAcronym), new Name("Placeholder Name")),
+                         new CourseID(new Acronym(courseAcronym), new Name(courseName)),
                          new StudyPlanID(programmeID, new Date(studyPlanDate))));
 
          double approvalRate = gradeAStudentService.knowApprovalRate(courseEditionID);

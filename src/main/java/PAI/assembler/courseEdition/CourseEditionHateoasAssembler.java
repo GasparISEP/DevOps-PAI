@@ -43,7 +43,7 @@ public class CourseEditionHateoasAssembler implements RepresentationModelAssembl
         List<EntityModel<CourseEditionResponseIDDTO>> listOfCourseEditionResponseDtosWithHypermedia = courseEditionResponseDTOs.stream()
             .map(dto -> EntityModel.of(dto,
                 linkTo(methodOn(CourseEditionRestController.class)
-                            .getCourseEditionApprovalRate(dto.programmeAcronym(), dto.schoolYearID().toString(), dto.courseAcronym(), dto.studyPlanImplementationDate().toString()))
+                            .getCourseEditionApprovalRate(dto.programmeAcronym(), dto.schoolYearID().toString(), dto.courseAcronym(), dto.courseName(), dto.studyPlanImplementationDate().toString()))
                             .withRel("approval-rate")
             ))
             .collect(Collectors.toList());
