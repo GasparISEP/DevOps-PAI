@@ -1,17 +1,24 @@
 package PAI.initializer;
 
+import PAI.VOs.Name;
 import PAI.controller.US13_RegisterTeacherAndRelevantDataController;
+import PAI.domain.repositoryInterfaces.teacherCategory.ITeacherCategoryRepository;
+import PAI.domain.teacherCategory.TeacherCategory;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class TeacherInitializer {
 
-    public void loadTeachers(US13_RegisterTeacherAndRelevantDataController controller, String csvFile) {
+    public void loadTeachers(US13_RegisterTeacherAndRelevantDataController controller, ITeacherCategoryRepository repository, String csvFile) {
 
         long startTime = System.currentTimeMillis();
+        List<TeacherCategory> teacherCategoryList = new ArrayList<>();
+        repository.findAll().forEach(teacherCategoryList::add);
 
         try (BufferedReader reader = new BufferedReader(new FileReader(csvFile))) {
             String line;
@@ -37,8 +44,14 @@ public class TeacherInitializer {
                 String country = fields[9];
                 String departmentAcronym = fields[10];
                 String date = fields[12];
-                String teacherCategoryID = fields[13];
+                String teacherCategoryName = fields[13];
                 int workingPercentage = Integer.parseInt(fields[14]);
+
+                Name teacherCategoryNameVO = new Name(teacherCategoryName);
+
+                String teacherCategoryID = repository.findByName(teacherCategoryNameVO)
+                        .orElseThrow(() -> new IllegalArgumentException("Teacher category not found: " + teacherCategoryNameVO))
+                        .identity().toString();
 
                 controller.registerTeacher(acronym, name, email, nif, phoneNumber, academicBackground, street,
                         postalCode, location, country, departmentAcronym, date, teacherCategoryID, workingPercentage, countryCode);

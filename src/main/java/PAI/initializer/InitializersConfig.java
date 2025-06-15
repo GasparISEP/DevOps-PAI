@@ -4,6 +4,7 @@ import PAI.controller.*;
 import PAI.domain.repositoryInterfaces.degreeType.IDegreeTypeRepository;
 import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
 import PAI.domain.repositoryInterfaces.studentGrade.IStudentGradeRepository;
+import PAI.domain.repositoryInterfaces.teacherCategory.ITeacherCategoryRepository;
 import PAI.domain.studentGrade.StudentGradeFactoryImpl;
 import PAI.service.course.ICourseService;
 import PAI.service.courseInStudyPlan.ICourseInStudyPlanService;
@@ -76,9 +77,9 @@ public class InitializersConfig {
 
     @Bean
     @Order(2)
-    public CommandLineRunner loadDataRegisterTeacher(US13_RegisterTeacherAndRelevantDataController controller, TeacherInitializer initializer) {
+    public CommandLineRunner loadDataRegisterTeacher(US13_RegisterTeacherAndRelevantDataController controller, ITeacherCategoryRepository repository, TeacherInitializer initializer) {
         return (args) -> {
-            initializer.loadTeachers(controller, "src/main/resources/Teacher_Data.csv");
+            initializer.loadTeachers(controller, repository, "src/main/resources/Teacher_Data.csv");
         };
     }
 

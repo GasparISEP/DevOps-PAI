@@ -4,6 +4,7 @@ import PAI.controller.*;
 import PAI.domain.repositoryInterfaces.degreeType.IDegreeTypeRepository;
 import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
 import PAI.domain.repositoryInterfaces.studentGrade.IStudentGradeRepository;
+import PAI.domain.repositoryInterfaces.teacherCategory.ITeacherCategoryRepository;
 import PAI.domain.studentGrade.StudentGradeFactoryImpl;
 import PAI.service.course.ICourseService;
 import PAI.service.courseInStudyPlan.ICourseInStudyPlanService;
@@ -132,15 +133,16 @@ class InitializersConfigTest {
     @Test
     void shouldInvokeLoadTeachersWhenCommandLineRunnerRuns() throws Exception {
         // Arrange
-        US13_RegisterTeacherAndRelevantDataController controller = mock(US13_RegisterTeacherAndRelevantDataController.class);
+        US13_RegisterTeacherAndRelevantDataController controllerDouble = mock(US13_RegisterTeacherAndRelevantDataController.class);
+        ITeacherCategoryRepository repositoryDouble = mock(ITeacherCategoryRepository.class);
         TeacherInitializer initializerDouble = mock(TeacherInitializer.class);
 
         // Act
-        CommandLineRunner commandLineRunner = _initializer.loadDataRegisterTeacher(controller, initializerDouble);
+        CommandLineRunner commandLineRunner = _initializer.loadDataRegisterTeacher(controllerDouble, repositoryDouble, initializerDouble);
         commandLineRunner.run(new String[]{});
 
         // Assert
-        verify(initializerDouble).loadTeachers(controller, "src/main/resources/Teacher_Data.csv");
+        verify(initializerDouble).loadTeachers(controllerDouble, repositoryDouble, "src/main/resources/Teacher_Data.csv");
         verifyNoMoreInteractions(initializerDouble);
     }
 
