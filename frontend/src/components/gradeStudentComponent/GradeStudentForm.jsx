@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { gradeAStudentWithLink } from '../../services/courseEditionGradeStudentService';
+import React, { useState, useEffect } from 'react';
+import {getEnrolmentsForStudent, gradeAStudentWithLink} from '../../services/courseEditionGradeStudentService';
 import ISEPLogoBranco from "../../assets/images/ISEP_logo-branco.png";
 import '../../styles/Form.css';
+import '../../styles/RegisterGradeStudentPage.css';
 import { Link } from "react-router-dom";
 import GradeStudentErrorModal from "./GradeStudentErrorModal";
 import GradeStudentSuccessModal from "./GradeStudentSuccessModal";
@@ -9,17 +10,49 @@ import GradeStudentSuccessModal from "./GradeStudentSuccessModal";
 export default function GradeStudentForm() {
     const initialFormState = {
         studentUniqueNumber: '',
+        courseEditionID: '',
         grade: ''
     };
 
     const [form, setForm] = useState(initialFormState);
     const [loading, setLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState(null);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
     const [showErrorModal, setShowErrorModal] = useState(false);
     const [studentIdError, setStudentIdError] = useState('');
     const [gradeError, setGradeError] = useState('');
+    const [enrolments, setEnrolments] = useState([]);
+
+    useEffect(() => {
+        if (!form.studentUniqueNumber || form.studentUniqueNumber.length < 7) {
+            setEnrolments([]);
+        }
+    }, [form.studentUniqueNumber]);
+
+    useEffect(() => {
+        async function fetchEnrolments() {
+            if (form.studentUniqueNumber.length === 7) {
+                setIsLoading(true);
+                try {
+                    console.log(`Buscando edições de curso para Student ID: ${form.studentUniqueNumber}`);
+                    const enrolmentsData = await getEnrolmentsForStudent(form.studentUniqueNumber);
+                    console.log("Dados retornados pela API:", enrolmentsData);
+
+                    setEnrolments(Array.isArray(enrolmentsData) ? enrolmentsData : []);
+                } catch (err) {
+                    console.error("Erro ao buscar inscrições do estudante:", err);
+                    setEnrolments([]);
+                } finally {
+                    setIsLoading(false); // 🚀 Garante que o carregamento termina
+                }
+            }
+        }
+
+        fetchEnrolments();
+
+    }, [form.studentUniqueNumber]);
 
     function handleChange(e) {
         const { name, value } = e.target;
@@ -134,7 +167,7 @@ export default function GradeStudentForm() {
     return (
         <div className="form-main-component-div">
             <div className="form-main-grid">
-                <div className="form-img-main-div">
+                <div className="form-img-main-div grade-student-img-background">
                     <div className="form-logo-img-div">
                         <img src={ISEPLogoBranco} alt="Logo do ISEP"/>
                     </div>
@@ -165,6 +198,22 @@ export default function GradeStudentForm() {
                                 {studentIdError && <p className="error-message">{studentIdError}</p>}
                             </div>
 
+                            {/* Course Edition Dropdown */}
+                            <div className="form-group">
+                                <label className="form-label" htmlFor="courseEditionID">Course Edition</label>
+                                <select className="form-input" id="courseEditionID" name="courseEditionID"
+                                        value={form.courseEditionID} onChange={handleChange} required>
+                                    <option value="">Select a course edition</option>
+                                    {Array.isArray(enrolments) && enrolments.length > 0 ? (
+                                        enrolments.map(ed => (
+                                            <option key={ed.editionID} value={ed.editionID}>{ed.courseName}</option>
+                                        ))
+                                    ) : (
+                                        <option disabled>No available courses</option>
+                                    )}
+                                </select>
+                            </div>
+
                             {/* Grade */}
                             <div className="form-group">
                                 <label className="form-label" htmlFor="grade">Grade</label>
@@ -173,7 +222,15 @@ export default function GradeStudentForm() {
                                 {gradeError && <p className="error-message">{gradeError}</p>}
                             </div>
 
-                            <button type="submit" disabled={loading}>Registrar Nota</button>
+                            {/* Buttons */}
+                            <div className="form-actions">
+                                <button type="button" className="btn btn-secondary" onClick={() => setForm(initialFormState)}>
+                                    CLEAR
+                                </button>
+                                <button type="submit" className="btn btn-primary" disabled={loading}>
+                                    GRADE STUDENT
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </form>
