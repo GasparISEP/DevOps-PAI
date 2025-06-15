@@ -1,7 +1,12 @@
 package PAI.initializer;
 
 import PAI.controller.*;
+import PAI.domain.repositoryInterfaces.degreeType.IDegreeTypeRepository;
+import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
 import PAI.service.course.ICourseService;
+import PAI.service.courseInStudyPlan.ICourseInStudyPlanService;
+import PAI.service.programmeEdition.IProgrammeEditionService;
+import PAI.service.programmeEditionEnrolment.IProgrammeEditionEnrolmentService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -64,6 +69,92 @@ public class InitializersConfig {
     public CommandLineRunner loadDataTeacherCategory(US01_ConfigureTeacherCategoryController controller, TeacherCategoryInitializer initializer) {
         return (args) -> {
             initializer.loadTeacherCategory(controller, "src/main/resources/TeacherCategory.csv");
+        };
+    }
+
+    @Bean
+    @Order(2)
+    public CommandLineRunner loadDataRegisterTeacher(US13_RegisterTeacherAndRelevantDataController controller, TeacherInitializer initializer) {
+        return (args) -> {
+            initializer.loadTeachers(controller, "src/main/resources/Teacher_Data.csv");
+        };
+    }
+
+    @Bean
+    @Order(3)
+    public CommandLineRunner loadDataProgramme(US11_RegisterProgrammeInTheSystemController controller,
+                                               IDegreeTypeRepository degreeTypeRepository, ProgrammeInitializer initializer) {
+        return (args) -> {
+            initializer.loadProgramme(controller, degreeTypeRepository, "src/main/resources/ProgrammeData.csv");
+        };
+    }
+
+    @Bean
+    @Order(4)
+    public CommandLineRunner loadDataProgrammeEnrolment(US09_EnrolStudentInProgrammeController controller, ProgrammeEnrolmentInitializer initializer) {
+        return (args) -> {
+            initializer.loadProgrammeEnrolment(controller, "src/main/resources/ProgrammeEnrolment_Data.csv");
+        };
+    }
+
+    @Bean
+    @Order(4)
+    public CommandLineRunner loadDataProgrammeEdition(IProgrammeEditionService service, ProgrammeEditionInitializer initializer) {
+        return args -> {
+            initializer.loadProgrammeEdition(service, "src/main/resources/ProgrammeEdition.csv");
+        };
+    }
+
+    @Bean
+    @Order(4)
+    public CommandLineRunner loadDataRegisterStudyPlan(US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController controller,
+                                                       StudyPlanInitializer initializer) {
+        return (args) -> {
+            initializer.loadStudyPlan(controller, "src/main/resources/StudyPlan_Data.csv");
+        };
+    }
+
+    @Bean
+    @Order(5)
+    public CommandLineRunner loadDataRegisterCourseEdition(US19_CreateCourseEditionController controller,
+                                                           ISchoolYearRepository schoolYearRepository, CourseEditionInitializer initializer) {
+        return args -> {
+            initializer.loadCourseEdition(controller, schoolYearRepository, "src/main/resources/CourseEdition.csv");
+        };
+    }
+
+    @Bean
+    @Order(5)
+    public CommandLineRunner loadDataProgrammeEditionEnrolment(IProgrammeEditionEnrolmentService service,
+                                                               ProgrammeEditionEnrolmentInitializer initializer) {
+        return args -> {
+            initializer.loadProgrammeEditionEnrolment(service,
+                    "src/main/resources/ProgrammeEditionEnrolmentInitializer.csv");
+        };
+    }
+
+    @Bean
+    @Order(5)
+    public CommandLineRunner loadDataCourseInStudyPlan(ICourseInStudyPlanService service, CourseInStudyPlanInitializer initializer) {
+        return (args) -> {
+            initializer.loadCourseInStudyPlan(service, "src/main/resources/CourseInStudyPlan.csv");
+        };
+    }
+
+    @Bean
+    @Order(6)
+    public CommandLineRunner loadDataCourseEditionEnrolment(US16_EnrolAStudentInACourseEditionController controller,
+                                                            CourseEditionEnrolmentInitializer initializer) {
+        return (args) -> {
+            initializer.loadCourseEditionEnrolments(controller, "src/main/resources/CourseEditionEnrolment.csv");
+        };
+    }
+
+    @Bean
+    @Order(7)
+    public CommandLineRunner loadStudentGrades(US22_IWantToGradeAStudentInACourseEditionController controller, StudentGradeInitializer initializer) {
+        return args -> {
+            initializer.loadStudentGrade(controller, "src/main/resources/StudentGrade.csv");
         };
     }
 }

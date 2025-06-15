@@ -1,20 +1,16 @@
 package PAI.initializer;
 
 import PAI.VOs.*;
+import PAI.controller.US19_CreateCourseEditionController;
 import PAI.domain.courseEdition.CourseEdition;
-import PAI.service.courseEdition.ICreateCourseEditionService;
-import PAI.service.schoolYear.ISchoolYearService;
+import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.LocalDate;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,10 +20,10 @@ import static org.mockito.Mockito.*;
 class CourseEditionInitializerTest {
 
     @Mock
-    private ICreateCourseEditionService courseEditionService;
+    private US19_CreateCourseEditionController controller;
 
     @Mock
-    private ISchoolYearService schoolYearService;
+    private ISchoolYearRepository schoolYearRepository;
 
     private CourseEditionInitializer initializer;
 
@@ -45,15 +41,14 @@ class CourseEditionInitializerTest {
         Path tempFile = Files.createTempFile("test-course-edition", ".csv");
         Files.writeString(tempFile, csvContent);
 
-        when(schoolYearService.getAllSchoolYearsIDs())
+        when(schoolYearRepository.getAllSchoolYearsIDs())
                 .thenReturn(List.of(new SchoolYearID(UUID.fromString("550e8400-e29b-41d4-a716-446655440002"))));
 
-        CourseEdition courseEdition = mock(CourseEdition.class);
-        when(courseEditionService.createAndSaveCourseEdition(any(), any())).thenReturn(courseEdition);
+        when(controller.createCourseEdition(any(), any())).thenReturn(true);
 
-        initializer.loadCourseEdition(courseEditionService, schoolYearService, tempFile);
+        initializer.loadCourseEdition(controller, schoolYearRepository, tempFile.toString());
 
-        verify(courseEditionService, times(1)).createAndSaveCourseEdition(any(), any());
+        verify(controller, times(1)).createCourseEdition(any(), any());
 
         Files.deleteIfExists(tempFile);
     }
@@ -66,12 +61,12 @@ class CourseEditionInitializerTest {
         Path tempFile = Files.createTempFile("test-invalid-course-edition", ".csv");
         Files.writeString(tempFile, csvContent);
 
-        when(schoolYearService.getAllSchoolYearsIDs())
+        when(schoolYearRepository.getAllSchoolYearsIDs())
                 .thenReturn(List.of(new SchoolYearID(UUID.fromString("550e8400-e29b-41d4-a716-446655440002"))));
 
-        initializer.loadCourseEdition(courseEditionService, schoolYearService, tempFile);
+        initializer.loadCourseEdition(controller, schoolYearRepository, tempFile.toString());
 
-        verify(courseEditionService, never()).createAndSaveCourseEdition(any(), any());
+        verify(controller, never()).createCourseEdition(any(), any());
 
         Files.deleteIfExists(tempFile);
     }
@@ -85,15 +80,14 @@ class CourseEditionInitializerTest {
         Path tempFile = Files.createTempFile("test-empty-lines-course-edition", ".csv");
         Files.writeString(tempFile, csvContent);
 
-        when(schoolYearService.getAllSchoolYearsIDs())
+        when(schoolYearRepository.getAllSchoolYearsIDs())
                 .thenReturn(List.of(new SchoolYearID(UUID.fromString("550e8400-e29b-41d4-a716-446655440002"))));
 
-        CourseEdition courseEdition = mock(CourseEdition.class);
-        when(courseEditionService.createAndSaveCourseEdition(any(), any())).thenReturn(courseEdition);
+        when(controller.createCourseEdition(any(), any())).thenReturn(true);
 
-        initializer.loadCourseEdition(courseEditionService, schoolYearService, tempFile);
+        initializer.loadCourseEdition(controller, schoolYearRepository, tempFile.toString());
 
-        verify(courseEditionService, times(1)).createAndSaveCourseEdition(any(), any());
+        verify(controller, times(1)).createCourseEdition(any(), any());
 
         Files.deleteIfExists(tempFile);
     }

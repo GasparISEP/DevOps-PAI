@@ -1,7 +1,12 @@
 package PAI.initializer;
 
 import PAI.controller.*;
+import PAI.domain.repositoryInterfaces.degreeType.IDegreeTypeRepository;
+import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
 import PAI.service.course.ICourseService;
+import PAI.service.courseInStudyPlan.ICourseInStudyPlanService;
+import PAI.service.programmeEdition.IProgrammeEditionService;
+import PAI.service.programmeEditionEnrolment.IProgrammeEditionEnrolmentService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.CommandLineRunner;
@@ -119,6 +124,161 @@ class InitializersConfigTest {
 
         // Assert
         verify(initializerDouble).loadTeacherCategory(controller, "src/main/resources/TeacherCategory.csv");
+        verifyNoMoreInteractions(initializerDouble);
+    }
+
+    @Test
+    void shouldInvokeLoadTeachersWhenCommandLineRunnerRuns() throws Exception {
+        // Arrange
+        US13_RegisterTeacherAndRelevantDataController controller = mock(US13_RegisterTeacherAndRelevantDataController.class);
+        TeacherInitializer initializerDouble = mock(TeacherInitializer.class);
+
+        // Act
+        CommandLineRunner commandLineRunner = _initializer.loadDataRegisterTeacher(controller, initializerDouble);
+        commandLineRunner.run(new String[]{});
+
+        // Assert
+        verify(initializerDouble).loadTeachers(controller, "src/main/resources/Teacher_Data.csv");
+        verifyNoMoreInteractions(initializerDouble);
+    }
+
+    @Test
+    void shouldInvokeLoadDataProgrammeWhenCommandLineRunnerRuns() throws Exception {
+        // Arrange
+        US11_RegisterProgrammeInTheSystemController controllerDouble = mock(US11_RegisterProgrammeInTheSystemController.class);
+        IDegreeTypeRepository degreeTypeRepositoryDouble = mock(IDegreeTypeRepository.class);
+        ProgrammeInitializer initializerDouble = mock(ProgrammeInitializer.class);
+
+        // Act
+        CommandLineRunner commandLineRunner = _initializer.loadDataProgramme(controllerDouble, degreeTypeRepositoryDouble, initializerDouble);
+        commandLineRunner.run(new String[]{});
+
+        // Assert
+        verify(initializerDouble).loadProgramme(controllerDouble, degreeTypeRepositoryDouble, "src/main/resources/ProgrammeData.csv");
+        verifyNoMoreInteractions(initializerDouble);
+    }
+
+    @Test
+    void shouldInvokeLoadProgrammeEnrolmentWhenCommandLineRunnerRuns() throws Exception {
+        // Arrange
+        US09_EnrolStudentInProgrammeController controllerDouble = mock(US09_EnrolStudentInProgrammeController.class);
+        ProgrammeEnrolmentInitializer initializerDouble = mock(ProgrammeEnrolmentInitializer.class);
+
+        // Act
+        CommandLineRunner commandLineRunner = _initializer.loadDataProgrammeEnrolment(controllerDouble, initializerDouble);
+        commandLineRunner.run(new String[]{});
+
+        // Assert
+        verify(initializerDouble).loadProgrammeEnrolment(controllerDouble, "src/main/resources/ProgrammeEnrolment_Data.csv");
+        verifyNoMoreInteractions(initializerDouble);
+    }
+
+    @Test
+    void shouldInvokeLoadProgrammeEditionWhenCommandLineRunnerRuns() throws Exception {
+        // Arrange
+        IProgrammeEditionService serviceDouble = mock(IProgrammeEditionService.class);
+        ProgrammeEditionInitializer initializerDouble = mock(ProgrammeEditionInitializer.class);
+
+        // Act
+        CommandLineRunner commandLineRunner = _initializer.loadDataProgrammeEdition(serviceDouble, initializerDouble);
+        commandLineRunner.run(new String[]{});
+
+        // Assert
+        verify(initializerDouble).loadProgrammeEdition(serviceDouble, "src/main/resources/ProgrammeEdition.csv");
+        verifyNoMoreInteractions(initializerDouble);
+    }
+
+    @Test
+    void shouldInvokeLoadStudyPlanWhenCommandLineRunnerRuns() throws Exception {
+        // Arrange
+        US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController controllerDouble = mock(US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController.class);
+        StudyPlanInitializer initializerDouble = mock(StudyPlanInitializer.class);
+
+        // Act
+        CommandLineRunner commandLineRunner = _initializer.loadDataRegisterStudyPlan(controllerDouble, initializerDouble);
+        commandLineRunner.run(new String[]{});
+
+        // Assert
+        verify(initializerDouble).loadStudyPlan(controllerDouble, "src/main/resources/StudyPlan_Data.csv");
+        verifyNoMoreInteractions(initializerDouble);
+    }
+
+    @Test
+    void shouldInvokeLoadDataRegisterCourseEditionWhenCommandLineRunnerRuns() throws Exception {
+        // Arrange
+        US19_CreateCourseEditionController controllerDouble = mock(US19_CreateCourseEditionController.class);
+        ISchoolYearRepository schoolYearRepositoryDouble = mock(ISchoolYearRepository.class);
+        CourseEditionInitializer initializerDouble = mock(CourseEditionInitializer.class);
+
+        // Act
+        CommandLineRunner commandLineRunner = _initializer.loadDataRegisterCourseEdition(controllerDouble,
+                                                                    schoolYearRepositoryDouble, initializerDouble);
+        commandLineRunner.run(new String[]{});
+
+        // Assert
+        verify(initializerDouble).loadCourseEdition(controllerDouble, schoolYearRepositoryDouble,
+                                                            "src/main/resources/CourseEdition.csv");
+        verifyNoMoreInteractions(initializerDouble);
+    }
+
+    @Test
+    void shouldInvokeLoadProgrammeEditionEnrolmentWhenCommandLineRunnerRuns() throws Exception {
+        // Arrange
+        IProgrammeEditionEnrolmentService serviceDouble = mock(IProgrammeEditionEnrolmentService.class);
+        ProgrammeEditionEnrolmentInitializer initializerDouble = mock(ProgrammeEditionEnrolmentInitializer.class);
+
+        // Act
+        CommandLineRunner commandLineRunner = _initializer.loadDataProgrammeEditionEnrolment(serviceDouble, initializerDouble);
+        commandLineRunner.run(new String[]{});
+
+        // Assert
+        verify(initializerDouble).loadProgrammeEditionEnrolment(serviceDouble,
+                                        "src/main/resources/ProgrammeEditionEnrolmentInitializer.csv");
+        verifyNoMoreInteractions(initializerDouble);
+    }
+
+    @Test
+    void shouldInvokeLoadCourseInStudyPlanWhenCommandLineRunnerRuns() throws Exception {
+        // Arrange
+        ICourseInStudyPlanService serviceDouble = mock(ICourseInStudyPlanService.class);
+        CourseInStudyPlanInitializer initializerDouble = mock(CourseInStudyPlanInitializer.class);
+
+        // Act
+        CommandLineRunner commandLineRunner = _initializer.loadDataCourseInStudyPlan(serviceDouble, initializerDouble);
+        commandLineRunner.run(new String[]{});
+
+        // Assert
+        verify(initializerDouble).loadCourseInStudyPlan(serviceDouble, "src/main/resources/CourseInStudyPlan.csv");
+        verifyNoMoreInteractions(initializerDouble);
+    }
+
+    @Test
+    void shouldInvokeLoadCourseEditionEnrolmentsWhenCommandLineRunnerRuns() throws Exception {
+        // Arrange
+        US16_EnrolAStudentInACourseEditionController controllerDouble = mock(US16_EnrolAStudentInACourseEditionController.class);
+        CourseEditionEnrolmentInitializer initializerDouble = mock(CourseEditionEnrolmentInitializer.class);
+
+        // Act
+        CommandLineRunner commandLineRunner = _initializer.loadDataCourseEditionEnrolment(controllerDouble, initializerDouble);
+        commandLineRunner.run(new String[]{});
+
+        // Assert
+        verify(initializerDouble).loadCourseEditionEnrolments(controllerDouble, "src/main/resources/CourseEditionEnrolment.csv");
+        verifyNoMoreInteractions(initializerDouble);
+    }
+
+    @Test
+    void shouldInvokeLoadStudentGradeWhenCommandLineRunnerRuns() throws Exception {
+        // Arrange
+        US22_IWantToGradeAStudentInACourseEditionController controllerDouble = mock(US22_IWantToGradeAStudentInACourseEditionController.class);
+        StudentGradeInitializer initializerDouble = mock(StudentGradeInitializer.class);
+
+        // Act
+        CommandLineRunner commandLineRunner = _initializer.loadStudentGrades(controllerDouble, initializerDouble);
+        commandLineRunner.run(new String[]{});
+
+        // Assert
+        verify(initializerDouble).loadStudentGrade(controllerDouble, "src/main/resources/StudentGrade.csv");
         verifyNoMoreInteractions(initializerDouble);
     }
 }

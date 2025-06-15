@@ -1,42 +1,21 @@
 package PAI.initializer;
 
 import PAI.VOs.*;
-import PAI.domain.repositoryInterfaces.studentGrade.IStudentGradeRepository;
-import PAI.domain.studentGrade.StudentGrade;
-import PAI.domain.studentGrade.StudentGradeFactoryImpl;
-import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
-import org.springframework.core.annotation.Order;
+import PAI.controller.US22_IWantToGradeAStudentInACourseEditionController;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.FileReader;
 import java.time.LocalDate;
 import java.util.UUID;
 
 @Component
-@Order(16)
-@Profile("studentGrade-direct")
 public class StudentGradeInitializer {
 
-    @Autowired
-    private IStudentGradeRepository studentGradeRepository;
-
-    private final StudentGradeFactoryImpl factory = new StudentGradeFactoryImpl();
-
-    @PostConstruct
-    public void init() {
+    public void loadStudentGrade(US22_IWantToGradeAStudentInACourseEditionController controller, String csvFilePath) {
         System.out.println("🔥 INIT: StudentGradeDirectInitializer foi chamado!");
 
-        try (InputStream is = getClass().getResourceAsStream("/StudentGrade.csv");
-             BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
-
-            if (is == null) {
-                System.out.println("❌ Ficheiro StudentGrade.csv não encontrado!");
-                return;
-            }
+        try (BufferedReader reader = new BufferedReader(new FileReader(csvFilePath))) {
 
             String line = reader.readLine(); // skip header
 
@@ -74,8 +53,7 @@ public class StudentGradeInitializer {
                     CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(courseID, studyPlanID);
                     CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID, courseInStudyPlanID);
 
-                    StudentGrade sg = factory.createGradeStudent(grade, date, studentID, courseEditionID);
-                    studentGradeRepository.save(sg);
+                    controller.registerStudentGrade(grade, date, studentID, courseEditionID);
                     System.out.println("✅ Nota inserida diretamente para estudante: " + studentID);
 
                 } catch (Exception e) {

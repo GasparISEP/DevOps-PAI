@@ -2,25 +2,19 @@ package PAI.initializer;
 
 import PAI.VOs.*;
 import PAI.service.courseInStudyPlan.ICourseInStudyPlanService;
-import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.FileReader;
 import java.time.LocalDate;
 
 @Component
 public class CourseInStudyPlanInitializer {
 
-    @Autowired
-    private ICourseInStudyPlanService courseInStudyPlanService;
+    public void loadCourseInStudyPlan(ICourseInStudyPlanService courseInStudyPlanService, String csvFilePath) {
 
-    @PostConstruct
-    public void init() {
-        try (InputStream is = getClass().getResourceAsStream("/CourseInStudyPlan.csv");
-             BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(csvFilePath))) {
 
             String line = reader.readLine(); // Skip header
 

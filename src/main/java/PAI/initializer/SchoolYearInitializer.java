@@ -1,12 +1,12 @@
 package PAI.initializer;
 
 import PAI.controller.US07_IWantToCreateASchoolYearController;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 
-@Configuration
+@Component
 public class SchoolYearInitializer {
 
     public void loadSchoolYear(US07_IWantToCreateASchoolYearController controller, String csvFilePath) {
