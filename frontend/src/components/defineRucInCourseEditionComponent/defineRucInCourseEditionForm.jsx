@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { defineRucInCourseEdition, getAllSchoolYears } from '../../services/DefineRucInCourseEditionService';
+import { defineRucInCourseEdition, getAllSchoolYears, findAllCourseEditions } from '../../services/DefineRucInCourseEditionService';
 import ISEPLogoBranco from '../../assets/images/ISEP_logo-branco.png';
 import '../../styles/Form.css';
 import '../../styles/NavBar.css';
@@ -10,7 +10,6 @@ import CourseEditionSelector from "./CourseEditionSelector";
 import TeacherSelector from "./TeacherSelector";
 import SchoolYearSelector from "./SchoolYearSelector";
 import { getAllTeachers } from "../../services/teacherService";
-import { findAllCourseEditions } from "../../services/courseEditionGradeStudentService";
 import NavBar from "../NavBar";
 import Footer from "../Footer";
 
@@ -21,29 +20,55 @@ export default function DefineRucInCourseEditionForm() {
         teacherId: ''
     });
 
-    const [courseEditions, setCourseEditions] = useState([]);
+    const [allCourseEditions, setAllCourseEditions] = useState([]);
+    const [filteredCourseEditions, setFilteredCourseEditions] = useState([]);
     const [teachers, setTeachers] = useState([]);
     const [schoolYears, setSchoolYears] = useState([]);
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(null);
     const [error, setError] = useState('');
 
+    console.log(allCourseEditions)
+    console.log(form.schoolYear)
+
     useEffect(() => {
         async function fetchData() {
-            const schoolYears = await getAllSchoolYears();
-            setSchoolYears(schoolYears);
+            const schoolYearsData = await getAllSchoolYears();
+            console.log(schoolYearsData)
+            setSchoolYears(schoolYearsData);
 
             const courseEditionsData = await findAllCourseEditions();
-            setCourseEditions(courseEditionsData);
+            console.log(courseEditionsData)
+            setAllCourseEditions(courseEditionsData);
 
             const teachersData = await getAllTeachers();
+            console.log(teachersData)
             setTeachers(teachersData);
         }
         fetchData();
     }, []);
 
+    useEffect(() => {
+        if (form.schoolYear) {
+
+            const filtered = allCourseEditions.filter(
+                ce => ce.schoolYearID === form.schoolYear
+            )
+
+            setFilteredCourseEditions(filtered);
+
+            if (!filtered.find(ce => ce.courseEditionGeneratedID === form.courseEditionId)) {
+                setForm(prev => ({ ...prev, courseEditionId: '' }));
+            }
+        } else {
+            setFilteredCourseEditions([]);
+            setForm(prev => ({ ...prev, courseEditionId: '' }));
+        }
+    }, [form.schoolYear, allCourseEditions]);
+
     function handleChange(event) {
         const { name, value } = event.target;
+
         setForm(prevForm => ({
             ...prevForm,
             [name]: value
@@ -65,14 +90,17 @@ export default function DefineRucInCourseEditionForm() {
         setError('');
         setSuccess(null);
         setLoading(true);
+        console.log('Sending:', { id: form.courseEditionId, teacherId: form.teacherId });
         try {
             await defineRucInCourseEdition({
-                courseEditionId: form.courseEditionId,
+                id: form.courseEditionId,
                 teacherId: form.teacherId
+
             });
-            setSuccess("RUC definido com sucesso na edição de curso.");
+            console.log('Sending:', { id: form.courseEditionId, teacherId: form.teacherId });
+            setSuccess("RUC successfully defined in the course edition.");
         } catch (error) {
-            setError("Ocorreu um erro ao definir o RUC na edição de curso.");
+            setError("An error occurred when defining the RUC in the course edition.");
             console.error(error);
         } finally {
             setLoading(false);
@@ -108,7 +136,7 @@ export default function DefineRucInCourseEditionForm() {
                                     name="schoolYear"
                                 />
                                 <CourseEditionSelector
-                                    courseEditions={courseEditions}
+                                    courseEditions={filteredCourseEditions}
                                     value={form.courseEditionId}
                                     onChange={handleChange}
                                     name="courseEditionId"
