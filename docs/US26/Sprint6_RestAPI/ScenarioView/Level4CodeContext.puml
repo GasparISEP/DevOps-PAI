@@ -1,0 +1,77 @@
+@startuml
+title: (US26)\nAs a Department Director, I want to get the number of students enrolled in all programmes associated to my department, in a given school year.\n(Scenario View Level 4)
+
+autonumber
+
+participant ":Router" as R #lightpink
+participant ":DepartmentController" as depCtrl #lightgreen
+participant ":SchoolYearController" as syCtrl #lightgreen
+participant ":ProgrammeEnrollmentController" as PECtrl #lightgreen
+participant ":TotalEnrolledStudentsInProgrammesByDepartmentAndYearService" as S #goldenrod
+participant ":ProgrammeRepository" as programmeRepository #lightcoral
+participant ":ProgrammeEditionRepository" as programmeEditionRepository #lightcoral
+participant ":ProgrammeEditionEnrolmentRepository" as programmeEditionEnrolmentRepository #lightcoral
+
+[o-> R ++: **GET** /departments
+R -> depCtrl ++: getAllDepartments()
+ref over depCtrl
+    Get List <DepartmentWithDirectorDTO>
+end ref
+depCtrl --> R --: HTTP 200 OK + CollectionModel<DepartmentWithDirectorDTO>
+[o<-- R --: HTTP 200 OK + CollectionModel<DepartmentWithDirectorDTO>
+
+[o-> R ++: **GET** /school-years
+R -> syCtrl ++: getAllSchoolYears()
+ref over syCtrl
+    Get List <CurrentSchoolYearDTO>
+end ref
+syCtrl --> R --: HTTP 200 OK + CollectionModel<CurrentSchoolYearDTO>
+[o<-- R --: HTTP 200 OK + CollectionModel<CurrentSchoolYearDTO>
+
+[o-> R ++: **GET** /departments/{departmentId}/school-years/\n{schoolYearId}/enrolled-students/count
+R -> PECtrl ++: countByDepartmentAndSchoolYear(departmentId :String, schoolYearId :String)
+ref over PECtrl
+    Convert departmentId :String to DepartmentAcronym
+    Convert DepartmentAcronym to DepartmentID
+    Convert schoolYearId :String to SchoolYearID
+    Create TotalEnrolledStudentsCommand with DepartmentID and SchoolYearID
+end ref
+
+PECtrl -> S ++: getTotalEnrolledStudentsInProgrammesByDepartmentAndYear\n(command :TotalEnrolledStudentsCommand)
+ref over S
+    validateCommand(command)
+    if command invalid -> throw IllegalArgumentException
+    validate existence of departmentID and schoolYearID
+    if invalid -> return 0
+end ref
+
+S -> programmeRepository ++: findProgrammeByDepartment\n(departmentID :DepartmentID)
+ref over programmeRepository
+    Get List <ProgrammeID> by DepartmentID
+end ref
+programmeRepository --> S --: List<ProgrammeID>
+
+S -> programmeEditionRepository ++: findProgrammeEditionBySchoolYearAndProgrammes\n(schoolYearID :SchoolYearID, programmeIDs :List<ProgrammeID>)
+ref over programmeEditionRepository
+    Get List <ProgrammeEditionID> by SchoolYearID and List <ProgrammeID>
+end ref
+programmeEditionRepository --> S --: List<ProgrammeEditionID>
+
+S -> programmeEditionEnrolmentRepository ++: findAll()
+ref over programmeEditionEnrolmentRepository
+    Get List <ProgrammeEditionEnrolment>
+end ref
+programmeEditionEnrolmentRepository --> S --: List<ProgrammeEditionEnrolment>
+
+S -> S: countEnrollmentsMatchingProgrammeEditions\n(programmeEditionIDs :List<ProgrammeEditionID>,\n enrolments :List<ProgrammeEditionEnrolment>)
+
+S --> PECtrl --: count :int
+
+PECtrl --> R --: HTTP 200 OK + count
+
+[o<-- R --: HTTP 200 OK + count
+
+note right of R
+    The count is the total number of students enrolled in all programmes associated with the specified department and school year.
+end note
+@enduml
