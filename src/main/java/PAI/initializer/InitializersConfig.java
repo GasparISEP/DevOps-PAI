@@ -66,4 +66,12 @@ public class InitializersConfig {
             initializer.loadTeacherCategory(controller, "src/main/resources/TeacherCategory.csv");
         };
     }
+
+    @Bean
+    @Order(2)
+    public CommandLineRunner loadDataRegisterTeacher(US13_RegisterTeacherAndRelevantDataController controller, TeacherInitializer initializer) {
+        return (args) -> {
+            initializer.loadTeachers(controller, "src/main/resources/Teacher_Data.csv");
+        };
+    }
 }
