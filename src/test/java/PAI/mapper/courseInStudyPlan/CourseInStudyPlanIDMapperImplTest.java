@@ -34,7 +34,7 @@ public class CourseInStudyPlanIDMapperImplTest {
                 IllegalArgumentException.class,
                 () -> new CourseInStudyPlanIDMapperImpl(null, new CourseIDMapperImpl())
         );
-        assertEquals("StudyPlanIDMapper cannot be null", ex.getMessage());
+        assertEquals("StudyPlanIDMapper cannot be null.", ex.getMessage());
     }
 
     @Test
@@ -43,7 +43,7 @@ public class CourseInStudyPlanIDMapperImplTest {
                 IllegalArgumentException.class,
                 () -> new CourseInStudyPlanIDMapperImpl(new StudyPlanIDMapperImpl(new ProgrammeIDMapperImpl()), null)
         );
-        assertEquals("CourseIDMapper cannot be null", ex.getMessage());
+        assertEquals("CourseIDMapper cannot be null.", ex.getMessage());
     }
 
 
