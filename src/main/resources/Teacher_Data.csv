@@ -1,2 +1,29 @@
 Acronym;Name;Email;NIF;Phone;AcademicBackground;Street;PostalCode;Location;Country;Dept;CountryCode;Date;Category;Percentage
 AAA;Alexandra Castro;AAA@isep.ipp.pt;112233445;911234569;Bachelor;Rua 1;4000-100;Porto;Portugal;AAU;+351;01-02-2022;Professor Auxiliar;25
+AAB;Raquel Pinho-Nogueira;AAB@isep.ipp.pt;112233446;911234570;Master in Astronomy;Praceta Número 2;4000-101;Porto;Portugal;AAA;+351;02-02-2022;Professor Assistente;100
+AAC;Alexandra Costa;AAC@isep.ipp.pt;112233447;911234571;Master in History;Rua Número 3;4000-102;Porto;Portugal;AAF;+351;03-02-2022;Professor Adjunto;75
+AAD;Noah da Reis;AAD@isep.ipp.pt;112233448;911234572;Bachelor in Biology;Praceta Número 4;4000-103;Porto;Portugal;AAU;+351;04-02-2022;Professor Associado;50
+AAE;Dinis Morais;AAE@isep.ipp.pt;112233449;911234573;Bachelor in Astronomy;Rua Número 5;4000-104;Porto;Portugal;AAA;+351;05-02-2022;Professor Titular;50
+AAF;Artur Cunha;AAF@isep.ipp.pt;112233450;911234574;Bachelor in Astronomy;Praceta Número 6;4000-105;Porto;Portugal;AAU;+351;06-02-2022;Professor Coordenador;25
+AAG;Santiago da Cardoso;AAG@isep.ipp.pt;112233451;911234575;Bachelor in Maths;Rua Número 7;4000-106;Porto;Portugal;AAU;+351;07-02-2022;Professor Catedrático;50
+AAH;Martim Cardoso;AAH@isep.ipp.pt;112233452;911234576;PhD in History;Praceta Número 8;4000-107;Porto;Portugal;AAF;+351;08-02-2022;Professor Auxiliar;75
+AAI;Júlia Miranda;AAI@isep.ipp.pt;112233453;911234577;Bachelor in History;Rua Número 9;4000-108;Porto;Portugal;AAF;+351;09-02-2022;Professor Assistente;25
+AAJ;Eva Amaral;AAJ@isep.ipp.pt;112233454;911234578;Bachelor in Biology;Praceta Número 10;4000-109;Porto;Portugal;AAU;+351;10-02-2022Professor Assistente;100
+AAK;Dinis da Sousa;AAK@isep.ipp.pt;112233455;911234579;Bachelor in Astronomy;Rua Número 11;4000-110;Porto;Portugal;AAU;+351;11-02-2022;Professor Adjunto;75
+AAL;José Mota;AAL@isep.ipp.pt;112233456;911234580;PhD in History;Praceta Número 12;4000-111;Porto;Portugal;AAU;+351;12-02-2022;Professor Associado;50
+AAM;Edgar Mota;AAM@isep.ipp.pt;112233457;911234581;Master in Astronomy;Rua Número 13;4000-112;Porto;Portugal;AAA;+351;13-02-2022;Professor Titular;50
+AAN;Duarte Gaspar;AAN@isep.ipp.pt;112233458;911234582;Bachelor in Biology;Praceta Número 14;4000-113;Porto;Portugal;AAU;+351;14-02-2022;Professor Titular;50
+AAO;Guilherme Paiva;AAO@isep.ipp.pt;112233459;911234583;PhD in History;Rua Número 15;4000-114;Porto;Portugal;AAA;+351;15-02-2022;Professor Coordenador;50
+AAP;Ricardo Esteves;AAP@isep.ipp.pt;112233460;911234584;PhD in Maths;Praceta Número 16;4000-115;Porto;Portugal;AAU;+351;16-02-2022;Professor Catedrático;75
+AAQ;Luana Pereira;AAQ@isep.ipp.pt;112233461;911234585;PhD in History;Rua Número 17;4000-116;Porto;Portugal;AAA;+351;17-02-2022;Professor Assistente;25
+AAR;Nelson Henriques;AAR@isep.ipp.pt;112233462;911234586;PhD in Maths;Praceta Número 18;4000-117;Porto;Portugal;AAA;+351;18-02-2022;Professor Adjunto;50
+AAS;Carlota de Abreu;AAS@isep.ipp.pt;112233463;911234587;PhD in Astronomy;Rua Número 19;4000-118;Porto;Portugal;AAA;+351;19-02-2022;Professor Associado;100
+AAT;Francisca Cardoso;AAT@isep.ipp.pt;112233464;911234588;Master in Biology;Praceta Número 20;4000-119;Porto;Portugal;AAF;+351;20-02-2022;Professor Titular;25
+AAU;Bernardo Mendes;AAU@isep.ipp.pt;112233465;911234589;Master in Biology;Rua Número 21;4000-120;Porto;Portugal;AAF;+351;21-02-2022;Professor Coordenador;100
+AAV;Maria Branco;AAV@isep.ipp.pt;112233466;911234590;Master in History;Praceta Número 22;4000-121;Porto;Portugal;AAR;+351;22-02-2022;Professor Catedrático;75
+AAW;Eduardo Rodrigues;AAW@isep.ipp.pt;112233467;911234591;PhD in Maths;Rua Número 23;4000-122;Porto;Portugal;AAF;+351;23-02-2022;Professor Assistente;75
+AAX;Diana-Irina Azevedo;AAX@isep.ipp.pt;112233468;911234592;PhD in History;Praceta Número 24;4000-123;Porto;Portugal;AAU;+351;24-02-2022;Professor Adjunto;100
+AAY;Vitória do Sousa;AAY@isep.ipp.pt;112233469;911234593;Master in Biology;Rua Número 25;4000-124;Porto;Portugal;AAF;+351;25-02-2022;Professor Associado;100
+AAZ;Lúcia-Teresa Batista;AAZ@isep.ipp.pt;112233470;911234594;PhD in Astronomy;Praceta Número 26;4000-125;Porto;Portugal;AAF;+351;26-02-2022;Professor Titular;100
+ABA;Lisandro Coelho;ABA@isep.ipp.pt;112233471;911234595;Master in Maths;Rua Número 27;4000-126;Porto;Portugal;AAU;+351;27-02-2022;Professor Coordenador;25
+ABB;Joana de Ribeiro;ABB@isep.ipp.pt;112233472;911234596;Master in Astronomy;Praceta Número 28;4000-127;Porto;Portugal;AAF;+351;28-02-2022;Professor Coordenador;50

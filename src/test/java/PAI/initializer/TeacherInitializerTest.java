@@ -9,14 +9,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
 
-import java.io.FileWriter;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class TeacherInitializerTest {
@@ -27,35 +22,8 @@ class TeacherInitializerTest {
     }
 
     @Test
-    void readsCsvLineCorrectly() throws Exception {
-        // Arrange
-        Path tempFile = Files.createTempFile("teachers", ".csv");
-
-        String header = "Acronym;Name;Email;NIF;Phone;AcademicBackground;Street;PostalCode;Location;Country;Dept;CountryCode;Date;Category;Percentage\n";
-        String data = "AAA;Alexandra Castro;AAA@isep.ipp.pt;112233445;911234569;Bachelor;Rua 1;4000-100;Porto;Portugal;AAU;+351;01-02-2022;Professor Auxiliar;25\n";
-
-        Files.writeString(tempFile, header + data);
-
-        // Act
-        List<String> lines = Files.readAllLines(tempFile);
-        String[] fields = lines.get(1).split(";");
-
-        // Assert
-        assertEquals("AAA", fields[0]);
-        assertEquals("Alexandra Castro", fields[1]);
-        assertEquals("AAA@isep.ipp.pt", fields[2]);
-        assertEquals("Professor Auxiliar", fields[13]);
-        assertEquals("25", fields[14]);
-    }
-
-    @Test
     void shouldExecuteCommandLineRunnerAndLoadTeachers() throws Exception {
         //arrange
-        try (FileWriter writer = new FileWriter("src/main/resources/Teacher_Data.csv")) {
-            writer.write("Acronym;Name;Email;NIF;Phone;AcademicBackground;Street;PostalCode;Location;Country;Dept;CountryCode;Date;Category;Percentage\n");
-            writer.write("AAA;Alexandra Castro;AAA@isep.ipp.pt;112233445;911234569;Bachelor;Rua 1;4000-100;Porto;Portugal;AAU;+351;01-02-2022;Professor Auxiliar;25\n");
-        }
-
         US13_RegisterTeacherAndRelevantDataController controller = mock(US13_RegisterTeacherAndRelevantDataController.class);
         TeacherCategoryRepositorySpringDataImpl repo = mock(TeacherCategoryRepositorySpringDataImpl.class);
         TeacherCategory category = mock(TeacherCategory.class);
