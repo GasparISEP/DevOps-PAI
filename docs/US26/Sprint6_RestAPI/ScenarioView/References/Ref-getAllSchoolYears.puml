@@ -9,8 +9,8 @@ participant ":SchoolYearService" as SYS #lightgreen
 participant "SchoolYearRepository" as SYR #lightcyan
 participant ":SchoolYearMapper" as M #lightyellow
 participant "SchoolYearFactory" as F #lightpink
-participant ":SchoolYearAssember" as SYA #moccasin
-participant ":SchoolYearHateoasAssember" as SYHA #peachpuff
+participant ":SchoolYearAssembler" as SYA #moccasin
+participant ":SchoolYearHateoasAssembler" as SYHA #peachpuff
 
 
 

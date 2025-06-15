@@ -4,9 +4,9 @@ title: (US26)\nAs a Department Director, I want to get the number of students en
 autonumber
 
 participant ":Router" as R #lightpink
-participant ":DepartmentController" as depCtrl #lightgreen
-participant ":SchoolYearController" as syCtrl #lightgreen
-participant ":ProgrammeEnrollmentController" as PECtrl #lightgreen
+participant ":DepartmentRestController" as depCtrl #lightgreen
+participant ":SchoolYearRestController" as syCtrl #lightgreen
+participant ":ProgrammeEnrollmentRestController" as PECtrl #lightgreen
 participant ":TotalEnrolledStudentsInProgrammesByDepartmentAndYearService" as S #goldenrod
 participant ":ProgrammeRepository" as programmeRepository #lightcoral
 participant ":ProgrammeEditionRepository" as programmeEditionRepository #lightcoral

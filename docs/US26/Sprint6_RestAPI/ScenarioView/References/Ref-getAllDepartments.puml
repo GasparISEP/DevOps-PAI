@@ -5,12 +5,12 @@ title (US26) Get all Departments\n(Scenario View Level 4)
 autonumber
 
 participant ":DepartmentRestController" as C #lightpink
-participant ":DepartmentResgistrationService" as DS #lightgreen
+participant ":DepartmentRegistrationService" as DS #lightgreen
 participant ":DepartmentRepository" as DPR #lightcyan
 participant ":DepartmentMapper" as M #lightyellow
 participant ":DepartmentFactory" as F #lightpink
-participant ":DepartmentAssember" as DA #moccasin
-participant ":DepartmentHateoasAssember" as DHA #peachpuff
+participant ":DepartmentAssembler" as DA #moccasin
+participant ":DepartmentHateoasAssembler" as DHA #peachpuff
 
 
 
