@@ -103,7 +103,7 @@ public class InitializersConfig {
     }
 
     @Bean
-    @Order(2)
+    @Order(4)
     public CommandLineRunner loadDataRegisterStudyPlan(US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController controller, StudyPlanInitializer initializer) {
         return (args) -> {
             initializer.loadStudyPlan(controller, "src/main/resources/StudyPlan_Data.csv");
