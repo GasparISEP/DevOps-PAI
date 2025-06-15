@@ -42,4 +42,12 @@ public class InitializersConfig {
             initializer.loadDepartment(controller, "src/main/resources/Department.csv");
         };
     }
+
+    @Bean
+    @Order(1)
+    public CommandLineRunner loadDataSchoolYear(US07_IWantToCreateASchoolYearController controller, SchoolYearInitializer initializer) {
+        return args -> {
+            initializer.loadSchoolYear(controller,"src/main/resources/SchoolYear.csv");
+        };
+    }
 }

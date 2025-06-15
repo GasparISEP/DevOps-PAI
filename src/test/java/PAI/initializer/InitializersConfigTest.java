@@ -2,6 +2,7 @@ package PAI.initializer;
 
 import PAI.controller.US02_ConfigureAccessMethodController;
 import PAI.controller.US05_DepartmentRegistryController;
+import PAI.controller.US07_IWantToCreateASchoolYearController;
 import PAI.controller.US10_IWantToConfigureDegreeTypesLevelsController;
 import PAI.service.course.ICourseService;
 import org.junit.jupiter.api.BeforeEach;
@@ -76,6 +77,21 @@ class InitializersConfigTest {
 
         // Assert
         verify(initializerDouble).loadDepartment(controller, "src/main/resources/Department.csv");
+        verifyNoMoreInteractions(initializerDouble);
+    }
+
+    @Test
+    void shouldInvokeLoadDataSchoolYearWhenCommandLineRunnerRuns() throws Exception {
+        // Arrange
+        US07_IWantToCreateASchoolYearController controller = mock(US07_IWantToCreateASchoolYearController.class);
+        SchoolYearInitializer initializerDouble = mock(SchoolYearInitializer.class);
+
+        // Act
+        CommandLineRunner commandLineRunner = _initializer.loadDataSchoolYear(controller, initializerDouble);
+        commandLineRunner.run(new String[]{});
+
+        // Assert
+        verify(initializerDouble).loadSchoolYear(controller, "src/main/resources/SchoolYear.csv");
         verifyNoMoreInteractions(initializerDouble);
     }
 }
