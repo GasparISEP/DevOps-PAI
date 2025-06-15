@@ -50,4 +50,12 @@ public class InitializersConfig {
             initializer.loadSchoolYear(controller,"src/main/resources/SchoolYear.csv");
         };
     }
+
+    @Bean
+    @Order(1)
+    public CommandLineRunner loadDataRegisterStudent(US08_IWantToRegisterAStudentInTheSystemController controller, StudentInitializer initializer) {
+        return (args) -> {
+            initializer.loadStudents(controller, "src/main/resources/Student_Data.csv");
+        };
+    }
 }

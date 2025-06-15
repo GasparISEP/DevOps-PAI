@@ -5,7 +5,6 @@ import PAI.VOs.DepartmentAcronym;
 import PAI.VOs.Name;
 import PAI.controller.US05_DepartmentRegistryController;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 
 import java.io.*;
 
