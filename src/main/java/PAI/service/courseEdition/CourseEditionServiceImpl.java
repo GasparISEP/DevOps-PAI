@@ -10,7 +10,10 @@ import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+import org.junit.Test;
 import org.springframework.stereotype.Service;
+
+import static org.junit.Assert.assertThrows;
 
 @Service
 public class CourseEditionServiceImpl implements ICourseEditionService {
@@ -86,6 +89,10 @@ public class CourseEditionServiceImpl implements ICourseEditionService {
 
     @Override
     public CourseEditionID findCourseEditionByGeneratedID (CourseEditionGeneratedID generatedID) throws Exception {
+
+        if (generatedID == null) {
+            throw new IllegalArgumentException("Course Edition Generated ID cannot be null.");
+        }
 
         Optional<CourseEdition> courseEdition = courseEditionRepository.findCourseEditionByGeneratedId(generatedID);
 

@@ -1,10 +1,10 @@
 package PAI.service.courseEdition;
 
 import PAI.VOs.*;
-import PAI.assembler.courseEdition.ICourseEditionAssembler;
 import PAI.domain.courseEdition.CourseEdition;
 import PAI.domain.courseEdition.ICourseEditionFactory;
 import PAI.domain.repositoryInterfaces.courseEdition.ICourseEditionRepository;
+import PAI.exception.NotFoundException;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -534,5 +534,45 @@ class CourseEditionServiceImplTest {
 
         // Assert
         assertEquals(result, expectedCourseEditionIDDouble);
+    }
+
+    @Test
+    void shouldThrowNotFoundException_WhenFindCourseEditionByGeneratedID_DoesNotFindACourseEdition () throws Exception {
+        // Arrange
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        ICourseEditionFactory factory = mock(ICourseEditionFactory.class);
+        ICourseEditionService courseEditionService = new CourseEditionServiceImpl(factory, courseEditionRepository);
+
+        CourseEditionGeneratedID generatedIDDouble = mock(CourseEditionGeneratedID.class);
+
+        when(generatedIDDouble.getCourseEditionGeneratedID()).thenReturn(UUID.randomUUID());
+
+        when(courseEditionRepository.findCourseEditionByGeneratedId(generatedIDDouble))
+                .thenReturn(Optional.empty());
+
+        // Act
+        Exception expectedException = assertThrows(NotFoundException.class, () -> {
+            courseEditionService.findCourseEditionByGeneratedID(generatedIDDouble);
+        });
+
+        // Assert
+        assertEquals("CourseEdition not found with Universally Unique ID: " + generatedIDDouble, expectedException.getMessage());
+    }
+
+    @Test
+    void shouldThrowIllegalArgumentExceptionWhenFindCourseEditionByGeneratedIDReceivesNullGeneratedID() throws Exception {
+        // Arrange
+        ICourseEditionFactory factory = mock(ICourseEditionFactory.class);
+        ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        CourseEditionServiceImpl courseEditionService = new CourseEditionServiceImpl(factory, courseEditionRepository);
+
+        CourseEditionGeneratedID generatedID = null;
+
+        // Act & Assert
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            courseEditionService.findCourseEditionByGeneratedID(generatedID);
+        });
+
+        assertEquals("Course Edition Generated ID cannot be null.", exception.getMessage());
     }
 }
