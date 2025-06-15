@@ -28,9 +28,13 @@ class TeacherCategoryInitializerTest {
     private final InputStream originalIn = System.in;
     private final PrintStream originalErr = System.err;
 
+    private String _csvPath;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+
+        _csvPath = "src/main/resources/TeacherCategory.csv";
     }
 
     @Test
@@ -39,7 +43,7 @@ class TeacherCategoryInitializerTest {
         when(controller.configureTeacherCategory(any(Name.class))).thenReturn(true);
 
         // Act
-        initializer.init();
+        initializer.loadTeacherCategory(controller, _csvPath);
 
         // Assert
         ArgumentCaptor<Name> captor = ArgumentCaptor.forClass(Name.class);
@@ -75,7 +79,7 @@ class TeacherCategoryInitializerTest {
         ))).thenReturn(true);
 
         // Act
-        initializer.init();
+        initializer.loadTeacherCategory(controller, _csvPath);
 
         // Assert
         ArgumentCaptor<Name> captor = ArgumentCaptor.forClass(Name.class);
@@ -109,7 +113,7 @@ class TeacherCategoryInitializerTest {
         System.setErr(new PrintStream(errContent));
 
         // Act
-        initializer.init();
+        initializer.loadTeacherCategory(controller, _csvPath);
 
         // Restore
         System.setErr(originalErr);

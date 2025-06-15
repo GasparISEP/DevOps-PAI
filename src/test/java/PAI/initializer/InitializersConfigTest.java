@@ -106,4 +106,19 @@ class InitializersConfigTest {
         verify(initializerDouble).loadStudents(controller, "src/main/resources/Student_Data.csv");
         verifyNoMoreInteractions(initializerDouble);
     }
+
+    @Test
+    void shouldInvokeLoadDataTeacherCategoryWhenCommandLineRunnerRuns() throws Exception {
+        // Arrange
+        US01_ConfigureTeacherCategoryController controller = mock(US01_ConfigureTeacherCategoryController.class);
+        TeacherCategoryInitializer initializerDouble = mock(TeacherCategoryInitializer.class);
+
+        // Act
+        CommandLineRunner commandLineRunner = _initializer.loadDataTeacherCategory(controller, initializerDouble);
+        commandLineRunner.run(new String[]{});
+
+        // Assert
+        verify(initializerDouble).loadTeacherCategory(controller, "src/main/resources/TeacherCategory.csv");
+        verifyNoMoreInteractions(initializerDouble);
+    }
 }
