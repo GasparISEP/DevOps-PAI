@@ -1,5 +1,6 @@
 package PAI.initializer;
 
+import PAI.controller.US02_ConfigureAccessMethodController;
 import PAI.controller.US10_IWantToConfigureDegreeTypesLevelsController;
 import PAI.service.course.ICourseService;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,6 +45,21 @@ class InitializersConfigTest {
 
         // Assert
         verify(initializerDouble).loadCourse(serviceDouble, "src/main/resources/CourseData.csv");
+        verifyNoMoreInteractions(initializerDouble);
+    }
+
+    @Test
+    void shouldInvokeLoadAccessMethodWhenCommandLineRunnerRuns() throws Exception {
+        // Arrange
+        US02_ConfigureAccessMethodController controller = mock(US02_ConfigureAccessMethodController.class);
+        AccessMethodInitializer initializerDouble = mock(AccessMethodInitializer.class);
+
+        // Act
+        CommandLineRunner commandLineRunner = _initializer.loadDataAccessMethod(controller, initializerDouble);
+        commandLineRunner.run(new String[]{});
+
+        // Assert
+        verify(initializerDouble).loadAccessMethod(controller, "src/main/resources/AccessMethodData.csv");
         verifyNoMoreInteractions(initializerDouble);
     }
 }

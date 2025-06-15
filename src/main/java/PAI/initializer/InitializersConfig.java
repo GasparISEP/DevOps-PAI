@@ -26,4 +26,12 @@ public class InitializersConfig {
             initializer.loadCourse(service, "src/main/resources/CourseData.csv");
         };
     }
+
+    @Bean
+    @Order(1)
+    public CommandLineRunner loadDataAccessMethod(US02_ConfigureAccessMethodController controller, AccessMethodInitializer initializer) {
+        return (args) -> {
+            initializer.loadAccessMethod(controller, "src/main/resources/AccessMethodData.csv");
+        };
+    }
 }
