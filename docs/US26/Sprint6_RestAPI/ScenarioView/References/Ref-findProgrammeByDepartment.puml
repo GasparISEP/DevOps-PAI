@@ -1,0 +1,32 @@
+@startuml
+title (US26) Get List<ProgrammeID> by DepartmentID\n(Level 5 - Repository & Mapping Detail)
+
+autonumber
+
+participant ":TotalEnrolledStudentsInProgrammesByDepartmentAndYearService" as Service #goldenrod
+participant ":ProgrammeRepository" as ProgRepo #lightcoral
+participant ":IDepartmentIDMapper" as DepIDMapper #lightblue
+participant ":IProgrammeRepositorySpringData" as ProgRepoSpringData #lightyellow
+participant ":IProgrammeIDMapper" as ProgIDMapper #lightblue
+activate Service
+
+Service -> ProgRepo ++: findProgrammeByDepartmentId(departmentID : DepartmentID)
+
+ProgRepo -> DepIDMapper ++: toDataModel(departmentID)
+DepIDMapper --> ProgRepo --: DepartmentIDDataModel
+
+ProgRepo -> ProgRepoSpringData ++: findProgrammeByDepartmentID(DepartmentIDDataModel)
+ProgRepoSpringData ->o]: findProgrammeByDepartmentID(DepartmentIDDataModel)
+ProgRepoSpringData <--o]: List<ProgrammeIDDataModel>
+
+ProgRepoSpringData --> ProgRepo --: List<ProgrammeIDDataModel>
+
+
+loop for each ProgrammeIDDataModel
+    ProgRepo -> ProgIDMapper ++: toDomain(programmeIDDataModel)
+    ProgIDMapper --> ProgRepo --: ProgrammeID
+end
+
+ProgRepo --> Service --: List<ProgrammeID>
+
+@enduml
