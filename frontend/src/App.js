@@ -11,6 +11,7 @@ import DisplayTeacherPage from "./pages/teacherPage/DisplayTeacherPage";
 import './styles/DisplayTeacherPage.css'
 import RegisterCourseInStudyPlan from "./pages/RegisterCourseInStudyPlanPage";
 import './styles/RegisterCourseInStudyPlanPage.css'
+import './styles/UpdateTeacherCategoryPage.css'
 import AppRoutes from "./AppRoutes";
 
 function App() {
