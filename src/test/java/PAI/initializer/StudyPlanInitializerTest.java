@@ -1,83 +1,99 @@
 package PAI.initializer;
 
 import PAI.controller.US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.mockito.ArgumentCaptor;
-import org.springframework.boot.CommandLineRunner;
 
-import java.io.*;
-import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 class StudyPlanInitializerTest {
 
-    private US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController controller;
     private StudyPlanInitializer initializer;
+    private US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController controllerDouble;
+    private Path tempFile;
 
     @BeforeEach
-    void setUp() {
-        controller = mock(US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController.class);
+    void setup() throws Exception {
         initializer = new StudyPlanInitializer();
+        controllerDouble = mock(US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController.class);
+        tempFile = Files.createTempFile("study-plan", ".csv");
+    }
+
+    @AfterEach
+    void cleanup() throws Exception {
+        Files.deleteIfExists(tempFile);
     }
 
     @Test
-    void commandLineRunnerExecutesLoadStudyPlan() throws Exception {
+    void shouldRegisterStudyPlanWithCorrectArgumentsWhenLoadingValidCSV() throws Exception {
         // Arrange
+        String csvContent = "ProgrammeName;Acronym;StartDate\n" +
+                            "Computer Science;CS;2024-09-01\n" +
+                            "Mathematics;MATH;2024-09-01\n";
+        Files.write(tempFile, csvContent.getBytes());
 
-        StudyPlanInitializer initializer = spy(new StudyPlanInitializer());
-
-        CommandLineRunner runner = initializer.loadDataRegisterStudyPlan(controller);
+        ArgumentCaptor<String> nameCaptor = ArgumentCaptor.forClass(String.class);
+        ArgumentCaptor<String> acronymCaptor = ArgumentCaptor.forClass(String.class);
+        ArgumentCaptor<String> dateCaptor = ArgumentCaptor.forClass(String.class);
 
         // Act
-        runner.run();
+        initializer.loadStudyPlan(controllerDouble, tempFile.toString());
 
         // Assert
-        verify(initializer).loadStudyPlan(eq(controller), eq(Path.of("src/main/resources/StudyPlan_Data.csv")));
+        verify(controllerDouble, times(2))
+                .registerStudyPlan(nameCaptor.capture(), acronymCaptor.capture(), dateCaptor.capture());
+
+        Assertions.assertTrue(
+    nameCaptor.getAllValues().get(0).equals("Computer Science") &&
+            acronymCaptor.getAllValues().get(0).equals("CS") &&
+            dateCaptor.getAllValues().get(0).equals("2024-09-01") &&
+
+            nameCaptor.getAllValues().get(1).equals("Mathematics") &&
+            acronymCaptor.getAllValues().get(1).equals("MATH") &&
+            dateCaptor.getAllValues().get(1).equals("2024-09-01")
+        );
     }
 
     @Test
-    void shouldLoadAndRegisterStudyPlansFromCsvFile() throws Exception {
+    void shouldSkipEmptyLines() throws Exception {
+        // Arrange
+        String csvContent = "ProgrammeName;Acronym;StartDate\n" +
+                            "Computer Science;CS;2024-09-01\n" +
+                            "\n" +
+                            "Mathematics;MATH;2024-09-01\n";
+        Files.write(tempFile, csvContent.getBytes());
 
-        File testFile = getTestFile();
+        // Act
+        initializer.loadStudyPlan(controllerDouble, tempFile.toString());
 
-        when(controller.registerStudyPlan(anyString(), anyString(), anyString())).thenReturn(true);
-
-        initializer.loadStudyPlan(controller, testFile.toPath());
-
-        ArgumentCaptor<String> programmeNameCaptor = ArgumentCaptor.forClass(String.class);
-        ArgumentCaptor<String> programmeAcronymCaptor = ArgumentCaptor.forClass(String.class);
-        ArgumentCaptor<String> startDateCaptor = ArgumentCaptor.forClass(String.class);
-
-        verify(controller, times(3)).registerStudyPlan(
-                programmeNameCaptor.capture(),
-                programmeAcronymCaptor.capture(),
-                startDateCaptor.capture()
-        );
-
-        List<String> capturedProgrammeNames = programmeNameCaptor.getAllValues();
-        List<String> capturedProgrammeAcronyms = programmeAcronymCaptor.getAllValues();
-        List<String> capturedStartDates = startDateCaptor.getAllValues();
-
-        assertTrue(capturedProgrammeNames.containsAll(capturedProgrammeNames));
-        assertTrue(capturedProgrammeAcronyms.containsAll(capturedProgrammeAcronyms));
-        assertTrue(capturedStartDates.containsAll(capturedStartDates));
+        // Assert
+        verify(controllerDouble, times(2)).registerStudyPlan(any(), any(), any());
     }
 
-    private static File getTestFile() throws IOException {
-        File testFile = new File("src/test/resources/StudyPlan_DataTest.csv");
-        testFile.getParentFile().mkdirs();
-        try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(testFile), StandardCharsets.UTF_8))) {
-            writer.write("ProgrammeName;ProgrammeAcronym;StartDate\n");
-            writer.write("Computer Science;CS;2023-10-01\n");
-            writer.write("Software Engineering;SE;2023-09-01\n");
-            writer.write("Information Systems;IS;2023-08-01\n");
-        }
-        return testFile;
+    @Test
+    void shouldHandleInvalidLinesAndContinue() throws Exception {
+        // Arrange
+        String csvContent = "ProgrammeName;Acronym;StartDate\n" +
+                            "Computer Science;CS;2024-09-01\n" +
+                            "IncompleteLineWithoutEnoughParts\n" +
+                            "Mathematics;MATH;2024-09-01\n";
+        Files.write(tempFile, csvContent.getBytes());
+
+        // Act
+        initializer.loadStudyPlan(controllerDouble, tempFile.toString());
+
+        // Assert
+        verify(controllerDouble, times(2)).registerStudyPlan(any(), any(), any());
+    }
+
+    @Test
+    void shouldHandleExceptionWhenReadingFile() {
+        // Act & Assert
+        Assertions.assertDoesNotThrow(() -> {
+            initializer.loadStudyPlan(controllerDouble, "non-existent-file.csv");
+        });
     }
 }

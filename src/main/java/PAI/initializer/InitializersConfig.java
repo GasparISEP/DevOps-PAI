@@ -101,4 +101,12 @@ public class InitializersConfig {
             initializer.loadProgrammeEdition(service, "src/main/resources/ProgrammeEdition.csv");
         };
     }
+
+    @Bean
+    @Order(2)
+    public CommandLineRunner loadDataRegisterStudyPlan(US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController controller, StudyPlanInitializer initializer) {
+        return (args) -> {
+            initializer.loadStudyPlan(controller, "src/main/resources/StudyPlan_Data.csv");
+        };
+    }
 }
