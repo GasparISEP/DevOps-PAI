@@ -1,12 +1,12 @@
 package PAI.initializer;
 
 import PAI.controller.US13_RegisterTeacherAndRelevantDataController;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 
-@Configuration
+@Component
 public class TeacherInitializer {
 
     public void loadTeachers(US13_RegisterTeacherAndRelevantDataController controller, String csvFile) {

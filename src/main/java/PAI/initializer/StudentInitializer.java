@@ -1,12 +1,12 @@
 package PAI.initializer;
 
 import PAI.controller.US08_IWantToRegisterAStudentInTheSystemController;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 
-@Configuration
+@Component
 public class StudentInitializer {
 
     public void loadStudents(US08_IWantToRegisterAStudentInTheSystemController controller, String csvFilePath) {

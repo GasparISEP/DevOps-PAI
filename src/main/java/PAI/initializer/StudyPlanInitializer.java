@@ -1,12 +1,12 @@
 package PAI.initializer;
 
 import PAI.controller.US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 
-@Configuration
+@Component
 public class StudyPlanInitializer {
 
     public void loadStudyPlan(US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController controller, String csvFilePath) {

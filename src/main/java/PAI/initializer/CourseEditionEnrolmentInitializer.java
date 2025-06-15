@@ -2,10 +2,7 @@ package PAI.initializer;
 
 import PAI.VOs.*;
 import PAI.controller.US16_EnrolAStudentInACourseEditionController;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -15,7 +12,6 @@ import java.util.UUID;
 @Configuration
 public class CourseEditionEnrolmentInitializer {
 
-    @Bean
     public void loadCourseEditionEnrolments(US16_EnrolAStudentInACourseEditionController controller, String csvFilePath) {
         long startTime = System.currentTimeMillis();
 

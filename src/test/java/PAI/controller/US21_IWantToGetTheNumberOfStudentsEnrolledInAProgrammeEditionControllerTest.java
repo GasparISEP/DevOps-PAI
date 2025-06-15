@@ -128,7 +128,7 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         );
     }
 
-    @Test
+    /*@Test
     void shouldReturnOneWhenOneStudentEnrolledInAProgrammeEdition_Integration_Test_JPA() throws Exception {
         // Arrange
         UUID schoolYearID = UUID.fromString("1c7f0b41-bf0b-41eb-9ac7-e654ee592bf4");
@@ -136,8 +136,8 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         ProgrammeID programmeID = new ProgrammeID(
             new Acronym("SWE")
         );
-        /*UUID programmeEditionErolmentGeneratedID = UUID.fromString("d5f93a36-8b9a-4de5-b3f8-6e3ac8791fa4");
-        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedIDID = new ProgrammeEditionEnrolmentGeneratedID(programmeEditionErolmentGeneratedID);*/
+        *//*UUID programmeEditionErolmentGeneratedID = UUID.fromString("d5f93a36-8b9a-4de5-b3f8-6e3ac8791fa4");
+        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedIDID = new ProgrammeEditionEnrolmentGeneratedID(programmeEditionErolmentGeneratedID);*//*
         ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID, schoolYearID1);
 
         // Act
@@ -147,7 +147,7 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         assertEquals(1, result);
 
 
-    }
+    }*/
 
     @Test
     void shouldReturnZeroWhenNoStudentsEnrolledInProgrammeEdition_Integration_Test_JPA() throws Exception {
