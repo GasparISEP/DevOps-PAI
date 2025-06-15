@@ -13,20 +13,13 @@ participant "<<Component>>\ndtRepo:DegreeTypeRepository" as DTR #lightyellow
 participant "<<Component>>\n:Domain" as D #lightpink
 participant "<<Component>>\ndRepo:DepartmentRepository" as DR #lightblue
 participant "<<Component>>\ntRepo:TeacherRepository" as TR #lightgreen
-participant "Programme1:Programme" as P
+participant "programme1:Programme" as P
 participant "<<Component>>\n:Drivers" as Drivers #lightyellow
 
 [o-> RT ++: **POST** /programmes
 
 RT -> C ++: registerProgramme (ProgrammeDTO)
 C -> PS ++: registerProgramme (ProgrammeVOsDTO)
-
-PS -> D ++: registerProgramme (name, acronym, maxECTS, \nquantSemesters, degreeTypeID, departmentID, teacherID)
-D -> P** : newProgramme (name, acronym, maxECTS, \nquantSemesters, degreeTypeID, departmentID, teacherID)
-activate P
-P --> D: Programme1
-deactivate P
-D --> PS --: Programme1
 
 PS -> DS ++: containsOfIdentity(departmentID)
 DS -> Drivers ++: containsOfIdentity(departmentID)
@@ -55,28 +48,29 @@ PS <-- DTS --: degreeType
 
 PS -> PS : areQtyOfSemesterAndDegreeTypeAligned(quantityOfSemesters, degreeType)
 
-PS -> PR ++: isNameAlreadyRegistered (name)
-PR -> Drivers ++: existsByName (name)
-Drivers ->o] : existsByName (name)
+
+PS -> D ++: registerProgramme (name, acronym, maxECTS, \nquantSemesters, degreeTypeID, departmentID, teacherID)
+D -> P** : newProgramme (name, acronym, maxECTS, \nquantSemesters, degreeTypeID, departmentID, teacherID)
+activate P
+P --> D: programme1
+deactivate P
+D --> PS --: programme1
+
+PS -> PR ++: containOfIdentity (programme1.identity())
+PR -> Drivers ++: existsById (programmeID)
+Drivers ->o] : existsById (programmeID)
 Drivers <--o] : False
 Drivers --> PR --: False
 PR --> PS --: False
 
-PS -> PR ++: isAcronymAlreadyRegistered (acronym)
-PR -> Drivers ++: containsOfIdentity (acronym)
-Drivers ->o] : containsOfIdentity (acronym)
-Drivers <--o] : False
-Drivers --> PR --: False
-PR --> PS --: False
-
-PS -> PR ++: save(Programme1)
-PR -> Drivers ++: save(Programme1)
+PS -> PR ++: save(programme1)
+PR -> Drivers ++: save(programme1)
 Drivers ->o] : save(ProgrammeDataModel)
 Drivers <--o] : ProgrammeDataModel
 Drivers --> PR --: ProgrammeDataModel
-PR --> PS --: Programme1
+PR --> PS --: programme1
 
-PS --> C --: Programme1
+PS --> C --: programme1
 C --> RT --: (201, Created) + body {programmeIDDTO + hypermedia}
 [o<-- RT --: (201, Created) + body {programmeIDDTO + hypermedia}
 @enduml
