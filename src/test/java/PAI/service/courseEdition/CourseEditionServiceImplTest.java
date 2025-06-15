@@ -513,25 +513,26 @@ class CourseEditionServiceImplTest {
     }
 
     @Test
-    void whenFindCourseEditionByGeneratedID_withValidID_thenReturnsCourseEditionID () throws Exception {
+    void shouldReturnCourseEditionID_WhenFindCourseEditionByGeneratedID_FindsACourseEdition () throws Exception {
         // Arrange
         ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
+        ICourseEditionFactory factory = mock(ICourseEditionFactory.class);
+        ICourseEditionService courseEditionService = new CourseEditionServiceImpl(factory, courseEditionRepository);
 
         CourseEditionGeneratedID generatedIDDouble = mock(CourseEditionGeneratedID.class);
-        UUID uuid = UUID.randomUUID();
         CourseEdition courseEditionDouble = mock(CourseEdition.class);
-        CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
+        CourseEditionID expectedCourseEditionIDDouble = mock(CourseEditionID.class);
 
-        when(generatedIDDouble.getCourseEditionGeneratedID()).thenReturn(uuid);
+        when(generatedIDDouble.getCourseEditionGeneratedID()).thenReturn(UUID.randomUUID());
+
         when(courseEditionRepository.findCourseEditionByGeneratedId(generatedIDDouble))
                 .thenReturn(Optional.of(courseEditionDouble));
-        when(courseEditionDouble.identity()).thenReturn(courseEditionIDDouble);
+        when(courseEditionDouble.identity()).thenReturn(expectedCourseEditionIDDouble);
 
         // Act
-        Optional<CourseEdition> result = courseEditionRepository.findCourseEditionByGeneratedId(generatedIDDouble);
+        CourseEditionID result = courseEditionService.findCourseEditionByGeneratedID(generatedIDDouble);
 
         // Assert
-        assertTrue(result.isPresent());
+        assertEquals(result, expectedCourseEditionIDDouble);
     }
-
 }
