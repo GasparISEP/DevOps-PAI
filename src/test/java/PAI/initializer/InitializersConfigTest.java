@@ -3,6 +3,8 @@ package PAI.initializer;
 import PAI.controller.*;
 import PAI.domain.repositoryInterfaces.degreeType.IDegreeTypeRepository;
 import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
+import PAI.domain.repositoryInterfaces.studentGrade.IStudentGradeRepository;
+import PAI.domain.studentGrade.StudentGradeFactoryImpl;
 import PAI.service.course.ICourseService;
 import PAI.service.courseInStudyPlan.ICourseInStudyPlanService;
 import PAI.service.programmeEdition.IProgrammeEditionService;
@@ -233,7 +235,7 @@ class InitializersConfigTest {
 
         // Assert
         verify(initializerDouble).loadProgrammeEditionEnrolment(serviceDouble,
-                                        "src/main/resources/ProgrammeEditionEnrolmentInitializer.csv");
+                                        "src/main/resources/ProgrammeEditionEnrolment.csv");
         verifyNoMoreInteractions(initializerDouble);
     }
 
@@ -270,15 +272,16 @@ class InitializersConfigTest {
     @Test
     void shouldInvokeLoadStudentGradeWhenCommandLineRunnerRuns() throws Exception {
         // Arrange
-        US22_IWantToGradeAStudentInACourseEditionController controllerDouble = mock(US22_IWantToGradeAStudentInACourseEditionController.class);
+        StudentGradeFactoryImpl factoryDouble = mock(StudentGradeFactoryImpl.class);
+        IStudentGradeRepository studentGradeRepositoryDouble = mock(IStudentGradeRepository.class);
         StudentGradeInitializer initializerDouble = mock(StudentGradeInitializer.class);
 
         // Act
-        CommandLineRunner commandLineRunner = _initializer.loadStudentGrades(controllerDouble, initializerDouble);
+        CommandLineRunner commandLineRunner = _initializer.loadStudentGrades(factoryDouble, studentGradeRepositoryDouble, initializerDouble);
         commandLineRunner.run(new String[]{});
 
         // Assert
-        verify(initializerDouble).loadStudentGrade(controllerDouble, "src/main/resources/StudentGrade.csv");
+        verify(initializerDouble).loadStudentGrade(factoryDouble, studentGradeRepositoryDouble, "src/main/resources/StudentGrade.csv");
         verifyNoMoreInteractions(initializerDouble);
     }
 }

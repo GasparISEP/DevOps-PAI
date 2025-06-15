@@ -3,6 +3,8 @@ package PAI.initializer;
 import PAI.controller.*;
 import PAI.domain.repositoryInterfaces.degreeType.IDegreeTypeRepository;
 import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
+import PAI.domain.repositoryInterfaces.studentGrade.IStudentGradeRepository;
+import PAI.domain.studentGrade.StudentGradeFactoryImpl;
 import PAI.service.course.ICourseService;
 import PAI.service.courseInStudyPlan.ICourseInStudyPlanService;
 import PAI.service.programmeEdition.IProgrammeEditionService;
@@ -129,7 +131,7 @@ public class InitializersConfig {
                                                                ProgrammeEditionEnrolmentInitializer initializer) {
         return args -> {
             initializer.loadProgrammeEditionEnrolment(service,
-                    "src/main/resources/ProgrammeEditionEnrolmentInitializer.csv");
+                    "src/main/resources/ProgrammeEditionEnrolment.csv");
         };
     }
 
@@ -152,9 +154,10 @@ public class InitializersConfig {
 
     @Bean
     @Order(7)
-    public CommandLineRunner loadStudentGrades(US22_IWantToGradeAStudentInACourseEditionController controller, StudentGradeInitializer initializer) {
+    public CommandLineRunner loadStudentGrades(StudentGradeFactoryImpl factory, IStudentGradeRepository studentGradeRepository,
+                                                                                    StudentGradeInitializer initializer) {
         return args -> {
-            initializer.loadStudentGrade(controller, "src/main/resources/StudentGrade.csv");
+            initializer.loadStudentGrade(factory, studentGradeRepository,"src/main/resources/StudentGrade.csv");
         };
     }
 }

@@ -1,7 +1,8 @@
 package PAI.initializer;
 
 import PAI.VOs.*;
-import PAI.controller.US22_IWantToGradeAStudentInACourseEditionController;
+import PAI.domain.repositoryInterfaces.studentGrade.IStudentGradeRepository;
+import PAI.domain.studentGrade.StudentGradeFactoryImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,13 +17,15 @@ import static org.mockito.Mockito.*;
 class StudentGradeInitializerTest {
 
     private StudentGradeInitializer initializer;
-    private US22_IWantToGradeAStudentInACourseEditionController controllerDouble;
+    private StudentGradeFactoryImpl  factoryDouble;
+    private IStudentGradeRepository studentGradeRepositoryDouble;
     private Path tempFile;
 
     @BeforeEach
     void setup() throws Exception {
         initializer = new StudentGradeInitializer();
-        controllerDouble = mock(US22_IWantToGradeAStudentInACourseEditionController.class);
+        factoryDouble = mock(StudentGradeFactoryImpl.class);
+        studentGradeRepositoryDouble = mock(IStudentGradeRepository.class);
         tempFile = Files.createTempFile("student-grades", ".csv");
     }
 
@@ -42,11 +45,11 @@ class StudentGradeInitializerTest {
         Files.write(tempFile, csvContent.getBytes());
 
         // Act
-        initializer.loadStudentGrade(controllerDouble, tempFile.toString());
+        initializer.loadStudentGrade(factoryDouble, studentGradeRepositoryDouble, tempFile.toString());
 
         // Assert — expect 2 calls to controller
-        verify(controllerDouble, times(2))
-                .registerStudentGrade(any(Grade.class), any(Date.class), any(StudentID.class), any(CourseEditionID.class));
+        verify(factoryDouble, times(2))
+                .createGradeStudent(any(Grade.class), any(Date.class), any(StudentID.class), any(CourseEditionID.class));
     }
 
     @Test
@@ -59,18 +62,18 @@ class StudentGradeInitializerTest {
         Files.write(tempFile, csvContent.getBytes());
 
         // Act
-        initializer.loadStudentGrade(controllerDouble, tempFile.toString());
+        initializer.loadStudentGrade(factoryDouble, studentGradeRepositoryDouble, tempFile.toString());
 
         // Assert — should have registered two valid lines, ignoring the bad one
-        verify(controllerDouble, times(2))
-                .registerStudentGrade(any(Grade.class), any(Date.class), any(StudentID.class), any(CourseEditionID.class));
+        verify(factoryDouble, times(2))
+                .createGradeStudent(any(Grade.class), any(Date.class), any(StudentID.class), any(CourseEditionID.class));
     }
 
     @Test
     void shouldHandleMissingFileGracefully() {
         // Act & Assert
         org.junit.jupiter.api.Assertions.assertDoesNotThrow(() -> {
-            initializer.loadStudentGrade(controllerDouble, "non-existent-file.csv");
+            initializer.loadStudentGrade(factoryDouble, studentGradeRepositoryDouble, "non-existent-file.csv");
         });
     }
 }
