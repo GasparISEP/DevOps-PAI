@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Profile;
 import java.io.*;
 
 @Configuration
-@Profile("department")
 public class DepartmentInitializer {
 
     public void loadDepartment(US05_DepartmentRegistryController controller, String csvFilePath) {
