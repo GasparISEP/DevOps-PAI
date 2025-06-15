@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static PAI.utils.ValidationUtils.validateNotNull;
+
 @Repository
 public class CourseInStudyPlanRepositorySpringDataImpl implements ICourseInStudyPlanRepository {
 
@@ -24,34 +26,15 @@ public class CourseInStudyPlanRepositorySpringDataImpl implements ICourseInStudy
     private final IStudyPlanIDMapper iStudyPlanIDMapper;
 
     public CourseInStudyPlanRepositorySpringDataImpl(ICourseInStudyPlanMapper courseInStudyPlanMapper, ICourseInStudyPlanRepositorySpringData courseInStudyPlanRepositorySpringData, ICourseInStudyPlanIDMapper courseInStudyPlanIDMapper, IStudyPlanIDMapper iStudyPlanIDMapper) {
-
-        if (courseInStudyPlanMapper == null) {
-            throw new IllegalArgumentException("iCourseInStudyPlanMapper cannot be null");
-        }
-        this.iCourseInStudyPlanMapper = courseInStudyPlanMapper;
-
-        if (courseInStudyPlanRepositorySpringData == null) {
-            throw new IllegalArgumentException("iCourseInStudyPlanRepositorySpringData cannot be null");
-        }
-        this.iCourseInStudyPlanRepositorySpringData = courseInStudyPlanRepositorySpringData;
-
-        if (courseInStudyPlanIDMapper == null) {
-            throw new IllegalArgumentException("iCourseInStudyPlanIDMapper cannot be null");
-        }
-        this.iCourseInStudyPlanIDMapper = courseInStudyPlanIDMapper;
-
-        if (iStudyPlanIDMapper == null) {
-            throw new IllegalArgumentException("iStudyPlanIDMapper cannot be null");
-        }
-        this.iStudyPlanIDMapper = iStudyPlanIDMapper;
+        this.iCourseInStudyPlanMapper = validateNotNull(courseInStudyPlanMapper, "CourseInStudyPlanMapper");
+        this.iCourseInStudyPlanRepositorySpringData = validateNotNull(courseInStudyPlanRepositorySpringData, "CourseInStudyPlanRepositorySpringData");
+        this.iCourseInStudyPlanIDMapper = validateNotNull(courseInStudyPlanIDMapper, "CourseInStudyPlanIDMapper");
+        this.iStudyPlanIDMapper = validateNotNull(iStudyPlanIDMapper, "StudyPlanIDMapper");
     }
 
     @Override
     public CourseInStudyPlan save(CourseInStudyPlan courseInStudyPlan) throws Exception {
-
-        if (courseInStudyPlan == null) {
-            throw new IllegalArgumentException("Course In Study Plan cannot be null.");
-        }
+        validateNotNull(courseInStudyPlan, "Course In Study Plan");
 
         CourseInStudyPlanDataModel dataModel = iCourseInStudyPlanMapper.toDataModel(courseInStudyPlan);
 
@@ -101,16 +84,18 @@ public class CourseInStudyPlanRepositorySpringDataImpl implements ICourseInStudy
 
     @Override
     public boolean containsOfIdentity(CourseInStudyPlanID id) {
-        CourseInStudyPlanIDDataModel idDataModel =
-                iCourseInStudyPlanIDMapper.toDataModel(id);
+        CourseInStudyPlanIDDataModel idDataModel = iCourseInStudyPlanIDMapper.toDataModel(id);
+
         return iCourseInStudyPlanRepositorySpringData.existsById(idDataModel);
     }
 
     @Override
     public double getTotalCreditsEctsInStudyPlanSoFar(StudyPlanID studyPlanID, Semester semester, CurricularYear curricularYear, DurationCourseInCurricularYear duration) {
-        if (studyPlanID == null || semester == null || curricularYear == null || duration == null) {
-            throw new IllegalArgumentException("Parameters cannot be null");
-        }
+        validateNotNull(studyPlanID, "StudyPlanID");
+        validateNotNull(semester, "Semester");
+        validateNotNull(curricularYear, "CurricularYear");
+        validateNotNull(duration, "DurationCourseInCurricularYear");
+
         StudyPlanIDDataModel studyPlanIDDataModel = iStudyPlanIDMapper.toDataModel(studyPlanID);
 
         Double credits = iCourseInStudyPlanRepositorySpringData.sumCombinedCredits(

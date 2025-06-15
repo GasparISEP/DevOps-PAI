@@ -1,0 +1,44 @@
+@startuml
+
+title (US26) Conversion of HTTP parameters to Domain Command\n(Scenario View Level 4)
+
+autonumber
+
+participant ":ProgrammeEnrollmentRestController" as PECtrl #lightgreen
+participant ":TotalEnrolledStudentsAssemblerImpl" as Assembler #moccasin
+participant ":DepartmentAcronym" as DepAcronym #lightblue
+participant ":DepartmentID" as DepID #lightblue
+participant ":UUID" as UUID #lightcoral
+participant ":SchoolYearID" as SYID #lightblue
+participant ":TotalEnrolledStudentsCommand" as Command #lightyellow
+
+activate PECtrl
+PECtrl -> Assembler ++: fromRequestToCommand(departmentId :String, schoolYearId :String)
+
+ref over Assembler
+    Validate departmentId and schoolYearId are not null
+end ref
+
+Assembler -> DepAcronym **: new DepartmentAcronym(departmentId)
+activate DepAcronym
+DepAcronym --> Assembler --: DepartmentAcronym
+
+Assembler -> DepID **: new DepartmentID(DepartmentAcronym)
+activate DepID
+DepID --> Assembler --: DepartmentID
+
+Assembler -> UUID **: fromString(schoolYearId)
+activate UUID
+UUID --> Assembler --: UUID
+
+Assembler -> SYID **: new SchoolYearID(UUID)
+activate SYID
+SYID --> Assembler --: SchoolYearID
+
+Assembler -> Command **: new TotalEnrolledStudentsCommand(DepartmentID, SchoolYearID)
+activate Command
+Command --> Assembler --: command
+
+Assembler --> PECtrl --: TotalEnrolledStudentsCommand
+deactivate PECtrl
+@enduml

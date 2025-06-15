@@ -3,28 +3,19 @@ package PAI.initializer;
 import PAI.VOs.*;
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.service.programmeEdition.IProgrammeEditionService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import jakarta.annotation.PostConstruct;
 import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.Objects;
+import java.io.FileReader;
 import java.util.UUID;
 
 @Component
 public class ProgrammeEditionInitializer {
-    @Autowired
-    IProgrammeEditionService service;
 
-    @PostConstruct
-    public void init() {
+    public void loadProgrammeEdition(IProgrammeEditionService service, String csvFilePath) {
         long startTime = System.currentTimeMillis();
 
-        try (BufferedReader reader = new BufferedReader(
-                new InputStreamReader(
-                        Objects.requireNonNull(getClass().getResourceAsStream("/ProgrammeEdition.csv"))
-                )
-        )) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(csvFilePath))) {
+
             String line;
             boolean isFirstLine = true;
 

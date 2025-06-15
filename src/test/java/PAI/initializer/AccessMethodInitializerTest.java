@@ -24,9 +24,13 @@ class AccessMethodInitializerTest {
     @InjectMocks
     private AccessMethodInitializer initializer;
 
+    private String _csvPath;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+
+        _csvPath = "src/main/resources/AccessMethodData.csv";
     }
 
     @Test
@@ -35,7 +39,7 @@ class AccessMethodInitializerTest {
         when(controller.configureAccessMethod(anyString())).thenReturn(true);
 
         // act
-        initializer.init();
+        initializer.loadAccessMethod(controller, _csvPath);
 
         // assert
         verify(controller).configureAccessMethod("Maiores de 23 anos");
@@ -66,7 +70,7 @@ class AccessMethodInitializerTest {
                 });
 
         // act
-        initializer.init();
+        initializer.loadAccessMethod(controller, _csvPath);
 
         // assert
         assertFalse(savedMethods.contains("Maiores de 23 anos"));

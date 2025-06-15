@@ -12,9 +12,11 @@ import PAI.service.courseEdition.ICourseEditionService;
 import PAI.service.courseInStudyPlan.ICourseInStudyPlanService;
 import PAI.service.programme.IProgrammeService;
 import PAI.service.programmeEdition.IProgrammeEditionService;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class US19_CreateCourseEditionController {
     private final ICreateCourseEditionService courseEditionService;
 

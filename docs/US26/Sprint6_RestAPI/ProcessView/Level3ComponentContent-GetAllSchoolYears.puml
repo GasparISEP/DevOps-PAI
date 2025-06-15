@@ -1,0 +1,26 @@
+@startuml
+title (US26) Process View Level 3 - getAllSchoolYears()
+
+autonumber
+
+participant "<<Component>>\n:Router" as RT #lightpink
+participant "<<Component>>\n:SchoolYearRestController" as C #lightgreen
+participant "<<Component>>\n:SchoolYearService" as S #lightblue
+participant "<<Component>>\n:SchoolYearRepository" as R #lightyellow
+participant "<<Component>>\n:Drivers" as D #salmon
+
+[o-> RT ++: **GET** /school-years
+RT -> C ++: getAllSchoolYears()
+C -> S ++: getAllSchoolYears()
+S -> R ++: findAll()
+R -> D ++: findAll()
+D ->o] : SELECT * FROM SchoolYears
+D <--o] : List<SchoolYear>
+D --> R --: List<SchoolYear>
+R --> S --: List<SchoolYear>
+S --> C --: List<SchoolYear>
+C -> C: convert to DTOs and wrap in HATEOAS model
+C --> RT --: HTTP 200 OK + CollectionModel<CurrentSchoolYearDTO>
+[o<-- RT --: HTTP 200 OK + CollectionModel<CurrentSchoolYearDTO>
+
+@enduml

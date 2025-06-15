@@ -2,24 +2,17 @@ package PAI.initializer;
 
 import PAI.VOs.Name;
 import PAI.controller.US01_ConfigureTeacherCategoryController;
-import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.FileReader;
 
 @Component
 public class TeacherCategoryInitializer {
 
-    @Autowired
-    private US01_ConfigureTeacherCategoryController controller;
+    public void loadTeacherCategory(US01_ConfigureTeacherCategoryController controller, String csvFilePath) {
 
-    @PostConstruct
-    public void init() {
-        try (InputStream is = getClass().getResourceAsStream("/TeacherCategory.csv");
-             BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(csvFilePath))) {
 
             String line;
             while ((line = reader.readLine()) != null) {

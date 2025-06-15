@@ -1,0 +1,55 @@
+@startuml
+title: (US26)\nfindAll ProgrammeEditionEnrolment (Scenario View Level 4)
+
+autonumber
+
+participant ":TotalEnrolledStudentsInProgrammesByDepartmentAndYearService" as S #goldenrod
+participant ":ProgrammeEditionEnrolmentRepository" as peeRepo #lightcoral
+participant ":ProgrammeEditionEnrolmentRepositorySpringData" as springRepo #wheat
+participant ":ProgrammeEditionEnrolmentMapperImpl" as peeMapper #lightblue
+participant ":ProgrammeEditionEnrolmentIDMapperImpl" as peeIDMapper #lightblue
+participant ":StudentIDMapperImpl" as studentIDMapper #lightblue
+participant ":ProgrammeEditionIDMapperImpl" as peIDMapper #lightblue
+participant ":ProgrammeEditionEnrolmentFactoryImpl" as peeFactory #lightblue
+participant ":EnrolmentDate" as enrolmentDate #lightgreen
+participant ":EnrolmentStatus" as enrolmentStatus #lightgreen
+participant ":GeneratedID" as generatedID #lightgreen
+
+S -> peeRepo ++ : findAll()
+
+peeRepo -> springRepo ++ : findAll()
+springRepo --> peeRepo -- : List<ProgrammeEditionEnrolmentDataModel>
+
+loop for each ProgrammeEditionEnrolmentDataModel[i]
+    peeRepo -> peeMapper ++ : toDomain(dataModel[i])
+
+    peeMapper -> peeIDMapper ++ : toDomain(dataModel[i].id)
+    peeIDMapper --> peeMapper -- : ProgrammeEditionEnrolmentID
+
+    peeMapper -> studentIDMapper ++ : toDomain(dataModel[i].studentID)
+    studentIDMapper --> peeMapper -- : StudentID
+
+    peeMapper -> peIDMapper ++ : toDomain(dataModel[i].programmeEditionID)
+    peIDMapper --> peeMapper -- : ProgrammeEditionID
+
+    peeMapper -> enrolmentDate**: newEnrolmentDate(dataModel[i].enrolmentDate)
+    activate enrolmentDate
+    enrolmentDate --> peeMapper -- : EnrolmentDate
+
+    peeMapper -> enrolmentStatus**: newEnrolmentStatus(dataModel[i].enrolmentStatus)
+    activate enrolmentStatus
+    enrolmentStatus --> peeMapper -- : EnrolmentStatus
+
+    peeMapper -> generatedID**: newGeneratedID(dataModel[i].generatedID)
+    activate generatedID
+    generatedID --> peeMapper -- : GeneratedID
+
+    peeMapper -> peeFactory ++ : createWithEnrolmentDateFromDataModel(studentID, programmeEditionID, enrolmentDate, enrolmentStatus,generatedID)
+    peeFactory --> peeMapper -- : Optional<ProgrammeEditionEnrolment>
+
+    peeMapper --> peeRepo -- : ProgrammeEditionEnrolment
+end
+
+peeRepo --> S -- : List<ProgrammeEditionEnrolment>
+
+@enduml

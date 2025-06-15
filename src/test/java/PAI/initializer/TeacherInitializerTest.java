@@ -3,6 +3,7 @@ package PAI.initializer;
 import PAI.VOs.Name;
 import PAI.VOs.TeacherCategoryID;
 import PAI.controller.US13_RegisterTeacherAndRelevantDataController;
+import PAI.domain.repositoryInterfaces.teacherCategory.ITeacherCategoryRepository;
 import PAI.domain.teacherCategory.TeacherCategory;
 import PAI.persistence.springdata.teacherCategory.TeacherCategoryRepositorySpringDataImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,9 +17,13 @@ import static org.mockito.Mockito.*;
 
 class TeacherInitializerTest {
 
+    private String _csvPath;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+
+        _csvPath = "src/main/resources/Teacher_Data.csv";
     }
 
     @Test
@@ -38,7 +43,7 @@ class TeacherInitializerTest {
         TeacherInitializer initializer = new TeacherInitializer();
 
         // act
-        initializer.loadDataRegisterTeacher(controller, repo).run();
+        initializer.loadTeachers(controller, repo, _csvPath);
 
         // assert
         verify(controller).registerTeacher(

@@ -40,28 +40,28 @@ class CourseInStudyPlanRepositorySpringDataImplTest {
     void constructorShouldThrowExceptionWhenMapperIsNull() {
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
                 () -> new CourseInStudyPlanRepositorySpringDataImpl(null, _iCourseInStudyPlanRepositorySpringData, _iCourseInStudyPlanIDMapper, _iStudyPlanIDMapper));
-        assertEquals("iCourseInStudyPlanMapper cannot be null", ex.getMessage());
+        assertEquals("CourseInStudyPlanMapper cannot be null.", ex.getMessage());
     }
 
     @Test
     void constructorShouldThrowWhenExceptionRepositoryIsNull() {
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
                 () -> new CourseInStudyPlanRepositorySpringDataImpl(_iCourseInStudyPlanMapper, null, _iCourseInStudyPlanIDMapper, _iStudyPlanIDMapper));
-        assertEquals("iCourseInStudyPlanRepositorySpringData cannot be null", ex.getMessage());
+        assertEquals("CourseInStudyPlanRepositorySpringData cannot be null.", ex.getMessage());
     }
 
     @Test
     void constructorShouldThrowWhenExceptionIDMapperIsNull() {
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
                 () -> new CourseInStudyPlanRepositorySpringDataImpl(_iCourseInStudyPlanMapper, _iCourseInStudyPlanRepositorySpringData, null, _iStudyPlanIDMapper));
-        assertEquals("iCourseInStudyPlanIDMapper cannot be null", ex.getMessage());
+        assertEquals("CourseInStudyPlanIDMapper cannot be null.", ex.getMessage());
     }
 
     @Test
     void constructorShouldThrowWhenStudyPlanIDMapperIsNull() {
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
                 () -> new CourseInStudyPlanRepositorySpringDataImpl(_iCourseInStudyPlanMapper, _iCourseInStudyPlanRepositorySpringData, _iCourseInStudyPlanIDMapper, null));
-        assertEquals("iStudyPlanIDMapper cannot be null", ex.getMessage());
+        assertEquals("StudyPlanIDMapper cannot be null.", ex.getMessage());
     }
 
     @Test
@@ -261,25 +261,61 @@ class CourseInStudyPlanRepositorySpringDataImplTest {
     @Test
     void shouldThrowIllegalArgumentExceptionWhenStudyPlanIDIsNull() {
         // act & assert
-        assertThrows(IllegalArgumentException.class, () -> _courseInStudyPlanRepositorySpringDataImpl.getTotalCreditsEctsInStudyPlanSoFar(null, mock(Semester.class), mock(CurricularYear.class), mock(DurationCourseInCurricularYear.class)));
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+                _courseInStudyPlanRepositorySpringDataImpl.getTotalCreditsEctsInStudyPlanSoFar(
+                        null,
+                        mock(Semester.class),
+                        mock(CurricularYear.class),
+                        mock(DurationCourseInCurricularYear.class)
+                )
+        );
+
+        assertEquals("StudyPlanID cannot be null.", exception.getMessage());
     }
 
     @Test
     void shouldThrowIllegalArgumentExceptionWhenSemesterIsNull() {
         // act & assert
-        assertThrows(IllegalArgumentException.class, () -> _courseInStudyPlanRepositorySpringDataImpl.getTotalCreditsEctsInStudyPlanSoFar(mock(StudyPlanID.class), null, mock(CurricularYear.class), mock(DurationCourseInCurricularYear.class)));
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+                _courseInStudyPlanRepositorySpringDataImpl.getTotalCreditsEctsInStudyPlanSoFar(
+                        mock(StudyPlanID.class),
+                        null,
+                        mock(CurricularYear.class),
+                        mock(DurationCourseInCurricularYear.class)
+                )
+        );
+
+        assertEquals("Semester cannot be null.", exception.getMessage());
     }
 
     @Test
     void shouldThrowIllegalArgumentExceptionWhenCurricularYearIsNull() {
         // act & assert
-        assertThrows(IllegalArgumentException.class, () -> _courseInStudyPlanRepositorySpringDataImpl.getTotalCreditsEctsInStudyPlanSoFar(mock(StudyPlanID.class), mock(Semester.class), null, mock(DurationCourseInCurricularYear.class)));
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+                _courseInStudyPlanRepositorySpringDataImpl.getTotalCreditsEctsInStudyPlanSoFar(
+                        mock(StudyPlanID.class),
+                        mock(Semester.class),
+                        null,
+                        mock(DurationCourseInCurricularYear.class)
+                )
+        );
+
+        assertEquals("CurricularYear cannot be null.", exception.getMessage());
     }
 
     @Test
     void shouldThrowIllegalArgumentExceptionWhenDurationCourseInCurricularYearIsNull() {
         // act & assert
-        assertThrows(IllegalArgumentException.class, () -> _courseInStudyPlanRepositorySpringDataImpl.getTotalCreditsEctsInStudyPlanSoFar(mock(StudyPlanID.class), mock(Semester.class), mock(CurricularYear.class), null));
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+                _courseInStudyPlanRepositorySpringDataImpl.getTotalCreditsEctsInStudyPlanSoFar(
+                        mock(StudyPlanID.class),
+                        mock(Semester.class),
+                        mock(CurricularYear.class),
+                        null
+                )
+        );
+
+        assertEquals("DurationCourseInCurricularYear cannot be null.", exception.getMessage());
     }
 
     @Test

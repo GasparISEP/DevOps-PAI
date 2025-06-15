@@ -136,8 +136,8 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         ProgrammeID programmeID = new ProgrammeID(
             new Acronym("SWE")
         );
-        /*UUID programmeEditionErolmentGeneratedID = UUID.fromString("d5f93a36-8b9a-4de5-b3f8-6e3ac8791fa4");
-        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedIDID = new ProgrammeEditionEnrolmentGeneratedID(programmeEditionErolmentGeneratedID);*/
+        UUID programmeEditionErolmentGeneratedID = UUID.fromString("d5f93a36-8b9a-4de5-b3f8-6e3ac8791fa4");
+//        ProgrammeEditionEnrolmentGeneratedID programmeEditionEnrolmentGeneratedIDID = new ProgrammeEditionEnrolmentGeneratedID(programmeEditionErolmentGeneratedID);
         ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID, schoolYearID1);
 
         // Act

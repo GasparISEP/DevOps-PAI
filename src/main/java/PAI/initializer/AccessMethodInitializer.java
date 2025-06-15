@@ -1,25 +1,18 @@
 package PAI.initializer;
 
 import PAI.controller.US02_ConfigureAccessMethodController;
-import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.FileReader;
 
 @Component
 public class AccessMethodInitializer {
 
-    @Autowired
-    private US02_ConfigureAccessMethodController controller;
+    public void loadAccessMethod(US02_ConfigureAccessMethodController controller, String csvFilePath) {
 
-    @PostConstruct
-    public void init() {
-        long startTime = System.nanoTime();
-        try (InputStream is = getClass().getResourceAsStream("/AccessMethodData.csv");
-             BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
+        long startTime = System.currentTimeMillis();
+        try (BufferedReader reader = new BufferedReader(new FileReader(csvFilePath))) {
 
             String line;
             while ((line = reader.readLine()) != null) {

@@ -23,39 +23,21 @@ public class ProgrammeRestControllerIntegrationTests {
     @Autowired
     private MockMvc mockMvc;
 
-//    @Test
-//    void shouldReturn200WithListOfProgrammesIDs() throws Exception {
-//        // arrange
-//        String uri = "/programmes/ids";
-//
-//        MvcResult result = mockMvc.perform(get(uri)
-//                .contentType(MediaType.APPLICATION_JSON)).andReturn();
-//
-//        // act
-//        int statusCode = result.getResponse().getStatus();
-//        String responseBody = result.getResponse().getContentAsString();
-//        ProgrammeIDResponseDTO[] responseList = new ObjectMapper().readValue(responseBody, ProgrammeIDResponseDTO[].class);
-//        // assert
-//
-//        assertEquals(HttpStatus.OK.value(), statusCode);
-//        assertNotNull(responseList);
-//    }
-
     @Test
-    void shouldReturn204AndEmptyBody() throws Exception {
+    void shouldReturn200WithListOfProgrammesIDs() throws Exception {
         // arrange
         String uri = "/programmes/ids";
 
-        // act
         MvcResult result = mockMvc.perform(get(uri)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andReturn();
+                .contentType(MediaType.APPLICATION_JSON)).andReturn();
 
+        // act
         int statusCode = result.getResponse().getStatus();
-        String body = result.getResponse().getContentAsString();
-
+        String responseBody = result.getResponse().getContentAsString();
+        ProgrammeIDResponseDTO[] responseList = new ObjectMapper().readValue(responseBody, ProgrammeIDResponseDTO[].class);
         // assert
-        assertEquals(204, statusCode);
-        assertTrue(body.isBlank());
+
+        assertEquals(HttpStatus.OK.value(), statusCode);
+        assertNotNull(responseList);
     }
 }

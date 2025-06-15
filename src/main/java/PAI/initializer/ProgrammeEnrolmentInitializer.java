@@ -1,36 +1,23 @@
 package PAI.initializer;
 
 import PAI.controller.US09_EnrolStudentInProgrammeController;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.UUID;
 
 @Configuration
-@Profile("programmeEnrolment")
 public class ProgrammeEnrolmentInitializer {
 
-    @Bean
-    public CommandLineRunner loadDataProgrammeEnrolment(US09_EnrolStudentInProgrammeController controller) {
-        return (args) -> {
-            loadProgrammeEnrolment(controller);
-        };
-    }
-
-    private void loadProgrammeEnrolment(US09_EnrolStudentInProgrammeController controller) {
-        String csvFile = "src/main/resources/ProgrammeEnrolment_Data.csv";
+    public void loadProgrammeEnrolment(US09_EnrolStudentInProgrammeController controller, String csvFilePath) {
 
         long startTime = System.currentTimeMillis();
 
-        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(csvFilePath))) {
             String line;
             boolean isFirstLine = true;
-            while ((line = br.readLine()) != null) {
+            while ((line = reader.readLine()) != null) {
                 if (isFirstLine) {
                     isFirstLine = false;
                     continue;
