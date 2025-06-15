@@ -49,7 +49,7 @@ export async function getAllStudents() {
 }
 
 export async function enrolStudentInProgramme(programmeEnrolmentDTO) {
-    const response = await fetch(`${API_URL}/enrollStudent`, {
+    const response = await fetch(`${API_URL}/students/enrollStudent`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -77,4 +77,44 @@ export async function enrolStudentInProgramme(programmeEnrolmentDTO) {
     console.log("[DEBUG] Resposta do backend enrolStudent:", result);
 
     return result;
+}
+
+export async function findAllDepartments() {
+    const response = await fetch(`${API_URL}/departments`);
+    if (!response.ok) throw new Error('Failed to fetch departments');
+
+    const data = await response.json();
+
+    if (data._embedded?.departmentWithDirectorDTOList && Array.isArray(data._embedded.departmentWithDirectorDTOList)) {
+        return data._embedded.departmentWithDirectorDTOList;
+    }
+
+    console.warn("Unexpected format (departments):", data);
+    return [];
+}
+
+export async function findAllProgrammes() {
+    const response = await fetch(`${API_URL}/programmes`);
+    if (!response.ok) throw new Error('Failed to fetch programmes');
+
+    const data = await response.json();
+    if (Array.isArray(data)) {
+        return data;
+    }
+
+    console.warn("Unexpected format (programmes):", data);
+    return [];
+}
+
+export async function findAllAccessMethods() {
+    const response = await fetch(`${API_URL}/access-methods`);
+    if (!response.ok) throw new Error('Failed to fetch access methods');
+
+    const data = await response.json();
+    if (data._embedded?.accessMethodResponseDTOList && Array.isArray(data._embedded.accessMethodResponseDTOList)) {
+        return data._embedded.accessMethodResponseDTOList;
+    }
+
+    console.warn("Formato inesperado (access methods):", data);
+    return [];
 }

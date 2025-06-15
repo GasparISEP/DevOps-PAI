@@ -3,56 +3,50 @@ package PAI.controllerRest;
 import PAI.VOs.*;
 import PAI.VOs.Date;
 import PAI.assembler.ProgrammeAndCourses.IProgrammeAndCoursesAssembler;
+import PAI.assembler.courseEditionEnrolment.ICourseEditionEnrolmentAssembler;
 import PAI.assembler.programmeEnrolment.IProgrammeEnrolmentHATEOASAssembler;
 import PAI.assembler.student.IStudentDTOAssembler;
 import PAI.assembler.student.IStudentHateoasAssembler;
+import PAI.assembler.totalEnrolledStudentsInProgrammesByDepartmentAndSchoolYear.ITotalEnrolledStudentsAssembler;
+import PAI.domain.courseEdition.CourseEdition;
 import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
 import PAI.domain.student.Student;
 import PAI.assembler.programmeEnrolment.IProgrammeEnrolmentAssembler;
 import PAI.dto.ProgrammeAndCourses.StudentEnrolmentResultDto;
 import PAI.dto.ProgrammeAndCourses.StudentProgrammeEnrolmentRequestDto;
+import PAI.dto.courseEditionEnrolment.EnrolledCourseEditionDTO;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentDTO;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentIdDTO;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentResponseDTO;
 import PAI.dto.student.StudentDTO;
 import PAI.dto.student.StudentResponseDTO;
 import PAI.service.programmeEditionEnrolment.IStudentProgrammeEditionEnrolmentService;
+import PAI.service.courseEdition.ICourseEditionService;
+import PAI.service.courseEditionEnrolment.ICourseEditionEnrolmentService;
 import PAI.service.programmeEnrolment.IProgrammeEnrolmentService;
 import PAI.service.student.IProgrammeAndCoursesEnrolmentService;
 import PAI.service.student.IStudentService;
+import PAI.service.totalEnrolledStudentsInProgrammesByDepartmentAndSchoolYear.ITotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
 import java.util.*;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import org.springframework.http.MediaType;
-
 
 
 
@@ -77,13 +71,27 @@ class StudentRestControllerTest {
     @Mock
     private IProgrammeEnrolmentService programmeEnrolmentService;
 
-    @Mock private IProgrammeEnrolmentAssembler programmeEnrolmentMapper;
-    @Mock private IProgrammeEnrolmentHATEOASAssembler enrolmentHateoasAssembler;
+    @Mock
+    private IProgrammeEnrolmentAssembler programmeEnrolmentMapper;
+    @Mock
+    private IProgrammeEnrolmentHATEOASAssembler enrolmentHateoasAssembler;
 
-    @Mock private IProgrammeAndCoursesEnrolmentService programmeAndCoursesEnrolmentService;
-    @Mock private IProgrammeAndCoursesAssembler programmeAndCoursesAssembler;
+    @Mock
+    private ITotalEnrolledStudentsAssembler totalEnrolledStudentsAssembler;
+    @Mock
+    private ITotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearService totalEnrolledStudentsService;
 
+    @Mock
+    private IProgrammeAndCoursesEnrolmentService programmeAndCoursesEnrolmentService;
+    @Mock
+    private IProgrammeAndCoursesAssembler programmeAndCoursesAssembler;
 
+    @Mock
+    private ICourseEditionEnrolmentAssembler courseEditionEnrolmentAssembler;
+    @Mock
+    private ICourseEditionService courseEditionService;
+    @Mock
+    private ICourseEditionEnrolmentService courseEditionEnrolmentService;
 
     @InjectMocks
     private StudentRestController studentRestController;
@@ -173,7 +181,7 @@ class StudentRestControllerTest {
     void whenServiceReturnsEnrolment_thenPostReturnsCreatedEntityModel() throws Exception {
         // Arrange
         ProgrammeEnrolmentDTO inDto = new ProgrammeEnrolmentDTO(
-                1234567, UUID.randomUUID().toString(), "EI", LocalDate.of(2025,6,8)
+                1234567, UUID.randomUUID().toString(), "EI", LocalDate.of(2025, 6, 8)
         );
 
 
@@ -226,7 +234,7 @@ class StudentRestControllerTest {
         // Arrange
         UUID exampleGID = UUID.randomUUID();
         var idDto = new ProgrammeEnrolmentIdDTO(exampleGID);
-        var vo    = new ProgrammeEnrolmentGeneratedID(exampleGID);
+        var vo = new ProgrammeEnrolmentGeneratedID(exampleGID);
         when(programmeEnrolmentMapper.toProgrammeEnrolmentGeneratedID(idDto))
                 .thenReturn(vo);
 
@@ -249,8 +257,6 @@ class StudentRestControllerTest {
     }
 
 
-
-
     @Test
     void whenPostEnrolmentServiceReturnsNull_thenReturnsBadRequest() throws Exception {
         ProgrammeEnrolmentDTO inDto = new ProgrammeEnrolmentDTO(
@@ -265,7 +271,7 @@ class StudentRestControllerTest {
                 .thenReturn(new Date(LocalDate.now()));
 
         when(programmeEnrolmentService
-                .enrolStudentInProgramme(any(),any(),any(),any()))
+                .enrolStudentInProgramme(any(), any(), any(), any()))
                 .thenReturn(null);
 
         ResponseEntity<EntityModel<ProgrammeEnrolmentResponseDTO>> resp =
@@ -330,7 +336,7 @@ class StudentRestControllerTest {
     @Test
     void whenGetEnrolmentByGID_ServiceSucceeds_thenReturnsOkWithDto() {
         // Arrange
-        UUID exampleGID       = UUID.randomUUID();
+        UUID exampleGID = UUID.randomUUID();
         ProgrammeEnrolmentGeneratedID vo =
                 new ProgrammeEnrolmentGeneratedID(exampleGID);
 
@@ -376,7 +382,7 @@ class StudentRestControllerTest {
     @Test
     void whenGetEnrolmentByGID_ServiceReturnsNull_thenReturnsNotFound1() {
         // Arrange
-        UUID exampleGID       = UUID.randomUUID();
+        UUID exampleGID = UUID.randomUUID();
         ProgrammeEnrolmentIdDTO idDto = new ProgrammeEnrolmentIdDTO(exampleGID);
         ProgrammeEnrolmentGeneratedID vo = new ProgrammeEnrolmentGeneratedID(exampleGID);
         when(programmeEnrolmentMapper.toProgrammeEnrolmentGeneratedID(idDto))
@@ -416,7 +422,207 @@ class StudentRestControllerTest {
         assertNull(response.getBody());
     }
 
+    // --- Tests for findEnrolledCourseEditionsForStudent ---
 
+    @Test
+    void findEnrolledCourseEditionsForStudent_ReturnsListOfEnrolments() throws Exception {
+        // Arrange
+        int studentUniqueNumber = 1241564;
+        StudentID studentID = new StudentID(studentUniqueNumber);
 
+        Acronym mockCourseAcronym = new Acronym("MAT");
+        Name mockCourseName = new Name("Mathematics I");
+        CourseID mockCourseID = new CourseID(mockCourseAcronym, mockCourseName);
 
+        Acronym programmeAcronym = new Acronym("LEIC");
+        ProgrammeID mockProgrammeID = new ProgrammeID(programmeAcronym);
+
+        LocalDate lDate = LocalDate.of(2023, 9, 1);
+        Date studyPlanDate = new Date(lDate);
+
+        StudyPlanID mockStudyPlanID = mock(StudyPlanID.class);
+        when(mockStudyPlanID.getDate()).thenReturn(studyPlanDate);
+        when(mockStudyPlanID.getLocalDate()).thenReturn(lDate);
+        when(mockStudyPlanID.getProgrammeID()).thenReturn(mockProgrammeID);
+
+        CourseInStudyPlanID mockCourseInStudyPlanID = new CourseInStudyPlanID(mockCourseID, mockStudyPlanID);
+
+        UUID mockSchoolYearUUID = UUID.randomUUID();
+        SchoolYearID mockSchoolYearID = new SchoolYearID(mockSchoolYearUUID);
+        ProgrammeEditionID mockProgrammeEditionID = new ProgrammeEditionID(mockProgrammeID, mockSchoolYearID);
+
+        UUID mockCourseEditionGeneratedUUID = UUID.randomUUID();
+        CourseEditionGeneratedID mockCourseEditionGeneratedID = new CourseEditionGeneratedID(mockCourseEditionGeneratedUUID);
+
+        CourseEdition mockCourseEdition = mock(CourseEdition.class);
+        when(mockCourseEdition.getCourseInStudyPlanID()).thenReturn(mockCourseInStudyPlanID);
+        when(mockCourseEdition.getProgrammeEditionID()).thenReturn(mockProgrammeEditionID);
+        when(mockCourseEdition.getCourseEditionGeneratedID()).thenReturn(mockCourseEditionGeneratedID);
+
+        UUID mockEnrolmentGeneratedUUID = UUID.randomUUID();
+        CourseEditionEnrolmentGeneratedID mockEnrolmentGeneratedID = new CourseEditionEnrolmentGeneratedID(mockEnrolmentGeneratedUUID);
+        US35EnrolledCourseDetails enrolledDetails = new US35EnrolledCourseDetails(mockCourseEdition, mockEnrolmentGeneratedID);
+
+        when(courseEditionEnrolmentService.findEnrolledCourseEditionsForStudent(studentID))
+                .thenReturn(List.of(enrolledDetails));
+
+        // Act
+        ResponseEntity<List<EnrolledCourseEditionDTO>> response =
+                studentRestController.findEnrolledCourseEditionsForStudent(studentUniqueNumber);
+
+        // Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertEquals(1, response.getBody().size());
+    }
+
+    @Test
+    void findEnrolledCourseEditionsForStudent_ReturnsEmptyListWhenNoEnrolments() {
+        // Arrange
+        int studentUniqueNumber = 1241654;
+        StudentID studentID = new StudentID(studentUniqueNumber);
+
+        when(courseEditionEnrolmentService.findEnrolledCourseEditionsForStudent(studentID))
+                .thenReturn(Collections.emptyList());
+
+        // Act
+        ResponseEntity<List<EnrolledCourseEditionDTO>> response =
+                studentRestController.findEnrolledCourseEditionsForStudent(studentUniqueNumber);
+
+        // Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertTrue(response.getBody().isEmpty());
+    }
+
+    @Test
+    void findEnrolledCourseEditionsForStudent_ServiceThrowsException_Propagates() {
+        // Arrange
+        int studentUniqueNumber = 1241654;
+        StudentID studentID = new StudentID(studentUniqueNumber);
+
+        when(courseEditionEnrolmentService.findEnrolledCourseEditionsForStudent(studentID))
+                .thenThrow(new RuntimeException("Database error"));
+
+        // Act & Assert
+        RuntimeException thrown = assertThrows(RuntimeException.class, () -> {
+            studentRestController.findEnrolledCourseEditionsForStudent(studentUniqueNumber);
+        });
+
+        assertEquals("Database error", thrown.getMessage());
+        verify(courseEditionEnrolmentService).findEnrolledCourseEditionsForStudent(studentID);
+    }
+
+            // `removeStudentEnrolmentFromACourseEdition`Tests
+
+    @Test
+
+    void removeStudentEnrolmentFromACourseEdition_SuccessfullyRemoved() throws Exception {
+        // Arrange
+        int studentUniqueNumber = 1241654;
+        UUID courseEditionGeneratedUUID = UUID.randomUUID();
+
+        StudentID studentID = new StudentID(studentUniqueNumber);
+        CourseEditionGeneratedID ceGeneratedID = new CourseEditionGeneratedID(courseEditionGeneratedUUID);
+        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+
+        when(courseEditionEnrolmentAssembler.toStudentID(studentUniqueNumber)).thenReturn(studentID);
+        when(courseEditionService.findCourseEditionByGeneratedID(ceGeneratedID)).thenReturn(courseEditionID);
+        when(courseEditionEnrolmentService.removeCourseEditionEnrolment(studentID, courseEditionID)).thenReturn(true);
+
+        // Act
+        ResponseEntity<String> response =
+                studentRestController.removeStudentEnrolmentFromACourseEdition(studentUniqueNumber, courseEditionGeneratedUUID);
+
+        // Assert
+        assertEquals(HttpStatus.ACCEPTED, response.getStatusCode());
+        assertEquals("Successfully removed the enrolment from course edition.", response.getBody());
+    }
+
+    @Test
+    void removeStudentEnrolmentFromACourseEdition_StudentNotEnrolled() throws Exception {
+        // Arrange
+        int studentUniqueNumber = 1241543;
+        UUID courseEditionGeneratedUUID = UUID.randomUUID();
+
+        StudentID studentID = new StudentID(studentUniqueNumber);
+        CourseEditionGeneratedID ceGeneratedID = new CourseEditionGeneratedID(courseEditionGeneratedUUID);
+        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+
+        when(courseEditionEnrolmentAssembler.toStudentID(studentUniqueNumber)).thenReturn(studentID);
+        when(courseEditionService.findCourseEditionByGeneratedID(ceGeneratedID)).thenReturn(courseEditionID);
+        when(courseEditionEnrolmentService.removeCourseEditionEnrolment(studentID, courseEditionID)).thenReturn(false);
+
+        // Act
+        ResponseEntity<String> response =
+                studentRestController.removeStudentEnrolmentFromACourseEdition(studentUniqueNumber, courseEditionGeneratedUUID);
+
+        // Assert
+        assertEquals(HttpStatus.NOT_ACCEPTABLE, response.getStatusCode());
+        assertEquals("Student is not enrolled in that course edition or enrolment could not be removed.", response.getBody());
+    }
+
+    @Test
+    void removeStudentEnrolmentFromACourseEdition_InvalidStudentIDFormat() throws Exception {
+        // Arrange
+        int studentUniqueNumber = -1; // invalid input
+        UUID courseEditionGeneratedUUID = UUID.randomUUID();
+
+        when(courseEditionEnrolmentAssembler.toStudentID(studentUniqueNumber))
+                .thenThrow(new IllegalArgumentException("Student ID must be positive"));
+
+        // Act
+        ResponseEntity<String> response =
+                studentRestController.removeStudentEnrolmentFromACourseEdition(studentUniqueNumber, courseEditionGeneratedUUID);
+
+        // Assert
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals("Invalid identifier format: Student ID must be positive", response.getBody());
+    }
+
+    @Test
+    void removeStudentEnrolmentFromACourseEdition_CourseEditionServiceThrowsException() throws Exception {
+        // Arrange
+        int studentUniqueNumber = 1241543;
+        UUID courseEditionGeneratedUUID = UUID.randomUUID();
+
+        StudentID studentID = new StudentID(studentUniqueNumber);
+        CourseEditionGeneratedID ceGeneratedID = new CourseEditionGeneratedID(courseEditionGeneratedUUID);
+
+        when(courseEditionEnrolmentAssembler.toStudentID(studentUniqueNumber)).thenReturn(studentID);
+        when(courseEditionService.findCourseEditionByGeneratedID(ceGeneratedID))
+                .thenThrow(new IllegalStateException("Course edition not found in service"));
+
+        // Act
+        ResponseEntity<String> response =
+                studentRestController.removeStudentEnrolmentFromACourseEdition(studentUniqueNumber, courseEditionGeneratedUUID);
+
+        // Assert
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+        assertEquals("Error processing enrolment removal: Course edition not found in service", response.getBody());
+    }
+
+    @Test
+    void removeStudentEnrolmentFromACourseEdition_GeneralException() throws Exception {
+        // Arrange
+        int studentUniqueNumber = 1241543;
+        UUID courseEditionGeneratedUUID = UUID.randomUUID();
+
+        StudentID studentID = new StudentID(studentUniqueNumber);
+        CourseEditionGeneratedID ceGeneratedID = new CourseEditionGeneratedID(courseEditionGeneratedUUID);
+        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+
+        when(courseEditionEnrolmentAssembler.toStudentID(studentUniqueNumber)).thenReturn(studentID);
+        when(courseEditionService.findCourseEditionByGeneratedID(ceGeneratedID)).thenReturn(courseEditionID);
+        when(courseEditionEnrolmentService.removeCourseEditionEnrolment(studentID, courseEditionID))
+                .thenThrow(new RuntimeException("Unexpected error during removal"));
+
+        // Act
+        ResponseEntity<String> response =
+                studentRestController.removeStudentEnrolmentFromACourseEdition(studentUniqueNumber, courseEditionGeneratedUUID);
+
+        // Assert
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+        assertEquals("Error processing enrolment removal: Unexpected error during removal", response.getBody());
+    }
 }

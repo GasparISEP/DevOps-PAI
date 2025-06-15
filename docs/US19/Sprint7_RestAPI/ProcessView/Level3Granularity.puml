@@ -1,0 +1,93 @@
+@startuml
+title: US19: As an ASC, I want to create a course edition\n(Process View - Level 3: Components (Backend focus))
+autonumber
+
+skinparam {
+  ActivityPadding 2
+  ActivityMargin 2
+  BoxPadding 2
+}
+skinparam sequence {
+    LifeLineBorderColor Grey
+    LifeLineBackgroundColor HoneyDew
+}
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+participant "<<component>>\n:Router" as Router #E1F5FE
+participant "<<component>>\n:CourseEditionRestController\n(REST Controller)" as Controller #E1F5FE
+participant "<<component>>\n:ICourseEditionAssembler\n(Assembler)" as Assembler #E1F5FE
+participant "<<component>>\n:ICreateCourseEditionService\n(Service)" as Service #E1F5FE
+participant "<<component>>\n:ICourseEditionFactory\n(Factory)" as Factory #E1F5FE
+participant "<<component>>\n:ICourseEditionRepository\n(Repository)" as Repository #E1F5FE
+participant "<<component>>\n:ICourseEditionServiceAssembler\n(Assembler)" as SAssembler #E1F5FE
+
+database DB as DB #E1F5FE
+
+-> Router: POST /courseeditions (JSON)
+activate Router
+note over Router #EEEEEE
+Spring converts JSON into
+CourseEditionRequestDTO
+end note
+Router -> Controller: createCourseEdition(requestDTO)
+activate Controller
+
+note over Controller #EEEEEE
+Controller calls assembler.toCommand()
+to convert to CreateCourseEditionCommand
+end note
+
+Controller -> Assembler: toCommand(requestDTO)
+activate Assembler
+Assembler --> Controller: CreateCourseEditionCommand
+deactivate Assembler
+
+Controller -> Service: createCourseEditionForRestApi(command)
+activate Service
+
+
+Service -> Factory: createCourseEditionToDomain\n(courseInStudyPlanID,\n programmeEditionID)
+activate Factory
+
+Factory --> Service: CourseEdition
+deactivate Factory
+
+Service -> Repository: containsOfIdentity(courseEdition.identity())
+activate Repository
+Repository --> Service: false
+deactivate Repository
+
+Service -> Repository: save(courseEdition)
+activate Repository
+
+Repository -> DB: INSERT course_edition
+activate DB
+DB --> Repository: success
+deactivate DB
+
+Repository --> Service: saved CourseEdition
+deactivate Repository
+
+
+
+    Service -> SAssembler: toServiceResponseDTO(courseEdition)
+    activate SAssembler
+    SAssembler --> Service: CourseEditionServiceResponseDTO
+    deactivate SAssembler
+    Service --> Controller: CourseEditionServiceResponseDTO
+    deactivate Service
+    Controller -> Assembler: toResponseDTO(CourseEditionServiceResponseDTO)
+    activate Assembler
+    Assembler --> Controller: CourseEditionResponseDTO
+    deactivate Assembler
+
+    Controller --> Router: 201 Created + CourseEditionResponseDTO
+
+
+
+deactivate Controller
+
+<-- Router: Reponse
+deactivate Router
+@enduml

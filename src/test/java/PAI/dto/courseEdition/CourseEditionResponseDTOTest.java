@@ -13,6 +13,7 @@ class CourseEditionResponseDTOTest {
     @Test
     void shouldCreateCourseEditionRequestDTOCorrectly() {
         //arrange
+        UUID generatedID = UUID.randomUUID();
         String courseEditionID = "PROG2023-COURSE123";
         String programmeName = "Software Development";
         String programmeAcronym = "MEI";
@@ -24,6 +25,7 @@ class CourseEditionResponseDTOTest {
 
         //act
         CourseEditionResponseDTO dto = new CourseEditionResponseDTO(
+                generatedID,
                 programmeAcronym,
                 schoolYearID,
                 courseAcronym,

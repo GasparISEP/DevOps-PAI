@@ -16,6 +16,31 @@ participant ":Domain" as Domain <<Component>>
 participant ":Repository" as Repository <<Component>>
 
 
+
+
+--> Router: GET /courseeditions
+activate Router  #E1F5FE
+Router -> Controller: findAllCourseEditions()
+activate Controller  #E1F5FE
+
+Controller -> Service: getAllCourseEditions()
+activate Service  #E1F5FE
+
+Service -> Repository: findAll()
+activate Repository  #E1F5FE
+
+Repository --> Service: List<CourseEdition>
+deactivate Repository
+Service --> Controller: List<CourseEdition>
+deactivate Service
+Controller --> Router: 200 OK – List<CourseEditionDTO>
+deactivate Controller
+note over Router #E0E0E0
+  Returned DTOs are automatically converted to JSON
+  by the framework after the controller finishes execution.
+end note
+<-- Router: 200 OK - List<CourseEditionDTO> as JSON
+deactivate Router
 -> Router: GET /teachers
 
 
@@ -45,32 +70,6 @@ end note
 deactivate Router
 
 
-
-
-
---> Router: GET /courseeditions
-activate Router  #E1F5FE
-Router -> Controller: findAllCourseEditions()
-activate Controller  #E1F5FE
-
-Controller -> Service: getAllCourseEditions()
-activate Service  #E1F5FE
-
-Service -> Repository: findAll()
-activate Repository  #E1F5FE
-
-Repository --> Service: List<CourseEdition>
-deactivate Repository
-Service --> Controller: List<CourseEdition>
-deactivate Service
-Controller --> Router: 200 OK – List<CourseEditionDTO>
-deactivate Controller
-note over Router #E0E0E0
-  Returned DTOs are automatically converted to JSON
-  by the framework after the controller finishes execution.
-end note
-<-- Router: 200 OK - List<CourseEditionDTO> as JSON
-deactivate Router
 
 -> Router: PATCH /course-editions/{id}/ruc + body {...}
 activate Router #E1F5FE

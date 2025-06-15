@@ -55,6 +55,10 @@ public class CourseEditionEnrolmentDataModel {
         return active;
     }
 
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

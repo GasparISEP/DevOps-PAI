@@ -43,6 +43,9 @@ public class TeacherServiceImpl implements ITeacherService {
     }
 
     public boolean existsById(TeacherID teacherID) {
+        if (teacherID == null){
+            throw new IllegalArgumentException("Parameter cannot be null.");
+        }
         return _teacherRepository.containsOfIdentity(teacherID);
     }
 

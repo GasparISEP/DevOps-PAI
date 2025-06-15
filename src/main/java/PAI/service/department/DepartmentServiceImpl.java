@@ -61,6 +61,9 @@ public class DepartmentServiceImpl implements IDepartmentService {
     }
 
     public boolean containsOfIdentity(DepartmentID id) {
+        if (id == null){
+            throw new IllegalArgumentException("Parameter cannot be null.");
+        }
         return _departmentRepo.containsOfIdentity(id);
     }
 

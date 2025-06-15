@@ -241,7 +241,7 @@ class CourseEditionRepositorySpringDataImplTest {
 
     //-----save Tests-----
     @Test
-    void shouldReturnNullWhenSaveMethodIsReceivesANullCourseEdition() throws Exception {
+    void shouldThrowIllegalArgumentExceptionWhenCourseEditionIsNull() {
         // Arrange
         ICourseEditionRepositorySpringData courseEditionRepoSD = mock(ICourseEditionRepositorySpringData.class);
         ICourseEditionMapper courseEditionMapper = mock(ICourseEditionMapper.class);
@@ -249,15 +249,23 @@ class CourseEditionRepositorySpringDataImplTest {
         IProgrammeEditionIdMapper programmeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
         ICourseInStudyPlanIDMapper courseInStudyPlanIDMapper = mock(ICourseInStudyPlanIDMapper.class);
         ICourseEditionGeneratedIDMapper courseEditionGeneratedIDMapper = mock(ICourseEditionGeneratedIDMapper.class);
-        ICourseEditionRepository courseEditionRepositorySpringData = new CourseEditionRepositorySpringDataImpl(courseEditionRepoSD, courseEditionMapper, courseEditionIDMapper, programmeEditionIdMapper, courseInStudyPlanIDMapper,courseEditionGeneratedIDMapper);
-        CourseEdition courseEdition = null;
 
-        // Act
-        CourseEdition result = courseEditionRepositorySpringData.save(courseEdition);
+        ICourseEditionRepository courseEditionRepositorySpringData =
+                new CourseEditionRepositorySpringDataImpl(
+                        courseEditionRepoSD,
+                        courseEditionMapper,
+                        courseEditionIDMapper,
+                        programmeEditionIdMapper,
+                        courseInStudyPlanIDMapper,
+                        courseEditionGeneratedIDMapper
+                );
 
-        // Assert
-        assertNull(result);
+        // Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            courseEditionRepositorySpringData.save(null);
+        });
     }
+
 
     @Test
     void shouldReturnCourseEditionSavedWhenSaveMethodIsReceivesAValidCourseEdition() throws Exception {
@@ -292,7 +300,7 @@ class CourseEditionRepositorySpringDataImplTest {
     }
 
     @Test
-    void shouldReturnNullWhenCourseEditionMapperThrowsAnException() throws Exception {
+    void shouldThrowIllegalArgumentExceptionWhenCourseEditionMapperFails() {
         // Arrange
         ICourseEditionRepositorySpringData courseEditionRepoSD = mock(ICourseEditionRepositorySpringData.class);
         ICourseEditionMapper courseEditionMapper = mock(ICourseEditionMapper.class);
@@ -300,18 +308,26 @@ class CourseEditionRepositorySpringDataImplTest {
         IProgrammeEditionIdMapper programmeEditionIdMapper = mock(IProgrammeEditionIdMapper.class);
         ICourseInStudyPlanIDMapper courseInStudyPlanIDMapper = mock(ICourseInStudyPlanIDMapper.class);
         ICourseEditionGeneratedIDMapper courseEditionGeneratedIDMapper = mock(ICourseEditionGeneratedIDMapper.class);
-        ICourseEditionRepository courseEditionRepositorySpringData = new CourseEditionRepositorySpringDataImpl(courseEditionRepoSD, courseEditionMapper, courseEditionIDMapper, programmeEditionIdMapper, courseInStudyPlanIDMapper,courseEditionGeneratedIDMapper);
+
+        ICourseEditionRepository courseEditionRepositorySpringData =
+                new CourseEditionRepositorySpringDataImpl(
+                        courseEditionRepoSD,
+                        courseEditionMapper,
+                        courseEditionIDMapper,
+                        programmeEditionIdMapper,
+                        courseInStudyPlanIDMapper,
+                        courseEditionGeneratedIDMapper
+                );
 
         CourseEdition entity = mock(CourseEdition.class);
-
         when(courseEditionMapper.toDataModel(entity)).thenThrow(IllegalArgumentException.class);
 
-        // Act
-        CourseEdition result = courseEditionRepositorySpringData.save(entity);
-
-        // Assert
-        assertNull(result);
+        // Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            courseEditionRepositorySpringData.save(entity);
+        });
     }
+
 
     //-----findAll Tests-----
     @Test

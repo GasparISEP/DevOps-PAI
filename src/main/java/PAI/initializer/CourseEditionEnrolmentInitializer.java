@@ -40,17 +40,21 @@ public class CourseEditionEnrolmentInitializer {
                     line = line.replace("\uFEFF", "");
                     String[] fields = line.split(",");
 
-                    if (fields.length == 6) {
+                    if (fields.length == 9) {
                         try {
-                            int studentNum = Integer.parseInt(fields[0].trim());
-                           Acronym programmeAcronym = new Acronym(fields[1].trim());
-                            UUID schoolYear = UUID.fromString(fields[2].trim());
-                            int studyPlanStartYear = Integer.parseInt(fields[3].trim());
-                            Acronym courseAcronym = new Acronym(fields[4].trim());
-                            Name courseName = new Name(fields[5].trim());
+                            UUID ceeGeneratedUUID = UUID.fromString(fields[0].trim());
+                            int studentNum = Integer.parseInt(fields[1].trim());
+                            Acronym programmeAcronym = new Acronym(fields[2].trim());
+                            UUID schoolYear = UUID.fromString(fields[3].trim());
+                            int studyPlanStartYear = Integer.parseInt(fields[4].trim());
+                            Acronym courseAcronym = new Acronym(fields[5].trim());
+                            Name courseName = new Name(fields[6].trim());
+                            LocalDate date = LocalDate.parse(fields[7].trim());
+                            boolean isActive = Boolean.parseBoolean(fields[8].trim());
 
+                            CourseEditionEnrolmentGeneratedID cceGeneraedid = new CourseEditionEnrolmentGeneratedID(ceeGeneratedUUID);
                             SchoolYearID schoolYearID = new SchoolYearID(schoolYear);
-                            Date studyPlanYear = new Date(LocalDate.of(studyPlanStartYear,1,1));
+                            Date studyPlanYear = new Date(LocalDate.of(studyPlanStartYear,9,1));
                             StudentID studentID = new StudentID(studentNum);
                             ProgrammeID programmeID = new ProgrammeID(programmeAcronym);
                             ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID, schoolYearID);
@@ -58,8 +62,10 @@ public class CourseEditionEnrolmentInitializer {
                             CourseID courseID = new CourseID(courseAcronym, courseName);
                             CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(courseID,studyPlanID);
                             CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID, courseInStudyPlanID);
+                            Date enrolmentDate = new Date(date);
+                            EnrolmentStatus status = new EnrolmentStatus(isActive);
 
-                            controller.enrolStudentInCourseEdition(studentID,courseEditionID);
+                            controller.enrolStudentInCourseEdition(cceGeneraedid, studentID,courseEditionID, enrolmentDate, status);
 
                         } catch (Exception e) {
                             e.printStackTrace();

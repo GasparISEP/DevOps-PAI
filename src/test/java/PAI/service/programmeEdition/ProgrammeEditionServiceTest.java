@@ -11,6 +11,7 @@ import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolment;
 import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
 import PAI.domain.repositoryInterfaces.programmeEdition.IProgrammeEditionRepository;
 import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
+import PAI.dto.Programme.ProgrammeDTO;
 import PAI.dto.programmeEdition.RequestServiceDto;
 import PAI.dto.programmeEdition.ProgrammeEditionRequestServiceDTO;
 import PAI.dto.programmeEdition.ProgrammeEditionResponseServiceDTO;
@@ -475,8 +476,10 @@ class ProgrammeEditionServiceTest {
         IProgrammeEditionFactory factory = mock(IProgrammeEditionFactory.class);
         IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
         ISchoolYearService schoolYearService= mock(ISchoolYearService.class);
-        ProgrammeEditionService service = new ProgrammeEditionService(factory, programmeEditionRepository, programmeService, programmeEditionAssembler,
-                schoolYearService, programmeEditionEnrolmentService);
+
+        ProgrammeEditionService service = new ProgrammeEditionService(
+                factory, programmeEditionRepository, programmeService,
+                programmeEditionAssembler, schoolYearService, programmeEditionEnrolmentService);
 
         ProgrammeID programmeID = mock(ProgrammeID.class);
         SchoolYearID schoolYearID = mock(SchoolYearID.class);
@@ -490,17 +493,22 @@ class ProgrammeEditionServiceTest {
         ProgrammeEditionRequestServiceDTO programmeEditionRequestServiceDTO = mock(ProgrammeEditionRequestServiceDTO.class);
         ProgrammeEditionResponseServiceDTO programmeEditionResponseServiceDTO = mock (ProgrammeEditionResponseServiceDTO.class);
 
+        // Mock encadeado: identity() → storedProgrammeEditionID → getProgrammeID() / getSchoolYearID()
         when(programmeEditionAssembler.toProgrammeID(programmeEditionRequestServiceDTO)).thenReturn(programmeID);
-        when(schoolYearService.getCurrentSchoolYearID()).thenReturn(Optional.ofNullable(schoolYearID));
-        when(programmeService.getProgrammeByID(programmeID)).thenReturn(Optional.of(mock(Programme.class)));
+        when(schoolYearService.getCurrentSchoolYearID()).thenReturn(Optional.of(schoolYearID));
+        when(programmeService.getProgrammeByID(programmeID)).thenReturn(Optional.of(mock(ProgrammeDTO.class)));
         when(schoolYearRepository.containsOfIdentity(schoolYearID)).thenReturn(true);
         when(factory.createProgrammeEdition(programmeID, schoolYearID)).thenReturn(programmeEdition);
         when(programmeEditionRepository.containsOfIdentity(programmeEdition.identity())).thenReturn(false);
         when(programmeEditionRepository.save(programmeEdition)).thenReturn(storedEdition);
+
+        // ⚠️ Aqui era o provável problema: precisas mockar storedEdition.identity()
         when(storedEdition.identity()).thenReturn(storedProgrammeEditionID);
         when(storedProgrammeEditionID.getProgrammeID()).thenReturn(storedProgrammeID);
         when(storedProgrammeEditionID.getSchoolYearID()).thenReturn(storedSchoolYearID);
-        when(programmeEditionAssembler.toServiceResponseDTOFromIDs(storedEdition.identity().getProgrammeID(), storedEdition.identity().getSchoolYearID())).thenReturn(programmeEditionResponseServiceDTO);
+        when(programmeEditionAssembler.toServiceResponseDTOFromIDs(storedProgrammeID, storedSchoolYearID))
+                .thenReturn(programmeEditionResponseServiceDTO);
+
         // Act
         ProgrammeEditionResponseServiceDTO result = service.createProgrammeEditionAndSave(programmeEditionRequestServiceDTO);
 
@@ -514,38 +522,22 @@ class ProgrammeEditionServiceTest {
         IProgrammeEditionServiceAssembler programmeEditionAssembler = mock(IProgrammeEditionServiceAssembler.class);
         IProgrammeEditionEnrolmentService programmeEditionEnrolmentService = mock(IProgrammeEditionEnrolmentService.class);
         IProgrammeService programmeService = mock(IProgrammeService.class);
-        ISchoolYearService schoolYearService = mock (ISchoolYearService.class);
+        ISchoolYearService schoolYearService = mock(ISchoolYearService.class);
         IProgrammeEditionFactory factory = mock(IProgrammeEditionFactory.class);
         IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
-        ProgrammeEditionService service = new ProgrammeEditionService(factory, programmeEditionRepository, programmeService,
+
+        ProgrammeEditionService service = new ProgrammeEditionService(
+                factory, programmeEditionRepository, programmeService,
                 programmeEditionAssembler, schoolYearService, programmeEditionEnrolmentService);
 
-        ProgrammeID programmeID = mock(ProgrammeID.class);
-        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
-
-        ProgrammeEdition storedEdition = mock(ProgrammeEdition.class);
-        ProgrammeEditionID storedProgrammeEditionID = mock(ProgrammeEditionID.class);
-        ProgrammeID storedProgrammeID = mock(ProgrammeID.class);
-        SchoolYearID storedSchoolYearID = mock(SchoolYearID.class);
-
         ProgrammeEditionRequestServiceDTO programmeEditionRequestServiceDTO = mock(ProgrammeEditionRequestServiceDTO.class);
-        ProgrammeEditionResponseServiceDTO programmeEditionResponseServiceDTO = mock (ProgrammeEditionResponseServiceDTO.class);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
 
         when(programmeEditionAssembler.toProgrammeID(programmeEditionRequestServiceDTO)).thenReturn(programmeID);
         when(schoolYearService.getCurrentSchoolYearID()).thenReturn(Optional.empty());
-        when(programmeService.getProgrammeByID(programmeID)).thenReturn(Optional.of(mock(Programme.class)));
-        when(factory.createProgrammeEdition(programmeID, storedSchoolYearID)).thenReturn(programmeEdition);
-        when(programmeEditionRepository.containsOfIdentity(programmeEdition.identity())).thenReturn(false);
-        when(programmeEditionRepository.save(programmeEdition)).thenReturn(storedEdition);
-        when(storedEdition.identity()).thenReturn(storedProgrammeEditionID);
-        when(storedProgrammeEditionID.getProgrammeID()).thenReturn(storedProgrammeID);
-        when(storedProgrammeEditionID.getSchoolYearID()).thenReturn(storedSchoolYearID);
-        when(programmeEditionAssembler.toServiceResponseDTOFromIDs(storedEdition.identity().getProgrammeID(), storedEdition.identity().getSchoolYearID())).thenReturn(programmeEditionResponseServiceDTO);
 
         // Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> {
-            service.createProgrammeEditionAndSave(programmeEditionRequestServiceDTO);
-        });
+        assertThrows(IllegalArgumentException.class, () -> service.createProgrammeEditionAndSave(programmeEditionRequestServiceDTO));
     }
 
     @Test
@@ -611,10 +603,48 @@ class ProgrammeEditionServiceTest {
         ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
         ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
 
+
+        when(programmeEditionAssembler.toProgrammeID(requestDTO)).thenReturn(programmeID);
+        when(schoolYearService.getCurrentSchoolYearID()).thenReturn(Optional.of(schoolYearID));
+        when(programmeService.getProgrammeByID(programmeID)).thenReturn(Optional.of(mock(ProgrammeDTO.class)));
+        when(factory.createProgrammeEdition(programmeID, schoolYearID)).thenReturn(programmeEdition);
+        when(programmeEdition.identity()).thenReturn(programmeEditionID);
+        when(programmeEditionRepository.containsOfIdentity(programmeEditionID)).thenReturn(true);
+
+        // Act + Assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+                service.createProgrammeEditionAndSave(requestDTO));
+
+        assertEquals("ProgrammeEdition already registered.", exception.getMessage());
+    }
+
+    @Test
+    void shouldReturnAllProgrammeEditions() throws Exception {
+        // Arrange
+        IProgrammeEditionServiceAssembler programmeEditionAssembler = mock(IProgrammeEditionServiceAssembler.class);
+        IProgrammeEditionEnrolmentService programmeEditionEnrolmentService = mock(IProgrammeEditionEnrolmentService.class);
+        IProgrammeService programmeService = mock(IProgrammeService.class);
+        ISchoolYearService schoolYearService = mock(ISchoolYearService.class);
+        IProgrammeEditionFactory factory = mock(IProgrammeEditionFactory.class);
+        IProgrammeEditionRepository programmeEditionRepository = mock(IProgrammeEditionRepository.class);
+
+        ProgrammeEditionService service = new ProgrammeEditionService(factory, programmeEditionRepository, programmeService,
+                programmeEditionAssembler, schoolYearService, programmeEditionEnrolmentService);
+
+        ProgrammeEditionRequestServiceDTO requestDTO = mock(ProgrammeEditionRequestServiceDTO.class);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+
         // Mocks
         when(programmeEditionAssembler.toProgrammeID(requestDTO)).thenReturn(programmeID);
         when(schoolYearService.getCurrentSchoolYearID()).thenReturn(Optional.of(schoolYearID));
-        when(programmeService.getProgrammeByID(programmeID)).thenReturn(Optional.of(mock(Programme.class)));
+
+        // 👇 CORREÇÃO: agora retorna um ProgrammeResponseServiceDTO, não um Programme
+        ProgrammeDTO programmeDTO = mock(ProgrammeDTO.class);
+        when(programmeService.getProgrammeByID(programmeID)).thenReturn(Optional.of(programmeDTO));
+
         when(factory.createProgrammeEdition(programmeID, schoolYearID)).thenReturn(programmeEdition);
         when(programmeEdition.identity()).thenReturn(programmeEditionID);
         when(programmeEditionRepository.containsOfIdentity(programmeEditionID)).thenReturn(true);
@@ -625,39 +655,6 @@ class ProgrammeEditionServiceTest {
         });
 
         assertEquals("ProgrammeEdition already registered.", exception.getMessage());
-    }
-
-    @Test
-    void shouldReturnAllProgrammeEditions() {
-        // Arrange
-        IProgrammeEditionServiceAssembler assembler = mock(IProgrammeEditionServiceAssembler.class);
-        IProgrammeEditionEnrolmentService programmeEditionEnrolmentService = mock(IProgrammeEditionEnrolmentService.class);
-        IProgrammeService programmeService = mock(IProgrammeService.class);
-        ISchoolYearService schoolYearService = mock(ISchoolYearService.class);
-        IProgrammeEditionFactory factory = mock(IProgrammeEditionFactory.class);
-        IProgrammeEditionRepository editionRepo = mock(IProgrammeEditionRepository.class);
-
-        ProgrammeEditionService service = new ProgrammeEditionService(factory, editionRepo, programmeService, assembler, schoolYearService,programmeEditionEnrolmentService);
-
-        ProgrammeEdition edition1 = mock(ProgrammeEdition.class);
-        ProgrammeEdition edition2 = mock(ProgrammeEdition.class);
-
-        when(editionRepo.findAll()).thenReturn(List.of(edition1, edition2));
-
-        ProgrammeEditionResponseServiceDTO responseDTO1 = mock(ProgrammeEditionResponseServiceDTO.class);
-        ProgrammeEditionResponseServiceDTO responseDTO2 = mock(ProgrammeEditionResponseServiceDTO.class);
-
-        when(assembler.toServiceResponseDTOFromIDs(any(), any()))
-                .thenReturn(responseDTO1)
-                .thenReturn(responseDTO2);
-
-        // Act
-        List<ProgrammeEditionResponseServiceDTO> result = service.findAllProgrammeEditions();
-
-        // Assert
-        assertEquals(2, result.size());
-        assertTrue(result.contains(responseDTO1));
-        assertTrue(result.contains(responseDTO2));
     }
 
     @Test

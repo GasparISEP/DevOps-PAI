@@ -7,7 +7,7 @@ title As a Programme Director, I want to know the approval percentage of a cours
 actor ProgrammeDirector as "**P**rogramme  **D**irector"
 
 rectangle "<<PAI System>>" {
-    usecase "Calculate the approval rate of a Course Edition" as usecase
+    usecase "Find the approval rate of a Course Edition" as usecase
 }
 
 ProgrammeDirector --> usecase

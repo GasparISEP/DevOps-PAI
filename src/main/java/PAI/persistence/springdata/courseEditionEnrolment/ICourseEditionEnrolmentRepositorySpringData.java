@@ -24,4 +24,5 @@ public interface ICourseEditionEnrolmentRepositorySpringData extends JpaReposito
 
     List<CourseEditionEnrolmentDataModel> findById_StudentID (StudentIDDataModel studentID);
 
+    List<CourseEditionEnrolmentDataModel> findById_StudentIDAndActiveTrue(StudentIDDataModel studentIDData);
 }

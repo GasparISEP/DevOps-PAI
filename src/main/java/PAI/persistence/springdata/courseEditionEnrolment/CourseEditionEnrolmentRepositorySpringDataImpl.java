@@ -142,15 +142,25 @@ public class CourseEditionEnrolmentRepositorySpringDataImpl implements ICourseEd
             throw new IllegalArgumentException("Entity cannot be null!");
         }
 
-        Optional<CourseEditionEnrolmentDataModel> entitySaved = iCEEMapper.toDataModel(entity);
-
-        if (entitySaved.isEmpty()) {
-            throw new IllegalArgumentException("Entity cannot be empty!");
+        Optional<CourseEditionEnrolmentIDDataModel> dataModelIdOpt = iCEEIDMapper.toDataModel(entity.identity());
+        if (dataModelIdOpt.isEmpty()) {
+            throw new IllegalArgumentException("Could not map domain ID to data model ID for saving.");
         }
 
-        CourseEditionEnrolmentDataModel ceeDataModel = iCEERepoSpringData.save(entitySaved.get());
+        CourseEditionEnrolmentIDDataModel dataModelId = dataModelIdOpt.get();
+        CourseEditionEnrolmentDataModel ceeDataModel;
+        Optional<CourseEditionEnrolmentDataModel> existingDataModelOpt = iCEERepoSpringData.findById(dataModelId);
 
-        Optional<CourseEditionEnrolment> courseEditionEnrolment = iCEEMapper.toDomain(ceeDataModel);
+        if (existingDataModelOpt.isPresent()) {
+            ceeDataModel = existingDataModelOpt.get();
+            iCEEMapper.updateDataModelFromDomain(entity, ceeDataModel);
+        } else {
+            ceeDataModel = iCEEMapper.toDataModel(entity)
+                    .orElseThrow(() -> new IllegalArgumentException("Could not map domain entity to new data model for saving."));
+        }
+
+        CourseEditionEnrolmentDataModel savedDataModel = iCEERepoSpringData.save(ceeDataModel);
+        Optional<CourseEditionEnrolment> courseEditionEnrolment = iCEEMapper.toDomain(savedDataModel);
 
         if (courseEditionEnrolment.isEmpty()) {
             throw new IllegalArgumentException("Course Edition Enrolment cannot be empty!");
@@ -233,5 +243,20 @@ public class CourseEditionEnrolmentRepositorySpringDataImpl implements ICourseEd
                 .toList();
     }
 
+    @Override
+    public List<CourseEditionEnrolment> findActiveEnrolmentsByStudentID(StudentID studentID) {
+        StudentIDDataModel studentIDData = iStudentIDMapper.domainToDataModel(studentID);
+        List<CourseEditionEnrolmentDataModel> dataModels = iCEERepoSpringData.findById_StudentIDAndActiveTrue(studentIDData);
 
+        return dataModels.stream()
+                .map(dataModel -> {
+                    try {
+                        return iCEEMapper.toDomain(dataModel)
+                                .orElseThrow(() -> new RuntimeException("Empty Optional when mapping CourseEditionEnrolment"));
+                    } catch (Exception e) {
+                        throw new RuntimeException("Mapping failed", e);
+                    }
+                })
+                .toList();
+    }
 }

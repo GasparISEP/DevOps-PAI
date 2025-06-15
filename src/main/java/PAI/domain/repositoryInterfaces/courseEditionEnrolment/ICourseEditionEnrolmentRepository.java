@@ -29,4 +29,5 @@ public interface ICourseEditionEnrolmentRepository extends IRepository <CourseEd
 
     List<CourseEditionEnrolment> findByStudentID(StudentID studentID);
 
+    List<CourseEditionEnrolment> findActiveEnrolmentsByStudentID(StudentID studentID); // A clear, suitable name
 }

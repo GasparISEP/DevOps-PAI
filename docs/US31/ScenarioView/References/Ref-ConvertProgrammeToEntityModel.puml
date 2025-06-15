@@ -2,21 +2,24 @@
 autonumber
 
 participant "pCtrl:ProgrammeRestController" as C #implementation
+participant "p:Programme" as P #lightblue
 participant "pMapper:ProgrammeAssembler" as PA #lightgreen
-participant "programmeDTO:ProgrammeDTO" as PDTO
+participant "programmeIDDTO:ProgrammeIDDTO" as PDTO
 participant "pHATEOASAssembler:ProgrammeHATEOASAssembler" as PHA #lightblue
-participant "entityModel<ProgrammeDTO>:EntityModel<ProgrammeDTO>" as EM
+participant "entityModel<ProgrammeIDDTO>:EntityModel<ProgrammeIDDTO>" as EM
 
 activate C
-C -> PA ++: fromDomainToDTO(Programme)
-PA -> PDTO**: newProgrammeDTO (name, acronym, maxECTS \nquantSemesters, degreeTypeID, departmentID, teacherID)
+C -> P ++: P1.identity()
+P --> C --:programmeID
+C -> PA ++: toDTO(programmeID)
+PA -> PDTO**: newProgrammeIDDTO (acronym)
 activate PDTO
-PDTO --> PA--: programmeDTO
-PA --> C--: programmeDTO
-C -> PHA ++: toModel(programmeDTO)
-PHA -> EM**: newEntityModel(programmeDTO)
+PDTO --> PA--: programmeIDDTO
+PA --> C--: programmeIDDTO
+C -> PHA ++: toModel(programmeIDDTO)
+PHA -> EM**: newEntityModel(programmeIDDTO)
 activate EM
-EM --> PHA --: entityModel<ProgrammeDTO>
-PHA --> C --: entityModel<ProgrammeDTO>
+EM --> PHA --: entityModel<ProgrammeIDDTO>
+PHA --> C --: entityModel<ProgrammeIDDTO>
 
 @enduml

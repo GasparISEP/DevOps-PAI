@@ -21,7 +21,7 @@ class CourseInStudyPlanGeneratedIDTest {
                 IllegalArgumentException.class,
                 () -> new CourseInStudyPlanGeneratedID(null)
         );
-        assertEquals("Course In Study Plan Generated ID cannot be null", exception.getMessage());
+        assertEquals("Course In Study Plan Generated ID cannot be null.", exception.getMessage());
     }
 
     @Test
@@ -44,7 +44,7 @@ class CourseInStudyPlanGeneratedIDTest {
                 IllegalArgumentException.class,
                 () -> CourseInStudyPlanGeneratedID.fromString(null)
         );
-        assertEquals("ID string cannot be null or empty", exception.getMessage());
+        assertEquals("ID string cannot be null or blank.", exception.getMessage());
     }
 
     @Test
@@ -53,7 +53,7 @@ class CourseInStudyPlanGeneratedIDTest {
                 IllegalArgumentException.class,
                 () -> CourseInStudyPlanGeneratedID.fromString("")
         );
-        assertEquals("ID string cannot be null or empty", exception.getMessage());
+        assertEquals("ID string cannot be null or blank.", exception.getMessage());
     }
 
     @Test

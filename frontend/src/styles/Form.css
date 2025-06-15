@@ -28,6 +28,7 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    z-index: 1;
 }
 
 .form-logo-img-div {
@@ -179,3 +180,14 @@ select.form-input {
     font-size: 12px;
     margin-top: 5px;
 }
+
+.react-datepicker {
+    font-size: 10rem;
+    padding: 0.1rem;
+    transform: scale(1.7);
+    transform-origin: top left;
+}
+
+
+
+

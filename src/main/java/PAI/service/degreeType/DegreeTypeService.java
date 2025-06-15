@@ -1,6 +1,7 @@
 package PAI.service.degreeType;
 
 import PAI.VOs.DegreeTypeID;
+import PAI.VOs.DepartmentID;
 import PAI.VOs.MaxEcts;
 import PAI.VOs.Name;
 import PAI.domain.degreeType.DegreeType;
@@ -35,7 +36,8 @@ public class DegreeTypeService implements IDegreeTypeService {
         repository.save(degreeType);
         return true;
     }
-@Override
+
+    @Override
     public boolean registerDegreeTypeWithUUID(DegreeTypeID degreeTypeID, Name name, MaxEcts maxEcts) throws Exception {
         DegreeType degreeType = factory.recreate(degreeTypeID,name,maxEcts);
 
@@ -48,8 +50,6 @@ public class DegreeTypeService implements IDegreeTypeService {
         repository.save(degreeType);
         return true;
     }
-
-
 
     @Override
     public Optional<DegreeType> getDegreeTypeById(DegreeTypeID id) {

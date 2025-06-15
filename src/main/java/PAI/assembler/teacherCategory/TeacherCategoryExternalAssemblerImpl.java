@@ -50,7 +50,7 @@ public class TeacherCategoryExternalAssemblerImpl implements ITeacherCategoryExt
     @Override
     public TeacherCategoryResponseDTO fromDomainToDTO(TeacherCategory teacherCategory){
         if(teacherCategory == null) throw new IllegalArgumentException("TeacherCategory cannot be null");
-        return new TeacherCategoryResponseDTO(teacherCategory.getName().getName(),teacherCategory.identity().toString());
+        return new TeacherCategoryResponseDTO(teacherCategory.identity().toString(), teacherCategory.getName().getName());
 
     }
 

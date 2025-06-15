@@ -7,10 +7,10 @@ title Convert CourseEditionDataModel to CourseEdition
 participant "mapper:CourseEditionMapperImpl" as Mapper #burlywood
 participant "ceDM:CourseEditionDataModel" as CEDataModel #lightyellow
 
-participant "courseEditionIDMapper" as CEIDMapper #orange
-participant "programmeEditionIDMapper" as PEIDMapper #orange
-participant "courseInStudyPlanIDMapper" as CSPIDMapper #orange
-participant "teacherIDMapper" as TIDMapper #orange
+participant "mapper:CourseEditionIDMapper" as CEIDMapper #orange
+participant "mapper:ProgrammeEditionIDMapper" as PEIDMapper #orange
+participant "mapper:CourseInStudyPlanIDMapper" as CSPIDMapper #orange
+participant "mapper:TeacherIDMapper" as TIDMapper #orange
 participant "factory:ICourseEditionFactory" as Factory #pink
 
 Mapper -> CEDataModel : getCourseEditionIDDataModel()
@@ -50,4 +50,5 @@ activate Factory
 Factory --> Mapper : CourseEdition
 deactivate Factory
 
+deactivate Mapper
 @enduml

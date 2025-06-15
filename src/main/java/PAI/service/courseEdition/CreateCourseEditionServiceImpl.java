@@ -1,7 +1,7 @@
 package PAI.service.courseEdition;
 
 import PAI.VOs.*;
-import PAI.assembler.courseEdition.ICourseEditionAssembler;
+import PAI.assembler.courseEdition.CourseEditionServiceAssemblerImpl;
 import PAI.assembler.courseEdition.ICourseEditionServiceAssembler;
 import PAI.domain.courseEdition.CourseEdition;
 import PAI.domain.courseEdition.ICourseEditionFactory;
@@ -16,7 +16,11 @@ import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
 import PAI.domain.repositoryInterfaces.programmeEdition.IProgrammeEditionRepository;
 import PAI.domain.repositoryInterfaces.studyPlan.IStudyPlanRepository;
 import PAI.domain.studyPlan.StudyPlan;
-import PAI.dto.courseEdition.CourseEditionResponseDTO;
+import PAI.dto.courseEdition.CourseEditionServiceResponseDTO;
+import PAI.dto.courseEdition.CreateCourseEditionCommand;
+import PAI.exception.AlreadyRegisteredException;
+import PAI.exception.BusinessRuleViolationException;
+import PAI.exception.CourseEditionCreationException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -64,7 +68,43 @@ public class CreateCourseEditionServiceImpl implements ICreateCourseEditionServi
         this.courseInStudyPlanRepository = courseInStudyPlanRepository;
         this.programmeEditionRepository = programmeEditionRepository;
         this.courseEditionAssembler = courseEditionAssembler;
+
     }
+
+    @Override
+    public CourseEditionServiceResponseDTO createCourseEditionForRestApi(CreateCourseEditionCommand command) {
+        if (command == null)
+            throw new IllegalArgumentException("CreateCourseEditionCommand cannot be null.");
+
+        ProgrammeID programmeID = new ProgrammeID(command.programmeAcronym());
+        Date studyPlanDate = command.studyPlanImplementationDate();
+
+        CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(
+                new CourseID(command.courseAcronym(), command.courseName()),
+                new StudyPlanID(programmeID, studyPlanDate)
+        );
+
+        ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(
+                programmeID,
+                command.schoolYearID()
+        );
+
+        CourseEdition courseEdition = courseEditionFactory.createCourseEditionToDomain(courseInStudyPlanID, programmeEditionID);
+
+        CourseEditionID courseEditionID = courseEdition.identity();
+
+        if (courseEditionRepository.containsOfIdentity(courseEditionID))
+            throw new AlreadyRegisteredException("CourseEdition");
+
+        try {
+            CourseEdition saved = courseEditionRepository.save(courseEdition);
+            return courseEditionAssembler.toServiceResponseDTO(saved);
+        } catch (Exception e) {
+            throw new CourseEditionCreationException("Failed to create CourseEdition.", e);
+        }
+
+    }
+
 
     @Override
     public CourseEdition createAndSaveCourseEdition(CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) {
@@ -140,16 +180,26 @@ public class CreateCourseEditionServiceImpl implements ICreateCourseEditionServi
     }
 
     @Override
-    public Iterable<CourseEdition> findAll () {
-        return courseEditionRepository.findAll();
+    public List<CourseEditionServiceResponseDTO> findAll() {
+        Iterable<CourseEdition> allCourseEditions = courseEditionRepository.findAll();
+
+        List<CourseEditionServiceResponseDTO> dtoList = new ArrayList<>();
+
+        for (CourseEdition courseEdition : allCourseEditions) {
+            dtoList.add(courseEditionAssembler.toServiceResponseDTO(courseEdition));
+        }
+        return dtoList;
     }
 
-    @Override
-    public CourseEditionResponseDTO createCourseEditionAndReturnDTO(CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) {
+    /*@Override
+    public CourseEditionServiceResponseDTO createCourseEditionAndReturnDTO(CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) {
         CourseEdition created = createAndSaveCourseEdition(courseInStudyPlanID, programmeEditionID);
         if (created == null) {
             return null;
         }
         return courseEditionAssembler.toResponseDTO(created);
-    }
+    }*/
 }
+
+
+

@@ -6,6 +6,8 @@ import PAI.VOs.Name;
 import PAI.domain.degreeType.DegreeType;
 import PAI.domain.degreeType.IDegreeTypeFactory;
 import PAI.domain.repositoryInterfaces.degreeType.IDegreeTypeRepository;
+import PAI.service.programme.IProgrammeService;
+import PAI.service.programme.ProgrammeServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -183,6 +185,4 @@ class DegreeTypeServiceTest {
         verify(factory).recreate(id, name, ects);
         verifyNoMoreInteractions(factory, repository);
     }
-
-
 }

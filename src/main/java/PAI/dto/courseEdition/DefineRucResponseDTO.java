@@ -4,4 +4,4 @@ import java.util.UUID;
 
 public record DefineRucResponseDTO(
         String teacherID,
-        UUID courseEditionID) {}
+        UUID courseEditionGeneratedID) {}

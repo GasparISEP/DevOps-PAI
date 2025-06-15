@@ -58,4 +58,15 @@ public class CourseEditionEnrolmentMapperImpl implements ICourseEditionEnrolment
         EnrolmentStatus enrolmentStatus = new EnrolmentStatus(dataModel.isActive());
         return Optional.of(_factory.createWithEnrolmentDateAndUUID(generatedID, studentID, courseEditionID, enrolmentDate, enrolmentStatus));
     }
+
+    @Override
+    public void updateDataModelFromDomain(CourseEditionEnrolment domain, CourseEditionEnrolmentDataModel dataModel) {
+        if (domain == null) {
+            throw new IllegalArgumentException("Domaincannot be null for update.");
+        }
+        else if (dataModel == null) {
+            throw new IllegalArgumentException("DataModel cannot be null for update.");
+        }
+        dataModel.setActive(domain.isEnrolmentActive());
+    }
 }

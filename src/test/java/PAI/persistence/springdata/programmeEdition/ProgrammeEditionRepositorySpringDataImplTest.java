@@ -1047,7 +1047,7 @@ class ProgrammeEditionRepositorySpringDataImplTest {
     }
 
     @Test
-    void shouldThrowRuntimeExceptionWhenMethodfindProgrammeEditionIDsBySchoolYearIDAndProgrammeIDsFailsToMapProgrammeEditionIDFromDataModelToDomain() throws Exception {
+    void shouldThrowRuntimeExceptionWhenMethodfindProgrammeEditionIDsBySchoolYearIDAndProgrammeIDsFailsToMapProgrammeEditionIDFromDataModelToDomain() {
         // Arrange
         IProgrammeEditionRepositorySpringData iProgrammeEditionRepositorySpringData = mock(IProgrammeEditionRepositorySpringData.class);
         IProgrammeEditionMapper iProgrammeEditionMapper = mock(IProgrammeEditionMapper.class);
@@ -1076,14 +1076,16 @@ class ProgrammeEditionRepositorySpringDataImplTest {
         when(iProgrammeEditionRepositorySpringData.findProgrammeEditionIDsBySchoolYearIdAndProgrammeIds(schoolYearIDDataModel, List.of(programmeIDDataModel)))
                 .thenReturn(List.of(invalidDataModel));
 
-        when(iProgrammeEditionIdMapper.toDomain(invalidDataModel)).thenThrow(new Exception("Invalid data model"));
+        when(iProgrammeEditionIdMapper.toDomain(invalidDataModel)).thenThrow(new RuntimeException("Invalid data model"));
 
         // Act
-        RuntimeException thrown = assertThrows(RuntimeException.class, () -> {repository.findProgrammeEditionIDsBySchoolYearIDAndProgrammeIDs(schoolYearID, programmeIDs);});
+        RuntimeException thrown = assertThrows(RuntimeException.class, () -> {
+            repository.findProgrammeEditionIDsBySchoolYearIDAndProgrammeIDs(schoolYearID, programmeIDs);
+        });
 
         // Assert
         assertTrue(thrown.getMessage().contains("Error mapping ProgrammeEditionIdDataModel"));
-        assertInstanceOf(Exception.class, thrown.getCause());
+        assertInstanceOf(RuntimeException.class, thrown.getCause());
         assertEquals("Invalid data model", thrown.getCause().getMessage());
     }
 }

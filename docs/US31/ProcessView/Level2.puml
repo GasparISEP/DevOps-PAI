@@ -36,7 +36,7 @@ BE -> BD ++: **SELECT EXISTS** isAcronymRegistered (acronym)
 BD --> BE --: False
 BE -> BD ++: **INSERT** save (programmeDataModel)
 BD --> BE --: programme
-BE --> FE --: (201, Created) + body {programmeDTO + hypermedia}
+BE --> FE --: (201, Created) + body {programmeIDDTO + hypermedia}
 FE --> Admin --: Programme registered successfully! \n(Display Programme details)
 
 @enduml

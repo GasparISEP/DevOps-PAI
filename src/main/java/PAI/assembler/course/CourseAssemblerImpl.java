@@ -1,12 +1,10 @@
 package PAI.assembler.course;
 
-import PAI.VOs.Acronym;
-import PAI.VOs.CourseID;
-import PAI.VOs.Name;
-import PAI.VOs.ProgrammeID;
+import PAI.VOs.*;
 import PAI.domain.course.Course;
 import PAI.domain.teacher.Teacher;
 import PAI.dto.Programme.ProgrammeIDDTO;
+import PAI.dto.ProgrammeAndCourses.AvailableCoursesInfoRspDTO;
 import PAI.dto.course.CourseDTOCommand;
 import PAI.dto.course.CourseIDDTO;
 import PAI.dto.course.CourseRequestDTO;
@@ -68,5 +66,24 @@ public class CourseAssemblerImpl implements ICourseAssembler {
             listDTO.add(courseResponseDTO);
         }
         return listDTO;
+    }
+
+    public AvailableCoursesInfoRspDTO toAvailableCourseDTO (AvailableCourseInfo availableCourseInfo){
+        if (availableCourseInfo == null) throw new IllegalArgumentException("Available course cannot be null");
+        String acronym = availableCourseInfo.courseID().getAcronym().toString();
+        String name = availableCourseInfo.courseID().getName().getName();
+        double qtyECTs = availableCourseInfo.qtyEcts().getQuantity();
+        int curricularYear = availableCourseInfo.curricularYear().toInt();
+        int semester = availableCourseInfo.semester().toInt();
+        return new AvailableCoursesInfoRspDTO(acronym,name,qtyECTs,curricularYear,semester);
+    }
+
+    public List<AvailableCoursesInfoRspDTO> toAvailableCourseDTOs (List<AvailableCourseInfo> list){
+        List<AvailableCoursesInfoRspDTO> result = new ArrayList<>();
+        for (AvailableCourseInfo existingOne : list){
+            AvailableCoursesInfoRspDTO availableCoursesInfoRspDTO = toAvailableCourseDTO(existingOne);
+            result.add(availableCoursesInfoRspDTO);
+        }
+        return result;
     }
 }

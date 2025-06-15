@@ -4,13 +4,13 @@ skinparam sequenceMessageAlign center
 skinparam sequenceLifeLineBackgroundColor lightblue
 title Convert StudentGradeDataModel to StudentGrade
 
-participant "SGService" as SGService #lightblue
-participant "StudentGradeMapperImpl" as Mapper #burlywood
+participant "service:SGService" as SGService #lightblue
+participant "mapper:StudentGradeMapperImpl" as Mapper #burlywood
 
-participant "StudentIDMapperImpl" as StudentIDMapper #orange
-participant "CourseEditionIDMapperImpl" as CEIDMapper #orange
-participant "StudentGradeIDMapper" as SGIDMapper #orange
-participant "StudentGradeFactory" as Factory #pink
+participant "mapper:StudentIDMapperImpl" as StudentIDMapper #orange
+participant "mapper:CourseEditionIDMapperImpl" as CEIDMapper #orange
+participant "mapper:StudentGradeIDMapper" as SGIDMapper #orange
+participant "factory:StudentGradeFactory" as Factory #pink
 
 SGService -> Mapper : toDomain(studentGradeDM)
 activate Mapper

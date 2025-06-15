@@ -18,7 +18,7 @@ spring:
       enabled: true
       path: /h2-console
   profiles:
-    active: teacher,programme,programmeEnrolment,course-edition-enrolment,programme-edition-enrolment,programme-edition,studyPlan
+    active: studentGrade-direct,teacher,programme,programmeEnrolment,course-edition-enrolment,programme-edition-enrolment,programme-edition,studyPlan
   main:
     log-startup-info: true
 

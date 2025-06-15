@@ -29,7 +29,7 @@ public class ProgrammeEditionIdMapperImpl implements IProgrammeEditionIdMapper {
     }
 
     @Override
-    public ProgrammeEditionID toDomain(ProgrammeEditionIdDataModel programmeEditionIdDataModel) throws Exception {
+    public ProgrammeEditionID toDomain(ProgrammeEditionIdDataModel programmeEditionIdDataModel){
         ProgrammeIDDataModel programmeIDDataModel = programmeEditionIdDataModel.getProgrammeIdDataModel();
         SchoolYearIDDataModel schoolYearIDDataModel = programmeEditionIdDataModel.getSchoolYearIDDataModel();
 
@@ -40,7 +40,7 @@ public class ProgrammeEditionIdMapperImpl implements IProgrammeEditionIdMapper {
     }
 
     @Override
-    public ProgrammeEditionIdDataModel toDataModel(ProgrammeEditionID programmeEditionId) throws Exception {
+    public ProgrammeEditionIdDataModel toDataModel(ProgrammeEditionID programmeEditionId){
         ProgrammeID programmeID = programmeEditionId.getProgrammeID();
         SchoolYearID schoolYearID = programmeEditionId.getSchoolYearID();
 

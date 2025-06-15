@@ -5,6 +5,7 @@ import PAI.assembler.programme.IProgrammeAssembler;
 import PAI.domain.degreeType.DegreeType;
 import PAI.domain.programme.Programme;
 import PAI.domain.programme.IProgrammeFactory;
+import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
 import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
 import PAI.dto.Programme.ProgrammeDTO;
 import PAI.dto.Programme.ProgrammeIDDTO;
@@ -13,6 +14,8 @@ import PAI.exception.AlreadyRegisteredException;
 import PAI.exception.BusinessRuleViolationException;
 import PAI.exception.NotFoundException;
 import PAI.service.degreeType.IDegreeTypeRegistrationService;
+import PAI.service.department.IDepartmentService;
+import PAI.service.teacher.ITeacherService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -26,9 +29,11 @@ public class ProgrammeServiceImpl implements IProgrammeService {
     private final IProgrammeRepository _programmeRepository;
     private final IProgrammeAssembler _programmeAssembler;
     private final IDegreeTypeRegistrationService _degreeTypeService;
+    private final IDepartmentService _departmentService;
+    private final ITeacherService _teacherService;
 
     public ProgrammeServiceImpl(IProgrammeFactory programmeFactory, IProgrammeRepository programmeRepository,
-                                IProgrammeAssembler programmeAssembler, IDegreeTypeRegistrationService degreeTypeService) {
+                                IProgrammeAssembler programmeAssembler, IDegreeTypeRegistrationService degreeTypeService, IDepartmentService departmentService, ITeacherService teacherService) {
 
         if (programmeFactory == null) {
             throw new IllegalArgumentException("Programme Factory cannot be null");
@@ -46,9 +51,19 @@ public class ProgrammeServiceImpl implements IProgrammeService {
         this._programmeAssembler = programmeAssembler;
 
         if (degreeTypeService == null)
-            throw new IllegalArgumentException("Degree Type Registration Service cannot be null");
+            throw new IllegalArgumentException("Degree Type Service cannot be null");
 
         _degreeTypeService = degreeTypeService;
+
+        if (departmentService == null)
+            throw new IllegalArgumentException("Department Service cannot be null");
+
+        _departmentService = departmentService;
+
+        if (teacherService == null)
+            throw new IllegalArgumentException("Teacher Service cannot be null");
+
+        _teacherService = teacherService;
     }
 
     public Programme registerProgramme(ProgrammeVOsDTO programmeVOsDTO) throws Exception {
@@ -154,13 +169,10 @@ public class ProgrammeServiceImpl implements IProgrammeService {
         return _programmeRepository.findAll();
     }
 
-    public Optional<Programme> getProgrammeByID(ProgrammeID id) {
-        for (Programme programme : _programmeRepository.findAll()) {
-            if (programme.identity().equals(id)) {
-                return Optional.of(programme);
-            }
-        }
-        return Optional.empty();
+    @Override
+    public Optional<ProgrammeDTO> getProgrammeByID(ProgrammeID id) {
+        return _programmeRepository.ofIdentity(id)
+                .map(_programmeAssembler::fromDomainToDTO);
     }
 
     @Override
@@ -207,5 +219,14 @@ public class ProgrammeServiceImpl implements IProgrammeService {
             programmeDTOS.add(programmeDTO);
         }
         return programmeDTOS;
+    }
+
+    public List<Programme> getProgrammesByProgrammeIDs (List<ProgrammeID> list) {
+        List<Programme> programmeList = new ArrayList<>();
+        for (ProgrammeID everyProgID : list) {
+            Optional<Programme> programme = _programmeRepository.ofIdentity(everyProgID);
+            programme.ifPresent(programmeList::add);
+        }
+        return programmeList;
     }
 }

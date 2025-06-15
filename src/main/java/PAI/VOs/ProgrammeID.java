@@ -33,6 +33,6 @@ public class ProgrammeID implements DomainId {
     }
 
     public String getProgrammeAcronym() {
-        return _acronym.toString(); // ou _acronym.getValue()
+        return _acronym.getAcronym(); // ou _acronym.getValue()
     }
 }

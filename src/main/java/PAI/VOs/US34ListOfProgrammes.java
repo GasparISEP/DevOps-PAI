@@ -1,4 +1,8 @@
 package PAI.VOs;
+import java.util.List;
 
-public class US34ListOfProgrammes {
+public record US34ListOfProgrammes (
+        List<ProgrammeSummary> programmeInfo,
+        Name studentName
+) {
 }

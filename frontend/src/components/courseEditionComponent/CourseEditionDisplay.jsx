@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { Link } from "react-router-dom";
 import '../../styles/DisplayPage.css';
 import '../../styles/Buttons.css';
@@ -9,12 +9,46 @@ export default function CourseEditionDisplay() {
     const [currentPage, setCurrentPage] = useState(1);
     const [courseEditionsPerPage, setCourseEditionsPerPage] = useState(10);
     const courseEditionsPerPageOptions = [5, 10, 20, 50];
-    const totalPages = Math.ceil(courseEditions.length / courseEditionsPerPage);
+
+    const [filterField, setFilterField] = useState('programme acronym');
+    const [filterValue, setFilterValue] = useState('');
+
+    const filteredCourseEditions = courseEditions.filter(edition => {
+        if (!filterValue.trim()) return true;
+
+        const value = {
+            'programme acronym': edition.programmeAcronym,
+            'course name': edition.courseName,
+            'course acronym': edition.courseAcronym
+        }[filterField];
+
+        return value?.toLowerCase().includes(filterValue.toLowerCase());
+    });
+
+    const totalPages = Math.ceil(filteredCourseEditions.length / courseEditionsPerPage);
     const startIndex = (currentPage - 1) * courseEditionsPerPage;
     const endIndex = startIndex + courseEditionsPerPage;
-    const currentItems = courseEditions.slice(startIndex, endIndex);
-    const [filterField, setFilterField] = useState('programme name');
-    const [filterValue, setFilterValue] = useState('');
+    const currentItems = filteredCourseEditions.slice(startIndex, endIndex);
+
+    useEffect(() => {
+        async function fetchCourseEditions() {
+            try {
+                const courseEditionRes = await fetch(`${process.env.REACT_APP_API_URL}/course-editions`)
+
+                const courseEditionsData = await courseEditionRes.json();
+
+                //setCourseEditions(courseEditionsData._embedded?.courseDTOList || []);
+                setCourseEditions(courseEditionsData);
+            } catch (err) {
+                console.error("Failed to load Course Editions:", err);
+            }
+        }
+        fetchCourseEditions();
+    }, []);
+
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [courseEditionsPerPage, filterField, filterValue]);
 
     function PaginationButton({ onClick, disabled, children }) {
         return (
@@ -52,7 +86,7 @@ export default function CourseEditionDisplay() {
                                 value={filterField}
                                 onChange={e => setFilterField(e.target.value)}
                                 className="display-table-filter-select">
-                                <option value="programme name">Programme Name</option>
+                                <option value="programme acronym">Programme Acronym</option>
                                 <option value="course name">Course Name</option>
                                 <option value="course acronym">Course Acronym</option>
                             </select>
@@ -61,7 +95,7 @@ export default function CourseEditionDisplay() {
                                 value={filterValue}
                                 onChange={e => setFilterValue(e.target.value)}
                                 placeholder={`Search by ${
-                                    filterField === 'programme name' ? 'Programme Name' :
+                                    filterField === 'programme acronym' ? 'Programme Acronym' :
                                         filterField === 'course name' ? 'Course Name' :
                                             filterField === 'course acronym' ? 'Course Acronym' :
                                                 ''
@@ -74,21 +108,29 @@ export default function CourseEditionDisplay() {
                         <table className="display-form-table">
                             <thead>
                             <tr>
-                                <th>Programme Name</th>
+                                <th>Programme Acronym</th>
                                 <th>Course Name</th>
                                 <th>Course Acronym</th>
                                 <th>School Year</th>
                             </tr>
                             </thead>
                             <tbody>
-                            {currentItems.map((edition, index) => (
-                                <tr key={index}>
-                                    <td>{edition.programmeName}</td>
-                                    <td>{edition.courseName}</td>
-                                    <td>{edition.courseAcronym}</td>
-                                    <td>{edition.schoolYear}</td>
+                            {currentItems.length === 0 ? (
+                                <tr>
+                                    <td colSpan="4" style={{ textAlign: 'center', fontWeight: 'bold' }}>
+                                        No results found.
+                                    </td>
                                 </tr>
-                            ))}
+                            ) : (
+                                currentItems.map((edition, index) => (
+                                    <tr key={index}>
+                                        <td>{edition.programmeAcronym}</td>
+                                        <td>{edition.courseName}</td>
+                                        <td>{edition.courseAcronym}</td>
+                                        <td>{edition.schoolYearID}</td>
+                                    </tr>
+                                ))
+                            )}
                             </tbody>
                         </table>
                     </div>

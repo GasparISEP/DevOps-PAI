@@ -7,6 +7,7 @@ import PAI.domain.repositoryInterfaces.student.IStudentRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.StreamSupport;
 
 @Service
@@ -54,4 +55,16 @@ public class StudentServiceImpl implements IStudentService {
         Iterable<Student> iterable = _studentRepository.findAll();
         return StreamSupport.stream(iterable.spliterator(), false).toList(); // ou .collect(...)
     }
+
+    public Name getNameByStudentID(StudentID studentID) {
+        return _studentRepository.ofIdentity(studentID)
+                .map(Student::getStudentName)
+                .orElseThrow(() -> new IllegalArgumentException("Student not found with ID: " + studentID));
+    }
+
+    @Override
+    public Optional<Student> findByID(StudentID studentID) {
+        return _studentRepository.ofIdentity(studentID);
+    }
+
 }

@@ -1,8 +1,6 @@
 package PAI.controller;
 
-import PAI.VOs.CourseEditionID;
-import PAI.VOs.ProgrammeEditionID;
-import PAI.VOs.StudentID;
+import PAI.VOs.*;
 import PAI.service.courseEditionEnrolment.ICourseEditionEnrolmentService;
 import org.springframework.stereotype.Component;
 
@@ -34,9 +32,9 @@ public class US16_EnrolAStudentInACourseEditionController {
     }
 
     //enrol a student in a course edition
-    public boolean enrolStudentInCourseEdition(StudentID studentId, CourseEditionID courseEditionId) {
+    public boolean enrolStudentInCourseEdition(CourseEditionEnrolmentGeneratedID uuid, StudentID studentId, CourseEditionID courseEditionId, Date enrolmentDate, EnrolmentStatus status) {
 
-        return _courseEditionEnrolmentServiceInterface.enrolStudentInACourseEdition(studentId, courseEditionId);
+        return _courseEditionEnrolmentServiceInterface.enrolStudentInACourseEditionFromPersistence(uuid, studentId, courseEditionId, enrolmentDate, status);
     }
 
     //verify if the course edition enrollment service interface is valid

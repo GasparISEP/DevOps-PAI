@@ -32,44 +32,29 @@ public class CourseEditionAssemblerImpl implements ICourseEditionAssembler {
     }
 
     @Override
-    public CourseEditionResponseDTO toResponseDTO(CourseEdition courseEdition) {
-        if (courseEdition == null) {
+    public CourseEditionResponseDTO toResponseDTO(CourseEditionServiceResponseDTO courseEditionServiceDTO) {
+        if (courseEditionServiceDTO == null) {
             throw new IllegalArgumentException("CourseEdition cannot be null");
         }
-        CourseInStudyPlanID cspID = courseEdition.getCourseInStudyPlanID();
-        ProgrammeEditionID peID = courseEdition.getProgrammeEditionID();
 
-        ProgrammeID programmeID = peID.getProgrammeID();
-        SchoolYearID schoolYearID = peID.getSchoolYearID();
-
-        String formattedID = URLEncoder.encode(
-                programmeID.getProgrammeAcronym() + "-" +
-                        schoolYearID.getSchoolYearID() + "_" +
-                        cspID.getCourseID().getCourseAcronymValue() + "-" +
-                        cspID.getCourseID().getCourseNameValue() + "-" +
-                        cspID.getStudyPlanID().getProgrammeID().getProgrammeAcronym() + "-" +
-                        cspID.getStudyPlanID().getLocalDate().toString(), // yyyy-MM-dd
-                StandardCharsets.UTF_8
-        );
-
-        System.out.println("formattedID: " + formattedID);
 
         return new CourseEditionResponseDTO(
-                programmeID.getProgrammeAcronym(),
-                schoolYearID.getSchoolYearID(),
-                cspID.getCourseID().getCourseAcronymValue(),
-                cspID.getCourseID().getCourseNameValue(),
-                cspID.getStudyPlanID().getLocalDate(),
-                formattedID
+                courseEditionServiceDTO.courseEditionGeneratedID(),
+                courseEditionServiceDTO.programmeAcronym(),
+                courseEditionServiceDTO.schoolYearID(),
+                courseEditionServiceDTO.courseAcronym(),
+                courseEditionServiceDTO.courseName(),
+                courseEditionServiceDTO.studyPlanImplementationDate(),
+                courseEditionServiceDTO.courseEditionID()
                 );
     }
 
     @Override
-    public List<CourseEditionResponseDTO> toResponseDTOList(List<CourseEditionID> courseEditionIDs){
+    public List<CourseEditionResponseIDDTO> toResponseIDDTOList(List<CourseEditionID> courseEditionIDs){
         if (courseEditionIDs == null) {
             throw new IllegalArgumentException("CourseEditionIDs cannot be null");
         }
-        List<CourseEditionResponseDTO> courseEditionResponseDTOs = new ArrayList<>();
+        List<CourseEditionResponseIDDTO> courseEditionResponseIDDTOs = new ArrayList<>();
         for (CourseEditionID courseEditionID : courseEditionIDs) {
             String courseEditionIDToDto = courseEditionID.toString();
             String programmeAcronym = courseEditionID.getProgrammeEditionID().getProgrammeID().getProgrammeAcronym();
@@ -77,10 +62,10 @@ public class CourseEditionAssemblerImpl implements ICourseEditionAssembler {
             String courseName = courseEditionID.getCourseInStudyPlanID().getCourseID().getCourseNameValue();
             String courseAcronym = courseEditionID.getCourseInStudyPlanID().getCourseID().getCourseAcronymValue();
             LocalDate studyPlanImplementationDate = courseEditionID.getCourseInStudyPlanID().getStudyPlanID().getLocalDate();
-            CourseEditionResponseDTO  courseEditionResponseDTO = new CourseEditionResponseDTO(programmeAcronym, schoolYearID, courseAcronym, courseName, studyPlanImplementationDate, courseEditionIDToDto);
-            courseEditionResponseDTOs.add(courseEditionResponseDTO);
+            CourseEditionResponseIDDTO  courseEditionResponseIDDTO = new CourseEditionResponseIDDTO(programmeAcronym, schoolYearID, courseAcronym, courseName, studyPlanImplementationDate, courseEditionIDToDto);
+            courseEditionResponseIDDTOs.add(courseEditionResponseIDDTO);
         }
-        return courseEditionResponseDTOs;
+        return courseEditionResponseIDDTOs;
     }
 
     public TeacherID createTeacherID (String teacherID) {

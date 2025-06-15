@@ -362,14 +362,23 @@ class AvailableCoursesServiceImplTest {
         CourseID courseID2 = mock(CourseID.class);
         CourseQuantityCreditsEcts ects1 = mock(CourseQuantityCreditsEcts.class);
         CourseQuantityCreditsEcts ects2 = mock(CourseQuantityCreditsEcts.class);
+        CurricularYear curricularYear1 = mock(CurricularYear.class);
+        CurricularYear curricularYear2 = mock(CurricularYear.class);
+        Semester semester1 = mock(Semester.class);
+        Semester semester2 = mock(Semester.class);
+
 
         CourseInStudyPlan course1 = mock(CourseInStudyPlan.class);
         CourseInStudyPlan course2 = mock(CourseInStudyPlan.class);
 
         when(course1.getCourseID()).thenReturn(courseID1);
         when(course1.getQuantityOfCreditsEcts()).thenReturn(ects1);
+        when(course1.getCurricularYear()).thenReturn(curricularYear1);
+        when(course1.getSemester()).thenReturn(semester1);
         when(course2.getCourseID()).thenReturn(courseID2);
         when(course2.getQuantityOfCreditsEcts()).thenReturn(ects2);
+        when(course2.getCurricularYear()).thenReturn(curricularYear2);
+        when(course2.getSemester()).thenReturn(semester2);
 
         List<CourseInStudyPlan> inputList = List.of(course1, course2);
 
@@ -383,8 +392,8 @@ class AvailableCoursesServiceImplTest {
 
         // assert
         assertEquals(2, result.size());
-        assertEquals(new AvailableCourseInfo(courseID1, ects1), result.get(0));
-        assertEquals(new AvailableCourseInfo(courseID2, ects2), result.get(1));
+        assertEquals(new AvailableCourseInfo(courseID1, ects1,curricularYear1,semester1), result.get(0));
+        assertEquals(new AvailableCourseInfo(courseID2, ects2,curricularYear2,semester2), result.get(1));
     }
 
     @Test
@@ -434,6 +443,10 @@ class AvailableCoursesServiceImplTest {
         CourseID courseID2 = mock(CourseID.class);
         CourseQuantityCreditsEcts ects1 = mock(CourseQuantityCreditsEcts.class);
         CourseQuantityCreditsEcts ects2 = mock(CourseQuantityCreditsEcts.class);
+        CurricularYear curricularYear1 = mock(CurricularYear.class);
+        CurricularYear curricularYear2 = mock(CurricularYear.class);
+        Semester semester1 = mock(Semester.class);
+        Semester semester2 = mock(Semester.class);
 
         ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
         ICourseInStudyPlanRepository courseInStudyPlanRepository = mock(ICourseInStudyPlanRepository.class);
@@ -449,14 +462,18 @@ class AvailableCoursesServiceImplTest {
         when(csp2.getCourseID()).thenReturn(courseID2);
         when(csp1.getQuantityOfCreditsEcts()).thenReturn(ects1);
         when(csp2.getQuantityOfCreditsEcts()).thenReturn(ects2);
+        when((csp1.getCurricularYear())).thenReturn(curricularYear1);
+        when((csp2.getCurricularYear())).thenReturn(curricularYear2);
+        when(csp1.getSemester()).thenReturn(semester1);
+        when(csp2.getSemester()).thenReturn(semester2);
 
         // act
         List<AvailableCourseInfo> result = service.getListOfAvailableCourseInfoForAGivenProgrammeEdition(programmeEditionID);
 
         // assert
         assertEquals(2, result.size());
-        assertEquals(new AvailableCourseInfo(courseID1, ects1), result.get(0));
-        assertEquals(new AvailableCourseInfo(courseID2, ects2), result.get(1));
+        assertEquals(new AvailableCourseInfo(courseID1, ects1,curricularYear1,semester1), result.get(0));
+        assertEquals(new AvailableCourseInfo(courseID2, ects2,curricularYear2,semester2), result.get(1));
     }
 
     @Test

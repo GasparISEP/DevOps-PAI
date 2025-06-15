@@ -1,6 +1,7 @@
 package PAI.assembler.courseEdition;
 import PAI.controllerRest.CourseEditionRestController;
 import PAI.dto.courseEdition.CourseEditionResponseDTO;
+import PAI.dto.courseEdition.CourseEditionResponseIDDTO;
 import PAI.dto.courseEdition.DefineRucRequestDTO;
 import PAI.dto.courseEdition.DefineRucResponseDTO;
 import org.springframework.hateoas.EntityModel;
@@ -26,7 +27,7 @@ public class CourseEditionHateoasAssembler implements RepresentationModelAssembl
             );
             return EntityModel.of(dto,
                     linkTo(methodOn(CourseEditionRestController.class)
-                            .defineRucForCourseEdition(dto.courseEditionID(), requestDto))
+                            .defineRucForCourseEdition(dto.courseEditionGeneratedID(), requestDto))
                             .withRel("define-ruc"),
                     linkTo(methodOn(CourseEditionRestController.class)
                             .findAllCourseEditions())
@@ -38,11 +39,11 @@ public class CourseEditionHateoasAssembler implements RepresentationModelAssembl
     }
 
     @Override
-    public CollectionModel<EntityModel<CourseEditionResponseDTO>> toCollectionModel(List<CourseEditionResponseDTO> courseEditionResponseDTOs) {
-        List<EntityModel<CourseEditionResponseDTO>> listOfCourseEditionResponseDtosWithHypermedia = courseEditionResponseDTOs.stream()
+    public CollectionModel<EntityModel<CourseEditionResponseIDDTO>> toCollectionModel(List<CourseEditionResponseIDDTO> courseEditionResponseDTOs) {
+        List<EntityModel<CourseEditionResponseIDDTO>> listOfCourseEditionResponseDtosWithHypermedia = courseEditionResponseDTOs.stream()
             .map(dto -> EntityModel.of(dto,
                 linkTo(methodOn(CourseEditionRestController.class)
-                            .getCourseEditionApprovalRate(dto.programmeAcronym(), dto.schoolYearID().toString(), dto.courseAcronym(), dto.studyPlanImplementationDate().toString()))
+                            .getCourseEditionApprovalRate(dto.programmeAcronym(), dto.schoolYearID().toString(), dto.courseAcronym(), dto.courseName(), dto.studyPlanImplementationDate().toString()))
                             .withRel("approval-rate")
             ))
             .collect(Collectors.toList());

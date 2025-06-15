@@ -1,40 +1,46 @@
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8081';
 
-export async function gradeAStudent(gradeAStudentRequestDTO) {
-    const response = await fetch(`${API_URL}/courseeditions/studentgrades/register`, { // Corrigido o endpoint
+/**
+ * Register a student's grade using HATEOAS.
+ */
+export async function gradeAStudentWithLink(gradeAStudentRequestDTO) {
+    const response = await fetch(`${API_URL}/studentgrades/register/hateoas`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(gradeAStudentRequestDTO) // Corrigido o nome da variável
+        body: JSON.stringify(gradeAStudentRequestDTO)
     });
-
-    let responseData = null;
 
     if (!response.ok) {
         const contentType = response.headers.get("content-type");
+        let errorData;
+
         if (contentType && contentType.includes("application/json")) {
-            responseData = await response.json();
+            errorData = await response.json();
+            throw new Error(errorData.message || 'Error registering the grade');
         } else {
-            responseData = await response.text();
+            errorData = await response.text();
+            throw new Error(errorData);
         }
-        throw new Error(responseData.message || responseData);
     }
 
-    try {
-        responseData = await response.json();
-    } catch (error) {
-        console.warn("Resposta sem corpo JSON");
-    }
+    const responseData = await response.json();
 
-    return responseData; // Retorna um GradeAStudentResponseDTO
+    // Extract link to student details (HATEOAS)
+    const studentLink = responseData.links?.find(link => link.rel === "student-details")?.href;
+
+    return { data: responseData, studentLink };
 }
 
-export async function findAllCourseEditions() {
-    const response = await fetch(`${API_URL}/courseeditions`);
+/**
+ * Obtain a student's registration for course editions.
+ */
+export async function getEnrolmentsForStudent(studentID) {
+    const response = await fetch(`${API_URL}/students/${studentID}/courseeditionenrolments`);
 
     if (!response.ok) {
-        throw new Error('Failed to fetch Course Editions');
+        throw new Error(`Error when searching for student registrations ${studentID}`);
     }
 
     return response.json();

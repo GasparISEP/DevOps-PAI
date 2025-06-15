@@ -28,5 +28,5 @@ public interface IProgrammeEnrolmentRepository extends IRepository<ProgrammeEnro
 
     Optional<ProgrammeEnrolment> findByGeneratedID(ProgrammeEnrolmentGeneratedID gid);
 
-    List<ProgrammeEnrolment> listOfProgrammesStudentIsEnrolledIn(StudentID studentID);
+    List<ProgrammeEnrolment> getProgrammesStudentIsEnrolledIn(StudentID studentID);
 }

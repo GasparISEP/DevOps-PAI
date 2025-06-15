@@ -93,23 +93,6 @@ public class ProgrammeEditionRepositoryImpl implements IProgrammeEditionReposito
 
     @Override
     public List<ProgrammeEditionID> findProgrammeEditionIDsByProgrammeIDAndStartDateAfter(ProgrammeID programmeID, LocalDate date) {
-        /*if (programmeID == null || date == null) {
-            return List.of();
-        }
-
-        List<ProgrammeEditionID> result = new ArrayList<>();
-
-        for (ProgrammeEdition edition : programmeEditions) {
-            if (edition.findProgrammeIDInProgrammeEdition().equals(programmeID)) {
-                Date startDate = edition.findSchoolYearIDInProgrammeEdition().getStartDate;
-                if (startDate.after(date)) {
-                    result.add(edition.identity());
-                }
-            }
-        }
-
-        return result;
-    }*/
         return null;
     }
 

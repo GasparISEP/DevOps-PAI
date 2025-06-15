@@ -7,13 +7,16 @@ import PAI.domain.degreeType.DegreeType;
 import PAI.domain.programme.Programme;
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.domain.studyPlan.StudyPlan;
-import PAI.dto.courseEdition.CourseEditionResponseDTO;
+import PAI.dto.courseEdition.CourseEditionServiceResponseDTO;
+import PAI.dto.courseEdition.CreateCourseEditionCommand;
 
 import java.util.List;
 
 public interface ICreateCourseEditionService {
 
     public CourseEdition createAndSaveCourseEdition(CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID);
+
+    CourseEditionServiceResponseDTO createCourseEditionForRestApi(CreateCourseEditionCommand command);
 
     public List<DegreeType> getAllDegreeTypes();
 
@@ -27,7 +30,7 @@ public interface ICreateCourseEditionService {
 
     public List<ProgrammeEdition> getProgrammeEditionsByProgrammeID(ProgrammeID programmeID) throws Exception;
 
-    Iterable<CourseEdition> findAll();
+    List<CourseEditionServiceResponseDTO> findAll();
 
-    CourseEditionResponseDTO createCourseEditionAndReturnDTO(CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID);
+    //CourseEditionServiceResponseDTO createCourseEditionAndReturnDTO(CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID);
 }

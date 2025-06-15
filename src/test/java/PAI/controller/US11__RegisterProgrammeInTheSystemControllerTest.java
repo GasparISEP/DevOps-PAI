@@ -28,11 +28,16 @@ import PAI.persistence.mem.teacher.TeacherListFactoryImpl;
 import PAI.persistence.mem.teacher.TeacherRepositoryImpl;
 import PAI.service.degreeType.DegreeTypeRegistrationServiceImpl;
 import PAI.service.degreeType.IDegreeTypeRegistrationService;
+import PAI.service.department.DepartmentServiceImpl;
+import PAI.service.department.IDepartmentService;
 import PAI.service.programme.IProgrammeService;
 import PAI.service.programme.ProgrammeServiceImpl;
+import PAI.service.teacher.ITeacherService;
+import PAI.service.teacher.TeacherServiceImpl;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 class US11__RegisterProgrammeInTheSystemControllerTest {
 
@@ -73,7 +78,10 @@ class US11__RegisterProgrammeInTheSystemControllerTest {
         IDegreeTypeFactory degreeTypeFactory = new DegreeTypeFactoryImpl();
         IDegreeTypeRegistrationService degreeTypeRegistrationService = new DegreeTypeRegistrationServiceImpl(degreeTypeFactory, degreeTypeRepository);
 
-        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService);
+        IDepartmentService departmentService = mock(DepartmentServiceImpl.class);
+        ITeacherService teacherService = mock(TeacherServiceImpl.class);
+
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService, departmentService, teacherService);
         
         MaxEcts maxEcts = new MaxEcts(180);
         Name dtname = new Name("Master");

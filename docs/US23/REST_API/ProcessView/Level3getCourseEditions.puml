@@ -2,16 +2,15 @@
 autonumber
 skinparam sequenceMessageAlign center
 skinparam sequenceLifeLineBackgroundColor lightblue
-title I want to know the approval percentage of a Course Edition - Get Course Editions \n (Process View Level 3)
+title I want to know the approval percentage of a Course Edition  \n (Process View Level 3 - Backend (Get Course Editions))
 skinparam sequencemessagealign center
 
 participant ":Router" as Router <<Component>> #application
 participant ":CourseEditionRestController" as Controller <<Component>> #motivation
 participant ":CreateCourseEditionServiceImpl" as Service <<Component>> #business
 participant ":CourseEditionRepository" as Repository <<Component>> #technology
-participant ":Domain" as Domain <<Component>> #physical
 
--> Router : GET /courseeditions/
+-> Router : GET /course-editions/
 activate Router
 Router -> Controller : findAllCourseEditions()
 activate Controller
@@ -20,14 +19,15 @@ activate Service
 Service -> Repository : findAll()
 activate Repository
 Repository ->  : findAll()
-Repository <--  : All Course Editions
-Repository --> Service : All Course Editions
+
+Repository <--  : Iterable<CourseEdition>
+Repository --> Service : Iterable<CourseEdition>
 deactivate Repository
-Service --> Controller : All Course Editions
+Service --> Controller : Iterable<CourseEdition>
 deactivate Service
-Controller --> Router : All Course Editions
+Controller --> Router : List<CourseEditionResponseDTO>
 deactivate Controller
-<-- Router : (200, OK) All Course Editions
+<-- Router : (200 OK) List<CourseEditionResponseDTO>
 deactivate Router
 
 

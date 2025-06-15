@@ -10,4 +10,6 @@ public interface ICourseEditionEnrolmentMapper {
         Optional<CourseEditionEnrolmentDataModel> toDataModel(CourseEditionEnrolment courseEditionEnrolment) throws Exception;
 
         Optional<CourseEditionEnrolment> toDomain(CourseEditionEnrolmentDataModel courseEditionEnrolmentDataModel) throws Exception;
+
+        void updateDataModelFromDomain(CourseEditionEnrolment domain, CourseEditionEnrolmentDataModel dataModel);
 }

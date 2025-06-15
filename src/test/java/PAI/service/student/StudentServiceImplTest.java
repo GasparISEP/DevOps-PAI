@@ -11,6 +11,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -115,4 +116,42 @@ class StudentServiceImplTest {
         assertTrue(result.contains(student2));
     }
 
+    @Test
+    void getNameByStudentID() {
+        //arrange
+        IStudentFactory studentFactoryDouble = mock(IStudentFactory.class);
+        IStudentRepository studentRepositoryDouble = mock(IStudentRepository.class);
+
+        StudentServiceImpl studentServiceImpl = new StudentServiceImpl(studentFactoryDouble, studentRepositoryDouble);
+
+        StudentID studentID = mock(StudentID.class);
+        Student student = mock(Student.class);
+        Name name = mock(Name.class);
+
+        when(studentRepositoryDouble.ofIdentity(studentID)).thenReturn(Optional.of(student));
+        when(student.getStudentName()).thenReturn(name);
+
+        //act
+        Name result = studentServiceImpl.getNameByStudentID(studentID);
+
+        //assert
+        assertEquals(name, result);
+    }
+
+    @Test
+    void shouldThrowExceptionWhenStudentNotFound() {
+        //arrange
+        IStudentFactory studentFactoryDouble = mock(IStudentFactory.class);
+        IStudentRepository studentRepositoryDouble = mock(IStudentRepository.class);
+
+        StudentServiceImpl studentServiceImpl = new StudentServiceImpl(studentFactoryDouble, studentRepositoryDouble);
+
+        StudentID studentID = mock(StudentID.class);
+
+        when(studentRepositoryDouble.ofIdentity(studentID)).thenReturn(Optional.empty());
+
+        //act + assert
+        assertThrows(IllegalArgumentException.class, () -> { studentServiceImpl.getNameByStudentID(studentID);
+        });
+    }
 }
