@@ -1,18 +1,12 @@
 package PAI.initializer;
 
 import PAI.VOs.*;
-import PAI.service.courseEdition.ICreateCourseEditionService;
-import PAI.service.schoolYear.ISchoolYearService;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Bean;
+import PAI.controller.US19_CreateCourseEditionController;
+import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -21,21 +15,12 @@ import java.util.UUID;
 @Configuration
 public class CourseEditionInitializer {
 
-    private static final String CSV_FILE = "src/main/resources/CourseEdition.csv";
-
-    @Bean
-    public CommandLineRunner loadDataRegisterCourseEdition(ICreateCourseEditionService service, ISchoolYearService schoolYearService) {
-        return args -> {
-            loadCourseEdition(service, schoolYearService, Path.of(CSV_FILE));
-        };
-    }
-
-    public void loadCourseEdition(ICreateCourseEditionService service, ISchoolYearService schoolYearService, Path csvFilePath) {
+    public void loadCourseEdition(US19_CreateCourseEditionController controller, ISchoolYearRepository schoolYearRepository, String csvFilePath) {
         long startTime = System.currentTimeMillis();
-        List<SchoolYearID> schoolYearsList = schoolYearService.getAllSchoolYearsIDs();
+        List<SchoolYearID> schoolYearsList = schoolYearRepository.getAllSchoolYearsIDs();
         int i = 0;
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(String.valueOf(csvFilePath)))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(csvFilePath))) {
 
             String line;
             boolean isFirstLine = true;
@@ -73,7 +58,7 @@ public class CourseEditionInitializer {
                     StudyPlanID studyPlanID = new StudyPlanID(programmeID, new Date(localDate));
                     CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(courseID, studyPlanID);
 
-                    service.createAndSaveCourseEdition(courseInStudyPlanID, programmeEditionID);
+                    controller.createCourseEdition(courseInStudyPlanID, programmeEditionID);
 
                     i = (i + 1) % schoolYearsList.size();
 
@@ -84,7 +69,7 @@ public class CourseEditionInitializer {
             }
 
         } catch (Exception e) {
-            System.err.println("Failed to read CSV file: " + CSV_FILE);
+            System.err.println("Failed to read CSV file: " + csvFilePath);
             e.printStackTrace();
         }
 

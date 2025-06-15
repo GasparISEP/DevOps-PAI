@@ -2,6 +2,7 @@ package PAI.initializer;
 
 import PAI.controller.*;
 import PAI.domain.repositoryInterfaces.degreeType.IDegreeTypeRepository;
+import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
 import PAI.service.course.ICourseService;
 import PAI.service.programmeEdition.IProgrammeEditionService;
 import org.springframework.boot.CommandLineRunner;
@@ -104,9 +105,19 @@ public class InitializersConfig {
 
     @Bean
     @Order(4)
-    public CommandLineRunner loadDataRegisterStudyPlan(US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController controller, StudyPlanInitializer initializer) {
+    public CommandLineRunner loadDataRegisterStudyPlan(US27_RegisterAProgrammeInTheSystemIncludingTheStudyPlanController controller,
+                                                       StudyPlanInitializer initializer) {
         return (args) -> {
             initializer.loadStudyPlan(controller, "src/main/resources/StudyPlan_Data.csv");
+        };
+    }
+
+    @Bean
+    @Order(5)
+    public CommandLineRunner loadDataRegisterCourseEdition(US19_CreateCourseEditionController controller,
+                                                           ISchoolYearRepository schoolYearRepository, CourseEditionInitializer initializer) {
+        return args -> {
+            initializer.loadCourseEdition(controller, schoolYearRepository, "src/main/resources/CourseEdition.csv");
         };
     }
 }

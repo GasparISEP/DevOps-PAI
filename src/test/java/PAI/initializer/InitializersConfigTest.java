@@ -2,6 +2,7 @@ package PAI.initializer;
 
 import PAI.controller.*;
 import PAI.domain.repositoryInterfaces.degreeType.IDegreeTypeRepository;
+import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
 import PAI.service.course.ICourseService;
 import PAI.service.programmeEdition.IProgrammeEditionService;
 import org.junit.jupiter.api.BeforeEach;
@@ -197,6 +198,24 @@ class InitializersConfigTest {
 
         // Assert
         verify(initializerDouble).loadStudyPlan(controllerDouble, "src/main/resources/StudyPlan_Data.csv");
+        verifyNoMoreInteractions(initializerDouble);
+    }
+
+    @Test
+    void shouldInvokeLoadDataRegisterCourseEditionWhenCommandLineRunnerRuns() throws Exception {
+        // Arrange
+        US19_CreateCourseEditionController controllerDouble = mock(US19_CreateCourseEditionController.class);
+        ISchoolYearRepository schoolYearRepositoryDouble = mock(ISchoolYearRepository.class);
+        CourseEditionInitializer initializerDouble = mock(CourseEditionInitializer.class);
+
+        // Act
+        CommandLineRunner commandLineRunner = _initializer.loadDataRegisterCourseEdition(controllerDouble,
+                                                                    schoolYearRepositoryDouble, initializerDouble);
+        commandLineRunner.run(new String[]{});
+
+        // Assert
+        verify(initializerDouble).loadCourseEdition(controllerDouble, schoolYearRepositoryDouble,
+                                                            "src/main/resources/CourseEdition.csv");
         verifyNoMoreInteractions(initializerDouble);
     }
 }
