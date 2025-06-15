@@ -38,6 +38,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class US11__RegisterProgrammeInTheSystemControllerTest {
 
@@ -104,6 +105,9 @@ class US11__RegisterProgrammeInTheSystemControllerTest {
         degreeTypeRepository.save(degreeType);
         departmentRepository.save(department);
         teacherRepository.save(teacher);
+
+        when(departmentService.containsOfIdentity(departmentID)).thenReturn(true);
+        when(teacherService.existsById(teacherID)).thenReturn(true);
 
         US11_RegisterProgrammeInTheSystemController controller = new US11_RegisterProgrammeInTheSystemController(programmeService);
 

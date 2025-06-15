@@ -632,6 +632,9 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         departmentRepository.save(department);
         teacherRepository.save(teacher);
 
+        when(departmentService.containsOfIdentity(departmentID)).thenReturn(true);
+        when(teacherService.existsById(teacherID)).thenReturn(true);
+
         ProgrammeVOsDTO programmeVOsDTO1 = new ProgrammeVOsDTO(programmeName1, programmeAcronym1, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
         ProgrammeVOsDTO programmeVOsDTO2 = new ProgrammeVOsDTO(programmeName2, programmeAcronym2, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
         ProgrammeVOsDTO programmeVOsDTO3 = new ProgrammeVOsDTO(programmeName3, programmeAcronym3, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
@@ -978,6 +981,9 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         departmentRepository.save(department);
         teacherRepository.save(teacher);
 
+        when(departmentService.containsOfIdentity(departmentID)).thenReturn(true);
+        when(teacherService.existsById(teacherID)).thenReturn(true);
+
         ProgrammeVOsDTO programmeVOsDTO1 = new ProgrammeVOsDTO(programmeName1, programmeAcronym1, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
         ProgrammeVOsDTO programmeVOsDTO2 = new ProgrammeVOsDTO(programmeName2, programmeAcronym2, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
         ProgrammeVOsDTO programmeVOsDTO3 = new ProgrammeVOsDTO(programmeName3, programmeAcronym3, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
@@ -1095,6 +1101,9 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         departmentRepository.save(department);
         teacherRepository.save(teacher);
 
+        when(departmentService.containsOfIdentity(departmentID)).thenReturn(true);
+        when(teacherService.existsById(teacherID)).thenReturn(true);
+
         ProgrammeVOsDTO programmeVOsDTO1 = new ProgrammeVOsDTO(programmeName1, programmeAcronym1, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
         ProgrammeVOsDTO programmeVOsDTO2 = new ProgrammeVOsDTO(programmeName2, programmeAcronym2, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
         ProgrammeVOsDTO programmeVOsDTO3 = new ProgrammeVOsDTO(programmeName3, programmeAcronym3, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
@@ -1204,6 +1213,9 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         Location location = new Location("Coimbra");
         Address address = new Address(street, postalCode, location, country);
         Teacher teacher = new Teacher(teacherID, teacherName, email, nif, phoneNumber, academicBackground, address, departmentID);
+
+        when(departmentService.containsOfIdentity(departmentID)).thenReturn(true);
+        when(teacherService.existsById(teacherID)).thenReturn(true);
 
         degreeTypeRepository.save(degreeType);
         departmentRepository.save(department);
@@ -1319,6 +1331,9 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         departmentRepository.save(department);
         teacherRepository.save(teacher);
 
+        when(departmentService.containsOfIdentity(departmentID)).thenReturn(true);
+        when(teacherService.existsById(teacherID)).thenReturn(true);
+
         ProgrammeVOsDTO programmeVOsDTO1 = new ProgrammeVOsDTO(programmeName, programmeAcronym, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
 
         programmeService.registerProgramme(programmeVOsDTO1);
@@ -1405,6 +1420,9 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         departmentRepository.save(department);
         teacherRepository.save(teacher);
 
+        when(departmentService.containsOfIdentity(departmentID)).thenReturn(true);
+        when(teacherService.existsById(teacherID)).thenReturn(true);
+
         ProgrammeVOsDTO programmeVOsDTO1 = new ProgrammeVOsDTO(programmeName, programmeAcronym, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
 
         programmeService.registerProgramme(programmeVOsDTO1);
@@ -1490,6 +1508,9 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         degreeTypeRepository.save(degreeType);
         departmentRepository.save(department);
         teacherRepository.save(teacher);
+
+        when(departmentService.containsOfIdentity(departmentID)).thenReturn(true);
+        when(teacherService.existsById(teacherID)).thenReturn(true);
 
         ProgrammeVOsDTO programmeVOsDTO1 = new ProgrammeVOsDTO(programmeName, programmeAcronym, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
 

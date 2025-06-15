@@ -267,7 +267,7 @@ class ProgrammeRestControllerTest {
         ResponseEntity<List<ProgrammeIDResponseDTO>> result = programmeRestCtrl.getAllProgrammeIDDTOs();
 
         //Assert
-        assertEquals(HttpStatus.NOT_FOUND, result.getStatusCode());
+        assertEquals(HttpStatus.NO_CONTENT, result.getStatusCode());
     }
 
     @Test

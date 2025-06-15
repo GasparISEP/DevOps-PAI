@@ -958,8 +958,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         IDegreeTypeFactory degreeTypeFactory = new DegreeTypeFactoryImpl();
         IDegreeTypeRegistrationService degreeTypeRegistrationService = new DegreeTypeRegistrationServiceImpl(degreeTypeFactory, degreeTypeRepository);
         IDepartmentFactory dptFactory = mock(DepartmentFactoryImpl.class);
-        IDepartmentRepository dptRepo = mock(DepartmentRepositorySpringDataImpl.class);
-        IDepartmentService departmentService = new DepartmentServiceImpl(dptFactory, dptRepo);
+        IDepartmentService departmentService = new DepartmentServiceImpl(dptFactory, departmentRepository);
         ITeacherFactory teacherFactory = mock(TeacherFactoryImpl.class);
         ITeacherService teacherService = new TeacherServiceImpl(teacherFactory, teacherRepository);
 
@@ -1081,8 +1080,7 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         IDegreeTypeFactory degreeTypeFactory = new DegreeTypeFactoryImpl();
         IDegreeTypeRegistrationService degreeTypeRegistrationService = new DegreeTypeRegistrationServiceImpl(degreeTypeFactory, degreeTypeRepository);
         IDepartmentFactory dptFactory = mock(DepartmentFactoryImpl.class);
-        IDepartmentRepository dptRepo = mock(DepartmentRepositorySpringDataImpl.class);
-        IDepartmentService departmentService = new DepartmentServiceImpl(dptFactory, dptRepo);
+        IDepartmentService departmentService = new DepartmentServiceImpl(dptFactory, departmentRepository);
         ITeacherFactory teacherFactory = mock(TeacherFactoryImpl.class);
         ITeacherService teacherService = new TeacherServiceImpl(teacherFactory, teacherRepository);
 

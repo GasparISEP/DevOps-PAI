@@ -102,15 +102,13 @@ public class ProgrammeRestController {
     @GetMapping("/ids")
     public ResponseEntity<List<ProgrammeIDResponseDTO>> getAllProgrammeIDDTOs (){
         List<ProgrammeIDDTO> programmeIDDTOS = _programmeService.getAllProgrammeIDDTOs();
-        if(!programmeIDDTOS.isEmpty()) {
-            List<ProgrammeIDResponseDTO> response = new ArrayList<>();
-            for (ProgrammeIDDTO programmeIDDTO : programmeIDDTOS) {
-                response.add(_programmeAssembler.toResponseDTO(programmeIDDTO));
-            }
-            return ResponseEntity.ok(response);
-        }else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if (programmeIDDTOS.isEmpty()) {
+            return ResponseEntity.noContent().build();
         }
+        List<ProgrammeIDResponseDTO> response = programmeIDDTOS.stream()
+                .map(_programmeAssembler::toResponseDTO)
+                .toList();
+        return ResponseEntity.ok(response);
     }
 
     @PatchMapping("/assigndirector")

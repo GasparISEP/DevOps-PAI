@@ -76,6 +76,14 @@ public class ProgrammeServiceImpl implements IProgrammeService {
         DepartmentID departmentID = programmeVOsDTO.departmentID();
         TeacherID teacherID = programmeVOsDTO.teacherID();
 
+        if(!_departmentService.containsOfIdentity(departmentID)){
+            throw new BusinessRuleViolationException("Department not found");
+        }
+
+        if(!_teacherService.existsById(teacherID)){
+            throw new BusinessRuleViolationException("Teacher not found");
+        }
+
         DegreeType degreeType = _degreeTypeService.getDegreeTypeById(degreeTypeID)
                 .orElseThrow(() -> new Exception("Degree type not found"));
 
@@ -83,10 +91,7 @@ public class ProgrammeServiceImpl implements IProgrammeService {
 
         Programme programme = _programmeFactory.registerProgramme(name, acronym, maxOfEcts, quantityOfSemesters, degreeTypeID, departmentID, teacherID);
 
-        if (_programmeRepository.existsByName(name))
-            throw new AlreadyRegisteredException("Programme name");
-
-        if (_programmeRepository.existsByAcronym(acronym))
+        if (_programmeRepository.containsOfIdentity(programme.identity()))
             throw new AlreadyRegisteredException("Programme acronym");
 
         return _programmeRepository.save(programme);
