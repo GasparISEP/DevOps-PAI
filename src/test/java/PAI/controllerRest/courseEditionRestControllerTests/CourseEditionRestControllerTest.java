@@ -537,7 +537,7 @@ class CourseEditionRestControllerTest {
         String schoolYearId = "123e4567-e89b-12d3-a456-426614174000";
         String courseAcronym = "ESOFT";
         String courseName = "Maths";
-        String studyPlanDate = "01-01-2024";
+        String localDate = "01-01-2024";
         double expectedApprovalRate = 85.5;
 
         when(gradeAStudentService.knowApprovalRate(any(CourseEditionID.class)))
@@ -548,7 +548,7 @@ class CourseEditionRestControllerTest {
                         .param("schoolYearId", schoolYearId)
                         .param("courseAcronym", courseAcronym)
                         .param("courseName", courseName)
-                        .param("studyPlanDate", studyPlanDate))
+                        .param("localDate", localDate))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
                 .andExpect(jsonPath("$.approvalRate").value(expectedApprovalRate));
@@ -560,7 +560,7 @@ class CourseEditionRestControllerTest {
         String schoolYearId = "123e4567-e89b-12d3-a456-426614174000";
         String courseAcronym = "ESOFT";
         String courseName = "Maths";
-        String studyPlanDate = "01-01-2024";
+        String localDate = "01-01-2024";
         double expectedApprovalRate = 0.0;
 
         when(gradeAStudentService.knowApprovalRate(any(CourseEditionID.class)))
@@ -571,7 +571,7 @@ class CourseEditionRestControllerTest {
                         .param("schoolYearId", schoolYearId)
                         .param("courseAcronym", courseAcronym)
                         .param("courseName", courseName)
-                        .param("studyPlanDate", studyPlanDate))
+                        .param("localDate", localDate))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
                 .andExpect(jsonPath("$.approvalRate").value(expectedApprovalRate));
@@ -584,7 +584,7 @@ class CourseEditionRestControllerTest {
                         .param("schoolYearId", "invalid-uuid")
                         .param("courseAcronym", "ESOFT")
                         .param("courseName", "Maths")
-                        .param("studyPlanDate", "01-01-2024"))
+                        .param("localDate", "01-01-2024"))
                 .andExpect(status().isBadRequest());
     }
 
