@@ -1,51 +1,63 @@
 @startuml
-title: (US26)\nAs a Department Director, I want to get the number of students enrolled in all programmes associated to my department, in a given school year.\n(Process View Level 3)
+title (US26) Process View Level 3 - getTotalEnrolledStudentsByDepartmentAndSchoolYear()
 
 autonumber
 
-actor DD
-participant ":UI" as UI
-participant ":Controller" as C
-participant ":Service" as S
-participant ":Repository" as R
-database DB
+participant "<<Component>>\n:Router" as RT #lightpink
+participant "<<Component>>\n:Controller" as C #lightgreen
+participant "<<Component>>\n:TotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearService" as S #lightblue
+participant "<<Component>>\n:DepartmentRepository" as DR #lightyellow
+participant "<<Component>>\n:SchoolYearRepository" as SYR #lightyellow
+participant "<<Component>>\n:ProgrammeRepository" as PR #lightyellow
+participant "<<Component>>\n:ProgrammeEditionRepository" as PER #lightyellow
+participant "<<Component>>\n:ProgrammeEnrollmentRepository" as PEER #lightyellow
+participant "<<Component>>\n:Drivers" as Driver #salmon
 
-activate DD
-DD -> UI++: Request to get the number of students enrolled in all\n programmes associated to my department, in a given school year
+[o-> RT ++: **GET** /departments/{departmentId}/schoolYears/{schoolYearId}/programme-enrolments/count
+RT -> C ++: countByDepartmentAndSchoolYear(departmentId, schoolYearId)
+C -> S ++: getTotalEnrolledStudentsInProgrammes\nByDepartmentAndYear(command)
 
-' Step 1: Obter lista de departamentos
-UI -> C++: (GET) Request List Of Departments
-C -> S++: Get all departments
-S -> R++: Get all departments
-R -> DB++: Fetch all departments
-DB --> R--: List of department data models
-R --> S--: List of department domain entities
-S --> C--: List of department domain entities
-C --> UI--: List of departments
-UI --> DD--: Display departments
+S -> DR++: existsById(departmentId)
+DR -> Driver ++:
+Driver ->o] : containsOfIdentity(departmentID)
+Driver <--o] : True
+Driver --> DR --: True
+DR --> S --: True
 
-' Step 2: Obter lista de anos letivos
-DD -> UI++: Select department
-UI -> C++: (GET) Request List Of SchoolYears
-C -> S++: Get all school years
-S -> R++: Get all school years
-R -> DB++: Fetch all school years
-DB --> R--: List of school year data models
-R --> S--: List of school year domain entities
-S --> C--: List of school year domain entities
-C --> UI--: List of school years
-UI --> DD--: Display school years
+S -> SYR++: existsById(schoolYearId)
+SYR -> Driver ++:
+Driver ->o] : containsOfIdentity(schoolYearID)
+Driver <--o] : True
+Driver --> SYR --: True
+SYR --> S --: True
 
-' Step 3: Obter número de alunos inscritos
-DD -> UI++: Select school year
-UI -> C++: (GET) Request number of students enrolled
-C -> S++: Get number of students enrolled
-S -> R++: Get enrollment data for selected department and school year
-R -> DB++: Fetch enrollment data
-DB --> R--: Enrollment data models
-R --> S--: Enrollment domain objects (with business logic applied if needed)
-S --> C--: Number of students enrolled
-C --> UI--: Number of students enrolled
-UI --> DD--: Display number of students
+S -> PR++: findProgrammeIDsByDepartment(departmentId)
+PR -> Driver++: findProgrammeIDsByDepartment(departmentId)
+Driver ->o] : findProgrammeIDsByDepartment(departmentId)
+Driver <--o] : List<programmeId>
+Driver --> PR --: List<programmeId>
+PR --> S--: List<programmeId>
+
+S -> PER++: findProgrammeEditionIDsBySchoolYearID\nAndProgrammeIDs(schoolYearID, List<programmeId>)
+PER -> Driver++: findProgrammeEditionIDsBySchoolYearID\nAndProgrammeIDs(schoolYearID, List<programmeId>)
+Driver ->o] : findProgrammeEditionIDsBySchoolYearID\nAndProgrammeIDs(schoolYearID, List<programmeId>)
+Driver <--o] : List<programmeEditionId>
+Driver --> PER --: List<programmeEditionId>
+PER --> S--: List<programmeEditionId>
+
+S -> PEER++: findAll()
+PEER --> Driver++: findAll()
+Driver ->o] : findAll()
+Driver <--o] : List<programmeEditionEnrollment>
+Driver --> PEER --: List<programmeEditionEnrollment>
+PEER --> S--: List<programmeEditionEnrollment>
+
+S -> S: filter enrolments where programmeEditionEnrollment\n contains programmeEditionIDList\nand count them
+
+S --> C--: count
+
+C --> RT--: HTTP 200 OK + count
+
+[o<-- RT: HTTP 200 OK + count
 
 @enduml
