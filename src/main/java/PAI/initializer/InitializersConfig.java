@@ -84,4 +84,12 @@ public class InitializersConfig {
             initializer.loadProgramme(controller, degreeTypeRepository, "src/main/resources/ProgrammeData.csv");
         };
     }
+
+    @Bean
+    @Order(4)
+    public CommandLineRunner loadDataProgrammeEnrolment(US09_EnrolStudentInProgrammeController controller, ProgrammeEnrolmentInitializer initializer) {
+        return (args) -> {
+            initializer.loadProgrammeEnrolment(controller, "src/main/resources/ProgrammeEnrolment_Data.csv");
+        };
+    }
 }
