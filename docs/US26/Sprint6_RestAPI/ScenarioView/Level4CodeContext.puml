@@ -31,10 +31,7 @@ syCtrl --> R --: HTTP 200 OK + CollectionModel<CurrentSchoolYearDTO>
 [o-> R ++: **GET** /departments/{departmentId}/school-years/\n{schoolYearId}/enrolled-students/count
 R -> PECtrl ++: countByDepartmentAndSchoolYear(departmentId :String, schoolYearId :String)
 ref over PECtrl
-    Convert departmentId :String to DepartmentAcronym
-    Convert DepartmentAcronym to DepartmentID
-    Convert schoolYearId :String to SchoolYearID
-    Create TotalEnrolledStudentsCommand with DepartmentID and SchoolYearID
+    Convert HTTP params to domain command
 end ref
 
 PECtrl -> S ++: getTotalEnrolledStudentsInProgrammesByDepartmentAndYear\n(command :TotalEnrolledStudentsCommand)
