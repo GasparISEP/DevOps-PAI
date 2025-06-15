@@ -1,5 +1,5 @@
 @startuml
-title (US26) Get List<ProgrammeID> by DepartmentID\n(Level 5 - Repository & Mapping Detail)
+title (US26) Get List<ProgrammeID> by DepartmentID\n(Scenario View Level 4)
 
 autonumber
 

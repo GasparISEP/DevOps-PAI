@@ -1,5 +1,5 @@
 @startuml
-title: (6ª referência)\nObter lista de ProgrammeEditionID a partir de uma SchoolYearID e uma lista de ProgrammeID
+title: (US26) findProgrammeEditionIDsBySchoolYearIDAndProgrammeIDs\n(Scenario View Level 4)
 
 autonumber
 
