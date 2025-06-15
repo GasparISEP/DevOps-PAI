@@ -1,11 +1,14 @@
 @startuml
+
+title (US26) Get all Departments\n(Scenario View Level 4)
+
 autonumber
 
 participant ":DepartmentRestController" as C #lightpink
 participant ":DepartmentResgistrationService" as DS #lightgreen
-participant "dRepo:DepartmentRepository" as DPR #lightcyan
+participant ":DepartmentRepository" as DPR #lightcyan
 participant ":DepartmentMapper" as M #lightyellow
-participant "dFactory:DepartmentFactory" as F #lightpink
+participant ":DepartmentFactory" as F #lightpink
 participant ":DepartmentAssember" as DA #moccasin
 participant ":DepartmentHateoasAssember" as DHA #peachpuff
 
