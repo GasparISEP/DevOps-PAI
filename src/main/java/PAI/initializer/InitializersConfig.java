@@ -1,6 +1,7 @@
 package PAI.initializer;
 
 import PAI.controller.*;
+import PAI.domain.repositoryInterfaces.degreeType.IDegreeTypeRepository;
 import PAI.service.course.ICourseService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -72,6 +73,15 @@ public class InitializersConfig {
     public CommandLineRunner loadDataRegisterTeacher(US13_RegisterTeacherAndRelevantDataController controller, TeacherInitializer initializer) {
         return (args) -> {
             initializer.loadTeachers(controller, "src/main/resources/Teacher_Data.csv");
+        };
+    }
+
+    @Bean
+    @Order(3)
+    public CommandLineRunner loadDataProgramme(US11_RegisterProgrammeInTheSystemController controller,
+                                               IDegreeTypeRepository degreeTypeRepository, ProgrammeInitializer initializer) {
+        return (args) -> {
+            initializer.loadProgramme(controller, degreeTypeRepository, "src/main/resources/ProgrammeData.csv");
         };
     }
 }

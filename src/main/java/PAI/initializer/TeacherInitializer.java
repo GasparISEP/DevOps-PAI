@@ -2,7 +2,6 @@ package PAI.initializer;
 
 import PAI.controller.US13_RegisterTeacherAndRelevantDataController;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
