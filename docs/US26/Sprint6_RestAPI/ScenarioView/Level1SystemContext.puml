@@ -1,0 +1,16 @@
+@startuml
+
+left to right direction
+
+@startuml
+title: (US26)\nAs a Department Director, I want to get the number\nof students enrolled in all programmes associated\nto my department, in a given school year.\n(Process View Level 1)
+
+actor DD as "**D**epartment **D**irector"
+
+rectangle "<<PAI System>>" {
+    usecase "Get the number of students enrolled in all programmes associated\nto my department, in a given school year." as usecase
+}
+
+DD --> usecase
+
+@enduml
