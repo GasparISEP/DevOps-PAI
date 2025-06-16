@@ -24,3 +24,12 @@ export async function registerProgramme(payload) {
 
     return responseData;
 }
+
+export async function findAllProgrammes() {
+    const response = await fetch(`${API_URL}/programmes`);
+    if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Error fetching programmes: ${errorText}`);
+    }
+    return await response.json();
+}

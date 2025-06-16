@@ -234,4 +234,9 @@ public class ProgrammeServiceImpl implements IProgrammeService {
         }
         return programmeList;
     }
+
+    public Optional<TeacherID> getProgrammeDirectorByProgrammeID(ProgrammeID programmeID) {
+        Optional<Programme> programmeOpt = _programmeRepository.ofIdentity(programmeID);
+        return programmeOpt.map(Programme::getProgrammeDirectorID);
+    }
 }

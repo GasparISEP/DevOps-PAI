@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, act, within } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import ProgrammeForm from '../../../components/programmeComponent/ProgrammeForm';
 
@@ -228,5 +228,191 @@ describe('ProgrammeForm', () => {
         fireEvent.click(closeBtn);
     });
 
+    test('should fetch and display programme details successfully', async () => {
+        global.fetch = jest.fn()
+            .mockResolvedValueOnce({
+                json: () => Promise.resolve({
+                    _embedded: { departmentWithDirectorDTOList: [{ id: 1, name: 'Dept A', acronym: 'DA' }] }
+                })
+            })
+            .mockResolvedValueOnce({
+                json: () => Promise.resolve({
+                    _embedded: { teacherDTOList: [{ id: 2, name: 'Teacher B' }] }
+                })
+            })
+            .mockResolvedValueOnce({
+                json: () => Promise.resolve({
+                    _embedded: { degreeTypeDTOList: [{ id: 3, name: 'Degree C', maxEcts: 90 }] }
+                })
+            })
+            .mockResolvedValueOnce({
+                ok: true,
+                json: () => Promise.resolve({
+                    id: 1,
+                    name: 'Updated Name',
+                    degreeTypeID: 3,
+                    departmentID: 1,
+                    teacherID: 2,
+                    maxECTS: 90,
+                    quantSemesters: 3,
+                    acronym: 'T'
+                })
+            });
 
+        programmeService.registerProgramme.mockResolvedValue({
+            id: 1,
+            name: 'X',
+            degreeTypeID: 3,
+            departmentID: 1,
+            teacherID: 2,
+            maxECTS: 90,
+            quantSemesters: 3,
+            acronym: 'T',
+            _links: { self: { href: 'http://mock-details-url' } }
+        });
+
+        render(
+            <MemoryRouter {...routerProps}>
+                <ProgrammeForm />
+            </MemoryRouter>
+        );
+
+        await screen.findByRole('option', { name: /Degree C/i });
+
+        const degreeTypeSelect = screen.getByLabelText('Degree Type');
+        await waitFor(() => {
+            const allOptions = screen.getAllByRole('option');
+            expect(allOptions.length).toBeGreaterThan(1);
+        });
+
+        fireEvent.change(degreeTypeSelect, { target: { value: '3' } });
+        fireEvent.change(screen.getByLabelText('Department'), { target: { value: '1' } });
+        fireEvent.change(screen.getByLabelText("Programme's Director"), { target: { value: '2' } });
+        fireEvent.change(screen.getByLabelText('Name'), { target: { value: 'Test' } });
+        fireEvent.change(screen.getByLabelText('Acronym'), { target: { value: 'T' } });
+
+        fireEvent.click(screen.getByText('REGISTER'));
+
+        const displayButton = await screen.findByRole('button', { name: /display details/i });
+        fireEvent.click(displayButton);
+
+        await waitFor(() =>
+            expect(global.fetch).toHaveBeenCalledWith('http://mock-details-url')
+        );
+
+        const closeBtn = await screen.findByRole('button', { name: /close/i });
+        fireEvent.click(closeBtn);
+
+        await waitFor(() =>
+            expect(screen.queryByRole('button', { name: /close/i })).not.toBeInTheDocument()
+        );
+    });
+
+    test('should show error if programme details fetch fails', async () => {
+        programmeService.registerProgramme.mockResolvedValue({
+            _links: { self: { href: 'http://invalid-url' } }
+        });
+
+        global.fetch = jest.fn()
+            .mockResolvedValueOnce({
+                json: () => Promise.resolve({
+                    _embedded: { departmentWithDirectorDTOList: [{ id: 1, name: 'Dept A', acronym: 'DA' }] }
+                })
+            })
+            .mockResolvedValueOnce({
+                json: () => Promise.resolve({
+                    _embedded: { teacherDTOList: [{ id: 2, name: 'Teacher B' }] }
+                })
+            })
+            .mockResolvedValueOnce({
+                json: () => Promise.resolve({
+                    _embedded: { degreeTypeDTOList: [{ id: 3, name: 'Degree C', maxEcts: 90 }] }
+                })
+            })
+            .mockResolvedValueOnce({ ok: false });
+
+        render(
+            <MemoryRouter {...routerProps}>
+                <ProgrammeForm />
+            </MemoryRouter>
+        );
+
+        await screen.findByRole('option', { name: /Dept A/i });
+        await screen.findByRole('option', { name: /Teacher B/i });
+        await screen.findByRole('option', { name: /Degree C/i });
+
+        fireEvent.change(screen.getByLabelText('Degree Type'), { target: { value: '3' } });
+        fireEvent.change(screen.getByLabelText('Department'),   { target: { value: '1' } });
+        fireEvent.change(screen.getByLabelText("Programme's Director"), { target: { value: '2' } });
+        fireEvent.change(screen.getByLabelText('Name'),         { target: { value: 'Test' } });
+        fireEvent.change(screen.getByLabelText('Acronym'),      { target: { value: 'T' } });
+        fireEvent.click(screen.getByText('REGISTER'));
+
+        const displayButton = await screen.findByRole('button', { name: /display details/i });
+        fireEvent.click(displayButton);
+
+        await screen.findByText(/failed to fetch programme details/i);
+
+        const errorHeading = await screen.findByRole('heading', { name: /registration error/i });
+        const errorModal   = errorHeading.closest('.modal-content');
+        const closeBtn     = within(errorModal).getByRole('button', { name: /close/i });
+        fireEvent.click(closeBtn);
+
+        await waitFor(() =>
+            expect(within(errorModal).queryByRole('button', { name: /close/i })).not.toBeInTheDocument()
+        );
+    });
+
+    test('displays ECTS and semesters info for valid degree type selection', async () => {
+        defaultFetch({
+            degreeTypes: [{ id: 3, name: 'Degree C', maxEcts: 90 }]
+        });
+
+        render(
+            <MemoryRouter {...routerProps}>
+                <ProgrammeForm />
+            </MemoryRouter>
+        );
+
+        await screen.findByRole('option', { name: /degree c/i });
+
+        fireEvent.change(screen.getByLabelText('Degree Type'), {
+            target: { value: '3' }
+        });
+
+        await waitFor(() => {
+            expect(screen.getByText(/Semesters:\s*3/i)).toBeInTheDocument();
+            expect(screen.getByText(/Max ECTS:\s*90/i)).toBeInTheDocument();
+        });
+    });
+
+    test('shows "No details link available" error when details link is missing', async () => {
+        programmeService.registerProgramme.mockResolvedValue({
+            id: 42,
+            name: 'No Link',
+        });
+
+        global.fetch = jest.fn()
+            .mockResolvedValueOnce({ json: () => Promise.resolve({ _embedded: { departmentWithDirectorDTOList: [{ id: 1, name: 'DA', acronym: 'DA' }] } }) })
+            .mockResolvedValueOnce({ json: () => Promise.resolve({ _embedded: { teacherDTOList: [{ id: 2, name: 'TB' }] } }) })
+            .mockResolvedValueOnce({ json: () => Promise.resolve({ _embedded: { degreeTypeDTOList: [{ id: 3, name: 'DC', maxEcts: 90 }] } }) });
+
+        render(<MemoryRouter {...routerProps}><ProgrammeForm /></MemoryRouter>);
+
+        await screen.findByRole('option', { name: /DA/i });
+        await screen.findByRole('option', { name: /TB/i });
+        await screen.findByRole('option', { name: /DC/i });
+
+        fireEvent.change(screen.getByLabelText('Degree Type'),      { target: { value: '3' } });
+        fireEvent.change(screen.getByLabelText('Department'),       { target: { value: '1' } });
+        fireEvent.change(screen.getByLabelText("Programme's Director"), { target: { value: '2' } });
+        fireEvent.change(screen.getByLabelText('Name'),            { target: { value: 'No Link' } });
+        fireEvent.change(screen.getByLabelText('Acronym'),         { target: { value: 'NL' } });
+        fireEvent.click(screen.getByText('REGISTER'));
+
+        const disp = await screen.findByRole('button', { name: /display details/i });
+        fireEvent.click(disp);
+
+        expect(await screen.findByText(/No details link available/i)).toBeInTheDocument();
+    });
 });

@@ -2,7 +2,7 @@ package PAI.controllerRest;
 
 import PAI.VOs.*;
 import PAI.assembler.courseEdition.ICourseEditionAssembler;
-import PAI.assembler.courseEdition.ICourseEditionHateoasAssembler;
+import PAI.assembler.courseEdition.ICourseEditionRUCHateoasAssembler;
 import PAI.assembler.courseEdition.IStudentCountAssembler;
 import PAI.assembler.courseEditionEnrolment.ICourseEditionEnrolmentAssembler;
 import PAI.assembler.courseEditionEnrolment.ICourseEditionEnrolmentHateoasAssembler;
@@ -31,7 +31,6 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 import static PAI.utils.ValidationUtils.validateNotNull;
@@ -51,7 +50,7 @@ public class CourseEditionRestController {
     private final IProgrammeEditionServiceAssembler programmeEditionAssembler;
     private final IDefineRucService defineRucService;
     private final ICourseEditionService courseEditionService;
-    private final ICourseEditionHateoasAssembler courseEditionHateoasAssembler;
+    private final ICourseEditionRUCHateoasAssembler courseEditionHateoasAssembler;
     private final IStudentCountAssembler studentCountAssembler;
     private final ICourseEditionEnrolmentHateoasAssembler courseEditionEnrolmentHateoasAssembler;
 
@@ -64,7 +63,7 @@ public CourseEditionRestController(
         IGradeAStudentService gradeAStudentService,
         IStudentGradeAssembler studentGradeAssembler,
         IProgrammeEditionServiceAssembler programmeEditionAssembler,
-        IDefineRucService defineRucService, ICourseEditionHateoasAssembler courseEditionHateoasAssembler,
+        IDefineRucService defineRucService, ICourseEditionRUCHateoasAssembler courseEditionHateoasAssembler,
         IStudentCountAssembler studentCountAssembler, ICourseEditionEnrolmentHateoasAssembler courseEditionEnrolmentHateoasAssembler
 ) {
     this.courseEditionEnrolmentService = validateNotNull(courseEditionEnrolmentService, "CourseEditionEnrolmentService");
@@ -133,8 +132,8 @@ public CourseEditionRestController(
     @PatchMapping("/{id}/ruc")
 public ResponseEntity<?> defineRucForCourseEdition(
         @PathVariable("id") UUID id,
-        @RequestBody DefineRucRequestDTO defineRucRequestDTO) {
-    try {
+        @RequestBody DefineRucRequestDTO defineRucRequestDTO) throws Exception {
+
         TeacherID teacherID = courseEditionAssembler.createTeacherID(defineRucRequestDTO.teacherID());
         CourseEditionGeneratedID courseEditionID = courseEditionAssembler.fromDtoToCourseEditionGeneratedID(
                 new SelectedCourseEditionGeneratedIdDTO(id));
@@ -151,11 +150,7 @@ public ResponseEntity<?> defineRucForCourseEdition(
         );
 
         return ResponseEntity.ok(courseEditionHateoasAssembler.toModel(responseDTO));
-    } catch (IllegalArgumentException e) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-    } catch (Exception e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error occurred");
-    }
+
 }
 
     @GetMapping("/programmeditions")

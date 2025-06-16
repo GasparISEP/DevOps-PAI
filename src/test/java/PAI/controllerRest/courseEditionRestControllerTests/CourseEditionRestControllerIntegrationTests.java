@@ -2,7 +2,7 @@ package PAI.controllerRest.courseEditionRestControllerTests;
 
 import PAI.VOs.*;
 import PAI.assembler.courseEdition.CourseEditionAssemblerImpl;
-import PAI.assembler.courseEdition.CourseEditionHateoasAssembler;
+import PAI.assembler.courseEdition.CourseEditionRUCHateoasAssembler;
 import PAI.dto.courseEdition.*;
 import PAI.exception.CourseEditionCreationException;
 import PAI.persistence.datamodel.studentGrade.StudentGradeDM;
@@ -21,7 +21,6 @@ import org.springframework.hateoas.Link;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 
 
 import java.time.LocalDate;
@@ -54,7 +53,7 @@ public class CourseEditionRestControllerIntegrationTests {
     private CourseEditionAssemblerImpl courseEditionAssembler;
 
     @MockBean
-    private CourseEditionHateoasAssembler courseEditionHateoasAssembler;
+    private CourseEditionRUCHateoasAssembler courseEditionRUCHateoasAssembler;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -85,7 +84,7 @@ public class CourseEditionRestControllerIntegrationTests {
         when(courseEditionAssembler.createTeacherID("AAB")).thenReturn(teacherID);
         when(courseEditionAssembler.fromDtoToCourseEditionGeneratedID(any())).thenReturn(courseEditionGeneratedID);
         when(defineRucService.assignRucToCourseEdition(teacherID, courseEditionGeneratedID)).thenReturn(true);
-        when(courseEditionHateoasAssembler.toModel(any())).thenReturn(responseModel);
+        when(courseEditionRUCHateoasAssembler.toModel(any())).thenReturn(responseModel);
 
         // Act & Assert
         mockMvc.perform(patch("/course-editions/{id}/ruc", courseEditionId)
@@ -102,10 +101,10 @@ public class CourseEditionRestControllerIntegrationTests {
         UUID courseEditionId = UUID.randomUUID();
 
         String requestBody = """
-    {
-      "teacherID": "BBB"
-    }
-    """;
+        {
+          "teacherID": "BBB"
+        }
+        """;
 
         when(courseEditionAssembler.createTeacherID("BBB"))
                 .thenThrow(new IllegalArgumentException("Teacher not found"));
@@ -113,8 +112,9 @@ public class CourseEditionRestControllerIntegrationTests {
         mockMvc.perform(patch("/course-editions/{id}/ruc", courseEditionId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))
-                .andExpect(status().isNotFound())
-                .andExpect(content().string("Teacher not found"));
+                .andExpect(status().isBadRequest())  // <-- Corrigido para 400
+                .andExpect(jsonPath("$.code").value("ARGUMENT_INVALID"))
+                .andExpect(jsonPath("$.message").value("Teacher not found"));
     }
 
 

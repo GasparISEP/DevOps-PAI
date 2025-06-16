@@ -71,6 +71,7 @@ interface ICourseEditionEnrolmentRepository {
 class CourseEditionEnrolmentRestController {
     -courseEditionEnrolmentService: ICourseEditionEnrolmentService
     -courseEditionEnrolmentAssembler: ICourseEditionEnrolmentAssembler
+    -courseEditionEnrolmentHateoasAssembler: ICourseEditionEnrolmentHateoasAssembler
     +enrolStudentInCourseEdition(dto: CourseEditionEnrolmentDto): ResponseEntity<Void>
 }
 
@@ -83,9 +84,19 @@ class CourseEditionEnrolmentFactory {
     +create(studentId: StudentID, courseEditionId: CourseEditionID): CourseEditionEnrolment
 }
 
+' HATEOAS Assembler
+interface ICourseEditionEnrolmentHateoasAssembler {
+    +toModel(dto: CourseEditionEnrolmentDto): EntityModel<CourseEditionEnrolmentDto>
+}
+
+class CourseEditionEnrolmentHateoasAssemblerImpl {
+    +toModel(dto: CourseEditionEnrolmentDto): EntityModel<CourseEditionEnrolmentDto>
+}
+
 ' Relationships
 CourseEditionEnrolmentRestController -[#blue]-> ICourseEditionEnrolmentService : uses
 CourseEditionEnrolmentRestController -[#blue]-> ICourseEditionEnrolmentAssembler : uses
+CourseEditionEnrolmentRestController -[#blue]-> ICourseEditionEnrolmentHateoasAssembler : uses
 ICourseEditionEnrolmentService -[#blue]-> ICourseEditionEnrolmentRepository : uses
 ICourseEditionEnrolmentRepository -[#blue]-> ICourseEditionEnrolmentMapperDataModel : uses
 ICourseEditionEnrolmentMapperDataModel -[hidden]-> CourseEditionEnrolmentMapperDataModel
@@ -97,6 +108,8 @@ ICourseEditionEnrolmentAssembler -[#blue]-> ICourseEditionEnrolmentFactory : use
 ' Implementations
 CourseEditionEnrolmentMapperDataModel ..[#green]|> ICourseEditionEnrolmentMapperDataModel : implements
 CourseEditionEnrolmentAssembler ..[#green]|> ICourseEditionEnrolmentAssembler : implements
+CourseEditionEnrolmentHateoasAssemblerImpl ..[#green]|> ICourseEditionEnrolmentHateoasAssembler : implements
+CourseEditionEnrolmentHateoasAssemblerImpl ..[#green]|> ICourseEditionEnrolmentHateoasAssembler : implements
 
 ' Creations
 ICourseEditionEnrolmentMapperDataModel ..[#red]> CourseEditionEnrolmentDataModel : creates

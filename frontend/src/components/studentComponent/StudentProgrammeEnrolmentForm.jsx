@@ -66,11 +66,6 @@ export default function StudentProgrammeEnrolmentForm() {
         setForm(f => ({ ...f, programmeAcronym: option?.value ?? '' }));
     }
 
-    /*function handleInputChange(e) {
-        const { name, value } = e.target;
-        setForm(f => ({ ...f, [name]: value }));
-    }*/
-
     function handleaccessMethodIDChange(option) {
         setForm(f => ({ ...f, accessMethodID: option?.value ?? '' }));
     }

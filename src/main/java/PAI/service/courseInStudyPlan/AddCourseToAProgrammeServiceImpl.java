@@ -31,7 +31,7 @@ public class AddCourseToAProgrammeServiceImpl implements IAddCourseToAProgrammeS
 
     @Override
     public CourseInStudyPlanServiceDTO addCourseToAProgramme(CourseInStudyPlanCommand command) throws Exception {
-        validateCommand(command);
+        validateNotNull(command, "CourseInStudyPlanCommand");
 
         ProgrammeID programmeID = buildProgrammeID(command);
         StudyPlanID studyPlanID = getStudyPlanID(programmeID);
@@ -43,12 +43,6 @@ public class AddCourseToAProgrammeServiceImpl implements IAddCourseToAProgrammeS
         CourseInStudyPlan saved = repository.save(courseInStudyPlan);
 
         return businessAssembler.toDTO(saved);
-    }
-
-    private void validateCommand(CourseInStudyPlanCommand command) {
-        if (command == null) {
-            throw new IllegalArgumentException("CourseInStudyPlanCommand cannot be null.");
-        }
     }
 
     private ProgrammeID buildProgrammeID(CourseInStudyPlanCommand command) {

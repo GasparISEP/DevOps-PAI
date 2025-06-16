@@ -1,11 +1,9 @@
 package PAI.assembler.courseEdition;
-import PAI.dto.courseEdition.CourseEditionResponseDTO;
 import PAI.dto.courseEdition.CourseEditionResponseIDDTO;
 import PAI.dto.courseEdition.DefineRucResponseDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.Link;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -16,11 +14,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class CourseEditionHateoasAssemblerTest {
+class CourseEditionRUCHateoasAssemblerTest {
     @Test
     void shouldReturnNonNullEntityModel() {
         // Arrange
-        CourseEditionHateoasAssembler assembler = new CourseEditionHateoasAssembler();
+        CourseEditionRUCHateoasAssembler assembler = new CourseEditionRUCHateoasAssembler();
         DefineRucResponseDTO dto = mock(DefineRucResponseDTO.class);
         // Act
         EntityModel<DefineRucResponseDTO> result = assembler.toModel(dto);
@@ -31,7 +29,7 @@ class CourseEditionHateoasAssemblerTest {
     @Test
     void shouldContainGivenDtoAsContent() {
         // Arrange
-        CourseEditionHateoasAssembler assembler = new CourseEditionHateoasAssembler();
+        CourseEditionRUCHateoasAssembler assembler = new CourseEditionRUCHateoasAssembler();
         DefineRucResponseDTO dto = mock(DefineRucResponseDTO.class);
         // Act
         EntityModel<DefineRucResponseDTO> result = assembler.toModel(dto);
@@ -42,7 +40,7 @@ class CourseEditionHateoasAssemblerTest {
     @Test
     void shouldHaveDefineRucLink() {
         // Arrange
-        CourseEditionHateoasAssembler assembler = new CourseEditionHateoasAssembler();
+        CourseEditionRUCHateoasAssembler assembler = new CourseEditionRUCHateoasAssembler();
         DefineRucResponseDTO dto = mock(DefineRucResponseDTO.class);
         // Act
         EntityModel<DefineRucResponseDTO> result = assembler.toModel(dto);
@@ -53,7 +51,7 @@ class CourseEditionHateoasAssemblerTest {
     @Test
     void defineRucLinkShouldContainCorrectHref() {
         // Arrange
-        CourseEditionHateoasAssembler assembler = new CourseEditionHateoasAssembler();
+        CourseEditionRUCHateoasAssembler assembler = new CourseEditionRUCHateoasAssembler();
         UUID courseEditionId = UUID.randomUUID();
         String teacherID = "ABC";
         DefineRucResponseDTO dto = new DefineRucResponseDTO(teacherID, courseEditionId);
@@ -72,7 +70,7 @@ class CourseEditionHateoasAssemblerTest {
     @Test
     void toCollectionModel_EachEntityShouldHaveRequiredLinks() {
         // Arrange
-        CourseEditionHateoasAssembler assembler = new CourseEditionHateoasAssembler();
+        CourseEditionRUCHateoasAssembler assembler = new CourseEditionRUCHateoasAssembler();
         CourseEditionResponseIDDTO dto = mock(CourseEditionResponseIDDTO.class);
         when(dto.programmeAcronym()).thenReturn("TEST");
         when(dto.schoolYearID()).thenReturn(UUID.randomUUID());
@@ -92,7 +90,7 @@ class CourseEditionHateoasAssemblerTest {
     @Test
     void toCollectionModel_ShouldReturnCollectionModelWithCorrectNumberOfEntities() {
         // Arrange
-        CourseEditionHateoasAssembler assembler = new CourseEditionHateoasAssembler();
+        CourseEditionRUCHateoasAssembler assembler = new CourseEditionRUCHateoasAssembler();
         CourseEditionResponseIDDTO dto1 = mock(CourseEditionResponseIDDTO.class);
         CourseEditionResponseIDDTO dto2 = mock(CourseEditionResponseIDDTO.class);
         
@@ -118,7 +116,7 @@ class CourseEditionHateoasAssemblerTest {
     @Test
     void toCollectionModel_ShouldReturnCollectionModelWithCorrectHref() {
         // Arrange
-        CourseEditionHateoasAssembler assembler = new CourseEditionHateoasAssembler();
+        CourseEditionRUCHateoasAssembler assembler = new CourseEditionRUCHateoasAssembler();
         CourseEditionResponseIDDTO dto = mock(CourseEditionResponseIDDTO.class);
         
         when(dto.programmeAcronym()).thenReturn("TEST");
@@ -139,7 +137,7 @@ class CourseEditionHateoasAssemblerTest {
     @Test
     void toCollectionModel_ShouldReturnCollectionModelNotNull() {
         // Arrange
-        CourseEditionHateoasAssembler assembler = new CourseEditionHateoasAssembler();
+        CourseEditionRUCHateoasAssembler assembler = new CourseEditionRUCHateoasAssembler();
         CourseEditionResponseIDDTO dto1 = mock(CourseEditionResponseIDDTO.class);
         CourseEditionResponseIDDTO dto2 = mock(CourseEditionResponseIDDTO.class);
         
@@ -163,7 +161,7 @@ class CourseEditionHateoasAssemblerTest {
     }
     @Test
     void toModel_shouldThrowRuntimeException_whenExceptionOccurs() {
-        CourseEditionHateoasAssembler assembler = new CourseEditionHateoasAssembler();
+        CourseEditionRUCHateoasAssembler assembler = new CourseEditionRUCHateoasAssembler();
 
         DefineRucResponseDTO dto = mock(DefineRucResponseDTO.class);
         when(dto.teacherID()).thenThrow(new RuntimeException("Forced exception"));

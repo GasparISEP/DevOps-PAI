@@ -1,91 +1,57 @@
 package PAI.dto.Programme;
 
-
-
+import PAI.dto.teacher.TeacherIdDTO;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.Set;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class ProgrammeDirectorRequestDTOTest {
 
-    static class ProgrammeDirectorTestData {
-        final String programmeName = "Data Science";
-        final String programmeAcronym = "DSE";
-        final String teacherAcronym = "TCH";
+    private static Validator validator;
+
+    @BeforeEach
+    public void setup() {
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        validator = factory.getValidator();
     }
 
     @Test
-    void shouldCreateProgrammeDirectorRequestDTO() {
-        // arrange & act
-        ProgrammeDirectorRequestDTO dto = new ProgrammeDirectorRequestDTO();
+    void testValidTeacher() {
+        TeacherIdDTO teacher = new TeacherIdDTO("ABC");
+        ProgrammeDirectorRequestDTO dto = new ProgrammeDirectorRequestDTO(teacher);
 
-        // assert
-        assertNotNull(dto);
+        Set<ConstraintViolation<ProgrammeDirectorRequestDTO>> violations = validator.validate(dto);
+        assertTrue(violations.isEmpty());
     }
 
     @Test
-    void shouldCreateProgrammeDirectorRequestDTOWithGivenValues() {
-        // arrange
-        ProgrammeDirectorTestData data = new ProgrammeDirectorTestData();
+    void testInvalidTeacherAcronym() {
+        TeacherIdDTO teacher = new TeacherIdDTO("AB");
+        ProgrammeDirectorRequestDTO dto = new ProgrammeDirectorRequestDTO(teacher);
 
-        // act
-        ProgrammeDirectorRequestDTO dto = new ProgrammeDirectorRequestDTO(
-                data.programmeName,
-                data.programmeAcronym,
-                data.teacherAcronym
-        );
+        Set<ConstraintViolation<ProgrammeDirectorRequestDTO>> violations = validator.validate(dto);
+        assertFalse(violations.isEmpty());
 
-        // assert
-        assertNotNull(dto);
+        // Because validation happens on nested TeacherIDDTO,
+        // the message should reflect the TeacherIDDTO's constraint
+        assertEquals("Acronym must have exactly 3 characters",
+                violations.iterator().next().getMessage());
     }
 
     @Test
-    void getProgrammeNameShouldReturnCorrectName() {
-        // arrange
-        ProgrammeDirectorTestData data = new ProgrammeDirectorTestData();
-        ProgrammeDirectorRequestDTO dto = new ProgrammeDirectorRequestDTO(
-                data.programmeName,
-                data.programmeAcronym,
-                data.teacherAcronym
-        );
+    void testNullTeacher() {
+        ProgrammeDirectorRequestDTO dto = new ProgrammeDirectorRequestDTO(null);
 
-        // act
-        String result = dto.getProgrammeName();
+        Set<ConstraintViolation<ProgrammeDirectorRequestDTO>> violations = validator.validate(dto);
 
-        // assert
-        assertEquals(data.programmeName, result);
-    }
-
-    @Test
-    void getProgrammeAcronymShouldReturnCorrectAcronym() {
-        // arrange
-        ProgrammeDirectorTestData data = new ProgrammeDirectorTestData();
-        ProgrammeDirectorRequestDTO dto = new ProgrammeDirectorRequestDTO(
-                data.programmeName,
-                data.programmeAcronym,
-                data.teacherAcronym
-        );
-
-        // act
-        String result = dto.getProgrammeAcronym();
-
-        // assert
-        assertEquals(data.programmeAcronym, result);
-    }
-
-    @Test
-    void getTeacherAcronymShouldReturnCorrectAcronym() {
-        // arrange
-        ProgrammeDirectorTestData data = new ProgrammeDirectorTestData();
-        ProgrammeDirectorRequestDTO dto = new ProgrammeDirectorRequestDTO(
-                data.programmeName,
-                data.programmeAcronym,
-                data.teacherAcronym
-        );
-
-        // act
-        String result = dto.getTeacherAcronym();
-
-        // assert
-        assertEquals(data.teacherAcronym, result);
+        // Expect at least one violation because teacher is null
+        assertFalse(violations.isEmpty());
     }
 }

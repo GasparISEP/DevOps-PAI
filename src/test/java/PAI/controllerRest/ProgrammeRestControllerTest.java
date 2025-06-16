@@ -19,6 +19,7 @@ import PAI.dto.student.StudentIDDTO;
 import PAI.dto.studyPlan.RegisterStudyPlanCommand;
 import PAI.dto.studyPlan.StudyPlanDTO;
 import PAI.dto.studyPlan.StudyPlanResponseDTO;
+import PAI.dto.teacher.TeacherIdDTO;
 import PAI.exception.BusinessRuleViolationException;
 import PAI.service.programme.IProgrammeService;
 import PAI.service.programmeEnrolment.IProgrammeEnrolmentService;
@@ -271,57 +272,102 @@ class ProgrammeRestControllerTest {
     }
 
     @Test
-    void shouldAssignProgrammeDirectorSuccessfully() {
-        ProgrammeDirectorRequestDTO requestDto = mock(ProgrammeDirectorRequestDTO.class);
-        ProgrammeDirectorVOsDTO vosDto = mock(ProgrammeDirectorVOsDTO.class);
+    void getProgrammeDirector_ShouldReturnOkWithTeacherIDDTO_WhenDirectorExists() {
+        TeacherID director = new TeacherID(new TeacherAcronym("AAA"));
+        when(_programmeServiceDouble.getProgrammeDirectorByProgrammeID(any(ProgrammeID.class)))
+                .thenReturn(Optional.of(director));
 
-        NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Data Science");
-        Acronym acronym = new Acronym("DSE");
-        TeacherAcronym teacherAcronym = new TeacherAcronym("TCH");
+        ProgrammeRestController controller = new ProgrammeRestController(
+                _programmeServiceDouble, _programmeAssemblerDouble, _programmeEnrolmentService,
+                _studyPlanServiceDouble, _studyPlanAssemblerDouble, _programmeDirectorAssemblerDouble,
+                _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler, _us34Assembler
+        );
 
-        when(_programmeDirectorAssemblerDouble.fromDTOToDomain(requestDto)).thenReturn(vosDto);
-        when(vosDto.getProgrammeName()).thenReturn(name);
-        when(vosDto.getProgrammeAcronym()).thenReturn(acronym);
-        when(vosDto.getTeacherAcronym()).thenReturn(teacherAcronym);
+        ResponseEntity<?> response = controller.getProgrammeDirector("AAA");
 
-        ProgrammeRestController controller = new ProgrammeRestController(_programmeServiceDouble,
-                _programmeAssemblerDouble, _programmeEnrolmentService, _studyPlanServiceDouble, _studyPlanAssemblerDouble,
-                _programmeDirectorAssemblerDouble, _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler,_us34Assembler);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertTrue(response.getBody() instanceof TeacherIdDTO);
 
-        ResponseEntity<Void> response = controller.assignProgrammeDirector(requestDto);
+        TeacherIdDTO dto = (TeacherIdDTO) response.getBody();
+        assertEquals("AAA", dto.acronym());
+
+        verify(_programmeServiceDouble).getProgrammeDirectorByProgrammeID(any());
+    }
+
+    @Test
+    void getProgrammeDirector_ShouldReturnNotFound_WhenDirectorDoesNotExist() {
+        when(_programmeServiceDouble.getProgrammeDirectorByProgrammeID(any(ProgrammeID.class)))
+                .thenReturn(Optional.empty());
+
+        ProgrammeRestController controller = new ProgrammeRestController(
+                _programmeServiceDouble, _programmeAssemblerDouble, _programmeEnrolmentService,
+                _studyPlanServiceDouble, _studyPlanAssemblerDouble, _programmeDirectorAssemblerDouble,
+                _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler, _us34Assembler
+        );
+
+        ResponseEntity<?> response = controller.getProgrammeDirector("WWW");
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertEquals("Programme director not found", response.getBody());
+
+        verify(_programmeServiceDouble).getProgrammeDirectorByProgrammeID(any());
+    }
+
+    @Test
+    void getProgrammeDirector_ShouldReturnBadRequest_WhenExceptionIsThrown() {
+        when(_programmeServiceDouble.getProgrammeDirectorByProgrammeID(any(ProgrammeID.class)))
+                .thenThrow(new IllegalArgumentException());
+
+        ProgrammeRestController controller = new ProgrammeRestController(
+                _programmeServiceDouble, _programmeAssemblerDouble, _programmeEnrolmentService,
+                _studyPlanServiceDouble, _studyPlanAssemblerDouble, _programmeDirectorAssemblerDouble,
+                _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler, _us34Assembler
+        );
+
+        ResponseEntity<?> response = controller.getProgrammeDirector("WWW");
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals("Invalid programme ID", response.getBody());
+
+        verify(_programmeServiceDouble).getProgrammeDirectorByProgrammeID(any());
+    }
+
+    @Test
+    void assignProgrammeDirector_ShouldReturnNoContent_WhenSuccessful() throws Exception {
+        ProgrammeDirectorRequestDTO dto = new ProgrammeDirectorRequestDTO(new TeacherIdDTO("AAA"));
+
+        ProgrammeRestController controller = new ProgrammeRestController(
+                _programmeServiceDouble, _programmeAssemblerDouble, _programmeEnrolmentService,
+                _studyPlanServiceDouble, _studyPlanAssemblerDouble, _programmeDirectorAssemblerDouble,
+                _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler, _us34Assembler
+        );
+
+        ResponseEntity<Void> response = controller.assignProgrammeDirector("ABB", dto);
 
         assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+
+        verify(_programmeServiceDouble).changeProgrammeDirector(any(ProgrammeID.class), any(TeacherID.class));
     }
 
     @Test
-    void shouldReturnBadRequestIfAssignProgrammeDirectorDtoIsNull() {
-        // Arrange
-        ProgrammeRestController controller = new ProgrammeRestController(_programmeServiceDouble,
-                _programmeAssemblerDouble, _programmeEnrolmentService, _studyPlanServiceDouble, _studyPlanAssemblerDouble,
-                _programmeDirectorAssemblerDouble, _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler,_us34Assembler);
+    void assignProgrammeDirector_ShouldReturnBadRequest_WhenExceptionIsThrown() throws Exception {
+        ProgrammeDirectorRequestDTO dto = new ProgrammeDirectorRequestDTO(new TeacherIdDTO("AAA"));
 
-        // Act
-        ResponseEntity<Void> response = controller.assignProgrammeDirector(null);
+        doThrow(new RuntimeException()).when(_programmeServiceDouble).changeProgrammeDirector(any(), any());
 
-        // Assert
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-    }
+        ProgrammeRestController controller = new ProgrammeRestController(
+                _programmeServiceDouble, _programmeAssemblerDouble, _programmeEnrolmentService,
+                _studyPlanServiceDouble, _studyPlanAssemblerDouble, _programmeDirectorAssemblerDouble,
+                _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler, _us34Assembler
+        );
 
-    @Test
-    void shouldReturnBadRequestWhenExceptionThrownDuringAssign() {
-        ProgrammeDirectorRequestDTO requestDto = mock(ProgrammeDirectorRequestDTO.class);
-
-        when(_programmeDirectorAssemblerDouble.fromDTOToDomain(requestDto))
-                .thenThrow(new RuntimeException("Some error"));
-
-        ProgrammeRestController controller = new ProgrammeRestController(_programmeServiceDouble,
-                _programmeAssemblerDouble, _programmeEnrolmentService, _studyPlanServiceDouble, _studyPlanAssemblerDouble,
-                _programmeDirectorAssemblerDouble, _programmeHATEOASAssembler, _programmeEnrolmentAssembler, _studentAssembler,_us34Assembler);
-
-        ResponseEntity<Void> response = controller.assignProgrammeDirector(requestDto);
+        ResponseEntity<Void> response = controller.assignProgrammeDirector("WWW", dto);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+
+        verify(_programmeServiceDouble).changeProgrammeDirector(any(), any());
     }
+
 
     @Test
     void shouldReturnProgrammesByDegreeTypeID() {

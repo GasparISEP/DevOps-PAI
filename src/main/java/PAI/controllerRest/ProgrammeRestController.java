@@ -17,6 +17,7 @@ import PAI.dto.programmeEnrolment.US34ListOfProgrammesDTO;
 import PAI.dto.student.StudentIDDTO;
 import PAI.dto.studyPlan.RegisterStudyPlanCommand;
 import PAI.dto.studyPlan.StudyPlanResponseDTO;
+import PAI.dto.teacher.TeacherIdDTO;
 import PAI.exception.BusinessRuleViolationException;
 import PAI.exception.ErrorResponse;
 import PAI.mapper.student.IStudentMapper;
@@ -68,7 +69,7 @@ public class ProgrammeRestController {
     }
 
     @PostMapping()
-    public ResponseEntity<?> registerProgramme (@Valid @RequestBody ProgrammeDTO programmeDTO) throws Exception {
+    public ResponseEntity<EntityModel<ProgrammeIDDTO>> registerProgramme (@Valid @RequestBody ProgrammeDTO programmeDTO) throws Exception {
 
         ProgrammeVOsDTO programmeVOsDto = _programmeAssembler.fromDTOToDomain(programmeDTO);
         Programme programmeCreated = _programmeService.registerProgramme(programmeVOsDto);
@@ -111,18 +112,42 @@ public class ProgrammeRestController {
         return ResponseEntity.ok(response);
     }
 
-    @PatchMapping("/assigndirector")
-    public ResponseEntity<Void> assignProgrammeDirector(@RequestBody ProgrammeDirectorRequestDTO dto) {
-        if (dto == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    @GetMapping("/{id}/director")
+    public ResponseEntity<?> getProgrammeDirector(@PathVariable("id") String acronym) {
+        try {
+            Acronym programmeAcronym = new Acronym(acronym);
+            ProgrammeID programmeID = new ProgrammeID(programmeAcronym);
+
+            Optional<TeacherID> directorIDOpt = _programmeService.getProgrammeDirectorByProgrammeID(programmeID);
+
+            if (directorIDOpt.isPresent()) {
+                TeacherID directorID = directorIDOpt.get();
+
+                TeacherIdDTO directorDTO = new TeacherIdDTO(directorID.getTeacherAcronym().getAcronym());
+
+                return ResponseEntity.ok(directorDTO);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Programme director not found");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Invalid programme ID");
+        }
+    }
+
+    @PatchMapping("/{programmeId}/director")
+    public ResponseEntity<Void> assignProgrammeDirector(
+            @PathVariable("programmeId") String programmeId,
+            @Valid @RequestBody ProgrammeDirectorRequestDTO dto) {
 
         try {
-            ProgrammeDirectorVOsDTO vosDTO = _programmeDirectorAssembler.fromDTOToDomain(dto);
-            ProgrammeID programmeID = new ProgrammeID(vosDTO.getProgrammeAcronym());
-            TeacherID teacherID = new TeacherID(vosDTO.getTeacherAcronym());
+            ProgrammeID programmeID = new ProgrammeID(new Acronym(programmeId));
+            TeacherID teacherID = new TeacherID(new TeacherAcronym(dto.teacher().acronym()));
+
             _programmeService.changeProgrammeDirector(programmeID, teacherID);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+            return ResponseEntity.noContent().build();
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().build();
         }
     }
 
