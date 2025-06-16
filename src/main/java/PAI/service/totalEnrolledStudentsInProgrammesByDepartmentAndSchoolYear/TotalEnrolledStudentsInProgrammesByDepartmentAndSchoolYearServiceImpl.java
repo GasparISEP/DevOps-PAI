@@ -54,7 +54,7 @@ public class TotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearServiceIm
 
         if (!isDepartmentIdAndSchoolYearIdValid(departmentID, schoolYearID)) return 0;
 
-        List<ProgrammeID> programmeIDList = programmeRepository.findProgrammeByDepartment(departmentID);
+        List<ProgrammeID> programmeIDList = programmeRepository.findProgrammesIdByDepartmentId(departmentID);
         if (programmeIDList.isEmpty()) return 0;
 
         List<ProgrammeEditionID> programmeEditionIDList = programmeEditionRepository.findProgrammeEditionIDsBySchoolYearIDAndProgrammeIDs(schoolYearID, programmeIDList);

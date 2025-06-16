@@ -45,7 +45,7 @@ public class ProgrammeRepositoryImpl implements IProgrammeRepository {
         return ofIdentity(id).isPresent();
     }
 
-    public List<ProgrammeID> findProgrammeByDepartment(DepartmentID departmentID){
+    public List<ProgrammeID> findProgrammesIdByDepartmentId(DepartmentID departmentID){
         List<ProgrammeID> programmesWithDepartment = new ArrayList<>();
         for (Programme programme : _programmeRepo) {
             if(programme.isInDepartment(departmentID)){

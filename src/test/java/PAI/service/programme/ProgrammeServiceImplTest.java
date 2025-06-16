@@ -381,7 +381,7 @@ class ProgrammeServiceImplTest {
 
         ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService, _departmentServiceDouble, _teacherServiceDouble);
 
-        when(_programmeRepositoryDouble.findProgrammeByDepartment(_departmentIDDouble)).thenReturn(List.of(_programmeIDDouble,_programme2IDDouble));
+        when(_programmeRepositoryDouble.findProgrammesIdByDepartmentId(_departmentIDDouble)).thenReturn(List.of(_programmeIDDouble,_programme2IDDouble));
 
         //Act
         List<ProgrammeID> result = service.findProgrammeByDepartment(_departmentIDDouble);
