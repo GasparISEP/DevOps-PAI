@@ -20,48 +20,57 @@ participant "<<System>>\nSystemPAI" as System #E1F5FE
 admin -> System: I want to add a Course to a Programme!
 activate System
 
-System --> admin: Which Programme?
+group Collect Course Details
+System --> admin: Please provide Programme
 deactivate System #teal
 
-admin -> System: Enter Programme!
+admin -> System: Programme submitted
 activate System
 
-System --> admin: Which Course?
+System --> admin: Please provide Course
 deactivate System
 
-admin -> System: Enter Course!
+admin -> System: Course submitted
 activate System
 
-System --> admin: Which Curricular Year?
+System --> admin: Please provide Curricular Year
 deactivate System
 
-admin -> System: Enter Curricular Year!
+admin -> System: Curricular Year submitted
 activate System
 
-System --> admin: Which Semester?
+System --> admin: Please provide Semester
 deactivate System
 
-admin -> System: Enter Semester!
+admin -> System: Semester submitted
 activate System
 
-System --> admin: Duration of Course in Semester?
+System --> admin: Please provide Course Duration in Curricular Year
 deactivate System
 
-admin -> System: Enter Duration!
+admin -> System: Duration submitted
 activate System
 
-System --> admin: Quantity of Credits?
+System --> admin: Please provide Quantity of ECTS Credits
 deactivate System
 
-admin -> System: Enter ECTS credits!
+admin -> System: Credits submitted
+activate System
+end
+
+System --> admin: Confirm Course addition?
+deactivate System
+
+admin -> System: Confirm
 activate System
 
-System --> admin: Confirm adding a course to a programme?
+System --> admin: Course successfully added to the Programme!
 deactivate System
 
-admin -> System: Yes, confirm
-activate System
-
-System --> admin: Course added to a programme successfully!
-deactivate System
+note left admin
+ASC =
+Academic
+Services
+Coordinator
+end note
 @enduml
