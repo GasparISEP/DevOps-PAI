@@ -5,5 +5,4 @@ import org.springframework.hateoas.EntityModel;
 
 public interface IStudentHateoasAssembler {
     EntityModel<StudentResponseDTO> toModel(StudentResponseDTO dto);
-    EntityModel<StudentResponseDTO> toModelList(StudentResponseDTO dto);
 }

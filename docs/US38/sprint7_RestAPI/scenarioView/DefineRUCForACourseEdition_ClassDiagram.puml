@@ -6,9 +6,8 @@ skinparam linetype ortho
 ' ======= REST CONTROLLER =======
 class CourseEditionRESTController #94bca0 {
    +  CourseEditionRESTController (service : ICourseEditionService)
-   +  getAllCourseEditions(): Iterable<CourseEdition>
-   +  getAllTeachers(): Iterable<Teacher>
-   +  defineRucForCourseEdition (teacherID: TeacherID, courseEditionID: CourseEditionID): boolean
+   +  FindAllCourseEditions(): Iterable<CourseEditionServiceResponseDTO>
+   +  defineRucForCourseEdition (DefineRucRequestDTO defineRucRequestDTO): boolean
 }
 
 ' ======= APPLICATION SERVICES =======
@@ -16,8 +15,7 @@ class DefineRucServiceImpl #fff0f5 {
   + DefineRucServiceImpl(courseEditionRepository: ICourseEditionRepository, teacherRepository: ITeacherRepository)
   + assignRucToCourseEdition(teacherID: TeacherID, courseEditionID: CourseEditionID): boolean
   + findAll(): Iterable<CourseEdition>
-  + ofIdentity(id: CourseEditionID): Optional<CourseEdition>
-  + containsOfIdentity(id: CourseEditionID): boolean
+  +FindCourseEditionByGeneratedID(CourseEditionGeneratedIdDataModel id):Optional<CourseEdition>
 }
 
 ' ======= Domain Layer =======
@@ -53,16 +51,18 @@ class CourseEditionID <<ValueObject>> #ffffe0 {
     + getProgrammeEditionID(): programmeEditionID
     + getCourseInStudyPlanID(): CourseInStudyPlanID
 }
+class CourseEditionGeneratedID <<ValueObject>> #ffffe0 {
+    - UUID: CourseEditionGeneratedID
+    + getCourseEditionGeneratedId(): UUID
+}
 
 ' ======= Infrastructure Layer =======
 
 
 interface ICourseEditionRepositorySpringData #e6f2ff {
-+ CourseEditionRepositorySpringDataImpl(courseEditionReposSD: ICourseEditionRepositorySpringData\n courseEditionMapper: ICourseEditionMapper, courseEditionIDMapper: ICourseEditionIDMapper)
++ CourseEditionRepositorySpringDataImpl(courseEditionReposSD: ICourseEditionRepositorySpringData\n courseEditionMapper: ICourseEditionMapper, courseEditionIDMapper: ICourseEditionGeneratedIDMapper)
   + save (entity: CourseEdition):  CourseEdition
-  + ofIdentity(id: CourseEditionID): Optional<CourseEdition>
-  + findAll(): Iterable<CourseEdition>
-  + containsOfIdentity(id: CourseEditionID): boolean
+  +findCourseEditionByGeneratedId(courseEditionGeneratedIDDataModel:generatedID):CourseEditionGeneratedID
 }
 interface ITeacherRepositorySpringData #e6f2ff {
  - springDataRepo: ITeacherRepositorySpringData
@@ -77,12 +77,11 @@ interface ITeacherRepositorySpringData #e6f2ff {
 interface IDefineRucService #D5E5C0 {
   + assignRucToCourseEdition(teacherID: TeacherID, courseEditionID: CourseEditionID): boolean
   + findAll(): Iterable<CourseEdition>
-  + ofIdentity(id: CourseEditionID): Optional<CourseEdition>
-  + containsOfIdentity(id: CourseEditionID): boolean
+  +
 }
 
 class CourseEditionRepositorySpringDataImpl #D5E5C0 {
-  + CourseEditionRepositorySpringDataImpl(courseEditionReposSD: ICourseEditionRepositorySpringData\n courseEditionMapper: ICourseEditionMapper, courseEditionIDMapper: ICourseEditionIDMapper)
+  + CourseEditionRepositorySpringDataImpl(courseEditionReposSD: ICourseEditionRepositorySpringData\n courseEditionMapper: ICourseEditionMapper, courseEditionIDMapper: ICourseEditionGeneratedIDMapper)
   + save (entity: CourseEdition):  CourseEdition
   + ofIdentity(id: CourseEditionID): Optional<CourseEdition>
   + findAll(): Iterable<CourseEdition>
@@ -104,7 +103,7 @@ class CourseEditionDataModel #f0fff0 {
 }
 
 class CourseEditionIDDataModel #f0fff0 {
-    + CourseEditionIDDataModel(programmeEditionIdDataModel: ProgrammeEditionIdDataModel, courseInStudyPlanIDDataModel: CourseInStudyPlanIDDataModel)
+    + CourseEditionGeneratedIDDataModel(courseEditionGeneratedId:UUID)
 }
 
 class TeacherIDDataModel #f0fff0 {
@@ -133,13 +132,13 @@ class TeacherIDMapper #f0fff0 {
 interface ICourseEditionAssembler #cbfcd9 {
     + toCommand(dto: CourseEditionRequestDTO): CreateCourseEditionCommand
     + toResponseDTO(domain: CourseEdition): CourseEditionResponseDTO
-    + fromDtoToCourseEditionID (courseEditionDTO: CourseEditionResponseDTO): CourseEditionID
+    + fromDtoToCourseEditionGeneratedID (SelectedCourseEditionGeneratedIdDTO: CourseEditionResponseDTO): CourseEditionGeneratedID
     + createTeacherID (teacherID: String): TeacherID
 }
 
-interface ICourseEditionIDMapper #f0fff0 {
-   + toDomain (courseEditionIDDataModel: CourseEditionIDDataModel): CourseEditionID
-   + toDataModel (courseEditionID: CourseEditionID): CourseEditionIDDataModel
+interface ICourseEditionGeneratedIDMapper #f0fff0 {
+   + toDomain (courseEditionGeneratedIDDataModel: CourseEditionGeneratedIDDataModel): CourseEditionGeneratedID
+   + toDataModel (courseEditionGeneratedID: CourseEditionGeneratedID): CourseEditionGeneratedIDDataModel
 }
 
 interface ITeacherIDMapper #f0fff0 {
@@ -163,6 +162,7 @@ class DefineRucRequestDTO #cbfcd9 {
 
 class DefineRucResponseDTO  #cbfcd9 {
     - teacherID: String
+    - UUID: courseEditionGeneratedID
 }
 
 
@@ -186,7 +186,7 @@ interface ICourseEditionHateoasAssembler #cbfcd9 {
 ' ======= Associations =======
 CourseEditionRESTController "1" --> "1 _service" IDefineRucService
 CourseEditionRESTController "1" --> "1 _assembler          "ICourseEditionAssembler
-CourseEditionRESTController "1" ..> "*" CourseEditionID
+CourseEditionRESTController "1" ..> "*" CourseEditionGeneratedID
 CourseEditionRESTController "1" ..> "*" TeacherID
 CourseEditionRESTController "1" ..> "*" DefineRucRequestDTO
 CourseEditionRESTController "1" ..> "*" SelectedCourseEditionIDDTO
@@ -196,7 +196,7 @@ CourseEditionRESTController "1" --> "1 _hateoasAssembler" ICourseEditionHateoasA
 DefineRucRequestDTO "1" -> "1" SelectedCourseEditionIDDTO
 DefineRucResponseDTO "1" -> "1 _courseEditionDTO" SelectedCourseEditionIDDTO
 CourseEditionAssemblerImpl ..|> ICourseEditionAssembler
-ICourseEditionAssembler "1" ..> "*" CourseEditionID
+ICourseEditionAssembler "1" ..> "*" CourseEditionGeneratedID
 ICourseEditionAssembler "1" ..> "*" TeacherID
 ICourseEditionAssembler "1" ..> "*" DefineRucRequestDTO
 CourseEditionHateoasAssembler ..|> ICourseEditionHateoasAssembler
@@ -207,7 +207,7 @@ DefineRucServiceImpl "1" --> "1 _courseEditionRepo" ICourseEditionRepository
 
 CourseEditionRepositorySpringDataImpl ..|> ICourseEditionRepository
 CourseEditionRepositorySpringDataImpl "1" ..> "*" CourseEdition
-CourseEditionRepositorySpringDataImpl "1" --> "1 _iDMapper" ICourseEditionIDMapper
+CourseEditionRepositorySpringDataImpl "1" --> "1 _iDMapper" ICourseEditionGeneratedIDMapper
 CourseEditionRepositorySpringDataImpl "1" --> "1 _repo" ICourseEditionRepositorySpringData
 CourseEditionRepositorySpringDataImpl "1" --> "1 _mapper" ICourseEditionMapper
 
@@ -217,15 +217,16 @@ TeacherRepositorySpringDataImpl "1" --> "1 _repo" ITeacherRepositorySpringData
 
 ICourseEditionRepositorySpringData "1" ..> "*" CourseEditionDataModel
 CourseEditionMapper ..|> ICourseEditionMapper
-CourseEditionIDMapper ..|> ICourseEditionIDMapper
+CourseEditionIDMapper ..|> ICourseEditionGeneratedIDMapper
 TeacherIDMapper ..|> ITeacherIDMapper
 
-ICourseEditionIDMapper "1" ..> "* _idDataModel" CourseEditionIDDataModel
+ICourseEditionGeneratedIDMapper "1" ..> "* _idDataModel" CourseEditionIDDataModel
 ITeacherIDMapper "1" ..> "* _idDataModel" TeacherIDDataModel
 
 CourseEditionDataModel "1" --> "1" CourseEditionIDDataModel
 CourseEdition "1" --> "1" TeacherID
 CourseEdition "1" --> "1" CourseEditionID
+CourseEdition "1" --> "1" CourseEditionGeneratedID
 
 ' ======= LEGEND =======
 legend left

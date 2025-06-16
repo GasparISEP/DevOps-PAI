@@ -1,7 +1,6 @@
 package PAI.assembler.student;
 
 import PAI.controllerRest.StudentRestController;
-import PAI.dto.programmeEnrolment.ProgrammeEnrolmentDTO;
 import PAI.dto.student.StudentResponseDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.hateoas.EntityModel;
@@ -38,31 +37,15 @@ class StudentHateoasAssemblerImplTest {
         assertTrue(result.getLinks().hasLink("all"));
         String expectedHref2 = linkTo(methodOn(StudentRestController.class).getAllStudents()).toUri().toString();
         assertEquals(expectedHref2, result.getLink("all").get().getHref());
-    }
 
-    @Test
-    void toModelList_shouldReturnEntityModelWithCorrectLinks() {
-        // Arrange
-        StudentHateoasAssemblerImpl assembler = new StudentHateoasAssemblerImpl();
+        assertTrue(result.getLinks().hasLink("self"));
 
-        ProgrammeEnrolmentDTO programmeEnrolmentDTO = new ProgrammeEnrolmentDTO();
+        // Verificar link "self"
+        String expectedSelfHref = linkTo(methodOn(StudentRestController.class)
+                .getStudentByID(dto.getStudentID()))
+                .toUri()
+                .toString();
 
-        StudentResponseDTO dto = new StudentResponseDTO(
-                1234567, "João Silva", "123456789", "Portugal",
-                "Rua Central", "1234-567", "Porto", "Portugal",
-                "+351", "912345678", "joao.silva@example.com", "1234567@ipt.pt"
-        );
-
-        // Act
-        EntityModel<StudentResponseDTO> result = assembler.toModelList(dto);
-
-        // Assert
-        assertNotNull(result);
-        assertEquals(dto, result.getContent());
-
-        // Verificar link "enrollStudent"
-        assertTrue(result.getLinks().hasLink("enrollStudent"));
-        String expectedHref1 = linkTo(methodOn(StudentRestController.class).enrolStudentInProgramme(programmeEnrolmentDTO)).toUri().toString();
-        assertEquals(expectedHref1, result.getLink("enrollStudent").get().getHref());
+        assertEquals(expectedSelfHref, result.getLink("self").get().getHref());
     }
 }

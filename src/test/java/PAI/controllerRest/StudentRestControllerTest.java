@@ -140,7 +140,7 @@ class StudentRestControllerTest {
         EntityModel<StudentResponseDTO> entityModel = EntityModel.of(responseDTO);
 
         when(mapper.toStudentResponseDTO(student)).thenReturn(responseDTO);
-        when(hateoasAssembler.toModelList(responseDTO)).thenReturn(entityModel);
+        when(hateoasAssembler.toModel(responseDTO)).thenReturn(entityModel);
 
         ResponseEntity<EntityModel<StudentResponseDTO>> response = studentRestController.registerAStudent(dto);
 

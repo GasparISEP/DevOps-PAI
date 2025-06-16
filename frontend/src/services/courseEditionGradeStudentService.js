@@ -37,7 +37,7 @@ export async function gradeAStudentWithLink(gradeAStudentRequestDTO) {
  * Obtain a student's registration for course editions.
  */
 export async function getEnrolmentsForStudent(studentID) {
-    const response = await fetch(`${API_URL}/students/${studentID}/courseeditionenrolments`);
+    const response = await fetch(`${API_URL}/course-editions/students/${studentID}/courseeditionenrolments`);
 
     if (!response.ok) {
         throw new Error(`Error when searching for student registrations ${studentID}`);

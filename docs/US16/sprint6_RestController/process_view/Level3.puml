@@ -23,7 +23,7 @@ RT -> CT ++: enrolStudentInCourseEdition(CourseEditionEnrolmentDto)
 CT -> SE ++: enrollStudentInCourseEdition(CourseEditionEnrolment)
 
 
-SE -> DM ++: new CourseEditionEnrolment()
+SE -> DM ++: createCourseEditionEnrolment(CourseEditionEnrolment)
 DM --> SE --: CourseEditionEnrolment
 
 SE -> RE ++: save(CourseEditionEnrolment)
@@ -33,7 +33,7 @@ RE ->o]: Insert Data
 RE <--o]: DataLinha
 
 
-RE -> DM ++: new CourseEditionEnrolment()
+RE -> DM ++: toDomain(DataLinha)
 DM --> RE --: CourseEditionEnrolment
 
 RE --> SE --: CourseEditionEnrolment

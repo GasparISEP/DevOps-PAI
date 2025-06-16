@@ -23,23 +23,10 @@ public class StudentHateoasAssemblerImpl
 
                 linkTo(methodOn(StudentRestController.class)
                         .getAllStudents())
-                        .withRel("all")
-        );
-    }
-
-    @Override
-    public EntityModel<StudentResponseDTO> toModelList(StudentResponseDTO dto) {
-        int studentId = dto.getStudentID();
-
-        ProgrammeEnrolmentDTO programmeEnrolmentDTO = new ProgrammeEnrolmentDTO();
-
-        return EntityModel.of(dto,
-                linkTo(methodOn(StudentRestController.class)
-                        .enrolStudentInProgramme(programmeEnrolmentDTO))
-                        .withRel("enrollStudent"),
+                        .withRel("all"),
 
                 linkTo(methodOn(StudentRestController.class)
-                        .getStudentByID(studentId))
+                        .getStudentByID(dto.getStudentID()))
                         .withSelfRel()
         );
     }

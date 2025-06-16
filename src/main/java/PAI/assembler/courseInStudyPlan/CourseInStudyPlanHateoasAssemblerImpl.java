@@ -21,7 +21,7 @@ public class CourseInStudyPlanHateoasAssemblerImpl implements ICourseInStudyPlan
         return EntityModel.of(dto,
                 linkTo(methodOn(CourseInStudyPlanRestController.class)
                         .getCoursesInStudyPlanByProgrammeID(dto.programmeAcronym()))
-                        .withRel("courses-in-programme")
+                        .withRel("courses-in-study-plan")
         );
     }
 
@@ -39,7 +39,7 @@ public class CourseInStudyPlanHateoasAssemblerImpl implements ICourseInStudyPlan
 
         return CollectionModel.of(entityModels,
                 linkTo(methodOn(CourseInStudyPlanRestController.class).create(null))
-                        .withRel("create-course")
+                        .withRel("create-course-in-study-plan")
         );
     }
 }
