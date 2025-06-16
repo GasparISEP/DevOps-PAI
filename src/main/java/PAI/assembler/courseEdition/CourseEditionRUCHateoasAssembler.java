@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 import org.springframework.hateoas.CollectionModel;
 
 @Component
-public class CourseEditionRUCHateoasAssembler implements RepresentationModelAssembler<DefineRucResponseDTO, EntityModel<DefineRucResponseDTO>>, ICourseEditionHateoasAssembler {
+public class CourseEditionRUCHateoasAssembler implements RepresentationModelAssembler<DefineRucResponseDTO, EntityModel<DefineRucResponseDTO>>, ICourseEditionRUCHateoasAssembler {
 
     @Override
     public EntityModel<DefineRucResponseDTO> toModel(DefineRucResponseDTO dto) {
