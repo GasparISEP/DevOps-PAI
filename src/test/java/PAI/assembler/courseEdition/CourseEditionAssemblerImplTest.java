@@ -356,5 +356,47 @@ class CourseEditionAssemblerImplTest {
         assertEquals("CourseEditionRequestDTO cannot be null", exception.getMessage());
     }
 
+    @Test
+    void toResponseIDDTO_ShouldMapCorrectly() {
+        // Arrange
+        UUID schoolYearUUID = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
+        String programmeAcronym = "ENG";
+        String courseAcronym = "CS101";
+        String courseName = "Intro to Computer Science";
+        LocalDate studyPlanDate = LocalDate.of(2025, 1, 15);
+        String generatedID = "ENG-123e4567-e89b-12d3-a456-426614174000_CS101-Intro to Computer Science-ENG-2025-01-15";
+
+        CourseEditionServiceResponseDTO serviceDTO = new CourseEditionServiceResponseDTO(
+                UUID.randomUUID(),
+                programmeAcronym,
+                schoolYearUUID,
+                courseAcronym,
+                courseName,
+                studyPlanDate,
+                generatedID
+        );
+
+        // Act
+        CourseEditionResponseIDDTO responseDTO = assembler.toResponseIDDTO(serviceDTO);
+
+        // Assert
+        assertNotNull(responseDTO);
+        assertEquals(programmeAcronym, responseDTO.programmeAcronym());
+        assertEquals(schoolYearUUID, responseDTO.schoolYearID());
+        assertEquals(courseAcronym, responseDTO.courseAcronym());
+        assertEquals(courseName, responseDTO.courseName());
+        assertEquals(studyPlanDate, responseDTO.studyPlanImplementationDate());
+        assertEquals(generatedID, responseDTO.courseEditionID());
+    }
+
+    @Test
+    void toResponseIDDTO_ShouldThrowExceptionWhenInputIsNull() {
+        // Act & Assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            assembler.toResponseIDDTO((CourseEditionServiceResponseDTO) null);
+        });
+    }
+
+
 
 }
