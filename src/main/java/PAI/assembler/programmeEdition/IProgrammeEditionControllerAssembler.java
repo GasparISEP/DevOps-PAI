@@ -16,8 +16,14 @@ import java.util.List;
 
 public interface IProgrammeEditionControllerAssembler {
     ProgrammeEditionIdDto toIdDto(ProgrammeEditionID id);
+
     ProgrammeEditionRequestServiceDTO toServiceDTOFromRequestDTO(ProgrammeEditionRequestDTO programmeEditionRequest);
+
     ProgrammeEditionResponseDTO toResponseDTOFromServiceDTO(ProgrammeEditionResponseServiceDTO responseDTO);
-    List<ProgrammeEditionResponseDTO> toResponseDTOList (ProgrammeEditionResponseServiceDTO responseDTO);
+
+    List<ProgrammeEditionResponseDTO> toResponseDTOList(ProgrammeEditionResponseServiceDTO responseDTO);
+
     ProgrammeEditionWithNameAndDescriptionResponseDTO toProgrammeEditionIdResponseDto(Programme programme, SchoolYear schoolYear);
+
+    RequestServiceDto toRequestServiceDtoFromIDs(String programmeAcronym, String schoolYearID);
 }

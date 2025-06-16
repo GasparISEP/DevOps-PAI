@@ -64,4 +64,9 @@ public class ProgrammeEditionControllerAssembler implements IProgrammeEditionCon
 
         return new ProgrammeEditionWithNameAndDescriptionResponseDTO(acronym,schoolYearId, name, description);
     }
+
+    @Override
+    public RequestServiceDto toRequestServiceDtoFromIDs(String programmeAcronym, String schoolYearID) {
+        return new RequestServiceDto(programmeAcronym, schoolYearID);
+    }
 }
