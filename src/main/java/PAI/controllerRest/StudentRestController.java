@@ -226,9 +226,9 @@ public class StudentRestController {
         return ResponseEntity.ok(model);
     }
 
-    @GetMapping("/{studentId}/enrolled-course-editions")
+    @GetMapping("/{id}/enrolled-course-editions")
     public ResponseEntity<List<EnrolledCourseEditionDTO>> findEnrolledCourseEditionsForStudent(
-            @PathVariable("studentId") int studentUniqueNumber) {
+            @PathVariable("id") int studentUniqueNumber) {
 
         StudentID studentID = new StudentID(studentUniqueNumber);
 
