@@ -29,12 +29,16 @@ export async function updateTeacherCategory (payload) {
 
     const selfLink = responseData?._links?.self?.href || null;
     const allLink = responseData?._links?.all?.href || null;
+    const detailsLink = responseData?._links?.details?.href || null;
+    const collectionLink = responseData?._links?.collection?.href || null;
 
     return {
         data: responseData,
         links: {
             self: selfLink,
-            all: allLink
+            all: allLink,
+            details: detailsLink,
+            collection: collectionLink
         }
     };
 }

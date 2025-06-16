@@ -28,6 +28,7 @@ function AppRoutes() {
                     <Route path="/teachers/display" element={<DisplayTeacherPage />} />
                     <Route path="/teachers/update-category" element={<UpdateTeacherCategoryPage />} />
                     <Route path="/teachers/DisplayTeacherCareerProgression" element={<DisplayTeacherCareerProgressionPage />} />
+                    <Route path="/teacher-career-progressions" element={<DisplayTeacherCareerProgressionPage />} />
                     <Route path="/programmes" element={<RegisterProgrammePage />} />
                     <Route path="/courses" element={<RegisterCourseInStudyPlanPage />} />
                     <Route path="/courseeditions/display" element={<DisplayCourseEditionPage />} />
