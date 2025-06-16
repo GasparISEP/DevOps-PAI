@@ -4,6 +4,7 @@ import PAI.VOs.*;
 import PAI.VOs.Date;
 import PAI.assembler.programmeEdition.IProgrammeEditionControllerAssembler;
 import PAI.assembler.programmeEditionEnrolment.StudentProgrammeEditionEnrolmentAssemblerImpl;
+import PAI.assembler.programmeEnrolment.IProgrammeEnrolmentAssembler;
 import PAI.domain.programme.Programme;
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.domain.programmeEditionEnrolment.IProgrammeEditionEnrolmentFactory;
@@ -14,6 +15,7 @@ import PAI.domain.repositoryInterfaces.programmeEdition.IProgrammeEditionReposit
 import PAI.domain.repositoryInterfaces.programmeEditionEnrolment.IProgrammeEditionEnrolmentRepository;
 import PAI.domain.repositoryInterfaces.programmeEnrolment.IProgrammeEnrolmentRepository;
 import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
+import PAI.domain.repositoryInterfaces.student.IStudentRepository;
 import PAI.domain.schoolYear.SchoolYear;
 import PAI.dto.programmeEdition.ProgrammeEditionWithNameAndDescriptionResponseDTO;
 import PAI.dto.programmeEditionEnrolment.StudentProgrammeEditionEnrolmentDTO;
@@ -36,6 +38,8 @@ class StudentProgrammeEditionEnrolmentServiceImplTest {
     private IProgrammeEditionControllerAssembler programmeEditionControllerAssembler;
     private ISchoolYearRepository schoolYearRepository;
     private IProgrammeRepository programmeRepository;
+    private IStudentRepository studentRepository;
+    private IProgrammeEnrolmentAssembler programmeEnrolmentAssembler;
 
     private StudentProgrammeEditionEnrolmentServiceImpl service;
 
@@ -49,6 +53,9 @@ class StudentProgrammeEditionEnrolmentServiceImplTest {
         programmeEditionControllerAssembler = mock(IProgrammeEditionControllerAssembler.class);
         schoolYearRepository = mock(ISchoolYearRepository.class);
         programmeRepository = mock(IProgrammeRepository.class);
+        studentRepository = mock(IStudentRepository.class);
+        programmeEnrolmentAssembler = mock(IProgrammeEnrolmentAssembler.class);
+
 
         service = new StudentProgrammeEditionEnrolmentServiceImpl(
                 programmeEnrolmentRepository,
@@ -58,7 +65,9 @@ class StudentProgrammeEditionEnrolmentServiceImplTest {
                 assembler,
                 programmeEditionControllerAssembler,
                 schoolYearRepository,
-                programmeRepository
+                programmeRepository,
+                studentRepository,
+                programmeEnrolmentAssembler
 
                 );
     }

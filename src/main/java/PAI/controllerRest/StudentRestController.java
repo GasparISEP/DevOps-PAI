@@ -16,6 +16,7 @@ import PAI.dto.ProgrammeAndCourses.StudentEnrolmentResultDto;
 import PAI.dto.ProgrammeAndCourses.StudentProgrammeEnrolmentRequestDto;
 import PAI.dto.courseEditionEnrolment.EnrolledCourseEditionDTO;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentDTO;
+import PAI.dto.programmeEnrolment.ProgrammeEnrolmentHateoasResponseDto;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentIdDTO;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentResponseDTO;
 import PAI.dto.student.StudentDTO;
@@ -165,9 +166,8 @@ public class StudentRestController {
         }
     }
 
-
     @GetMapping("/enrollStudent/{programmeEnrolmentGID}")
-    public ResponseEntity<ProgrammeEnrolmentResponseDTO> getEnrolmentByStudentAndProgramme(
+    public ResponseEntity<ProgrammeEnrolmentHateoasResponseDto> getEnrolmentByStudentAndProgramme(
             @PathVariable("programmeEnrolmentGID") UUID programmeEnrolmentGID
     ) {
 
@@ -184,17 +184,18 @@ public class StudentRestController {
                 return ResponseEntity.notFound().build();
             }
 
-            ProgrammeEnrolmentResponseDTO responseDto = programmeEnrolmentMapper.toProgrammeEnrolmentDTO(pe);
+            ProgrammeEnrolmentHateoasResponseDto responseDto = iStudentProgrammeEnrolmentService.getProgrammeEnrolmentHateoasInformationDto(pe);
+
+            System.out.println("ID recebido: " + programmeEnrolmentGID);
+            System.out.println("StudentID: " + studentID);
+            System.out.println("ProgrammeID: " + programmeID);
 
             return ResponseEntity.ok(responseDto);
+        } catch (Exception e) {
+            e.printStackTrace(); // ou log.error("Erro ao obter inscrição", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
-     catch (Exception e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
-
-    }
-
-
 
     @PostMapping("/{id}/enrolments")
     public ResponseEntity<StudentEnrolmentResultDto> enrolStudent(@RequestBody StudentProgrammeEnrolmentRequestDto dto) throws Exception {
