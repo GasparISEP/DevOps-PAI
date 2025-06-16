@@ -1,9 +1,7 @@
 package PAI.service.courseInStudyPlan;
 
 import PAI.VOs.*;
-import PAI.assembler.courseInStudyPlan.ICourseInStudyPlanAssembler;
 import PAI.assembler.courseInStudyPlan.ICourseInStudyPlanBusinessAssembler;
-import PAI.assembler.courseInStudyPlan.ICourseInStudyPlanServiceAssembler;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.domain.courseInStudyPlan.ICourseInStudyPlanFactory;
 import PAI.domain.repositoryInterfaces.courseInStudyPlan.ICourseInStudyPlanRepository;
