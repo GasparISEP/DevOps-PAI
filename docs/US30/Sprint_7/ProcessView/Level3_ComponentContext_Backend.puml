@@ -31,7 +31,7 @@ It excludes auxiliary GET requests for clarity, as this
 is a focused ("zoomed-in") view on the creation action.
 end note
 
-[o-> Router: POST /courses-in-study-plan (JSON)
+[o-> Router: **POST** /courses-in-study-plan (JSON)
 activate Router
 note over Router
 Spring converts JSON into
@@ -85,7 +85,7 @@ group Persist to Database
 Service -> Repository: save(courseInStudyPlan)
 activate Repository
 
-Repository ->o]: INSERT course_in_study_plan\n(data)
+Repository ->o]: **INSERT INTO** course_in_study_plan(data)\n **VALUES** (...)
 note right of Repository
 Persists the domain object to the database
 end note

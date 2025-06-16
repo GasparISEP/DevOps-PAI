@@ -1,21 +1,20 @@
 @startuml
-title (Process View - Level 3: Components)\nDetailed Backend Flow: Retrieve List of Courses
+title (Process View - Level 3: Components)\nDetailed Backend Flow:\n Retrieve List of Courses
 
 skinparam sequence {
     LifeLineBorderColor Grey
-    LifeLineBackgroundColor HoneyDew
+    LifeLineBackgroundColor #E1F5FE
 }
 skinparam defaultTextAlignment center
 skinparam shadowing true
 
-participant "<<component>>\n:Router" as Router #E1F5FE
-participant "<<component>>\n:CourseRestController\n(REST Controller)" as Controller #E1F5FE
-participant "<<component>>\n:ICourseService\n(Service)" as Service #E1F5FE
-participant "<<component>>\n:ICourseRepository\n(Repository)" as Repository #E1F5FE
-database "Database" as DB #E1F5FE
-participant "<<component>>\n:ICourseAssembler\n(Assembler)" as Assembler #E1F5FE
+participant "<<component>>\n:Router" as Router #honeydew
+participant "<<component>>\n:CourseRestController\n(REST Controller)" as Controller #honeydew
+participant "<<component>>\n:ICourseService\n(Service)" as Service #honeydew
+participant "<<component>>\n:ICourseRepository\n(Repository)" as Repository #honeydew
+participant "<<component>>\n:ICourseAssembler\n(Assembler)" as Assembler #honeydew
 
--> Router: GET /courses/{ids}
+-> Router: **GET** /courses/{ids}
 activate Router
 
 Router -> Controller: getAllCoursesIDDTO():\n<List<CourseIDDTO>>
@@ -27,11 +26,9 @@ activate Service
 Service -> Repository: findAll()
 activate Repository
 
-Repository -> DB: SELECT * FROM courses
-activate DB
+Repository ->o]: **SELECT** * FROM courses
 
-DB --> Repository: List<CourseDataModel>
-deactivate DB
+Repository <--o]: List<CourseDataModel>
 
 Repository --> Service: List<Course>
 deactivate Repository
@@ -44,14 +41,15 @@ deactivate Assembler
 Service --> Controller: List<CourseIDDTO>
 deactivate Service
 
-note over Controller #EEEEEE
-Spring Boot converts DTOs to JSON automatically
-end note
 
-Controller --> Router: courseIDDTOList (JSON)
+Controller --> Router: 200 OK + body (JSON)\n{courseIDDTOList}
 deactivate Controller
 
-<-- Router: 200 OK + courseIDDTOList
+note over Router
+Spring serializes DTO to JSON automatically
+end note
+
+<-- Router: 200 OK + body (JSON)\n{courseIDDTOList}
 deactivate Router
 
 @enduml
