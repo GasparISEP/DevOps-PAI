@@ -272,11 +272,9 @@ class TotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearServiceImplTest 
         IProgrammeEditionRepository progERepo = mock(IProgrammeEditionRepository.class);
         IProgrammeEditionEnrolmentRepository progEERepo = mock(IProgrammeEditionEnrolmentRepository.class);
 
-        ITotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearService service = new TotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearServiceImpl(
-                depRepo, sYRepo, progRepo, progERepo, progEERepo);
+        ITotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearService service = new TotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearServiceImpl(depRepo, sYRepo, progRepo, progERepo, progEERepo);
 
         TotalEnrolledStudentsCommand command = mock(TotalEnrolledStudentsCommand.class);
-
         DepartmentID departmentID = mock(DepartmentID.class);
         SchoolYearID schoolYearID = mock(SchoolYearID.class);
 
@@ -285,57 +283,24 @@ class TotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearServiceImplTest 
         when(depRepo.containsOfIdentity(departmentID)).thenReturn(true);
         when(sYRepo.containsOfIdentity(schoolYearID)).thenReturn(true);
 
-        ProgrammeID programmeID1 = mock(ProgrammeID.class);
-        ProgrammeID programmeID2 = mock(ProgrammeID.class);
-        ProgrammeID programmeID3 = mock(ProgrammeID.class);
-        ProgrammeID programmeID4 = mock(ProgrammeID.class);
-        ProgrammeID programmeID5 = mock(ProgrammeID.class);
-        List <ProgrammeID> programmeIDs = List.of(programmeID1, programmeID2, programmeID3, programmeID4, programmeID5);
+        List<ProgrammeID> programmeIDs = List.of(mock(ProgrammeID.class), mock(ProgrammeID.class), mock(ProgrammeID.class), mock(ProgrammeID.class), mock(ProgrammeID.class));
         when(progRepo.findProgrammesIdByDepartmentId(departmentID)).thenReturn(programmeIDs);
 
-        ProgrammeEditionID pE1 = mock(ProgrammeEditionID.class);
-        ProgrammeEditionID pE2 = mock(ProgrammeEditionID.class);
-        ProgrammeEditionID pE3 = mock(ProgrammeEditionID.class);
-        ProgrammeEditionID pE4 = mock(ProgrammeEditionID.class);
-        List <ProgrammeEditionID> programmeEditionIDs = List.of(pE1, pE2, pE3, pE4);
+        List<ProgrammeEditionID> programmeEditionIDs = List.of(mock(ProgrammeEditionID.class), mock(ProgrammeEditionID.class), mock(ProgrammeEditionID.class), mock(ProgrammeEditionID.class));
         when(progERepo.findProgrammeEditionIDsBySchoolYearIDAndProgrammeIDs(schoolYearID, programmeIDs)).thenReturn(programmeEditionIDs);
 
-        ProgrammeEditionEnrolment Enrolment1 = mock(ProgrammeEditionEnrolment.class);
-        ProgrammeEditionEnrolment Enrolment2 = mock(ProgrammeEditionEnrolment.class);
-        ProgrammeEditionEnrolment Enrolment3 = mock(ProgrammeEditionEnrolment.class);
-        ProgrammeEditionEnrolment Enrolment4 = mock(ProgrammeEditionEnrolment.class);
-        ProgrammeEditionEnrolment Enrolment5 = mock(ProgrammeEditionEnrolment.class);
-        when(progEERepo.findAll()).thenReturn(List.of(Enrolment1, Enrolment2, Enrolment3, Enrolment4, Enrolment5));
-
-        when(Enrolment1.findProgrammeEditionInEnrolment()).thenReturn(pE2);
-        when(Enrolment2.findProgrammeEditionInEnrolment()).thenReturn(pE1);
-        when(Enrolment3.findProgrammeEditionInEnrolment()).thenReturn(pE3);
-        when(Enrolment4.findProgrammeEditionInEnrolment()).thenReturn(mock(ProgrammeEditionID.class)); // não faz parte
-        when(Enrolment5.findProgrammeEditionInEnrolment()).thenReturn(pE4);
+        when(progEERepo.countEnrolledStudentsByProgrammeEditionIds(programmeEditionIDs)).thenReturn(4);
 
         // Act
         int result = service.getTotalEnrolledStudentsInProgrammesByDepartmentAndYear(command);
 
         // Assert
         assertEquals(4, result);
-        assertNotEquals(1, result);
-
         verify(depRepo).containsOfIdentity(departmentID);
         verify(sYRepo).containsOfIdentity(schoolYearID);
-        verify(depRepo, times(1)).containsOfIdentity(departmentID);
-        verify(sYRepo, times(1)).containsOfIdentity(schoolYearID);
-
-        verify(Enrolment1).findProgrammeEditionInEnrolment();
-        verify(Enrolment2).findProgrammeEditionInEnrolment();
-        verify(Enrolment3).findProgrammeEditionInEnrolment();
-        verify(Enrolment4).findProgrammeEditionInEnrolment();
-        verify(Enrolment5).findProgrammeEditionInEnrolment();
-
-        InOrder inOrder = inOrder(depRepo, sYRepo, progRepo, progERepo, progEERepo);
-        inOrder.verify(depRepo).containsOfIdentity(departmentID);
-        inOrder.verify(sYRepo).containsOfIdentity(schoolYearID);
-        inOrder.verify(progRepo).findProgrammesIdByDepartmentId(departmentID);
-        inOrder.verify(progERepo).findProgrammeEditionIDsBySchoolYearIDAndProgrammeIDs(schoolYearID, programmeIDs);
+        verify(progRepo).findProgrammesIdByDepartmentId(departmentID);
+        verify(progERepo).findProgrammeEditionIDsBySchoolYearIDAndProgrammeIDs(schoolYearID, programmeIDs);
+        verify(progEERepo).countEnrolledStudentsByProgrammeEditionIds(programmeEditionIDs);
     }
 
     @Test
