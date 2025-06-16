@@ -185,25 +185,25 @@ export default function TeacherCareerProgressionDisplay() {
                             <table className="career-progression-form-table">
                                 <thead>
                                 <tr>
-                                    <th className={`sortable${sortConfig.key === 'date' ? ' selected' : ''}`}
+                                    <th data-testid="date-header" className={`sortable${sortConfig.key === 'date' ? ' selected' : ''}`}
                                         onClick={() => handleSort('date')}>
                                         Date {sortConfig.key === 'date' ? (sortConfig.direction === 'asc' ? '▲' : '▼') : ''}
                                     </th>
-                                    <th className={`sortable${sortConfig.key === 'working-percentage' ? ' selected' : ''}`}
+                                    <th data-testid="working-percentage-header" className={`sortable${sortConfig.key === 'working-percentage' ? ' selected' : ''}`}
                                         onClick={() => handleSort('workingPercentage')}>
                                         Working
                                         percentage {sortConfig.key === 'working-percentage' ? (sortConfig.direction === 'asc' ? '▲' : '▼') : ''}
                                     </th>
-                                    <th className={`sortable${sortConfig.key === 'id' ? ' selected' : ''}`}
+                                    <th data-testid="id-header" className={`sortable${sortConfig.key === 'id' ? ' selected' : ''}`}
                                         onClick={() => handleSort('teacherCareerProgressionId')}>
                                         ID {sortConfig.key === 'id' ? (sortConfig.direction === 'asc' ? '▲' : '▼') : ''}
                                     </th>
-                                    <th className={`sortable${sortConfig.key === 'teacher-category-id' ? ' selected' : ''}`}
+                                    <th data-testid="teacher-category-header" className={`sortable${sortConfig.key === 'teacher-category-id' ? ' selected' : ''}`}
                                         onClick={() => handleSort('teacherCategoryID')}>
                                         Teacher
                                         Category {sortConfig.key === 'teacher-category-id' ? (sortConfig.direction === 'asc' ? '▲' : '▼') : ''}
                                     </th>
-                                    <th className={`sortable${sortConfig.key === 'teacher-id' ? ' selected' : ''}`}
+                                    <th data-testid="teacher-header" className={`sortable${sortConfig.key === 'teacher-id' ? ' selected' : ''}`}
                                         onClick={() => handleSort('teacherID')}>
                                         Teacher {sortConfig.key === 'teacher-id' ? (sortConfig.direction === 'asc' ? '▲' : '▼') : ''}
                                     </th>

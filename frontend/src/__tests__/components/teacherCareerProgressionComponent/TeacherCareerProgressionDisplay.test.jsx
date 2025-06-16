@@ -241,3 +241,107 @@ test('filters data by Teacher', async () => {
     expect(await screen.findByText('1a23b456-7890-1234-5678-9abcdef01234')).toBeInTheDocument();
     expect(screen.queryByText('b2c4d678-90ab-4321-8cde-1234567890ab')).not.toBeInTheDocument();
 });
+
+// Sorting tests - parameterized
+
+const mockData = [
+    {
+        teacherCareerProgressionId: 'b1f55d7c-9c11-4cb3-920e-7b9fcb5bde13',
+        date: '2023-01-01',
+        workingPercentage: 50,
+        teacherCategoryID: 'f8a12b1a-d3d6-4cd0-8b0f-9c412d839e9e',
+        teacherID: 'a32457dd-2ab0-4f5d-baae-c9c1453e937e',
+    },
+    {
+        teacherCareerProgressionId: '8d56a676-b21a-40b2-9c6e-c85d9372e1f2',
+        date: '2022-01-01',
+        workingPercentage: 100,
+        teacherCategoryID: '9b4f4e9b-27a9-4b88-96c3-52cb12f02e24',
+        teacherID: 'b6732ef2-8932-4a2a-8452-b7e7eea9d273',
+    },
+];
+
+const testCases = [
+    {
+        columnHeaderTestId: 'date-header',
+        expectedOrderAsc: ['2022-01-01', '2023-01-01'],
+        expectedOrderDesc: ['2023-01-01', '2022-01-01'],
+    },
+    {
+        columnHeaderTestId: 'working-percentage-header',
+        expectedOrderAsc: ['50', '100'],
+        expectedOrderDesc: ['100', '50'],
+    },
+    {
+        columnHeaderTestId: 'id-header',
+        expectedOrderAsc: [
+            '8d56a676-b21a-40b2-9c6e-c85d9372e1f2',
+            'b1f55d7c-9c11-4cb3-920e-7b9fcb5bde13',
+        ],
+        expectedOrderDesc: [
+            'b1f55d7c-9c11-4cb3-920e-7b9fcb5bde13',
+            '8d56a676-b21a-40b2-9c6e-c85d9372e1f2',
+        ],
+    },
+    {
+        columnHeaderTestId: 'teacher-category-header',
+        expectedOrderAsc: [
+            '9b4f4e9b-27a9-4b88-96c3-52cb12f02e24',
+            'f8a12b1a-d3d6-4cd0-8b0f-9c412d839e9e',
+        ],
+        expectedOrderDesc: [
+            'f8a12b1a-d3d6-4cd0-8b0f-9c412d839e9e',
+            '9b4f4e9b-27a9-4b88-96c3-52cb12f02e24',
+        ],
+    },
+    {
+        columnHeaderTestId: 'teacher-header',
+        expectedOrderAsc: [
+            'a32457dd-2ab0-4f5d-baae-c9c1453e937e',
+            'b6732ef2-8932-4a2a-8452-b7e7eea9d273',
+        ],
+        expectedOrderDesc: [
+            'b6732ef2-8932-4a2a-8452-b7e7eea9d273',
+            'a32457dd-2ab0-4f5d-baae-c9c1453e937e',
+        ],
+    },
+];
+
+describe('TeacherCareerProgressionDisplay sorting', () => {
+    beforeEach(() => {
+        global.fetch = jest.fn(() =>
+            Promise.resolve({
+                ok: true,
+                json: () => Promise.resolve(mockData),
+            })
+        );
+    });
+
+    afterEach(() => {
+        jest.resetAllMocks();
+    });
+
+    test.each(testCases)(
+        'sorts column correctly when clicking $columnHeaderTestId',
+        async ({ columnHeaderTestId, expectedOrderAsc, expectedOrderDesc }) => {
+            render(
+                <MemoryRouter>
+                    <TeacherCareerProgressionDisplay />
+                </MemoryRouter>
+            );
+
+            // Wait for table to load
+            await screen.findByText(mockData[0].date);
+
+            const header = screen.getByTestId(columnHeaderTestId);
+
+            fireEvent.click(header);
+            const rowsAsc = screen.getAllByRole('row').slice(1).map(row => row.textContent);
+            expectedOrderAsc.forEach((value, i) => expect(rowsAsc[i]).toContain(value));
+
+            fireEvent.click(header);
+            const rowsDesc = screen.getAllByRole('row').slice(1).map(row => row.textContent);
+            expectedOrderDesc.forEach((value, i) => expect(rowsDesc[i]).toContain(value));
+        }
+    );
+});
