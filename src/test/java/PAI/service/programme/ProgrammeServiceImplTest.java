@@ -959,4 +959,36 @@ class ProgrammeServiceImplTest {
         assertTrue(result.contains(_programmeDouble));
         assertTrue(result.contains(_programme2Double));
     }
+
+    @Test
+    void shouldReturnDirectorIdWhenProgrammeExists() {
+        // Arrange
+        createDoubles();
+        when(_programmeRepositoryDouble.ofIdentity(_programmeIDDouble)).thenReturn(Optional.of(_programmeDouble));
+        when(_programmeDouble.getProgrammeDirectorID()).thenReturn(_programmeDirectorIDDouble);
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService, _departmentServiceDouble, _teacherServiceDouble);
+
+
+        // Act
+        Optional<TeacherID> result = service.getProgrammeDirectorByProgrammeID(_programmeIDDouble);
+
+        // Assert
+        assertTrue(result.isPresent());
+        assertEquals(_programmeDirectorIDDouble, result.get());
+    }
+
+    @Test
+    void shouldReturnEmptyWhenProgrammeDoesNotExist() {
+        // Arrange
+        createDoubles();
+        when(_programmeRepositoryDouble.ofIdentity(_programmeIDDouble)).thenReturn(Optional.empty());
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService, _departmentServiceDouble, _teacherServiceDouble);
+
+
+        // Act
+        Optional<TeacherID> result = service.getProgrammeDirectorByProgrammeID(_programmeIDDouble);
+
+        // Assert
+        assertTrue(result.isEmpty());
+    }
 }

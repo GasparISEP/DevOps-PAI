@@ -1,29 +1,9 @@
 package PAI.dto.Programme;
 
-public class ProgrammeDirectorRequestDTO {
+import PAI.dto.teacher.TeacherIdDTO;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 
-    private String programmeName;
-    private String programmeAcronym;
-    private String teacherAcronym;
-
-    public ProgrammeDirectorRequestDTO() {}
-
-    public ProgrammeDirectorRequestDTO (String programmeName, String programmeAcronym, String teacherAcronym) {
-        this.programmeName = programmeName;
-        this.programmeAcronym = programmeAcronym;
-        this.teacherAcronym = teacherAcronym;
-
-    }
-
-    public String getProgrammeName() {
-        return programmeName;
-    }
-
-    public String getProgrammeAcronym() {
-        return programmeAcronym;
-    }
-
-    public String getTeacherAcronym() {
-        return teacherAcronym;
-    }
+public record ProgrammeDirectorRequestDTO(
+        @NotNull @Valid TeacherIdDTO teacher) {
 }
