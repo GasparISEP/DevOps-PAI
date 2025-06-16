@@ -3,6 +3,7 @@ package PAI.service.programmeEditionEnrolment;
 import PAI.VOs.*;
 import PAI.assembler.programmeEdition.IProgrammeEditionControllerAssembler;
 import PAI.assembler.programmeEditionEnrolment.StudentProgrammeEditionEnrolmentAssemblerImpl;
+import PAI.assembler.programmeEnrolment.IProgrammeEnrolmentAssembler;
 import PAI.domain.programme.Programme;
 import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.domain.programmeEditionEnrolment.IProgrammeEditionEnrolmentFactory;
@@ -13,9 +14,12 @@ import PAI.domain.repositoryInterfaces.programmeEdition.IProgrammeEditionReposit
 import PAI.domain.repositoryInterfaces.programmeEditionEnrolment.IProgrammeEditionEnrolmentRepository;
 import PAI.domain.repositoryInterfaces.programmeEnrolment.IProgrammeEnrolmentRepository;
 import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
+import PAI.domain.repositoryInterfaces.student.IStudentRepository;
 import PAI.domain.schoolYear.SchoolYear;
+import PAI.domain.student.Student;
 import PAI.dto.programmeEdition.ProgrammeEditionWithNameAndDescriptionResponseDTO;
 import PAI.dto.programmeEditionEnrolment.StudentProgrammeEditionEnrolmentDTO;
+import PAI.dto.programmeEnrolment.ProgrammeEnrolmentHateoasResponseDto;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -34,6 +38,8 @@ public class StudentProgrammeEditionEnrolmentServiceImpl implements IStudentProg
     private final IProgrammeEditionControllerAssembler programmeEditionControllerAssembler;
     private final ISchoolYearRepository schoolYearRepository;
     private final IProgrammeRepository programmeRepository;
+    private final IStudentRepository studentRepository;
+    private final IProgrammeEnrolmentAssembler programmeEnrolmentAssembler;
 
     public StudentProgrammeEditionEnrolmentServiceImpl(
             IProgrammeEnrolmentRepository programmeEnrolmentRepository,
@@ -42,7 +48,9 @@ public class StudentProgrammeEditionEnrolmentServiceImpl implements IStudentProg
             IProgrammeEditionEnrolmentFactory programmeEditionEnrolmentFactory,
             StudentProgrammeEditionEnrolmentAssemblerImpl programmeEditionAssembler,
             IProgrammeEditionControllerAssembler programmeEditionControllerAssembler,
-            ISchoolYearRepository schoolYearRepository,IProgrammeRepository programmeRepository) {
+            ISchoolYearRepository schoolYearRepository,IProgrammeRepository programmeRepository,
+            IStudentRepository studentRepository,
+            IProgrammeEnrolmentAssembler programmeEnrolmentAssembler) {
 
         this.programmeEnrolmentRepository = programmeEnrolmentRepository;
         this.programmeEditionRepository = programmeEditionRepository;
@@ -52,6 +60,8 @@ public class StudentProgrammeEditionEnrolmentServiceImpl implements IStudentProg
         this.programmeEditionControllerAssembler = programmeEditionControllerAssembler;
         this.schoolYearRepository = schoolYearRepository;
         this.programmeRepository = programmeRepository;
+        this.studentRepository = studentRepository;
+        this.programmeEnrolmentAssembler = programmeEnrolmentAssembler;
 
     }
 
@@ -157,4 +167,23 @@ public class StudentProgrammeEditionEnrolmentServiceImpl implements IStudentProg
         SchoolYearID schoolYearID = programmeEdition.findSchoolYearIDInProgrammeEdition();
         return schoolYearRepository.findBySchoolYearID(schoolYearID).orElseThrow();
     }
+
+    public ProgrammeEnrolmentHateoasResponseDto getProgrammeEnrolmentHateoasInformationDto(ProgrammeEnrolment programmeEnrolment) {
+        Programme programme = getProgrammeFromProgrammeEnrolment(programmeEnrolment);
+        Student student = getStudentFromProgrammeEnrolment(programmeEnrolment);
+        return programmeEnrolmentAssembler.toHateoasDto(programmeEnrolment, student, programme);
+    }
+
+    private Programme getProgrammeFromProgrammeEnrolment(ProgrammeEnrolment programmeEnrolment) {
+        ProgrammeID programmeID = programmeEnrolment.getProgrammeID();
+        return programmeRepository.ofIdentity(programmeID).orElseThrow(() ->
+                new IllegalArgumentException("Programme not found: " + programmeID));
+    }
+
+    private Student getStudentFromProgrammeEnrolment(ProgrammeEnrolment programmeEnrolment) {
+        StudentID studentID = programmeEnrolment.getStudentID();
+        return studentRepository.ofIdentity(studentID).orElseThrow(() ->
+                new IllegalArgumentException("Programme not found: " + studentID));
+    }
+
 }
