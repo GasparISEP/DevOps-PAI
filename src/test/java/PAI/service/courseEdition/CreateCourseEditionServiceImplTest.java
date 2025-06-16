@@ -20,6 +20,7 @@ import PAI.dto.courseEdition.CourseEditionResponseDTO;
 import PAI.dto.courseEdition.CourseEditionServiceResponseDTO;
 import PAI.dto.courseEdition.CreateCourseEditionCommand;
 import PAI.exception.AlreadyRegisteredException;
+import PAI.exception.BusinessRuleViolationException;
 import PAI.exception.CourseEditionCreationException;
 import PAI.persistence.springdata.courseEdition.CourseEditionRepositorySpringDataImpl;
 import org.junit.jupiter.api.Test;
@@ -30,6 +31,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.*;
@@ -541,6 +543,76 @@ class CreateCourseEditionServiceImplTest {
         assertNotNull(result);
         assertEquals(1, result.size());
     }
+
+    @Test
+    public void testFindById_NullID_ThrowsException() {
+        CreateCourseEditionServiceImpl service = new CreateCourseEditionServiceImpl(
+                mock(ICourseEditionFactory.class),
+                mock(ICourseEditionRepository.class),
+                mock(IDegreeTypeRepository.class),
+                mock(IProgrammeRepository.class),
+                mock(IStudyPlanRepository.class),
+                mock(ICourseInStudyPlanRepository.class),
+                mock(IProgrammeEditionRepository.class),
+                mock(ICourseEditionServiceAssembler.class)
+        );
+
+        assertThrows(IllegalArgumentException.class, () -> service.findById(null));
+    }
+
+    @Test
+    public void testFindById_NullOptional_ThrowsBusinessRuleViolationException() {
+        ICourseEditionRepository repository = mock(ICourseEditionRepository.class);
+        CourseEditionID id = mock(CourseEditionID.class);
+
+        when(repository.ofIdentity(id)).thenReturn(null);
+
+        CreateCourseEditionServiceImpl service = new CreateCourseEditionServiceImpl(
+                mock(ICourseEditionFactory.class),
+                repository,
+                mock(IDegreeTypeRepository.class),
+                mock(IProgrammeRepository.class),
+                mock(IStudyPlanRepository.class),
+                mock(ICourseInStudyPlanRepository.class),
+                mock(IProgrammeEditionRepository.class),
+                mock(ICourseEditionServiceAssembler.class)
+        );
+
+        assertThrows(BusinessRuleViolationException.class, () -> service.findById(id));
+    }
+
+    @Test
+    public void testFindById_ValidID_ReturnsDTO() {
+        CourseEditionID id = mock(CourseEditionID.class);
+        CourseEdition courseEdition = mock(CourseEdition.class);
+        CourseEditionServiceResponseDTO dto = mock(CourseEditionServiceResponseDTO.class);
+
+        ICourseEditionRepository repository = mock(ICourseEditionRepository.class);
+        ICourseEditionServiceAssembler assembler = mock(ICourseEditionServiceAssembler.class);
+
+        when(repository.ofIdentity(id)).thenReturn(Optional.of(courseEdition));
+        when(assembler.toServiceResponseDTO(courseEdition)).thenReturn(dto);
+
+        CreateCourseEditionServiceImpl service = new CreateCourseEditionServiceImpl(
+                mock(ICourseEditionFactory.class),
+                repository,
+                mock(IDegreeTypeRepository.class),
+                mock(IProgrammeRepository.class),
+                mock(IStudyPlanRepository.class),
+                mock(ICourseInStudyPlanRepository.class),
+                mock(IProgrammeEditionRepository.class),
+                assembler
+        );
+
+        CourseEditionServiceResponseDTO result = service.findById(id);
+
+        assertEquals(dto, result);
+    }
+
+
+
+
+
 
 
 }
