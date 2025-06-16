@@ -6,6 +6,8 @@ import PAI.domain.courseEdition.CourseEdition;
 import PAI.domain.repositoryInterfaces.courseEdition.ICourseEditionRepository;
 import PAI.domain.repositoryInterfaces.teacher.ITeacherRepository;
 import PAI.domain.teacher.Teacher;
+import PAI.exception.AlreadyAssignedRUCException;
+import PAI.exception.TeacherNotFoundException;
 import PAI.service.teacher.ITeacherService;
 import org.junit.jupiter.api.Test;
 import java.util.List;
@@ -134,8 +136,8 @@ class DefineRucServiceImplTest {
         when(courseEditionRepository.save(courseEdition)).thenReturn(courseEdition);
         when(courseEdition.setRuc(teacherID)).thenReturn(true);
         //act & assert
-        IllegalArgumentException exception = assertThrows(
-                IllegalArgumentException.class,
+        TeacherNotFoundException exception = assertThrows(
+                TeacherNotFoundException.class,
                 () -> service.assignRucToCourseEdition(teacherID, courseEditionID)
         );
 
@@ -262,8 +264,8 @@ class DefineRucServiceImplTest {
         when(courseEdition.getRuc()).thenReturn(teacherID);
 
         // Act & Assert
-        IllegalArgumentException exception = assertThrows(
-                IllegalArgumentException.class,
+        AlreadyAssignedRUCException exception = assertThrows(
+                AlreadyAssignedRUCException.class,
                 () -> service.assignRucToCourseEdition(teacherID, courseEditionID)
         );
 

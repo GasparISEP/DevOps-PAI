@@ -4,8 +4,10 @@ import PAI.VOs.CourseEditionID;
 import PAI.VOs.TeacherID;
 import PAI.domain.courseEdition.CourseEdition;
 import PAI.domain.repositoryInterfaces.courseEdition.ICourseEditionRepository;
-import PAI.domain.repositoryInterfaces.teacher.ITeacherRepository;
 import PAI.domain.teacher.Teacher;
+import PAI.exception.AlreadyAssignedRUCException;
+import PAI.exception.CourseEditionPersistenceException;
+import PAI.exception.TeacherNotFoundException;
 import PAI.service.teacher.ITeacherService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -38,7 +40,7 @@ public class DefineRucServiceImpl implements IDefineRucService {
     @Transactional
     public boolean assignRucToCourseEdition(TeacherID teacherId, CourseEditionGeneratedID courseEditionId) throws Exception {
         if (!teacherService.existsById(teacherId)) {
-            throw new IllegalArgumentException("Teacher with given ID does not exist.");
+            throw new TeacherNotFoundException("Teacher with given ID does not exist.");
         }
 
         Optional<CourseEdition> optionalEdition = courseEditionRepository.findCourseEditionByGeneratedId(courseEditionId);
@@ -49,7 +51,7 @@ public class DefineRucServiceImpl implements IDefineRucService {
         CourseEdition courseEdition = optionalEdition.get();
 
         if (teacherId.equals(courseEdition.getRuc())) {
-            throw new IllegalArgumentException("This teacher is already assigned as the RUC for this course edition.");
+            throw new AlreadyAssignedRUCException("This teacher is already assigned as the RUC for this course edition.");
         }
 
         boolean success = courseEdition.setRuc(teacherId);
@@ -57,7 +59,7 @@ public class DefineRucServiceImpl implements IDefineRucService {
             try {
                 courseEditionRepository.save(courseEdition);
             } catch (Exception e) {
-                throw new RuntimeException("Error when persisting CourseEdition with new RUC", e);
+                throw new CourseEditionPersistenceException("Error when persisting CourseEdition with new RUC");
             }
         }
         return success;
