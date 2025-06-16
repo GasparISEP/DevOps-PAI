@@ -72,7 +72,7 @@ public class CourseEditionEnrolmentAssemblerImpl implements ICourseEditionEnrolm
                 ceid.getProgrammeEditionID().getProgrammeID().getAcronym().toString(),
                 ceid.getProgrammeEditionID().getSchoolYearID().toString(),
                 ceid.getCourseInStudyPlanID().getCourseID().getAcronym().toString(),
-                "", // o nome do curso ainda não está disponível
+                ceid.getCourseInStudyPlanID().getCourseID().getName().toString(),
                 ceid.getCourseInStudyPlanID().getStudyPlanID().getLocalDate().toString()
         );
     }
