@@ -27,9 +27,9 @@ class CourseInStudyPlanHateoasAssemblerImplTest {
         // Assert
         assertNotNull(model);
         assertEquals(dto, model.getContent());
-        assertTrue(model.getLinks().hasLink("courses-in-programme"));
+        assertTrue(model.getLinks().hasLink("courses-in-study-plan"));
 
-        String href = model.getLink("courses-in-programme")
+        String href = model.getLink("courses-in-study-plan")
                 .orElseThrow(() -> new AssertionError("Link 'courses-in-programme' not found"))
                 .getHref();
 
@@ -52,6 +52,6 @@ class CourseInStudyPlanHateoasAssemblerImplTest {
         // Assert
         assertNotNull(collection);
         assertEquals(2, collection.getContent().size());
-        assertTrue(collection.getLinks().hasLink("create-course"));
+        assertTrue(collection.getLinks().hasLink("create-course-in-study-plan"));
     }
 }
