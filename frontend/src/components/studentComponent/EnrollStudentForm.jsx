@@ -25,12 +25,45 @@ export default function EnrollStudentForm() {
     const [totalEcts] = useState(60);
 
     const [error, setError] = useState('');
+    const [studentIdError, setStudentIdError] = useState('');
     const [success, setSuccess] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [showErrorModal, setShowErrorModal] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
+
+        if (name === "studentId") {
+            const sanitized = value.replace(/\D/g, '');
+
+            if (value !== sanitized) {
+                setStudentIdError("Student ID must contain only numbers.");
+                return;
+            }
+
+            if (sanitized === "") {
+                setStudentIdError("Student ID cannot be empty.");
+                setForm(f => ({ ...f, [name]: "" }));
+                return;
+            }
+
+            if (sanitized.length > 7) {
+                setStudentIdError("Student ID must have exactly 7 digits.");
+                setForm(f => ({ ...f, [name]: sanitized.slice(0, 7) }));
+                return;
+            }
+
+            const studentID = parseInt(sanitized, 10);
+            if (!isNaN(studentID) && studentID >= 1000000 && studentID <= 2000000) {
+                setStudentIdError("");
+            } else {
+                setStudentIdError("Student ID must be in the range 1000000 - 2000000.");
+            }
+
+            setForm(f => ({ ...f, [name]: sanitized }));
+            return;
+        }
+
         setForm(prev => ({
             ...prev,
             [name]: value,
@@ -61,6 +94,7 @@ export default function EnrollStudentForm() {
         setCourses([]);
         setStudentName('');
         setError('');
+        setStudentIdError('');
         setSuccess(null);
         setShowModal(false);
         setShowErrorModal(false);
@@ -74,11 +108,11 @@ export default function EnrollStudentForm() {
             setProgrammes(res.programmeInfo || []);
             setStudentName(res.studentName || '');
             if ((res.programmeInfo || []).length === 0) {
-                setError('Este estudante não está inscrito em nenhum programa.');
+                setError('This student is not enrolled in any programme.');
             }
         } catch (err) {
             console.error(err);
-            setError('Erro ao carregar programas.');
+            setError('Error loading student programmes.');
             setProgrammes([]);
             setStudentName('');
         }
@@ -99,7 +133,7 @@ export default function EnrollStudentForm() {
                 })));
             } catch (err) {
                 console.error(err);
-                setError('Erro ao carregar edições.');
+                setError('Error loading programme editions.');
             }
         };
         fetchEditions();
@@ -123,7 +157,7 @@ export default function EnrollStudentForm() {
                 setCourses(norm);
             } catch (err) {
                 console.error(err);
-                setError('Erro ao carregar cursos.');
+                setError('Error loading available courses.');
             }
         };
         fetchCourses();
@@ -137,14 +171,14 @@ export default function EnrollStudentForm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!form.studentId || !form.programme || !form.edition || form.selectedCourses.length === 0) {
-            setError('Preencha todos os campos.');
+            setError('Please fill in all fields and select at least one course.');
             return;
         }
 
         const edition = editions.find(e => e.value === form.edition);
         const programme = programmes.find(p => p.generatedID === form.programme);
         if (!edition || !programme) {
-            setError('Programa ou edição inválidos.');
+            setError('Invalid programme or edition.');
             return;
         }
 
@@ -164,7 +198,7 @@ export default function EnrollStudentForm() {
         };
 
         const grouped = courses.reduce((acc, c) => {
-            const key = `${c.curricularYear}º ANO | ${c.semester}º SEMESTRE`;
+            const key = `${c.curricularYear}º YEAR | ${c.semester}º SEMESTER`;
             if (!acc[key]) acc[key] = [];
             acc[key].push(c);
             return acc;
@@ -208,7 +242,16 @@ export default function EnrollStudentForm() {
                         <div className="form-div">
                             <div className="form-group">
                                 <label className="form-label">Student Unique Number</label>
-                                <input type="text" name="studentId" className="form-input" value={form.studentId} onChange={handleChange} onBlur={handleStudentBlur} required />
+                                <input
+                                    type="text"
+                                    name="studentId"
+                                    className="form-input"
+                                    value={form.studentId}
+                                    onChange={handleChange}
+                                    onBlur={handleStudentBlur}
+                                    required
+                                />
+                                {studentIdError && <div className="error">{studentIdError}</div>}
                                 {studentName && <p style={{ marginTop: '0.5rem', fontWeight: 'bold' }}>{studentName}</p>}
                             </div>
 
@@ -239,7 +282,7 @@ export default function EnrollStudentForm() {
                                 )}
                                 {Object.entries(
                                     courses.reduce((groups, c) => {
-                                        const key = `${c.curricularYear}º ANO | ${c.semester}º SEMESTRE`;
+                                        const key = `${c.curricularYear}º YEAR | ${c.semester}º SEMESTER`;
                                         if (!groups[key]) groups[key] = [];
                                         groups[key].push(c);
                                         return groups;
@@ -250,7 +293,13 @@ export default function EnrollStudentForm() {
                                         <div className="form-checkbox-group">
                                             {groupCourses.map(c => (
                                                 <label key={c.acronym} style={{ display: 'block' }}>
-                                                    <input type="checkbox" value={c.acronym} checked={form.selectedCourses.includes(c.acronym)} onChange={() => handleCheckboxChange(c.acronym)} style={{ marginRight: '0.5rem' }} />
+                                                    <input
+                                                        type="checkbox"
+                                                        value={c.acronym}
+                                                        checked={form.selectedCourses.includes(c.acronym)}
+                                                        onChange={() => handleCheckboxChange(c.acronym)}
+                                                        style={{ marginRight: '0.5rem' }}
+                                                    />
                                                     {c.name} ({c.qtyECTS} ECTS)
                                                 </label>
                                             ))}
@@ -276,29 +325,24 @@ export default function EnrollStudentForm() {
                             <p><strong>Student ID:</strong> {success.studentID}</p>
                             <p><strong>Student Name:</strong> {success.studentName}</p>
                             <p><strong>Programme Edition:</strong> {success.programmeName} — {success.editionDescription}</p>
-
-                            <h3 style={{ fontSize: '1.2rem', marginTop: '1rem' }}>Courses:</h3>
-                            <div style={{ textAlign: 'left', margin: '0 auto', maxWidth: '400px', fontSize: '1rem' }}>
-                                {Object.entries(success.groupedCourses).map(([group, groupCourses]) => {
-                                    const selected = groupCourses.filter(c => success.selectedCourses.includes(c.acronym));
-                                    if (selected.length === 0) return null;
-                                    return (
-                                        <div key={group} style={{ marginBottom: '0.8rem' }}>
-                                            <strong>{group}</strong>
-                                            <ul style={{ margin: '0.4rem 0', paddingLeft: '1.2rem' }}>
-                                                {selected.map(c => (
-                                                    <li key={c.acronym}>{c.name} ({c.qtyECTS} ECTS)</li>
-                                                ))}
-                                            </ul>
-                                        </div>
-                                    );
-                                })}
-                            </div>
-
-                            <p style={{ marginTop: '1rem', fontWeight: 'bold', fontSize: '1rem' }}>
+                            <h3>Courses:</h3>
+                            {Object.entries(success.groupedCourses).map(([group, groupCourses]) => {
+                                const selected = groupCourses.filter(c => success.selectedCourses.includes(c.acronym));
+                                if (selected.length === 0) return null;
+                                return (
+                                    <div key={group} style={{ marginBottom: '0.8rem' }}>
+                                        <strong>{group}</strong>
+                                        <ul>
+                                            {selected.map(c => (
+                                                <li key={c.acronym}>{c.name} ({c.qtyECTS} ECTS)</li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                );
+                            })}
+                            <p style={{ marginTop: '1rem', fontWeight: 'bold' }}>
                                 ECTS Used: {success.selectedEcts} / {totalEcts}
                             </p>
-
                             <button className="modal-btn" onClick={() => {
                                 setShowModal(false);
                                 window.location.reload();
