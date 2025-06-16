@@ -1,0 +1,55 @@
+@startuml
+title (Process View - Level 3: Components)\nDetailed Backend Flow:\n Retrieve List of Courses
+
+skinparam sequence {
+    LifeLineBorderColor Grey
+    LifeLineBackgroundColor #E1F5FE
+}
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+participant "<<component>>\n:Router" as Router #honeydew
+participant "<<component>>\n:CourseRestController\n(REST Controller)" as Controller #honeydew
+participant "<<component>>\n:ICourseService\n(Service)" as Service #honeydew
+participant "<<component>>\n:ICourseRepository\n(Repository)" as Repository #honeydew
+participant "<<component>>\n:ICourseAssembler\n(Assembler)" as Assembler #honeydew
+
+-> Router: **GET** /courses/{ids}
+activate Router
+
+Router -> Controller: getAllCoursesIDDTO():\n<List<CourseIDDTO>>
+activate Controller
+
+Controller -> Service: getAllCourseIDDTO()
+activate Service
+
+Service -> Repository: findAll()
+activate Repository
+
+Repository ->o]: **SELECT** * FROM courses
+
+Repository <--o]: List<CourseDataModel>
+
+Repository --> Service: List<Course>
+deactivate Repository
+
+Service -> Assembler: toIDDTO(List<Course>)
+activate Assembler
+
+Assembler --> Service: List<CourseIDDTO>
+deactivate Assembler
+Service --> Controller: List<CourseIDDTO>
+deactivate Service
+
+
+Controller --> Router: 200 OK + body (JSON)\n{courseIDDTOList}
+deactivate Controller
+
+note over Router
+Spring serializes DTO to JSON automatically
+end note
+
+<-- Router: 200 OK + body (JSON)\n{courseIDDTOList}
+deactivate Router
+
+@enduml

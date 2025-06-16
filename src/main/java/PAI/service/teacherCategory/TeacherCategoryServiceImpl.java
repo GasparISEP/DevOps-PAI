@@ -39,7 +39,7 @@ public class TeacherCategoryServiceImpl implements ITeacherCategoryService {
         TeacherCategory newTeacherCategory = factory.createTeacherCategory(teacherCategoryName);
 
         if (repository.existsByName(teacherCategoryName)) {
-            throw new AlreadyRegisteredException("Teacher Category Name");
+            throw new AlreadyRegisteredException("Teacher Category with '" + teacherCategoryName.getName() + "' is already registered");
         }
 
         TeacherCategory teacherCategory = repository.save(newTeacherCategory);

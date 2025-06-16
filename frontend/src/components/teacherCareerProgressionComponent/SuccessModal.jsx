@@ -2,12 +2,22 @@ import React from 'react';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import FolderOpenIcon from '@mui/icons-material/FolderOpen';
 
-const apiToRouteMap = {
-    'teacher-career-progressions': '/teachers/displayTeacherCareerProgressions',
-};
-
 export default function SuccessModal({ data, form, onClose }) {
     if (!data) return null;
+
+    const openLink = (href) => {
+        if (href) {
+            const isApi = href.includes('8081') || href.startsWith('http://localhost:8081');
+            const url = isApi
+                ? href // link para API
+                : `http://localhost:3000${href}`; // link para SPA
+
+            window.open(url, '_blank');
+        }
+    };
+
+    const detailsHref = data._links?.details?.href || data._links?.self?.href;
+    const collectionHref = data._links?.collection?.href || data._links?.all?.href;
 
     return (
         <div className="modal-overlay">
@@ -16,37 +26,26 @@ export default function SuccessModal({ data, form, onClose }) {
                 <p>The teacher category was updated successfully.</p>
 
                 <div className="success" style={{ marginTop: '1rem', color: '#080' }}>
-                    <p><strong>Teacher:</strong> {data.teacher || form.teacher}</p>
-                    <p><strong>Teacher Category:</strong> {data.teacherCategory || form.teacherCategory}</p>
+                    <p><strong>Teacher:</strong> {data.teacherID || form.teacher}</p>
+                    <p><strong>Teacher Category:</strong> {data.teacherCategoryID || form.teacherCategory}</p>
                     <p><strong>Date:</strong> {data.date || form.date}</p>
                 </div>
 
                 <div style={{ display: 'flex', justifyContent: 'center', gap: '2rem', marginTop: '2rem' }}>
-                    {data._links?.self?.href && (
+                    {detailsHref && (
                         <VisibilityIcon
                             fontSize="medium"
                             titleAccess="View Entry"
                             style={{ cursor: 'pointer', color: '#555' }}
-                            onClick={() => {
-                                const id = data._links.self.href.split('/').pop();
-                                if (id) {
-                                    window.open(`${window.location.origin}/teacher-career-progressions/${id}`, '_blank');
-                                }
-                            }}
+                            onClick={() => openLink(detailsHref)}
                         />
                     )}
-                    {data._links?.all?.href && (
+                    {collectionHref && (
                         <FolderOpenIcon
                             fontSize="medium"
                             titleAccess="View All"
                             style={{ cursor: 'pointer', color: '#555' }}
-                            onClick={() => {
-                                const path = new URL(data._links.all.href).pathname.replace(/^\/+/, '');
-                                const route = apiToRouteMap[path];
-                                if (route) {
-                                    window.open(`${window.location.origin}${route}`, '_blank');
-                                }
-                            }}
+                            onClick={() => openLink(collectionHref)}
                         />
                     )}
                 </div>

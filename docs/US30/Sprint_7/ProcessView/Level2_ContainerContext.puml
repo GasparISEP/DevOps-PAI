@@ -1,0 +1,120 @@
+@startuml
+title US30: As an ASC, I want to add a course to a programme using a Web UI\n (Process View - Level 2: Containers)
+autonumber
+
+skinparam {
+  ActivityPadding 2
+  ActivityMargin 2
+  BoxPadding 2
+}
+skinparam sequence {
+    LifeLineBorderColor Grey
+    LifeLineBackgroundColor #E1F5FE
+}
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+actor ASC  #honeydew
+participant "<<Container>>\n:Frontend" as Frontend #honeydew
+participant "<<Container>>\n:Backend" as Backend #honeydew
+database "<<Container>>\n:Database" as Database #honeydew
+
+group Retrieve Programmes
+ASC -> Frontend: I want to add a Course to a Programme
+activate Frontend
+
+Frontend -> Backend: **GET** /programmes
+activate Backend
+Backend -> Database: **SELECT** * FROM programmes
+activate Database
+Database --> Backend: Iterable<ProgrammeDataModel>
+deactivate Database
+Backend --> Frontend: 200 OK + body\n{Iterable<ProgrammeDTO>}
+deactivate Backend
+Frontend --> ASC: Display dropdown with Programme options
+deactivate Frontend
+end
+
+group Retrieve Courses
+ASC -> Frontend: Programme selected
+activate Frontend
+Frontend -> Backend: **GET** /courses/{ids}
+activate Backend
+Backend -> Database: **SELECT** * FROM courses
+activate Database
+Database --> Backend: List<CourseDataModel>
+deactivate Database
+Backend --> Frontend: 200 OK + body\n{List<CourseIDDTO>}
+deactivate Backend
+Frontend --> ASC: Display dropdown with Course options
+deactivate Frontend
+end
+
+group Collect Course Details
+ASC -> Frontend: Course selected
+activate Frontend
+Frontend --> ASC: Please select Curricular Year (dropdown)
+deactivate Frontend
+
+ASC --> Frontend: Curricular Year selected
+activate Frontend
+Frontend --> ASC: Please select Semester (dropdown)
+deactivate Frontend
+
+ASC -> Frontend: Semester selected
+activate Frontend
+Frontend --> ASC: Please select Course Duration\n in Curricular Year (dropdown)
+deactivate Frontend
+
+ASC --> Frontend: Duration selected
+activate Frontend
+Frontend --> ASC: Please select Quantity of\n ECTS Credits (dropdown)
+deactivate Frontend
+
+ASC -> Frontend: Credits selected
+activate Frontend
+end
+
+group Confirm and Submit
+Frontend --> ASC: Confirm Course addition?
+deactivate Frontend
+ASC -> Frontend: Confirm
+activate Frontend
+Frontend -> Backend: **POST** /courses-in-study-plan + body\n{CourseInStudyPlanRequestDTO}
+note over Frontend, Backend
+Request body (JSON) with course details:
+{
+  semester: "...",
+  curricularYear: "...",
+  courseAcronym: "...",
+  courseName: "...",
+  programmeAcronym: "...",
+  programmeName: "...",
+  studyPlanDate: "...",
+  duration: "...",
+  credits: "..."
+}
+end note
+activate Backend
+Backend -> Database: **INSERT INTO** courses_in_study_plan (data)\n**VALUES** (...)
+activate Database
+Database --> Backend: CourseInStudyPlanDataModel
+deactivate Database
+Backend --> Frontend: 201 Created + body\n{CourseInStudyPlanResponseDTO + hypermedia}
+note over Backend, Frontend
+Response body (JSON) includes resource data + hypermedia links:
+{
+  generatedID: "...",
+  semester: "...",
+  curricularYear: "...",
+  ...
+   _links: {
+     "self": { "href": "/courses-in-study-plan/123" }
+   }
+}
+end note
+deactivate Backend
+Frontend --> ASC: Course successfully added to a programme!
+deactivate Frontend
+end
+@enduml

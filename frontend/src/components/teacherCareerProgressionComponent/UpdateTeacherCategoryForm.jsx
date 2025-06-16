@@ -23,6 +23,7 @@ export default function UpdateTeacherCategoryForm() {
     const [form, setForm] = useState(initialFormState);
     const [teachers, setTeachers] = useState([]);
     const [teacherCategories, setTeacherCategories] = useState([]);
+    const [hasSubmitted, setHasSubmitted] = useState(false);
 
     const [loading, setLoading] = useState(false);
     const [showModal, setShowModal] = useState(false);
@@ -51,32 +52,74 @@ export default function UpdateTeacherCategoryForm() {
         fetchOptions();
     }, []);
 
+    function getErrorMessage(field) {
+        const messages = {
+            teacher: "⚠️ Choose a Teacher.",
+            teacherCategory: "⚠️ Choose a Teacher Category.",
+            date: "⚠️ Insert the date."
+        };
+        return messages[field];
+    }
+
     function handleChange(e) {
         const { name, value } = e.target;
+
         setForm(prev => ({ ...prev, [name]: value }));
+
+        if (hasSubmitted) {
+            setFormErrors(prevErrors => {
+                const newErrors = { ...prevErrors };
+                if (value) {
+                    delete newErrors[name];
+                } else {
+                    newErrors[name] = getErrorMessage(name);
+                }
+                return newErrors;
+            });
+        }
     }
 
     function handleDateChange(dateStr) {
         setForm(prev => ({ ...prev, date: dateStr }));
+
+        if (hasSubmitted) {
+            setFormErrors(prevErrors => {
+                const newErrors = { ...prevErrors };
+                if (dateStr) {
+                    delete newErrors.date;
+                } else {
+                    newErrors.date = getErrorMessage("date");
+                }
+                return newErrors;
+            });
+        }
     }
+
 
     function clearForm() {
         setForm(initialFormState);
         setFormErrors({});
+        setHasSubmitted(false);
     }
 
     async function handleSubmit(e) {
         e.preventDefault();
+        setHasSubmitted(true);
         setErrorMessage('');
         setSuccessData(null);
 
+        const fields = ["teacher", "teacherCategory", "date"];
         const errors = {};
-        if (!form.teacher) errors.teacher = "⚠️ Choose a Teacher.";
-        if (!form.teacherCategory) errors.teacherCategory = "⚠️ Choose a Teacher Category.";
-        if (!form.date) errors.date = "⚠️ Insert the date.";
-        setFormErrors(errors);
+        fields.forEach((field) => {
+            if (!form[field]) {
+                errors[field] = getErrorMessage(field);
+            }
+        });
 
-        if (Object.keys(errors).length > 0) return;
+        if (Object.keys(errors).length > 0) {
+            setFormErrors(errors);
+            return;
+        }
         setLoading(true);
 
         try {
@@ -120,20 +163,20 @@ export default function UpdateTeacherCategoryForm() {
                                 value={form.teacher}
                                 onChange={handleChange}
                                 options={teachers}
-                                error={formErrors.teacher}
+                                error={hasSubmitted ? formErrors.teacher : null}
                             />
 
                             <CategorySelect
                                 value={form.teacherCategory}
                                 onChange={handleChange}
                                 options={teacherCategories}
-                                error={formErrors.teacherCategory}
+                                error={hasSubmitted ? formErrors.teacherCategory : null}
                             />
 
                             <DateInput
                                 value={form.date}
                                 onChange={handleDateChange}
-                                error={formErrors.date}
+                                error={hasSubmitted ? formErrors.date : null}
                             />
 
                             {errorMessage && !showErrorModal && <div className="error">{errorMessage}</div>}

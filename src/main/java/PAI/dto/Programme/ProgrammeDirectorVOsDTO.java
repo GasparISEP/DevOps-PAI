@@ -1,29 +1,9 @@
 package PAI.dto.Programme;
 
-import PAI.VOs.Acronym;
-import PAI.VOs.NameWithNumbersAndSpecialChars;
-import PAI.VOs.TeacherAcronym;
 
-public class ProgrammeDirectorVOsDTO {
-    private final NameWithNumbersAndSpecialChars programmeName;
-    private final Acronym programmeAcronym;
-    private final TeacherAcronym teacherAcronym;
+import jakarta.validation.constraints.NotBlank;
 
-    public ProgrammeDirectorVOsDTO(NameWithNumbersAndSpecialChars programmeName, Acronym programmeAcronym, TeacherAcronym teacherAcronym) {
-        this.programmeName = programmeName;
-        this.programmeAcronym = programmeAcronym;
-        this.teacherAcronym = teacherAcronym;
-    }
-
-    public NameWithNumbersAndSpecialChars getProgrammeName() {
-        return programmeName;
-    }
-
-    public Acronym getProgrammeAcronym() {
-        return programmeAcronym;
-    }
-
-    public TeacherAcronym getTeacherAcronym() {
-        return teacherAcronym;
-    }
-}
+public record ProgrammeDirectorVOsDTO(
+        @NotBlank(message = "Teacher ID is required")
+        String teacherID
+) {}

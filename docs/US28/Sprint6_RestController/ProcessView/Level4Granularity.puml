@@ -1,4 +1,5 @@
 @startuml
+!pragma layout smetana
 title As ASC, I want to remove the enrolment of a student in a course edition\n(Process View Level 4 Granularity - Memory & JPA)
 autonumber
 skinparam defaultTextAlignment center

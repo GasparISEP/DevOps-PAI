@@ -12,12 +12,15 @@ const renderWithRouter = (ui) => {
 
 jest.mock('../../../components/teacherCareerProgressionComponent/DateInput', () => (props) => {
     return (
-        <input
-            type="text"
-            placeholder="Select a Date"
-            value={props.value}
-            onChange={(e) => props.onChange(e.target.value)}
-        />
+        <div>
+            <input
+                type="text"
+                placeholder="Select a Date"
+                value={props.value}
+                onChange={(e) => props.onChange(e.target.value)}
+            />
+            {props.error && <div className="form-error">{props.error}</div>}
+        </div>
     );
 });
 
@@ -187,6 +190,59 @@ describe('UpdateTeacherCategoryForm', () => {
         expect(screen.getByLabelText(/teacher$/i).value).toBe('');
         expect(screen.getByLabelText(/teacher category/i).value).toBe('');
         expect(screen.getByPlaceholderText(/date/i).value).toBe('');
+    });
+
+    test('shows and removes validation errors as fields are corrected', async () => {
+        renderWithRouter(<UpdateTeacherCategoryForm />);
+
+        fireEvent.click(screen.getByRole('button', { name: /update/i }));
+
+        expect(await screen.findByText('⚠️ Choose a Teacher.')).toBeInTheDocument();
+        expect(await screen.findByText('⚠️ Choose a Teacher Category.')).toBeInTheDocument();
+
+        fireEvent.change(screen.getByLabelText(/teacher$/i), {
+            target: { value: 't1' }
+        });
+        fireEvent.change(screen.getByLabelText(/teacher category/i), {
+            target: { value: 'c1' }
+        });
+        fireEvent.change(screen.getByPlaceholderText(/date/i), {
+            target: { value: '2025-06-19' }
+        });
+
+        await waitFor(() => {
+            expect(screen.queryByText('⚠️ Choose a Teacher.')).not.toBeInTheDocument();
+            expect(screen.queryByText('⚠️ Choose a Teacher Category.')).not.toBeInTheDocument();
+        });
+    });
+
+    test('shows date error when date is cleared after submit', async () => {
+        renderWithRouter(<UpdateTeacherCategoryForm />);
+
+        fireEvent.change(screen.getByLabelText(/teacher$/i), { target: { value: 't1' } });
+        fireEvent.change(screen.getByLabelText(/teacher category/i), { target: { value: 'c1' } });
+        fireEvent.change(screen.getByPlaceholderText(/date/i), { target: { value: '2025-06-19' } });
+
+        fireEvent.click(screen.getByRole('button', { name: /update/i }));
+
+        fireEvent.change(screen.getByPlaceholderText(/date/i), { target: { value: '' } });
+
+        await waitFor(() => {
+            expect(screen.getByText('⚠️ Insert the date.')).toBeInTheDocument();
+        });
+    });
+
+    test('shows teacher error when teacher field is cleared after submit', async () => {
+        renderWithRouter(<UpdateTeacherCategoryForm />);
+
+        fireEvent.change(screen.getByLabelText(/teacher$/i), { target: { value: 't1' } });
+        fireEvent.click(screen.getByRole('button', { name: /update/i }));
+
+        fireEvent.change(screen.getByLabelText(/teacher$/i), { target: { value: '' } });
+
+        await waitFor(() => {
+            expect(screen.getByText('⚠️ Choose a Teacher.')).toBeInTheDocument();
+        });
     });
 
 });

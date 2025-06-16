@@ -1,0 +1,54 @@
+@startuml
+title (Process View - Level 3: Components)\nDetailed Backend Flow:\n Retrieve List of Programmes
+
+skinparam sequence {
+    LifeLineBorderColor Grey
+    LifeLineBackgroundColor #E1F5FE
+}
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+participant "<<component>>\n:Router" as Router #honeydew
+participant "<<component>>\n:ProgrammeRestController\n(REST Controller)" as Controller #honeydew
+participant "<<component>>\n:IProgrammeService\n(Service)" as Service #honeydew
+participant "<<component>>\n:IProgrammeRepository\n(Repository)" as Repository #honeydew
+participant "<<component>>\n:IProgrammeAssembler\n(Assembler)" as Assembler #honeydew
+
+-> Router: **GET** /programmes
+activate Router
+
+Router -> Controller: getAllProgrammes()
+activate Controller
+
+Controller -> Service: getAllProgrammes()
+activate Service
+
+Service -> Repository: findAll()
+activate Repository
+
+Repository ->o]: **SELECT** * FROM programmes
+
+Repository <--o]: List<ProgrammeDataModel>
+
+Repository --> Service: List<Programme>
+deactivate Repository
+
+Service -> Assembler: fromDomainToDTO(List<DegreeType>)
+activate Assembler
+
+Assembler --> Service: List<ProgrammeDTO>
+deactivate Assembler
+Service --> Controller: List<ProgrammeDTO>
+deactivate Service
+
+Controller --> Router: programmeDTOList (JSON)
+deactivate Controller
+
+note over Router
+Spring serializes DTO to JSON automatically
+end note
+
+<-- Router: 200 OK + programmeDTOList
+deactivate Router
+
+@enduml
