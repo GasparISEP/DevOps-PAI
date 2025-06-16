@@ -2,6 +2,7 @@ package PAI.controller;
 
 
 import PAI.VOs.DepartmentID;
+import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.ProgrammeID;
 import PAI.VOs.SchoolYearID;
 import PAI.service.programmeEditionEnrolment.IProgrammeEditionEnrolmentService;
@@ -33,20 +34,20 @@ public class US26_CountStudentsInProgrammesFromDepartmentInSchoolYearController 
         this.programmeEditionEnrolmentService =programmeEditionEnrolmentService;
     }
 
-    public int countStudentsInProgrammesFromDepartmentInSchoolYear(DepartmentID departmentID, SchoolYearID schoolYearID) {
-        if(departmentID==null || schoolYearID==null){
-            throw new  IllegalArgumentException("Department or SchoolYear cannot be null");
-        }
-        if(!schoolYearService.schoolYearExistsById(schoolYearID)){
-            throw new  IllegalArgumentException("SchoolYear does not exist.");
-        }
-        if(!departmentService.departmentExists(departmentID)){
-            throw new  IllegalArgumentException("Department does not exist.");
-        }
-        List<ProgrammeID> programmeIDs = programmeService.findProgrammeByDepartment(departmentID);
-
-        return programmeEditionEnrolmentService.countStudentsInProgrammesFromDepartmentInSchoolYear(schoolYearID,programmeIDs);
-    }
+//    public int countStudentsInProgrammesFromDepartmentInSchoolYear(DepartmentID departmentID, SchoolYearID schoolYearID) {
+//        if(departmentID==null || schoolYearID==null){
+//            throw new  IllegalArgumentException("Department or SchoolYear cannot be null");
+//        }
+//        if(!schoolYearService.schoolYearExistsById(schoolYearID)){
+//            throw new  IllegalArgumentException("SchoolYear does not exist.");
+//        }
+//        if(!departmentService.departmentExists(departmentID)){
+//            throw new  IllegalArgumentException("Department does not exist.");
+//        }
+//        List<ProgrammeEditionID> programmeIDs = programmeService.findProgrammeByDepartment(departmentID);
+//
+//        return programmeEditionEnrolmentService.countStudentsInProgrammesFromDepartmentInSchoolYear(programmeEditionIDs);
+//    }
 
     public Set<DepartmentID> getAllDepartmentID() {
         return departmentService.getDepartmentIDs();
