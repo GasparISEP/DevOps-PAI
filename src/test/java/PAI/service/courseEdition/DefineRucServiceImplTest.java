@@ -44,15 +44,17 @@ class DefineRucServiceImplTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenTeacherRepositoryIsNull() {
-        // Arrange
+    void shouldThrowExpectionWhenTeacherServiceIsNull() {
+
+        // arrange
         ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
-        // Act & Assert
+
+        // act & assert
         IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
                 () -> new DefineRucServiceImpl(courseEditionRepository, null)
         );
-        assertEquals("TeacherRepository cannot be null", exception.getMessage());
+        assertEquals("TeacherService cannot be null.", exception.getMessage());
     }
 
     //testing findALl method

@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+import static PAI.utils.ValidationUtils.validateNotNull;
+
 @Service
 public class DefineRucServiceImpl implements IDefineRucService {
 
@@ -19,12 +21,11 @@ public class DefineRucServiceImpl implements IDefineRucService {
     private final ITeacherService teacherService;
 
     public DefineRucServiceImpl(ICourseEditionRepository courseEditionRepository, ITeacherService teacherService) {
-        if (teacherService==null)
-            throw new IllegalArgumentException("TeacherRepository cannot be null");
+
         if (courseEditionRepository == null)
             throw new IllegalArgumentException("CourseEditionRepository cannot be null");
 
-        this.teacherService = teacherService;
+        this.teacherService = validateNotNull(teacherService, "TeacherService");
         this.courseEditionRepository = courseEditionRepository;
     }
 
