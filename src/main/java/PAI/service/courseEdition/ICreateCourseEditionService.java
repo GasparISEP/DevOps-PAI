@@ -11,6 +11,7 @@ import PAI.dto.courseEdition.CourseEditionServiceResponseDTO;
 import PAI.dto.courseEdition.CreateCourseEditionCommand;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ICreateCourseEditionService {
 
@@ -31,6 +32,8 @@ public interface ICreateCourseEditionService {
     public List<ProgrammeEdition> getProgrammeEditionsByProgrammeID(ProgrammeID programmeID) throws Exception;
 
     List<CourseEditionServiceResponseDTO> findAll();
+
+    CourseEditionServiceResponseDTO findById(CourseEditionID courseEditionID);
 
     //CourseEditionServiceResponseDTO createCourseEditionAndReturnDTO(CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID);
 }
