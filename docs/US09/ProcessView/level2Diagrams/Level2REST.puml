@@ -8,10 +8,10 @@ participant "<<system(C4)>>\nBackend" as BE
 
 [o-> FE: Request enroll Student in Programme
 activate FE
-FE -> BE: (POST) Request Student in Programme
+FE -> BE: POST / students/enrol-programme /\n{studentID, accessMethodID, programmeAcronym, date}\t
 activate BE
-BE --> FE: (201 Created) Student enrolled in Programme
+BE --> FE: 201 Created /\n{programmeEnrolmentGID, studentID,\naccessMethodID, programmeID, date,\n_links: {self: students/enroll}}
 deactivate BE
-[o<-- FE: Student enrolled in Programme
+[o<-- FE: Success! The student was enrolled successfully.\t\n(Display Enrolment Details and Enrol in Course URL)\t
 deactivate FE
 @enduml
