@@ -1,6 +1,7 @@
 import React, { forwardRef } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { format, parse } from 'date-fns';
 
 const CustomDateInput = forwardRef(({ value, onClick, onChange, placeholder }, ref) => {
     return (
@@ -31,19 +32,23 @@ const CustomDateInput = forwardRef(({ value, onClick, onChange, placeholder }, r
 });
 
 export default function DateInput({ value, onChange, error }) {
+    const parsedValue = value
+        ? parse(value, 'dd-MM-yyyy', new Date())
+        : null;
+
     return (
         <div className="form-group">
             <label className="form-label" htmlFor="date">Date</label>
             <DatePicker
                 id="date"
-                selected={value ? new Date(value) : null}
+                selected={parsedValue}
                 onChange={(date) => {
-                    const formatted = date?.toISOString().split('T')[0];
+                    const formatted = date ? format(date, 'dd-MM-yyyy') : '';
                     onChange(formatted);
                 }}
                 dateFormat="dd-MM-yyyy"
                 placeholderText="Select a Date"
-                customInput={<CustomDateInput />}
+                customInput={<CustomDateInput value={value} />}
             />
             {error && <div className="form-error">{error}</div>}
         </div>
