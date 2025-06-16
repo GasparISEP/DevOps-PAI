@@ -16,7 +16,7 @@ S -> R ++: findAll()
 R -> D ++: findAll()
 D ->o] : SELECT * FROM SchoolYears
 D <--o] : [SchoolYear]
-D --> R --: List<SchoolYearDTO>
+D --> R --: List<SchoolYearDataModel>
 R --> S --: List<SchoolYear>
 S --> C --: List<CurrentSchoolYearDTO>
 C --> RT --: HTTP 200 OK + CollectionModel<CurrentSchoolYearDTO>
