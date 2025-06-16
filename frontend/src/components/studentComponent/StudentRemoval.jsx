@@ -49,6 +49,7 @@ export default function StudentCourseEditionForm() {
                 console.log("[DEBUG] courseEditions:", data);
 
                 setCourseEditions(data);
+                setSelectedCourseEditionID('');
             } catch (err) {
                 console.error("Error loading course editions:", err);
             }
@@ -151,7 +152,7 @@ export default function StudentCourseEditionForm() {
                                     className="form-input"
                                     value={selectedCourseEditionID}
                                     onChange={(e) => setSelectedCourseEditionID(e.target.value)}
-                                    disabled={!selectedStudentID}
+                                    disabled={!selectedStudentID || courseEditions.length === 0}
                                 >
                                     <option value="" disabled hidden>Choose Course Edition</option>
                                     {courseEditions.map(edition => (

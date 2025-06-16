@@ -160,6 +160,18 @@ export default function StudentProgrammeEnrolmentForm() {
     const departmentOptions = departments.map(dep => ({ value: dep.id, label: dep.name }));
     const programmeOptions = programmes.map(prog => ({ value: prog.acronym, label: prog.name }));
 
+    const isFormValid = () => {
+        return (
+            form.studentID &&
+            form.programmeAcronym &&
+            form.departmentID &&
+            form.accessMethodID &&
+            form.date &&
+            Object.values(formErrors).every(error => !error) &&
+            studentNotFound===false
+        );
+    };
+
     return (
         <div className="form-main-component-div">
             <div className="form-main-grid">
@@ -224,7 +236,7 @@ export default function StudentProgrammeEnrolmentForm() {
                                     onChange={handleDepartmentChange}
                                     placeholder="Select Department"
                                     isSearchable
-                                    isDisabled={studentNotFound || !form.departmentID}
+                                    isDisabled={studentNotFound}
                                     isClearable
                                     styles={{
                                         control: base => ({
@@ -245,7 +257,7 @@ export default function StudentProgrammeEnrolmentForm() {
                                     value={programmeOptions.find(o => o.value === form.programmeAcronym)}
                                     onChange={handleProgrammeChange}
                                     placeholder="Select Programme"
-                                    isDisabled={!form.departmentID}
+                                    isDisabled={studentNotFound || !form.departmentID}
                                     isSearchable
                                     styles={{
                                         control: base => ({
@@ -270,7 +282,7 @@ export default function StudentProgrammeEnrolmentForm() {
                                     onChange={handleaccessMethodIDChange}
                                     placeholder="Select Access Method"
                                     isSearchable
-                                    isDisabled={!form.departmentID}
+                                    isDisabled={studentNotFound || !form.programmeAcronym}
                                     styles={{
                                         control: base => ({
                                             ...base,
@@ -285,7 +297,7 @@ export default function StudentProgrammeEnrolmentForm() {
                                 <label className="form-label" htmlFor="date">Enrolment Date
                                 </label>
                                 <input
-                                    disabled={studentNotFound}
+                                    disabled={studentNotFound || !form.accessMethodID}
                                     className={`form-input ${form.date && !/^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-\d{4}$/.test(form.date) ? 'input-error' : ''}`}
                                     type="text"
                                     id="date"
@@ -306,7 +318,7 @@ export default function StudentProgrammeEnrolmentForm() {
                             </div>
 
                             <div className="form-actions">
-                                <button type="submit" className="btn btn-primary" disabled={loading || studentNotFound}>
+                                <button type="submit" className="btn btn-primary" disabled={!isFormValid()}>
                                     {loading ? 'ENROLLING…' : 'ENROL'}
                                 </button>
                             </div>

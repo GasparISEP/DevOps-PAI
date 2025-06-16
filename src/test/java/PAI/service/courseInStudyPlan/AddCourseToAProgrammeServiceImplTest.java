@@ -5,6 +5,7 @@ import PAI.assembler.courseInStudyPlan.ICourseInStudyPlanBusinessAssembler;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.domain.courseInStudyPlan.ICourseInStudyPlanFactory;
 import PAI.domain.repositoryInterfaces.courseInStudyPlan.ICourseInStudyPlanRepository;
+import PAI.domain.repositoryInterfaces.studyPlan.IStudyPlanRepository;
 import PAI.dto.courseInStudyPlan.CourseInStudyPlanCommand;
 import PAI.dto.courseInStudyPlan.CourseInStudyPlanServiceDTO;
 import PAI.exception.BusinessRuleViolationException;
@@ -19,7 +20,7 @@ import static org.mockito.Mockito.when;
 
 class AddCourseToAProgrammeServiceImplTest {
 
-    private IStudyPlanService studyPlanService;
+    private IStudyPlanRepository studyPlanRepository;
     private ICourseInStudyPlanRepository repository;
     private ICourseInStudyPlanFactory factory;
     private ICourseInStudyPlanBusinessAssembler businessAssembler;
@@ -27,11 +28,11 @@ class AddCourseToAProgrammeServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        studyPlanService = mock(IStudyPlanService.class);
+        studyPlanRepository = mock(IStudyPlanRepository.class);
         repository = mock(ICourseInStudyPlanRepository.class);
         factory = mock(ICourseInStudyPlanFactory.class);
         businessAssembler = mock(ICourseInStudyPlanBusinessAssembler.class);
-        service = new AddCourseToAProgrammeServiceImpl(studyPlanService, repository, factory, businessAssembler);
+        service = new AddCourseToAProgrammeServiceImpl(studyPlanRepository, repository, factory, businessAssembler);
     }
 
     @Test
@@ -47,9 +48,9 @@ class AddCourseToAProgrammeServiceImplTest {
 
         ProgrammeID programmeID = mock(ProgrammeID.class);
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
-        when(studyPlanService.getLatestStudyPlanIDByProgrammeID(any())).thenReturn(studyPlanID);
+        when(studyPlanRepository.findLatestByProgrammeID(any())).thenReturn(studyPlanID);
         when(studyPlanID.getProgrammeID()).thenReturn(programmeID);
-        when(studyPlanService.getLatestStudyPlanIDByProgrammeID(programmeID)).thenReturn(studyPlanID);
+        when(studyPlanRepository.findLatestByProgrammeID(programmeID)).thenReturn(studyPlanID);
 
         CourseInStudyPlan courseInStudyPlan = mock(CourseInStudyPlan.class);
         CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
@@ -88,7 +89,7 @@ class AddCourseToAProgrammeServiceImplTest {
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
 
         when(studyPlanID.getProgrammeID()).thenReturn(programmeID);
-        when(studyPlanService.getLatestStudyPlanIDByProgrammeID(programmeID)).thenReturn(null);
+        when(studyPlanRepository.findLatestByProgrammeID(programmeID)).thenReturn(null);
 
         assertThrows(BusinessRuleViolationException.class, () -> service.addCourseToAProgramme(command));
     }
@@ -106,9 +107,9 @@ class AddCourseToAProgrammeServiceImplTest {
 
         ProgrammeID programmeID = mock(ProgrammeID.class);
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
-        when(studyPlanService.getLatestStudyPlanIDByProgrammeID(any())).thenReturn(studyPlanID);
+        when(studyPlanRepository.findLatestByProgrammeID(any())).thenReturn(studyPlanID);
         when(studyPlanID.getProgrammeID()).thenReturn(programmeID);
-        when(studyPlanService.getLatestStudyPlanIDByProgrammeID(programmeID)).thenReturn(studyPlanID);
+        when(studyPlanRepository.findLatestByProgrammeID(programmeID)).thenReturn(studyPlanID);
 
         CourseInStudyPlan courseInStudyPlan = mock(CourseInStudyPlan.class);
         CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
@@ -132,9 +133,9 @@ class AddCourseToAProgrammeServiceImplTest {
 
         ProgrammeID programmeID = mock(ProgrammeID.class);
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
-        when(studyPlanService.getLatestStudyPlanIDByProgrammeID(any())).thenReturn(studyPlanID);
+        when(studyPlanRepository.findLatestByProgrammeID(any())).thenReturn(studyPlanID);
         when(studyPlanID.getProgrammeID()).thenReturn(programmeID);
-        when(studyPlanService.getLatestStudyPlanIDByProgrammeID(programmeID)).thenReturn(studyPlanID);
+        when(studyPlanRepository.findLatestByProgrammeID(programmeID)).thenReturn(studyPlanID);
 
         CourseInStudyPlan courseInStudyPlan = mock(CourseInStudyPlan.class);
         CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
@@ -219,7 +220,7 @@ class AddCourseToAProgrammeServiceImplTest {
                 quantityOfCreditsEcts
         );
 
-        when(studyPlanService.getLatestStudyPlanIDByProgrammeID(programmeID))
+        when(studyPlanRepository.findLatestByProgrammeID(programmeID))
                 .thenReturn(studyPlanID);
 
         when(repository.getTotalCreditsEctsInStudyPlanSoFar(studyPlanID, semester, curricularYear, durationOfCourse))
@@ -271,7 +272,7 @@ class AddCourseToAProgrammeServiceImplTest {
                 quantityOfCreditsEcts
         );
 
-        when(studyPlanService.getLatestStudyPlanIDByProgrammeID(programmeID))
+        when(studyPlanRepository.findLatestByProgrammeID(programmeID))
                 .thenReturn(studyPlanID);
 
         when(repository.getTotalCreditsEctsInStudyPlanSoFar(studyPlanID, semester, curricularYear, durationOfCourse))
@@ -323,7 +324,7 @@ class AddCourseToAProgrammeServiceImplTest {
                 quantityOfCreditsEcts
         );
 
-        when(studyPlanService.getLatestStudyPlanIDByProgrammeID(programmeID))
+        when(studyPlanRepository.findLatestByProgrammeID(programmeID))
                 .thenReturn(studyPlanID);
 
         when(repository.containsOfIdentity(any()))
@@ -476,7 +477,7 @@ class AddCourseToAProgrammeServiceImplTest {
 
 
     @Test
-    void should_ThrowException_When_StudyPlanServiceIsNull() {
+    void should_ThrowException_When_StudyPlanRepositoryIsNull() {
         assertThrows(IllegalArgumentException.class, () ->
                 new AddCourseToAProgrammeServiceImpl(
                         null,
@@ -491,7 +492,7 @@ class AddCourseToAProgrammeServiceImplTest {
     void should_ThrowException_When_RepositoryIsNull() {
         assertThrows(IllegalArgumentException.class, () ->
                 new AddCourseToAProgrammeServiceImpl(
-                        mock(IStudyPlanService.class),
+                        mock(IStudyPlanRepository.class),
                         null,
                         mock(ICourseInStudyPlanFactory.class),
                         mock(ICourseInStudyPlanBusinessAssembler.class)
@@ -503,7 +504,7 @@ class AddCourseToAProgrammeServiceImplTest {
     void should_ThrowException_When_FactoryIsNull() {
         assertThrows(IllegalArgumentException.class, () ->
                 new AddCourseToAProgrammeServiceImpl(
-                        mock(IStudyPlanService.class),
+                        mock(IStudyPlanRepository.class),
                         mock(ICourseInStudyPlanRepository.class),
                         null,
                         mock(ICourseInStudyPlanBusinessAssembler.class)
@@ -515,7 +516,7 @@ class AddCourseToAProgrammeServiceImplTest {
     void should_ThrowException_When_BusinessAssemblerIsNull() {
         assertThrows(IllegalArgumentException.class, () ->
                 new AddCourseToAProgrammeServiceImpl(
-                        mock(IStudyPlanService.class),
+                        mock(IStudyPlanRepository.class),
                         mock(ICourseInStudyPlanRepository.class),
                         mock(ICourseInStudyPlanFactory.class),
                         null
@@ -527,7 +528,7 @@ class AddCourseToAProgrammeServiceImplTest {
     void should_CreateInstance_When_AllDependenciesAreNotNull() {
         assertDoesNotThrow(() ->
                 new AddCourseToAProgrammeServiceImpl(
-                        mock(IStudyPlanService.class),
+                        mock(IStudyPlanRepository.class),
                         mock(ICourseInStudyPlanRepository.class),
                         mock(ICourseInStudyPlanFactory.class),
                         mock(ICourseInStudyPlanBusinessAssembler.class)

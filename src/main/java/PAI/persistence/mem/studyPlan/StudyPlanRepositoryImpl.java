@@ -4,8 +4,10 @@ import PAI.VOs.*;
 import PAI.domain.studyPlan.StudyPlan;
 import PAI.domain.repositoryInterfaces.studyPlan.IStudyPlanRepository;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class StudyPlanRepositoryImpl implements IStudyPlanRepository {
 
@@ -50,5 +52,20 @@ public class StudyPlanRepositoryImpl implements IStudyPlanRepository {
             }
         }
         return false;
+    }
+
+    private List<StudyPlan> findByProgrammeID(ProgrammeID programmeID) {
+        return _studyPlanList_2.stream()
+                .filter(sp -> sp.identity().getProgrammeID().equals(programmeID))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public StudyPlanID findLatestByProgrammeID(ProgrammeID programmeID) {
+        List<StudyPlan> list = findByProgrammeID(programmeID);
+        if (list.isEmpty()) {
+            throw new IllegalArgumentException("No study plans found for given ProgrammeID");
+        }
+        return list.getLast().identity();
     }
 }
