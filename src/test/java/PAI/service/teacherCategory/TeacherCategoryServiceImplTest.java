@@ -75,7 +75,7 @@ class TeacherCategoryServiceImplTest {
         );
 
         // Assert
-        assertTrue(ex.getMessage().contains("Teacher Category Name"));
+        assertTrue(ex.getMessage().contains("Teacher Category with '" + doubleName.getName() + "' is already registered"));
     }
 
 
@@ -252,4 +252,4 @@ class TeacherCategoryServiceImplTest {
         assertEquals("Teacher Category ID cannot be null!", exception.getMessage());
     }
 
-    }
+}
