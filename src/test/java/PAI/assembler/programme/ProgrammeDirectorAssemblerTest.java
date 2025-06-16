@@ -1,88 +1,53 @@
 package PAI.assembler.programme;
 
-import PAI.VOs.Acronym;
-import PAI.VOs.NameWithNumbersAndSpecialChars;
 import PAI.VOs.TeacherAcronym;
 import PAI.VOs.TeacherID;
-import PAI.domain.programme.Programme;
 import PAI.domain.teacher.Teacher;
-import PAI.dto.Programme.ProgrammeDirectorRequestDTO;
 import PAI.dto.Programme.ProgrammeDirectorResponseDTO;
 import PAI.dto.Programme.ProgrammeDirectorVOsDTO;
+import PAI.dto.teacher.TeacherIdDTO;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class ProgrammeDirectorAssemblerTest {
 
+    private final ProgrammeDirectorAssembler assembler = new ProgrammeDirectorAssembler();
+
     @Test
-    void shouldCreateProgrammeDirectorVOsDTOFromProgrammeDirectorRequestDTO() {
-        // Arrange
+    void fromDomainToDTO_shouldConvertTeacherListToDTO() {
+        // Mock Teachers
+        Teacher teacher1 = mock(Teacher.class);
+        Teacher teacher2 = mock(Teacher.class);
+
+        // Stub getTeacherID to return TeacherID containing TeacherAcronym
+        when(teacher1.getTeacherID()).thenReturn(new TeacherID(new TeacherAcronym("ABC")));
+        when(teacher2.getTeacherID()).thenReturn(new TeacherID(new TeacherAcronym("XYZ")));
+
         ProgrammeDirectorAssembler assembler = new ProgrammeDirectorAssembler();
 
-        ProgrammeDirectorRequestDTO dtoMock = mock(ProgrammeDirectorRequestDTO.class);
+        // Call the method
+        ProgrammeDirectorResponseDTO responseDTO = assembler.fromDomainToDTO(List.of(teacher1, teacher2));
 
-        String programmeName = "Computer Science";
-        String programmeAcronym = "CS";
-        String teacherAcronym = "ABC";
+        // Assert the result has expected acronyms
+        List<TeacherIdDTO> teachersDTO = responseDTO.teachers();
 
-        when(dtoMock.getProgrammeName()).thenReturn(programmeName);
-        when(dtoMock.getProgrammeAcronym()).thenReturn(programmeAcronym);
-        when(dtoMock.getTeacherAcronym()).thenReturn(teacherAcronym);
-
-        // Act
-        ProgrammeDirectorVOsDTO result = assembler.fromDTOToDomain(dtoMock);
-
-        // Assert
-        assertAll(
-                () -> assertEquals(programmeName, result.getProgrammeName().getNameWithNumbersAndSpecialChars()),
-                () -> assertEquals(programmeAcronym, result.getProgrammeAcronym().getAcronym()),
-                () -> assertEquals(teacherAcronym, result.getTeacherAcronym().getAcronym())
-        );
+        assertEquals(2, teachersDTO.size());
+        assertEquals("ABC", teachersDTO.get(0).acronym());
+        assertEquals("XYZ", teachersDTO.get(1).acronym());
     }
 
     @Test
-    void shouldCreateProgrammeDirectorResponseDTOFromSingleProgrammeAndTeacher() {
-        // Arrange
-        ProgrammeDirectorAssembler assembler = new ProgrammeDirectorAssembler();
+    void testFromDTOToDomain() {
+        ProgrammeDirectorVOsDTO dto = new ProgrammeDirectorVOsDTO("ABC");
 
-        // Mock single Programme and VOs
-        Programme programmeMock = mock(Programme.class);
-        NameWithNumbersAndSpecialChars programmeNameMock = mock(NameWithNumbersAndSpecialChars.class);
-        Acronym acronymMock = mock(Acronym.class);
+        ProgrammeDirectorVOsDTO result = assembler.fromDTOToDomain(dto);
 
-        when(programmeMock.getProgrammeName()).thenReturn(programmeNameMock);
-        when(programmeNameMock.getNameWithNumbersAndSpecialChars()).thenReturn("Computer Science");
-        when(programmeMock.getAcronym()).thenReturn(acronymMock);
-        when(acronymMock.getAcronym()).thenReturn("CS");
-
-        List<Programme> programmes = List.of(programmeMock);
-
-        // Mock single Teacher and VOs
-        Teacher teacherMock = mock(Teacher.class);
-        TeacherID teacherIDMock = mock(TeacherID.class);
-        TeacherAcronym teacherAcronymMock = mock(TeacherAcronym.class);
-
-        when(teacherMock.getTeacherID()).thenReturn(teacherIDMock);
-        when(teacherIDMock.getTeacherAcronym()).thenReturn(teacherAcronymMock);
-        when(teacherAcronymMock.getAcronym()).thenReturn("ABC");
-
-        List<Teacher> teachers = List.of(teacherMock);
-
-        // Act
-        ProgrammeDirectorResponseDTO responseDTO = assembler.fromDomainToDTO(programmes, teachers);
-
-        // Assert
-        assertNotNull(responseDTO);
-        assertEquals(1, responseDTO.getProgrammes().size());
-        assertEquals(1, responseDTO.getTeachers().size());
-
-        assertEquals("Computer Science", responseDTO.getProgrammes().get(0).getProgrammeName());
-        assertEquals("CS", responseDTO.getProgrammes().get(0).getProgrammeAcronym());
-
-        assertEquals("ABC", responseDTO.getTeachers().get(0).getTeacherAcronym());
+        assertNotNull(result);
+        assertEquals("ABC", result.teacherID());
     }
 }

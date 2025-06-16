@@ -1,78 +1,54 @@
 package PAI.dto.Programme;
 
-import PAI.VOs.Acronym;
-import PAI.VOs.NameWithNumbersAndSpecialChars;
-import PAI.VOs.TeacherAcronym;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ProgrammeDirectorVOsDTOTest {
 
-    static class TestData {
-        final NameWithNumbersAndSpecialChars programmeName = new NameWithNumbersAndSpecialChars("Data Science");
-        final Acronym programmeAcronym = new Acronym("DSE");
-        final TeacherAcronym teacherAcronym = new TeacherAcronym("TCH");
+    private static Validator validator;
+
+    @BeforeEach
+    public void setup() {
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        validator = factory.getValidator();
     }
 
     @Test
-    void shouldCreateProgrammeDirectorVOsDTOWithGivenValues() {
-        // arrange
-        TestData data = new TestData();
-
-        // act
-        ProgrammeDirectorVOsDTO dto = new ProgrammeDirectorVOsDTO(
-                data.programmeName,
-                data.programmeAcronym,
-                data.teacherAcronym
-        );
-
-        // assert
-        assertNotNull(dto);
-        assertEquals(data.programmeName, dto.getProgrammeName());
-        assertEquals(data.programmeAcronym, dto.getProgrammeAcronym());
-        assertEquals(data.teacherAcronym, dto.getTeacherAcronym());
+    void testValidTeacherID() {
+        ProgrammeDirectorVOsDTO dto = new ProgrammeDirectorVOsDTO("TCH");
+        Set<ConstraintViolation<ProgrammeDirectorVOsDTO>> violations = validator.validate(dto);
+        assertTrue(violations.isEmpty());
     }
 
     @Test
-    void getProgrammeNameShouldReturnCorrectValue() {
-        // arrange
-        TestData data = new TestData();
-        ProgrammeDirectorVOsDTO dto = new ProgrammeDirectorVOsDTO(
-                data.programmeName,
-                data.programmeAcronym,
-                data.teacherAcronym
-        );
-
-        // act & assert
-        assertEquals(data.programmeName, dto.getProgrammeName());
+    void testNullTeacherID() {
+        ProgrammeDirectorVOsDTO dto = new ProgrammeDirectorVOsDTO(null);
+        Set<ConstraintViolation<ProgrammeDirectorVOsDTO>> violations = validator.validate(dto);
+        assertFalse(violations.isEmpty());
+        assertEquals("Teacher ID is required", violations.iterator().next().getMessage());
     }
 
     @Test
-    void getProgrammeAcronymShouldReturnCorrectValue() {
-        // arrange
-        TestData data = new TestData();
-        ProgrammeDirectorVOsDTO dto = new ProgrammeDirectorVOsDTO(
-                data.programmeName,
-                data.programmeAcronym,
-                data.teacherAcronym
-        );
-
-        // act & assert
-        assertEquals(data.programmeAcronym, dto.getProgrammeAcronym());
+    void testBlankTeacherID() {
+        ProgrammeDirectorVOsDTO dto = new ProgrammeDirectorVOsDTO("");
+        Set<ConstraintViolation<ProgrammeDirectorVOsDTO>> violations = validator.validate(dto);
+        assertFalse(violations.isEmpty());
+        assertEquals("Teacher ID is required", violations.iterator().next().getMessage());
     }
 
     @Test
-    void getTeacherAcronymShouldReturnCorrectValue() {
-        // arrange
-        TestData data = new TestData();
-        ProgrammeDirectorVOsDTO dto = new ProgrammeDirectorVOsDTO(
-                data.programmeName,
-                data.programmeAcronym,
-                data.teacherAcronym
-        );
-
-        // act & assert
-        assertEquals(data.teacherAcronym, dto.getTeacherAcronym());
+    void testWhitespaceTeacherID() {
+        ProgrammeDirectorVOsDTO dto = new ProgrammeDirectorVOsDTO("  ");
+        Set<ConstraintViolation<ProgrammeDirectorVOsDTO>> violations = validator.validate(dto);
+        assertFalse(violations.isEmpty());
+        assertEquals("Teacher ID is required", violations.iterator().next().getMessage());
     }
 }
