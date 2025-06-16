@@ -9,43 +9,48 @@ skinparam {
 }
 skinparam sequence {
     LifeLineBorderColor Grey
-    LifeLineBackgroundColor HoneyDew
+    LifeLineBackgroundColor #E1F5FE
 }
 skinparam defaultTextAlignment center
 skinparam shadowing true
 
-actor ASC  #LightBlue/White
-participant "<<Container>>\nFrontend" as Frontend #E1F5FE
-participant "<<Container>>\nBackend" as Backend #E1F5FE
-database "<<Container>>\nDatabase" as Database #E1F5FE
+actor ASC  #honeydew
+participant "<<Container>>\n:Frontend" as Frontend #honeydew
+participant "<<Container>>\n:Backend" as Backend #honeydew
+database "<<Container>>\n:Database" as Database #honeydew
 
+group Retrieve Programmes
 ASC -> Frontend: I want to add a Course to a Programme!\nAccess form
 activate Frontend
 
-Frontend -> Backend: GET /programmes
+Frontend -> Backend: **GET** /programmes
 activate Backend
-Backend -> Database: SELECT * FROM programmes
+Backend -> Database: **SELECT** * FROM programmes
 activate Database
 Database --> Backend: 200 OK + programmes
 deactivate Database
 Backend --> Frontend: 200 OK + programmes
 deactivate Backend
-Frontend --> ASC: Display programme options
+Frontend --> ASC: Display dropdown with programme options
 deactivate Frontend
+end
 
+group Retrieve Courses
 ASC -> Frontend: Select Programme
 activate Frontend
-Frontend -> Backend: GET /courses/{ids}
+Frontend -> Backend: **GET** /courses/{ids}
 activate Backend
-Backend -> Database: SELECT * FROM courses
+Backend -> Database: **SELECT** * FROM courses
 activate Database
 Database --> Backend: 200 OK + courses
 deactivate Database
 Backend --> Frontend: 200 OK + courses
 deactivate Backend
-Frontend --> ASC: Display course options
+Frontend --> ASC: Display dropdown with course options
 deactivate Frontend
+end
 
+group Collect Course Details
 ASC -> Frontend: Select Course
 activate Frontend
 Frontend --> ASC: Which Curricular Year?
@@ -68,14 +73,15 @@ deactivate Frontend
 
 ASC -> Frontend: Select ECTS credits
 activate Frontend
+end
+
+group Confirm and Submit
 Frontend --> ASC: Confirm adding a course to a programme?
 deactivate Frontend
-
-
 ASC -> Frontend: Yes, confirm
 activate Frontend
-Frontend -> Backend: POST /courses-in-study-plan + body
-note over Frontend, Backend #HoneyDew
+Frontend -> Backend: **POST** /courses-in-study-plan + body
+note over Frontend, Backend
 Request body (JSON):
 {
   semester: "...",
@@ -90,12 +96,12 @@ Request body (JSON):
 }
 end note
 activate Backend
-Backend -> Database: INSERT INTO courses_in_study_plan (data)
+Backend -> Database: **INSERT INTO** courses_in_study_plan (data)
 activate Database
 Database --> Backend: Confirmation + new courseInStudyPlan
 deactivate Database
 Backend --> Frontend: 201 Created + body
-note over Backend, Frontend #HoneyDew
+note over Backend, Frontend
 Response body (JSON) + hypermedia:
 {
   generatedID: "...",
@@ -112,4 +118,5 @@ end note
 deactivate Backend
 Frontend --> ASC: Course added to a programme successfully!
 deactivate Frontend
+end
 @enduml

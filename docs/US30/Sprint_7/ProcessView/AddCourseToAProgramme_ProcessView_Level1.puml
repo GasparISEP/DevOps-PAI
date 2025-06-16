@@ -7,51 +7,51 @@ skinparam {
 }
 skinparam sequence {
     LifeLineBorderColor Grey
-    LifeLineBackgroundColor HoneyDew
+    LifeLineBackgroundColor #E1F5FE
 }
 skinparam defaultTextAlignment center
 skinparam shadowing true
 
 autonumber
 
-actor ASC as admin #LightBlue/White
-participant "<<System>>\n:SystemPAI" as System #E1F5FE
+actor ASC as admin #honeydew
+participant "<<System>>\n:SystemPAI" as System #honeydew
 
 admin -> System: I want to add a Course to a Programme!
 activate System
 
 group Collect Course Details
-System --> admin: Please provide Programme
+System --> admin: Please provide **Programme**
 deactivate System #teal
 
 admin -> System: Programme submitted
 activate System
 
-System --> admin: Please provide Course
+System --> admin: Please provide **Course**
 deactivate System
 
 admin -> System: Course submitted
 activate System
 
-System --> admin: Please provide Curricular Year
+System --> admin: Please provide **Curricular Year**
 deactivate System
 
 admin -> System: Curricular Year submitted
 activate System
 
-System --> admin: Please provide Semester
+System --> admin: Please provide **Semester**
 deactivate System
 
 admin -> System: Semester submitted
 activate System
 
-System --> admin: Please provide Course Duration in Curricular Year
+System --> admin: Please provide **Course Duration in Curricular Year**
 deactivate System
 
 admin -> System: Duration submitted
 activate System
 
-System --> admin: Please provide Quantity of ECTS Credits
+System --> admin: Please provide **Quantity of ECTS Credits**
 deactivate System
 
 admin -> System: Credits submitted
