@@ -10,6 +10,7 @@ import PAI.domain.repositoryInterfaces.studyPlan.IStudyPlanRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -100,5 +101,26 @@ public class StudyPlanRepositorySpringDataImpl implements IStudyPlanRepository {
         }
         StudyPlanIDDataModel studyPlanIDDataModel = iStudyPlanIDMapper.toDataModel(id);
         return iStudyPlanRepositorySpringData.existsById(studyPlanIDDataModel);
+    }
+
+    @Override
+    public StudyPlanID findLatestByProgrammeID(ProgrammeID programmeID) {
+        if (programmeID == null) {
+            throw new IllegalArgumentException("ProgrammeID cannot be null");
+        }
+
+        List<StudyPlan> matchingStudyPlans = new ArrayList<>();
+
+        for (StudyPlan studyPlan : this.findAll()) {
+            if (studyPlan.identity().getProgrammeID().equals(programmeID)) {
+                matchingStudyPlans.add(studyPlan);
+            }
+        }
+
+        if (matchingStudyPlans.isEmpty()) {
+            throw new IllegalArgumentException("No study plans found for given ProgrammeID");
+        }
+
+        return matchingStudyPlans.getLast().identity();
     }
 }

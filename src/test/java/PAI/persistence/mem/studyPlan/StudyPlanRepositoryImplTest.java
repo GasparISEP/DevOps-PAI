@@ -5,6 +5,7 @@ import PAI.domain.studyPlan.StudyPlan;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -162,5 +163,54 @@ public class StudyPlanRepositoryImplTest {
 
         // Act + Assert
         assertFalse(repository.containsOfIdentity(id2));
+    }
+
+    @Test
+    void shouldReturnLatestStudyPlanForProgramme() throws Exception {
+        // Arrange
+        ProgrammeID pid1 = new ProgrammeID(new Acronym("MAT"));
+        Date date1 = new Date("10-03-2020");
+        Date date2 = new Date("10-03-2023");
+        StudyPlanID id1 = new StudyPlanID(pid1, date1);
+        StudyPlanID id2 = new StudyPlanID(pid1, date2);
+        StudyPlanGeneratedID generatedID = new StudyPlanGeneratedID(UUID.randomUUID());
+        StudyPlanGeneratedID generatedID2 = new StudyPlanGeneratedID(UUID.randomUUID());
+
+        StudyPlan sp = new StudyPlan(pid1, date1, new DurationInYears(3), new MaxEcts(180), id1, generatedID);
+        StudyPlan sp2 = new StudyPlan(pid1, date2, new DurationInYears(3), new MaxEcts(180), id2, generatedID2);
+        repository.save(sp);
+        repository.save(sp2);
+
+        // Assert
+        StudyPlanID latest = repository.findLatestByProgrammeID(pid1);
+
+        // Assert
+        assertEquals(new Date("10-03-2023"), latest.getDate());
+    }
+
+    @Test
+    void shouldThrowExceptionIfNoStudyPlanExistForProgrammeID() throws Exception {
+        // Arrange
+        ProgrammeID pid1 = new ProgrammeID(new Acronym("MAT"));
+        Date date1 = new Date("10-03-2020");
+        StudyPlanID id1 = new StudyPlanID(pid1, date1);
+        StudyPlanGeneratedID generatedID = new StudyPlanGeneratedID(UUID.randomUUID());
+
+        StudyPlan sp = new StudyPlan(pid1, date1, new DurationInYears(3), new MaxEcts(180), id1, generatedID);
+        repository.save(sp);
+
+        ProgrammeID unknownProgramme = new ProgrammeID(new Acronym("XYZ"));
+
+        // Act & Assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> repository.findLatestByProgrammeID(unknownProgramme));
+        assertEquals("No study plans found for given ProgrammeID", exception.getMessage());
+    }
+
+    @Test
+    void shouldThrowExceptionIfProgrammeIDIsNull() {
+        // Arrange
+
+        // Act & Assert
+        assertThrows(IllegalArgumentException.class, () -> repository.findLatestByProgrammeID(null));
     }
 }

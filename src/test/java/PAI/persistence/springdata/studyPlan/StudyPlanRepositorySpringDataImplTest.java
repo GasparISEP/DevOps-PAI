@@ -1,6 +1,6 @@
 package PAI.persistence.springdata.studyPlan;
 
-import PAI.VOs.StudyPlanID;
+import PAI.VOs.*;
 import PAI.domain.studyPlan.StudyPlan;
 import PAI.mapper.studyPlan.IStudyPlanMapper;
 import PAI.mapper.studyPlan.IStudyPlanIDMapper;
@@ -8,10 +8,12 @@ import PAI.persistence.datamodel.studyPlan.StudyPlanDataModel;
 import PAI.persistence.datamodel.studyPlan.StudyPlanIDDataModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -243,5 +245,61 @@ class StudyPlanRepositorySpringDataImplTest {
         List<StudyPlan> list = new java.util.ArrayList<>();
         it.forEach(list::add);
         return list;
+    }
+
+    @Test
+    void shouldReturnLatestStudyPlanForProgrammeID() throws Exception {
+        // Arrange
+        ProgrammeID pid = new ProgrammeID(new Acronym("ENG"));
+        Date earlierDate = new Date("01-01-2020");
+        Date laterDate = new Date("01-01-2023");
+
+        StudyPlanID spid1 = new StudyPlanID(pid, earlierDate);
+        StudyPlanID spid2 = new StudyPlanID(pid, laterDate);
+
+        StudyPlan plan1 = new StudyPlan(pid, earlierDate, new DurationInYears(3), new MaxEcts(180), spid1, new StudyPlanGeneratedID(UUID.randomUUID()));
+        StudyPlan plan2 = new StudyPlan(pid, laterDate, new DurationInYears(3), new MaxEcts(180), spid2, new StudyPlanGeneratedID(UUID.randomUUID()));
+
+        StudyPlanDataModel dataModel1 = Mockito.mock(StudyPlanDataModel.class);
+        StudyPlanDataModel dataModel2 = Mockito.mock(StudyPlanDataModel.class);
+
+        List<StudyPlanDataModel> dataModels = List.of(dataModel1, dataModel2);
+        when(_iStudyPlanRepositorySpringData.findAll()).thenReturn(dataModels);
+        when(_iStudyPlanMapper.toDomain(dataModel1)).thenReturn(plan1);
+        when(_iStudyPlanMapper.toDomain(dataModel2)).thenReturn(plan2);
+
+        // Act
+        StudyPlanID latest = _studyPlanRepositorySpringDataImpl.findLatestByProgrammeID(pid);
+
+        // Assert
+        assertNotNull(latest);
+        assertEquals(laterDate, latest.getDate());
+    }
+
+    @Test
+    void shouldThrowIfNoPlansFoundForProgrammeID() throws Exception {
+        // Arrange
+        ProgrammeID pid = new ProgrammeID(new Acronym("ENG"));
+        StudyPlanDataModel unrelatedDataModel = Mockito.mock(StudyPlanDataModel.class);
+
+        ProgrammeID otherPid = new ProgrammeID(new Acronym("MATH"));
+        StudyPlanID otherID = new StudyPlanID(otherPid, new Date("01-01-2021"));
+        StudyPlan unrelatedPlan = new StudyPlan(otherPid, new Date("01-01-2021"), new DurationInYears(3), new MaxEcts(180), otherID, new StudyPlanGeneratedID(UUID.randomUUID()));
+
+        when(_iStudyPlanRepositorySpringData.findAll()).thenReturn(List.of(unrelatedDataModel));
+        when(_iStudyPlanMapper.toDomain(unrelatedDataModel)).thenReturn(unrelatedPlan);
+
+        // Act & Assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+                _studyPlanRepositorySpringDataImpl.findLatestByProgrammeID(pid));
+        assertEquals("No study plans found for given ProgrammeID", exception.getMessage());
+    }
+
+    @Test
+    void shouldThrowExceptionIfProgrammeIDIsNull() {
+        // Arrange
+
+        // Act & Assert
+        assertThrows(IllegalArgumentException.class, () -> _studyPlanRepositorySpringDataImpl.findLatestByProgrammeID(null));
     }
 }
