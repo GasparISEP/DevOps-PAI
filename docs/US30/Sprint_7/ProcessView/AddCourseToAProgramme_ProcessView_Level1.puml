@@ -15,7 +15,7 @@ skinparam shadowing true
 autonumber
 
 actor ASC as admin #LightBlue/White
-participant "<<System>>\nSystemPAI" as System #E1F5FE
+participant "<<System>>\n:SystemPAI" as System #E1F5FE
 
 admin -> System: I want to add a Course to a Programme!
 activate System
@@ -71,6 +71,6 @@ note left admin
 ASC =
 Academic
 Services
-Coordinator
+Collaborator
 end note
 @enduml
