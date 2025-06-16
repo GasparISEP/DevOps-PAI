@@ -32,15 +32,24 @@ package "Service Layer" {
 }
 
 package "Assembler / DTO / Command" {
+
   interface "<<interface>>\nICourseEditionAssembler" as ICourseEditionAssembler
   class CourseEditionAssemblerImpl {
 +toCommand(dto: CourseEditionRequestDTO):\n CreateCourseEditionCommand
 +toResponseDTO(dto: CourseEditionServiceDTO)\n : CourseEditionResponseDTO
 }
+
   interface "<<interface>>\nICourseEditionServiceAssembler" as ICourseEditionServiceAssembler
     class CourseEditionServiceAssemblerImpl {
   +toServiceResponseDTO(domain: CourseEdition):\n CourseEditionServiceResponseDTO
   }
+
+  interface "<<interface>>\nICreateCourseEditionHateoasAssembler" as ICreateCourseEditionHateoasAssembler
+      class CreateCourseEditionHateoasAssemblerImpl {
+    +toServiceResponseDTO(domain: CourseEdition):\n CourseEditionServiceResponseDTO
+    +toModel(dto: CourseEditionResponseIDDTO):\n EntityModel<CourseEditionResponseIDDTO>
+    +toCollectionModel(dtos: List<CourseEditionResponseIDDTO>):\n CollectionModel<CourseEditionResponseIDDTO>
+    }
 
   class CourseEditionRequestDTO {
     - programmeName : String
