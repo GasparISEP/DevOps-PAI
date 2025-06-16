@@ -133,8 +133,8 @@ public CourseEditionRestController(
     @PatchMapping("/{id}/ruc")
 public ResponseEntity<?> defineRucForCourseEdition(
         @PathVariable("id") UUID id,
-        @RequestBody DefineRucRequestDTO defineRucRequestDTO) {
-    try {
+        @RequestBody DefineRucRequestDTO defineRucRequestDTO) throws Exception {
+
         TeacherID teacherID = courseEditionAssembler.createTeacherID(defineRucRequestDTO.teacherID());
         CourseEditionGeneratedID courseEditionID = courseEditionAssembler.fromDtoToCourseEditionGeneratedID(
                 new SelectedCourseEditionGeneratedIdDTO(id));
@@ -151,11 +151,7 @@ public ResponseEntity<?> defineRucForCourseEdition(
         );
 
         return ResponseEntity.ok(courseEditionHateoasAssembler.toModel(responseDTO));
-    } catch (IllegalArgumentException e) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-    } catch (Exception e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error occurred");
-    }
+
 }
 
     @GetMapping("/programmeditions")

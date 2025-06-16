@@ -102,10 +102,10 @@ public class CourseEditionRestControllerIntegrationTests {
         UUID courseEditionId = UUID.randomUUID();
 
         String requestBody = """
-    {
-      "teacherID": "BBB"
-    }
-    """;
+        {
+          "teacherID": "BBB"
+        }
+        """;
 
         when(courseEditionAssembler.createTeacherID("BBB"))
                 .thenThrow(new IllegalArgumentException("Teacher not found"));
@@ -113,8 +113,9 @@ public class CourseEditionRestControllerIntegrationTests {
         mockMvc.perform(patch("/course-editions/{id}/ruc", courseEditionId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))
-                .andExpect(status().isNotFound())
-                .andExpect(content().string("Teacher not found"));
+                .andExpect(status().isBadRequest())  // <-- Corrigido para 400
+                .andExpect(jsonPath("$.code").value("ARGUMENT_INVALID"))
+                .andExpect(jsonPath("$.message").value("Teacher not found"));
     }
 
 

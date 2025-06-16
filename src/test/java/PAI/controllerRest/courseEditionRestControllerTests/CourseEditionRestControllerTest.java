@@ -466,16 +466,17 @@ class CourseEditionRestControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDTO)))
                 .andExpect(status().isInternalServerError())
-                .andExpect(content().string("Unexpected error occurred"));
+                .andExpect(jsonPath("$.message").value("DB error"))
+                .andExpect(jsonPath("$.code").value("INTERNAL_ERROR"));
     }
 
 
     @Test
-    void whenAssignRucThrowsIllegalArgumentExceptionThenReturnsNotFoundWithMessage() throws Exception {
+    void whenAssignRucThrowsIllegalArgumentExceptionThenReturnsBadRequestWithArgumentInvalidCode() throws Exception {
         // Arrange
         UUID uuid = UUID.randomUUID();
         SelectedCourseEditionGeneratedIdDTO courseEditionDTO = new SelectedCourseEditionGeneratedIdDTO(uuid);
-        DefineRucRequestDTO requestDTO = new DefineRucRequestDTO("GOM"); // courseEditionID null or omitted
+        DefineRucRequestDTO requestDTO = new DefineRucRequestDTO("GOM");
 
         TeacherID teacherID = mock(TeacherID.class);
         CourseEditionGeneratedID courseEditionID = mock(CourseEditionGeneratedID.class);
@@ -489,8 +490,9 @@ class CourseEditionRestControllerTest {
         mockMvc.perform(patch("/course-editions/{id}/ruc", uuid.toString())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDTO)))
-                .andExpect(status().isNotFound())
-                .andExpect(content().string("Invalid teacher or course edition"));
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("Invalid teacher or course edition"))
+                .andExpect(jsonPath("$.code").value("ARGUMENT_INVALID"));
     }
 
     @Test
