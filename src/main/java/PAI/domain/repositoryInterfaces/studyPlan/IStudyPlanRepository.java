@@ -6,4 +6,5 @@ import PAI.domain.studyPlan.StudyPlan;
 
 public interface IStudyPlanRepository extends IRepository<StudyPlanID, StudyPlan> {
 
+    StudyPlanID findLatestByProgrammeID(ProgrammeID programmeID);
 }

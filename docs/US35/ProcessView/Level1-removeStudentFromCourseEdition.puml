@@ -9,15 +9,10 @@ participant "<<System>>\n:SystemPAI" as System
 
 Admin -> System : I want to remove a student's enrolment from a Course Edition
 activate System
-System --> Admin : Select a Course Edition
+System --> Admin : Select a Student
 deactivate System
 
-Admin -> System : Course Edition selected
-activate System
-System --> Admin : Here is the list of students enrolled
-deactivate System
-
-Admin -> System : Select a Student to remove
+Admin -> System : Select a Course Edition to remove student´s enrolment
 activate System
 System --> Admin : Confirm removal?
 deactivate System

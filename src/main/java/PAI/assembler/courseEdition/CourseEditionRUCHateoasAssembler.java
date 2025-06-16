@@ -1,6 +1,5 @@
 package PAI.assembler.courseEdition;
 import PAI.controllerRest.CourseEditionRestController;
-import PAI.dto.courseEdition.CourseEditionResponseDTO;
 import PAI.dto.courseEdition.CourseEditionResponseIDDTO;
 import PAI.dto.courseEdition.DefineRucRequestDTO;
 import PAI.dto.courseEdition.DefineRucResponseDTO;
@@ -17,7 +16,7 @@ import java.util.stream.Collectors;
 import org.springframework.hateoas.CollectionModel;
 
 @Component
-public class CourseEditionHateoasAssembler implements RepresentationModelAssembler<DefineRucResponseDTO, EntityModel<DefineRucResponseDTO>>, ICourseEditionHateoasAssembler {
+public class CourseEditionRUCHateoasAssembler implements RepresentationModelAssembler<DefineRucResponseDTO, EntityModel<DefineRucResponseDTO>>, ICourseEditionRUCHateoasAssembler {
 
     @Override
     public EntityModel<DefineRucResponseDTO> toModel(DefineRucResponseDTO dto) {

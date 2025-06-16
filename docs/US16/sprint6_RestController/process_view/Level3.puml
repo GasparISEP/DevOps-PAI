@@ -10,43 +10,38 @@ skinparam sequence {
 
 title US16: Enroll a Student in a Course Edition\nProcess View – Level 3
 
-actor ASC as "Academic Services Coordinator"
-participant ":Frontend" as FE
 participant ":Router" as RT
 participant ":Controller" as CT
 participant ":Service" as SE
-participant ":Factory" as FA
-participant ":Domain" as DM
 participant ":Repository" as RE
-participant ":Driver" as Driver
+participant ":Domain" as DM
 
-ASC -> FE ++: Request to enroll a student
-FE --> ASC --: Prompt: "Enter student ID"
-ASC -> FE ++: Input: "12345"
-FE --> ASC --: Display programme editions
-ASC -> FE ++: Select programme edition
-FE --> ASC --: Display course editions
-ASC -> FE ++: Select course edition
 
-FE -> RT ++: (POST) /students/{id}/courses-edition-enrolments with JSON {request}
-RT -> CT ++: Forward request
+ [o--> RT ++: (POST) /students/{id}/courses-edition-enrolments with JSON {request}
+RT -> CT ++: enrolStudentInCourseEdition(CourseEditionEnrolmentDto)
 
-CT -> SE ++: enrollStudentInCourseEdition(CourseEditionEnrolmentDto)
+CT -> SE ++: enrollStudentInCourseEdition(CourseEditionEnrolment)
 
-SE -> FA ++: createCourseEditionEnrolment(CourseEditionID, StudentID)
-FA -> DM ++: new CourseEditionEnrolment()
-DM --> FA --: CourseEditionEnrolment
-FA --> SE --: CourseEditionEnrolment
+
+SE -> DM ++: new CourseEditionEnrolment()
+DM --> SE --: CourseEditionEnrolment
 
 SE -> RE ++: save(CourseEditionEnrolment)
-RE -> Driver: persist
-RE --> SE --: Persisted CourseEditionEnrolment
+
+
+RE ->o]: Insert Data
+RE <--o]: DataLinha
+
+
+RE -> DM ++: new CourseEditionEnrolment()
+DM --> RE --: CourseEditionEnrolment
+
+RE --> SE --: CourseEditionEnrolment
 
 SE --> CT --: CourseEditionEnrolment
 
 CT --> RT --: HTTP 201 Created **with EntityModel<CourseEditionEnrolmentDto>**
 
-RT --> FE --: HTTP 201 Created **with EntityModel<CourseEditionEnrolmentDto>**
-FE --> ASC --: Student enrolled successfully with navigation links
+[o-->  RT: HTTP 201 Created **with EntityModel<CourseEditionEnrolmentDto>**
 
 @enduml

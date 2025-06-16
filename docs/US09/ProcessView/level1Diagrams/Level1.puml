@@ -1,15 +1,14 @@
 @startuml
 
 title UC: Enrol Student in Programme\n(Process View Level 1)
+autonumber
 
 actor ASC as Admin
 participant ":System" as System
 
-Admin -> System  : I Want to register a Programme in the System.
-System --> Admin  : Name? Acronym? quantityOfEcts? quantityOfSemesters?  DegreeType? Department? Programme Director?
-Admin -> System  : Name! Acronym! quantityOfEcts! quantityOfSemesters!  DegreeType! Department! Programme Director!
-System --> Admin  : Sure?
-Admin -> System  : Yes!
-System --> Admin  : Done!
+Admin -> System  : I Want to enrol a Student in a Programme.
+System --> Admin  : Student Unique Number? Department? Programme? Access Method? Enrolment Date?
+Admin -> System  : Student Unique Number! Programme! Access Method! Enrolment Date!
+System --> Admin  : Success! The student was enrolled successfully. (Display Enrolment Details)
 
 @enduml

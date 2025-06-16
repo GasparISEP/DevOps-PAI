@@ -1,245 +1,325 @@
+// __tests__/CourseEditionDisplay.test.jsx
+import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import CourseEditionDisplay from '../../../components/courseEditionComponent/CourseEditionDisplay';
-import fetchMock from 'jest-fetch-mock';
+import { fetchEnrolmentCount } from '../../../services/enrolmentCountInCourseEditionService';
 
-fetchMock.enableMocks();
+// Mock the enrolment count service
+jest.mock('../../../services/enrolmentCountInCourseEditionService', () => ({
+    fetchEnrolmentCount: jest.fn(),
+}));
 
 beforeEach(() => {
-    fetchMock.resetMocks();
-    process.env.REACT_APP_API_URL = 'http://localhost:8081';
+    jest.clearAllMocks();
+    global.fetch = jest.fn();
 });
 
-const mockCourseEditions = [
-    {
-        programmeAcronym: 'SWITCH',
-        courseName: 'Web Development',
-        courseAcronym: 'WD',
-        schoolYearID: '2024/2025'
-    },
-    {
-        programmeAcronym: 'AI',
-        courseName: 'Machine Learning',
-        courseAcronym: 'ML',
-        schoolYearID: '2024/2025'
-    },
-    {
-        programmeAcronym: 'SWITCH',
-        courseName: 'Databases',
-        courseAcronym: 'DB',
-        schoolYearID: '2023/2024'
-    }
-];
+// Sample data for tests
+const sampleData = Array.from({ length: 15 }, (_, i) => ({
+    courseEditionGeneratedID: `id-${i}`,
+    programmeAcronym: `P${i}`,
+    courseName: `Course ${i}`,
+    courseAcronym: `C${i}`,
+    schoolYearID: `20${i}/20${i + 1}`,
+}));
 
 describe('CourseEditionDisplay Component', () => {
-    test('renders CourseEditionDisplay component successfully', () => {
-        render(<MemoryRouter><CourseEditionDisplay /></MemoryRouter>);
-        expect(screen.getByText(/Course Editions/i)).toBeInTheDocument();
+    test('renders table with fetched data', async () => {
+        global.fetch.mockResolvedValueOnce({ json: async () => sampleData.slice(0, 2) });
+        render(
+            <MemoryRouter>
+                <CourseEditionDisplay />
+            </MemoryRouter>
+        );
+
+        await waitFor(() => {
+            expect(global.fetch).toHaveBeenCalledWith(
+                `${process.env.REACT_APP_API_URL}/course-editions`
+            );
+        });
+
+        expect(await screen.findByText('P0')).toBeInTheDocument();
+        expect(screen.getByText('Course 0')).toBeInTheDocument();
+        expect(screen.getByText('200/201')).toBeInTheDocument();
+        expect(screen.getByText('P1')).toBeInTheDocument();
     });
 
-    test('always renders table headers even if no data', () => {
-        render(<MemoryRouter><CourseEditionDisplay /></MemoryRouter>);
-        const headers = screen.getAllByRole('columnheader');
-        expect(headers).toHaveLength(4);
-        expect(screen.getByRole('table')).toBeInTheDocument();
+    test('filters results based on selection and input', async () => {
+        global.fetch.mockResolvedValueOnce({ json: async () => sampleData.slice(0, 2) });
+        render(
+            <MemoryRouter>
+                <CourseEditionDisplay />
+            </MemoryRouter>
+        );
+        await screen.findByText('P0');
+
+        fireEvent.change(screen.getByRole('combobox'), {
+            target: { value: 'course name' },
+        });
+        fireEvent.change(screen.getByPlaceholderText(/Search by Course Name/i), {
+            target: { value: '1' },
+        });
+
+        expect(screen.queryByText('P0')).not.toBeInTheDocument();
+        expect(screen.getByText('Course 1')).toBeInTheDocument();
     });
 
-    test('renders all table headers in CourseEditionDisplay', () => {
-        render(<MemoryRouter><CourseEditionDisplay /></MemoryRouter>);
-        const headers = screen.getAllByRole('columnheader');
-        const headerTexts = headers.map(h => h.textContent);
-        expect(headerTexts).toEqual(
-            expect.arrayContaining([
-                'Programme Acronym',
-                'Course Name',
-                'Course Acronym',
-                'School Year',
-            ])
+    test('pagination and items-per-page selection', async () => {
+        global.fetch.mockResolvedValueOnce({ json: async () => sampleData });
+        render(
+            <MemoryRouter>
+                <CourseEditionDisplay />
+            </MemoryRouter>
+        );
+        await screen.findByText('P0');
+
+        // Default shows first 10 items
+        expect(screen.getByText('P0')).toBeInTheDocument();
+        expect(screen.getByText('P9')).toBeInTheDocument();
+        expect(screen.queryByText('P10')).not.toBeInTheDocument();
+
+        // Navigate to next page
+        fireEvent.click(screen.getByText('Next'));
+        expect(await screen.findByText('P10')).toBeInTheDocument();
+
+        // Change items per page to 5 resets to page 1
+        fireEvent.click(screen.getByText('5'));
+        expect(screen.getByText(/Page 1 of/)).toBeInTheDocument();
+        expect(screen.getByText('P4')).toBeInTheDocument();
+    });
+
+    test('Previous and Next buttons disabled state on single page', async () => {
+        global.fetch.mockResolvedValueOnce({ json: async () => sampleData.slice(0, 5) });
+        render(
+            <MemoryRouter>
+                <CourseEditionDisplay />
+            </MemoryRouter>
+        );
+        await screen.findByText('P0');
+
+        const prevBtn = screen.getByText('Previous');
+        const nextBtn = screen.getByText('Next');
+
+        expect(prevBtn).toBeDisabled();
+        expect(nextBtn).toBeDisabled();
+    });
+
+    test('Previous and Next buttons enable and disable on multiple pages', async () => {
+        global.fetch.mockResolvedValueOnce({ json: async () => sampleData });
+        render(
+            <MemoryRouter>
+                <CourseEditionDisplay />
+            </MemoryRouter>
+        );
+        await screen.findByText('P0');
+
+        const prevBtn = screen.getByText('Previous');
+        const nextBtn = screen.getByText('Next');
+
+        expect(prevBtn).toBeDisabled();
+        expect(nextBtn).not.toBeDisabled();
+
+        fireEvent.click(nextBtn);
+        await waitFor(() => {
+            expect(screen.getByText('Next')).toBeDisabled();
+            expect(screen.getByText('Previous')).not.toBeDisabled();
+        });
+    });
+
+    test('clicking Previous navigates to previous page', async () => {
+        global.fetch.mockResolvedValueOnce({ json: async () => sampleData });
+        render(
+            <MemoryRouter>
+                <CourseEditionDisplay />
+            </MemoryRouter>
+        );
+        await screen.findByText('P0');
+
+        // Navigate to second page
+        const nextBtn = screen.getByText('Next');
+        fireEvent.click(nextBtn);
+        expect(
+            await screen.findByText('P10')
+        ).toBeInTheDocument();
+
+        // Re-query Previous button and navigate back
+        const prevBtnAfter = screen.getByText('Previous');
+        fireEvent.click(prevBtnAfter);
+        expect(
+            await screen.findByText('P0')
+        ).toBeInTheDocument();
+    });
+
+    test('selected PerPageButton disabled with selected class', async () => {
+        global.fetch.mockResolvedValueOnce({ json: async () => sampleData });
+        render(
+            <MemoryRouter>
+                <CourseEditionDisplay />
+            </MemoryRouter>
+        );
+        await screen.findByText('P0');
+
+        const btn10 = screen.getByText('10');
+
+        expect(btn10).toBeDisabled();
+        expect(btn10).toHaveClass('selected');
+
+        fireEvent.click(screen.getByText('20'));
+        const btn20 = screen.getByText('20');
+
+        expect(btn20).toBeDisabled();
+        expect(btn20).toHaveClass('selected');
+    });
+
+    test('logs error on initial fetch failure and displays no results message', async () => {
+        const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+        global.fetch.mockRejectedValueOnce(new Error('fail'));
+
+        render(
+            <MemoryRouter>
+                <CourseEditionDisplay />
+            </MemoryRouter>
+        );
+
+        await waitFor(() =>
+            expect(errorSpy).toHaveBeenCalledWith(
+                'Failed to load Course Editions:',
+                expect.any(Error)
+            )
+        );
+        expect(screen.getByText('No results found.')).toBeInTheDocument();
+        errorSpy.mockRestore();
+    });
+
+    test('resets currentPage to 1 on filter or items-per-page change', async () => {
+        global.fetch.mockResolvedValueOnce({ json: async () => sampleData });
+        render(
+            <MemoryRouter>
+                <CourseEditionDisplay />
+            </MemoryRouter>
+        );
+        await screen.findByText('P0');
+
+        fireEvent.click(screen.getByText('Next'));
+        expect(screen.getByText(/Page 2 of/)).toBeInTheDocument();
+
+        fireEvent.click(screen.getByText('50'));
+        expect(screen.getByText(/Page 1 of/)).toBeInTheDocument();
+
+        fireEvent.change(screen.getByRole('combobox'), {
+            target: { value: 'course name' },
+        });
+        expect(screen.getByText(/Page 1 of/)).toBeInTheDocument();
+    });
+
+    test('opens and closes modal via overlay and Close button', async () => {
+        global.fetch.mockResolvedValueOnce({ json: async () => [sampleData[0]] });
+        fetchEnrolmentCount.mockResolvedValueOnce({ count: 7 });
+
+        const { container } = render(
+            <MemoryRouter>
+                <CourseEditionDisplay />
+            </MemoryRouter>
+        );
+        await screen.findByText('P0');
+
+        fireEvent.click(screen.getByText('⋮'));
+        fireEvent.click(screen.getByText('Count Enrolments'));
+        await screen.findByText('Enrolment Count');
+
+        const overlay = container.querySelector('.modal-overlay');
+        const content = container.querySelector('.modal-content');
+
+        fireEvent.click(content);
+        expect(screen.getByText('Enrolment Count')).toBeInTheDocument();
+
+        fireEvent.click(overlay);
+        await waitFor(() =>
+            expect(screen.queryByText('Enrolment Count')).toBeNull()
         );
     });
 
-    test('default filter field is programme acronym', () => {
-        render(<MemoryRouter><CourseEditionDisplay /></MemoryRouter>);
-        const select = screen.getByRole('combobox');
-        expect(select.value).toBe('programme acronym');
-        const input = screen.getByPlaceholderText(/Search by Programme Acronym/i);
-        expect(input).toBeInTheDocument();
+    test('displays fallback for null and primitive count values', async () => {
+        global.fetch.mockResolvedValueOnce({ json: async () => [sampleData[0]] });
+        fetchEnrolmentCount.mockResolvedValueOnce(null);
+
+        render(
+            <MemoryRouter>
+                <CourseEditionDisplay />
+            </MemoryRouter>
+        );
+        await screen.findByText('P0');
+
+        fireEvent.click(screen.getByText('⋮'));
+        fireEvent.click(screen.getByText('Count Enrolments'));
+        await screen.findByText('Enrolment Count');
+        expect(screen.getByText('0')).toBeInTheDocument();
+
+        fetchEnrolmentCount.mockResolvedValueOnce(5);
+        fireEvent.click(screen.getByText('Close'));
+        fireEvent.click(screen.getByText('⋮'));
+        fireEvent.click(screen.getByText('Count Enrolments'));
+        await screen.findByText('Enrolment Count');
+        expect(screen.getByText('5')).toBeInTheDocument();
     });
 
-    test('filter field "course acronym" updates placeholder correctly', () => {
-        render(<MemoryRouter><CourseEditionDisplay /></MemoryRouter>);
-        const select = screen.getByRole('combobox');
-        fireEvent.change(select, { target: { value: 'course acronym' } });
-        const input = screen.getByPlaceholderText(/Search by Course Acronym/i);
-        expect(input).toBeInTheDocument();
+    test('displays dropdown open and closed correctly', async () => {
+        global.fetch.mockResolvedValueOnce({ json: async () => [sampleData[0]] });
+        render(
+            <MemoryRouter>
+                <CourseEditionDisplay />
+            </MemoryRouter>
+        );
+        await screen.findByText('P0');
+
+        fireEvent.click(screen.getByText('⋮'));
+        expect(screen.getByText('Count Enrolments')).toBeInTheDocument();
+
+        fireEvent.mouseDown(screen.getByText('Course Editions'));
+        expect(screen.queryByText('Count Enrolments')).toBeNull();
     });
 
-    test('filter field "course name" updates placeholder correctly', () => {
-        render(<MemoryRouter><CourseEditionDisplay /></MemoryRouter>);
-        const select = screen.getByRole('combobox');
-        fireEvent.change(select, { target: { value: 'course name' } });
-        const input = screen.getByPlaceholderText(/Search by Course Name/i);
-        expect(input).toBeInTheDocument();
+    // Test error handling in handleCountEnrolments
+    test('displays error when fetchEnrolmentCount fails', async () => {
+        global.fetch.mockResolvedValueOnce({ json: async () => [sampleData[0]] });
+        const error = new Error('network fail');
+        fetchEnrolmentCount.mockRejectedValueOnce(error);
+        const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+        const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
+
+        render(
+            <MemoryRouter>
+                <CourseEditionDisplay />
+            </MemoryRouter>
+        );
+        await screen.findByText('P0');
+
+        fireEvent.click(screen.getByText('⋮'));
+        fireEvent.click(screen.getByText('Count Enrolments'));
+
+        await waitFor(() =>
+            expect(consoleSpy).toHaveBeenCalledWith(
+                'Error counting enrolments:',
+                error
+            )
+        );
+        expect(alertSpy).toHaveBeenCalledWith(
+            'Error counting enrolments: ' + error.message
+        );
+        expect(screen.queryByText('Enrolment Count')).toBeNull();
+
+        consoleSpy.mockRestore();
+        alertSpy.mockRestore();
     });
 
-    test('disables Previous button on first page', () => {
-        render(<MemoryRouter><CourseEditionDisplay /></MemoryRouter>);
-        expect(screen.getByText('Previous')).toBeDisabled();
+    test('Back to Main Page link has correct href', () => {
+        render(
+            <MemoryRouter>
+                <CourseEditionDisplay />
+            </MemoryRouter>
+        );
+
+        expect(screen.getByText('Back to Main Page').closest('a')).toHaveAttribute('href', '/');
     });
-
-    test('changes items per page when clicking per page button', () => {
-        render(<MemoryRouter><CourseEditionDisplay /></MemoryRouter>);
-        const perPageButton = screen.getByRole('button', { name: '10' });
-        fireEvent.click(perPageButton);
-        expect(screen.getByText(/per page/i)).toBeInTheDocument();
-    });
-
-    test('changes filter field and input value', () => {
-        render(<MemoryRouter><CourseEditionDisplay /></MemoryRouter>);
-        const select = screen.getByRole('combobox');
-        const input = screen.getByPlaceholderText(/Search by/i);
-        fireEvent.change(select, { target: { value: 'course name' } });
-        expect(select.value).toBe('course name');
-        fireEvent.change(input, { target: { value: 'Math' } });
-        expect(input.value).toBe('Math');
-    });
-
-    test('search input starts empty', () => {
-        render(<MemoryRouter><CourseEditionDisplay /></MemoryRouter>);
-        const input = screen.getByPlaceholderText(/Search by/i);
-        expect(input.value).toBe('');
-    });
-
-    test('fetches course editions on mount and renders them in the table', async () => {
-        fetchMock.mockResponseOnce(JSON.stringify([
-            {
-                programmeAcronym: 'CS',
-                courseName: 'Computer Science',
-                courseAcronym: 'CS101',
-                schoolYearID: '2024/2025',
-            },
-        ]));
-
-        render(<MemoryRouter><CourseEditionDisplay /></MemoryRouter>);
-
-        await waitFor(() => {
-            expect(fetchMock).toHaveBeenCalledWith('http://localhost:8081/course-editions');
-        });
-
-        expect(await screen.findByText('Computer Science')).toBeInTheDocument();
-        expect(screen.getByText('CS')).toBeInTheDocument();
-        expect(screen.getByText('CS101')).toBeInTheDocument();
-        expect(screen.getByText('2024/2025')).toBeInTheDocument();
-    });
-
-    test('logs error when fetch fails', async () => {
-        const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-        fetchMock.mockRejectOnce(new Error('Failed to fetch'));
-
-        render(<MemoryRouter><CourseEditionDisplay /></MemoryRouter>);
-
-        await waitFor(() => {
-            expect(consoleErrorSpy).toHaveBeenCalledWith('Failed to load Course Editions:', expect.any(Error));
-        });
-
-        consoleErrorSpy.mockRestore();
-    });
-
-    test('calls fetch with correct URL and renders data', async () => {
-        fetchMock.mockResponseOnce(JSON.stringify(mockCourseEditions));
-
-        render(<MemoryRouter><CourseEditionDisplay /></MemoryRouter>);
-
-        await waitFor(() => {
-            expect(fetchMock).toHaveBeenCalledWith('http://localhost:8081/course-editions');
-        });
-
-        expect(await screen.findByText('Web Development')).toBeInTheDocument();
-    });
-
-    test('filters by programme acronym', async () => {
-        fetchMock.mockResponseOnce(JSON.stringify(mockCourseEditions));
-
-        render(<MemoryRouter><CourseEditionDisplay /></MemoryRouter>);
-
-        await waitFor(() => screen.getByText('Web Development'));
-
-        const select = screen.getByRole('combobox');
-        const input = screen.getByPlaceholderText(/Search by/i);
-
-        fireEvent.change(select, { target: { value: 'programme acronym' } });
-        fireEvent.change(input, { target: { value: 'AI' } });
-
-        await waitFor(() => {
-            expect(screen.getByText('Machine Learning')).toBeInTheDocument();
-            expect(screen.queryByText('Web Development')).not.toBeInTheDocument();
-            expect(screen.queryByText('Databases')).not.toBeInTheDocument();
-        });
-    });
-
-    test('shows "No results found" when filter has no match', async () => {
-        fetchMock.mockResponseOnce(JSON.stringify(mockCourseEditions));
-
-        render(<MemoryRouter><CourseEditionDisplay /></MemoryRouter>);
-
-        await waitFor(() => screen.getByText('Web Development'));
-
-        const input = screen.getByPlaceholderText(/Search by/i);
-        fireEvent.change(input, { target: { value: 'ZZZZZZ' } });
-
-        expect(await screen.findByText('No results found.')).toBeInTheDocument();
-    });
-
-    test('changing items per page resets to page 1', async () => {
-        const editions = Array.from({ length: 25 }, (_, i) => ({
-            programmeAcronym: `X${i}`,
-            courseName: `Test ${i}`,
-            courseAcronym: `T${i}`,
-            schoolYearID: '2024/2025'
-        }));
-
-        fetchMock.mockResponseOnce(JSON.stringify(editions));
-
-        render(<MemoryRouter><CourseEditionDisplay /></MemoryRouter>);
-
-        await waitFor(() => screen.getByText('Test 0'));
-
-        fireEvent.click(screen.getByText('Next'));
-        expect(await screen.findByText('Page 2 of 3')).toBeInTheDocument();
-
-        fireEvent.click(screen.getByText('20'));
-        expect(await screen.findByText('Page 1 of 2')).toBeInTheDocument();
-    });
-
-    test('Previous button decrements page when currentPage > 1', async () => {
-        const manyEditions = Array.from({ length: 15 }, (_, i) => ({
-            programmeAcronym: `P${i}`,
-            courseName: `Course ${i}`,
-            courseAcronym: `C${i}`,
-            schoolYearID: '2024/2025',
-        }));
-
-        fetchMock.mockResponseOnce(JSON.stringify(manyEditions));
-
-        render(<MemoryRouter><CourseEditionDisplay /></MemoryRouter>);
-
-        await waitFor(() => screen.getByText('Course 0'));
-
-        expect(screen.getByText(/Page 1 of 2/i)).toBeInTheDocument();
-
-        fireEvent.click(screen.getByText('Next'));
-
-        expect(await screen.findByText(/Page 2 of 2/i)).toBeInTheDocument();
-
-        const prevButton = screen.getByText('Previous');
-
-        expect(prevButton).not.toBeDisabled();
-
-        fireEvent.click(prevButton);
-
-        expect(await screen.findByText(/Page 1 of 2/i)).toBeInTheDocument();
-    });
-
 });
-
-

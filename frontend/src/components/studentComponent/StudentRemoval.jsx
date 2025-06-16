@@ -1,0 +1,187 @@
+import React, { useEffect, useState } from 'react';
+import { getAllStudents } from '../../services/studentService';
+import { getCourseEditionsByStudent } from '../../services/removeStudentFromCourseEditionService';
+import { removeStudentFromCourseEditionService } from '../../services/removeStudentFromCourseEditionService';
+import ISEPLogoBranco from "../../assets/images/ISEP_logo-branco.png";
+import {Link} from "react-router-dom";
+import '../../styles/Form.css'
+
+
+export default function StudentCourseEditionForm() {
+    const [students, setStudents] = useState([]);
+    const [selectedStudentID, setSelectedStudentID] = useState('');
+    const [courseEditions, setCourseEditions] = useState([]);
+    const [selectedCourseEditionID, setSelectedCourseEditionID] = useState('');
+    const [message, setMessage] = useState('');
+    const [error, setError] = useState('');
+
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        async function fetchStudents() {
+            try {
+                const data = await getAllStudents();
+                setStudents(data);
+            } catch (err) {
+                console.error("Error loading students:", err);
+            }
+        }
+
+        fetchStudents();
+    }, []);
+
+    useEffect(() => {
+        console.log("selectedStudentID:", selectedStudentID);
+        async function fetchCourseEditions() {
+            if (!selectedStudentID) {
+                setCourseEditions([]);
+                return;
+            }
+
+            try {
+                const data = await getCourseEditionsByStudent(selectedStudentID);
+
+                if (!Array.isArray(data)) {
+                    throw new Error("Response is not an array!");
+                }
+
+                console.log("[DEBUG] typeof courseEditions:", typeof data);
+                console.log("[DEBUG] courseEditions:", data);
+
+                setCourseEditions(data);
+            } catch (err) {
+                console.error("Error loading course editions:", err);
+            }
+        }
+
+        fetchCourseEditions();
+    }, [selectedStudentID]);
+
+
+    async function handleRemove(e) {
+        e.preventDefault();
+
+        if (!selectedCourseEditionID) {
+            setError("Please select a Course Edition");
+            setMessage('');
+            return;
+        }
+
+        try {
+            setLoading(true);
+            await removeStudentFromCourseEditionService(selectedStudentID, selectedCourseEditionID);
+            setMessage("Student removed successfully from course edition.");
+            setError('');
+            setSelectedCourseEditionID('');
+
+            // Atualizar a lista de edições do curso após remoção
+            const updatedEditions = await getCourseEditionsByStudent(selectedStudentID);
+            setCourseEditions(updatedEditions);
+        } catch (err) {
+            console.error(err);
+            setError("Error trying to remove student from course edition.");
+            setMessage('');
+        } finally {
+            setLoading(false);
+        }
+    }
+
+
+    function handleClear() {
+        setSelectedStudentID('');
+        setSelectedCourseEditionID('');
+        setCourseEditions([]);
+        setMessage('');
+        setError('');
+    }
+
+
+    return (
+        <div className="form-main-component-div">
+            <div className="form-main-grid">
+                <div className="form-img-main-div">
+                    <div className="form-logo-img-div">
+                        <img src={ISEPLogoBranco} alt="Logo do ISEP"/>
+                    </div>
+                </div>
+
+                <form className="form">
+
+                    <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        marginBottom: '2rem'
+                    }}>
+                        <h1 style={{margin: 0}}>Remove Student</h1>
+                        <Link to="/" className="pagination-btn2 pagination-btn-secondary"
+                              style={{textDecoration: 'none'}}>
+                            Back to Home Page
+                        </Link>
+                    </div>
+
+                    <div className="form-and-buttons-main-div">
+                        <div className="form-div">
+                            <div className="form-group">
+                                <label className="form-label" htmlFor="student">Select Student:</label>
+                                <select
+                                    className="form-input"
+                                    id="student"
+                                    value={selectedStudentID}
+                                    onChange={(e) => {
+                                        setSelectedStudentID(e.target.value);
+                                        setSelectedCourseEditionID('');
+                                        setMessage('');
+                                        setError('');
+                                    }}
+                                >
+                                    <option value="" disabled hidden>Choose Student</option>
+                                    {students.map(student => (
+                                        <option key={student.studentID} value={student.studentID}>
+                                            {student.name} ({student.studentID})
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            <div className="form-group">
+                                <label className="form-label" htmlFor="courseEdition">Course Edition:</label>
+                                <select
+                                    id="courseEdition"
+                                    className="form-input"
+                                    value={selectedCourseEditionID}
+                                    onChange={(e) => setSelectedCourseEditionID(e.target.value)}
+                                    disabled={!selectedStudentID}
+                                >
+                                    <option value="" disabled hidden>Choose Course Edition</option>
+                                    {courseEditions.map(edition => (
+                                        <option key={edition.courseEditionGeneratedUUID}
+                                                value={edition.courseEditionGeneratedUUID}>
+                                            {edition.courseName} ({edition.courseAcronym})
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+
+
+                            <div className="form-actions">
+                                <button type="button" className="btn btn-secondary" onClick={handleClear}
+                                        disabled={loading}>
+                                    CLEAR
+                                </button>
+
+                                <button type="submit" className="btn btn-primary" onClick={handleRemove}
+                                        disabled={loading}>
+                                    {loading ? 'REMOVING…' : 'REMOVE'}
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                    {message && <p style={{color: 'green'}}>{message}</p>}
+                    {error && <p style={{color: 'red'}}>{error}</p>}
+                </form>
+            </div>
+        </div>
+    );
+}
