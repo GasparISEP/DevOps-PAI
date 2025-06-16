@@ -186,13 +186,9 @@ public class StudentRestController {
 
             ProgrammeEnrolmentHateoasResponseDto responseDto = iStudentProgrammeEnrolmentService.getProgrammeEnrolmentHateoasInformationDto(pe);
 
-            System.out.println("ID recebido: " + programmeEnrolmentGID);
-            System.out.println("StudentID: " + studentID);
-            System.out.println("ProgrammeID: " + programmeID);
-
             return ResponseEntity.ok(responseDto);
         } catch (Exception e) {
-            e.printStackTrace(); // ou log.error("Erro ao obter inscrição", e);
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
