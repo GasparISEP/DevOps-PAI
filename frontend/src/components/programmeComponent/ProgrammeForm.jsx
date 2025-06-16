@@ -84,6 +84,7 @@ export default function ProgrammeForm() {
             departmentID: '',
             teacherID: ''
         });
+        setDetailsDisplayed(false);
     }
 
     async function handleSubmit(e) {
