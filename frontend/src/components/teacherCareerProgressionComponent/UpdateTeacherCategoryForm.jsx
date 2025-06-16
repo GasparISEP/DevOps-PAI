@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { updateTeacherCategory } from '../../services/updateTeacherCategoryService';
 import ISEPLogoBranco from '../../assets/images/ISEP_logo-branco.png';
 import '../../styles/Form.css';
+import {format, parse} from 'date-fns';
 
 import TeacherSelect from './TeacherSelect';
 import CategorySelect from './CategorySelect';
@@ -123,10 +124,12 @@ export default function UpdateTeacherCategoryForm() {
         setLoading(true);
 
         try {
+            const dateObj = parse(form.date, 'dd-MM-yyyy', new Date());
+            const isoDate = format(dateObj, 'yyyy-MM-dd');
             const payload = {
                 teacherId: form.teacher,
                 teacherCategoryID: form.teacherCategory,
-                date: form.date
+                date: isoDate
             };
             const { data } = await updateTeacherCategory(payload);
             setSuccessData(data);

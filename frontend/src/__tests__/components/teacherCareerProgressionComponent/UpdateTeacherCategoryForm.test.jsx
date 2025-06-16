@@ -24,6 +24,24 @@ jest.mock('../../../components/teacherCareerProgressionComponent/DateInput', () 
     );
 });
 
+jest.mock('../../../components/teacherCareerProgressionComponent/SuccessModal', () => ({ onClose }) => {
+    return (
+        <div>
+            <p>Success!</p>
+            <button onClick={onClose}>Close Success</button>
+        </div>
+    );
+});
+
+jest.mock('../../../components/teacherCareerProgressionComponent/ErrorModal', () => ({ onClose, message }) => {
+    return (
+        <div>
+            <p>{message}</p>
+            <button onClick={onClose}>Close Error</button>
+        </div>
+    );
+});
+
 describe('UpdateTeacherCategoryForm', () => {
     beforeEach(() => {
         jest.resetAllMocks();
@@ -243,6 +261,83 @@ describe('UpdateTeacherCategoryForm', () => {
         await waitFor(() => {
             expect(screen.getByText('⚠️ Choose a Teacher.')).toBeInTheDocument();
         });
+    });
+
+    it('calls onClose and clears modal state on success modal close', async () => {
+        const mockResponse = {
+            teacher: 'Teacher One',
+            teacherCategory: 'Category One',
+            date: '2025-06-19',
+            _links: {}
+        };
+
+        updateService.updateTeacherCategory.mockResolvedValueOnce({ data: mockResponse });
+
+        renderWithRouter(<UpdateTeacherCategoryForm />);
+
+        await screen.findByText(/Teacher One/);
+        await screen.findByText(/Category One/);
+
+        fireEvent.change(screen.getByLabelText(/teacher$/i), { target: { value: 't1' } });
+        fireEvent.change(screen.getByLabelText(/teacher category/i), { target: { value: 'c1' } });
+        fireEvent.change(screen.getByPlaceholderText(/date/i), { target: { value: '2025-06-19' } });
+
+        fireEvent.click(screen.getByRole('button', { name: /update/i }));
+
+        await screen.findByText(/Success!/i);
+
+        fireEvent.click(screen.getByRole('button', { name: /Close Success/i }));
+
+        expect(screen.getByLabelText(/teacher$/i).value).toBe('');
+        expect(screen.getByLabelText(/teacher category/i).value).toBe('');
+        expect(screen.getByPlaceholderText(/date/i).value).toBe('');
+    });
+
+    it('clears error state when closing ErrorModal with default fallback error', async () => {
+        updateService.updateTeacherCategory.mockRejectedValueOnce({});
+
+        renderWithRouter(<UpdateTeacherCategoryForm />);
+
+        await screen.findByText(/Teacher One/);
+        await screen.findByText(/Category One/);
+
+        fireEvent.change(screen.getByLabelText(/teacher$/i), { target: { value: 't1' } });
+        fireEvent.change(screen.getByLabelText(/teacher category/i), { target: { value: 'c1' } });
+        fireEvent.change(screen.getByPlaceholderText(/date/i), { target: { value: '19-06-2025' } }); // <-- Correto!
+
+        fireEvent.click(screen.getByRole('button', { name: /update/i }));
+
+        await screen.findByText(/Unexpected error\./i);
+
+        fireEvent.click(screen.getByRole('button', { name: /Close Error/i }));
+
+        await waitFor(() => {
+            expect(screen.queryByText(/Unexpected error\./i)).not.toBeInTheDocument();
+        });
+    });
+
+    it('sets success data and shows modal on successful submission', async () => {
+        const mockResponse = {
+            teacher: 'Teacher One',
+            teacherCategory: 'Category One',
+            date: '2025-06-19',
+            _links: {}
+        };
+
+        updateService.updateTeacherCategory.mockResolvedValueOnce({ data: mockResponse });
+
+        renderWithRouter(<UpdateTeacherCategoryForm />);
+
+        await screen.findByText(/Teacher One/);
+        await screen.findByText(/Category One/);
+
+        fireEvent.change(screen.getByLabelText(/teacher$/i), { target: { value: 't1' } });
+        fireEvent.change(screen.getByLabelText(/teacher category/i), { target: { value: 'c1' } });
+        fireEvent.change(screen.getByPlaceholderText(/date/i), { target: { value: '19-06-2025' } });
+
+        fireEvent.click(screen.getByRole('button', { name: /update/i }));
+
+        await screen.findByText(/Success!/i);
     });
 
 });
