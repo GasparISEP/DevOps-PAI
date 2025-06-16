@@ -124,25 +124,33 @@ export default function StudentCourseEditionForm() {
                     <div className="form-and-buttons-main-div">
                         <div className="form-div">
                             <div className="form-group">
-                                <label className="form-label" htmlFor="student">Select Student:</label>
-                                <select
+                                <label className="form-label" htmlFor="studentID">Enter Student Number:</label>
+                                <input
+                                    type="text"
                                     className="form-input"
-                                    id="student"
+                                    id="studentID"
                                     value={selectedStudentID}
                                     onChange={(e) => {
-                                        setSelectedStudentID(e.target.value);
+                                        const input = e.target.value;
+
+                                        if (!/^\d*$/.test(input)) {
+                                            return;
+                                        }
+
+                                        setSelectedStudentID(input);
                                         setSelectedCourseEditionID('');
                                         setMessage('');
                                         setError('');
                                     }}
-                                >
-                                    <option value="" disabled hidden>Choose Student</option>
-                                    {students.map(student => (
-                                        <option key={student.studentID} value={student.studentID}>
-                                            {student.name} ({student.studentID})
-                                        </option>
-                                    ))}
-                                </select>
+                                    onBlur={() => {
+                                        const uniqueNumber = Number(selectedStudentID);
+                                        if (uniqueNumber <= 1000000 || uniqueNumber >= 2000000) {
+                                            setError('Student number must be between 1000001 and 1999999.');
+                                        } else {
+                                            setError('');
+                                        }
+                                    }}
+                                />
                             </div>
 
                             <div className="form-group">
@@ -154,13 +162,15 @@ export default function StudentCourseEditionForm() {
                                     onChange={(e) => setSelectedCourseEditionID(e.target.value)}
                                     disabled={!selectedStudentID || courseEditions.length === 0}
                                 >
-                                    <option value="" disabled hidden>Choose Course Edition</option>
-                                    {courseEditions.map(edition => (
-                                        <option key={edition.courseEditionGeneratedUUID}
-                                                value={edition.courseEditionGeneratedUUID}>
-                                            {edition.courseName} ({edition.courseAcronym})
-                                        </option>
-                                    ))}
+                                    <option value="" disabled hidden>Choose Course Editions </option>
+                                    {courseEditions
+                                        .filter(edition => edition.studentID === selectedStudentID)
+                                        .map(edition => (
+                                            <option key={edition.courseEditionGeneratedUUID}
+                                                    value={edition.courseEditionGeneratedUUID}>
+                                                {edition.courseName} ({edition.courseAcronym})
+                                            </option>
+                                        ))}
                                 </select>
                             </div>
 
