@@ -46,7 +46,6 @@ package "Assembler / DTO / Command" {
 
   interface "<<interface>>\nICreateCourseEditionHateoasAssembler" as ICreateCourseEditionHateoasAssembler
       class CreateCourseEditionHateoasAssemblerImpl {
-    +toServiceResponseDTO(domain: CourseEdition):\n CourseEditionServiceResponseDTO
     +toModel(dto: CourseEditionResponseIDDTO):\n EntityModel<CourseEditionResponseIDDTO>
     +toCollectionModel(dtos: List<CourseEditionResponseIDDTO>):\n CollectionModel<CourseEditionResponseIDDTO>
     }
