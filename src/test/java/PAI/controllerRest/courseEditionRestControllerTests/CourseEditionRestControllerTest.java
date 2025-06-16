@@ -1,7 +1,7 @@
 package PAI.controllerRest.courseEditionRestControllerTests;
 import PAI.VOs.*;
 import PAI.assembler.courseEdition.ICourseEditionAssembler;
-import PAI.assembler.courseEdition.ICourseEditionHateoasAssembler;
+import PAI.assembler.courseEdition.ICourseEditionRUCHateoasAssembler;
 import PAI.assembler.courseEdition.IStudentCountAssembler;
 import PAI.assembler.programmeEdition.IProgrammeEditionServiceAssembler;
 import PAI.assembler.studentGrade.IStudentGradeAssembler;
@@ -12,7 +12,6 @@ import PAI.dto.studentGrade.GradeAStudentCommand;
 import PAI.dto.studentGrade.GradeAStudentRequestDTO;
 import PAI.dto.studentGrade.GradeAStudentResponseDTO;
 import PAI.dto.courseEdition.*;
-import PAI.exception.ErrorResponse;
 import PAI.exception.GlobalExceptionHandler;
 import PAI.exception.NotFoundException;
 import PAI.service.courseEdition.ICourseEditionService;
@@ -22,7 +21,6 @@ import PAI.service.studentGrade.IGradeAStudentService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -30,7 +28,7 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import org.springframework.hateoas.MediaTypes;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -46,7 +44,6 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -92,7 +89,7 @@ class CourseEditionRestControllerTest {
     private ICourseEditionService courseEditionService;
 
     @MockBean
-    private ICourseEditionHateoasAssembler courseEditionHateoasAssembler;
+    private ICourseEditionRUCHateoasAssembler courseEditionHateoasAssembler;
 
     @MockBean
     private IStudentCountAssembler studentCountAssembler;
@@ -466,16 +463,17 @@ class CourseEditionRestControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDTO)))
                 .andExpect(status().isInternalServerError())
-                .andExpect(content().string("Unexpected error occurred"));
+                .andExpect(jsonPath("$.message").value("DB error"))
+                .andExpect(jsonPath("$.code").value("INTERNAL_ERROR"));
     }
 
 
     @Test
-    void whenAssignRucThrowsIllegalArgumentExceptionThenReturnsNotFoundWithMessage() throws Exception {
+    void whenAssignRucThrowsIllegalArgumentExceptionThenReturnsBadRequestWithArgumentInvalidCode() throws Exception {
         // Arrange
         UUID uuid = UUID.randomUUID();
         SelectedCourseEditionGeneratedIdDTO courseEditionDTO = new SelectedCourseEditionGeneratedIdDTO(uuid);
-        DefineRucRequestDTO requestDTO = new DefineRucRequestDTO("GOM"); // courseEditionID null or omitted
+        DefineRucRequestDTO requestDTO = new DefineRucRequestDTO("GOM");
 
         TeacherID teacherID = mock(TeacherID.class);
         CourseEditionGeneratedID courseEditionID = mock(CourseEditionGeneratedID.class);
@@ -489,8 +487,9 @@ class CourseEditionRestControllerTest {
         mockMvc.perform(patch("/course-editions/{id}/ruc", uuid.toString())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDTO)))
-                .andExpect(status().isNotFound())
-                .andExpect(content().string("Invalid teacher or course edition"));
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("Invalid teacher or course edition"))
+                .andExpect(jsonPath("$.code").value("ARGUMENT_INVALID"));
     }
 
     @Test

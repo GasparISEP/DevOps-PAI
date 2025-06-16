@@ -175,4 +175,53 @@ class GlobalExceptionHandlerTest {
         assertEquals("INVALID_REQUEST_BODY", response.getBody().getCode());
         assertEquals("Request body is missing or malformed", response.getBody().getMessage());
     }
+
+    @Test
+    void shouldHandleTeacherNotFoundException() {
+        // Arrange
+        GlobalExceptionHandler handler = new GlobalExceptionHandler();
+        TeacherNotFoundException ex = new TeacherNotFoundException("Teacher with given ID does not exist.");
+
+        // Act
+        ResponseEntity<ErrorResponse> response = handler.handleTeacherNotFound(ex);
+
+        // Assert
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode()); // <-- CORRIGIDO
+        assertEquals("TEACHER_NOT_FOUND", response.getBody().getCode());
+        assertEquals("Teacher with given ID does not exist.", response.getBody().getMessage());
+        assertNotNull(response.getBody().getTimestamp());
+    }
+
+    @Test
+    void shouldHandleAlreadyAssignedRUCException() {
+        // Arrange
+        GlobalExceptionHandler handler = new GlobalExceptionHandler();
+        AlreadyAssignedRUCException ex = new AlreadyAssignedRUCException("This teacher is already assigned as the RUC for this course edition.");
+
+        // Act
+        ResponseEntity<ErrorResponse> response = handler.handleAlreadyAssignedRUC(ex);
+
+        // Assert
+        assertEquals(HttpStatus.CONFLICT, response.getStatusCode()); // correto: 409
+        assertEquals("ALREADY_ASSIGNED_RUC", response.getBody().getCode());
+        assertEquals("This teacher is already assigned as the RUC for this course edition.", response.getBody().getMessage());
+        assertNotNull(response.getBody().getTimestamp());
+    }
+
+    @Test
+    void shouldHandleCourseEditionPersistenceException() {
+        // Arrange
+        GlobalExceptionHandler handler = new GlobalExceptionHandler();
+        CourseEditionPersistenceException ex = new CourseEditionPersistenceException("Error when persisting CourseEdition with new RUC");
+
+        // Act
+        ResponseEntity<ErrorResponse> response = handler.handleCourseEditionPersistence(ex);
+
+        // Assert
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+        assertEquals("COURSE_EDITION_PERSISTENCE_ERROR", response.getBody().getCode());
+        assertEquals("Error when persisting CourseEdition with new RUC", response.getBody().getMessage());
+        assertNotNull(response.getBody().getTimestamp());
+    }
+
 }

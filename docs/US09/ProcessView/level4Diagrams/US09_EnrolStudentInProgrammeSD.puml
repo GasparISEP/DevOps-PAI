@@ -1,9 +1,8 @@
 @startuml
-skinparam sequenceMessageAlign center
 skinparam sequenceLifeLineBackgroundColor lightblue
 autonumber
-actor ASC
-participant ":UI" as UI
+
+participant ":Router" as RO
 participant "ctrl1 : ProgrammeEnrolmentRESTController" as CTRL #lightgreen
 participant "peService : ProgrammeEnrolmentService" as PEService #silver
 participant "pef : ProgrammeEnrolmentFactoryImpl" as PEFactory
@@ -19,29 +18,12 @@ participant Date
 participant "peDataModel : ProgrammeEnrolmentDataModel" as PEDataModel
 
 
-ASC -> UI : I want to enrol a student in a programme.
-activate UI
-UI --> ASC : Student?
-deactivate UI
-ASC -> UI : uniqueNumber
-activate UI
-UI --> ASC : AccessMethod?
-deactivate UI
-ASC -> UI : accessMethodName
-activate UI
-UI --> ASC : Programme?
-deactivate UI
-ASC -> UI : programmeAcronym
-activate UI
-UI --> ASC : Date?
-deactivate UI
-ASC -> UI : enrolmentDate
-activate UI
-UI -> CTRL : enrolStudentInProgramme \n (programmeEnrolmentDTO)
-activate CTRL
+[o-> RO ++: POST / students/enrol-programme /\n{studentID, accessMethodID, programmeAcronym, date}\t
+RO -> CTRL++: enrolStudentInProgramme \n (programmeEnrolmentDTO)
 |||
 ref over CTRL
-    \t \t \t \t \t Convert DTO to VO \t
+    \t \t \t \t \t \t Convert DTO to VO \t
+
 end ref
 |||
 CTRL -> PEService : enrolStudentInProgramme \n (studentID, accessMethodID,\n programmeID, dateVO)
@@ -73,8 +55,8 @@ PEIDMapper -> ProgrammeEnrolmentRepo : peIDDataModel
 deactivate PEIDMapper
 ProgrammeEnrolmentRepo -> IPERepoSpringData : existsById(peIDDataModel)
 activate IPERepoSpringData
-IPERepoSpringData ->
-IPERepoSpringData <--
+IPERepoSpringData -> IPERepoSpringData : Validate if\nalready exists
+
 ProgrammeEnrolmentRepo <-- IPERepoSpringData : false
 deactivate IPERepoSpringData
 PEService <-- ProgrammeEnrolmentRepo : false
@@ -139,8 +121,7 @@ deactivate PEMapper
 
 ProgrammeEnrolmentRepo -> IPERepoSpringData : save(peDataModel)
 activate IPERepoSpringData
-IPERepoSpringData ->
-IPERepoSpringData <--
+IPERepoSpringData -> IPERepoSpringData : Saves in Database
 IPERepoSpringData --> ProgrammeEnrolmentRepo : peDataModel
 deactivate IPERepoSpringData
 
@@ -169,13 +150,11 @@ ProgrammeEnrolmentRepo --> PEService: true
 deactivate ProgrammeEnrolmentRepo
 
 
-PEService --> CTRL : true
+PEService --> CTRL : pe
 deactivate PEService
 
-CTRL --> UI : true
+CTRL --> RO : peDTO:ProgrammeEnrolmentResponseDTO
 deactivate CTRL
-UI --> ASC : Student Enrolled in Programme with Success
-deactivate UI
-Deactivate IPERepoSpringData
+[o<-- RO --:201 Created /\n{programmeEnrolmentGID, studentID,\naccessMethodID, programmeID, date,\n_links: {self: students/enroll}}
 
 @enduml

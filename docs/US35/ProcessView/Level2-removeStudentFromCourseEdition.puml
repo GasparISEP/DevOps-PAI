@@ -1,0 +1,38 @@
+@startuml
+autonumber
+title As an ASC I want to remove the enrolment of a student \n in a course edition (Process View Level 2)
+skinparam sequenceLifeLineBackgroundColor lightblue
+skinparam sequenceMessageAlign center
+
+actor ASC
+participant "<<Component>> \nFrontend" as FE #application
+participant "<<Component>> \nBackend" as BE #strategy
+participant "<<Component>> \nDatabase" as DB #implementation
+
+ASC -> FE : I want to remove \nthe enrolment of a student.
+activate FE
+FE -> BE : GET /students/{studentId}/enrolled-course-editions/
+activate BE
+BE -> DB : findEnrolledCourseEditionsForStudent(studentId)
+activate DB
+DB --> BE : Student's active course edition enrolment
+deactivate DB
+BE --> FE : Student's active course edition enrolment
+deactivate BE
+FE --> ASC : Display the student's enrolled course editions
+deactivate FE
+
+ASC -> FE : Select course edition to unenrol the student from
+activate FE
+FE -> BE : PATCH /students/{studentId}/course-editions/{courseEditionGeneratedUUID}
+activate BE
+BE -> DB : removeStudentEnrolmentFromACourseEdition\n(StudentId, CourseEditionGeneratedUUID)
+activate DB
+DB --> BE : Enrolment removed
+deactivate DB
+BE --> FE : Success message
+deactivate BE
+FE --> ASC : Confirmation message
+deactivate FE
+
+@enduml

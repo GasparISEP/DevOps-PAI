@@ -79,6 +79,11 @@ const NavBar = () => {
                     Display Students
                   </Link>
                 </li>
+                <li>
+                  <Link to="/students/removal" className="navbar-link" onClick={() => setIsStudentOpen(false)}>
+                    Remove Students
+                  </Link>
+                </li>
               </ul>
             </li>
 

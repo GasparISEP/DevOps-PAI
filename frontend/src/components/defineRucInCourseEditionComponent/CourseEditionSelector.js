@@ -1,21 +1,21 @@
 import React from "react";
 
-export default function CourseEditionSelector({ courseEditions, value, onChange }) {
+export default function CourseEditionSelector({ courseEditions, value, onChange, name }) {
     return (
         <div className="form-group">
-            <label className="form-label" htmlFor="courseEdition">Course Edition</label>
+            <label className="form-label" htmlFor={name}>Course Edition / Programme Edition </label>
             <select
                 className="form-input"
-                id="courseEdition"
-                name="courseEditionId"
+                id={name}
+                name={name}
                 value={value}
                 onChange={onChange}
                 required
             >
-                <option value="">Select a course edition</option>
-                {courseEditions.map((ce, index) => (
-                    <option key={index} value={ce.courseEditionGeneratedID}>
-                        {ce.courseName} ({ce.programmeAcronym})
+                <option value="">Select Course Edition</option>
+                {courseEditions.map(ce => (
+                    <option key={ce.courseEditionGeneratedID} value={ce.courseEditionGeneratedID}>
+                        {ce.courseName} / {ce.programmeName}
                     </option>
                 ))}
             </select>

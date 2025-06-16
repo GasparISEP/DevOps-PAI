@@ -15,6 +15,7 @@ import TeacherCareerProgressionComponent from './components/teacherCareerProgres
 import DefineRucPage from "./pages/CourseEditionPage/DefineRucPage";
 import UpdateTeacherCategoryPage from './pages/teacherCategoryPage/UpdateTeacherCategoryPage';
 import DisplayTeacherCareerProgressionPage from "./pages/DisplayTeacherCareerProgression";
+import RemoveStudentPage from "./pages/studentPage/RemoveStudentPage";
 
 function AppRoutes() {
         return (
@@ -24,6 +25,7 @@ function AppRoutes() {
                     <Route path="/students/display" element={<DisplayStudentPage />} />
                     <Route path="/students/enrol-programme" element={<ProgrammeEnrolmentPage />} />
                     <Route path="/students/enroll" element={<EnrollStudentInCoursesPage />} />
+                    <Route path="/students/removal" element={<RemoveStudentPage />} />
                     <Route path="/teachers/register" element={<RegisterTeacherPage />} />
                     <Route path="/teachers/display" element={<DisplayTeacherPage />} />
                     <Route path="/teachers/update-category" element={<UpdateTeacherCategoryPage />} />

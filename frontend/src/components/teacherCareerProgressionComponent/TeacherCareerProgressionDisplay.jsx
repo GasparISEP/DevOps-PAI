@@ -59,18 +59,19 @@ export default function TeacherCareerProgressionDisplay() {
     useEffect(() => {
         async function fetchOptions() {
             try {
-                const response = await fetch(`${process.env.REACT_APP_API_URL}/teacher-career-progressions`)
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/teacher-career-progressions`);
                 if (response.ok) {
                     const progressionOptionsJson = await response.json();
                     setProgressionOptions(progressionOptionsJson);
                     setLoading(false);
                 } else {
+                    setError("Failed to load Teacher Career Progression options: status code " + response.status);
                     setLoading(false);
-                    setError("Failed to load Teacher Career Progression options: status code " + response.status)
                 }
             } catch (err) {
-                setError("Failed to load Teacher Career Progression options")
                 console.error("Failed to load options:", err);
+                setError("Failed to load Teacher Career Progression options");
+                setLoading(false);
             }
         }
 
@@ -89,7 +90,7 @@ export default function TeacherCareerProgressionDisplay() {
             height: '60vh',
             width: '100%'
         }}>
-            <div className="loader"></div>
+            <div className="loader" data-testid="loading-spinner"></div>
         </div>
     );
 
@@ -199,7 +200,8 @@ export default function TeacherCareerProgressionDisplay() {
                                     </th>
                                     <th className={`sortable${sortConfig.key === 'teacher-category-id' ? ' selected' : ''}`}
                                         onClick={() => handleSort('teacherCategoryID')}>
-                                        Teacher Category {sortConfig.key === 'teacher-category-id' ? (sortConfig.direction === 'asc' ? '▲' : '▼') : ''}
+                                        Teacher
+                                        Category {sortConfig.key === 'teacher-category-id' ? (sortConfig.direction === 'asc' ? '▲' : '▼') : ''}
                                     </th>
                                     <th className={`sortable${sortConfig.key === 'teacher-id' ? ' selected' : ''}`}
                                         onClick={() => handleSort('teacherID')}>
@@ -216,14 +218,14 @@ export default function TeacherCareerProgressionDisplay() {
                                             fontWeight: 600,
                                             fontSize: '1.5rem'
                                         }}>
-                                            No results found
+                                            Failed to load Teacher Career Progression options
                                         </td>
                                     </tr>
                                 ) : careerProgressionsToShow.length === 0 ? (
                                     <tr>
                                         <td colSpan="10" style={{
                                             textAlign: 'center',
-                                            color: '#111;',
+                                            color: '#111',
                                             fontWeight: 600,
                                             fontSize: '1.5rem'
                                         }}>

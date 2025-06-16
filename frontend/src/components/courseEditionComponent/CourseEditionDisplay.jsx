@@ -1,7 +1,8 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useRef} from "react";
 import { Link } from "react-router-dom";
 import '../../styles/DisplayPage.css';
 import '../../styles/Buttons.css';
+import { fetchEnrolmentCount } from '../../services/enrolmentCountInCourseEditionService';
 
 export default function CourseEditionDisplay() {
     const [courseEditions, setCourseEditions] = useState([]);
@@ -12,6 +13,10 @@ export default function CourseEditionDisplay() {
 
     const [filterField, setFilterField] = useState('programme acronym');
     const [filterValue, setFilterValue] = useState('');
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [enrolmentCount, setEnrolmentCount] = useState(null);
+    const [selectedCourse, setSelectedCourse] = useState(null);
 
     const filteredCourseEditions = courseEditions.filter(edition => {
         if (!filterValue.trim()) return true;
@@ -68,6 +73,94 @@ export default function CourseEditionDisplay() {
             </button>
         );
     }
+
+    function EnrolmentCountModal({ isOpen, onClose, count, courseName }) {
+        if (!isOpen) return null;
+
+        console.log('Modal props:', { isOpen, count, courseName });
+
+        return (
+            <div className="modal-overlay" onClick={onClose}>
+                <div className="modal-content" onClick={e => e.stopPropagation()}>
+                    <div className="modal-header">
+                        <h2>Enrolment Count</h2>
+                        <button className="modal-close-button" onClick={onClose}>×</button>
+                    </div>
+                    <div className="modal-body">
+                        <div className="modal-info-item">
+                            <span className="modal-label">Course:</span>
+                            <span className="modal-value">{courseName}</span>
+                        </div>
+                        <div className="modal-info-item">
+                            <span className="modal-label">Enrolled Students:</span>
+                            <span className="modal-value modal-count">
+                                {count?.count || count || 0}
+                            </span>
+                        </div>
+                    </div>
+                    <div className="modal-footer">
+                        <button className="modal-close-btn" onClick={onClose}>Close</button>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    function ActionMenu({ edition, onCountEnrolments }) {
+        const [showMenu, setShowMenu] = useState(false);
+        const menuRef = useRef(null);
+
+        useEffect(() => {
+            function handleClickOutside(event) {
+                if (menuRef.current && !menuRef.current.contains(event.target)) {
+                    setShowMenu(false);
+                }
+            }
+
+            document.addEventListener('mousedown', handleClickOutside);
+            return () => {
+                document.removeEventListener('mousedown', handleClickOutside);
+            };
+        }, []);
+
+        const handleCountEnrolments = async () => {
+            setShowMenu(false);
+            await onCountEnrolments(edition);
+        };
+
+        return (
+            <div className="action-menu-container" ref={menuRef}>
+                <button 
+                    className="action-menu-button"
+                    onClick={() => setShowMenu(!showMenu)}
+                >
+                    ⋮
+                </button>
+                {showMenu && (
+                    <div className="action-menu-dropdown">
+                        <button 
+                            className="action-menu-item"
+                            onClick={handleCountEnrolments}
+                        >
+                            Count Enrolments
+                        </button>
+                    </div>
+                )}
+            </div>
+        );
+    }
+
+    const handleCountEnrolments = async (edition) => {
+        try {
+            setSelectedCourse(edition);
+            const response = await fetchEnrolmentCount(edition.courseEditionGeneratedID);
+            setEnrolmentCount(response);
+            setIsModalOpen(true);
+        } catch (error) {
+            console.error('Error counting enrolments:', error);
+            alert('Error counting enrolments: ' + error.message);
+        }
+    };
 
     return (
         <div className="display-main-grid-center">
@@ -127,7 +220,13 @@ export default function CourseEditionDisplay() {
                                         <td>{edition.programmeAcronym}</td>
                                         <td>{edition.courseName}</td>
                                         <td>{edition.courseAcronym}</td>
-                                        <td>{edition.schoolYearID}</td>
+                                        <td style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                            {edition.schoolYearID}
+                                            <ActionMenu
+                                                edition={edition}
+                                                onCountEnrolments={handleCountEnrolments}
+                                            />
+                                        </td>
                                     </tr>
                                 ))
                             )}
@@ -166,6 +265,12 @@ export default function CourseEditionDisplay() {
 
                 </div>
             </div>
+            <EnrolmentCountModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                count={enrolmentCount?.count}
+                courseName={selectedCourse?.courseName}
+            />
         </div>
     );
 }
