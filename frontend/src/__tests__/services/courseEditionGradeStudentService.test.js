@@ -42,7 +42,7 @@ describe('courseEditionGradeStudentService', () => {
                 body: JSON.stringify(mockGradeStudentDTO)
             }));
 
-            expect(result.data).toEqual(mockResponseData);
+            expect(result.data).toMatchObject(mockGradeStudentDTO);
             expect(result.studentLink).toBe("/students/123456");
         });
 
@@ -69,10 +69,30 @@ describe('courseEditionGradeStudentService', () => {
 
             await expect(gradeAStudentWithLink({})).rejects.toThrow('Erro em texto plano');
         });
+
+        // Teste de erro inesperado no fetch
+        it('should handle unexpected fetch failure', async () => {
+            fetch.mockRejectedValueOnce(new Error('Erro inesperado no serviço'));
+
+            await expect(gradeAStudentWithLink(mockGradeStudentDTO)).rejects.toThrow('Erro inesperado no serviço');
+        });
+
+        // Teste de resposta sem link
+        it('should return response data without student link if no links are present', async () => {
+            fetch.mockResolvedValueOnce({
+                ok: true,
+                json: jest.fn().mockResolvedValueOnce(mockGradeStudentDTO)
+            });
+
+            const result = await gradeAStudentWithLink(mockGradeStudentDTO);
+
+            expect(result.data).toMatchObject(mockGradeStudentDTO);
+            expect(result.studentLink).toBeUndefined();
+        });
     });
 
     describe('getEnrolmentsForStudent', () => {
-        const studentID = 123456;
+        const studentID = 1234567;
         const mockEnrolments = [
             { editionID: 'ed1', courseName: 'Computer Science' },
             { editionID: 'ed2', courseName: 'Software Engineering' }
@@ -87,7 +107,7 @@ describe('courseEditionGradeStudentService', () => {
 
             const result = await getEnrolmentsForStudent(studentID);
 
-            expect(fetch).toHaveBeenCalledWith(expect.stringContaining(`/students/${studentID}/courseeditionenrolments`));
+            expect(fetch).toHaveBeenCalledWith(expect.stringContaining(`/course-editions/students/${studentID}/courseeditionenrolments`));
             expect(result).toEqual(mockEnrolments);
         });
 
@@ -97,7 +117,14 @@ describe('courseEditionGradeStudentService', () => {
                 ok: false
             });
 
-            await expect(getEnrolmentsForStudent(studentID)).rejects.toThrow(`Erro ao buscar inscrições do estudante ${studentID}`);
+            await expect(getEnrolmentsForStudent(studentID)).rejects.toThrow(`Error when searching for student registrations ${studentID}`);
+        });
+
+        // Teste de erro inesperado no fetch
+        it('should handle unexpected fetch failure', async () => {
+            fetch.mockRejectedValueOnce(new Error('Erro inesperado no serviço'));
+
+            await expect(getEnrolmentsForStudent(studentID)).rejects.toThrow('Erro inesperado no serviço');
         });
     });
 });

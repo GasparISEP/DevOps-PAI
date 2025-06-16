@@ -44,5 +44,10 @@ public class Name implements ValueObject {
         return Objects.hash(_name);
     }
 
+    @Override
+    public String toString() {
+        return _name;
+    }
+
 }
 

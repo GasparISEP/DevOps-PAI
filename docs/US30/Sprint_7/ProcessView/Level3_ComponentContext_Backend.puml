@@ -18,7 +18,7 @@ participant "<<component>>\n:Router" as Router #honeydew
 participant "<<component>>\n:CourseInStudyPlanRestController\n(REST Controller)" as Controller #honeydew
 participant "<<component>>\n:ICourseInStudyPlanAssembler\n(Controller Assembler)" as Assembler #honeydew
 participant "<<component>>\n:IAddCourseToAProgrammeService\n(Service)" as Service #honeydew
-participant "<<component>>\n:IStudyPlanService\n(StudyPlan Service)" as StudyPlanService #honeydew
+participant "<<component>>\n:IStudyPlanRepository\n(StudyPlan Repository)" as StudyPlanRepository #honeydew
 participant "<<component>>\n:ICourseInStudyPlanFactory\n(Factory)" as Factory #honeydew
 participant "<<component>>\n:ICourseInStudyPlanRepository\n(Repository)" as Repository #honeydew
 participant "<<component>>\n:ICourseInStudyPlanBusinessAssembler\n(Service Assembler)" as BAssembler #honeydew
@@ -52,10 +52,10 @@ group Construct & Validate Domain Object
 Controller -> Service: addCourseToAProgramme(command)
 activate Service
 note right of Service: validateCommand(command)
-Service -> StudyPlanService: getLatestStudyPlanIDBy\nProgrammeID(programmeID)
-activate StudyPlanService
-StudyPlanService --> Service: StudyPlanID
-deactivate StudyPlanService
+Service -> StudyPlanRepository: findLatestByProgrammeID\n(programmeID)
+activate StudyPlanRepository
+StudyPlanRepository --> Service: StudyPlanID
+deactivate StudyPlanRepository
 
 Service -> Factory: newCourseInStudyPlan\n(semester, curricularYear, courseID,\n studyPlanID, duration, credits)
 activate Factory

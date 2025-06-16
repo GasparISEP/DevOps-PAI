@@ -101,7 +101,7 @@ class CourseEditionEnrolmentAssemblerImplTest {
         assertEquals(schoolYearUUID.toString(), dto.schoolYearId());
         assertEquals("ESOFT", dto.courseAcronym());
         assertEquals("2023-09-01", dto.studyPlanDate()); // Date.toString() default ISO format
-        assertEquals("", dto.courseName()); // Ainda não está disponível no domínio
+        assertEquals("Engenharia de Software", dto.courseName());
     }
 
 

@@ -1,6 +1,15 @@
 import React from "react";
+import '../../styles/CourseEditionSuccess.css';
 
-export default function ProgrammeSuccessModal({success, degreeTypes, departments, teachers, onDisplay, onClose, loadingDetails, detailsDisplayed,
+export default function ProgrammeSuccessModal({
+                                                  success,
+                                                  degreeTypes,
+                                                  departments,
+                                                  teachers,
+                                                  onDisplay,
+                                                  onClose,
+                                                  loadingDetails,
+                                                  detailsDisplayed,
                                               }) {
     const selectedDegree = degreeTypes.find(dt => dt.id === success?.degreeTypeID);
     const selectedDepartment = departments.find(d => d.id === success?.departmentID);
@@ -9,18 +18,49 @@ export default function ProgrammeSuccessModal({success, degreeTypes, departments
     return (
         <div className="modal-overlay">
             <div className="modal-content">
-                <h2>Success!</h2>
-                <p>The programme was registered successfully.</p>
+                {!detailsDisplayed ? (
+                    <>
+                        <h2>Success!</h2>
+                        <p>The programme was registered successfully.</p>
+                    </>
+                ) : (
+                    <h2 style={{ color: '#1a1a1a' }}>Programme Details</h2>
+                )}
 
                 {success?.name && (
-                    <div style={{ marginTop: '1rem' }}>
-                        <p><strong>Name:</strong> {success.name}</p>
-                        <p><strong>Acronym:</strong> {success.acronym}</p>
-                        <p><strong>Semesters:</strong> {success.quantSemesters}</p>
-                        <p><strong>Degree Type:</strong> {selectedDegree?.name || 'Unknown'}</p>
-                        <p><strong>ECTS Credits:</strong> {success.maxECTS}</p>
-                        <p><strong>Department:</strong> {selectedDepartment?.name || 'Unknown'}</p>
-                        <p><strong>Programme's Director:</strong> {selectedTeacher?.name || 'Unknown'}</p>
+                    <div style={{ marginTop: '1.5rem' }}>
+                        <table className="courseedition-table">
+                            <tbody>
+                            <tr className="courseedition-row">
+                                <td className="courseedition-label">Name</td>
+                                <td className="courseedition-value">{success.name}</td>
+                            </tr>
+                            <tr className="courseedition-row">
+                                <td className="courseedition-label">Acronym</td>
+                                <td className="courseedition-value">{success.acronym}</td>
+                            </tr>
+                            <tr className="courseedition-row">
+                                <td className="courseedition-label">Semesters</td>
+                                <td className="courseedition-value">{success.quantSemesters}</td>
+                            </tr>
+                            <tr className="courseedition-row">
+                                <td className="courseedition-label">Degree Type</td>
+                                <td className="courseedition-value">{selectedDegree?.name || 'Unknown'}</td>
+                            </tr>
+                            <tr className="courseedition-row">
+                                <td className="courseedition-label">Max ECTS</td>
+                                <td className="courseedition-value">{success.maxECTS}</td>
+                            </tr>
+                            <tr className="courseedition-row">
+                                <td className="courseedition-label">Department</td>
+                                <td className="courseedition-value">{selectedDepartment?.name || 'Unknown'}</td>
+                            </tr>
+                            <tr className="courseedition-row">
+                                <td className="courseedition-label">Director</td>
+                                <td className="courseedition-value">{selectedTeacher?.name || 'Unknown'}</td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 )}
 
@@ -43,4 +83,3 @@ export default function ProgrammeSuccessModal({success, degreeTypes, departments
         </div>
     );
 }
-

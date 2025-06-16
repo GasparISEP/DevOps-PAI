@@ -30,8 +30,7 @@ class AvailableCoursesServiceImplTest {
         ICourseInStudyPlanRepository _courseInStudyPlanRepository = mock(ICourseInStudyPlanRepository.class);
 
         // act & assert
-        Exception exception = assertThrows(IllegalArgumentException.class, () ->
-                new AvailableCoursesServiceImpl(null, _courseInStudyPlanRepository)
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> new AvailableCoursesServiceImpl(null, _courseInStudyPlanRepository)
         );
         assertEquals("Cannot be null", exception.getMessage());
     }
@@ -102,8 +101,7 @@ class AvailableCoursesServiceImplTest {
                 .thenThrow(new RuntimeException("Database error"));
 
         // act & assert
-        RuntimeException exception = assertThrows(RuntimeException.class, () ->
-                service.allCourseEditionIdsFromProgrammeEdition(programmeEditionID)
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> service.allCourseEditionIdsFromProgrammeEdition(programmeEditionID)
         );
         assertEquals("Database error", exception.getMessage());
     }
@@ -155,13 +153,12 @@ class AvailableCoursesServiceImplTest {
         AvailableCoursesServiceImpl service = new AvailableCoursesServiceImpl(courseEditionRepository, courseInStudyPlanRepository);
 
         // act & assert
-        assertThrows(NullPointerException.class, () ->
-                service.allCoursesInStudyFromProgrammeEdition(null)
+        assertThrows(NullPointerException.class, () -> service.allCoursesInStudyFromProgrammeEdition(null)
         );
     }
 
     @Test
-    void shouldReturnListOfCourseInStudyPlanWhenAllFound() {
+    void shouldReturnListOfFoundCourseInStudyPlan() {
         // arrange
         CourseInStudyPlanID id1 = mock(CourseInStudyPlanID.class);
         CourseInStudyPlanID id2 = mock(CourseInStudyPlanID.class);
@@ -185,7 +182,7 @@ class AvailableCoursesServiceImplTest {
     }
 
     @Test
-    void shouldThrowNotFoundExceptionWhenAnyCourseInStudyPlanIsMissing() {
+    void shouldReturnOnlyFoundCoursesWhenSomeAreMissing() {
         // arrange
         CourseInStudyPlanID id1 = mock(CourseInStudyPlanID.class);
         CourseInStudyPlanID id2 = mock(CourseInStudyPlanID.class);
@@ -200,26 +197,26 @@ class AvailableCoursesServiceImplTest {
 
         AvailableCoursesServiceImpl service = new AvailableCoursesServiceImpl(courseEditionRepository, courseInStudyPlanRepository);
 
-        // act & assert
-        NotFoundException exception = assertThrows(NotFoundException.class, () ->
-                service.getByIdentity(List.of(id1, id2))
-        );
-        assertTrue(exception.getMessage().contains("CourseInStudyPlan not found"));
+        // act
+        List<CourseInStudyPlan> result = service.getByIdentity(List.of(id1, id2));
+
+        // assert
+        assertEquals(List.of(course1), result);
     }
 
     @Test
-    void getByIdentityShouldReturnEmptyListWhenInputIsEmpty() {
+    void shouldThrowWhenInputListIsEmpty() {
         // arrange
         ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
         ICourseInStudyPlanRepository courseInStudyPlanRepository = mock(ICourseInStudyPlanRepository.class);
 
         AvailableCoursesServiceImpl service = new AvailableCoursesServiceImpl(courseEditionRepository, courseInStudyPlanRepository);
 
-        // act
-        List<CourseInStudyPlan> result = service.getByIdentity(List.of());
-
-        // assert
-        assertTrue(result.isEmpty());
+        // act & assert
+        NotFoundException exception = assertThrows(NotFoundException.class, () ->
+                service.getByIdentity(List.of())
+        );
+        assertTrue(exception.getMessage().contains("CourseInStudyPlan List is empty"));
     }
 
     @Test
@@ -268,8 +265,7 @@ class AvailableCoursesServiceImplTest {
         AvailableCoursesServiceImpl service = new AvailableCoursesServiceImpl(courseEditionRepository, courseInStudyPlanRepository);
 
         // act & assert
-        assertThrows(NullPointerException.class, () ->
-                service.getListOfCoursesID(null)
+        assertThrows(NullPointerException.class, () -> service.getListOfCoursesID(null)
         );
     }
 
@@ -311,7 +307,7 @@ class AvailableCoursesServiceImplTest {
         assertEquals(List.of(courseID1, courseID2), result);
     }
     @Test
-    void getListOfCourseIdForAGivenProgrammeEditionAndInASpecificCurricularYearShouldThrowIfCourseInStudyPlanNotFound() {
+    void getListOfCourseIdForAGivenProgrammeEditionShouldIgnoreMissingCourseInStudyPlan() {
         // arrange
         ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
 
@@ -327,15 +323,16 @@ class AvailableCoursesServiceImplTest {
         when(ceid.getCourseInStudyPlanID()).thenReturn(cspid);
         when(courseInStudyPlanRepository.ofIdentity(cspid)).thenReturn(Optional.empty());
 
-        // act & assert
-        NotFoundException exception = assertThrows(NotFoundException.class, () ->
-                service.getListOfCourseIdForAGivenProgrammeEdition(programmeEditionID)
-        );
-        assertTrue(exception.getMessage().contains("CourseInStudyPlan not found"));
+        // act
+        List<CourseID> result = service.getListOfCourseIdForAGivenProgrammeEdition(programmeEditionID);
+
+        // assert
+        assertTrue(result.isEmpty()); // or assert the list doesn't include the missing one
     }
 
+
     @Test
-    void getListOfCourseIdForAGivenProgrammeEditionAndInASpecificCurricularYearShouldReturnEmptyListWhenNoCourseEditions() {
+    void getListOfCourseIdForAGivenProgrammeEditionAndInASpecificCurricularYearShouldThrowWhenNoCourseEditions() {
         // arrange
         ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
 
@@ -346,12 +343,14 @@ class AvailableCoursesServiceImplTest {
 
         when(courseEditionRepository.findCourseEditionsByProgrammeEditionID(programmeEditionID)).thenReturn(List.of());
 
-        // act
-        List<CourseID> result = service.getListOfCourseIdForAGivenProgrammeEdition(programmeEditionID);
+        // act & assert
+        NotFoundException exception = assertThrows(NotFoundException.class, () ->
+                service.getListOfCourseIdForAGivenProgrammeEdition(programmeEditionID)
+        );
 
-        // assert
-        assertTrue(result.isEmpty());
+        assertEquals("CourseInStudyPlan List is empty", exception.getMessage());
     }
+
 
 
 
@@ -420,8 +419,7 @@ class AvailableCoursesServiceImplTest {
                 new AvailableCoursesServiceImpl(courseEditionRepository, courseInStudyPlanRepository);
 
         // act & assert
-        assertThrows(NullPointerException.class, () ->
-                service.getListOfCourseInfo(null)
+        assertThrows(NullPointerException.class, () -> service.getListOfCourseInfo(null)
         );
     }
 
@@ -477,7 +475,7 @@ class AvailableCoursesServiceImplTest {
     }
 
     @Test
-    void getListOfAvailableCourseInfoForAGivenProgrammeEdition_shouldThrowIfCourseInStudyPlanNotFound() {
+    void getListOfAvailableCourseInfoForAGivenProgrammeEdition_shouldSkipMissingCourseInStudyPlan() {
         // arrange
         ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
         CourseEditionID ceid = mock(CourseEditionID.class);
@@ -485,21 +483,23 @@ class AvailableCoursesServiceImplTest {
 
         ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
         ICourseInStudyPlanRepository courseInStudyPlanRepository = mock(ICourseInStudyPlanRepository.class);
+
         AvailableCoursesServiceImpl service = new AvailableCoursesServiceImpl(courseEditionRepository, courseInStudyPlanRepository);
 
         when(courseEditionRepository.findCourseEditionsByProgrammeEditionID(programmeEditionID)).thenReturn(List.of(ceid));
         when(ceid.getCourseInStudyPlanID()).thenReturn(cspid);
         when(courseInStudyPlanRepository.ofIdentity(cspid)).thenReturn(Optional.empty());
 
-        // act & assert
-        NotFoundException exception = assertThrows(NotFoundException.class, () ->
-                service.getListOfAvailableCourseInfoForAGivenProgrammeEdition(programmeEditionID)
-        );
-        assertTrue(exception.getMessage().contains("CourseInStudyPlan not found"));
+        // act
+        List<AvailableCourseInfo> result = service.getListOfAvailableCourseInfoForAGivenProgrammeEdition(programmeEditionID);
+
+        // assert
+        assertTrue(result.isEmpty()); // we expect nothing to be returned if CourseInStudyPlan is missing
     }
 
+
     @Test
-    void getListOfAvailableCourseInfoForAGivenProgrammeEdition_shouldReturnEmptyListWhenNoCourseEditions() {
+    void getListOfAvailableCourseInfoForAGivenProgrammeEdition_shouldThrowIfNoCourseEditions() {
         // arrange
         ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
 
@@ -509,12 +509,12 @@ class AvailableCoursesServiceImplTest {
 
         when(courseEditionRepository.findCourseEditionsByProgrammeEditionID(programmeEditionID)).thenReturn(List.of());
 
-        // act
-        List<AvailableCourseInfo> result = service.getListOfAvailableCourseInfoForAGivenProgrammeEdition(programmeEditionID);
-
-        // assert
-        assertTrue(result.isEmpty());
+        // act & assert
+        NotFoundException exception = assertThrows(NotFoundException.class, () -> service.getListOfAvailableCourseInfoForAGivenProgrammeEdition(programmeEditionID)
+        );
+        assertTrue(exception.getMessage().contains("CourseInStudyPlan List is empty"));
     }
+
 
 
 }
