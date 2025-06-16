@@ -37,4 +37,21 @@ describe('DefineRucInCourseEditionForm', () => {
             expect(screen.getByText(/RUC successfully defined/i)).toBeInTheDocument();
         });
     });
+    test('Shows error if Service fails.', async () => {
+        service.defineRucInCourseEdition.mockRejectedValueOnce(new Error('Error'));
+        render(<MemoryRouter>
+            <DefineRucInCourseEditionForm />
+        </MemoryRouter>);
+        await waitFor(() => screen.getByRole('combobox', { name: /School Year/i }));
+
+        fireEvent.change(screen.getByRole('combobox', { name: /School Year/i }), { target: { value: '2023' } });
+        fireEvent.change(screen.getByRole('combobox', { name: /Course Edition \/ Programme Edition/i }), { target: { value: '1' } });
+        fireEvent.change(screen.getByRole('combobox', { name: /Teacher/i }), { target: { value: '1' } });
+
+        fireEvent.click(screen.getByRole('button', { name: /REGISTER/i }));
+
+        await waitFor(() => {
+            expect(screen.getByText(/An error occurred/i)).toBeInTheDocument();
+        });
+    });
 });
