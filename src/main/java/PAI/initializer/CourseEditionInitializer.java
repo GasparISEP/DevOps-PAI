@@ -65,7 +65,7 @@ public class CourseEditionInitializer {
                         SchoolYear schoolYear = schoolYearOpt.get();
                         LocalDate startDate = schoolYear.getStartDate().getLocalDate();
                         LocalDate endDate = schoolYear.getEndDate().getLocalDate();
-                        if (localDate.isAfter(startDate) && localDate.isBefore(endDate)) {
+                        if (!localDate.isBefore(startDate) && !localDate.isAfter(endDate)) {
                             schoolYearID = new SchoolYearID(schoolYearIdItem.getSchoolYearID());
                             ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID, schoolYearID);
                             controller.createCourseEdition(courseInStudyPlanID, programmeEditionID);

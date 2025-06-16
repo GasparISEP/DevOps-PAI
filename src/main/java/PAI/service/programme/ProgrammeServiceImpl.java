@@ -5,7 +5,6 @@ import PAI.assembler.programme.IProgrammeAssembler;
 import PAI.domain.degreeType.DegreeType;
 import PAI.domain.programme.Programme;
 import PAI.domain.programme.IProgrammeFactory;
-import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
 import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
 import PAI.dto.Programme.ProgrammeDTO;
 import PAI.dto.Programme.ProgrammeIDDTO;
@@ -130,7 +129,7 @@ public class ProgrammeServiceImpl implements IProgrammeService {
         if (departmentID == null) {
             programmeIDs = List.of();
         } else {
-            programmeIDs = _programmeRepository.findProgrammeByDepartment(departmentID);
+            programmeIDs = _programmeRepository.findProgrammesIdByDepartmentId(departmentID);
         }
         return programmeIDs;
     }

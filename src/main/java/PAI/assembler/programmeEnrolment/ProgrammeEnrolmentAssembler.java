@@ -1,13 +1,10 @@
 package PAI.assembler.programmeEnrolment;
 
 import PAI.VOs.*;
+import PAI.domain.programme.Programme;
 import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
 import PAI.domain.student.Student;
-import PAI.dto.Programme.ProgrammeIDDTO;
-import PAI.dto.programmeEnrolment.ProgrammeEnrolmentDTO;
-import PAI.dto.programmeEnrolment.ProgrammeEnrolmentIdDTO;
-import PAI.dto.programmeEnrolment.ProgrammeEnrolmentListIDDTO;
-import PAI.dto.programmeEnrolment.ProgrammeEnrolmentResponseDTO;
+import PAI.dto.programmeEnrolment.*;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -74,5 +71,18 @@ public class ProgrammeEnrolmentAssembler implements IProgrammeEnrolmentAssembler
             listProg.add(toDTO((existing)));
         }
         return listProg;
+    }
+
+    @Override
+    public ProgrammeEnrolmentHateoasResponseDto toHateoasDto(ProgrammeEnrolment programmeEnrolment, Student student, Programme programme) {
+        UUID gid = programmeEnrolment.getProgrammeEnrolmentGeneratedID().getProgrammeEnrolmentGID();
+        int studentID = programmeEnrolment.getStudentID().getUniqueNumber();
+        String accessMethodId = programmeEnrolment.getAccessMethodID().toString();
+        String programmeAcronym = programmeEnrolment.getProgrammeID().getProgrammeAcronym();
+        LocalDate date = programmeEnrolment.getDate().getLocalDate();
+        String studentName = programme.getProgrammeName().getNameWithNumbersAndSpecialChars();
+        String programmeName = student.getStudentName().getName();
+
+        return new ProgrammeEnrolmentHateoasResponseDto(gid, programmeAcronym, studentID, accessMethodId, date, studentName, programmeName);
     }
 }
