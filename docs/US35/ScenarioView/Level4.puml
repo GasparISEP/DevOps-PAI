@@ -1,0 +1,66 @@
+@startuml
+title As an ASC I want to remove the enrolment of a student in a course edition using a WEB UI\n(Process View Level 3 - Backend - Combined Flow)
+
+skinparam sequenceMessageAlign center
+skinparam sequenceLifeLineBackgroundColor lightblue
+
+participant ":Router" as Router <<Component>> #lightpink
+participant ":StudentRestController" as Controller <<Component>> #motivation
+participant ":CourseEditionEnrolmentService" as Service <<Component>> #business
+participant ":CourseEditionEnrolmentRepository" as Repository <<Component>> #lightgreen
+participant ":Drivers" as Drivers <<Component>> #technology
+
+
+[o-> Router : **GET** \nstudents/{studentId}/enrolled-course-editions/
+activate Router
+Router -> Controller : findEnrolledCourseEditionsForStudent(studentUniqueNumber)
+activate Controller
+Controller -> Service : findEnrolledCourseEditionsForStudent(studentID)
+activate Service
+Service -> Repository : findActiveEnrolmentsByStudentID(studentID)
+activate Repository
+Repository -> Drivers ++: findActiveEnrolmentsByStudentID(studentID)
+Drivers ->o] : **SELECT** findById_StudentIDAndActiveTrue(studentIDDataModel)
+Drivers <--o] : List<CourseEditionEnrolmentDataModel>
+Repository <-- Drivers -- : List<CourseEditionEnrolment>
+Repository --> Service : List<US35EnrolledCourseDetails>
+deactivate Repository
+Service --> Controller : List<US35EnrolledCourseDetails>
+deactivate Service
+Controller --> Router : List<EnrolledCourseEditionDTO>
+deactivate Controller
+[o<-- Router : (**200 OK**) \n List<EnrolledCourseEditionDTO>
+deactivate Router
+
+[o-> Router : **PATCH** \nstudents/{studentId}/course-editions/{courseEditionGeneratedUUID}
+activate Router
+Router -> Controller : removeStudentEnrolmentFromACourseEdition(studentUniqueNumber, courseEditionGeneratedUUID)
+activate Controller
+Controller -> Service : removeCourseEditionEnrolment(studentID, courseEditionID)
+activate Service
+Service -> Repository : findCourseEditionByGeneratedID(courseEditionGeneratedUUID)
+activate Repository
+Repository -> Drivers ++: findCourseEditionByGeneratedId(courseEditionGeneratedIDDataModel)
+Drivers ->o] : **SELECT** CourseEditionGeneratedIDDataModel
+Drivers <--o] : courseEditionDataModel
+Drivers --> Repository -- : courseEditionDataModel
+Repository --> Service -- : courseEdition
+deactivate Repository
+Service --> Controller -- : courseEditionID
+
+Controller -> Service ++: removeCourseEditionEnrolment(studentID, courseEditionID)
+Service -> Repository ++: findByStudentAndEdition(studentID, courseEditionID)
+Repository -> Drivers ++: findById_StudentIDAndId_CourseEditionID(studentIDDataModel, courseEditionIDDataModel)
+Drivers ->o] : **SELECT** findById_StudentIDAndId_CourseEditionID
+Drivers <--o] : courseEditionEnrolmentDataModel
+Drivers --> Repository -- : courseEditionEnrolmentDataModel
+Repository --> Service -- : courseEditionEnrolment
+deactivate Repository
+Service --> Controller -- : true
+deactivate Service
+Controller --> Router : (ACCEPTED, 202) \n + body {"Successfully removed the enrolment from course edition."}
+[o<-- Router : (**202 ACCEPTED**) \n + body {"Successfully removed the enrolment from course edition."}
+deactivate Controller
+deactivate Router
+
+@enduml

@@ -36,14 +36,6 @@ class TeacherIdDTOTest {
         assertEquals("Teacher Acronym is required", violations.iterator().next().getMessage());
     }
 
-//    @Test
-//    public void testBlankAcronym() {
-//        TeacherIdDTO dto = new TeacherIdDTO(" ");
-//        Set<ConstraintViolation<TeacherIdDTO>> violations = validator.validate(dto);
-//        assertFalse(violations.isEmpty());
-//        assertEquals("Teacher Acronym is required", violations.iterator().next().getMessage());
-//    }
-
     @Test
     public void testShortAcronym() {
         TeacherIdDTO dto = new TeacherIdDTO("AB");
