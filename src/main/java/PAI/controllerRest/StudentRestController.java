@@ -107,7 +107,7 @@ public class StudentRestController {
         );
 
         StudentResponseDTO responseDTO = mapper.toStudentResponseDTO(student);
-        EntityModel<StudentResponseDTO> studentModel = hateoasAssembler.toModelList(responseDTO);
+        EntityModel<StudentResponseDTO> studentModel = hateoasAssembler.toModel(responseDTO);
 
         return new ResponseEntity<>(studentModel, HttpStatus.CREATED);
     }
