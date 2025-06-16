@@ -8,6 +8,8 @@ import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.programmeEdition.*;
 import org.junit.jupiter.api.Test;
 import java.util.UUID;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -203,5 +205,20 @@ class ProgrammeEditionControllerAssemblerTest {
         assertThrows(IllegalArgumentException.class, () -> {
             assembler.toProgrammeEditionIdResponseDto(programme, null);
         });
+    }
+
+    @Test
+    void toRequestServiceDtoFromIDs_shouldReturnCorrectDto() {
+        // Arrange
+        String programmeAcronym = "CS";
+        String schoolYearID = "2024";
+
+        // Act
+        RequestServiceDto dto = assembler.toRequestServiceDtoFromIDs(programmeAcronym, schoolYearID);
+
+        // Assert
+        assertThat(dto).isNotNull();
+        assertThat(dto.programmeAcronym()).isEqualTo(programmeAcronym);
+        assertThat(dto.schoolYearID()).isEqualTo(schoolYearID);
     }
 }
