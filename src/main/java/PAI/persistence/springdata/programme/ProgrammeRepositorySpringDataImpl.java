@@ -5,6 +5,7 @@ import PAI.domain.programme.Programme;
 import PAI.mapper.department.IDepartmentIDMapper;
 import PAI.mapper.programme.IProgrammeIDMapper;
 import PAI.mapper.programme.IProgrammeMapper;
+import PAI.persistence.datamodel.department.DepartmentIDDataModel;
 import PAI.persistence.datamodel.programme.ProgrammeDataModel;
 import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
 import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
@@ -93,14 +94,15 @@ public class ProgrammeRepositorySpringDataImpl implements IProgrammeRepository {
     }
 
     public List<ProgrammeID> findProgrammesIdByDepartmentId(DepartmentID departmentID){
-        List<ProgrammeID> programmesWithDepartment = new ArrayList<>();
-        List<Programme> allProgrammes=findAll();
-        for (Programme programme : allProgrammes) {
-            if(programme.isInDepartment(departmentID)){
-                programmesWithDepartment.add(programme.identity());
-            }
+
+        DepartmentIDDataModel dataModel = _iDepartmentIDMapper.toDataModel(departmentID);
+        List<ProgrammeIDDataModel> programmes = _iProgRepo.findProgrammesIdByDepartmentId(dataModel);
+        List<ProgrammeID> programmeIDs = new ArrayList<>();
+        for (ProgrammeIDDataModel programmeIDDataModel : programmes) {
+            ProgrammeID programmeID = _iProgIDMapper.toDomain(programmeIDDataModel);
+            programmeIDs.add(programmeID);
         }
-        return programmesWithDepartment;
+        return programmeIDs;
     }
 
     @Override
