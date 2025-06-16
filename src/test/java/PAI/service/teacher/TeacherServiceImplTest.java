@@ -7,6 +7,8 @@ import PAI.domain.teacher.ITeacherFactory;
 import PAI.domain.teacher.TeacherFactoryImpl;
 import PAI.persistence.springdata.teacher.TeacherRepositorySpringDataImpl;
 import PAI.domain.repositoryInterfaces.teacher.ITeacherRepository;
+import PAI.service.programme.IProgrammeService;
+import PAI.service.programme.ProgrammeServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -219,6 +221,14 @@ class TeacherServiceImplTest {
         boolean result = teacherService.existsById(id);
         //Assert
         assertFalse(result);
+    }
+
+    @Test
+    void shouldThrowExceptionIfNullParameterForContainsOfIdentity(){
+        //Arrange
+
+        //Act + Assert
+        assertThrows(IllegalArgumentException.class,() -> teacherService.existsById(null));
     }
 
     @Test

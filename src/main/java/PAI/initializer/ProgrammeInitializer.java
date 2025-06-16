@@ -4,31 +4,16 @@ import PAI.VOs.*;
 import PAI.controller.US11_RegisterProgrammeInTheSystemController;
 import PAI.domain.degreeType.DegreeType;
 import PAI.domain.repositoryInterfaces.degreeType.IDegreeTypeRepository;
-import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.List;
+import java.io.*;
 
 @Component
-@Profile("programme")
-@Order(1)
 public class ProgrammeInitializer {
-    @Autowired
-    private US11_RegisterProgrammeInTheSystemController _controller;
-    @Autowired
-    private IDegreeTypeRepository _degreeTypeRepository;
 
-    @PostConstruct
-    public void init() throws IOException {
-        try (InputStream is = getClass().getResourceAsStream("/ProgrammeData.csv");
-             BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
+    public void loadProgramme(US11_RegisterProgrammeInTheSystemController controller, IDegreeTypeRepository degreeTypeRepository, String csvFilePath) throws IOException {
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(csvFilePath))) {
 
             String line;
             boolean isFirstLine = true;
@@ -51,7 +36,7 @@ public class ProgrammeInitializer {
                     int qtyEcts = Integer.parseInt(parts[2].trim());
                     int qtyOfSemesters = Integer.parseInt(parts[3].trim());
                     DegreeTypeID id = null;
-                    Iterable<DegreeType> degreeTypeList = _degreeTypeRepository.findAll();
+                    Iterable<DegreeType> degreeTypeList = degreeTypeRepository.findAll();
                     for (DegreeType degreeType : degreeTypeList) {
                         String degreeTypeName = parts[4];
                         if (degreeType.getName().getName().equals(degreeTypeName.trim())) {
@@ -62,7 +47,7 @@ public class ProgrammeInitializer {
                     DepartmentID departmentID = new DepartmentID(new DepartmentAcronym(parts[5].trim()));
                     TeacherID teacherID = new TeacherID(new TeacherAcronym(parts[6].trim()));
 
-                    _controller.registerProgramme(name, acronym, qtyEcts, qtyOfSemesters, id, departmentID, teacherID);
+                    controller.registerProgramme(name, acronym, qtyEcts, qtyOfSemesters, id, departmentID, teacherID);
 
                 } catch (Exception ex) {
                     System.err.println("Error processing line: " + line);

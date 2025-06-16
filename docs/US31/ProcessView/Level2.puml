@@ -30,13 +30,17 @@ FE --> Admin --: Display form with: \n Degree types, Departments, Teachers (drop
 
 Admin -> FE ++: Submit filled form \n(Degree Type, Department, Teacher, Name, Acronym)
 FE -> BE ++: **POST** /programmes (programmeDTO)
-BE -> BD ++: **SELECT EXISTS** isNameRegistered (name)
-BD --> BE --: False
-BE -> BD ++: **SELECT EXISTS** isAcronymRegistered (acronym)
+BE -> BD ++: **SELECT EXISTS** isDepartmentRegistered (id)
+BD --> BE --: True
+BE -> BD ++: **SELECT EXISTS** isTeacherRegistered (id)
+BD --> BE --: True
+BE -> BD ++: **SELECT** getDegreeTypeById (id)
+BD --> BE --: degreeType
+BE -> BD ++: **SELECT EXISTS** isProgrammeRegistered (acronym)
 BD --> BE --: False
 BE -> BD ++: **INSERT** save (programmeDataModel)
 BD --> BE --: programme
-BE --> FE --: (201, Created) + body {programmeDTO + hypermedia}
+BE --> FE --: (201, Created) + body {programmeIDDTO + hypermedia}
 FE --> Admin --: Programme registered successfully! \n(Display Programme details)
 
 @enduml

@@ -1,0 +1,52 @@
+@startuml
+
+title (US26) Get all School Years\n(Scenario View Level 4)
+
+autonumber
+
+participant ":SchoolYearRestController" as C #lightpink
+participant ":SchoolYearService" as SYS #lightgreen
+participant "SchoolYearRepository" as SYR #lightcyan
+participant ":SchoolYearMapper" as M #lightyellow
+participant "SchoolYearFactory" as F #lightpink
+participant ":SchoolYearAssembler" as SYA #moccasin
+participant ":SchoolYearHateoasAssembler" as SYHA #peachpuff
+
+
+
+participant "schoolYear :SchoolYear" as SYT #lightcyan
+participant "currentSchoolYearDTO :CurrentSchoolYearDTO" as CSYDTO #lightcyan
+
+activate C
+C -> SYS ++: getAllSchoolYears()
+
+SYS -> SYR ++: findAll()
+
+SYR ->o] : findAll()
+SYR <--o] : List<SchoolYearDataModel>
+
+loop for SchoolYearDataModel[i]
+SYR -> M ++: toDomain(SchoolYearDataModel[i])
+M -> F ++: recreateSchoolYear\n(uuid :UUID, description :Description, startDate :Date, endDate :Date)
+F -> SYT**: newSchoolYear(uuid :UUID, description :Description, startDate :Date, endDate :Date)
+activate SYT
+SYT --> F --: schoolYear :SchoolYear
+F --> M --: schoolYear
+M --> SYR --: schoolYear
+end
+SYR --> SYS --: Iterable<SchoolYear>
+
+loop for SchoolYear[i]
+SYS --> SYA ++: toCurrentSchoolYearDTO(SchoolYear)
+SYA -> CSYDTO**: newCurrentSchoolYearDTO(uuid :String, description :String, startDate :LocalDate, endDate :LocalDate)
+activate CSYDTO
+CSYDTO --> SYA --: currentSchoolYearDTO :CurrentSchoolYearDTO
+SYA --> SYS --: CurrentSchoolYearDTO
+end
+
+SYS --> C --: Iterable<CurrentSchoolYearDTO>
+C -> SYHA ++: CollectionModel(Iterable<CurrentSchoolYearDTO>)
+SYHA --> C --: CollectionModel<CurrentSchoolYearDTO>
+
+deactivate C
+@enduml

@@ -5,6 +5,7 @@ import PAI.assembler.programme.IProgrammeAssembler;
 import PAI.assembler.programme.IProgrammeDirectorAssembler;
 import PAI.assembler.programme.IProgrammeHATEOASAssembler;
 import PAI.assembler.programmeEnrolment.IProgrammeEnrolmentAssembler;
+import PAI.assembler.programmeEnrolment.IUS34ProgrammeEnrolmentAssembler;
 import PAI.assembler.student.IStudentDTOAssembler;
 import PAI.assembler.studyPlan.IStudyPlanAssembler;
 import PAI.domain.programme.Programme;
@@ -12,6 +13,7 @@ import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
 import PAI.dto.Programme.*;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentIdDTO;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentListIDDTO;
+import PAI.dto.programmeEnrolment.US34ListOfProgrammesDTO;
 import PAI.dto.student.StudentIDDTO;
 import PAI.dto.studyPlan.RegisterStudyPlanCommand;
 import PAI.dto.studyPlan.StudyPlanResponseDTO;
@@ -45,12 +47,13 @@ public class ProgrammeRestController {
     private final IProgrammeDirectorAssembler _programmeDirectorAssembler;
     private final IProgrammeHATEOASAssembler _programmeHATEOASAssembler;
     private final IStudentDTOAssembler _studentAssembler;
+    private final IUS34ProgrammeEnrolmentAssembler _us34Assembler;
 
     public ProgrammeRestController (IProgrammeService programmeService, IProgrammeAssembler programmeAssembler,
                                     IProgrammeEnrolmentService programmeEnrolmentService, IStudyPlanService studyPlanService,
                                     IStudyPlanAssembler studyPlanAssembler, IProgrammeDirectorAssembler programmeDirectorAssembler,
                                     IProgrammeHATEOASAssembler programmeHATEOASAssembler, IProgrammeEnrolmentAssembler programmeEnrolmentAssembler,
-                                    IStudentDTOAssembler studentAssembler){
+                                    IStudentDTOAssembler studentAssembler, IUS34ProgrammeEnrolmentAssembler us34Assembler){
 
         this._programmeService = programmeService;
         this._programmeAssembler = programmeAssembler;
@@ -61,6 +64,7 @@ public class ProgrammeRestController {
         this._programmeHATEOASAssembler = programmeHATEOASAssembler;
         this._programmeEnrolmentAssembler = programmeEnrolmentAssembler;
         this._studentAssembler = studentAssembler;
+        this._us34Assembler = us34Assembler;
     }
 
     @PostMapping()
@@ -68,8 +72,9 @@ public class ProgrammeRestController {
 
         ProgrammeVOsDTO programmeVOsDto = _programmeAssembler.fromDTOToDomain(programmeDTO);
         Programme programmeCreated = _programmeService.registerProgramme(programmeVOsDto);
-        ProgrammeDTO newProgrammeDTO = _programmeAssembler.fromDomainToDTO(programmeCreated);
-        EntityModel<ProgrammeDTO> programmeEntityModel = _programmeHATEOASAssembler.toModel(newProgrammeDTO);
+        ProgrammeID programmeID = programmeCreated.identity();
+        ProgrammeIDDTO programmeIDDTO = _programmeAssembler.toDTO(programmeID);
+        EntityModel<ProgrammeIDDTO> programmeEntityModel = _programmeHATEOASAssembler.toModel(programmeIDDTO);
 
         return new ResponseEntity<>(programmeEntityModel, HttpStatus.CREATED);
     }
@@ -97,15 +102,13 @@ public class ProgrammeRestController {
     @GetMapping("/ids")
     public ResponseEntity<List<ProgrammeIDResponseDTO>> getAllProgrammeIDDTOs (){
         List<ProgrammeIDDTO> programmeIDDTOS = _programmeService.getAllProgrammeIDDTOs();
-        if(!programmeIDDTOS.isEmpty()) {
-            List<ProgrammeIDResponseDTO> response = new ArrayList<>();
-            for (ProgrammeIDDTO programmeIDDTO : programmeIDDTOS) {
-                response.add(_programmeAssembler.toResponseDTO(programmeIDDTO));
-            }
-            return ResponseEntity.ok(response);
-        }else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if (programmeIDDTOS.isEmpty()) {
+            return ResponseEntity.noContent().build();
         }
+        List<ProgrammeIDResponseDTO> response = programmeIDDTOS.stream()
+                .map(_programmeAssembler::toResponseDTO)
+                .toList();
+        return ResponseEntity.ok(response);
     }
 
     @PatchMapping("/assigndirector")
@@ -145,13 +148,10 @@ public class ProgrammeRestController {
         Acronym acronym1 = new Acronym(acronym);
         ProgrammeID programmeID = new ProgrammeID(acronym1);
 
-        Optional<Programme> programmeDTO = _programmeService.getProgrammeByID(programmeID);
+        Optional<ProgrammeDTO> programmeDTO = _programmeService.getProgrammeByID(programmeID);
 
-        if (programmeDTO.isPresent()) {
-            return ResponseEntity.ok(programmeDTO.get());
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Programme not found");
-        }
+        return programmeDTO.<ResponseEntity<Object>>map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("Programme not found"));
 
     }
 
@@ -168,12 +168,13 @@ public class ProgrammeRestController {
     }
 
     @GetMapping("/{id}/programmes-enrolled-in")
-    public ResponseEntity<List<ProgrammeEnrolmentListIDDTO>> getAllProgrammesThatTheStudentIsEnrolledIn(@PathVariable("id") String id) {
+    public ResponseEntity<US34ListOfProgrammesDTO> getAllProgrammesThatTheStudentIsEnrolledIn(@PathVariable("id") String id) {
         try {
             StudentIDDTO dto = new StudentIDDTO(id);
             StudentID studentID = _studentAssembler.toIdDTO(dto);
-            List<ProgrammeEnrolment> programmeEnrolment = _programmeEnrolmentService.listOfProgrammesStudentIsEnrolledIn(studentID);
-            return ResponseEntity.ok(_programmeEnrolmentAssembler.toListOfDTOs(programmeEnrolment));
+            US34ListOfProgrammes programmeEnrolment = _programmeEnrolmentService.getProgrammesStudentIsEnrolled(studentID);
+            US34ListOfProgrammesDTO dtoResult = _us34Assembler.toDto(programmeEnrolment);
+            return ResponseEntity.ok(dtoResult);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

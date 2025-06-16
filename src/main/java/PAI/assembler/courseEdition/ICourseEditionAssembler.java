@@ -9,11 +9,12 @@ import PAI.dto.courseEdition.*;
 
 public interface ICourseEditionAssembler {
     CreateCourseEditionCommand toCommand(CourseEditionRequestDTO dto);
-    CourseEditionResponseDTO toResponseDTO(CourseEdition domain);
+    CourseEditionResponseDTO toResponseDTO(CourseEditionServiceResponseDTO courseEditionServiceResponseDTO);
     TeacherID createTeacherID (String teacherID);
     CourseEditionID fromDtoToCourseEditionID (SelectedCourseEditionIdDTO courseEditionDTO)throws Exception;
     CourseEditionGeneratedID fromDtoToCourseEditionGeneratedID (SelectedCourseEditionGeneratedIdDTO courseEditionDTO)throws Exception;
-    List<CourseEditionResponseDTO> toResponseDTOList(List<CourseEditionID> courseEditionIDs);
+   // List<CourseEditionResponseDTO> toResponseDTOList(List<CourseEditionServiceResponseDTO> courseEditionServiceResponseDTO);
     ProgrammeEditionID toProgrammeEditionID(CourseEditionRequestDTO courseEditionRequestDTO) throws Exception;
     CourseInStudyPlanID toCourseInStudyPlanID(CourseEditionRequestDTO courseEditionRequestDTO) throws Exception;
+    List<CourseEditionResponseIDDTO> toResponseIDDTOList(List<CourseEditionID> courseEditionIDs);
 }

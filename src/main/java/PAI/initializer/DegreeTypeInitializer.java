@@ -2,27 +2,21 @@ package PAI.initializer;
 
 import PAI.VOs.*;
 import PAI.controller.US10_IWantToConfigureDegreeTypesLevelsController;
-import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.UUID;
 
 @Component
 public class DegreeTypeInitializer {
 
-    @Autowired
-    US10_IWantToConfigureDegreeTypesLevelsController _controller;
-
-    @PostConstruct
-    public void init() {
+    public void loadDegreeType(US10_IWantToConfigureDegreeTypesLevelsController _controller, String csvFilePath) {
         System.out.println("DegreeTypeInitializer is running");
+        long startTime = System.currentTimeMillis();
 
-        try (InputStream is = getClassResourceAsStream("/DegreeTypeData.csv");
-             BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(csvFilePath))) {
 
             String line;
             boolean isFirstLine = true;
@@ -67,9 +61,7 @@ public class DegreeTypeInitializer {
             System.err.println("Error reading the file");
             e.printStackTrace();
         }
-    }
-
-    public InputStream getClassResourceAsStream(String path) {
-        return getClass().getResourceAsStream(path);
+        long endTime = System.currentTimeMillis();
+        System.out.println("\nCourseEdition loading time: " + (endTime - startTime) + " ms\n");
     }
 }

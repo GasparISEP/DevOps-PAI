@@ -1,7 +1,7 @@
 package PAI.assembler.programme;
 
 import PAI.controllerRest.ProgrammeRestController;
-import PAI.dto.Programme.ProgrammeDTO;
+import PAI.dto.Programme.ProgrammeIDDTO;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
@@ -9,10 +9,10 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
-public class ProgrammeHATEOASAssembler implements RepresentationModelAssembler<ProgrammeDTO, EntityModel<ProgrammeDTO>>, IProgrammeHATEOASAssembler {
+public class ProgrammeHATEOASAssembler implements RepresentationModelAssembler<ProgrammeIDDTO, EntityModel<ProgrammeIDDTO>>, IProgrammeHATEOASAssembler {
 
     @Override
-    public EntityModel<ProgrammeDTO> toModel(ProgrammeDTO dto) {
+    public EntityModel<ProgrammeIDDTO> toModel(ProgrammeIDDTO dto) {
         return EntityModel.of(dto,
                 linkTo(methodOn(ProgrammeRestController.class)
                         .getProgrammeByID(dto.acronym()))

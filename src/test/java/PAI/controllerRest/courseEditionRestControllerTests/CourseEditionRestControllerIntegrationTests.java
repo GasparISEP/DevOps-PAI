@@ -3,10 +3,10 @@ package PAI.controllerRest.courseEditionRestControllerTests;
 import PAI.VOs.*;
 import PAI.assembler.courseEdition.CourseEditionAssemblerImpl;
 import PAI.assembler.courseEdition.CourseEditionHateoasAssembler;
-import PAI.dto.courseEdition.CourseEditionRequestDTO;
-import PAI.dto.courseEdition.CourseEditionResponseDTO;
-import PAI.dto.courseEdition.CreateCourseEditionCommand;
-import PAI.dto.courseEdition.DefineRucResponseDTO;
+import PAI.dto.courseEdition.*;
+import PAI.exception.CourseEditionCreationException;
+import PAI.persistence.datamodel.studentGrade.StudentGradeDM;
+import PAI.persistence.springdata.studentGrade.IStudentGradeRepositorySpringData;
 import PAI.service.courseEdition.DefineRucServiceImpl;
 import PAI.service.courseEdition.ICreateCourseEditionService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,10 +23,12 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -41,6 +43,9 @@ public class CourseEditionRestControllerIntegrationTests {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private IStudentGradeRepositorySpringData studentGradeRepository;
 
     @MockBean
     private DefineRucServiceImpl defineRucService;
@@ -170,40 +175,59 @@ public class CourseEditionRestControllerIntegrationTests {
     void whenCreateCourseEditionWithValidData_thenReturnsCreated() throws Exception {
         // Arrange
         CourseEditionRequestDTO requestDTO = new CourseEditionRequestDTO(
-                "Software Development", "SDV", UUID.randomUUID(),
-                "SA", "Software Architecture", LocalDate.of(2023, 9, 1));
+                "Software Development",
+                "SDV",
+                UUID.randomUUID(),
+                "SA",
+                "Software Architecture",
+                LocalDate.of(2023, 9, 1)
+        );
 
         CreateCourseEditionCommand command = new CreateCourseEditionCommand(
-                new NameWithNumbersAndSpecialChars(requestDTO.programmeName()), new Acronym(requestDTO.programmeAcronym()),
-                new SchoolYearID(requestDTO.schoolYearID()), new Acronym(requestDTO.courseAcronym()),
-                new Name(requestDTO.courseName()), new Date(requestDTO.studyPlanImplementationDate()));
+                new NameWithNumbersAndSpecialChars(requestDTO.programmeName()),
+                new Acronym(requestDTO.programmeAcronym()),
+                new SchoolYearID(requestDTO.schoolYearID()),
+                new Acronym(requestDTO.courseAcronym()),
+                new Name(requestDTO.courseName()),
+                new Date(requestDTO.studyPlanImplementationDate())
+        );
 
-        CourseEditionResponseDTO responseDTO = new CourseEditionResponseDTO(
+        UUID generatedId = UUID.randomUUID();
+
+        CourseEditionServiceResponseDTO responseDTO = new CourseEditionServiceResponseDTO(
+                generatedId,
                 "SDV",
-                requestDTO.schoolYearID(), "SA", "Software Architecture",
-                LocalDate.of(2023, 9, 1), "courseEditionID123");
+                requestDTO.schoolYearID(),
+                "SA",
+                "Software Architecture",
+                LocalDate.of(2023, 9, 1),
+                generatedId.toString()
+        );
+
+        CourseEditionResponseDTO responseBody = new CourseEditionResponseDTO(
+                generatedId,
+                "SDV",
+                requestDTO.schoolYearID(),
+                "SA",
+                "Software Architecture",
+                LocalDate.of(2023, 9, 1),
+                generatedId.toString()
+        );
 
         when(courseEditionAssembler.toCommand(any())).thenReturn(command);
-        when(createCourseEditionService.createCourseEditionAndReturnDTO(any(), any())).thenReturn(responseDTO);
+        when(createCourseEditionService.createCourseEditionForRestApi(command)).thenReturn(responseDTO);
+        when(courseEditionAssembler.toResponseDTO(responseDTO)).thenReturn(responseBody);
 
-        // Act
-        MvcResult result = mockMvc.perform(post("/course-editions")
+        // Act & Assert
+        mockMvc.perform(post("/course-editions")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDTO)))
                 .andExpect(status().isCreated())
-                .andExpect(header().string("Location", "/course-editions/"))
-                .andReturn();
-
-        // Assert
-        String jsonResponse = result.getResponse().getContentAsString();
-        CourseEditionResponseDTO actualResponse = objectMapper.readValue(jsonResponse, CourseEditionResponseDTO.class);
-
-        assertEquals(responseDTO.courseEditionID(), actualResponse.courseEditionID());
-        assertEquals(responseDTO.programmeAcronym(), actualResponse.programmeAcronym());
-        assertEquals(responseDTO.schoolYearID(), actualResponse.schoolYearID());
-        assertEquals(responseDTO.courseAcronym(), actualResponse.courseAcronym());
-        assertEquals(responseDTO.courseName(), actualResponse.courseName());
-        assertEquals(responseDTO.studyPlanImplementationDate(), actualResponse.studyPlanImplementationDate());
+                .andExpect(header().string("Location", "/course-editions/" + generatedId.toString()))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.courseEditionID").value(generatedId.toString()))
+                .andExpect(jsonPath("$.programmeAcronym").value("SDV"))
+                .andExpect(jsonPath("$.courseName").value("Software Architecture"));
     }
 
     @Test
@@ -211,15 +235,15 @@ public class CourseEditionRestControllerIntegrationTests {
         // Arrange
         CourseEditionRequestDTO requestDTO = new CourseEditionRequestDTO(
                 "LEI", "LEIC", UUID.randomUUID(),
-                "SA", "Software Architecture", LocalDate.of(2023, 9, 1));
+                "SA", "Software Architecture", LocalDate.of(2023, 9, 1)
+        );
 
-        CreateCourseEditionCommand command = new CreateCourseEditionCommand(
-                new NameWithNumbersAndSpecialChars(requestDTO.programmeName()), new Acronym(requestDTO.programmeAcronym()),
-                new SchoolYearID(requestDTO.schoolYearID()), new Acronym(requestDTO.courseAcronym()),
-                new Name(requestDTO.courseName()), new Date(requestDTO.studyPlanImplementationDate()));
+        CreateCourseEditionCommand command = mock(CreateCourseEditionCommand.class);
 
         when(courseEditionAssembler.toCommand(any())).thenReturn(command);
-        when(createCourseEditionService.createCourseEditionAndReturnDTO(any(), any())).thenReturn(null);
+        when(createCourseEditionService.createCourseEditionForRestApi(any()))
+                .thenThrow(new CourseEditionCreationException("Failed to create CourseEdition.", new RuntimeException()));
+
 
         // Act & Assert
         mockMvc.perform(post("/course-editions")
@@ -227,6 +251,8 @@ public class CourseEditionRestControllerIntegrationTests {
                         .content(objectMapper.writeValueAsString(requestDTO)))
                 .andExpect(status().isBadRequest());
     }
+
+
 
     @Test
     void whenCreateCourseEditionThrowsException_thenReturnsBadRequest() throws Exception {
@@ -242,8 +268,10 @@ public class CourseEditionRestControllerIntegrationTests {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDTO)))
                 .andExpect(status().isBadRequest())
-                .andExpect(content().string("Test Exception"));
+                .andExpect(jsonPath("$.message").value("Test Exception"))
+                .andExpect(jsonPath("$.code").value("ARGUMENT_INVALID"));
     }
+
 
     @Sql(scripts = "/test-data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Test
@@ -280,6 +308,77 @@ public class CourseEditionRestControllerIntegrationTests {
                 .andExpect(jsonPath("$._studentUniqueNumber").value(1102840))
                 .andExpect(jsonPath("$._grade").value(18.0));
                  // .andExpect(jsonPath("$._links").exists()); "para colocar os links"
+    }
+
+    @Test
+    @Sql(scripts = "/test-data-studentgrade-in.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    void whenGradeAStudent_thenStudentGradeIsPersisted() throws Exception {
+        // given
+        String requestJson = """
+        {
+            "studentUniqueNumber": 1102840,
+            "grade": 18,
+            "date": "13-06-2025",
+            "programmeName": "Engenharia Informática",
+            "programmeAcronym": "LEI",
+            "schoolYearId": "11111111-1111-1111-1111-111111111111",
+            "courseAcronym": "PAI",
+            "courseName": "Processos de Apoio à Inovação",
+            "studyPlanImplementationDate": "01-09-2020"
+        }
+        """;
+
+        // when
+        mockMvc.perform(post("/course-editions/studentgrades/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestJson))
+                .andExpect(status().isCreated());
+
+        // then
+        List<StudentGradeDM> allGrades = studentGradeRepository.findAll();
+        assertFalse(allGrades.isEmpty(), "Expected at least one StudentGrade persisted.");
+        StudentGradeDM grade = allGrades.get(0);
+        assertEquals(1102840, grade.getStudentId().getUniqueNumber());
+        assertEquals(18.0, grade.getGrade());
+        assertEquals(LocalDate.of(2025, 6, 13), grade.getDate());
+
+        // DEBUG PRINT
+        System.out.println("=== STUDENT GRADES ===");
+        allGrades.forEach(g -> {
+            System.out.println("- Student: " + g.getStudentId().getUniqueNumber());
+            System.out.println("  Grade: " + g.getGrade());
+            System.out.println("  Date: " + g.getDate());
+        });
+
+    }
+
+    @Test
+    @Sql(scripts = {"/test-data.sql", "/test-data-studentgrade.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    void whenGradeAStudentWithHateoas_thenReturnsCreatedWithLinks() throws Exception {
+        // language=JSON
+        String requestJson = """
+        {
+               "studentUniqueNumber": 1102840,
+               "grade": 18,
+               "date": "13-06-2025",
+               "programmeName": "Engenharia Informática",
+               "programmeAcronym": "LEI",
+               "schoolYearId": "11111111-1111-1111-1111-111111111111",
+               "courseAcronym": "PAI",
+               "courseName": "Processos de Apoio à Inovação",
+               "studyPlanImplementationDate": "01-09-2020"
+        }
+        """;
+
+        mockMvc.perform(post("/course-editions/studentgrades/register/hateoas")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestJson))
+                .andExpect(status().isCreated())
+                .andExpect(content().contentTypeCompatibleWith("application/hal+json"))
+                .andExpect(jsonPath("$._studentUniqueNumber").value(1102840))
+                .andExpect(jsonPath("$._grade").value(18.0))
+                .andExpect(jsonPath("$._links.student-details.href").value(
+                        org.hamcrest.Matchers.containsString("/students/1102840")));
     }
 
 }

@@ -29,7 +29,7 @@ public class CourseEditionIDMapperImpl implements ICourseEditionIDMapper {
     }
 
     @Override
-    public CourseEditionID toDomain(CourseEditionIDDataModel courseEditionIDDataModel) throws Exception {
+    public CourseEditionID toDomain(CourseEditionIDDataModel courseEditionIDDataModel) {
         if (courseEditionIDDataModel == null)
             throw new IllegalArgumentException("CourseEditionIDDataModel cannot be null");
 
@@ -40,7 +40,7 @@ public class CourseEditionIDMapperImpl implements ICourseEditionIDMapper {
     }
 
     @Override
-    public CourseEditionIDDataModel toDataModel(CourseEditionID courseEditionID) throws Exception {
+    public CourseEditionIDDataModel toDataModel(CourseEditionID courseEditionID) {
         if (courseEditionID == null)
             throw new IllegalArgumentException("CourseEditionID cannot be null");
 

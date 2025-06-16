@@ -42,7 +42,7 @@ class CourseInStudyPlanGeneratedIDMapperImplTest {
                 mapper.toDataModel(null)
         );
 
-        assertEquals("CourseInStudyPlanGeneratedID cannot be null", ex.getMessage());
+        assertEquals("Course In Study Plan Generated ID cannot be null.", ex.getMessage());
     }
 
     @Test
@@ -53,6 +53,6 @@ class CourseInStudyPlanGeneratedIDMapperImplTest {
                 mapper.toDomain(null)
         );
 
-        assertEquals("CourseInStudyPlanGeneratedIDDataModel cannot be null", ex.getMessage());
+        assertEquals("Course In Study Plan Generated ID Data Model cannot be null.", ex.getMessage());
     }
 }

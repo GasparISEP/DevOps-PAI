@@ -1,5 +1,6 @@
 package PAI.assembler.courseEdition;
 import PAI.dto.courseEdition.CourseEditionResponseDTO;
+import PAI.dto.courseEdition.CourseEditionResponseIDDTO;
 import PAI.dto.courseEdition.DefineRucResponseDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.hateoas.CollectionModel;
@@ -72,17 +73,17 @@ class CourseEditionHateoasAssemblerTest {
     void toCollectionModel_EachEntityShouldHaveRequiredLinks() {
         // Arrange
         CourseEditionHateoasAssembler assembler = new CourseEditionHateoasAssembler();
-        CourseEditionResponseDTO dto = mock(CourseEditionResponseDTO.class);
+        CourseEditionResponseIDDTO dto = mock(CourseEditionResponseIDDTO.class);
         when(dto.programmeAcronym()).thenReturn("TEST");
         when(dto.schoolYearID()).thenReturn(UUID.randomUUID());
         when(dto.courseAcronym()).thenReturn("COURSE");
         when(dto.studyPlanImplementationDate()).thenReturn(LocalDate.now());
         
-        List<CourseEditionResponseDTO> dtos = Arrays.asList(dto);
+        List<CourseEditionResponseIDDTO> dtos = Arrays.asList(dto);
 
         // Act
-        CollectionModel<EntityModel<CourseEditionResponseDTO>> result = assembler.toCollectionModel(dtos);
-        EntityModel<CourseEditionResponseDTO> entityModel = result.getContent().iterator().next();
+        CollectionModel<EntityModel<CourseEditionResponseIDDTO>> result = assembler.toCollectionModel(dtos);
+        EntityModel<CourseEditionResponseIDDTO> entityModel = result.getContent().iterator().next();
 
         // Assert
         assertTrue(entityModel.hasLink("approval-rate"));
@@ -92,8 +93,8 @@ class CourseEditionHateoasAssemblerTest {
     void toCollectionModel_ShouldReturnCollectionModelWithCorrectNumberOfEntities() {
         // Arrange
         CourseEditionHateoasAssembler assembler = new CourseEditionHateoasAssembler();
-        CourseEditionResponseDTO dto1 = mock(CourseEditionResponseDTO.class);
-        CourseEditionResponseDTO dto2 = mock(CourseEditionResponseDTO.class);
+        CourseEditionResponseIDDTO dto1 = mock(CourseEditionResponseIDDTO.class);
+        CourseEditionResponseIDDTO dto2 = mock(CourseEditionResponseIDDTO.class);
         
         when(dto1.programmeAcronym()).thenReturn("TEST");
         when(dto1.schoolYearID()).thenReturn(UUID.randomUUID());
@@ -105,10 +106,10 @@ class CourseEditionHateoasAssemblerTest {
         when(dto2.courseAcronym()).thenReturn("COURSE");
         when(dto2.studyPlanImplementationDate()).thenReturn(LocalDate.now());
         
-        List<CourseEditionResponseDTO> dtos = Arrays.asList(dto1, dto2);
+        List<CourseEditionResponseIDDTO> dtos = Arrays.asList(dto1, dto2);
         
         // Act
-        CollectionModel<EntityModel<CourseEditionResponseDTO>> result = assembler.toCollectionModel(dtos);
+        CollectionModel<EntityModel<CourseEditionResponseIDDTO>> result = assembler.toCollectionModel(dtos);
         
         // Assert
         assertEquals(2, result.getContent().size());
@@ -118,18 +119,18 @@ class CourseEditionHateoasAssemblerTest {
     void toCollectionModel_ShouldReturnCollectionModelWithCorrectHref() {
         // Arrange
         CourseEditionHateoasAssembler assembler = new CourseEditionHateoasAssembler();
-        CourseEditionResponseDTO dto = mock(CourseEditionResponseDTO.class);
+        CourseEditionResponseIDDTO dto = mock(CourseEditionResponseIDDTO.class);
         
         when(dto.programmeAcronym()).thenReturn("TEST");
         when(dto.schoolYearID()).thenReturn(UUID.randomUUID());
         when(dto.courseAcronym()).thenReturn("COURSE");
         when(dto.studyPlanImplementationDate()).thenReturn(LocalDate.now());
         
-        List<CourseEditionResponseDTO> dtos = Arrays.asList(dto);
+        List<CourseEditionResponseIDDTO> dtos = Arrays.asList(dto);
         
         // Act
-        CollectionModel<EntityModel<CourseEditionResponseDTO>> result = assembler.toCollectionModel(dtos);
-        EntityModel<CourseEditionResponseDTO> entityModel = result.getContent().iterator().next();
+        CollectionModel<EntityModel<CourseEditionResponseIDDTO>> result = assembler.toCollectionModel(dtos);
+        EntityModel<CourseEditionResponseIDDTO> entityModel = result.getContent().iterator().next();
         
         // Assert
         assertTrue(entityModel.getLink("approval-rate").orElseThrow().getHref().contains("/approval-rate"));
@@ -139,8 +140,8 @@ class CourseEditionHateoasAssemblerTest {
     void toCollectionModel_ShouldReturnCollectionModelNotNull() {
         // Arrange
         CourseEditionHateoasAssembler assembler = new CourseEditionHateoasAssembler();
-        CourseEditionResponseDTO dto1 = mock(CourseEditionResponseDTO.class);
-        CourseEditionResponseDTO dto2 = mock(CourseEditionResponseDTO.class);
+        CourseEditionResponseIDDTO dto1 = mock(CourseEditionResponseIDDTO.class);
+        CourseEditionResponseIDDTO dto2 = mock(CourseEditionResponseIDDTO.class);
         
         when(dto1.programmeAcronym()).thenReturn("TEST");
         when(dto1.schoolYearID()).thenReturn(UUID.randomUUID());
@@ -152,12 +153,26 @@ class CourseEditionHateoasAssemblerTest {
         when(dto2.courseAcronym()).thenReturn("COURSE");
         when(dto2.studyPlanImplementationDate()).thenReturn(LocalDate.now());
         
-        List<CourseEditionResponseDTO> dtos = Arrays.asList(dto1, dto2);
+        List<CourseEditionResponseIDDTO> dtos = Arrays.asList(dto1, dto2);
         
         // Act
-        CollectionModel<EntityModel<CourseEditionResponseDTO>> result = assembler.toCollectionModel(dtos);
+        CollectionModel<EntityModel<CourseEditionResponseIDDTO>> result = assembler.toCollectionModel(dtos);
         
         // Assert
         assertNotNull(result);
     }
+    @Test
+    void toModel_shouldThrowRuntimeException_whenExceptionOccurs() {
+        CourseEditionHateoasAssembler assembler = new CourseEditionHateoasAssembler();
+
+        DefineRucResponseDTO dto = mock(DefineRucResponseDTO.class);
+        when(dto.teacherID()).thenThrow(new RuntimeException("Forced exception"));
+
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            assembler.toModel(dto);
+        });
+
+        assertEquals("Forced exception", exception.getCause().getMessage());
+    }
+
 }

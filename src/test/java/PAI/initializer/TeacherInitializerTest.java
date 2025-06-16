@@ -1,52 +1,56 @@
 package PAI.initializer;
 
+import PAI.VOs.Name;
+import PAI.VOs.TeacherCategoryID;
 import PAI.controller.US13_RegisterTeacherAndRelevantDataController;
+import PAI.domain.repositoryInterfaces.teacherCategory.ITeacherCategoryRepository;
+import PAI.domain.teacherCategory.TeacherCategory;
+import PAI.persistence.springdata.teacherCategory.TeacherCategoryRepositorySpringDataImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
+import java.util.Optional;
+import java.util.UUID;
 
 import static org.mockito.Mockito.*;
 
 class TeacherInitializerTest {
 
-    @Mock
-    private US13_RegisterTeacherAndRelevantDataController controller;
-
-    @InjectMocks
-    private TeacherInitializer initializer;
+    private String _csvPath;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+
+        _csvPath = "src/main/resources/Teacher_Data.csv";
     }
 
     @Test
-    void shouldInitializeAndRegisterTeachersFromCsv() throws Exception {
+    void shouldExecuteCommandLineRunnerAndLoadTeachers() throws Exception {
+        //arrange
+        US13_RegisterTeacherAndRelevantDataController controller = mock(US13_RegisterTeacherAndRelevantDataController.class);
+        TeacherCategoryRepositorySpringDataImpl repo = mock(TeacherCategoryRepositorySpringDataImpl.class);
+        TeacherCategory category = mock(TeacherCategory.class);
+        TeacherCategoryID categoryID = mock(TeacherCategoryID.class);
+
+        UUID uuid = UUID.fromString("4b68bc54-1a5f-4d90-af6f-43d65e3a166d");
+        when(categoryID.toString()).thenReturn(uuid.toString());
+        when(category.identity()).thenReturn(categoryID);
+        when(repo.findByName(new Name("Professor Auxiliar"))).thenReturn(Optional.of(category));
+
+
+        TeacherInitializer initializer = new TeacherInitializer();
+
         // act
-        initializer.loadDataRegisterTeacher(controller).run();
+        initializer.loadTeachers(controller, repo, _csvPath);
 
         // assert
         verify(controller).registerTeacher(
-                "AAA", "AAA", "AAA@isep.ipp.pt", "112233445", "911234569",
-                "Bachelor in Astronomy", "Rua Numero 1", "4000-100",
-                "Porto", "Portugal", "AAA", "01-02-2022",
-                "c201a88d-e139-4aea-80f7-5d342c7fac2a", 25, "+351"
-        );
-
-        verify(controller).registerTeacher(
-                "AAB", "AAB", "AAB@isep.ipp.pt", "112233446", "911234570",
-                "Master in Astronomy", "Praceta Numero 2", "4000-101",
-                "Porto", "Portugal", "AAA", "02-02-2022",
-                "bc4640e6-b793-4db3-9a5f-baa5006453a1", 50, "+351"
-        );
-
-        verify(controller).registerTeacher(
-                "AAC", "AAC", "AAC@isep.ipp.pt", "112233447", "911234571",
-                "PhD in Astronomy", "Rua Numero 3", "4000-102",
-                "Porto", "Portugal", "AAA", "03-02-2022",
-                "aeb0be5c-1b9f-4f51-ace3-35a572a52c2e", 100, "+351"
+                eq("AAA"), eq("Alexandra Castro"), eq("AAA@isep.ipp.pt"),
+                eq("112233445"), eq("911234569"), eq("Bachelor"), eq("Rua 1"),
+                eq("4000-100"), eq("Porto"), eq("Portugal"), eq("AAU"), eq("01-02-2022"),
+                eq(uuid.toString()), eq(25), eq("+351")
         );
     }
 }

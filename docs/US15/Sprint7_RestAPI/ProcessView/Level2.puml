@@ -1,0 +1,76 @@
+@startuml
+
+title US15: As an HRC, I want to update the teacher's working percentage in the system \n (Process View - Level 2 - Containers)
+
+skinparam componentStyle component
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+autonumber
+
+actor HRC as admin
+participant ":Frontend" as frontend <<Container>>
+participant ":Backend" as backend <<Container>>
+participant ":Database" as db <<Container>>
+
+
+admin -> frontend: I want to update teacher's working percentage!
+activate frontend #E1F5FE
+
+frontend -> backend: **GET** /teachers
+activate backend #E1F5FE
+
+backend -> db: **SELECT** * FROM teacher
+activate db #E1F5FE
+db --> backend: List<TeacherDataModel>
+deactivate db
+
+backend --> frontend: 200 \n + body {List<TeacherResponseDTO> + hypermedia}
+deactivate backend
+
+
+frontend --> admin: Make the form available!
+deactivate frontend
+
+admin -> frontend: Form submitted!
+activate frontend #E1F5FE
+
+frontend --> admin: Sure?
+deactivate frontend
+
+admin -> frontend: Yes!
+activate frontend #E1F5FE
+
+note over backend #E0E0E0
+  body:
+    {"teacherId": "AAA",
+     "workingPercentage": 70,
+     "date": "2025-06-01"
+    }
+end note
+
+frontend -> backend: **POST** /teachers/{teacherId}/careerprogressions/working-percentage + \n body {...}
+activate backend #E1F5FE
+
+note over db #E0E0E0
+  Values:
+    {"id": "b6a7f5d2-8e41-4f29-9a2e-3d3a7f1c9b12",
+     "teacherId": "AAA",
+     "teacherCategoryID": 70,
+     "date": "2025-06-01"
+    }
+end note
+
+backend -> db: **INSERT INTO** Teacher_Career_Progression \n (id, teacherId, workingPercentage, date) VALUES (...)
+activate db #E1F5FE
+
+db --> backend: teacherCareerProgressionDataModel
+deactivate db
+
+backend --> frontend: 201 \n + body {updateWorkingPercentageResponseDTO + hypermedia}
+deactivate backend
+
+<-- frontend : Ok!
+deactivate frontend
+
+@enduml

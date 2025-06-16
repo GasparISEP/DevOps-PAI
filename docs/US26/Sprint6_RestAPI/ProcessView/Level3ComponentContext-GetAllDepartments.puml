@@ -1,0 +1,26 @@
+@startuml
+title (US26) Process View Level 3 - getAllDepartments()
+
+autonumber
+
+participant "<<Component>>\n:Router" as RT #lightpink
+participant "<<Component>>\n:DepartmentRestController" as C #lightgreen
+participant "<<Component>>\n:DepartmentRegistrationService" as S #lightblue
+participant "<<Component>>\n:DepartmentRepository" as R #lightyellow
+participant "<<Component>>\n:Drivers" as D #salmon
+
+[o-> RT ++: **GET** /departments
+RT -> C ++: getAllDepartments()
+C -> S ++: getAllDepartments()
+S -> R ++: findAll()
+R -> D ++: findAll()
+D ->o] : SELECT * FROM Departments
+D <--o] : List<Department>
+D --> R --: List<Department>
+R --> S --: List<Department>
+S --> C --: List<Department>
+C -> C: convert to DTOs and wrap in HATEOAS model
+C --> RT --: HTTP 200 OK + CollectionModel<DepartmentWithDirectorDTO>
+[o<-- RT --: HTTP 200 OK + CollectionModel<DepartmentWithDirectorDTO>
+
+@enduml

@@ -1,0 +1,76 @@
+@startuml
+title US30: As an ASC, I want to add a course to a programme using a Web UI\n (Process View - Level 1: System)
+skinparam {
+  ActivityPadding 2
+  ActivityMargin 2
+  BoxPadding 2
+}
+skinparam sequence {
+    LifeLineBorderColor Grey
+    LifeLineBackgroundColor #E1F5FE
+}
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+autonumber
+
+actor ASC as admin #honeydew
+participant "<<System>>\n:SystemPAI" as System #honeydew
+
+admin -> System: I want to add a Course to a Programme!
+activate System
+
+group Collect Course Details
+System --> admin: Please provide **Programme**
+deactivate System #teal
+
+admin -> System: Programme submitted
+activate System
+
+System --> admin: Please provide **Course**
+deactivate System
+
+admin -> System: Course submitted
+activate System
+
+System --> admin: Please provide **Curricular Year**
+deactivate System
+
+admin -> System: Curricular Year submitted
+activate System
+
+System --> admin: Please provide **Semester**
+deactivate System
+
+admin -> System: Semester submitted
+activate System
+
+System --> admin: Please provide **Course Duration in Curricular Year**
+deactivate System
+
+admin -> System: Duration submitted
+activate System
+
+System --> admin: Please provide **Quantity of ECTS Credits**
+deactivate System
+
+admin -> System: Credits submitted
+activate System
+end
+
+System --> admin: Confirm Course addition?
+deactivate System
+
+admin -> System: Confirm
+activate System
+
+System --> admin: Course successfully added to the Programme!
+deactivate System
+
+note left admin
+ASC =
+Academic
+Services
+Collaborator
+end note
+@enduml

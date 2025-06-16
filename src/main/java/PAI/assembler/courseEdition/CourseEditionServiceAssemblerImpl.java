@@ -6,19 +6,22 @@ import PAI.VOs.ProgrammeID;
 import PAI.VOs.SchoolYearID;
 import PAI.domain.courseEdition.CourseEdition;
 import PAI.dto.courseEdition.CourseEditionResponseDTO;
+import PAI.dto.courseEdition.CourseEditionServiceResponseDTO;
 import org.springframework.stereotype.Component;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.UUID;
 
 @Component
 public class CourseEditionServiceAssemblerImpl implements ICourseEditionServiceAssembler {
 
     @Override
-    public CourseEditionResponseDTO toResponseDTO(CourseEdition courseEdition) {
+    public CourseEditionServiceResponseDTO toServiceResponseDTO(CourseEdition courseEdition) {
         if (courseEdition == null) {
             throw new IllegalArgumentException("CourseEdition cannot be null");
         }
+        UUID generatedId = courseEdition.getCourseEditionGeneratedID().getCourseEditionGeneratedID();
         CourseInStudyPlanID cspID = courseEdition.getCourseInStudyPlanID();
         ProgrammeEditionID peID = courseEdition.getProgrammeEditionID();
 
@@ -35,12 +38,10 @@ public class CourseEditionServiceAssemblerImpl implements ICourseEditionServiceA
                 StandardCharsets.UTF_8
         );
 
-        System.out.println("formattedID: " + formattedID);
-
-        return new CourseEditionResponseDTO(
+        return new CourseEditionServiceResponseDTO(
+                generatedId,
                 programmeID.getProgrammeAcronym(),
                 schoolYearID.getSchoolYearID(),
-
                 cspID.getCourseID().getCourseAcronymValue(),
                 cspID.getCourseID().getCourseNameValue(),
                 cspID.getStudyPlanID().getLocalDate(),

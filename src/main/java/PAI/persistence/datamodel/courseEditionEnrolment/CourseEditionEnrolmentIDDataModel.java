@@ -62,7 +62,7 @@ public class CourseEditionEnrolmentIDDataModel implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CourseEditionEnrolmentIDDataModel that = (CourseEditionEnrolmentIDDataModel) o;
-        return studentID == that.studentID && Objects.equals(courseEditionID, that.courseEditionID);
+        return Objects.equals(this.studentID, that.studentID) && Objects.equals(this.courseEditionID, that.courseEditionID);
     }
 
     @Override

@@ -19,15 +19,19 @@ class ProgrammeEnrolmentInitializerTest {
     @InjectMocks
     private ProgrammeEnrolmentInitializer initializer;
 
+    private String _csvPath;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+
+        _csvPath = "src/main/resources/ProgrammeEnrolment_Data.csv";
     }
 
     @Test
     void shouldInitializeAndEnrolStudentsFromCsv() throws Exception {
         // Act: run the CommandLineRunner returned by loadDataProgrammeEnrolment
-        initializer.loadDataProgrammeEnrolment(controller).run();
+        initializer.loadProgrammeEnrolment(controller, _csvPath);
 
         // Assert: verify the controller was called with the expected data from the CSV
 

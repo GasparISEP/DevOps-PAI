@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+import {MemoryRouter, Route} from 'react-router-dom';
 import AppRoutes from '../AppRoutes'; // novo ficheiro
 
 describe('Rotas da aplicação', () => {
@@ -61,5 +61,22 @@ describe('Rotas da aplicação', () => {
         expect(
             screen.getByText(/register a course/i)
         ).toBeInTheDocument();
+    });
+    test('Renderiza a página de unidades curriculares no plano de estudo', () => {
+        render(
+            <MemoryRouter initialEntries={['/course-editions/define-ruc']}>
+                <AppRoutes />
+            </MemoryRouter>
+        );
+
+        // Check for heading text
+        expect(screen.getByText(/define a ruc/i)).toBeInTheDocument();
+
+        // Check for buttons
+        expect(screen.getByRole('button', { name: /register/i })).toBeInTheDocument();
+        expect(screen.getByRole('button', { name: /clear/i })).toBeInTheDocument();
+
+        // Check for link text
+        expect(screen.getByText(/back to home page/i)).toBeInTheDocument();
     });
 });

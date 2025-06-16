@@ -2,7 +2,10 @@ package PAI.assembler.courseEdition;
 
 import PAI.domain.courseEdition.CourseEdition;
 import PAI.dto.courseEdition.CourseEditionResponseDTO;
+import PAI.dto.courseEdition.CourseEditionServiceResponseDTO;
 
 public interface ICourseEditionServiceAssembler {
-    CourseEditionResponseDTO toResponseDTO(CourseEdition courseEdition);
+
+    CourseEditionServiceResponseDTO toServiceResponseDTO(CourseEdition courseEdition);
+
 }

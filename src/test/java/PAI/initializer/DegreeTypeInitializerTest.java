@@ -4,59 +4,126 @@ import PAI.VOs.DegreeTypeID;
 import PAI.VOs.MaxEcts;
 import PAI.VOs.Name;
 import PAI.controller.US10_IWantToConfigureDegreeTypesLevelsController;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.*;
-import org.mockito.junit.MockitoJUnitRunner;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.util.UUID;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-@RunWith(MockitoJUnitRunner.class)
-public class DegreeTypeInitializerTest {
+class DegreeTypeInitializerTest {
 
-    @Mock
-    private US10_IWantToConfigureDegreeTypesLevelsController controller;
+    private DegreeTypeInitializer _initializer;
+    private US10_IWantToConfigureDegreeTypesLevelsController _controllerDouble;
+    private Path tempFile;
 
-    @InjectMocks
-    private DegreeTypeInitializer initializer;
+    @BeforeEach
+    void setup() throws Exception {
+        // Arrange
+        _initializer = new DegreeTypeInitializer();
+        _controllerDouble = mock(US10_IWantToConfigureDegreeTypesLevelsController.class);
+        tempFile = Files.createTempFile("degree-types", ".csv");
+    }
 
-    private final String csvContent =
-            "MaxEcts;DegreeTypeName;DegreeTypeID\n" +
-                    "180;Bachelor;" + UUID.randomUUID() + "\n" +
-                    "120;Master;" + UUID.randomUUID() + "\n" +
-                    "240;Integrated Master;" + UUID.randomUUID() + "\n" +
-                    "240;PhD;" + UUID.randomUUID() + "\n";
-
-    @Before
-    public void setUp() {
-        MockitoAnnotations.openMocks(this);
+    @AfterEach
+    void cleanup() throws Exception {
+        Files.deleteIfExists(tempFile);
     }
 
     @Test
-    public void testInit_readsAllEntriesAndRegistersThem() throws Exception {
-        InputStream csvStream = new ByteArrayInputStream(csvContent.getBytes());
-        DegreeTypeInitializer spyInitializer = Mockito.spy(initializer);
+    void shouldRegisterDegreeTypeWithCorrectArgumentsWhenLoadingValidCSV() throws Exception {
+        // Arrange
+        String csvContent = "ECTS;Name;DegreeTypeID\n" +
+                            "180;Computer Science;CS-01\n" +
+                            "120;Mathematics;MATH-01\n";
+        Files.write(tempFile, csvContent.getBytes());
 
-        doReturn(csvStream).when(spyInitializer).getClassResourceAsStream(anyString());
+        ArgumentCaptor<DegreeTypeID> idCaptor = ArgumentCaptor.forClass(DegreeTypeID.class);
+        ArgumentCaptor<Name> nameCaptor = ArgumentCaptor.forClass(Name.class);
+        ArgumentCaptor<MaxEcts> ectsCaptor = ArgumentCaptor.forClass(MaxEcts.class);
 
-        spyInitializer.init();
+        // Act
+        _initializer.loadDegreeType(_controllerDouble, tempFile.toString());
 
-        // All 4 entries should be registered
-        verify(controller, times(4)).registerDegreeTypeWithUUID(
-                any(DegreeTypeID.class), any(Name.class), any(MaxEcts.class));
+        // Assert
+        verify(_controllerDouble, times(2))
+                .registerDegreeTypeWithUUID(idCaptor.capture(), nameCaptor.capture(), ectsCaptor.capture());
 
-        // You can verify specific names if needed:
-        verify(controller).registerDegreeTypeWithUUID(any(), argThat(name -> name.getName().equals("Bachelor")), any());
-        verify(controller).registerDegreeTypeWithUUID(any(), argThat(name -> name.getName().equals("Master")), any());
-        verify(controller).registerDegreeTypeWithUUID(any(), argThat(name -> name.getName().equals("Integrated Master")), any());
-        verify(controller).registerDegreeTypeWithUUID(any(), argThat(name -> name.getName().equals("PhD")), any());
+        Assertions.assertTrue(
+    idCaptor.getAllValues().get(0).getDTID().equals("CS-01") &&
+            nameCaptor.getAllValues().get(0).getName().equals("Computer Science") &&
+            ectsCaptor.getAllValues().get(0).getMaxEcts() == 180
+        );
+    }
 
-        verifyNoMoreInteractions(controller);
+    @Test
+    void shouldRegisterSecondDegreeTypeWithCorrectArgumentsWhenLoadingValidCSV() throws Exception {
+        // Arrange
+        String csvContent = "ECTS;Name;DegreeTypeID\n" +
+                            "180;Computer Science;CS-01\n" +
+                            "120;Mathematics;MATH-01\n";
+        Files.write(tempFile, csvContent.getBytes());
+
+        ArgumentCaptor<DegreeTypeID> idCaptor = ArgumentCaptor.forClass(DegreeTypeID.class);
+        ArgumentCaptor<Name> nameCaptor = ArgumentCaptor.forClass(Name.class);
+        ArgumentCaptor<MaxEcts> ectsCaptor = ArgumentCaptor.forClass(MaxEcts.class);
+
+        // Act
+        _initializer.loadDegreeType(_controllerDouble, tempFile.toString());
+
+        // Assert
+        verify(_controllerDouble, times(2))
+                .registerDegreeTypeWithUUID(idCaptor.capture(), nameCaptor.capture(), ectsCaptor.capture());
+
+        Assertions.assertTrue(
+            idCaptor.getAllValues().get(1).getDTID().equals("MATH-01") &&
+            nameCaptor.getAllValues().get(1).getName().equals("Mathematics") &&
+            ectsCaptor.getAllValues().get(1).getMaxEcts() == 120
+        );
+    }
+
+    @Test
+    void shouldSkipInvalidLinesWithLessThanThreeParts() throws Exception {
+        // Arrange
+        String csvContent = "ECTS;Name;DegreeTypeID\n" +
+                            "180;Computer Science;CS-01\n" +
+                            "InvalidLineWithoutEnoughParts\n" +
+                            "120;Mathematics;MATH-01\n";
+        Files.write(tempFile, csvContent.getBytes());
+
+        // Act
+        _initializer.loadDegreeType(_controllerDouble, tempFile.toString());
+
+        // Assert
+        verify(_controllerDouble, times(2)).registerDegreeTypeWithUUID(any(), any(), any());
+    }
+
+    @Test
+    void shouldHandleExceptionWhileProcessingLineAndContinue() throws Exception {
+        // Arrange
+        String csvContent = "ECTS;Name;DegreeTypeID\n" +
+                            "notANumber;Computer Science;CS-01\n" +
+                            "120;Mathematics;MATH-01\n";
+        Files.write(tempFile, csvContent.getBytes());
+
+        // Act
+        _initializer.loadDegreeType(_controllerDouble, tempFile.toString());
+
+        // Assert
+        verify(_controllerDouble, times(1)).registerDegreeTypeWithUUID(any(), any(), any());
+    }
+
+    @Test
+    void shouldHandleExceptionWhenReadingFile() {
+        // Arrange
+
+        // Act & Assert
+        Assertions.assertDoesNotThrow(() -> {
+            _initializer.loadDegreeType(_controllerDouble, "non-existent-file.csv");
+        });
     }
 }

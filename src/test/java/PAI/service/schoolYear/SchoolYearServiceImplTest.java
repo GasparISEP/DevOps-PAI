@@ -11,12 +11,14 @@ import PAI.domain.schoolYear.SchoolYear;
 import PAI.domain.schoolYear.SchoolYearFactoryImpl;
 import PAI.dto.schoolYear.CurrentSchoolYearDTO;
 import PAI.dto.schoolYear.SchoolYearDTO;
+import PAI.dto.schoolYear.SchoolYearIDDescriptionResponseDTO;
 import PAI.persistence.mem.schoolYear.SchoolYearRepositoryImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -183,6 +185,151 @@ class SchoolYearServiceImplTest {
 
         // Assert
         assertThrows(Exception.class, () -> service.addSchoolYear(descriptionInfo,startDateInfo,null));
+    }
+
+    @Test
+    void ShouldNotAddSchoolYearDMWhenSchoolYearIDIsNull() {
+        //arrange
+        ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
+        ISchoolYearFactory schoolYearFactory = mock(ISchoolYearFactory.class);
+        ISchoolYearAssembler schoolYearMapperDTO = mock(SchoolYearAssembler.class);
+        SchoolYearServiceImpl service = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory,schoolYearMapperDTO);
+
+        Description descriptionInfo = mock(Description.class);
+        Date startDateInfo = mock(Date.class);
+        Date endDate = mock(Date.class);
+
+        //act
+        Exception exception = assertThrows(Exception.class, () -> service.addSchoolYearDM(null, descriptionInfo, startDateInfo, endDate));
+
+        //assert
+        assertEquals("Not possible to create a school year", exception.getMessage());
+    }
+
+    @Test
+    void ShouldNotAddSchoolYearDMWhenDescriptionIsNull() {
+        //arrange
+        ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
+        ISchoolYearFactory schoolYearFactory = mock(ISchoolYearFactory.class);
+        ISchoolYearAssembler schoolYearMapperDTO = mock(SchoolYearAssembler.class);
+        SchoolYearServiceImpl service = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory,schoolYearMapperDTO);
+
+        UUID schoolYearID = mock(UUID.class);
+        Date startDateInfo = mock(Date.class);
+        Date endDate = mock(Date.class);
+
+        //act
+        Exception exception = assertThrows(Exception.class, () -> service.addSchoolYearDM(schoolYearID, null, startDateInfo, endDate));
+
+        //assert
+        assertEquals("Not possible to create a school year", exception.getMessage());
+    }
+
+    @Test
+    void ShouldNotAddSchoolYearDMWhenStartDateIsNull() {
+        //arrange
+        ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
+        ISchoolYearFactory schoolYearFactory = mock(ISchoolYearFactory.class);
+        ISchoolYearAssembler schoolYearMapperDTO = mock(SchoolYearAssembler.class);
+        SchoolYearServiceImpl service = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory,schoolYearMapperDTO);
+
+        UUID schoolYearID = mock(UUID.class);
+        Description descriptionInfo = mock(Description.class);
+        Date endDate = mock(Date.class);
+
+        //act
+        Exception exception = assertThrows(Exception.class, () -> service.addSchoolYearDM(schoolYearID, descriptionInfo, null, endDate));
+
+        //assert
+        assertEquals("Not possible to create a school year", exception.getMessage());
+    }
+
+    @Test
+    void ShouldNotAddSchoolYearDMWhenEndDateIsNull() {
+        //arrange
+        ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
+        ISchoolYearFactory schoolYearFactory = mock(ISchoolYearFactory.class);
+        ISchoolYearAssembler schoolYearMapperDTO = mock(SchoolYearAssembler.class);
+        SchoolYearServiceImpl service = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory,schoolYearMapperDTO);
+
+        UUID schoolYearID = mock(UUID.class);
+        Description descriptionInfo = mock(Description.class);
+        Date startDateInfo = mock(Date.class);
+
+        //act
+        Exception exception = assertThrows(Exception.class, () -> service.addSchoolYearDM(schoolYearID, descriptionInfo, startDateInfo, null));
+
+        //assert
+        assertEquals("Not possible to create a school year", exception.getMessage());
+    }
+
+    @Test
+    void addSchoolYearDMShouldThrowExceptionWhenSchoolYearAlreadyExists() {
+        //arrange
+        ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
+        ISchoolYearFactory schoolYearFactory = mock(ISchoolYearFactory.class);
+        ISchoolYearAssembler schoolYearMapperDTO = mock(SchoolYearAssembler.class);
+
+        SchoolYearServiceImpl service = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory,schoolYearMapperDTO);
+
+        SchoolYear existingSchoolYear = mock(SchoolYear.class);
+        UUID schoolYearID = mock(UUID.class);
+        Description descriptionInfo = mock(Description.class);
+        Date startDateInfo = mock(Date.class);
+        Date endDateInfo = mock(Date.class);
+
+        when(schoolYearFactory.recreateSchoolYear(
+                any(UUID.class),
+                any(Description.class),
+                any(Date.class),
+                any(Date.class)
+        )).thenReturn(existingSchoolYear);
+
+        when(schoolYearRepository.schoolYearExists(any())).thenReturn(true);
+
+        //act
+        Exception exception = assertThrows(Exception.class, () -> {
+            service.addSchoolYearDM(schoolYearID, descriptionInfo, startDateInfo, endDateInfo);
+        });
+
+        //assert
+        assertEquals("School year already exists.", exception.getMessage());
+    }
+
+    @Test
+    void addSchoolYearDMShouldSaveSuccessfullyWhenSchoolYearDoesNotExist() throws Exception {
+        //arrange
+        ISchoolYearRepository schoolYearRepository = mock(ISchoolYearRepository.class);
+        ISchoolYearFactory schoolYearFactory = mock(ISchoolYearFactory.class);
+        ISchoolYearAssembler schoolYearMapperDTO = mock(SchoolYearAssembler.class);
+
+        SchoolYearServiceImpl service = new SchoolYearServiceImpl(schoolYearRepository, schoolYearFactory,schoolYearMapperDTO);
+
+        SchoolYearDTO newSchoolYear = mock(SchoolYearDTO.class);
+        UUID schoolYearID = mock(UUID.class);
+        Description descriptionInfo = mock(Description.class);
+        Date startDateInfo = mock(Date.class);
+        Date endDateInfo = mock(Date.class);
+
+        SchoolYear schoolYear = mock(SchoolYear.class);
+
+        when(schoolYearFactory.recreateSchoolYear(
+                any(UUID.class),
+                any(Description.class),
+                any(Date.class),
+                any(Date.class)
+        )).thenReturn(schoolYear);
+
+        when(schoolYearRepository.schoolYearExists(any())).thenReturn(false);
+        when(schoolYearRepository.save(schoolYear)).thenReturn(schoolYear);
+
+        when(schoolYearMapperDTO.toDTO(schoolYear)).thenReturn(newSchoolYear);
+
+        //act
+        SchoolYear result = service.addSchoolYearDM(schoolYearID, descriptionInfo, startDateInfo, endDateInfo);
+
+        // Assert
+        assertNotNull(result);
     }
 
     // Test case for adding multiple different school years successfully
@@ -486,4 +633,26 @@ class SchoolYearServiceImplTest {
         assertTrue(opt1.isPresent());
     }
 
+    @Test
+    void getAllSchoolYearsIDDescriptions_returnsCorrectDTOs() {
+        ISchoolYearRepository repo = mock(ISchoolYearRepository.class);
+        ISchoolYearFactory schoolYearFactory = mock(ISchoolYearFactory.class);
+        ISchoolYearAssembler schoolYearAssembler = mock(ISchoolYearAssembler.class);
+        SchoolYearServiceImpl service = new SchoolYearServiceImpl(repo, schoolYearFactory, schoolYearAssembler);
+
+        SchoolYear schoolYear = mock(SchoolYear.class);
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+        when(schoolYear.identity()).thenReturn(schoolYearID);
+        when(schoolYearID.toString()).thenReturn("id1");
+        Description description = mock(Description.class);
+        when(schoolYear.getDescription()).thenReturn(description);
+        when(description.getDescription()).thenReturn("2015");
+        when(repo.findAll()).thenReturn(List.of(schoolYear));
+
+        List<SchoolYearIDDescriptionResponseDTO> result = service.getAllSchoolYearsIDDescriptions();
+
+        assertEquals(1, result.size());
+        assertEquals("id1", result.get(0).id());
+        assertEquals("2015", result.get(0).description());
+    }
 }

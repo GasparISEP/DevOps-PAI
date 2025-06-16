@@ -15,8 +15,8 @@ import PAI.exception.BusinessRuleViolationException;
 import PAI.exception.NotFoundException;
 import PAI.service.degreeType.DegreeTypeRegistrationServiceImpl;
 import PAI.service.degreeType.IDegreeTypeRegistrationService;
-import org.apache.commons.lang3.stream.Streams;
-import org.junit.jupiter.api.BeforeEach;
+import PAI.service.department.IDepartmentService;
+import PAI.service.teacher.ITeacherService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -37,8 +37,10 @@ class ProgrammeServiceImplTest {
     private IProgrammeFactory _programmeFactoryDouble;
     private IProgrammeRepository _programmeRepositoryDouble;
     private IProgrammeAssembler _programmeAssemblerDouble;
+    private IDegreeTypeRegistrationService _degreeTypeService;
+    private IDepartmentService _departmentServiceDouble;
+    private ITeacherService _teacherServiceDouble;
     private NameWithNumbersAndSpecialChars _nameDouble;
-    private NameWithNumbersAndSpecialChars _name2Double;
     private Acronym _acronymDouble;
     private Acronym _acronym2Double;
     private MaxEcts _maxOfEctsDouble;
@@ -52,15 +54,15 @@ class ProgrammeServiceImplTest {
     private ProgrammeID _programmeIDDouble;
     private ProgrammeID _programme2IDDouble;
     private ProgrammeVOsDTO _programmeVOsDTODouble;
-    private IDegreeTypeRegistrationService _degreeTypeService;
 
     private void createDoubles() {
         _programmeFactoryDouble = mock(IProgrammeFactory.class);
         _programmeRepositoryDouble = mock(IProgrammeRepository.class);
         _programmeAssemblerDouble = mock(IProgrammeAssembler.class);
+        _departmentServiceDouble = mock(IDepartmentService.class);
+        _teacherServiceDouble = mock(ITeacherService.class);
         _degreeTypeService = mock(DegreeTypeRegistrationServiceImpl.class);
         _nameDouble = mock(NameWithNumbersAndSpecialChars.class);
-        _name2Double = mock(NameWithNumbersAndSpecialChars.class);
         _acronymDouble = mock(Acronym.class);
         _acronym2Double = mock(Acronym.class);
         _maxOfEctsDouble = mock(MaxEcts.class);
@@ -82,28 +84,30 @@ class ProgrammeServiceImplTest {
         createDoubles();
 
         //Act
-        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService);
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService, _departmentServiceDouble, _teacherServiceDouble);
 
         //Assert
         assertNotNull(service);
     }
 
     static Stream<Arguments> parametersToCreateProgrammeServiceAreInvalid() {
-        return Streams.of(
-                Arguments.of(null, mock(IProgrammeRepository.class), mock(IProgrammeAssembler.class), mock(DegreeTypeRegistrationServiceImpl.class), "Programme Factory cannot be null"),
-                Arguments.of(mock(IProgrammeFactory.class), null, mock(IProgrammeAssembler.class), mock(DegreeTypeRegistrationServiceImpl.class), "Programme Repository cannot be null"),
-                Arguments.of(mock(IProgrammeFactory.class), mock(IProgrammeRepository.class), null, mock(DegreeTypeRegistrationServiceImpl.class), "Programme Assembler cannot be null"),
-                Arguments.of(mock(IProgrammeFactory.class), mock(IProgrammeRepository.class), mock(IProgrammeAssembler.class), null, "Degree Type Registration Service cannot be null")
+        return Stream.of(
+                Arguments.of(null, mock(IProgrammeRepository.class), mock(IProgrammeAssembler.class), mock(DegreeTypeRegistrationServiceImpl.class), mock(IDepartmentService.class), mock(ITeacherService.class), "Programme Factory cannot be null"),
+                Arguments.of(mock(IProgrammeFactory.class), null, mock(IProgrammeAssembler.class), mock(DegreeTypeRegistrationServiceImpl.class), mock(IDepartmentService.class), mock(ITeacherService.class), "Programme Repository cannot be null"),
+                Arguments.of(mock(IProgrammeFactory.class), mock(IProgrammeRepository.class), null, mock(DegreeTypeRegistrationServiceImpl.class), mock(IDepartmentService.class), mock(ITeacherService.class), "Programme Assembler cannot be null"),
+                Arguments.of(mock(IProgrammeFactory.class), mock(IProgrammeRepository.class), mock(IProgrammeAssembler.class), null, mock(IDepartmentService.class), mock(ITeacherService.class), "Degree Type Service cannot be null"),
+                Arguments.of(mock(IProgrammeFactory.class), mock(IProgrammeRepository.class), mock(IProgrammeAssembler.class), mock(DegreeTypeRegistrationServiceImpl.class), null, mock(ITeacherService.class), "Department Service cannot be null"),
+                Arguments.of(mock(IProgrammeFactory.class), mock(IProgrammeRepository.class), mock(IProgrammeAssembler.class), mock(DegreeTypeRegistrationServiceImpl.class), mock(IDepartmentService.class), null, "Teacher Service cannot be null")
         );
     }
 
     @ParameterizedTest
     @MethodSource("parametersToCreateProgrammeServiceAreInvalid")
-    void shouldThrowExceptionWhenParametersToCreateProgrammeServiceAreNotValid(IProgrammeFactory programmeFactory, IProgrammeRepository programmeRepository,IProgrammeAssembler programmeAssembler, IDegreeTypeRegistrationService degreeTypeRegistrationService,String expectedMessage) {
+    void shouldThrowExceptionWhenParametersToCreateProgrammeServiceAreNotValid(IProgrammeFactory programmeFactory, IProgrammeRepository programmeRepository,IProgrammeAssembler programmeAssembler, IDegreeTypeRegistrationService degreeTypeRegistrationService, IDepartmentService departmentServiceDouble, ITeacherService teacherServiceDouble, String expectedMessage) {
         //arrange
 
         //act
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService));
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService, departmentServiceDouble, teacherServiceDouble));
 
         //assert
         assertEquals(exception.getMessage(), expectedMessage);
@@ -114,7 +118,7 @@ class ProgrammeServiceImplTest {
         //Arrange
         createDoubles();
 
-        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService);
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService, _departmentServiceDouble, _teacherServiceDouble);
 
         DegreeType degreeTypeDouble = mock(DegreeType.class);
         int numberOfSemesters = 6;
@@ -128,17 +132,20 @@ class ProgrammeServiceImplTest {
         when(_programmeVOsDTODouble.departmentID()).thenReturn(_departmentIDDouble);
         when(_programmeVOsDTODouble.teacherID()).thenReturn(_programmeDirectorIDDouble);
 
+        when(_departmentServiceDouble.containsOfIdentity(_departmentIDDouble)).thenReturn(true);
+        when(_teacherServiceDouble.existsById(_programmeDirectorIDDouble)).thenReturn(true);
+
         when(_degreeTypeService.getDegreeTypeById(_degreeTypeIDDouble)).thenReturn(Optional.ofNullable(degreeTypeDouble));
         when(degreeTypeDouble.getMaxEcts()).thenReturn(_maxOfEctsDouble);
         when(_quantityOfSemestersDouble.getQuantityOfSemesters()).thenReturn(numberOfSemesters);
         when(_maxOfEctsDouble.getMaxEcts()).thenReturn(numberOfEcts);
 
         when(_programmeFactoryDouble.registerProgramme(_nameDouble, _acronymDouble, _maxOfEctsDouble, _quantityOfSemestersDouble, _degreeTypeIDDouble, _departmentIDDouble, _programmeDirectorIDDouble)).thenReturn(_programmeDouble);
+
         when(_programmeDouble.identity()).thenReturn(_programmeIDDouble);
         when(_programmeRepositoryDouble.containsOfIdentity(_programmeIDDouble)).thenReturn(false);
+
         when(_programmeRepositoryDouble.save(_programmeDouble)).thenReturn(_programmeDouble);
-        when(_programmeRepositoryDouble.existsByName(_nameDouble)).thenReturn(false);
-        when(_programmeRepositoryDouble.existsByAcronym(_acronymDouble)).thenReturn(false);
 
         //Act
         Programme result = service.registerProgramme(_programmeVOsDTODouble);
@@ -148,15 +155,11 @@ class ProgrammeServiceImplTest {
     }
 
     @Test
-    void shouldNotRegisterProgrammeWhenProgrammeAlreadyExistsName() {
+    void shouldThrowExceptionWhenDepartmentIsNotFound() {
         //Arrange
         createDoubles();
 
-        DegreeType degreeTypeDouble = mock(DegreeType.class);
-        int numberOfSemesters = 6;
-        int numberOfEcts = 180;
-
-        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService);
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService, _departmentServiceDouble, _teacherServiceDouble);
 
         when(_programmeVOsDTODouble.name()).thenReturn(_nameDouble);
         when(_programmeVOsDTODouble.acronym()).thenReturn(_acronymDouble);
@@ -166,20 +169,32 @@ class ProgrammeServiceImplTest {
         when(_programmeVOsDTODouble.departmentID()).thenReturn(_departmentIDDouble);
         when(_programmeVOsDTODouble.teacherID()).thenReturn(_programmeDirectorIDDouble);
 
-        when(_degreeTypeService.getDegreeTypeById(_degreeTypeIDDouble)).thenReturn(Optional.ofNullable(degreeTypeDouble));
-        when(degreeTypeDouble.getMaxEcts()).thenReturn(_maxOfEctsDouble);
-        when(_quantityOfSemestersDouble.getQuantityOfSemesters()).thenReturn(numberOfSemesters);
-        when(_maxOfEctsDouble.getMaxEcts()).thenReturn(numberOfEcts);
+        when(_departmentServiceDouble.containsOfIdentity(_departmentIDDouble)).thenReturn(false);
 
-        when(_programmeFactoryDouble.registerProgramme(_nameDouble, _acronymDouble, _maxOfEctsDouble, _quantityOfSemestersDouble, _degreeTypeIDDouble, _departmentIDDouble, _programmeDirectorIDDouble)).thenReturn(_programmeDouble);
-        when(_programmeDouble.identity()).thenReturn(_programmeIDDouble);
-        when(_programmeRepositoryDouble.existsByName(_nameDouble)).thenReturn(true);
+        //Act + Assert
+        assertThrows(BusinessRuleViolationException.class, () -> service.registerProgramme(_programmeVOsDTODouble));
+    }
 
-        //Act
-        Exception result = assertThrows(AlreadyRegisteredException.class, () -> service.registerProgramme(_programmeVOsDTODouble));
+    @Test
+    void shouldThrowExceptionWhenTeacherIsNotFound() {
+        //Arrange
+        createDoubles();
 
-        //Assert
-        assertEquals("Programme name is already registered.", result.getMessage());
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService, _departmentServiceDouble, _teacherServiceDouble);
+
+        when(_programmeVOsDTODouble.name()).thenReturn(_nameDouble);
+        when(_programmeVOsDTODouble.acronym()).thenReturn(_acronymDouble);
+        when(_programmeVOsDTODouble.maxEcts()).thenReturn(_maxOfEctsDouble);
+        when(_programmeVOsDTODouble.quantSemesters()).thenReturn(_quantityOfSemestersDouble);
+        when(_programmeVOsDTODouble.degreeTypeID()).thenReturn(_degreeTypeIDDouble);
+        when(_programmeVOsDTODouble.departmentID()).thenReturn(_departmentIDDouble);
+        when(_programmeVOsDTODouble.teacherID()).thenReturn(_programmeDirectorIDDouble);
+
+        when(_departmentServiceDouble.containsOfIdentity(_departmentIDDouble)).thenReturn(true);
+        when(_teacherServiceDouble.existsById(_programmeDirectorIDDouble)).thenReturn(false);
+
+        //Act + Assert
+        assertThrows(BusinessRuleViolationException.class, () -> service.registerProgramme(_programmeVOsDTODouble));
     }
 
     @Test
@@ -191,7 +206,7 @@ class ProgrammeServiceImplTest {
         int numberOfSemesters = 6;
         int numberOfEcts = 180;
 
-        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService);
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService, _departmentServiceDouble, _teacherServiceDouble);
 
         when(_programmeVOsDTODouble.name()).thenReturn(_nameDouble);
         when(_programmeVOsDTODouble.acronym()).thenReturn(_acronymDouble);
@@ -201,15 +216,18 @@ class ProgrammeServiceImplTest {
         when(_programmeVOsDTODouble.departmentID()).thenReturn(_departmentIDDouble);
         when(_programmeVOsDTODouble.teacherID()).thenReturn(_programmeDirectorIDDouble);
 
+        when(_departmentServiceDouble.containsOfIdentity(_departmentIDDouble)).thenReturn(true);
+        when(_teacherServiceDouble.existsById(_programmeDirectorIDDouble)).thenReturn(true);
+
         when(_degreeTypeService.getDegreeTypeById(_degreeTypeIDDouble)).thenReturn(Optional.ofNullable(degreeTypeDouble));
         when(degreeTypeDouble.getMaxEcts()).thenReturn(_maxOfEctsDouble);
         when(_quantityOfSemestersDouble.getQuantityOfSemesters()).thenReturn(numberOfSemesters);
         when(_maxOfEctsDouble.getMaxEcts()).thenReturn(numberOfEcts);
 
         when(_programmeFactoryDouble.registerProgramme(_nameDouble, _acronymDouble, _maxOfEctsDouble, _quantityOfSemestersDouble, _degreeTypeIDDouble, _departmentIDDouble, _programmeDirectorIDDouble)).thenReturn(_programmeDouble);
+
         when(_programmeDouble.identity()).thenReturn(_programmeIDDouble);
-        when(_programmeRepositoryDouble.existsByName(_nameDouble)).thenReturn(false);
-        when(_programmeRepositoryDouble.existsByAcronym(_acronymDouble)).thenReturn(true);
+        when(_programmeRepositoryDouble.containsOfIdentity(_programmeIDDouble)).thenReturn(true);
 
         //Act
         Exception result = assertThrows(AlreadyRegisteredException.class, () -> service.registerProgramme(_programmeVOsDTODouble));
@@ -223,7 +241,7 @@ class ProgrammeServiceImplTest {
         //Arrange
         createDoubles();
 
-        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService);
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService, _departmentServiceDouble, _teacherServiceDouble);
 
         DegreeType degreeTypeDouble = mock(DegreeType.class);
         int numberOfSemesters = 6;
@@ -236,6 +254,9 @@ class ProgrammeServiceImplTest {
         when(_programmeVOsDTODouble.degreeTypeID()).thenReturn(_degreeTypeIDDouble);
         when(_programmeVOsDTODouble.departmentID()).thenReturn(_departmentIDDouble);
         when(_programmeVOsDTODouble.teacherID()).thenReturn(_programmeDirectorIDDouble);
+
+        when(_departmentServiceDouble.containsOfIdentity(_departmentIDDouble)).thenReturn(true);
+        when(_teacherServiceDouble.existsById(_programmeDirectorIDDouble)).thenReturn(true);
 
         when(_degreeTypeService.getDegreeTypeById(_degreeTypeIDDouble)).thenReturn(Optional.ofNullable(degreeTypeDouble));
         when(degreeTypeDouble.getMaxEcts()).thenReturn(_maxOfEctsDouble);
@@ -256,7 +277,7 @@ class ProgrammeServiceImplTest {
         //Arrange
         createDoubles();
 
-        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService);
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService, _departmentServiceDouble, _teacherServiceDouble);
 
         DegreeType degreeTypeDouble = mock(DegreeType.class);
         int numberOfSemesters = 5;
@@ -269,6 +290,9 @@ class ProgrammeServiceImplTest {
         when(_programmeVOsDTODouble.degreeTypeID()).thenReturn(_degreeTypeIDDouble);
         when(_programmeVOsDTODouble.departmentID()).thenReturn(_departmentIDDouble);
         when(_programmeVOsDTODouble.teacherID()).thenReturn(_programmeDirectorIDDouble);
+
+        when(_departmentServiceDouble.containsOfIdentity(_departmentIDDouble)).thenReturn(true);
+        when(_teacherServiceDouble.existsById(_programmeDirectorIDDouble)).thenReturn(true);
 
         when(_degreeTypeService.getDegreeTypeById(_degreeTypeIDDouble)).thenReturn(Optional.ofNullable(degreeTypeDouble));
         when(degreeTypeDouble.getMaxEcts()).thenReturn(_maxOfEctsDouble);
@@ -284,7 +308,7 @@ class ProgrammeServiceImplTest {
         //Arrange
         createDoubles();
 
-        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService);
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService, _departmentServiceDouble, _teacherServiceDouble);
 
         DegreeType degreeTypeDouble = mock(DegreeType.class);
         int numberOfSemesters = 11;
@@ -297,6 +321,9 @@ class ProgrammeServiceImplTest {
         when(_programmeVOsDTODouble.degreeTypeID()).thenReturn(_degreeTypeIDDouble);
         when(_programmeVOsDTODouble.departmentID()).thenReturn(_departmentIDDouble);
         when(_programmeVOsDTODouble.teacherID()).thenReturn(_programmeDirectorIDDouble);
+
+        when(_departmentServiceDouble.containsOfIdentity(_departmentIDDouble)).thenReturn(true);
+        when(_teacherServiceDouble.existsById(_programmeDirectorIDDouble)).thenReturn(true);
 
         when(_degreeTypeService.getDegreeTypeById(_degreeTypeIDDouble)).thenReturn(Optional.ofNullable(degreeTypeDouble));
         when(degreeTypeDouble.getMaxEcts()).thenReturn(_maxOfEctsDouble);
@@ -312,7 +339,7 @@ class ProgrammeServiceImplTest {
         //Arrange
         createDoubles();
 
-        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService);
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService, _departmentServiceDouble, _teacherServiceDouble);
 
         when(_programmeRepositoryDouble.ofIdentity(_programmeIDDouble)).thenReturn(Optional.of(_programmeDouble));
         when(_programmeDouble.identity()).thenReturn(_programmeIDDouble);
@@ -330,7 +357,7 @@ class ProgrammeServiceImplTest {
         //Arrange
         createDoubles();
 
-        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService);
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService, _departmentServiceDouble, _teacherServiceDouble);
 
         //Act + Assert
         assertThrows(Exception.class, () -> service.changeProgrammeDirector(null, _programmeDirectorIDDouble));
@@ -341,7 +368,7 @@ class ProgrammeServiceImplTest {
         //Arrange
         createDoubles();
 
-        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService);
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService, _departmentServiceDouble, _teacherServiceDouble);
 
         //Act + Assert
         assertThrows(Exception.class, () -> service.changeProgrammeDirector(_programmeIDDouble, null));
@@ -352,7 +379,7 @@ class ProgrammeServiceImplTest {
         //Arrange
         createDoubles();
 
-        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService);
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService, _departmentServiceDouble, _teacherServiceDouble);
 
         when(_programmeRepositoryDouble.findProgrammeByDepartment(_departmentIDDouble)).thenReturn(List.of(_programmeIDDouble,_programme2IDDouble));
 
@@ -368,7 +395,7 @@ class ProgrammeServiceImplTest {
         //Arrange
         createDoubles();
 
-        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService);
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService, _departmentServiceDouble, _teacherServiceDouble);
 
         //Act
         List<ProgrammeID> result = service.findProgrammeByDepartment(null);
@@ -382,7 +409,7 @@ class ProgrammeServiceImplTest {
         //Arrange
         createDoubles();
 
-        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService);
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService, _departmentServiceDouble, _teacherServiceDouble);
 
         when(_programmeRepositoryDouble.findAll()).thenReturn(List.of(_programmeDouble,_programme2Double));
         when(_programmeDouble.hasThisDegreeTypeID(_degreeTypeIDDouble)).thenReturn(true);
@@ -400,7 +427,7 @@ class ProgrammeServiceImplTest {
         //Arrange
         createDoubles();
 
-        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService);
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService, _departmentServiceDouble, _teacherServiceDouble);
 
         when(_programmeRepositoryDouble.findAll()).thenReturn(List.of(_programmeDouble));
         when(_programmeDouble.hasThisDegreeTypeID(_degreeTypeIDDouble)).thenReturn(false);
@@ -417,7 +444,7 @@ class ProgrammeServiceImplTest {
         //Arrange
         createDoubles();
 
-        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService);
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService, _departmentServiceDouble, _teacherServiceDouble);
 
         when(_programmeRepositoryDouble.findAll()).thenReturn(List.of(_programmeDouble));
         when(_programmeDouble.hasThisProgrammeName(_nameDouble)).thenReturn(true);
@@ -434,7 +461,7 @@ class ProgrammeServiceImplTest {
         //Arrange
         createDoubles();
 
-        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService);
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService, _departmentServiceDouble, _teacherServiceDouble);
 
         when(_programmeRepositoryDouble.findAll()).thenReturn(List.of(_programmeDouble));
         when(_programmeDouble.hasThisProgrammeName(_nameDouble)).thenReturn(false);
@@ -451,7 +478,7 @@ class ProgrammeServiceImplTest {
         //Arrange
         createDoubles();
 
-        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService);
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService, _departmentServiceDouble, _teacherServiceDouble);
 
         when(_programmeRepositoryDouble.findAll()).thenReturn(List.of(_programmeDouble));
         when(_programmeDouble.getAcronym()).thenReturn(_acronymDouble);
@@ -470,7 +497,7 @@ class ProgrammeServiceImplTest {
         //Arrange
         createDoubles();
 
-        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService);
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService, _departmentServiceDouble, _teacherServiceDouble);
 
         when(_programmeRepositoryDouble.findAll()).thenReturn(List.of(_programmeDouble));
         when(_programmeDouble.getAcronym()).thenReturn(_acronymDouble);
@@ -488,7 +515,7 @@ class ProgrammeServiceImplTest {
         //Arrange
         createDoubles();
 
-        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService);
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService, _departmentServiceDouble, _teacherServiceDouble);
 
         when(_programmeRepositoryDouble.findAll()).thenReturn(Arrays.asList(_programmeDouble, _programme2Double));
         when(_programmeDouble.getProgrammeID()).thenReturn(_programmeIDDouble);
@@ -507,7 +534,7 @@ class ProgrammeServiceImplTest {
         //Arrange
         createDoubles();
 
-        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService);
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService, _departmentServiceDouble, _teacherServiceDouble);
 
         //Act
         List<ProgrammeID> result = service.getAllProgrammeIDs();
@@ -521,7 +548,7 @@ class ProgrammeServiceImplTest {
         //Arrange
         createDoubles();
 
-        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService);
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService, _departmentServiceDouble, _teacherServiceDouble);
 
         when(_programmeRepositoryDouble.findAll()).thenReturn(List.of(_programmeDouble));
 
@@ -538,7 +565,7 @@ class ProgrammeServiceImplTest {
         //Arrange
         createDoubles();
 
-        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService);
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService, _departmentServiceDouble, _teacherServiceDouble);
 
         //Act
         Iterable<Programme> all = service.findAll();
@@ -552,19 +579,22 @@ class ProgrammeServiceImplTest {
         // Arrange
         createDoubles();
 
-        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService);
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService, _departmentServiceDouble, _teacherServiceDouble);
 
         ProgrammeID id = new ProgrammeID(_acronymDouble);
 
         when(_programmeDouble.identity()).thenReturn(id);
-        when(_programmeRepositoryDouble.findAll()).thenReturn(List.of(_programmeDouble));
+        when(_programmeRepositoryDouble.ofIdentity(id)).thenReturn(Optional.of(_programmeDouble));
+
+        ProgrammeDTO expectedDTO = mock(ProgrammeDTO.class);
+        when(_programmeAssemblerDouble.fromDomainToDTO(_programmeDouble)).thenReturn(expectedDTO);
 
         // Act
-        Optional<Programme> result = service.getProgrammeByID(id);
+        Optional<ProgrammeDTO> result = service.getProgrammeByID(id);
 
         // Assert
         assertTrue(result.isPresent());
-        assertEquals(_programmeDouble, result.get());
+        assertEquals(expectedDTO, result.get());
     }
 
     @Test
@@ -572,7 +602,7 @@ class ProgrammeServiceImplTest {
         // Arrange
         createDoubles();
 
-        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService);
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService, _departmentServiceDouble, _teacherServiceDouble);
 
         ProgrammeID id = new ProgrammeID(_acronymDouble);
 
@@ -580,7 +610,7 @@ class ProgrammeServiceImplTest {
         when(_programmeRepositoryDouble.findAll()).thenReturn(List.of(_programme2Double));
 
         // Act
-        Optional<Programme> result = service.getProgrammeByID(id);
+        Optional<ProgrammeDTO> result = service.getProgrammeByID(id);
 
         // Assert
         assertTrue(result.isEmpty());
@@ -591,14 +621,14 @@ class ProgrammeServiceImplTest {
         // Arrange
         createDoubles();
 
-        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService);
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService, _departmentServiceDouble, _teacherServiceDouble);
 
         ProgrammeID id = new ProgrammeID(_acronymDouble);
 
         when(_programmeRepositoryDouble.findAll()).thenReturn(List.of());
 
         // Act
-        Optional<Programme> result = service.getProgrammeByID(id);
+        Optional<ProgrammeDTO> result = service.getProgrammeByID(id);
 
         // Assert
         assertTrue(result.isEmpty());
@@ -609,7 +639,7 @@ class ProgrammeServiceImplTest {
         //Arrange
         createDoubles();
 
-        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService);
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService, _departmentServiceDouble, _teacherServiceDouble);
 
         when(_programmeRepositoryDouble.ofIdentity(_programmeIDDouble)).thenReturn(Optional.empty());
 
@@ -627,7 +657,7 @@ class ProgrammeServiceImplTest {
         //Arrange
         createDoubles();
 
-        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService);
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService, _departmentServiceDouble, _teacherServiceDouble);
         NameWithNumbersAndSpecialChars name = new NameWithNumbersAndSpecialChars("Engenharia Informática");
 
         when(_programmeDouble.hasThisProgrammeName(name)).thenReturn(true);
@@ -653,7 +683,7 @@ class ProgrammeServiceImplTest {
         when(_programmeAssemblerDouble.toDTO(_programmeIDDouble)).thenReturn(programmeIDDTO1);
         when(_programmeAssemblerDouble.toDTO(_programme2IDDouble)).thenReturn(programmeIDDTO2);
 
-        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(_programmeFactoryDouble,_programmeRepositoryDouble,_programmeAssemblerDouble, _degreeTypeService);
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(_programmeFactoryDouble,_programmeRepositoryDouble,_programmeAssemblerDouble, _degreeTypeService, _departmentServiceDouble, _teacherServiceDouble);
 
         List<ProgrammeIDDTO> result = programmeService.getAllProgrammeIDDTOs();
 
@@ -672,7 +702,7 @@ class ProgrammeServiceImplTest {
         when(_programmeAssemblerDouble.toDTO(_programmeIDDouble)).thenReturn(programmeIDDTO1);
         when(_programmeAssemblerDouble.toDTO(_programme2IDDouble)).thenReturn(programmeIDDTO2);
 
-        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(_programmeFactoryDouble,_programmeRepositoryDouble,_programmeAssemblerDouble, _degreeTypeService);
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(_programmeFactoryDouble,_programmeRepositoryDouble,_programmeAssemblerDouble, _degreeTypeService, _departmentServiceDouble, _teacherServiceDouble);
 
         List<ProgrammeIDDTO> result = programmeService.getAllProgrammeIDDTOs();
 
@@ -680,21 +710,12 @@ class ProgrammeServiceImplTest {
         assertEquals(0, result.size());
     }
 
-
-    private ProgrammeServiceImpl programmeService;
-
-    @BeforeEach
-    void setUp() {
-        _programmeRepositoryDouble = mock(IProgrammeRepository.class);
-        _programmeAssemblerDouble = mock(IProgrammeAssembler.class);
-        _programmeFactoryDouble = mock(IProgrammeFactory.class);
-        _degreeTypeService = mock(DegreeTypeRegistrationServiceImpl.class);
-        programmeService = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService);
-    }
-
     @Test
     void getProgrammeIDDTOsByDegreeTypeID_shouldReturnCorrectDTOs() {
         // Arrange
+        createDoubles();
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(_programmeFactoryDouble,_programmeRepositoryDouble,_programmeAssemblerDouble, _degreeTypeService, _departmentServiceDouble, _teacherServiceDouble);
+
         DegreeTypeID degreeTypeID = new DegreeTypeID("MEST");
 
         Programme programme1 = mock(Programme.class);
@@ -726,6 +747,8 @@ class ProgrammeServiceImplTest {
     @Test
     void getProgrammeIDDTOsByDegreeTypeID_shouldReturnEmptyListIfNoMatches() {
         // Arrange
+        createDoubles();
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(_programmeFactoryDouble,_programmeRepositoryDouble,_programmeAssemblerDouble, _degreeTypeService, _departmentServiceDouble, _teacherServiceDouble);
         DegreeTypeID degreeTypeID = new DegreeTypeID("MEST");
 
         Programme programme1 = mock(Programme.class);
@@ -742,11 +765,10 @@ class ProgrammeServiceImplTest {
 
     @Test
     void should_returnProgrammeID_ifProgrammeIsFound(){
-
         // arrange
         createDoubles();
 
-        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService);
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService, _departmentServiceDouble, _teacherServiceDouble);
 
         ProgrammeID id = new ProgrammeID(_acronymDouble);
         ProgrammeDTO programmeDTODouble = mock(ProgrammeDTO.class);
@@ -766,7 +788,7 @@ class ProgrammeServiceImplTest {
 
         // arrange
         createDoubles();
-        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService);
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService, _departmentServiceDouble, _teacherServiceDouble);
         // act + assert
         assertThrows(IllegalArgumentException.class, () -> service.getProgrammeDTOByID(null), "ProgrammeID cannot be null");
     }
@@ -776,7 +798,7 @@ class ProgrammeServiceImplTest {
 
         // arrange
         createDoubles();
-        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService);
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble, _degreeTypeService, _departmentServiceDouble, _teacherServiceDouble);
 
         when(_programmeRepositoryDouble.ofIdentity(_programmeIDDouble)).thenReturn(Optional.empty());
 
@@ -790,7 +812,7 @@ class ProgrammeServiceImplTest {
         // arrange
         createDoubles();
         IDegreeTypeRegistrationService degreeTypeRegistrationService = mock(DegreeTypeRegistrationServiceImpl.class);
-        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble,degreeTypeRegistrationService);
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble,degreeTypeRegistrationService, _departmentServiceDouble, _teacherServiceDouble);
 
         ProgrammeID id = new ProgrammeID(_acronymDouble);
 
@@ -805,7 +827,7 @@ class ProgrammeServiceImplTest {
         // arrange
         createDoubles();
         IDegreeTypeRegistrationService degreeTypeRegistrationService = mock(DegreeTypeRegistrationServiceImpl.class);
-        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble,degreeTypeRegistrationService);
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble,degreeTypeRegistrationService, _departmentServiceDouble, _teacherServiceDouble);
 
         ProgrammeID id = new ProgrammeID(_acronymDouble);
 
@@ -821,7 +843,7 @@ class ProgrammeServiceImplTest {
         // arrange
         createDoubles();
         IDegreeTypeRegistrationService degreeTypeRegistrationService = mock(DegreeTypeRegistrationServiceImpl.class);
-        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble,degreeTypeRegistrationService);
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(_programmeFactoryDouble, _programmeRepositoryDouble, _programmeAssemblerDouble,degreeTypeRegistrationService, _departmentServiceDouble, _teacherServiceDouble);
 
         ProgrammeID id = new ProgrammeID(_acronymDouble);
 
@@ -841,7 +863,7 @@ class ProgrammeServiceImplTest {
 
         // act + assert
         Exception exception = assertThrows(IllegalArgumentException.class, () ->
-                new ProgrammeServiceImpl(factory, null, assembler,degreeTypeRegistrationService)
+                new ProgrammeServiceImpl(factory, null, assembler,degreeTypeRegistrationService, _departmentServiceDouble, _teacherServiceDouble)
         );
         assertEquals("Programme Repository cannot be null", exception.getMessage());
     }
@@ -849,12 +871,13 @@ class ProgrammeServiceImplTest {
     @Test
     void shouldReturnListOfProgrammes () {
         // Arrange
+        createDoubles();
         IProgrammeFactory factory = mock(IProgrammeFactory.class);
         IProgrammeRepository repository = mock(IProgrammeRepository.class);
         IProgrammeAssembler assembler = mock(IProgrammeAssembler.class);
         IDegreeTypeRegistrationService degreeTypeRegistrationService = mock(DegreeTypeRegistrationServiceImpl.class);
 
-        ProgrammeServiceImpl service = new ProgrammeServiceImpl(factory, repository, assembler, degreeTypeRegistrationService);
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(factory, repository, assembler, degreeTypeRegistrationService, _departmentServiceDouble, _teacherServiceDouble);
 
         Programme prog1 = mock(Programme.class);
         Programme prog2 = mock(Programme.class);
@@ -887,12 +910,13 @@ class ProgrammeServiceImplTest {
     @Test
     void shouldReturnEmptyListOfProgrammesIfThereAreNoProgrammes () {
         // Arrange
+        createDoubles();
         IProgrammeFactory factory = mock(IProgrammeFactory.class);
         IProgrammeRepository repository = mock(IProgrammeRepository.class);
         IProgrammeAssembler assembler = mock(IProgrammeAssembler.class);
         IDegreeTypeRegistrationService degreeTypeRegistrationService = mock(DegreeTypeRegistrationServiceImpl.class);
 
-        ProgrammeServiceImpl service = new ProgrammeServiceImpl(factory, repository, assembler, degreeTypeRegistrationService);
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(factory, repository, assembler, degreeTypeRegistrationService, _departmentServiceDouble, _teacherServiceDouble);
 
         List<Programme> programmes = List.of();
         when(repository.findAll()).thenReturn(programmes);
@@ -906,5 +930,33 @@ class ProgrammeServiceImplTest {
         List<ProgrammeDTO> listResult = new ArrayList<>();
         result.forEach(listResult::add);
         assertEquals(0, listResult.size());
+    }
+
+    @Test
+    public void testGetProgrammesByProgrammeIDs_ReturnsMatchingProgrammes() {
+        //arrange
+        createDoubles();
+
+        when(_programmeRepositoryDouble.ofIdentity(_programmeIDDouble)).thenReturn(Optional.of(_programmeDouble));
+        when(_programmeRepositoryDouble.ofIdentity(_programme2IDDouble)).thenReturn(Optional.of(_programme2Double));
+
+        ProgrammeServiceImpl service = new ProgrammeServiceImpl(
+                _programmeFactoryDouble,
+                _programmeRepositoryDouble,
+                _programmeAssemblerDouble,
+                _degreeTypeService,
+                _departmentServiceDouble,
+                _teacherServiceDouble
+        );
+
+        List<ProgrammeID> idList = Arrays.asList(_programmeIDDouble, _programme2IDDouble);
+
+        // Act
+        List<Programme> result = service.getProgrammesByProgrammeIDs(idList);
+
+        // Assert
+        assertEquals(2, result.size());
+        assertTrue(result.contains(_programmeDouble));
+        assertTrue(result.contains(_programme2Double));
     }
 }

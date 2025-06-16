@@ -8,6 +8,7 @@ import PAI.dto.department.DepartmentDTO;
 import PAI.dto.schoolYear.CurrentSchoolYearDTO;
 import PAI.dto.schoolYear.CurrentSchoolYearResponseDTO;
 import PAI.dto.schoolYear.SchoolYearDTO;
+import PAI.dto.schoolYear.SchoolYearIDDescriptionResponseDTO;
 import PAI.service.schoolYear.ISchoolYearService;
 import org.junit.jupiter.api.Test;
 import org.springframework.hateoas.CollectionModel;
@@ -353,5 +354,22 @@ class SchoolYearRestControllerTest {
 
         // Assert
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+    }
+
+    @Test
+    void getAllSchoolYearsIDDescriptions_returnsListAnd200() {
+        ISchoolYearService service = mock(ISchoolYearService.class);
+        ISchoolYearHateoasAssembler hateoasAssembler = mock(ISchoolYearHateoasAssembler.class);
+        ISchoolYearAssembler schoolYearAssembler = mock(ISchoolYearAssembler.class);
+        SchoolYearRestController controller = new SchoolYearRestController(schoolYearAssembler,service,hateoasAssembler);
+
+        SchoolYearIDDescriptionResponseDTO dto = new SchoolYearIDDescriptionResponseDTO("id1", "2015");
+        when(service.getAllSchoolYearsIDDescriptions()).thenReturn(List.of(dto));
+
+        ResponseEntity<List<SchoolYearIDDescriptionResponseDTO>> response = controller.getAllSchoolYearsIDDescriptions();
+
+        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(1, response.getBody().size());
+        assertEquals("2015", response.getBody().get(0).description());
     }
 }

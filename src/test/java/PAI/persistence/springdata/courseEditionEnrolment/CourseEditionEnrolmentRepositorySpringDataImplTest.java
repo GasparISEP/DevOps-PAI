@@ -247,6 +247,12 @@ class CourseEditionEnrolmentRepositorySpringDataImplTest {
 
         CourseEditionEnrolment enrolment = mock(CourseEditionEnrolment.class);
         CourseEditionEnrolmentDataModel enrolmentDataModel = mock(CourseEditionEnrolmentDataModel.class);
+        CourseEditionEnrolmentID mockEnrolmentID = mock(CourseEditionEnrolmentID.class);
+        CourseEditionEnrolmentIDDataModel mockEnrolmentIDDataModel = mock(CourseEditionEnrolmentIDDataModel.class);
+
+        when(enrolment.identity()).thenReturn(mockEnrolmentID);
+        when(idMapper.toDataModel(mockEnrolmentID)).thenReturn(Optional.of(mockEnrolmentIDDataModel));
+        when(springDataRepository.findById(mockEnrolmentIDDataModel)).thenReturn(Optional.empty()); // Important: Indicates no existing record
 
         when(mapper.toDataModel(enrolment)).thenReturn(Optional.of(enrolmentDataModel));
         when(springDataRepository.save(enrolmentDataModel)).thenReturn(enrolmentDataModel);
@@ -386,6 +392,12 @@ class CourseEditionEnrolmentRepositorySpringDataImplTest {
 
         CourseEditionEnrolment enrolment = mock(CourseEditionEnrolment.class);
         CourseEditionEnrolmentDataModel dataModel = mock(CourseEditionEnrolmentDataModel.class);
+        CourseEditionEnrolmentID mockEnrolmentID = mock(CourseEditionEnrolmentID.class);
+        CourseEditionEnrolmentIDDataModel mockEnrolmentIDDataModel = mock(CourseEditionEnrolmentIDDataModel.class);
+
+        when(enrolment.identity()).thenReturn(mockEnrolmentID);
+        when(idMapper.toDataModel(mockEnrolmentID)).thenReturn(Optional.of(mockEnrolmentIDDataModel));
+        when(springDataRepository.findById(mockEnrolmentIDDataModel)).thenReturn(Optional.empty()); // Important: Indicates no existing record
 
         when(mapper.toDataModel(enrolment)).thenReturn(Optional.of(dataModel));
         when(springDataRepository.save(dataModel)).thenReturn(dataModel);
@@ -555,13 +567,38 @@ class CourseEditionEnrolmentRepositorySpringDataImplTest {
                 springRepo, mapper, idMapper, studentIDMapper, editionIDMapper
         );
 
-        when(springRepo.findById_StudentIDAndId_CourseEditionID(any(), any()))
-                .thenReturn(Optional.empty());
-        when(mapper.toDomain(any())).thenReturn(Optional.of(mock(CourseEditionEnrolment.class)));
-        when(mapper.toDataModel(any())).thenReturn(Optional.of(mock(CourseEditionEnrolmentDataModel.class)));
-        when(springRepo.save(any())).thenReturn(mock(CourseEditionEnrolmentDataModel.class));
+        StudentIDDataModel mockStudentIDDataModel = mock(StudentIDDataModel.class);
+        when(studentIDMapper.domainToDataModel(any(StudentID.class)))
+                .thenReturn(mockStudentIDDataModel);
 
-        // act & assert
+        CourseEditionIDDataModel mockCourseEditionIDDataModel = mock(CourseEditionIDDataModel.class);
+        when(editionIDMapper.toDataModel(any(CourseEditionID.class)))
+                .thenReturn(mockCourseEditionIDDataModel);
+
+        when(springRepo.findById_StudentIDAndId_CourseEditionID(any(StudentIDDataModel.class), any(CourseEditionIDDataModel.class)))
+                .thenReturn(Optional.empty());
+
+
+        CourseEditionEnrolmentIDDataModel mockEnrolmentIDDataModel = mock(CourseEditionEnrolmentIDDataModel.class);
+
+        when(idMapper.toDataModel(any(CourseEditionEnrolmentID.class)))
+                .thenReturn(Optional.of(mockEnrolmentIDDataModel));
+
+        when(springRepo.findById(any(CourseEditionEnrolmentIDDataModel.class)))
+                .thenReturn(Optional.empty());
+
+        when(mapper.toDataModel(any(CourseEditionEnrolment.class)))
+                .thenReturn(Optional.of(mock(CourseEditionEnrolmentDataModel.class)));
+
+        when(springRepo.save(any(CourseEditionEnrolmentDataModel.class)))
+                .thenReturn(mock(CourseEditionEnrolmentDataModel.class));
+
+
+        when(mapper.toDomain(any(CourseEditionEnrolmentDataModel.class)))
+                .thenReturn(Optional.of(mock(CourseEditionEnrolment.class)));
+
+
+        // act + assert
         assertDoesNotThrow(() ->
                 repository.enrolStudentInProgrammeCourseEditions(studentID, courseEditions)
         );
@@ -580,6 +617,10 @@ class CourseEditionEnrolmentRepositorySpringDataImplTest {
         ICourseEditionEnrolmentIDMapper idMapper = mock(ICourseEditionEnrolmentIDMapper.class);
         IStudentIDMapper studentIDMapper = mock(IStudentIDMapper.class);
         ICourseEditionIDMapper editionIDMapper = mock(ICourseEditionIDMapper.class);
+        CourseEditionEnrolmentID mockEnrolmentID = mock(CourseEditionEnrolmentID.class);
+        CourseEditionEnrolmentIDDataModel mockEnrolmentIDDataModel = mock(CourseEditionEnrolmentIDDataModel.class);
+
+        when(idMapper.toDataModel(mockEnrolmentID)).thenReturn(Optional.of(mockEnrolmentIDDataModel));
 
         CourseEditionEnrolmentRepositorySpringDataImpl repository = new CourseEditionEnrolmentRepositorySpringDataImpl(
                 springRepo, mapper, idMapper, studentIDMapper, editionIDMapper
@@ -624,12 +665,22 @@ class CourseEditionEnrolmentRepositorySpringDataImplTest {
         CourseEditionEnrolment enrolment = mock(CourseEditionEnrolment.class);
 
         ICourseEditionEnrolmentMapper mapper = mock(ICourseEditionEnrolmentMapper.class);
+        CourseEditionEnrolmentID mockEnrolmentID = mock(CourseEditionEnrolmentID.class);
+        CourseEditionEnrolmentIDDataModel mockEnrolmentIDDataModel = mock(CourseEditionEnrolmentIDDataModel.class);
+        ICourseEditionEnrolmentIDMapper idMapper = mock(ICourseEditionEnrolmentIDMapper.class);
+        ICourseEditionEnrolmentRepositorySpringData springDataRepository = mock(ICourseEditionEnrolmentRepositorySpringData.class); // Mock the Spring Data repo
+
+        when(mapper.toDataModel(enrolment)).thenReturn(Optional.empty());
+        when(enrolment.identity()).thenReturn(mockEnrolmentID);
+        when(idMapper.toDataModel(mockEnrolmentID)).thenReturn(Optional.of(mockEnrolmentIDDataModel));
+        when(springDataRepository.findById(mockEnrolmentIDDataModel)).thenReturn(Optional.empty());
+        when(enrolment.identity()).thenReturn(mockEnrolmentID);
         when(mapper.toDataModel(enrolment)).thenReturn(Optional.empty());
 
         CourseEditionEnrolmentRepositorySpringDataImpl repository = new CourseEditionEnrolmentRepositorySpringDataImpl(
                 mock(ICourseEditionEnrolmentRepositorySpringData.class),
                 mapper,
-                mock(ICourseEditionEnrolmentIDMapper.class),
+                idMapper,
                 mock(IStudentIDMapper.class),
                 mock(ICourseEditionIDMapper.class)
         );
@@ -639,7 +690,7 @@ class CourseEditionEnrolmentRepositorySpringDataImplTest {
             repository.save(enrolment);
         });
 
-        assertEquals("Entity cannot be empty!", exception.getMessage());
+        assertEquals("Could not map domain entity to new data model for saving.", exception.getMessage());
     }
 
     @Test
@@ -650,6 +701,8 @@ class CourseEditionEnrolmentRepositorySpringDataImplTest {
         CourseEditionEnrolmentDataModel dataModel = mock(CourseEditionEnrolmentDataModel.class);
 
         ICourseEditionEnrolmentMapper mapper = mock(ICourseEditionEnrolmentMapper.class);
+        ICourseEditionEnrolmentIDMapper idMapper = mock(ICourseEditionEnrolmentIDMapper.class); // Get a mock for idMapper
+
         when(mapper.toDataModel(enrolment)).thenReturn(Optional.of(dataModel));
         when(mapper.toDomain(dataModel)).thenReturn(Optional.empty());
 
@@ -659,10 +712,20 @@ class CourseEditionEnrolmentRepositorySpringDataImplTest {
         CourseEditionEnrolmentRepositorySpringDataImpl repository = new CourseEditionEnrolmentRepositorySpringDataImpl(
                 repoSpringData,
                 mapper,
-                mock(ICourseEditionEnrolmentIDMapper.class),
+                idMapper,
                 mock(IStudentIDMapper.class),
                 mock(ICourseEditionIDMapper.class)
         );
+        CourseEditionEnrolmentID mockEnrolmentID = mock(CourseEditionEnrolmentID.class);
+        when(enrolment.identity()).thenReturn(mockEnrolmentID);
+
+
+        CourseEditionEnrolmentIDDataModel mockEnrolmentIDDataModel = mock(CourseEditionEnrolmentIDDataModel.class);
+        when(idMapper.toDataModel(mockEnrolmentID)).thenReturn(Optional.of(mockEnrolmentIDDataModel));
+        when(repoSpringData.findById(mockEnrolmentIDDataModel)).thenReturn(Optional.empty());
+        when(mapper.toDataModel(enrolment)).thenReturn(Optional.of(dataModel));
+        when(repoSpringData.save(dataModel)).thenReturn(dataModel);
+        when(mapper.toDomain(dataModel)).thenReturn(Optional.empty());
 
         // act & assert
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {

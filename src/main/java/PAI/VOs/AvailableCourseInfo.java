@@ -2,6 +2,8 @@ package PAI.VOs;
 
 public record AvailableCourseInfo(
 CourseID courseID,
-CourseQuantityCreditsEcts qtyEcts
+CourseQuantityCreditsEcts qtyEcts,
+CurricularYear curricularYear,
+Semester semester
 ) {
 }

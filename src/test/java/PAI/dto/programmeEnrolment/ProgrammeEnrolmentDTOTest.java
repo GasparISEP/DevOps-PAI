@@ -41,4 +41,23 @@ class ProgrammeEnrolmentDTOTest {
         assertEquals(date, dto.getDate());
     }
 
+    @Test
+    void testDefaultConstructorAndSetters() {
+        ProgrammeEnrolmentDTO dto = new ProgrammeEnrolmentDTO();
+
+        int studentID = 7654321;
+        String accessMethodID = "AM001";
+        String programmeAcronym = "ENG";
+        LocalDate date = LocalDate.of(2025, 6, 15);
+
+        dto.setStudentID(studentID);
+        dto.setAccessMethodID(accessMethodID);
+        dto.setProgrammeAcronym(programmeAcronym);
+        dto.setDate(date);
+
+        assertEquals(studentID, dto.getStudentID());
+        assertEquals(accessMethodID, dto.getAccessMethodID());
+        assertEquals(programmeAcronym, dto.getProgrammeAcronym());
+        assertEquals(date, dto.getDate());
+    }
 }

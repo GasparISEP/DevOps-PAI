@@ -3,6 +3,8 @@ package PAI.domain.courseInStudyPlan;
 import PAI.VOs.*;
 import PAI.ddd.AggregateRoot;
 
+import static PAI.utils.ValidationUtils.validateNotNull;
+
 public class CourseInStudyPlan implements AggregateRoot<CourseInStudyPlanID> {
 
     private CourseID _courseID;
@@ -17,61 +19,26 @@ public class CourseInStudyPlan implements AggregateRoot<CourseInStudyPlanID> {
     public CourseInStudyPlan(Semester semester, CurricularYear curricularYear, CourseID courseID, StudyPlanID studyplanID, CourseInStudyPlanID courseInStudyPlanID,
                              DurationCourseInCurricularYear durationOfCourse, CourseQuantityCreditsEcts quantityOfCreditsEcts, CourseInStudyPlanGeneratedID generatedID) {
 
-        if (courseID == null) {
-            throw new IllegalArgumentException("Course ID cannot be null");
-        }
-        this._courseID = courseID;
-
-        if (semester == null) {
-            throw new IllegalArgumentException("Semester cannot be null");
-        }
-        this._semester = semester;
-
-        if(curricularYear == null) {
-            throw new IllegalArgumentException("Curricular Year cannot be null");
-        }
-        this._curricularYear = curricularYear;
-
-        if (studyplanID == null) {
-            throw new IllegalArgumentException("Study Plan ID cannot be null");
-        }
-        this._studyPlanID = studyplanID;
-
-        if (durationOfCourse == null) {
-            throw new IllegalArgumentException("Duration of Course cannot be null");
-        }
-        this._durationOfCourse = durationOfCourse;
-
-        if (quantityOfCreditsEcts == null) {
-            throw new IllegalArgumentException("Quantity of Credits Ects cannot be null");
-        }
-        this._quantityOfCreditsEcts = quantityOfCreditsEcts;
-
-        if (courseInStudyPlanID == null) {
-            throw new IllegalArgumentException("Course In Study Plan ID cannot be null");
-        }
-        this._courseInStudyPlanID = courseInStudyPlanID;
-
-        if (generatedID == null) {
-            throw new IllegalArgumentException("Course In Study Plan Generated ID cannot be null");
-        }
-        this._generatedID = generatedID;
+        this._courseID = validateNotNull(courseID, "Course ID");
+        this._semester = validateNotNull(semester, "Semester");
+        this._curricularYear = validateNotNull(curricularYear, "Curricular Year");
+        this._studyPlanID = validateNotNull(studyplanID, "Study Plan ID");
+        this._durationOfCourse = validateNotNull(durationOfCourse, "Duration of Course");
+        this._quantityOfCreditsEcts = validateNotNull(quantityOfCreditsEcts, "Quantity of Credits Ects");
+        this._courseInStudyPlanID = validateNotNull(courseInStudyPlanID, "Course In Study Plan ID");
+        this._generatedID = validateNotNull(generatedID, "Course In Study Plan Generated ID");
     }
 
     @Override
     public boolean equals(Object ObjectToCompare) {
-        // Verifica se o objeto a comparar é o mesmo
         if (this == ObjectToCompare) {
             return true;
         }
-        // Verifica se o objeto não é uma instância de CourseInStudyPlan
         if (!(ObjectToCompare instanceof CourseInStudyPlan)) {
             return false;
         }
-        // Faz o cast do objeto para CourseInStudyPlan
         CourseInStudyPlan courseToBeCompared = (CourseInStudyPlan) ObjectToCompare;
 
-        // Compara os atributos relevantes
         return this._courseInStudyPlanID.equals(courseToBeCompared._courseInStudyPlanID);
     }
 

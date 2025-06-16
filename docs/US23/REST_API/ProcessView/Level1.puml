@@ -5,16 +5,13 @@ title: I want to know the approval percentage of a Course Edition \n (Process Vi
 actor ProgrammeDirector
 participant ":System" as System #lightblue
 
-ProgrammeDirector -> System  : I want to know the approval percentage of a Course Edition
+ProgrammeDirector -> System  : I want to know the approval \n percentage of a Course Edition
 activate System
 System --> ProgrammeDirector  : Which Course Edition?
 deactivate System
+
 ProgrammeDirector -> System  : Course Edition!
 activate System
-System --> ProgrammeDirector  : Confirm?
-deactivate System
-ProgrammeDirector -> System  : Yes!
-activate System
-System --> ProgrammeDirector  : Success!
+System --> ProgrammeDirector  : Approval Rate!
 deactivate System
 @enduml

@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.UUID;
 
 public record CourseEditionResponseDTO(
+        UUID courseEditionGeneratedID,
         String programmeAcronym,
         UUID schoolYearID,
         String courseAcronym,

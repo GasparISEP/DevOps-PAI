@@ -1,0 +1,20 @@
+spring:
+  profiles:
+    active:
+      - teacher
+      - student
+      - programme
+      - programmeEnrolment
+      - course
+      - course-edition-enrolment
+      - programme-edition-enrolment
+      - programme-edition
+      - studyPlan
+      - school-year
+      - access-method
+      - course-edition
+      - course-in-study-plan
+      - degree-type
+      - department
+      - teacher-category
+      - studentGrade

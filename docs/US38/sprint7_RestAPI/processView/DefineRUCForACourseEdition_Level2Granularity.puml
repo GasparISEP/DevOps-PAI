@@ -17,18 +17,6 @@ participant ":Database" as DB <<container>>
 -> Frontend: I want to define the RUC for a course edition
 activate Frontend #E1F5FE
 
-' --- Select teachers ---
-Frontend -> Backend: GET /teachers
-activate Backend #E1F5FE
-Backend -> DB: SELECT * FROM teacher
-activate DB #E1F5FE
-DB --> Backend: teachers
-deactivate DB
-Backend --> Frontend: 200 OK + teachers
-deactivate Backend
-<-- Frontend : Display teacher selection list
-
--> Frontend: Select a teacher
 
 ' --- Select course edition ---
 Frontend -> Backend: GET /courseeditions
@@ -42,7 +30,18 @@ deactivate Backend
 <-- Frontend: Display course edition selection list
 
 -> Frontend: Select a course edition
+' --- Select teachers ---
+Frontend -> Backend: GET /teachers
+activate Backend #E1F5FE
+Backend -> DB: SELECT * FROM teacher
+activate DB #E1F5FE
+DB --> Backend: teachers
+deactivate DB
+Backend --> Frontend: 200 OK + teachers
+deactivate Backend
+<-- Frontend : Display teacher selection list
 
+-> Frontend: Select a teacher
 ' --- Confirm selection ---
 <-- Frontend: Confirm selected teacher and course edition?
 
@@ -53,16 +52,7 @@ Frontend -> Backend: PATCH /course-editions/{id}/ruc + body {...}
 
 note over DB #E0E0E0
   Body:
-    {"teacherID": "AAA",
-    "courseEditionDTO": {
-      "programmeName": "Data Science",
-      "programmeAcronym": "DSD",
-      "schoolYearID": "550e8400-e29b-41d4-a716-446655440002",
-      "courseAcronym": "ARIT",
-      "courseName": "Arithmancy",
-      "studyPlanProgrammeName": "",
-      "studyPlanProgrammeAcronym": "",
-      "studyPlanImplementationDate": "2023-07-01"
+    {"teacherID": "AAA","
     }}
 end note
 
@@ -78,17 +68,12 @@ Backend --> Frontend: 200 OK + body {DefineRucResponseDTO + hypermedia}
 note left of Frontend #E0E0E0
   DefineRucResponseDTO + hypermedia:
     {"teacherID": "AAA",
-    "courseEditionDTO": {
-      "programmeName": "Data Science",
-      "programmeAcronym": "DSD",
-      "schoolYearID": "550e8400-e29b-41d4-a716-446655440002",
-      "courseAcronym": "ARIT",
-      "courseName": "Arithmancy",
-      "studyPlanImplementationDate": "2023-07-01"
+      "CourseEditionGeneratedID": "550e8400-e29b-41d4-a716-446655440002",
+
     },
     "_links": {
       "define-ruc": {
-        "href": "http://localhost:8081/courseeditions/ruc"
+        "href": "http://localhost:8081/{id}courseeditions/ruc"
       }}}
 end note
 deactivate Backend

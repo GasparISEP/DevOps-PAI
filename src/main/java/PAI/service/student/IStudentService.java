@@ -4,6 +4,7 @@ import PAI.VOs.*;
 import PAI.domain.student.Student;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IStudentService {
 
@@ -14,4 +15,9 @@ public interface IStudentService {
     int getLastStudentID();
 
     List<Student> getAllStudents();
+
+    Name getNameByStudentID(StudentID studentID);
+
+    Optional<Student> findByID(StudentID studentID);
+
 }

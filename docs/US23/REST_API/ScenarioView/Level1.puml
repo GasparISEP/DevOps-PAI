@@ -1,0 +1,15 @@
+@startuml
+
+left to right direction
+
+title As a Programme Director, I want to know the approval percentage of a course edition of my programme.
+
+actor ProgrammeDirector as "**P**rogramme  **D**irector"
+
+rectangle "<<PAI System>>" {
+    usecase "Find the approval rate of a Course Edition" as usecase
+}
+
+ProgrammeDirector --> usecase
+
+@enduml

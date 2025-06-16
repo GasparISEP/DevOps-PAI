@@ -34,9 +34,13 @@ class ProgrammeInitializerTest {
     @InjectMocks
     private ProgrammeInitializer initializer;
 
+    private String _csvPath;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+
+        _csvPath = "src/main/resources/ProgrammeData.csv";
 
         // Mock DegreeType names and ids
         when(bachelorDegreeType.getName()).thenReturn(new PAI.VOs.Name("Bachelor"));
@@ -65,7 +69,7 @@ class ProgrammeInitializerTest {
         TeacherID teacherAAC = new TeacherID(new TeacherAcronym("AAC"));
 
         // Run initializer to process CSV and call controller
-        initializer.init();
+        initializer.loadProgramme(controller, degreeTypeRepository, _csvPath);
 
         // Verify controller called with exact expected parameters
         verify(controller).registerProgramme("Computer Sci", "CSD", 180, 6, new DegreeTypeID("1"), deptAAA, teacherAAA);

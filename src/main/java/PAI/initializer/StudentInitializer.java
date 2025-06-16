@@ -1,32 +1,22 @@
 package PAI.initializer;
 
 import PAI.controller.US08_IWantToRegisterAStudentInTheSystemController;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 
-@Configuration
+@Component
 public class StudentInitializer {
 
-    @Bean
-    public CommandLineRunner loadDataRegisterStudent(US08_IWantToRegisterAStudentInTheSystemController controller) {
-        return (args) -> {
-            loadStudents(controller);
-        };
-    }
-
-    private void loadStudents(US08_IWantToRegisterAStudentInTheSystemController controller) {
-        String csvFile = "src/main/resources/Student_Data.csv";
+    public void loadStudents(US08_IWantToRegisterAStudentInTheSystemController controller, String csvFilePath) {
 
         long startTime = System.currentTimeMillis();
 
-        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(csvFilePath))) {
             String line;
             boolean isFirstLine = true;
-            while ((line = br.readLine()) != null) {
+            while ((line = reader.readLine()) != null) {
                 if (isFirstLine) {
                     isFirstLine = false;
                     continue;
@@ -36,7 +26,7 @@ public class StudentInitializer {
                 String[] fields = line.split(";");
 
                 if (fields.length < 11) {
-                    System.err.println("⚠️ Skipping malformed line: " + line);
+                    System.err.println("Skipping malformed line: " + line);
                     continue;
                 }
 
@@ -56,10 +46,10 @@ public class StudentInitializer {
 
                 try {
                     controller.registerStudent(name, nif, countryNif, countryCode, phoneNumber, email, street, postalCode, location, country);
-                    System.out.println("✅ Student registered: " + name);
+                    System.out.println("Student registered: " + name);
                 } catch (Exception e) {
-                    System.err.println("❌ Failed to register student: " + name);
-                    e.printStackTrace(); // 🔍 now you'll see what failed
+                    System.err.println("Failed to register student: " + name);
+                    e.printStackTrace();
                 }
 
             }
@@ -72,5 +62,4 @@ public class StudentInitializer {
 
         System.out.println("\nStudent data loading time: " + duration + " ms\n");
     }
-
 }

@@ -8,6 +8,8 @@ public class ProgrammeEnrolmentDTO {
     private String programmeAcronym;
     private LocalDate date;
 
+    public ProgrammeEnrolmentDTO() {}
+
     public ProgrammeEnrolmentDTO(int studentID, String accessMethodID, String programmeAcronym, LocalDate date) {
         this.studentID = studentID;
         this.accessMethodID = accessMethodID;
@@ -19,15 +21,31 @@ public class ProgrammeEnrolmentDTO {
         return studentID;
     }
 
+    public void setStudentID(int studentID) {
+        this.studentID = studentID;
+    }
+
     public String getAccessMethodID() {
         return accessMethodID;
+    }
+
+    public void setAccessMethodID(String accessMethodID) {
+        this.accessMethodID = accessMethodID;
     }
 
     public String getProgrammeAcronym() {
         return programmeAcronym;
     }
 
+    public void setProgrammeAcronym(String programmeAcronym) {
+        this.programmeAcronym = programmeAcronym;
+    }
+
     public LocalDate getDate() {
         return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 }

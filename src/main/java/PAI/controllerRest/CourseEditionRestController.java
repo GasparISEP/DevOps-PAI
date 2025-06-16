@@ -8,7 +8,6 @@ import PAI.assembler.courseEditionEnrolment.ICourseEditionEnrolmentAssembler;
 import PAI.assembler.courseEditionEnrolment.ICourseEditionEnrolmentHateoasAssembler;
 import PAI.assembler.programmeEdition.IProgrammeEditionServiceAssembler;
 import PAI.assembler.studentGrade.IStudentGradeAssembler;
-import PAI.domain.courseEdition.CourseEdition;
 import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
 import PAI.dto.approvalRate.ApprovalRateResponseDTO;
 import PAI.dto.courseEdition.*;
@@ -23,7 +22,9 @@ import PAI.service.courseEditionEnrolment.ICourseEditionEnrolmentService;
 import PAI.service.studentGrade.IGradeAStudentService;
 import jakarta.validation.Valid;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,6 +33,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+
+import static PAI.utils.ValidationUtils.validateNotNull;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/course-editions")
@@ -62,18 +67,18 @@ public CourseEditionRestController(
         IDefineRucService defineRucService, ICourseEditionHateoasAssembler courseEditionHateoasAssembler,
         IStudentCountAssembler studentCountAssembler, ICourseEditionEnrolmentHateoasAssembler courseEditionEnrolmentHateoasAssembler
 ) {
-    this.courseEditionEnrolmentService = courseEditionEnrolmentService;
-    this.courseEditionEnrolmentAssembler = courseEditionEnrolmentAssembler;
-    this.createCourseEditionService = createCourseEditionService;
-    this.courseEditionService = courseEditionService;
-    this.courseEditionAssembler = courseEditionAssembler;
-    this.gradeAStudentService = gradeAStudentService;
-    this.studentGradeAssembler = studentGradeAssembler;
-    this.programmeEditionAssembler = programmeEditionAssembler;
-    this.defineRucService = defineRucService;
-    this.courseEditionHateoasAssembler = courseEditionHateoasAssembler;
-    this.studentCountAssembler = studentCountAssembler;
-    this.courseEditionEnrolmentHateoasAssembler = Objects.requireNonNull(courseEditionEnrolmentHateoasAssembler);
+    this.courseEditionEnrolmentService = validateNotNull(courseEditionEnrolmentService, "CourseEditionEnrolmentService");
+    this.courseEditionEnrolmentAssembler = validateNotNull(courseEditionEnrolmentAssembler, "CourseEditionEnrolmentAssembler");
+    this.createCourseEditionService = validateNotNull(createCourseEditionService, "CreateCourseEditionService");
+    this.courseEditionService = validateNotNull(courseEditionService, "CourseEditionService");
+    this.courseEditionAssembler = validateNotNull(courseEditionAssembler, "CourseEditionAssembler");
+    this.gradeAStudentService = validateNotNull(gradeAStudentService, "GradeAStudentService");
+    this.studentGradeAssembler = validateNotNull(studentGradeAssembler, "StudentGradeAssembler");
+    this.programmeEditionAssembler = validateNotNull(programmeEditionAssembler, "ProgrammeEditionServiceAssembler");
+    this.defineRucService = validateNotNull(defineRucService, "DefineRucService");
+    this.courseEditionHateoasAssembler = validateNotNull(courseEditionHateoasAssembler, "CourseEditionHateoasAssembler");
+    this.studentCountAssembler = validateNotNull(studentCountAssembler, "StudentCountAssembler");
+    this.courseEditionEnrolmentHateoasAssembler = validateNotNull(courseEditionEnrolmentHateoasAssembler, "CourseEditionEnrolmentHateoasAssembler");
 }
 
     @PostMapping("/students/{id}/courses-edition-enrolments")
@@ -113,44 +118,19 @@ public CourseEditionRestController(
     }
 
     @PostMapping
-    public ResponseEntity<?> createCourseEdition(@Valid @RequestBody CourseEditionRequestDTO dto) {
-        try {
-            CreateCourseEditionCommand command = courseEditionAssembler.toCommand(dto);
+    public ResponseEntity<CourseEditionResponseDTO> createCourseEdition(@Valid @RequestBody CourseEditionRequestDTO requestDTO) {
+        CreateCourseEditionCommand command = courseEditionAssembler.toCommand(requestDTO);
+        CourseEditionServiceResponseDTO serviceResponseDTO = createCourseEditionService.createCourseEditionForRestApi(command);
+        CourseEditionResponseDTO courseEditionResponseDTO = courseEditionAssembler.toResponseDTO(serviceResponseDTO);
 
-            ProgrammeID programmeID = new ProgrammeID(command.programmeAcronym());
-
-            Date studyPlanDate = command.studyPlanImplementationDate();
-
-            CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(
-                    new CourseID(command.courseAcronym(), command.courseName()),
-                    new StudyPlanID(programmeID, studyPlanDate)
-            );
-
-            ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(
-                    programmeID,
-                    command.schoolYearID()
-            );
-
-            CourseEditionResponseDTO responseDTO =
-                    createCourseEditionService.createCourseEditionAndReturnDTO(courseInStudyPlanID, programmeEditionID);
-
-            if (responseDTO == null) {
-                return ResponseEntity.badRequest().build();
-            }
-
-            //String safeID = URLEncoder.encode(responseDTO.courseEditionID(), StandardCharsets.UTF_8);
-
-            return ResponseEntity
-                    .created(URI.create("/course-editions/")) //+ safeID))
-                    .body(responseDTO);
-
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal server error");
-        }
+        return ResponseEntity
+                .created(URI.create("/course-editions/" + serviceResponseDTO.courseEditionID()))
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(courseEditionResponseDTO);
     }
-@PatchMapping("/{id}/ruc")
+
+
+    @PatchMapping("/{id}/ruc")
 public ResponseEntity<?> defineRucForCourseEdition(
         @PathVariable("id") UUID id,
         @RequestBody DefineRucRequestDTO defineRucRequestDTO) {
@@ -184,8 +164,8 @@ public ResponseEntity<?> defineRucForCourseEdition(
             ProgrammeEditionID programmeEditionID = courseEditionAssembler.toProgrammeEditionID(courseEditionRequestDTO);
             CourseInStudyPlanID courseInStudyPlanID = courseEditionAssembler.toCourseInStudyPlanID(courseEditionRequestDTO);
             List<CourseEditionID> courseEditionIDs = courseEditionService.findCourseEditionsByProgrammeEditionIDAndCourseInStudyPlanID(programmeEditionID, courseInStudyPlanID);
-            List<CourseEditionResponseDTO> courseEditionResponseDTOs = courseEditionAssembler.toResponseDTOList(courseEditionIDs);
-            return ResponseEntity.ok(courseEditionHateoasAssembler.toCollectionModel(courseEditionResponseDTOs));
+            List<CourseEditionResponseIDDTO> courseEditionResponseIDDTOs = courseEditionAssembler.toResponseIDDTOList(courseEditionIDs);
+            return ResponseEntity.ok(courseEditionHateoasAssembler.toCollectionModel(courseEditionResponseIDDTOs));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().build();
@@ -195,12 +175,12 @@ public ResponseEntity<?> defineRucForCourseEdition(
     @GetMapping
     public ResponseEntity<?> findAllCourseEditions () {
         // Retrieves all Domain Course Editions
-        Iterable<CourseEdition> allCourseEditions = createCourseEditionService.findAll();
+        Iterable<CourseEditionServiceResponseDTO> allCourseEditions = createCourseEditionService.findAll();
 
         List<CourseEditionResponseDTO> dtoList = new ArrayList<>();
         // For each Domain CourseEdition, it converts into a ResponseDTO and adds to list
-        for (CourseEdition courseEdition : allCourseEditions) {
-            dtoList.add(courseEditionAssembler.toResponseDTO(courseEdition));
+        for (CourseEditionServiceResponseDTO courseEditionServiceDto : allCourseEditions) {
+            dtoList.add(courseEditionAssembler.toResponseDTO(courseEditionServiceDto));
         }
 
         return ResponseEntity.ok(dtoList);
@@ -250,7 +230,8 @@ public ResponseEntity<?> defineRucForCourseEdition(
             @RequestParam("programmeAcronym") @Valid String programmeAcronym,
             @RequestParam("schoolYearId") @Valid String schoolYearId,
             @RequestParam("courseAcronym") @Valid String courseAcronym,
-            @RequestParam("studyPlanDate") @Valid String studyPlanDate)  {
+            @RequestParam("courseName") @Valid String courseName,
+            @RequestParam("localDate") @Valid String localDate)  {
      try {
          UUID schoolYearUUID = UUID.fromString(schoolYearId);
          SchoolYearID schoolYearID = new SchoolYearID(schoolYearUUID);
@@ -260,8 +241,8 @@ public ResponseEntity<?> defineRucForCourseEdition(
          CourseEditionID courseEditionID = new CourseEditionID(
                  new ProgrammeEditionID(programmeID, schoolYearID),
                  new CourseInStudyPlanID(
-                         new CourseID(new Acronym(courseAcronym), new Name("Placeholder Name")),
-                         new StudyPlanID(programmeID, new Date(studyPlanDate))));
+                         new CourseID(new Acronym(courseAcronym), new Name(courseName)),
+                         new StudyPlanID(programmeID, new Date(localDate))));
 
          double approvalRate = gradeAStudentService.knowApprovalRate(courseEditionID);
          ApprovalRateResponseDTO dto = new ApprovalRateResponseDTO(approvalRate);
@@ -293,5 +274,24 @@ public ResponseEntity<?> defineRucForCourseEdition(
                 .toList();
         return ResponseEntity.ok(dtos);
     }
+
+    @PostMapping("/studentgrades/register/hateoas")
+    public ResponseEntity<EntityModel<GradeAStudentResponseDTO>> gradeAStudentWithLink(
+            @RequestBody @Valid GradeAStudentRequestDTO request) throws Exception {
+
+        GradeAStudentCommand command = studentGradeAssembler.toDomain(request);
+        GradeAStudentResponseDTO response = gradeAStudentService.gradeAStudent(command);
+
+        // Criar link para GET /students/{studentID}
+        int studentID = response._studentUniqueNumber();
+        Link studentLink = linkTo(methodOn(StudentRestController.class).getStudentByID(studentID))
+                .withRel("student-details");
+
+        EntityModel<GradeAStudentResponseDTO> model = EntityModel.of(response, studentLink);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(model);
+    }
+
+
 
 }

@@ -9,6 +9,7 @@ import PAI.domain.schoolYear.ISchoolYearFactory;
 import PAI.domain.schoolYear.SchoolYear;
 import PAI.dto.schoolYear.CurrentSchoolYearDTO;
 import PAI.dto.schoolYear.SchoolYearDTO;
+import PAI.dto.schoolYear.SchoolYearIDDescriptionResponseDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -123,5 +124,18 @@ public class SchoolYearServiceImpl implements ISchoolYearService {
     @Override
     public Optional<SchoolYear> getSchoolYearByID(SchoolYearID schoolYearID) {
         return schoolYearRepository.findBySchoolYearID(schoolYearID);
+    }
+
+    @Override
+    public List<SchoolYearIDDescriptionResponseDTO> getAllSchoolYearsIDDescriptions() {
+        Iterable<SchoolYear> schoolYears = schoolYearRepository.findAll();
+        List<SchoolYearIDDescriptionResponseDTO> schoolYearIDDescriptionResponseDTOs = new ArrayList<>();
+        for (SchoolYear schoolYear : schoolYears) {
+            SchoolYearIDDescriptionResponseDTO responseDTO = new SchoolYearIDDescriptionResponseDTO(
+                    schoolYear.identity().toString(),
+                    schoolYear.getDescription().getDescription());
+            schoolYearIDDescriptionResponseDTOs.add(responseDTO);
+        }
+        return schoolYearIDDescriptionResponseDTOs;
     }
 }

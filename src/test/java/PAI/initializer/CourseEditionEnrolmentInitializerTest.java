@@ -1,7 +1,6 @@
 package PAI.initializer;
 
-import PAI.VOs.CourseEditionID;
-import PAI.VOs.StudentID;
+import PAI.VOs.*;
 import PAI.controller.US16_EnrolAStudentInACourseEditionController;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -26,9 +25,13 @@ public class CourseEditionEnrolmentInitializerTest {
     @InjectMocks
     private CourseEditionEnrolmentInitializer initializer;
 
+    private String _csvPath;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+
+        _csvPath = "src/main/resources/CourseEditionEnrolment.csv";
     }
 
 
@@ -37,10 +40,10 @@ public class CourseEditionEnrolmentInitializerTest {
         // Arrange
 
         //act
-        initializer.loadCourseEditionEnrolments(controller).run();
+        initializer.loadCourseEditionEnrolments(controller, _csvPath);
 
         // assert
-        verify(controller, atLeastOnce()).enrolStudentInCourseEdition(any(), any());
+        verify(controller, atLeastOnce()).enrolStudentInCourseEdition(any(), any(), any(), any(), any());
     }
 
 
@@ -53,7 +56,7 @@ public class CourseEditionEnrolmentInitializerTest {
 
         try {
 
-            initializer.loadCourseEditionEnrolments(null).run();
+            initializer.loadCourseEditionEnrolments(null, _csvPath);
         } finally {
 
             System.setErr(originalErr);
@@ -69,7 +72,7 @@ public class CourseEditionEnrolmentInitializerTest {
     void shouldPrintStackTraceWhenControllerThrows() throws Exception {
         // Arrange: force controller to throw
         doThrow(new RuntimeException("boom"))
-                .when(controller).enrolStudentInCourseEdition(any(StudentID.class), any(CourseEditionID.class));
+                .when(controller).enrolStudentInCourseEdition(any(CourseEditionEnrolmentGeneratedID.class) , any(StudentID.class), any(CourseEditionID.class), any(Date.class), any(EnrolmentStatus.class));
 
         // Capture System.err
         ByteArrayOutputStream errContent = new ByteArrayOutputStream();
@@ -78,8 +81,7 @@ public class CourseEditionEnrolmentInitializerTest {
 
         try {
             // Act: run the CommandLineRunner
-            CommandLineRunner runner = initializer.loadCourseEditionEnrolments(controller);
-            runner.run(new String[]{});
+            initializer.loadCourseEditionEnrolments(controller, _csvPath);
         } finally {
             // Restore
             System.setErr(originalErr);
@@ -94,7 +96,7 @@ public class CourseEditionEnrolmentInitializerTest {
     void testLoadCourseEditionEnrolments_FileNotFound() {
         // arrange
         try {
-            new CourseEditionEnrolmentInitializer().loadCourseEditionEnrolments(controller).run();
+            initializer.loadCourseEditionEnrolments(controller, _csvPath);
         } catch (Exception e) {
             assertTrue(e instanceof NullPointerException);
             assertEquals("Arquivo CSV não encontrado no classpath!", e.getMessage());
@@ -111,7 +113,7 @@ public class CourseEditionEnrolmentInitializerTest {
         System.setOut(new PrintStream(outContent));
 
         try {
-            initializer.loadCourseEditionEnrolments(mock(US16_EnrolAStudentInACourseEditionController.class)).run();
+            initializer.loadCourseEditionEnrolments(controller, _csvPath);
         } catch (Exception ignored) {
 
         } finally {

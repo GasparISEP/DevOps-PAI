@@ -47,7 +47,7 @@ class CourseInStudyPlanTest {
                 () -> new CourseInStudyPlan(semester, curricularYear, null, studyPlanID,
                         courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts, generatedID)
         );
-        assertEquals("Course ID cannot be null", ex.getMessage());
+        assertEquals("Course ID cannot be null.", ex.getMessage());
     }
 
     @Test
@@ -67,7 +67,7 @@ class CourseInStudyPlanTest {
                 () -> new CourseInStudyPlan(null, curricularYear, courseID, studyPlanID,
                         courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts, generatedID)
         );
-        assertEquals("Semester cannot be null", ex.getMessage());
+        assertEquals("Semester cannot be null.", ex.getMessage());
     }
 
     @Test
@@ -88,7 +88,7 @@ class CourseInStudyPlanTest {
                 () -> new CourseInStudyPlan(semester, null, courseID, studyPlanID,
                         courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts, generatedID)
         );
-        assertEquals("Curricular Year cannot be null", ex.getMessage());
+        assertEquals("Curricular Year cannot be null.", ex.getMessage());
     }
 
     @Test
@@ -108,7 +108,7 @@ class CourseInStudyPlanTest {
                 () -> new CourseInStudyPlan(semester, curricularYear, courseID, null,
                         courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts, generatedID)
         );
-        assertEquals("Study Plan ID cannot be null", ex.getMessage());
+        assertEquals("Study Plan ID cannot be null.", ex.getMessage());
     }
 
     @Test
@@ -128,7 +128,7 @@ class CourseInStudyPlanTest {
                 () -> new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID,
                         courseInStudyPlanID, null, quantityOfCreditsEcts, generatedID)
         );
-        assertEquals("Duration of Course cannot be null", ex.getMessage());
+        assertEquals("Duration of Course cannot be null.", ex.getMessage());
     }
 
     @Test
@@ -149,7 +149,7 @@ class CourseInStudyPlanTest {
                 () -> new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID,
                         courseInStudyPlanID, durationOfCourse, null, generatedID)
         );
-        assertEquals("Quantity of Credits Ects cannot be null", ex.getMessage());
+        assertEquals("Quantity of Credits Ects cannot be null.", ex.getMessage());
     }
 
     @Test
@@ -169,7 +169,7 @@ class CourseInStudyPlanTest {
                 () -> new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID,
                         null, durationOfCourse, quantityOfCreditsEcts, generatedID)
         );
-        assertEquals("Course In Study Plan ID cannot be null", ex.getMessage());
+        assertEquals("Course In Study Plan ID cannot be null.", ex.getMessage());
     }
 
     @Test
@@ -189,7 +189,7 @@ class CourseInStudyPlanTest {
                 () -> new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID,
                         courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts, null)
         );
-        assertEquals("Course In Study Plan Generated ID cannot be null", ex.getMessage());
+        assertEquals("Course In Study Plan Generated ID cannot be null.", ex.getMessage());
     }
 
     @Test

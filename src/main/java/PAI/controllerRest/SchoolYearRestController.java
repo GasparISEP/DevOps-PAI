@@ -9,11 +9,13 @@ import PAI.domain.schoolYear.SchoolYear;
 import PAI.dto.schoolYear.CurrentSchoolYearDTO;
 import PAI.dto.schoolYear.CurrentSchoolYearResponseDTO;
 import PAI.dto.schoolYear.SchoolYearDTO;
+import PAI.dto.schoolYear.SchoolYearIDDescriptionResponseDTO;
 import PAI.service.schoolYear.ISchoolYearService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -76,6 +78,12 @@ public class SchoolYearRestController {
         } else {
             return new ResponseEntity<>("No current School Year", HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping("/descriptions")
+    public ResponseEntity<List<SchoolYearIDDescriptionResponseDTO>> getAllSchoolYearsIDDescriptions() {
+        List<SchoolYearIDDescriptionResponseDTO> dtos = schoolYearService.getAllSchoolYearsIDDescriptions();
+        return ResponseEntity.ok(dtos);
     }
 
     @GetMapping("/{id}")

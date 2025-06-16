@@ -1,10 +1,7 @@
 package PAI.assembler.courseEdition;
 import PAI.VOs.*;
 import PAI.domain.courseEdition.CourseEdition;
-import PAI.dto.courseEdition.CourseEditionRequestDTO;
-import PAI.dto.courseEdition.CourseEditionResponseDTO;
-import PAI.dto.courseEdition.CreateCourseEditionCommand;
-import PAI.dto.courseEdition.SelectedCourseEditionIdDTO;
+import PAI.dto.courseEdition.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -97,20 +94,30 @@ class CourseEditionAssemblerImplTest {
         when(courseEdition.getProgrammeEditionID()).thenReturn(programmeEditionID);
         when(courseEdition.getCourseInStudyPlanID()).thenReturn(courseInStudyPlanID);
 
-        // Act
-        CourseEditionResponseDTO dto = assembler.toResponseDTO(courseEdition);
-
-        // Assert
         String expectedFormattedID = URLEncoder.encode(
                 programmeAcronym + "-" +
                         uuid + "_" +
                         courseAcronym + "-" +
                         courseName + "-" +
                         programmeAcronym + "-" +
-                        studyPlanDate.toString(),
+                        studyPlanDate,
                 StandardCharsets.UTF_8
         );
 
+        CourseEditionServiceResponseDTO serviceResponseDTO = new CourseEditionServiceResponseDTO(
+                UUID.randomUUID(),
+                programmeAcronym,
+                uuid,
+                courseAcronym,
+                courseName,
+                studyPlanDate,
+                expectedFormattedID // <-- Corrigido aqui
+        );
+
+        // Act
+        CourseEditionResponseDTO dto = assembler.toResponseDTO(serviceResponseDTO);
+
+        // Assert
         assertEquals(expectedFormattedID, dto.courseEditionID());
         assertEquals(programmeAcronym, dto.programmeAcronym());
         assertEquals(uuid, dto.schoolYearID());
@@ -135,8 +142,9 @@ class CourseEditionAssemblerImplTest {
         // Arrange
         CourseEditionAssemblerImpl assembler = new CourseEditionAssemblerImpl();
 
+        List<CourseEditionID> emptyList = Collections.emptyList();
         // Act
-        List<CourseEditionResponseDTO> dtoList = assembler.toResponseDTOList(Collections.emptyList());   
+        List<CourseEditionResponseIDDTO> dtoList = assembler.toResponseIDDTOList(emptyList);
 
         // Assert
         assertEquals(0, dtoList.size());
@@ -181,11 +189,11 @@ class CourseEditionAssemblerImplTest {
         when(studyPlanID.getLocalDate()).thenReturn(studyPlanDate);
 
         // Act
-        List<CourseEditionResponseDTO> result = assembler.toResponseDTOList(List.of(courseEditionID));
+        List<CourseEditionResponseIDDTO> result = assembler.toResponseIDDTOList(List.of(courseEditionID));
 
         // Assert
         assertEquals(1, result.size());
-        CourseEditionResponseDTO dto = result.get(0);
+        CourseEditionResponseIDDTO dto = result.get(0);
         assertEquals("CE-1", dto.courseEditionID());
         assertEquals(programmeAcronym, dto.programmeAcronym());
         assertEquals(uuid, dto.schoolYearID());
@@ -302,4 +310,51 @@ class CourseEditionAssemblerImplTest {
         // Act & Assert
         assertThrows(Exception.class, () -> assembler.toCourseInStudyPlanID(dto));
     }
+    @Test
+    void fromDtoToCourseEditionGeneratedID_ShouldThrowException_WhenInvalidSelectedCourseEditionGeneratedIdDTO() {
+        // Arrange
+        SelectedCourseEditionGeneratedIdDTO dto = mock(SelectedCourseEditionGeneratedIdDTO.class);
+        // Act & Assert
+        assertThrows(Exception.class, () -> assembler.fromDtoToCourseEditionGeneratedID(dto));
+    }
+    @Test
+    void fromDtoToCourseEditionGeneratedID_ShouldReturnCourseEditionGeneratedID() {
+        // Arrange
+        UUID generatedID = UUID.randomUUID();
+        SelectedCourseEditionGeneratedIdDTO dto = mock(SelectedCourseEditionGeneratedIdDTO.class);
+
+        when(dto.courseEditionID()).thenReturn(generatedID);
+        // Act
+        CourseEditionGeneratedID result = assembler.fromDtoToCourseEditionGeneratedID(dto);
+        //assert
+        assertNotNull(result);
+        assertEquals(result.getCourseEditionGeneratedID(), generatedID);
+    }
+    @Test
+    void toResponseDTOList_ShouldThrowException_WhenInvalidCourseEditionRequestDTO () {
+        // Arrange
+
+        List<CourseEditionID> courseEditionIDs = null;
+        // Act & Assert
+        assertThrows(Exception.class, () -> assembler.toResponseIDDTOList(courseEditionIDs));
+    }
+    @Test
+    void toProgrammeEditionID_shouldThrowException_whenNull() {
+        // Arrange
+        CourseEditionAssemblerImpl assembler = new CourseEditionAssemblerImpl();
+        // Act & Assert
+        Exception exception = assertThrows(Exception.class, () -> assembler.toProgrammeEditionID(null));
+        assertEquals("CourseEditionRequestDTO cannot be null", exception.getMessage());
+    }
+    @Test
+    void toCourseInStudyPlanID_shouldThrowException_whenNull() {
+        // Arrange
+        CourseEditionAssemblerImpl assembler = new CourseEditionAssemblerImpl();
+        // Act & Assert
+        Exception exception = assertThrows(Exception.class, () -> assembler.toCourseInStudyPlanID(null));
+
+        assertEquals("CourseEditionRequestDTO cannot be null", exception.getMessage());
+    }
+
+
 }
