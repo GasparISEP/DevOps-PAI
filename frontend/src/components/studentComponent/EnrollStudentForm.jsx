@@ -57,7 +57,7 @@ export default function EnrollStudentForm() {
             if (!isNaN(studentID) && studentID >= 1000000 && studentID <= 2000000) {
                 setStudentIdError("");
             } else {
-                setStudentIdError("Student ID must be in the range 1000000 - 2000000.");
+                setStudentIdError("Student ID must be between 1000000 and 2000000.");
             }
 
             setForm(f => ({ ...f, [name]: sanitized }));
@@ -197,21 +197,24 @@ export default function EnrollStudentForm() {
             })
         };
 
+        // ✅ Nova estrutura nested
         const grouped = courses.reduce((acc, c) => {
-            const key = `${c.curricularYear}º YEAR | ${c.semester}º SEMESTER`;
-            if (!acc[key]) acc[key] = [];
-            acc[key].push(c);
+            if (!acc[c.curricularYear]) acc[c.curricularYear] = {};
+            if (!acc[c.curricularYear][c.semester]) acc[c.curricularYear][c.semester] = [];
+            acc[c.curricularYear][c.semester].push(c);
             return acc;
         }, {});
 
         try {
             await enrolStudent(form.studentId, payload);
+
+            // ✅ Só aqui definimos o success para abrir modal depois do sucesso garantido:
             setSuccess({
                 studentID: form.studentId,
                 studentName: studentName,
                 programmeName: programme.programmeName,
                 editionDescription: edition.key,
-                groupedCourses: grouped,
+                groupedCourses: grouped, // nested structure!
                 selectedCourses: form.selectedCourses,
                 selectedEcts: selectedEcts
             });
@@ -278,34 +281,54 @@ export default function EnrollStudentForm() {
                             <div className="form-group">
                                 <label className="form-label">Courses</label>
                                 {form.edition && (
-                                    <p style={{ fontWeight: 'bold', marginBottom: '0.5rem' }}>ECTS — {selectedEcts} of {totalEcts}</p>
+                                    <p style={{ fontWeight: 'bold', marginBottom: '0.5rem' }}>
+                                        ECTS — {selectedEcts} of {totalEcts}
+                                    </p>
                                 )}
-                                {Object.entries(
-                                    courses.reduce((groups, c) => {
-                                        const key = `${c.curricularYear}º YEAR | ${c.semester}º SEMESTER`;
-                                        if (!groups[key]) groups[key] = [];
-                                        groups[key].push(c);
-                                        return groups;
-                                    }, {})
-                                ).map(([group, groupCourses]) => (
-                                    <div key={group} style={{ marginBottom: '1rem' }}>
-                                        <h4>{group}</h4>
-                                        <div className="form-checkbox-group">
-                                            {groupCourses.map(c => (
-                                                <label key={c.acronym} style={{ display: 'block' }}>
-                                                    <input
-                                                        type="checkbox"
-                                                        value={c.acronym}
-                                                        checked={form.selectedCourses.includes(c.acronym)}
-                                                        onChange={() => handleCheckboxChange(c.acronym)}
-                                                        style={{ marginRight: '0.5rem' }}
-                                                    />
-                                                    {c.name} ({c.qtyECTS} ECTS)
-                                                </label>
-                                            ))}
-                                        </div>
-                                    </div>
-                                ))}
+
+                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
+                                    {Object.entries(
+                                        courses.reduce((acc, course) => {
+                                            const year = course.curricularYear;
+                                            const sem = course.semester;
+                                            if (!acc[year]) acc[year] = { 1: [], 2: [] };
+                                            acc[year][sem].push(course);
+                                            return acc;
+                                        }, {})
+                                    ).sort(([a], [b]) => a - b)
+                                        .map(([year, semesters]) => (
+                                            <div key={year} style={{ marginBottom: '1.5rem', width: '100%', maxWidth: '700px' }}>
+                                                <h3>{year}º YEAR</h3>
+                                                <div style={{ display: 'flex', gap: '2rem', justifyContent: 'center' }}>
+                                                    {[1, 2].map(sem => (
+                                                        <div key={sem} style={{ flex: 1 }}>
+                                                            <h4>{sem}º SEMESTER</h4>
+                                                            {semesters[sem].length === 0 ? (
+                                                                <p style={{ fontStyle: 'italic', color: '#888' }}>No courses</p>
+                                                            ) : (
+                                                                semesters[sem].map(c => (
+                                                                    <label key={c.acronym} style={{ display: 'block', marginBottom: '0.5rem' }}>
+                                                                        <input
+                                                                            type="checkbox"
+                                                                            value={c.acronym}
+                                                                            checked={form.selectedCourses.includes(c.acronym)}
+                                                                            disabled={
+                                                                                !form.selectedCourses.includes(c.acronym) &&
+                                                                                (selectedEcts + c.qtyECTS) > totalEcts
+                                                                            }
+                                                                            onChange={() => handleCheckboxChange(c.acronym)}
+                                                                            style={{ marginRight: '0.5rem' }}
+                                                                        />
+                                                                        {c.name} ({c.qtyECTS} ECTS)
+                                                                    </label>
+                                                                ))
+                                                            )}
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        ))}
+                                </div>
                             </div>
 
                             {error && <div className="error">{error}</div>}
@@ -320,26 +343,70 @@ export default function EnrollStudentForm() {
 
                 {showModal && success && (
                     <div className="modal-overlay">
-                        <div className="modal-content">
+                        <div className="modal-content" style={{ maxHeight: '80vh', overflowY: 'auto' }}>
                             <h2 style={{ color: 'green' }}>✅ Enrollment Successful</h2>
                             <p><strong>Student ID:</strong> {success.studentID}</p>
                             <p><strong>Student Name:</strong> {success.studentName}</p>
                             <p><strong>Programme Edition:</strong> {success.programmeName} — {success.editionDescription}</p>
+
                             <h3>Courses:</h3>
-                            {Object.entries(success.groupedCourses).map(([group, groupCourses]) => {
-                                const selected = groupCourses.filter(c => success.selectedCourses.includes(c.acronym));
-                                if (selected.length === 0) return null;
-                                return (
-                                    <div key={group} style={{ marginBottom: '0.8rem' }}>
-                                        <strong>{group}</strong>
-                                        <ul>
-                                            {selected.map(c => (
-                                                <li key={c.acronym}>{c.name} ({c.qtyECTS} ECTS)</li>
-                                            ))}
-                                        </ul>
-                                    </div>
-                                );
-                            })}
+                            <div style={{ textAlign: 'center' }}>
+                                {Object.entries(success.groupedCourses)
+                                    .sort(([a], [b]) => a - b)
+                                    .map(([year, semestersRaw]) => {
+                                        const semesters = { 1: [], 2: [], ...semestersRaw };
+                                        const bothEmpty = semesters[1].length === 0 && semesters[2].length === 0;
+                                        if (bothEmpty) return null;
+
+                                        return (
+                                            <div key={year} style={{ marginBottom: '2rem' }}>
+                                                <h3>{year}º YEAR</h3>
+                                                <div
+                                                    style={{
+                                                        display: 'flex',
+                                                        justifyContent: 'center',
+                                                        alignItems: 'flex-start',
+                                                        flexWrap: 'nowrap',
+                                                        columnGap: '50px',
+                                                        marginTop: '1rem'
+                                                    }}
+                                                >
+                                                    {[1, 2].map(sem => {
+                                                        const selected = semesters[sem].filter(c =>
+                                                            success.selectedCourses.includes(c.acronym)
+                                                        );
+                                                        return (
+                                                            <div
+                                                                key={sem}
+                                                                style={{
+                                                                    textAlign: 'left',
+                                                                    width: '220px',
+                                                                    minHeight: '50px'
+                                                                }}
+                                                            >
+                                                                <h4>{sem}º SEMESTER</h4>
+                                                                {selected.length === 0 ? (
+                                                                    <p style={{ fontStyle: 'italic', color: '#888' }}>
+                                                                        No courses
+                                                                    </p>
+                                                                ) : (
+                                                                    <ul style={{ listStyle: 'none', padding: 0 }}>
+                                                                        {selected.map(c => (
+                                                                            <li key={c.acronym} style={{ marginBottom: '0.3rem' }}>
+                                                                                {c.name} ({c.qtyECTS} ECTS)
+                                                                            </li>
+                                                                        ))}
+                                                                    </ul>
+                                                                )}
+                                                            </div>
+                                                        );
+                                                    })}
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                            </div>
+
                             <p style={{ marginTop: '1rem', fontWeight: 'bold' }}>
                                 ECTS Used: {success.selectedEcts} / {totalEcts}
                             </p>
