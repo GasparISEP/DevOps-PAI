@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {getEnrolmentsForStudent, gradeAStudentWithLink} from '../../services/courseEditionGradeStudentService';
+import { getEnrolmentsForStudent, gradeAStudentWithLink } from '../../services/courseEditionGradeStudentService';
 import ISEPLogoBranco from "../../assets/images/ISEP_logo-branco.png";
 import '../../styles/Form.css';
 import '../../styles/RegisterGradeStudentPage.css';
@@ -45,13 +45,12 @@ export default function GradeStudentForm() {
                     console.error("Erro ao buscar inscrições do estudante:", err);
                     setEnrolments([]);
                 } finally {
-                    setIsLoading(false); // 🚀 Garante que o carregamento termina
+                    setIsLoading(false);
                 }
             }
         }
 
         fetchEnrolments();
-
     }, [form.studentUniqueNumber]);
 
     function handleChange(e) {
@@ -59,22 +58,19 @@ export default function GradeStudentForm() {
 
         // Student ID's validation
         if (name === "studentUniqueNumber") {
-            const sanitizedValue = value.replace(/\D/g, ''); // Remove caracteres não numéricos
+            const sanitizedValue = value.replace(/\D/g, '');
 
-            // 1) Checks that it contains only numbers
             if (value !== sanitizedValue) {
                 setStudentIdError("Student's ID can only contain numbers.");
                 return;
             }
 
-            // 2) Checks if the field is empty
             if (sanitizedValue === "") {
                 setStudentIdError("Student's ID cannot be empty.");
                 setForm(f => ({ ...f, [name]: sanitizedValue }));
                 return;
             }
 
-            // 3) Checks if it has more than 7 digits
             if (sanitizedValue.length > 7) {
                 setStudentIdError("Student's ID must have exactly 7 digits.");
                 setForm(f => ({ ...f, [name]: sanitizedValue.slice(0, 7) }));
@@ -83,33 +79,28 @@ export default function GradeStudentForm() {
 
             const studentID = parseInt(sanitizedValue, 10);
 
-            // 4) If it is a valid number within the allowed range, clears the error
             if (!isNaN(studentID) && studentID >= 1000000 && studentID <= 2000000) {
                 setStudentIdError("");
             }
 
-            // Sempre atualiza o estado, mesmo que haja erro
             setForm(f => ({ ...f, [name]: sanitizedValue }));
         }
 
         // Grade's validation
         if (name === "grade") {
-            let sanitizedGrade = value.replace(/[^0-9.]/g, ''); // Permite apenas números e um único ponto decimal
+            let sanitizedGrade = value.replace(/[^0-9.]/g, '');
 
-            // 1) Checks if it contains invalid characters
             if (value !== sanitizedGrade) {
-                setGradeError("Grade can only contain numbers and a single decimal point."); // Exibe erro específico
+                setGradeError("Grade can only contain numbers and a single decimal point.");
                 return;
             }
 
-            // 2) Checks if the field is empty
             if (sanitizedGrade === "") {
                 setGradeError("Grade cannot be empty.");
                 setForm(f => ({ ...f, [name]: sanitizedGrade }));
                 return;
             }
 
-            // 3) Blocks multiple decimal points
             const dotCount = (sanitizedGrade.match(/\./g) || []).length;
             if (dotCount > 1) {
                 setGradeError("Grade format is invalid.");
@@ -118,28 +109,29 @@ export default function GradeStudentForm() {
 
             const gradeValue = parseFloat(sanitizedGrade);
 
-            // 4) Checks if its NaN or if it's not allowed in the given range
             if (isNaN(gradeValue) || gradeValue < 0 || gradeValue > 20) {
                 setGradeError("Grade must be a valid number between 0 and 20.");
                 return;
             }
 
-            // 5) Ensures that decimal numbers have exactly two decimal places
             const decimalCount = sanitizedGrade.split('.')[1]?.length || 0;
             if (decimalCount > 2) {
                 setGradeError("Grade must have exactly two decimal places.");
                 return;
             }
 
-            // 6) Ensures that an integer does not have more than 2 digits.
             if (!sanitizedGrade.includes(".") && sanitizedGrade.length > 2) {
                 setGradeError("Grade must be an integer with at most 2 digits.");
                 return;
             }
 
-            // Everything is valid
             setGradeError("");
             setForm(f => ({ ...f, [name]: sanitizedGrade }));
+        }
+
+        // CourseEdition dropdown
+        if (name === "courseEditionID") {
+            setForm(f => ({ ...f, [name]: value }));
         }
     }
 
@@ -150,7 +142,17 @@ export default function GradeStudentForm() {
         setLoading(true);
 
         try {
-            const response = await gradeAStudentWithLink(form);
+            const [schoolYearId, courseAcronym, courseName] = form.courseEditionID.split('|');
+
+            const requestPayload = {
+                studentUniqueNumber: form.studentUniqueNumber,
+                schoolYearId,
+                courseAcronym,
+                courseName,
+                grade: form.grade
+            };
+
+            const response = await gradeAStudentWithLink(requestPayload);
             setSuccess(response.data);
             setShowSuccessModal(true);
             setForm({ ...initialFormState });
@@ -169,7 +171,7 @@ export default function GradeStudentForm() {
             <div className="form-main-grid">
                 <div className="form-img-main-div grade-student-img-background">
                     <div className="form-logo-img-div">
-                        <img src={ISEPLogoBranco} alt="Logo do ISEP"/>
+                        <img src={ISEPLogoBranco} alt="Logo do ISEP" />
                     </div>
                 </div>
 
@@ -194,7 +196,7 @@ export default function GradeStudentForm() {
                                 <label className="form-label" htmlFor="studentUniqueNumber">Student's ID</label>
                                 <input className="form-input" placeholder="Enter Student's ID" id="studentUniqueNumber"
                                        name="studentUniqueNumber"
-                                       type="text" value={form.studentUniqueNumber} onChange={handleChange} required/>
+                                       type="text" value={form.studentUniqueNumber} onChange={handleChange} required />
                                 {studentIdError && <p className="error-message">{studentIdError}</p>}
                             </div>
 
@@ -205,9 +207,14 @@ export default function GradeStudentForm() {
                                         value={form.courseEditionID} onChange={handleChange} required>
                                     <option value="">Select a course edition</option>
                                     {Array.isArray(enrolments) && enrolments.length > 0 ? (
-                                        enrolments.map(ed => (
-                                            <option key={ed.editionID} value={ed.editionID}>{ed.courseName}</option>
-                                        ))
+                                        enrolments.map((ed, idx) => {
+                                            const value = `${ed.schoolYearId}|${ed.courseAcronym}|${ed.courseName}`;
+                                            return (
+                                                <option key={idx} value={value}>
+                                                    {ed.courseName}
+                                                </option>
+                                            );
+                                        })
                                     ) : (
                                         <option disabled>No available courses</option>
                                     )}
@@ -218,13 +225,14 @@ export default function GradeStudentForm() {
                             <div className="form-group">
                                 <label className="form-label" htmlFor="grade">Grade</label>
                                 <input className="form-input" placeholder="Enter Grade" id="grade" name="grade"
-                                       type="text" value={form.grade} onChange={handleChange} required/>
+                                       type="text" value={form.grade} onChange={handleChange} required />
                                 {gradeError && <p className="error-message">{gradeError}</p>}
                             </div>
 
                             {/* Buttons */}
                             <div className="form-actions">
-                                <button type="button" className="btn btn-secondary" onClick={() => setForm(initialFormState)}>
+                                <button type="button" className="btn btn-secondary"
+                                        onClick={() => setForm(initialFormState)}>
                                     CLEAR
                                 </button>
                                 <button type="submit" className="btn btn-primary" disabled={loading}>
@@ -236,10 +244,12 @@ export default function GradeStudentForm() {
                 </form>
 
                 {/* Modal de Sucesso */}
-                {showSuccessModal && <GradeStudentSuccessModal success={success} onClose={() => setShowSuccessModal(false)} />}
+                {showSuccessModal &&
+                    <GradeStudentSuccessModal success={success} onClose={() => setShowSuccessModal(false)} />}
 
                 {/* Modal de Erro */}
-                {showErrorModal && <GradeStudentErrorModal error={error} onClose={() => setShowErrorModal(false)} />}
+                {showErrorModal &&
+                    <GradeStudentErrorModal error={error} onClose={() => setShowErrorModal(false)} />}
             </div>
         </div>
     );
