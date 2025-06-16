@@ -15,11 +15,10 @@ C -> S ++: getAllSchoolYears()
 S -> R ++: findAll()
 R -> D ++: findAll()
 D ->o] : SELECT * FROM SchoolYears
-D <--o] : List<SchoolYear>
-D --> R --: List<SchoolYear>
+D <--o] : [SchoolYear]
+D --> R --: List<SchoolYearDTO>
 R --> S --: List<SchoolYear>
-S --> C --: List<SchoolYear>
-C -> C: convert to DTOs and wrap in HATEOAS model
+S --> C --: List<CurrentSchoolYearDTO>
 C --> RT --: HTTP 200 OK + CollectionModel<CurrentSchoolYearDTO>
 [o<-- RT --: HTTP 200 OK + CollectionModel<CurrentSchoolYearDTO>
 
