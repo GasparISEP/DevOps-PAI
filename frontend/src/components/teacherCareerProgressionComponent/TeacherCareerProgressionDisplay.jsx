@@ -66,12 +66,12 @@ export default function TeacherCareerProgressionDisplay() {
                     setLoading(false);
                 } else {
                     setError("Failed to load Teacher Career Progression options: status code " + response.status);
-                    setLoading(false); // ✅ Important: stop loading spinner on error
+                    setLoading(false);
                 }
             } catch (err) {
                 console.error("Failed to load options:", err);
                 setError("Failed to load Teacher Career Progression options");
-                setLoading(false); // ✅ Important: stop loading spinner on error
+                setLoading(false);
             }
         }
 
@@ -214,7 +214,7 @@ export default function TeacherCareerProgressionDisplay() {
                                     <tr>
                                         <td colSpan="10" style={{
                                             textAlign: 'center',
-                                            color: '#b00020',
+                                            color: '#111',
                                             fontWeight: 600,
                                             fontSize: '1.5rem'
                                         }}>
