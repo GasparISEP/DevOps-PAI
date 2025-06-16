@@ -69,7 +69,7 @@ public class ProgrammeRestController {
     }
 
     @PostMapping()
-    public ResponseEntity<?> registerProgramme (@Valid @RequestBody ProgrammeDTO programmeDTO) throws Exception {
+    public ResponseEntity<EntityModel<ProgrammeIDDTO>> registerProgramme (@Valid @RequestBody ProgrammeDTO programmeDTO) throws Exception {
 
         ProgrammeVOsDTO programmeVOsDto = _programmeAssembler.fromDTOToDomain(programmeDTO);
         Programme programmeCreated = _programmeService.registerProgramme(programmeVOsDto);
