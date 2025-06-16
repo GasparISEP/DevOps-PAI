@@ -22,11 +22,8 @@ public class DefineRucServiceImpl implements IDefineRucService {
 
     public DefineRucServiceImpl(ICourseEditionRepository courseEditionRepository, ITeacherService teacherService) {
 
-        if (courseEditionRepository == null)
-            throw new IllegalArgumentException("CourseEditionRepository cannot be null");
-
         this.teacherService = validateNotNull(teacherService, "TeacherService");
-        this.courseEditionRepository = courseEditionRepository;
+        this.courseEditionRepository = validateNotNull(courseEditionRepository, "CourseEditionRepository");
     }
 
     public Iterable<CourseEdition> findAll() {

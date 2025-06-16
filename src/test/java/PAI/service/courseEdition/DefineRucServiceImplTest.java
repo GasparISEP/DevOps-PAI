@@ -40,11 +40,11 @@ class DefineRucServiceImplTest {
                 IllegalArgumentException.class,
                 () -> new DefineRucServiceImpl(null, teacherService)
         );
-        assertEquals("CourseEditionRepository cannot be null", exception.getMessage());
+        assertEquals("CourseEditionRepository cannot be null.", exception.getMessage());
     }
 
     @Test
-    void shouldThrowExpectionWhenTeacherServiceIsNull() {
+    void shouldThrowExceptionWhenTeacherServiceIsNull() {
 
         // arrange
         ICourseEditionRepository courseEditionRepository = mock(ICourseEditionRepository.class);
