@@ -89,7 +89,7 @@ export default function TeacherCareerProgressionDisplay() {
             height: '60vh',
             width: '100%'
         }}>
-            <div className="loader"></div>
+            <div className="loader" data-testid="loading-spinner"></div>
         </div>
     );
 
