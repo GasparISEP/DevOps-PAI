@@ -124,46 +124,19 @@ public CourseEditionRestController(
     }
 
     @PostMapping
-    public ResponseEntity<EntityModel<CourseEditionResponseIDDTO>> createCourseEdition(
+    public ResponseEntity<EntityModel<CourseEditionResponseDTO>> createCourseEdition(
             @Valid @RequestBody CourseEditionRequestDTO requestDTO) {
 
         CreateCourseEditionCommand command = courseEditionAssembler.toCommand(requestDTO);
         CourseEditionServiceResponseDTO serviceResponseDTO = createCourseEditionService.createCourseEditionForRestApi(command);
 
-        CourseEditionResponseIDDTO responseIDDTO = courseEditionAssembler.toResponseIDDTO(serviceResponseDTO);
-        EntityModel<CourseEditionResponseIDDTO> responseModel = createCourseEditionHateoasAssembler.toModel(responseIDDTO);
+        CourseEditionResponseDTO responseDTO = courseEditionAssembler.toResponseDTO(serviceResponseDTO);
+        EntityModel<CourseEditionResponseDTO> responseModel = createCourseEditionHateoasAssembler.toModel(responseDTO);
 
         return ResponseEntity
                 .created(URI.create("/course-editions/" + serviceResponseDTO.courseEditionID()))
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(responseModel);
-    }
-
-    @GetMapping("/by-id")
-    public ResponseEntity<?> getCourseEditionById(
-            @RequestParam("programmeAcronym") @Valid String programmeAcronym,
-            @RequestParam("schoolYearId") @Valid String schoolYearId,
-            @RequestParam("courseAcronym") @Valid String courseAcronym,
-            @RequestParam("courseName") @Valid String courseName,
-            @RequestParam("localDate") @Valid String localDate) {
-        try {
-            UUID schoolYearUUID = UUID.fromString(schoolYearId);
-            SchoolYearID schoolYearID = new SchoolYearID(schoolYearUUID);
-
-            ProgrammeID programmeID = new ProgrammeID(new Acronym(programmeAcronym));
-
-            CourseEditionID courseEditionID = new CourseEditionID(
-                    new ProgrammeEditionID(programmeID, schoolYearID),
-                    new CourseInStudyPlanID(
-                            new CourseID(new Acronym(courseAcronym), new Name(courseName)),
-                            new StudyPlanID(programmeID, new Date(localDate))));
-
-            CourseEditionServiceResponseDTO responseDTO = createCourseEditionService.findById(courseEditionID);
-
-            return ResponseEntity.ok(responseDTO);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Invalid parameters or course edition not found.");
-        }
     }
 
 
@@ -192,6 +165,17 @@ public ResponseEntity<?> defineRucForCourseEdition(
         return ResponseEntity.ok(courseEditionHateoasAssembler.toModel(responseDTO));
 
 }
+    @GetMapping("/by-id/{id}")
+    public ResponseEntity<?> getCourseEditionById(@PathVariable("id") UUID uuid) {
+        try {
+            CourseEditionGeneratedID ceGenerationID = new CourseEditionGeneratedID(uuid);
+            CourseEditionServiceResponseDTO serviceResponseDTO = createCourseEditionService.findById(ceGenerationID);
+            CourseEditionResponseDTO responseDTO = courseEditionAssembler.toResponseDTO(serviceResponseDTO);
+            return ResponseEntity.ok(responseDTO);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Invalid parameters or course edition not found.");
+        }
+    }
 
     @GetMapping("/programmeditions")
     public ResponseEntity<?> getCourseEditionsByProgrammeEditionID(@Valid @RequestBody CourseEditionRequestDTO courseEditionRequestDTO) {

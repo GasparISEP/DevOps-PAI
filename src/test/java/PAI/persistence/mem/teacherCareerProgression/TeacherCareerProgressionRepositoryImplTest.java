@@ -293,6 +293,30 @@ class TeacherCareerProgressionRepositoryImplTest {
     }
 
     @Test
+    public void shouldNotMatchWhenTCPIdIsDifferent() {
+        // Arrange
+        Object[] doubles = createDoublesForTestsWithIsolation();
+        ITeacherCareerProgressionFactory tcpFactoryDouble = (ITeacherCareerProgressionFactory) doubles[0];
+        ITeacherCareerProgressionListFactory tcpListFactoryDouble = (ITeacherCareerProgressionListFactory) doubles[1];
+        TeacherCareerProgressionID tcpIDDouble = (TeacherCareerProgressionID) doubles[5];
+        TeacherCareerProgression tcpDouble = (TeacherCareerProgression) doubles[7];
+
+        TeacherCareerProgressionRepositoryImpl tcpRepository = new TeacherCareerProgressionRepositoryImpl(tcpFactoryDouble, tcpListFactoryDouble);
+
+        TeacherCareerProgressionID differentID = mock(TeacherCareerProgressionID.class);
+
+        when(tcpDouble.identity()).thenReturn(tcpIDDouble);
+
+        tcpRepository.save(tcpDouble);
+
+        // Act
+        Optional<TeacherCareerProgression> result = tcpRepository.ofIdentity(differentID);
+
+        // Assert
+        assertFalse(result.isPresent());
+    }
+
+    @Test
     void shouldReturnTrueIfContainsTCPForThisID() {
         //Arrange
         Object[] doubles = createDoublesForTestsWithIsolation();
@@ -376,6 +400,36 @@ class TeacherCareerProgressionRepositoryImplTest {
         //Assert
         assertEquals(Optional.empty(), result);
     }
+
+    @Test
+    void shouldEvaluateIsDateAfterOnlyWhenLatestTCPIsNotNull() {
+        // Arrange
+        Object[] doubles = createDoublesForTestsWithIsolation();
+        ITeacherCareerProgressionFactory tcpFactoryDouble = (ITeacherCareerProgressionFactory) doubles[0];
+        ITeacherCareerProgressionListFactory tcpListFactoryDouble = (ITeacherCareerProgressionListFactory) doubles[1];
+        TeacherID teacherIDDouble = (TeacherID) doubles[4];
+
+        TeacherCareerProgression tcp1 = mock(TeacherCareerProgression.class);
+        TeacherCareerProgression tcp2 = mock(TeacherCareerProgression.class);
+
+        TeacherCareerProgressionRepositoryImpl repo = new TeacherCareerProgressionRepositoryImpl(tcpFactoryDouble, tcpListFactoryDouble);
+
+        when(tcp1.getTeacherID()).thenReturn(teacherIDDouble);
+        when(tcp2.getTeacherID()).thenReturn(teacherIDDouble);
+
+        when(tcp2.isDateAfter(tcp1)).thenReturn(false);
+
+        repo.save(tcp1);
+        repo.save(tcp2);
+
+        // Act
+        Optional<TeacherCareerProgression> result = repo.findLastTCPFromTeacherID(teacherIDDouble);
+
+        // Assert
+        assertEquals(tcp1, result.get());
+    }
+
+
 
     //updateWorkingPercentage
     @Test

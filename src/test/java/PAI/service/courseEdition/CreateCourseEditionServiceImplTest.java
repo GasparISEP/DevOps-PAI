@@ -545,7 +545,7 @@ class CreateCourseEditionServiceImplTest {
     }
 
     @Test
-    public void testFindById_NullID_ThrowsException() {
+    public void testFindById_NullGeneratedID_ThrowsIllegalArgumentException() {
         CreateCourseEditionServiceImpl service = new CreateCourseEditionServiceImpl(
                 mock(ICourseEditionFactory.class),
                 mock(ICourseEditionRepository.class),
@@ -561,11 +561,11 @@ class CreateCourseEditionServiceImplTest {
     }
 
     @Test
-    public void testFindById_NullOptional_ThrowsBusinessRuleViolationException() {
+    public void testFindById_EmptyOptional_ThrowsBusinessRuleViolationException() throws Exception {
+        CourseEditionGeneratedID generatedID = mock(CourseEditionGeneratedID.class);
         ICourseEditionRepository repository = mock(ICourseEditionRepository.class);
-        CourseEditionID id = mock(CourseEditionID.class);
 
-        when(repository.ofIdentity(id)).thenReturn(null);
+        when(repository.findCourseEditionByGeneratedId(generatedID)).thenReturn(Optional.empty());
 
         CreateCourseEditionServiceImpl service = new CreateCourseEditionServiceImpl(
                 mock(ICourseEditionFactory.class),
@@ -578,20 +578,20 @@ class CreateCourseEditionServiceImplTest {
                 mock(ICourseEditionServiceAssembler.class)
         );
 
-        assertThrows(BusinessRuleViolationException.class, () -> service.findById(id));
+        assertThrows(BusinessRuleViolationException.class, () -> service.findById(generatedID));
     }
 
     @Test
-    public void testFindById_ValidID_ReturnsDTO() {
-        CourseEditionID id = mock(CourseEditionID.class);
+    public void testFindById_ValidGeneratedID_ReturnsDTO() throws Exception {
+        CourseEditionGeneratedID generatedID = mock(CourseEditionGeneratedID.class);
         CourseEdition courseEdition = mock(CourseEdition.class);
-        CourseEditionServiceResponseDTO dto = mock(CourseEditionServiceResponseDTO.class);
+        CourseEditionServiceResponseDTO expectedDTO = mock(CourseEditionServiceResponseDTO.class);
 
         ICourseEditionRepository repository = mock(ICourseEditionRepository.class);
         ICourseEditionServiceAssembler assembler = mock(ICourseEditionServiceAssembler.class);
 
-        when(repository.ofIdentity(id)).thenReturn(Optional.of(courseEdition));
-        when(assembler.toServiceResponseDTO(courseEdition)).thenReturn(dto);
+        when(repository.findCourseEditionByGeneratedId(generatedID)).thenReturn(Optional.of(courseEdition));
+        when(assembler.toServiceResponseDTO(courseEdition)).thenReturn(expectedDTO);
 
         CreateCourseEditionServiceImpl service = new CreateCourseEditionServiceImpl(
                 mock(ICourseEditionFactory.class),
@@ -604,10 +604,12 @@ class CreateCourseEditionServiceImplTest {
                 assembler
         );
 
-        CourseEditionServiceResponseDTO result = service.findById(id);
+        CourseEditionServiceResponseDTO result = service.findById(generatedID);
 
-        assertEquals(dto, result);
+        assertEquals(expectedDTO, result);
     }
+
+
 
 
 

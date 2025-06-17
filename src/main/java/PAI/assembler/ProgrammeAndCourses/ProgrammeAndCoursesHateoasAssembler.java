@@ -15,23 +15,13 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class ProgrammeAndCoursesHateoasAssembler implements IProgrammeAndCoursesHateoasAssembler{
     @Override
     public EntityModel<StudentEnrolmentResultDto> toModel(StudentEnrolmentResultDto dto) {
-        EntityModel<StudentEnrolmentResultDto> model = EntityModel.of(dto);
-
-        int studentId = dto.programmeEditionEnrolment().studentId();
-        UUID programmeEnrolmentGID = dto.programmeEditionEnrolment().genID();
-
-        // Link to course editions the student is enrolled in
-        model.add(linkTo(methodOn(StudentRestController.class)
-                .findEnrolledCourseEditionsForStudent(studentId))
-                .withRel("enrolled-course-editions"));
-
-        // Link to all programme editions the student is enrolled in
-        model.add(linkTo(methodOn(StudentProgrammeEditionEnrolmentRestController.class)
-                .getProgrammeEditionEnrollmentsByStudentID(studentId))
+        return EntityModel.of(dto,
+       linkTo(methodOn(StudentRestController.class)
+                .findEnrolledCourseEditionsForStudent(dto.programmeEditionEnrolment().studentId()))
+                .withRel("enrolled-course-editions"),
+        linkTo(methodOn(StudentProgrammeEditionEnrolmentRestController.class)
+                .getProgrammeEditionEnrollmentsByStudentID(dto.programmeEditionEnrolment().studentId()))
                 .withRel("enrolled-programme-editions"));
 
-        return model;
     }
-
-
 }

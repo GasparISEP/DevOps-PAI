@@ -10,6 +10,7 @@ import 'react-phone-input-2/lib/style.css';
 import ISEPLogoBranco from "../../assets/images/ISEP_logo-branco.png";
 import '../../styles/Form.css';
 import {Link} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const initialFormState = {
     name: '',
@@ -26,13 +27,14 @@ const initialFormState = {
 
 
 export default function StudentForm() {
+    const navigate = useNavigate();
     const [form, setForm] = useState(initialFormState);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [showErrorModal, setShowErrorModal] = useState(false);
-    const [formErrors, setFormErrors] = useState({});  // <-- Adicionado para erros
+    const [formErrors, setFormErrors] = useState({});
 
     function handleChange(e) {
         const { name, value } = e.target;
@@ -116,10 +118,10 @@ export default function StudentForm() {
                 email: raw.email,
                 academicEmail: raw.academicEmail,
                 _links: {
-                    view: raw._links?.self,
-                    viewAll: raw._links?.viewAll?.href === 'http://localhost:3000/students/display'
-                        ? { href: 'http://localhost:3000/students/display' }
-                        : null                }
+                    view: raw._links?.self || null,
+                    viewAll: raw._links?.['all-students'] || null,
+                    viewDetails: raw._links?.['view-details'] || null
+                }
             });
             setShowModal(true);
         } catch (err) {
@@ -434,15 +436,6 @@ export default function StudentForm() {
                         <div className="success" style={{marginTop: '1rem', color: '#080'}}>
                             <p><strong>Student ID:</strong> {success.studentID}</p>
                             <p><strong>Name:</strong> {success.name}</p>
-                            <p><strong>NIF:</strong> {success.nif}</p>
-                            <p><strong>NIF Country:</strong> {success.nifCountry}</p>
-                            <p><strong>Street:</strong> {success.street}</p>
-                            <p><strong>Postal Code:</strong> {success.postalCode}</p>
-                            <p><strong>Location:</strong> {success.location}</p>
-                            <p><strong>Address Country:</strong> {success.addressCountry}</p>
-                            <p><strong>Phone Number:</strong> {success.countryCode} {success.phoneNumber}</p>
-                            <p><strong>Email:</strong> {success.email}</p>
-                            <p><strong>Academic Email:</strong> {success.academicEmail}</p>
                         </div>
 
                         {(success._links?.view || success._links?.viewAll) && (
@@ -453,22 +446,28 @@ export default function StudentForm() {
                                 gap: '1rem',
                                 marginTop: '1.5rem'
                             }}>
-                                {success._links?.view?.href && (
+                                {success._links?.viewDetails?.href && (
                                     <button
-                                        onClick={() => window.open(success._links.view.href, '_blank')}
-                                        title="View Entry"
+                                        onClick={() => {
+                                            const id = success._links.viewDetails.href.split('/').pop();
+                                            const frontendUrl = `${window.location.origin}/students/${id}`;
+                                            window.open(frontendUrl, '_blank');                                        }}
+                                        title="View Details"
                                         style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0.5rem' }}
                                     >
-                                        <VisibilityIcon fontSize="medium"/>
+                                        <VisibilityIcon fontSize="medium" />
                                     </button>
                                 )}
-                                {success._links?.viewAll?.href && (
+                                {success._links?.viewAll && (
                                     <button
-                                        onClick={() => window.open(success._links.viewAll.href, '_blank')}
-                                        title="View All"
+                                        onClick={() => {
+                                            const frontendUrl = `${window.location.origin}/students/display`;
+                                            window.open(frontendUrl, '_blank');
+                                        }}
+                                        title="View All Students"
                                         style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0.5rem' }}
                                     >
-                                        <FolderOpenIcon fontSize="medium"/>
+                                        <FolderOpenIcon fontSize="medium" />
                                     </button>
                                 )}
                             </div>
@@ -477,7 +476,27 @@ export default function StudentForm() {
                         <button className="modal-btn" onClick={() => {
                             setShowModal(false);
                             window.location.reload();
-                        }}>Close</button>
+                        }}>Close
+                        </button>
+
+                        <div style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            cursor: 'pointer',
+                            fontSize: '1.35rem',
+                            padding: '0.5rem'
+                        }}>
+                            <a
+                                href="/students/enrol-programme"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="modal-btn"
+                                style={{ textDecoration: 'none'}}
+                            >
+                                Enrol in Programme
+                            </a>
+                        </div>
+
                     </div>
                 </div>
             )}

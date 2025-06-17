@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/Form.css';
+import '../../styles/Buttons.css';
 import {
     getEnrolledProgrammes,
     getProgrammeEditions,
@@ -493,16 +494,35 @@ export default function EnrollStudentForm() {
                                     })}
                             </div>
 
+
+                            <div style={{ display: 'flex', justifyContent: 'center', gap: '2rem', marginTop: '2rem' }}>
+                                <i
+                                    className="fas fa-book-open icon-button"
+                                    title="Student Enrolled Courses"
+                                    onClick={() => window.open(success.links['enrolled-course-editions'].href, '_blank')}
+                                />
+
+                                <i
+                                    className="fas fa-graduation-cap icon-button"
+                                    title="Student Programme Editions"
+                                    onClick={() => window.open(success.links['enrolled-programme-editions'].href, '_blank')}
+                                />
+                            </div>
+
                             <p style={{ marginTop: '1rem', fontWeight: 'bold' }}>
                                 ECTS Used: {success.selectedEcts} / {totalEcts}
                             </p>
-                             <button
-                                    type="button"
-                                    className="btn btn-secondary"
-                                    onClick={() => {
-                                setShowModal(false);
-                                window.location.reload();
-                            }}>Close</button>
+
+                            <button
+                                type="button"
+                                className="btn btn-secondary"
+                                onClick={() => {
+                                    setShowModal(false);
+                                    window.location.reload();
+                                }}
+                            >
+                                Close
+                            </button>
                         </div>
                     </div>
                 )}

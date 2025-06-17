@@ -332,7 +332,6 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
 
         ProgrammeID programmeID = mock(ProgrammeID.class);
         SchoolYearID schoolYearID = mock(SchoolYearID.class);
-        ProgrammeEdition programmeEdition = mock(ProgrammeEdition.class);
 
         when(programmeEditionService.createProgrammeEdition(programmeID, schoolYearID)).thenThrow(IllegalArgumentException.class);
         // Act
@@ -386,10 +385,10 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
         IDegreeTypeRegistrationService degreeTypeRegistrationService = new DegreeTypeRegistrationServiceImpl(degreeTypeFactory, degreeTypeRepository);
 
-        IDepartmentService departmentService = mock(DepartmentServiceImpl.class);
-        ITeacherService teacherService = mock(TeacherServiceImpl.class);
+        IDepartmentRepository departmentRepository = mock(DepartmentRepositoryImpl.class);
+        ITeacherRepository teacherRepository = mock(TeacherRepositoryImpl.class);
 
-        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService, departmentService, teacherService);
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService, departmentRepository, teacherRepository);
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -430,10 +429,10 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
         IDegreeTypeRegistrationService degreeTypeRegistrationService = new DegreeTypeRegistrationServiceImpl(degreeTypeFactory, degreeTypeRepository);
 
-        IDepartmentService departmentService = mock(DepartmentServiceImpl.class);
-        ITeacherService teacherService = mock(TeacherServiceImpl.class);
+        IDepartmentRepository departmentRepository = mock(DepartmentRepositoryImpl.class);
+        ITeacherRepository teacherRepository = mock(TeacherRepositoryImpl.class);
 
-        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService, departmentService, teacherService);
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService, departmentRepository, teacherRepository);
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -516,10 +515,10 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
         IDegreeTypeRegistrationService degreeTypeRegistrationService = new DegreeTypeRegistrationServiceImpl(degreeTypeFactory, degreeTypeRepository);
 
-        IDepartmentService departmentService = mock(DepartmentServiceImpl.class);
-        ITeacherService teacherService = mock(TeacherServiceImpl.class);
+        IDepartmentRepository departmentRepository = mock(DepartmentRepositoryImpl.class);
+        ITeacherRepository teacherRepository = mock(TeacherRepositoryImpl.class);
 
-        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService, departmentService, teacherService);
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService, departmentRepository, teacherRepository);
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -561,19 +560,15 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         IProgrammeRepository programmeRepository = new ProgrammeRepositoryImpl(programmeRepositoryListFactory);
         IDegreeTypeListFactory degreeTypeListFactory = new DegreeTypeListFactoryImpl();
         IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
-        IDepartmentListFactory departmentListFactory = new DepartmentListFactoryImpl();
-        IDepartmentRepository departmentRepository = new DepartmentRepositoryImpl(departmentListFactory);
-        ITeacherListFactory teacherListFactory = new TeacherListFactoryImpl();
-        ITeacherRepository teacherRepository = new TeacherRepositoryImpl(teacherListFactory);
         IProgrammeAssembler programmeAssembler = new ProgrammeAssembler();
 
         IDegreeTypeFactory degreeTypeFactory = new DegreeTypeFactoryImpl();
         IDegreeTypeRegistrationService degreeTypeRegistrationService = new DegreeTypeRegistrationServiceImpl(degreeTypeFactory, degreeTypeRepository);
 
-        IDepartmentService departmentService = mock(DepartmentServiceImpl.class);
-        ITeacherService teacherService = mock(TeacherServiceImpl.class);
+        IDepartmentRepository departmentRepository = mock(DepartmentRepositoryImpl.class);
+        ITeacherRepository teacherRepository = mock(TeacherRepositoryImpl.class);
 
-        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService, departmentService, teacherService);
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService, departmentRepository, teacherRepository);
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -632,8 +627,8 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         departmentRepository.save(department);
         teacherRepository.save(teacher);
 
-        when(departmentService.containsOfIdentity(departmentID)).thenReturn(true);
-        when(teacherService.existsById(teacherID)).thenReturn(true);
+        when(departmentRepository.containsOfIdentity(departmentID)).thenReturn(true);
+        when(teacherRepository.containsOfIdentity(teacherID)).thenReturn(true);
 
         ProgrammeVOsDTO programmeVOsDTO1 = new ProgrammeVOsDTO(programmeName1, programmeAcronym1, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
         ProgrammeVOsDTO programmeVOsDTO2 = new ProgrammeVOsDTO(programmeName2, programmeAcronym2, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
@@ -669,10 +664,10 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
         IDegreeTypeRegistrationService degreeTypeRegistrationService = new DegreeTypeRegistrationServiceImpl(degreeTypeFactory, degreeTypeRepository);
 
-        IDepartmentService departmentService = mock(DepartmentServiceImpl.class);
-        ITeacherService teacherService = mock(TeacherServiceImpl.class);
+        IDepartmentRepository departmentRepository = mock(DepartmentRepositoryImpl.class);
+        ITeacherRepository teacherRepository = mock(TeacherRepositoryImpl.class);
 
-        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService, departmentService, teacherService);
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService, departmentRepository, teacherRepository);
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -723,10 +718,10 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
         IDegreeTypeRegistrationService degreeTypeRegistrationService = new DegreeTypeRegistrationServiceImpl(degreeTypeFactory, degreeTypeRepository);
 
-        IDepartmentService departmentService = mock(DepartmentServiceImpl.class);
-        ITeacherService teacherService = mock(TeacherServiceImpl.class);
+        IDepartmentRepository departmentRepository = mock(DepartmentRepositoryImpl.class);
+        ITeacherRepository teacherRepository = mock(TeacherRepositoryImpl.class);
 
-        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService, departmentService, teacherService);
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService, departmentRepository, teacherRepository);
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -798,10 +793,10 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
         IDegreeTypeRegistrationService degreeTypeRegistrationService = new DegreeTypeRegistrationServiceImpl(degreeTypeFactory, degreeTypeRepository);
 
-        IDepartmentService departmentService = mock(DepartmentServiceImpl.class);
-        ITeacherService teacherService = mock(TeacherServiceImpl.class);
+        IDepartmentRepository departmentRepository = mock(DepartmentRepositoryImpl.class);
+        ITeacherRepository teacherRepository = mock(TeacherRepositoryImpl.class);
 
-        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService, departmentService, teacherService);
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService, departmentRepository, teacherRepository);
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -849,10 +844,10 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         IDegreeTypeRepository degreeTypeRepository = new DegreeTypeRepositoryImpl(degreeTypeListFactory);
         IDegreeTypeRegistrationService degreeTypeRegistrationService = new DegreeTypeRegistrationServiceImpl(degreeTypeFactory, degreeTypeRepository);
 
-        IDepartmentService departmentService = mock(DepartmentServiceImpl.class);
-        ITeacherService teacherService = mock(TeacherServiceImpl.class);
+        IDepartmentRepository departmentRepository = mock(DepartmentRepositoryImpl.class);
+        ITeacherRepository teacherRepository = mock(TeacherRepositoryImpl.class);
 
-        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService, departmentService, teacherService);
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService, departmentRepository, teacherRepository);
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -917,10 +912,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         IDegreeTypeFactory degreeTypeFactory = new DegreeTypeFactoryImpl();
         IDegreeTypeRegistrationService degreeTypeRegistrationService = new DegreeTypeRegistrationServiceImpl(degreeTypeFactory, degreeTypeRepository);
 
-        IDepartmentService departmentService = mock(DepartmentServiceImpl.class);
-        ITeacherService teacherService = mock(TeacherServiceImpl.class);
-
-        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService, departmentService, teacherService);
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService, departmentRepository, teacherRepository);
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -980,9 +972,6 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         degreeTypeRepository.save(degreeType);
         departmentRepository.save(department);
         teacherRepository.save(teacher);
-
-        when(departmentService.containsOfIdentity(departmentID)).thenReturn(true);
-        when(teacherService.existsById(teacherID)).thenReturn(true);
 
         ProgrammeVOsDTO programmeVOsDTO1 = new ProgrammeVOsDTO(programmeName1, programmeAcronym1, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
         ProgrammeVOsDTO programmeVOsDTO2 = new ProgrammeVOsDTO(programmeName2, programmeAcronym2, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
@@ -1009,8 +998,6 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         Iterable<SchoolYear> schoolYears = schoolYearRepository.findAll();
         Iterator<SchoolYear> schoolYearIterator = schoolYears.iterator();
         SchoolYear schoolYear = schoolYearIterator.next();
-        SchoolYearID schoolYearID = schoolYear.identity();
-        SchoolYearID schoolYearID1 = mock(SchoolYearID.class);
 
         // Act + Assert
         assertThrows(Exception.class, () -> {controller.createAProgrammeEditionForTheCurrentSchoolYear(programmeID,null);});
@@ -1037,10 +1024,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         IDegreeTypeFactory degreeTypeFactory = new DegreeTypeFactoryImpl();
         IDegreeTypeRegistrationService degreeTypeRegistrationService = new DegreeTypeRegistrationServiceImpl(degreeTypeFactory, degreeTypeRepository);
 
-        IDepartmentService departmentService = mock(DepartmentServiceImpl.class);
-        ITeacherService teacherService = mock(TeacherServiceImpl.class);
-
-        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService, departmentService, teacherService);
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService, departmentRepository, teacherRepository);
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -1100,9 +1084,6 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         degreeTypeRepository.save(degreeType);
         departmentRepository.save(department);
         teacherRepository.save(teacher);
-
-        when(departmentService.containsOfIdentity(departmentID)).thenReturn(true);
-        when(teacherService.existsById(teacherID)).thenReturn(true);
 
         ProgrammeVOsDTO programmeVOsDTO1 = new ProgrammeVOsDTO(programmeName1, programmeAcronym1, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
         ProgrammeVOsDTO programmeVOsDTO2 = new ProgrammeVOsDTO(programmeName2, programmeAcronym2, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
@@ -1157,10 +1138,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         IDegreeTypeFactory degreeTypeFactory = new DegreeTypeFactoryImpl();
         IDegreeTypeRegistrationService degreeTypeRegistrationService = new DegreeTypeRegistrationServiceImpl(degreeTypeFactory, degreeTypeRepository);
 
-        IDepartmentService departmentService = mock(DepartmentServiceImpl.class);
-        ITeacherService teacherService = mock(TeacherServiceImpl.class);
-
-        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService, departmentService, teacherService);
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService, departmentRepository, teacherRepository);
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -1213,9 +1191,6 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         Location location = new Location("Coimbra");
         Address address = new Address(street, postalCode, location, country);
         Teacher teacher = new Teacher(teacherID, teacherName, email, nif, phoneNumber, academicBackground, address, departmentID);
-
-        when(departmentService.containsOfIdentity(departmentID)).thenReturn(true);
-        when(teacherService.existsById(teacherID)).thenReturn(true);
 
         degreeTypeRepository.save(degreeType);
         departmentRepository.save(department);
@@ -1271,10 +1246,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         IDegreeTypeFactory degreeTypeFactory = new DegreeTypeFactoryImpl();
         IDegreeTypeRegistrationService degreeTypeRegistrationService = new DegreeTypeRegistrationServiceImpl(degreeTypeFactory, degreeTypeRepository);
 
-        IDepartmentService departmentService = mock(DepartmentServiceImpl.class);
-        ITeacherService teacherService = mock(TeacherServiceImpl.class);
-
-        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService, departmentService, teacherService);
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService, departmentRepository, teacherRepository);
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -1331,9 +1303,6 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         departmentRepository.save(department);
         teacherRepository.save(teacher);
 
-        when(departmentService.containsOfIdentity(departmentID)).thenReturn(true);
-        when(teacherService.existsById(teacherID)).thenReturn(true);
-
         ProgrammeVOsDTO programmeVOsDTO1 = new ProgrammeVOsDTO(programmeName, programmeAcronym, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
 
         programmeService.registerProgramme(programmeVOsDTO1);
@@ -1376,10 +1345,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         IDegreeTypeFactory degreeTypeFactory = new DegreeTypeFactoryImpl();
         IDegreeTypeRegistrationService degreeTypeRegistrationService = new DegreeTypeRegistrationServiceImpl(degreeTypeFactory, degreeTypeRepository);
 
-        IDepartmentService departmentService = mock(DepartmentServiceImpl.class);
-        ITeacherService teacherService = mock(TeacherServiceImpl.class);
-
-        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService, departmentService, teacherService);
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService, departmentRepository, teacherRepository);
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -1419,9 +1385,6 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         degreeTypeRepository.save(degreeType);
         departmentRepository.save(department);
         teacherRepository.save(teacher);
-
-        when(departmentService.containsOfIdentity(departmentID)).thenReturn(true);
-        when(teacherService.existsById(teacherID)).thenReturn(true);
 
         ProgrammeVOsDTO programmeVOsDTO1 = new ProgrammeVOsDTO(programmeName, programmeAcronym, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
 
@@ -1465,10 +1428,7 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         IDegreeTypeFactory degreeTypeFactory = new DegreeTypeFactoryImpl();
         IDegreeTypeRegistrationService degreeTypeRegistrationService = new DegreeTypeRegistrationServiceImpl(degreeTypeFactory, degreeTypeRepository);
 
-        IDepartmentService departmentService = mock(DepartmentServiceImpl.class);
-        ITeacherService teacherService = mock(TeacherServiceImpl.class);
-
-        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService, departmentService, teacherService);
+        ProgrammeServiceImpl programmeService = new ProgrammeServiceImpl(programmeFactory, programmeRepository, programmeAssembler, degreeTypeRegistrationService, departmentRepository, teacherRepository);
 
         ISchoolYearListFactory schoolYearRepositoryListFactory = new SchoolYearListFactoryImpl();
         ISchoolYearFactory schoolYearFactory = new SchoolYearFactoryImpl();
@@ -1508,9 +1468,6 @@ class US18_CreateProgrammeEditionForCurrentSchoolYearControllerTest {
         degreeTypeRepository.save(degreeType);
         departmentRepository.save(department);
         teacherRepository.save(teacher);
-
-        when(departmentService.containsOfIdentity(departmentID)).thenReturn(true);
-        when(teacherService.existsById(teacherID)).thenReturn(true);
 
         ProgrammeVOsDTO programmeVOsDTO1 = new ProgrammeVOsDTO(programmeName, programmeAcronym, maxEcts, quantSemesters, degreeTypeID, departmentID, teacherID);
 
