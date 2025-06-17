@@ -20,7 +20,7 @@ participant "HateoasAssembler" as HA
 
 
  [o--> RT ++: POST /students/{id}/courses-edition-enrolments with JSON {request}
-RT -> CT ++: enrolStudentInCourseEdition(CourseEditionEnrolmentDto)
+RT -> CT ++:  POST /students/{id}/courses-edition-enrolments with JSON {request}
 
 
 CT -> MA ++: toCourseEditionID(CourseEditionEnrolmentDto)
@@ -37,7 +37,7 @@ DM --> SE --: CourseEditionEnrolment
 SE -> RE ++: save(CourseEditionEnrolmentDto)
 
 RE -> MA ++: toData(CourseEditionEnrolment)
-MA --> RE --: DataLinha	
+MA --> RE --: Data	
 
 RE ->o]: Insert Data
 RE <--o]: DataLinha
