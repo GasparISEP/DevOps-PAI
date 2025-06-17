@@ -1,5 +1,7 @@
 package PAI.dto.courseEdition;
 
+import PAI.VOs.TeacherAcronym;
+import PAI.VOs.TeacherID;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -19,6 +21,7 @@ class CourseEditionServiceResponseDTOTest {
         String courseName = "Intro to Programming";
         LocalDate studyPlanImplementationDate = LocalDate.of(2025, 5, 25);
         String courseEditionID = "PROG2023-COURSE123";
+        String teacherID = "AAA";
 
         // Act
         CourseEditionServiceResponseDTO dto = new CourseEditionServiceResponseDTO(
@@ -28,7 +31,10 @@ class CourseEditionServiceResponseDTOTest {
                 courseAcronym,
                 courseName,
                 studyPlanImplementationDate,
-                courseEditionID
+                courseEditionID,
+                teacherID
+
+
         );
 
         // Assert

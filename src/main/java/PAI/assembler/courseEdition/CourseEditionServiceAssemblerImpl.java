@@ -45,7 +45,8 @@ public class CourseEditionServiceAssemblerImpl implements ICourseEditionServiceA
                 cspID.getCourseID().getCourseAcronymValue(),
                 cspID.getCourseID().getCourseNameValue(),
                 cspID.getStudyPlanID().getLocalDate(),
-                formattedID
+                formattedID,
+                courseEdition.getRuc() != null ? courseEdition.getRuc().toString() : null
         );
     }
 }

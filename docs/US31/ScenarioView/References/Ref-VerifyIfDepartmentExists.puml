@@ -1,0 +1,23 @@
+@startuml
+autonumber
+
+title Verify if Department exists
+
+participant "pService:ProgrammeService" as PS #physical
+participant "dptRepo:DepartmentRepository" as DR #lightcyan
+participant "DepartmentIDMapper" as DM #yellow
+participant "dptIDDM:DepartmentIDDataModel" as DIDDM #silver
+
+activate PS
+PS -> DR ++: containsOfIdentity(departmentID)
+DR -> DM ++: toDataModel(departmentID)
+DM -> DIDDM ++: new DepartmentIDDataModel(departmentID)
+DIDDM --> DM --: dptIDDM
+DM --> DR --: dptIDDM
+DR -> Drivers ++: existsById(dptIDDM)
+Drivers ->o] : existsById(dptIDDM)
+Drivers <--o] : True
+Drivers --> DR --: True
+DR --> PS --: True
+
+@enduml

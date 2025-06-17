@@ -163,14 +163,11 @@ export default function StudentCourseEditionForm() {
                                     disabled={!selectedStudentID || courseEditions.length === 0}
                                 >
                                     <option value="" disabled hidden>Choose Course Editions </option>
-                                    {courseEditions
-                                        .filter(edition => edition.studentID === selectedStudentID)
-                                        .map(edition => (
-                                            <option key={edition.courseEditionGeneratedUUID}
-                                                    value={edition.courseEditionGeneratedUUID}>
-                                                {edition.courseName} ({edition.courseAcronym})
-                                            </option>
-                                        ))}
+                                    {courseEditions.map(edition => (
+                                        <option key={edition.courseEditionGeneratedUUID} value={edition.courseEditionGeneratedUUID}>
+                                            {edition.courseName} ({edition.courseAcronym})
+                                        </option>
+                                    ))}
                                 </select>
                             </div>
 

@@ -1,0 +1,23 @@
+@startuml
+autonumber
+
+title Verify if Department exists
+
+participant "pService:ProgrammeService" as PS #physical
+participant "teacherRepo:TeacherRepository" as TR #lightcyan
+participant "TeacherIDMapper" as TM #yellow
+participant "teacherIDDM:TeacherIDDataModel" as TIDDM #silver
+
+activate PS
+PS -> TR ++: containsOfIdentity(teacherID)
+TR -> TM ++: toDataModel(teacherID)
+TM -> TIDDM ++: new TeacherIDDataModel(teacherID)
+TIDDM --> TM --: teacherIDDM
+TM --> TR --: teacherIDDM
+TR -> Drivers ++: existsById(teacherIDDM)
+Drivers ->o] : existsById(teacherIDDM)
+Drivers <--o] : True
+Drivers --> TR --: True
+TR --> PS --: True
+
+@enduml

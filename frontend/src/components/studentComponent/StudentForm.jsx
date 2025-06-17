@@ -4,6 +4,8 @@ import Select from 'react-select';
 import CountryFlag from 'react-country-flag';
 import countryList from 'react-select-country-list';
 import PhoneInput from 'react-phone-input-2';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import FolderOpenIcon from '@mui/icons-material/FolderOpen';
 import 'react-phone-input-2/lib/style.css';
 import ISEPLogoBranco from "../../assets/images/ISEP_logo-branco.png";
 import '../../styles/Form.css';
@@ -98,24 +100,29 @@ export default function StudentForm() {
                 console.log(`  ${k}:`, v);
             });
 
-            const cleanResp = {
-                studentID: data.studentID,
-                name: data.name,
-                nif: data.nif,
-                nifCountry: data.nifCountry,
-                street: data.street,
-                postalCode: data.postalCode,
-                location: data.location,
-                addressCountry: data.addressCountry,
-                countryCode: data.countryCode,
-                phoneNumber: data.phoneNumber,
-                email: data.email,
-                academicEmail: data.academicEmail
-            };
+            console.log('[DEBUG] raw resp:', raw);
 
-            console.log('[DEBUG] cleanResp:', cleanResp);
-
-            setSuccess(cleanResp);
+            setSuccess({
+                studentID: raw.studentID,
+                name: raw.name,
+                nif: raw.nif,
+                nifCountry: raw.nifCountry,
+                street: raw.street,
+                postalCode: raw.postalCode,
+                location: raw.location,
+                addressCountry: raw.addressCountry,
+                countryCode: raw.countryCode,
+                phoneNumber: raw.phoneNumber,
+                email: raw.email,
+                academicEmail: raw.academicEmail,
+                _links: {
+                    view: raw._links?.self,
+                    viewAll: raw._links?.viewAll?.href === 'http://localhost:3000/students/display'
+                        ? { href: 'http://localhost:3000/students/display' }
+                        : null,
+                    viewDetails: raw._links?.viewDetails || null // <-- aqui está o que faltava
+                }
+            });
             setShowModal(true);
         } catch (err) {
             setError(err.message || 'An unexpected error occurred.');
@@ -426,30 +433,71 @@ export default function StudentForm() {
                     <div className="modal-content">
                         <h2>Success!</h2>
                         <p>The student was registered successfully.</p>
-                        <div className="success" style={{ marginTop: '1rem', color: '#080' }}>
+                        <div className="success" style={{marginTop: '1rem', color: '#080'}}>
                             <p><strong>Student ID:</strong> {success.studentID}</p>
                             <p><strong>Name:</strong> {success.name}</p>
-                            <p><strong>NIF:</strong> {success.nif}</p>
-                            <p><strong>NIF Country:</strong> {success.nifCountry}</p>
-                            <p><strong>Street:</strong> {success.street}</p>
-                            <p><strong>Postal Code:</strong> {success.postalCode}</p>
-                            <p><strong>Location:</strong> {success.location}</p>
-                            <p><strong>Address Country:</strong> {success.addressCountry}</p>
-                            <p><strong>Phone Number:</strong> {success.countryCode} {success.phoneNumber}</p>
-                            <p><strong>Email:</strong> {success.email}</p>
-                            <p><strong>Academic Email:</strong> {success.academicEmail}</p>
                         </div>
+
+                        {(success._links?.view || success._links?.viewAll) && (
+                            <div style={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                gap: '1rem',
+                                marginTop: '1.5rem'
+                            }}>
+                                {success._links?.viewDetails?.href && (
+                                    <button
+                                        onClick={() => window.open(success._links.viewDetails.href, '_blank')}
+                                        title="View Student"
+                                        style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0.5rem' }}
+                                    >
+                                        <VisibilityIcon fontSize="medium" />
+                                    </button>
+                                )}
+                                {success._links?.viewAll?.href && (
+                                    <button
+                                        onClick={() => window.open(success._links.viewAll.href, '_blank')}
+                                        title="View All"
+                                        style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0.5rem' }}
+                                    >
+                                        <FolderOpenIcon fontSize="medium"/>
+                                    </button>
+                                )}
+                            </div>
+                        )}
+
                         <button className="modal-btn" onClick={() => {
                             setShowModal(false);
                             window.location.reload();
-                        }}>Close</button>
+                        }}>Close
+                        </button>
+
+                        <div style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            cursor: 'pointer',
+                            fontSize: '1.35rem',
+                            padding: '0.5rem'
+                        }}>
+                            <a
+                                href="/students/enrol-programme"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="modal-btn"
+                                style={{ textDecoration: 'none'}}
+                            >
+                                Enrol in Programme
+                            </a>
+                        </div>
+
                     </div>
                 </div>
             )}
             {showErrorModal && (
                 <div className="modal-overlay">
-                    <div className="modal-content" style={{ borderColor: 'red' }}>
-                        <h2 style={{ color: 'red' }}>Registration Error</h2>
+                    <div className="modal-content" style={{borderColor: 'red'}}>
+                        <h2 style={{color: 'red'}}>Registration Error</h2>
                         <p>{error}</p>
                         <button className="modal-btn" onClick={() => setShowErrorModal(false)}>Close</button>
                     </div>
