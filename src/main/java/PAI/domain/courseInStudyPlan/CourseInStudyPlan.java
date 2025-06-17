@@ -15,9 +15,11 @@ public class CourseInStudyPlan implements AggregateRoot<CourseInStudyPlanID> {
     private CourseQuantityCreditsEcts _quantityOfCreditsEcts;
     private CourseInStudyPlanID _courseInStudyPlanID;
     private CourseInStudyPlanGeneratedID _generatedID;
+    private ProgrammeID programmeID;
 
-    public CourseInStudyPlan(Semester semester, CurricularYear curricularYear, CourseID courseID, StudyPlanID studyplanID, CourseInStudyPlanID courseInStudyPlanID,
-                             DurationCourseInCurricularYear durationOfCourse, CourseQuantityCreditsEcts quantityOfCreditsEcts, CourseInStudyPlanGeneratedID generatedID) {
+    public CourseInStudyPlan(Semester semester, CurricularYear curricularYear, CourseID courseID, StudyPlanID studyplanID,
+                             CourseInStudyPlanID courseInStudyPlanID, DurationCourseInCurricularYear durationOfCourse,
+                             CourseQuantityCreditsEcts quantityOfCreditsEcts, CourseInStudyPlanGeneratedID generatedID, ProgrammeID programmeID) {
 
         this._courseID = validateNotNull(courseID, "Course ID");
         this._semester = validateNotNull(semester, "Semester");
@@ -27,6 +29,7 @@ public class CourseInStudyPlan implements AggregateRoot<CourseInStudyPlanID> {
         this._quantityOfCreditsEcts = validateNotNull(quantityOfCreditsEcts, "Quantity of Credits Ects");
         this._courseInStudyPlanID = validateNotNull(courseInStudyPlanID, "Course In Study Plan ID");
         this._generatedID = validateNotNull(generatedID, "Course In Study Plan Generated ID");
+        this.programmeID = validateNotNull(programmeID, "Programme ID");
     }
 
     @Override

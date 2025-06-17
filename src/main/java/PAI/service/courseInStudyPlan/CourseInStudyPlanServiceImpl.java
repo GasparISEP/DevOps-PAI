@@ -38,10 +38,10 @@ public class CourseInStudyPlanServiceImpl implements ICourseInStudyPlanService {
     }
 
     public boolean createCourseInStudyPlan(Semester semester, CurricularYear curricularYear, CourseID courseID, StudyPlanID studyPlanID,
-                                           DurationCourseInCurricularYear durationOfCourse, CourseQuantityCreditsEcts quantityOfCreditsEcts) throws Exception {
+                                           DurationCourseInCurricularYear durationOfCourse, CourseQuantityCreditsEcts quantityOfCreditsEcts, ProgrammeID programmeID) throws Exception {
 
         CourseInStudyPlan courseInStudyPlan = _factory.newCourseInStudyPlan(
-                semester, curricularYear, courseID, studyPlanID, durationOfCourse, quantityOfCreditsEcts);
+                semester, curricularYear, courseID, studyPlanID, durationOfCourse, quantityOfCreditsEcts, programmeID);
 
         CourseInStudyPlanID courseInStudyPlanID = courseInStudyPlan.identity();
 

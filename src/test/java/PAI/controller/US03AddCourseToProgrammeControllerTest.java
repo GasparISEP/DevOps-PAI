@@ -176,6 +176,10 @@ public class US03AddCourseToProgrammeControllerTest {
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
         when(studyPlan.identity()).thenReturn(studyPlanID);
 
+        Programme programme = mock(Programme.class);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        when(programme.identity()).thenReturn(programmeID);
+
         int semesterInt = 1;
         int curricularYearInt = 1;
         int durationOfCourseInCurricularYear = 1;
@@ -186,10 +190,10 @@ public class US03AddCourseToProgrammeControllerTest {
         DurationCourseInCurricularYear duration = new DurationCourseInCurricularYear(durationOfCourseInCurricularYear);
         CourseQuantityCreditsEcts quantEcts = new CourseQuantityCreditsEcts(quantEctsDouble);
 
-        when(courseInStudyPlanServiceDouble.createCourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, duration, quantEcts)).thenReturn(true);
+        when(courseInStudyPlanServiceDouble.createCourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, duration, quantEcts, programmeID)).thenReturn(true);
 
         // act
-        boolean result = controller.addCourseToProgramme(semesterInt, curricularYearInt, course, studyPlan, durationOfCourseInCurricularYear, quantEctsDouble);
+        boolean result = controller.addCourseToProgramme(semesterInt, curricularYearInt, course, studyPlan, durationOfCourseInCurricularYear, quantEctsDouble, programmeID);
 
         // assert
         assertEquals(true, result);
@@ -206,6 +210,10 @@ public class US03AddCourseToProgrammeControllerTest {
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
         when(studyPlan.identity()).thenReturn(studyPlanID);
 
+        Programme programme = mock(Programme.class);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        when(programme.identity()).thenReturn(programmeID);
+
         int semesterInt = 1;
         int curricularYearInt = 1;
         int durationOfCourseInCurricularYear = 1;
@@ -216,10 +224,10 @@ public class US03AddCourseToProgrammeControllerTest {
         DurationCourseInCurricularYear duration = new DurationCourseInCurricularYear(durationOfCourseInCurricularYear);
         CourseQuantityCreditsEcts quantEcts = new CourseQuantityCreditsEcts(quantEctsDouble);
 
-        when(courseInStudyPlanServiceDouble.createCourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, duration, quantEcts)).thenReturn(false);
+        when(courseInStudyPlanServiceDouble.createCourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, duration, quantEcts, programmeID)).thenReturn(false);
 
         // act
-        boolean result = controller.addCourseToProgramme(semesterInt, curricularYearInt, course, studyPlan, durationOfCourseInCurricularYear, quantEctsDouble);
+        boolean result = controller.addCourseToProgramme(semesterInt, curricularYearInt, course, studyPlan, durationOfCourseInCurricularYear, quantEctsDouble, programmeID);
 
         // assert
         assertEquals(false, result);
@@ -233,10 +241,11 @@ public class US03AddCourseToProgrammeControllerTest {
         int curricularYearInt = 1;
         int durationOfCourseInCurricularYear = 1;
         double quantEctsDouble = 30.0;
+        ProgrammeID programmeID = mock(ProgrammeID.class);
 
         // act + assert
         assertThrows(IllegalArgumentException.class, () -> {
-            controller.addCourseToProgramme(semesterInt, curricularYearInt, null, studyPlan, durationOfCourseInCurricularYear, quantEctsDouble);
+            controller.addCourseToProgramme(semesterInt, curricularYearInt, null, studyPlan, durationOfCourseInCurricularYear, quantEctsDouble, programmeID);
         });
     }
 
@@ -248,10 +257,11 @@ public class US03AddCourseToProgrammeControllerTest {
         int curricularYearInt = 1;
         int durationOfCourseInCurricularYear = 1;
         double quantEctsDouble = 30.0;
+        ProgrammeID programmeID = mock(ProgrammeID.class);
 
         // act + assert
         assertThrows(IllegalArgumentException.class, () -> {
-            controller.addCourseToProgramme(semesterInt, curricularYearInt, course, null, durationOfCourseInCurricularYear, quantEctsDouble);
+            controller.addCourseToProgramme(semesterInt, curricularYearInt, course, null, durationOfCourseInCurricularYear, quantEctsDouble, programmeID);
         });
     }
 
@@ -351,7 +361,7 @@ public class US03AddCourseToProgrammeControllerTest {
         StudyPlan studyPlan = studyPlanFactory.createStudyPlan(programmeID, date, quantityOfSemesters, maxQuantEcts);
 
         // act
-        boolean result = controller.addCourseToProgramme(semester, curricularYear, course, studyPlan, duration, quantEcts);
+        boolean result = controller.addCourseToProgramme(semester, curricularYear, course, studyPlan, duration, quantEcts, programmeID);
 
         // assert
         assertTrue(result);
@@ -379,7 +389,7 @@ public class US03AddCourseToProgrammeControllerTest {
         StudyPlan studyPlan = studyPlanFactory.createStudyPlan(programmeID, date, quantityOfSemesters, maxQuantEcts);
 
         // act
-        boolean result = controller.addCourseToProgramme(semester, curricularYear, course, studyPlan, duration, quantEcts);
+        boolean result = controller.addCourseToProgramme(semester, curricularYear, course, studyPlan, duration, quantEcts, programmeID);
 
         // assert
         assertFalse(result);
@@ -450,10 +460,10 @@ public class US03AddCourseToProgrammeControllerTest {
         QuantSemesters quantityOfSemesters = new QuantSemesters(2);
         StudyPlan studyPlan = studyPlanFactory.createStudyPlan(programmeID, date, quantityOfSemesters, maxQuantEcts);
 
-        controller.addCourseToProgramme(semester, curricularYear, course, studyPlan, duration, quantEcts);
+        controller.addCourseToProgramme(semester, curricularYear, course, studyPlan, duration, quantEcts, programmeID);
 
         // act
-        boolean result = controller.addCourseToProgramme(semester, curricularYear, course, studyPlan, duration, quantEcts);
+        boolean result = controller.addCourseToProgramme(semester, curricularYear, course, studyPlan, duration, quantEcts, programmeID);
 
         // assert
         assertFalse(result);

@@ -21,10 +21,11 @@ class CourseInStudyPlanFactoryImplTest {
         StudyPlanID studyplanID = mock(StudyPlanID.class);
         DurationCourseInCurricularYear durationOfCourse = mock(DurationCourseInCurricularYear.class);
         CourseQuantityCreditsEcts quantityOfCreditsEcts = mock(CourseQuantityCreditsEcts.class);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
 
         //act
         ICourseInStudyPlanFactory courseInStudyPlanFactory_2 = new CourseInStudyPlanFactoryImpl();
-        CourseInStudyPlan courseInStudyPlan_DDD = courseInStudyPlanFactory_2.newCourseInStudyPlan(semester, curricularYear, courseID, studyplanID, durationOfCourse, quantityOfCreditsEcts);
+        CourseInStudyPlan courseInStudyPlan_DDD = courseInStudyPlanFactory_2.newCourseInStudyPlan(semester, curricularYear, courseID, studyplanID, durationOfCourse, quantityOfCreditsEcts, programmeID);
 
         //assert
         assertNotNull(courseInStudyPlan_DDD);
@@ -43,10 +44,11 @@ class CourseInStudyPlanFactoryImplTest {
         CourseQuantityCreditsEcts quantityOfCreditsEcts = mock(CourseQuantityCreditsEcts.class);
         CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
         CourseInStudyPlanGeneratedID generatedID = mock(CourseInStudyPlanGeneratedID.class);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
 
         //act
         ICourseInStudyPlanFactory courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
-        CourseInStudyPlan courseInStudyPlan = courseInStudyPlanFactory.newCourseInStudyPlanFromDataModel(courseInStudyPlanID, generatedID, semester, curricularYear, courseID, studyplanID, durationOfCourse, quantityOfCreditsEcts);
+        CourseInStudyPlan courseInStudyPlan = courseInStudyPlanFactory.newCourseInStudyPlanFromDataModel(courseInStudyPlanID, generatedID, semester, curricularYear, courseID, studyplanID, durationOfCourse, quantityOfCreditsEcts, programmeID);
 
         //assert
         assertNotNull(courseInStudyPlan);
@@ -90,10 +92,11 @@ class CourseInStudyPlanFactoryImplTest {
         StudyPlanID studyPlanID = mock(StudyPlanID.class);
         DurationCourseInCurricularYear durationOfCourse = new DurationCourseInCurricularYear(1);
         CourseQuantityCreditsEcts quantityCreditsEcts = new CourseQuantityCreditsEcts(30.0);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
 
         ICourseInStudyPlanFactory factory = new CourseInStudyPlanFactoryImpl();
         CourseInStudyPlan courseInStudyPlan = factory.newCourseInStudyPlan(
-                semester, curricularYear, courseID, studyPlanID, durationOfCourse, quantityCreditsEcts);
+                semester, curricularYear, courseID, studyPlanID, durationOfCourse, quantityCreditsEcts, programmeID);
 
         assertNotNull(courseInStudyPlan);
     }

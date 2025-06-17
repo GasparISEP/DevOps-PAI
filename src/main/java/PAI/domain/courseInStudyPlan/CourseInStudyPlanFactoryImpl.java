@@ -10,18 +10,18 @@ import static PAI.utils.ValidationUtils.validateNotNull;
 public class CourseInStudyPlanFactoryImpl implements ICourseInStudyPlanFactory {
 
     public CourseInStudyPlan newCourseInStudyPlan(Semester semester, CurricularYear curricularYear, CourseID courseID, StudyPlanID studyPlanID,
-                                                  DurationCourseInCurricularYear durationOfCourse, CourseQuantityCreditsEcts quantityOfCreditsEcts) {
+                                                  DurationCourseInCurricularYear durationOfCourse, CourseQuantityCreditsEcts quantityOfCreditsEcts, ProgrammeID programmeID) {
 
         CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(courseID, studyPlanID);
         CourseInStudyPlanGeneratedID generatedID = CourseInStudyPlanGeneratedID.randomID();
 
-        return new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts, generatedID);
+        return new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts, generatedID, programmeID);
     }
 
     public CourseInStudyPlan newCourseInStudyPlanFromDataModel(CourseInStudyPlanID courseInStudyPlanID, CourseInStudyPlanGeneratedID generatedID, Semester semester, CurricularYear curricularYear, CourseID courseID, StudyPlanID studyPlanID,
-                                                               DurationCourseInCurricularYear durationOfCourse, CourseQuantityCreditsEcts quantityOfCreditsEcts) {
+                                                               DurationCourseInCurricularYear durationOfCourse, CourseQuantityCreditsEcts quantityOfCreditsEcts, ProgrammeID programmeID) {
 
-        return new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts, generatedID);
+        return new CourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, courseInStudyPlanID, durationOfCourse, quantityOfCreditsEcts, generatedID, programmeID);
 
     }
 
@@ -39,6 +39,7 @@ public class CourseInStudyPlanFactoryImpl implements ICourseInStudyPlanFactory {
         DurationCourseInCurricularYear durationOfCourse = command.duration();
         CourseQuantityCreditsEcts quantityOfCreditsEcts = command.credits();
         CourseInStudyPlanGeneratedID generatedID = CourseInStudyPlanGeneratedID.randomID();
+        ProgrammeID programmeID = new ProgrammeID(new Acronym(command.programmeAcronym().getAcronym()));
 
         return new CourseInStudyPlan(
                 semester,
@@ -48,7 +49,8 @@ public class CourseInStudyPlanFactoryImpl implements ICourseInStudyPlanFactory {
                 new CourseInStudyPlanID(courseID, studyPlanID),
                 durationOfCourse,
                 quantityOfCreditsEcts,
-                generatedID
+                generatedID,
+                programmeID
         );
     }
 }

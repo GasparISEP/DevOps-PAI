@@ -43,6 +43,7 @@ class CourseInStudyPlanServiceImplTest {
     private CourseInStudyPlanID candidateId;
     private DurationCourseInCurricularYear durationOfCourse;
     private CourseQuantityCreditsEcts quantityOfCreditsEcts;
+    private ProgrammeID programmeID;
 
     @BeforeEach
     void setUp() {
@@ -57,10 +58,11 @@ class CourseInStudyPlanServiceImplTest {
 
         durationOfCourse = mock(DurationCourseInCurricularYear.class);
         quantityOfCreditsEcts = mock(CourseQuantityCreditsEcts.class);
+        programmeID = mock(ProgrammeID.class);
 
 
         when(candidate.identity()).thenReturn(candidateId);
-        when(factory.newCourseInStudyPlan(semester, curricularYear, courseId, studyPlanId, durationOfCourse, quantityOfCreditsEcts))
+        when(factory.newCourseInStudyPlan(semester, curricularYear, courseId, studyPlanId, durationOfCourse, quantityOfCreditsEcts, programmeID))
                 .thenReturn(candidate);
     }
 
@@ -68,7 +70,7 @@ class CourseInStudyPlanServiceImplTest {
     void createCourseInStudyPlan_SuccessWhenNotExists() throws Exception {
         when(repository.containsOfIdentity(candidateId)).thenReturn(false);
 
-        boolean result = service.createCourseInStudyPlan(semester, curricularYear, courseId, studyPlanId, durationOfCourse, quantityOfCreditsEcts);
+        boolean result = service.createCourseInStudyPlan(semester, curricularYear, courseId, studyPlanId, durationOfCourse, quantityOfCreditsEcts, programmeID);
 
         assertTrue(result);
         verify(repository).save(candidate);
@@ -78,7 +80,7 @@ class CourseInStudyPlanServiceImplTest {
     void createCourseInStudyPlan_FailsWhenAlreadyExists() throws Exception {
         when(repository.containsOfIdentity(candidateId)).thenReturn(true);
 
-        boolean result = service.createCourseInStudyPlan(semester, curricularYear, courseId, studyPlanId, durationOfCourse, quantityOfCreditsEcts);
+        boolean result = service.createCourseInStudyPlan(semester, curricularYear, courseId, studyPlanId, durationOfCourse, quantityOfCreditsEcts, programmeID);
 
         assertFalse(result);
         verify(repository, never()).save(any());
@@ -144,7 +146,7 @@ class CourseInStudyPlanServiceImplTest {
         when(repository.getTotalCreditsEctsInStudyPlanSoFar(studyPlanId, semester, curricularYear, durationOfCourse)).thenReturn(31.0);
 
         //act
-        boolean result = service.createCourseInStudyPlan(semester, curricularYear, courseId, studyPlanId, durationOfCourse, quantityOfCreditsEcts);
+        boolean result = service.createCourseInStudyPlan(semester, curricularYear, courseId, studyPlanId, durationOfCourse, quantityOfCreditsEcts, programmeID);
 
         //assert
         assertFalse(result);
