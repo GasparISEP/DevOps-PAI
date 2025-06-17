@@ -1,4 +1,5 @@
 @startuml
+skinparam Shadowing true
 
 title UC: Enrol Student in Programme\n(Process View Level 2)
 autonumber
