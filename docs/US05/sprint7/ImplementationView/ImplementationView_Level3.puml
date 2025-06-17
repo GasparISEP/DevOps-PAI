@@ -37,7 +37,7 @@ component "Backend" {
     }
     ' ===== DTOs =====
     rectangle "DTOs" {
-        component "Request/Response DTOs"
+        component "XDTO"
     }
 
     ' ===== Interface Adapters =====
@@ -48,6 +48,11 @@ component "Backend" {
         interface "Controller API" as IControllerAPI
 
         Controller -up- IControllerAPI
+    }
+
+    ' ===== VOsDTOs =====
+    rectangle "VOsDTOs" {
+        component "XVoDTO"
     }
 
     ' ===== Service Layer =====
@@ -81,8 +86,11 @@ component "Backend" {
     Repository -.|> Domain
 
     ' ===== DTO Interactions =====
-    "Request/Response DTOs" <--up-- Controller
-    "Request/Response DTOs" <-- Service
+    "XDTO" <--up-- Router
+    "XDTO" <-- Controller
+
+    "XVoDTO" <--up-- Controller
+    "XVoDTO" <-- Service
 }
 
 @enduml

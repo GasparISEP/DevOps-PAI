@@ -13,11 +13,10 @@ skinparam sequence {
 title Register a "X" in the System\nProcess View – Level 3
 
 participant ":Router" as RT
-participant "request\n:XRequest" as request
-participant "emXDTO\n:EntityModel<XDTO>" as emXDTO
-participant "xDTO\n:XDTO" as XDTO
+participant "request\n:XDTO" as request
+participant "response\n:XDTO" as XDTO
 participant ":Controller" as CT
-participant "requestVOs\n:XRequestVOs" as requestVOs
+participant "requestVOs\n:XVoDTO" as requestVOs
 participant ":Service" as SE
 participant ":Domain" as DM
 participant "x:X" as X #lightBlue
@@ -50,10 +49,9 @@ RE --> SE --: x'
 
 SE --> CT --: x'
 CT --> XDTO **: <create> xDTO(x')
-CT --> emXDTO **: <create> \nEntityModel<XDTO>(xDTO)
 
-CT --> RT --: HTTP 201 Created + \nemXDTO
-[o<-- RT --: HTTP 201 Created + \nemXDTO
+CT --> RT --: HTTP 201 Created + \nxDTO
+[o<-- RT --: HTTP 201 Created + \nxDTO
 
 
 @enduml
