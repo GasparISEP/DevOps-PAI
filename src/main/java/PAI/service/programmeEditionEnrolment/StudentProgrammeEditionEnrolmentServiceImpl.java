@@ -18,11 +18,13 @@ import PAI.domain.repositoryInterfaces.student.IStudentRepository;
 import PAI.domain.schoolYear.SchoolYear;
 import PAI.domain.student.Student;
 import PAI.dto.programmeEdition.ProgrammeEditionWithNameAndDescriptionResponseDTO;
+import PAI.dto.programmeEdition.ProgrammeEditionWithNameAndDescriptionResponseDTO;
 import PAI.dto.programmeEditionEnrolment.StudentProgrammeEditionEnrolmentDTO;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentHateoasResponseDto;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -62,7 +64,6 @@ public class StudentProgrammeEditionEnrolmentServiceImpl implements IStudentProg
         this.programmeRepository = programmeRepository;
         this.studentRepository = studentRepository;
         this.programmeEnrolmentAssembler = programmeEnrolmentAssembler;
-
     }
 
     @Override
