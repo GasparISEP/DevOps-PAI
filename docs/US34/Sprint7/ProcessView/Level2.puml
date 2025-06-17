@@ -1,23 +1,19 @@
 @startuml
+skinparam Shadowing true
 
 ' US34 - Enrol a Student in a Programme Edition (including the enrolment in a set of courses)
 ' Process View - Level 2 (Frontend, Backend, DB)
 
 autonumber
 
-skinparam sequence {
-   LifelineBorderColor black
-   LifelineBackgroundColor c2f69d
-}
-
 skinparam DefaultTextAlignment center
 
 title US34: Enrol a Student in a Programme Edition (including the enrolment in a set of courses) \n (Process View - Level 2)
 
-actor ASC #c2f69d
-participant ":Frontend" as FE <<component>> #c2f69d
-participant ":Backend" as BE <<component>> #c2f69d
-database ":Database" as DB <<database>> #c2f69d
+actor ASC
+participant ":Frontend" as FE <<component>>
+participant ":Backend" as BE <<component>>
+database ":Database" as DB <<database>>
 
 ' Fase 1 – Consulta
 ASC -> FE ++: Wants to enrol student in a programme edition \nand a set of course editions
