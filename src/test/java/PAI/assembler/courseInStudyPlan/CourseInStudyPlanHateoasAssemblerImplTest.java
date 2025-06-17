@@ -54,4 +54,32 @@ class CourseInStudyPlanHateoasAssemblerImplTest {
         assertEquals(2, collection.getContent().size());
         assertTrue(collection.getLinks().hasLink("create-course-in-study-plan"));
     }
+
+    @Test
+    void toModel_shouldThrowNullPointerException_whenDtoIsNull() {
+        assertThrows(NullPointerException.class, () -> assembler.toModel(null));
+    }
+
+    @Test
+    void toCollectionModel_shouldThrowNullPointerException_whenDtosIsNull() {
+        assertThrows(NullPointerException.class, () -> assembler.toCollectionModel(null));
+    }
+
+    @Test
+    void toCollectionModel_shouldThrowIllegalStateException_whenToModelThrows() {
+        CourseInStudyPlanHateoasAssemblerImpl assemblerWithException = new CourseInStudyPlanHateoasAssemblerImpl() {
+            @Override
+            public EntityModel<CourseInStudyPlanResponseDTO> toModel(CourseInStudyPlanResponseDTO dto) throws Exception {
+                throw new Exception("Forced exception");
+            }
+        };
+
+        CourseInStudyPlanResponseDTO dto = mock(CourseInStudyPlanResponseDTO.class);
+        List<CourseInStudyPlanResponseDTO> dtos = List.of(dto);
+
+        IllegalStateException exception = assertThrows(IllegalStateException.class,
+                () -> assemblerWithException.toCollectionModel(dtos));
+
+        assertTrue(exception.getMessage().contains("Error converting to EntityModel"));
+    }
 }
