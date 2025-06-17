@@ -21,8 +21,8 @@ participant ":ITeacherCategoryIDMapper" as tcIDMapper
 tcMapper -> tcIDMapper: toDataModel (domain.identity())
 
 activate tcIDMapper #E1F5FE
-create "idDataModel: TeacherCategoryDataModel"
-tcIDMapper -> "idDataModel: TeacherCategoryDataModel": create (id.getValue())
+create "idDataModel: TeacherCategoryIDDataModel"
+tcIDMapper -> "idDataModel: TeacherCategoryIDDataModel": create (id.getValue())
 
 tcIDMapper --> tcMapper: idDataModel
 deactivate tcIDMapper

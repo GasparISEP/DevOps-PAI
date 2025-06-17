@@ -1,6 +1,6 @@
 @startuml
 
-title US01: As an Administrator, I want to configure teacher categories in the system \n (Scenario View - Level 3)
+title US01: As an Administrator, I want to configure teacher categories in the system \n (Scenario View - Level 4 - Backend)
 
 skinparam backgroundColor white
 skinparam ranksep 60
@@ -51,6 +51,7 @@ interface ITeacherCategoryRepository #FAFAD2{
 }
 
 class TeacherCategoryRepositorySpringDataImpl #E0FFFF {
+   + TeacherCategoryRepositorySpringDataImpl (tcRepositorySpringData: ITeacherCategoryRepositorySpringData, \n mapper: ITeacherCategoryMapper, idMapper: TeacherCategoryIDMapperImpl)
    + save(teacherCategory: TeacherCategory): TeacherCategory
    + existsByName(name: Name): boolean
    + findAll (): Iterable<TeacherCategory>
@@ -141,6 +142,7 @@ interface ITeacherCategoryMapper #E0FFFF{
 }
 
 class TeacherCategoryMapperImpl #E0FFFF{
+   + TeacherCategoryMapperImpl (idMapper: ITeacherCategoryIDMapper)
    + toDataModel (teacherCategory: TeacherCategory): TeacherCategoryDataModel
    + toDomainModel (dataModel: TeacherCategoryDataModel): TeacherCategory
 }
