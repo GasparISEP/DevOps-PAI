@@ -1,6 +1,6 @@
 @startuml
 
-title US16: Enroll a Student in a Course Edition\nProcess View – Level 4
+title US16: Enroll a Student in a Course Edition\nScenario View – Level 4
 
 autonumber
 skinparam sequence {
