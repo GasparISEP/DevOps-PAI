@@ -22,19 +22,17 @@ public class CourseEditionRUCHateoasAssembler implements RepresentationModelAsse
     @Override
     public EntityModel<DefineRucResponseDTO> toModel(DefineRucResponseDTO dto) {
         try {
-            DefineRucRequestDTO requestDto = new DefineRucRequestDTO(
-                    dto.teacherID()
-            );
+
             return EntityModel.of(dto,
                     linkTo(methodOn(CourseEditionRestController.class)
-                            .defineRucForCourseEdition(dto.courseEditionGeneratedID(), requestDto))
-                            .withRel("define-ruc"),
+                            .getCourseEditionById(dto.courseEditionGeneratedID()))
+                            .withRel("get-courseEdition-ruc"),
                     linkTo(methodOn(CourseEditionRestController.class)
                             .findAllCourseEditions())
                             .withRel("find-all-course-editions"),
 
                     // UI links for frontend (React)
-                    Link.of("/course-editions/" + dto.courseEditionGeneratedID()).withRel("details"),
+                    Link.of("/course-editions/by-id/" + dto.courseEditionGeneratedID()).withRel("details"),
                     Link.of("/course-editions").withRel("collection")
             );
         } catch (Exception e) {
