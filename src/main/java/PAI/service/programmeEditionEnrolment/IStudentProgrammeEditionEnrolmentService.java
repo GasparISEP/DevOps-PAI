@@ -3,6 +3,7 @@ package PAI.service.programmeEditionEnrolment;
 import PAI.VOs.*;
 import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
 import PAI.dto.programmeEdition.ProgrammeEditionWithNameAndDescriptionResponseDTO;
+import PAI.dto.programmeEdition.ProgrammeEditionWithNameAndDescriptionResponseDTO;
 import PAI.dto.programmeEditionEnrolment.StudentProgrammeEditionEnrolmentDTO;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentHateoasResponseDto;
 

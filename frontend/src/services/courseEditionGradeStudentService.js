@@ -4,7 +4,7 @@ const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8081';
  * Register a student's grade using HATEOAS.
  */
 export async function gradeAStudentWithLink(gradeAStudentRequestDTO) {
-    const response = await fetch(`${API_URL}/studentgrades/register/hateoas`, {
+    const response = await fetch(`${API_URL}/course-editions/studentgrades/register/hateoas`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

@@ -44,7 +44,6 @@ public class TeacherCategoryRestController {
     public ResponseEntity<Object> configureTeacherCategory
             (@Valid @RequestBody TeacherCategoryRequestDTO teacherCategoryRequestDTO) throws Exception {
 
-        try {
             Name nameVO = teacherCategoryAssembler.toNameVO(teacherCategoryRequestDTO);
 
             TeacherCategoryDTO teacherCategoryDTO =
@@ -53,12 +52,6 @@ public class TeacherCategoryRestController {
             TeacherCategoryResponseDTO teacherCategoryResponseDTO =
                     teacherCategoryAssembler.toResponseDTO(teacherCategoryDTO);
             return new ResponseEntity<>(teacherCategoryHateoasAssembler.toModel(teacherCategoryResponseDTO),HttpStatus.CREATED);
-
-        } catch (AlreadyRegisteredException e) {
-            ErrorResponse errorResponse = new ErrorResponse(HttpStatus.CONFLICT.toString(),
-                                            "Error Registering Teacher Category: " + e.getMessage());
-            return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
-        }
     }
 
     @GetMapping ("/{id}")
