@@ -138,16 +138,20 @@ public class StudentRestController {
 
     @GetMapping
     public ResponseEntity<CollectionModel<EntityModel<StudentResponseDTO>>> getAllStudents() {
-        List<Student> students = service.getAllStudents();
 
-        List<EntityModel<StudentResponseDTO>> studentModels = students.stream()
-                .map(mapper::toStudentResponseDTO)
-                .map(hateoasAssembler::toModel)
-                .collect(Collectors.toList());
+        try {
+            List<Student> students = service.getAllStudents();
 
-        return ResponseEntity.ok(CollectionModel.of(studentModels,
-                linkTo(methodOn(StudentRestController.class).getAllStudents()).withSelfRel()
-        ));
+            List<EntityModel<StudentResponseDTO>> studentModels = students.stream()
+                    .map(mapper::toStudentResponseDTO)
+                    .map(hateoasAssembler::toModel)
+                    .collect(Collectors.toList());
+
+            return ResponseEntity.ok(CollectionModel.of(studentModels,
+                    linkTo(methodOn(StudentRestController.class).getAllStudents()).withSelfRel()));
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PostMapping("/enrollStudent")
