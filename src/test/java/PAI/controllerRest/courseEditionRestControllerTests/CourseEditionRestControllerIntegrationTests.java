@@ -207,7 +207,8 @@ public class CourseEditionRestControllerIntegrationTests {
                 "SA",
                 "Software Architecture",
                 LocalDate.of(2023, 9, 1),
-                generatedId.toString()
+                generatedId.toString(),
+                "AAB"
         );
 
         CourseEditionResponseIDDTO responseIDDTO = new CourseEditionResponseIDDTO(

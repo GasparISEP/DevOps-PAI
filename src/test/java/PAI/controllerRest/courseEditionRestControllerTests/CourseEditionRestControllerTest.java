@@ -264,11 +264,13 @@ class CourseEditionRestControllerTest {
                 new Acronym(dto.courseAcronym()),
                 new Name(dto.courseName()),
                 new Date(dto.studyPlanImplementationDate())
+
         );
 
         CourseEditionServiceResponseDTO serviceResponseDTO = new CourseEditionServiceResponseDTO(
                 generatedID, "LEIC", schoolYearID,
-                "SA", "Software Architecture", LocalDate.of(2023, 9, 1), generatedID.toString()
+                "SA", "Software Architecture", LocalDate.of(2023, 9, 1), generatedID.toString(),
+                "AAA"
         );
 
         CourseEditionResponseIDDTO responseIDDTO = new CourseEditionResponseIDDTO(
@@ -373,7 +375,8 @@ class CourseEditionRestControllerTest {
             UUID.randomUUID(),
             "Course1",
             "Course Name 1",
-            LocalDate.of(2024, 1, 1), "courseEdition123"
+            LocalDate.of(2024, 1, 1), "courseEdition123",
+            "AAA"
         );
 
         CourseEditionServiceResponseDTO responseDouble2 = new CourseEditionServiceResponseDTO(
@@ -382,7 +385,8 @@ class CourseEditionRestControllerTest {
             UUID.randomUUID(),
             "Course2",
             "Course Name 2",
-            LocalDate.of(2024, 1, 1), "courseEdition456"
+            LocalDate.of(2024, 1, 1), "courseEdition456",
+            "BBB"
         );
 
         when(createCourseEditionService.findAll()).thenReturn(List.of(responseDouble1, responseDouble2));
@@ -778,7 +782,8 @@ class CourseEditionRestControllerTest {
                 "ESOFT",
                 "Engineering Software",
                 LocalDate.now(),
-                "courseEdition123"
+                "courseEdition123",
+                "AAA"
         );
 
         when(courseEditionAssembler.toProgrammeEditionID(requestDTO)).thenReturn(mockProgrammeEditionID);
