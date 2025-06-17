@@ -17,15 +17,9 @@ public class StudentHateoasAssemblerImpl
     @Override
     public EntityModel<StudentResponseDTO> toModel(StudentResponseDTO dto) {
         return EntityModel.of(dto,
-                linkTo(methodOn(StudentRestController.class)
-                        .getLastStudentID())
-                        .withRel("last-student-id"),
-
+                Link.of("http://localhost:3000/students/" + dto.getStudentID()).withRel("viewDetails"),
                 Link.of("http://localhost:3000/students/display").withRel("viewAll"),
-
-                linkTo(methodOn(StudentRestController.class)
-                        .getStudentByID(dto.getStudentID()))
-                        .withSelfRel()
+                linkTo(methodOn(StudentRestController.class).getStudentByID(dto.getStudentID())).withSelfRel()
         );
     }
 }

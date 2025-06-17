@@ -119,7 +119,9 @@ export default function StudentForm() {
                     view: raw._links?.self,
                     viewAll: raw._links?.viewAll?.href === 'http://localhost:3000/students/display'
                         ? { href: 'http://localhost:3000/students/display' }
-                        : null                }
+                        : null,
+                    viewDetails: raw._links?.viewDetails || null // <-- aqui está o que faltava
+                }
             });
             setShowModal(true);
         } catch (err) {
@@ -434,15 +436,6 @@ export default function StudentForm() {
                         <div className="success" style={{marginTop: '1rem', color: '#080'}}>
                             <p><strong>Student ID:</strong> {success.studentID}</p>
                             <p><strong>Name:</strong> {success.name}</p>
-                            <p><strong>NIF:</strong> {success.nif}</p>
-                            <p><strong>NIF Country:</strong> {success.nifCountry}</p>
-                            <p><strong>Street:</strong> {success.street}</p>
-                            <p><strong>Postal Code:</strong> {success.postalCode}</p>
-                            <p><strong>Location:</strong> {success.location}</p>
-                            <p><strong>Address Country:</strong> {success.addressCountry}</p>
-                            <p><strong>Phone Number:</strong> {success.countryCode} {success.phoneNumber}</p>
-                            <p><strong>Email:</strong> {success.email}</p>
-                            <p><strong>Academic Email:</strong> {success.academicEmail}</p>
                         </div>
 
                         {(success._links?.view || success._links?.viewAll) && (
@@ -453,13 +446,13 @@ export default function StudentForm() {
                                 gap: '1rem',
                                 marginTop: '1.5rem'
                             }}>
-                                {success._links?.view?.href && (
+                                {success._links?.viewDetails?.href && (
                                     <button
-                                        onClick={() => window.open(success._links.view.href, '_blank')}
-                                        title="View Entry"
+                                        onClick={() => window.open(success._links.viewDetails.href, '_blank')}
+                                        title="View Student"
                                         style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0.5rem' }}
                                     >
-                                        <VisibilityIcon fontSize="medium"/>
+                                        <VisibilityIcon fontSize="medium" />
                                     </button>
                                 )}
                                 {success._links?.viewAll?.href && (

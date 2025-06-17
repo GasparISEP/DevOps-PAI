@@ -28,17 +28,14 @@ class StudentHateoasAssemblerImplTest {
         assertNotNull(result);
         assertEquals(dto, result.getContent());
 
-        // Verificar link "last-student-id"
-        assertTrue(result.getLinks().hasLink("last-student-id"));
-        String expectedHref1 = linkTo(methodOn(StudentRestController.class).getLastStudentID()).toUri().toString();
-        assertEquals(expectedHref1, result.getLink("last-student-id").get().getHref());
+        assertTrue(result.getLinks().hasLink("viewDetails"));
+        String expectedViewDetailsHref = "http://localhost:3000/students/" + dto.getStudentID();
+        assertEquals(expectedViewDetailsHref, result.getLink("viewDetails").get().getHref());
 
-        // Verificar link "viewAll"
         assertTrue(result.getLinks().hasLink("viewAll"));
         String expectedViewAllHref = "http://localhost:3000/students/display";
         assertEquals(expectedViewAllHref, result.getLink("viewAll").get().getHref());
 
-        // Verificar link "self"
         assertTrue(result.getLinks().hasLink("self"));
         String expectedSelfHref = linkTo(methodOn(StudentRestController.class)
                 .getStudentByID(dto.getStudentID()))
