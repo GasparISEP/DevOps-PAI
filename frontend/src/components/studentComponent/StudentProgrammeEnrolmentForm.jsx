@@ -336,18 +336,36 @@ export default function StudentProgrammeEnrolmentForm() {
                         <p>
                             <strong>Department:</strong> {departmentOptions.find(d => d.value === form.departmentID)?.label}
                         </p>
-                        <p><strong>Programme:</strong> {programmeOptions.find(p => p.value === form.programmeAcronym)?.label}
+                        <p>
+                            <strong>Programme:</strong> {programmeOptions.find(p => p.value === form.programmeAcronym)?.label}
                         </p>
                         <p><strong>Enrolment Date:</strong> {form.date}</p>
                         <button className="modal-btn" onClick={() => window.location.reload()}>Close</button>
+                        <div style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            cursor: 'pointer',
+                            fontSize: '1.35rem',
+                            padding: '0.5rem'
+                        }}>
+                            <a
+                                href="/students/enroll"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="modal-btn"
+                                style={{textDecoration: 'none'}}
+                            >
+                                Enrol in Programme<br/> and Courses
+                            </a>
+                        </div>
                     </div>
                 </div>
             )}
 
             {showErrorModal && (
                 <div className="modal-overlay">
-                    <div className="modal-content" style={{ borderColor: 'red' }}>
-                        <h2 style={{ color: 'red' }}>Error</h2>
+                    <div className="modal-content" style={{borderColor: 'red'}}>
+                        <h2 style={{color: 'red'}}>Error</h2>
                         <p>{error}</p>
                         <button className="modal-btn" onClick={() => setShowErrorModal(false)}>Close</button>
                     </div>
