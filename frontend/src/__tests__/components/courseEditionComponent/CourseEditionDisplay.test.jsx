@@ -213,57 +213,6 @@ describe('CourseEditionDisplay Component', () => {
         expect(screen.getByText(/Page 1 of/)).toBeInTheDocument();
     });
 
-    test('opens and closes modal via overlay and Close button', async () => {
-        global.fetch.mockResolvedValueOnce({ json: async () => [sampleData[0]] });
-        fetchEnrolmentCount.mockResolvedValueOnce({ count: 7 });
-
-        const { container } = render(
-            <MemoryRouter>
-                <CourseEditionDisplay />
-            </MemoryRouter>
-        );
-        await screen.findByText('P0');
-
-        fireEvent.click(screen.getByText('⋮'));
-        fireEvent.click(screen.getByText('Count Enrolments'));
-        await screen.findByText('Enrolment Count');
-
-        const overlay = container.querySelector('.modal-overlay');
-        const content = container.querySelector('.modal-content');
-
-        fireEvent.click(content);
-        expect(screen.getByText('Enrolment Count')).toBeInTheDocument();
-
-        fireEvent.click(overlay);
-        await waitFor(() =>
-            expect(screen.queryByText('Enrolment Count')).toBeNull()
-        );
-    });
-
-    test('displays fallback for null and primitive count values', async () => {
-        global.fetch.mockResolvedValueOnce({ json: async () => [sampleData[0]] });
-        fetchEnrolmentCount.mockResolvedValueOnce(null);
-
-        render(
-            <MemoryRouter>
-                <CourseEditionDisplay />
-            </MemoryRouter>
-        );
-        await screen.findByText('P0');
-
-        fireEvent.click(screen.getByText('⋮'));
-        fireEvent.click(screen.getByText('Count Enrolments'));
-        await screen.findByText('Enrolment Count');
-        expect(screen.getByText('0')).toBeInTheDocument();
-
-        fetchEnrolmentCount.mockResolvedValueOnce(5);
-        fireEvent.click(screen.getByText('Close'));
-        fireEvent.click(screen.getByText('⋮'));
-        fireEvent.click(screen.getByText('Count Enrolments'));
-        await screen.findByText('Enrolment Count');
-        expect(screen.getByText('5')).toBeInTheDocument();
-    });
-
     test('displays dropdown open and closed correctly', async () => {
         global.fetch.mockResolvedValueOnce({ json: async () => [sampleData[0]] });
         render(
@@ -322,4 +271,5 @@ describe('CourseEditionDisplay Component', () => {
 
         expect(screen.getByText('Back to Main Page').closest('a')).toHaveAttribute('href', '/');
     });
+
 });

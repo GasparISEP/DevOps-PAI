@@ -29,6 +29,7 @@ import PAI.service.student.IProgrammeAndCoursesEnrolmentService;
 import PAI.service.programmeEnrolment.IProgrammeEnrolmentService;
 import PAI.service.student.IStudentService;
 import PAI.service.totalEnrolledStudentsInProgrammesByDepartmentAndSchoolYear.ITotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearService;
+import jakarta.validation.Valid;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
@@ -93,35 +94,46 @@ public class StudentRestController {
     }
 
     @PostMapping
-    public ResponseEntity<EntityModel<StudentResponseDTO>> registerAStudent(@RequestBody StudentDTO studentDTO) {
-        if (studentDTO == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<EntityModel<StudentResponseDTO>> registerAStudent(@Valid @RequestBody StudentDTO studentDTO) {
+
+        try {
+            Name name = mapper.toName(studentDTO);
+            NIF nif = mapper.toNIF(studentDTO);
+            PhoneNumber phoneNumber = mapper.toPhoneNumber(studentDTO);
+            Email email = mapper.toEmail(studentDTO);
+            Address address = mapper.toAddress(studentDTO);
+
+            Student student = service.registerStudent(
+                    name, nif, phoneNumber, email,
+                    address.getStreet(), address.getPostalCode(),
+                    address.getLocation(), address.getCountry()
+            );
+
+            if (student != null) {
+
+                StudentResponseDTO responseDTO = mapper.toStudentResponseDTO(student);
+                return ResponseEntity.status(HttpStatus.CREATED).body(hateoasAssembler.toModel(responseDTO));
+
+            } else {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+
+        } catch (Exception e ) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-        // Deixa de usar o ID vindo do DTO — é gerado no service
-        Name name = mapper.toName(studentDTO);
-        NIF nif = mapper.toNIF(studentDTO);
-        PhoneNumber phoneNumber = mapper.toPhoneNumber(studentDTO);
-        Email email = mapper.toEmail(studentDTO);
-        Address address = mapper.toAddress(studentDTO);
-
-        Student student = service.registerStudent(
-                name, nif, phoneNumber, email,
-                address.getStreet(), address.getPostalCode(),
-                address.getLocation(), address.getCountry()
-        );
-
-        StudentResponseDTO responseDTO = mapper.toStudentResponseDTO(student);
-        EntityModel<StudentResponseDTO> studentModel = hateoasAssembler.toModel(responseDTO);
-
-        return new ResponseEntity<>(studentModel, HttpStatus.CREATED);
     }
 
     @GetMapping("/last-id")
     public ResponseEntity<Map<String, Integer>> getLastStudentID() {
-        int value = service.getLastStudentID();
-        Map<String, Integer> response = Collections.singletonMap("lastStudentID", value);
-        return ResponseEntity.ok(response);
+
+        try  {
+            int value = service.getLastStudentID();
+            Map<String, Integer> response = Collections.singletonMap("lastStudentID", value);
+            return ResponseEntity.ok(response);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping

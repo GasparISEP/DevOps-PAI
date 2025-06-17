@@ -20,7 +20,7 @@ Backend -> Database: **findAll**()
 activate Database
 Database --> Backend: degreeTypesDMList
 deactivate Database
-Backend --> Frontend: degreeTypesList
+Backend --> Frontend: degreeTypesDTOList
 deactivate Backend
 Frontend --> ASC--: degreeTypesList
 |||
@@ -31,7 +31,7 @@ Backend -> Database: **findAll**()
 activate Database
 Database --> Backend: departmentsDMList
 deactivate Database
-Backend --> Frontend: departmentsList
+Backend --> Frontend: departmentsDTOList
 deactivate Backend
 Frontend --> ASC--: departmentsList
 |||
@@ -42,7 +42,7 @@ Backend -> Database: **findAll**()
 activate Database
 Database --> Backend: teachersDMList
 deactivate Database
-Backend --> Frontend: teachersList
+Backend --> Frontend: teachersDTOList
 deactivate Backend
 Frontend --> ASC--: teachersList
 |||

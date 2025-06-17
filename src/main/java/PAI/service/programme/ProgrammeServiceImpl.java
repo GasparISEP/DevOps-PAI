@@ -5,7 +5,9 @@ import PAI.assembler.programme.IProgrammeAssembler;
 import PAI.domain.degreeType.DegreeType;
 import PAI.domain.programme.Programme;
 import PAI.domain.programme.IProgrammeFactory;
+import PAI.domain.repositoryInterfaces.department.IDepartmentRepository;
 import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
+import PAI.domain.repositoryInterfaces.teacher.ITeacherRepository;
 import PAI.dto.Programme.ProgrammeDTO;
 import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.Programme.ProgrammeVOsDTO;
@@ -13,8 +15,6 @@ import PAI.exception.AlreadyRegisteredException;
 import PAI.exception.BusinessRuleViolationException;
 import PAI.exception.NotFoundException;
 import PAI.service.degreeType.IDegreeTypeRegistrationService;
-import PAI.service.department.IDepartmentService;
-import PAI.service.teacher.ITeacherService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -28,11 +28,11 @@ public class ProgrammeServiceImpl implements IProgrammeService {
     private final IProgrammeRepository _programmeRepository;
     private final IProgrammeAssembler _programmeAssembler;
     private final IDegreeTypeRegistrationService _degreeTypeService;
-    private final IDepartmentService _departmentService;
-    private final ITeacherService _teacherService;
+    private final IDepartmentRepository _departmentRepository;
+    private final ITeacherRepository _teacherRepository;
 
     public ProgrammeServiceImpl(IProgrammeFactory programmeFactory, IProgrammeRepository programmeRepository,
-                                IProgrammeAssembler programmeAssembler, IDegreeTypeRegistrationService degreeTypeService, IDepartmentService departmentService, ITeacherService teacherService) {
+                                IProgrammeAssembler programmeAssembler, IDegreeTypeRegistrationService degreeTypeService, IDepartmentRepository departmentRepository, ITeacherRepository teacherRepository) {
 
         if (programmeFactory == null) {
             throw new IllegalArgumentException("Programme Factory cannot be null");
@@ -54,15 +54,15 @@ public class ProgrammeServiceImpl implements IProgrammeService {
 
         _degreeTypeService = degreeTypeService;
 
-        if (departmentService == null)
-            throw new IllegalArgumentException("Department Service cannot be null");
+        if (departmentRepository == null)
+            throw new IllegalArgumentException("Department Repository cannot be null");
 
-        _departmentService = departmentService;
+        _departmentRepository = departmentRepository;
 
-        if (teacherService == null)
-            throw new IllegalArgumentException("Teacher Service cannot be null");
+        if (teacherRepository == null)
+            throw new IllegalArgumentException("Teacher Repository cannot be null");
 
-        _teacherService = teacherService;
+        _teacherRepository = teacherRepository;
     }
 
     public Programme registerProgramme(ProgrammeVOsDTO programmeVOsDTO) throws Exception {
@@ -75,11 +75,11 @@ public class ProgrammeServiceImpl implements IProgrammeService {
         DepartmentID departmentID = programmeVOsDTO.departmentID();
         TeacherID teacherID = programmeVOsDTO.teacherID();
 
-        if(!_departmentService.containsOfIdentity(departmentID)){
+        if(!_departmentRepository.containsOfIdentity(departmentID)){
             throw new BusinessRuleViolationException("Department not found");
         }
 
-        if(!_teacherService.existsById(teacherID)){
+        if(!_teacherRepository.containsOfIdentity(teacherID)){
             throw new BusinessRuleViolationException("Teacher not found");
         }
 

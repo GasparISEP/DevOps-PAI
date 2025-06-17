@@ -2,6 +2,7 @@ import React, {useEffect, useState, useRef} from "react";
 import { Link } from "react-router-dom";
 import '../../styles/DisplayPage.css';
 import '../../styles/Buttons.css';
+import EnrolmentCountModal from '../../components/courseEditionComponent/EnrolmentCountModal';
 import { fetchEnrolmentCount } from '../../services/enrolmentCountInCourseEditionService';
 import { getAllSchoolYears } from '../../services/DefineRucInCourseEditionService';
 
@@ -89,38 +90,6 @@ export default function CourseEditionDisplay() {
         );
     }
 
-    function EnrolmentCountModal({ isOpen, onClose, count, courseName }) {
-        if (!isOpen) return null;
-
-        console.log('Modal props:', { isOpen, count, courseName });
-
-        return (
-            <div className="modal-overlay" onClick={onClose}>
-                <div className="modal-content" onClick={e => e.stopPropagation()}>
-                    <div className="modal-header">
-                        <h2>Enrolment Count</h2>
-                        <button className="modal-close-button" onClick={onClose}>×</button>
-                    </div>
-                    <div className="modal-body">
-                        <div className="modal-info-item">
-                            <span className="modal-label">Course:</span>
-                            <span className="modal-value">{courseName}</span>
-                        </div>
-                        <div className="modal-info-item">
-                            <span className="modal-label">Enrolled Students:</span>
-                            <span className="modal-value modal-count">
-                                {count?.count || count || 0}
-                            </span>
-                        </div>
-                    </div>
-                    <div className="modal-footer">
-                        <button className="modal-close-btn" onClick={onClose}>Close</button>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
     function ActionMenu({ edition, onCountEnrolments }) {
         const [showMenu, setShowMenu] = useState(false);
         const menuRef = useRef(null);
@@ -169,7 +138,7 @@ export default function CourseEditionDisplay() {
         try {
             setSelectedCourse(edition);
             const response = await fetchEnrolmentCount(edition.courseEditionGeneratedID);
-            setEnrolmentCount(response);
+            setEnrolmentCount(response.studentCount);
             setIsModalOpen(true);
         } catch (error) {
             console.error('Error counting enrolments:', error);
@@ -290,7 +259,7 @@ export default function CourseEditionDisplay() {
             <EnrolmentCountModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
-                count={enrolmentCount?.count}
+                count={enrolmentCount}
                 courseName={selectedCourse?.courseName}
             />
         </div>

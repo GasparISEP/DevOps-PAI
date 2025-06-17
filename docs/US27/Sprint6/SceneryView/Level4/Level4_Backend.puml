@@ -4,6 +4,7 @@ skinparam sequenceLifeLineBackgroundColor lightblue
 skinparam sequenceMessageAlign center
 autonumber
 
+participant ":Router" as Router <<component>> #ADD8E6
 participant ":DegreeTypeRestController" as DegreeTypeRestController <<controller>> #82CFFD
 participant ":DepartmentRestController" as DepartmentRestController <<controller>> #82CFFD
 participant ":TeacherRestController" as TeacherRestController <<controller>> #82CFFD
@@ -20,41 +21,47 @@ participant "studyPlan1:StudyPlan" as StudyPlan <<component>> #FFE599
 participant ":ProgrammeRepositorySpringDataImpl" as ProgrammeRepository <<repository>> #F6F1E7
 participant ":DegreeTypeSpringDataImpl" as DegreeTypeRepository <<repository>> #F6F1E7
 
--> DegreeTypeRestController: **(GET) getAllDegreeTypes**()
+-> Router++: **(GET) /degreetypes**
+Router -> DegreeTypeRestController: **getAllDegreeTypes**()
 activate DegreeTypeRestController
 ref over DegreeTypeRestController
   \t\t\t    **Get Degree Type List**
 end ref
-<-- DegreeTypeRestController: degreeTypesDTOList
-deactivate DegreeTypeRestController
+Router <-- DegreeTypeRestController--: degreeTypesDTOList
+<-- Router--: degreeTypesDTOList
 |||
--> DepartmentRestController: **(GET) getAllDepartments**()
+-> Router++: **(GET) /departments**
+Router -> DepartmentRestController: **getAllDepartments**()
 activate DepartmentRestController
 ref over DepartmentRestController
   \t\t\t    **Get Department List**
 end ref
-<-- DepartmentRestController: departmentsDTOList
+Router <-- DepartmentRestController: departmentsDTOList
 deactivate DepartmentRestController
+<- Router--: departmentsDTOList
 |||
--> TeacherRestController: **(GET) getAllTeachers**()
+-> Router++: **(GET) /teachers**
+Router -> TeacherRestController: **getAllTeachers**()
 activate TeacherRestController
 ref over TeacherRestController
   \t\t\t    **Get Teacher List**
 end ref
-<-- TeacherRestController: teachersDTOList
+Router <-- TeacherRestController: teachersDTOList
 deactivate TeacherRestController
+<- Router--: teachersDTOList
 |||
 
 /'------------------------------------------
  Register Programme, including Study Plan --'/
 
--> RestController: **(POST) registerProgramme**\n(programmeRequestDTO)
-activate RestController
-note left of RestController
+-> Router++: (POST) /programmes
+note left of Router
   Receive as JSON format
   Converted to
   programmeRequestDTO
 end note
+Router -> RestController: **registerProgramme**(programmeRequestDTO)
+activate RestController
 |||
 ref over RestController
     \t\t\t    **Input DTO Transformation Process**:
@@ -75,13 +82,14 @@ ref over ProgrammeService
 
 end ref
 ProgrammeService --> RestController --: programmeResponseDTO1
-<-- RestController --: 201 Created \n+ \nprogrammeResponseDTO1
-
+Router <-- RestController --: 201 Created \n+ \nprogrammeResponseDTO1
+<-- Router--: 201 Created \n+ \nprogrammeResponseDTO1
 /'------------------------------------------
  -------------- Study Plan ----------------'/
-
--> RestController ++: **(POST) registerStudyPlan** \n(programmeName, programmeAcronym, startDate)
-RestController -> StudyPlanAssembler ++: **toCommand**(programmeName, programmeAcronym, startDate)
+|||
+-> Router++: **(POST) /programmes/{id}/studyplans**
+Router -> RestController ++: **registerStudyPlan** (programmeAcronym, startDate)
+RestController -> StudyPlanAssembler ++: **toCommand**(programmeAcronym, startDate)
 StudyPlanAssembler -> Command **: createRegisterStudyPlanCommand(programmeId, startDateVO)
 activate Command
 Command --> StudyPlanAssembler --: studyPlanCommand
@@ -135,9 +143,10 @@ ref over RestController
   \t\t\t    **Convert DTO to ResponseDTO**\t
 
 end ref
-<-- RestController: 201 Created \n+ \nstudyPlanResponseDTO1\t
+Router <-- RestController: 201 Created \n+ \nstudyPlanResponseDTO1\t
 deactivate RestController
-note left RestController
+<-- Router--: 201 Created \n+ \nstudyPlanResponseDTO1\t
+note left Router
   Send as
   ProgrammeStudyPlanResponseDTO,
   Converted to JSON

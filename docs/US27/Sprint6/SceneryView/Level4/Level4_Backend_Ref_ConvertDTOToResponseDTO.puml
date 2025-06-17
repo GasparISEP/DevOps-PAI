@@ -10,7 +10,7 @@ participant "studyPlanResponseDTO1:StudyPlanResponseDTO" as StudyPlanResponseDTO
 
 activate ProgrammeRestController
 ProgrammeRestController -> StudyPlanAssembler ++: **toResponseDTO**(studyPlanDTO)
-StudyPlanAssembler -> StudyPlanResponseDTO **: createStudyPlanResponseDTO(programmeName, programmeAcronym, startDate, durationInYears, maxEcts)
+StudyPlanAssembler -> StudyPlanResponseDTO **: createStudyPlanResponseDTO(programmeAcronym, startDate, durationInYears, maxEcts)
 activate StudyPlanResponseDTO
 StudyPlanResponseDTO --> StudyPlanAssembler: studyPlanResponseDTO1
 deactivate StudyPlanResponseDTO

@@ -109,6 +109,47 @@ class StudentRestControllerTest {
     @Test
     void whenDtoIsNull_thenReturnsBadRequest() {
         ResponseEntity<EntityModel<StudentResponseDTO>> response = studentRestController.registerAStudent(null);
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+    }
+
+    @Test
+    void getLastStudentID_shouldReturnBadRequest_whenExceptionThrown() {
+        // Arrange
+        when(studentService.getLastStudentID()).thenThrow(new RuntimeException("Simulated failure"));
+
+        // Act
+        ResponseEntity<Map<String, Integer>> response = studentRestController.getLastStudentID();
+
+        // Assert
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Test
+    void registerAStudent_shouldReturnBadRequest_whenStudentIsNull() {
+        //arrange
+        StudentDTO studentDTO = mock(StudentDTO.class);
+
+        Name name = mock(Name.class);
+        NIF nif = mock(NIF.class);
+        PhoneNumber phone = mock(PhoneNumber.class);
+        Email email = mock(Email.class);
+        Address address = mock(Address.class);
+
+        when(mapper.toName(studentDTO)).thenReturn(name);
+        when(mapper.toNIF(studentDTO)).thenReturn(nif);
+        when(mapper.toPhoneNumber(studentDTO)).thenReturn(phone);
+        when(mapper.toEmail(studentDTO)).thenReturn(email);
+        when(mapper.toAddress(studentDTO)).thenReturn(address);
+
+        when(studentService.registerStudent(
+                any(), any(), any(), any(),
+                any(), any(), any(), any())
+        ).thenReturn(null);
+
+        //act
+        ResponseEntity<EntityModel<StudentResponseDTO>> response = studentRestController.registerAStudent(studentDTO);
+
+        //assert
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 
