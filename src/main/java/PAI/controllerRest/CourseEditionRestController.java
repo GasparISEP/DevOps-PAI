@@ -1,8 +1,10 @@
 package PAI.controllerRest;
 
 import PAI.VOs.*;
-import PAI.VOs.Date;
-import PAI.assembler.courseEdition.*;
+import PAI.assembler.courseEdition.ICourseEditionAssembler;
+import PAI.assembler.courseEdition.ICourseEditionRUCHateoasAssembler;
+import PAI.assembler.courseEdition.ICreateCourseEditionHateoasAssembler;
+import PAI.assembler.courseEdition.IStudentCountAssembler;
 import PAI.assembler.courseEditionEnrolment.ICourseEditionEnrolmentAssembler;
 import PAI.assembler.courseEditionEnrolment.ICourseEditionEnrolmentHateoasAssembler;
 import PAI.assembler.programmeEdition.IProgrammeEditionServiceAssembler;
@@ -11,6 +13,7 @@ import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
 import PAI.dto.approvalRate.ApprovalRateResponseDTO;
 import PAI.dto.courseEdition.*;
 import PAI.dto.courseEditionEnrolment.CourseEditionEnrolmentDto;
+import PAI.dto.courseEditionEnrolment.CourseEditionEnrolmentMinimalDTO;
 import PAI.dto.studentGrade.GradeAStudentCommand;
 import PAI.dto.studentGrade.GradeAStudentRequestDTO;
 import PAI.dto.studentGrade.GradeAStudentResponseDTO;
@@ -31,8 +34,6 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.*;
-
 
 import static PAI.utils.ValidationUtils.validateNotNull;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -301,11 +302,15 @@ public ResponseEntity<?> defineRucForCourseEdition(
     }
 
     @GetMapping("/students/{studentID}/courseeditionenrolments")
-    public ResponseEntity<List<CourseEditionEnrolmentDto>> getEnrolmentsForStudent(@PathVariable("studentID") int studentID) {
+    public ResponseEntity<List<CourseEditionEnrolmentMinimalDTO>> getEnrolmentsForStudent(
+            @PathVariable("studentID") int studentID) {
+
         List<CourseEditionEnrolment> enrolments = courseEditionEnrolmentService.findByStudentID(studentID);
-        List<CourseEditionEnrolmentDto> dtos = enrolments.stream()
-                .map(courseEditionEnrolmentAssembler::toDto)
+
+        List<CourseEditionEnrolmentMinimalDTO> dtos = enrolments.stream()
+                .map(courseEditionEnrolmentAssembler::toMinimalDTO)
                 .toList();
+
         return ResponseEntity.ok(dtos);
     }
 
@@ -313,16 +318,21 @@ public ResponseEntity<?> defineRucForCourseEdition(
     public ResponseEntity<EntityModel<GradeAStudentResponseDTO>> gradeAStudentWithLink(
             @RequestBody @Valid GradeAStudentRequestDTO request) throws Exception {
 
+        // 1. Converter o request em comando de domínio
         GradeAStudentCommand command = studentGradeAssembler.toDomain(request);
+
+        // 2. Executar o caso de uso
         GradeAStudentResponseDTO response = gradeAStudentService.gradeAStudent(command);
 
-        // Criar link para GET /students/{studentID}
+        // 3. Criar link HATEOAS para o detalhe do estudante
         int studentID = response._studentUniqueNumber();
-        Link studentLink = linkTo(methodOn(StudentRestController.class).getStudentByID(studentID))
-                .withRel("student-details");
+        Link studentLink = linkTo(methodOn(StudentRestController.class)
+                .getStudentByID(studentID)).withRel("student-details");
 
+        // 4. Criar o EntityModel com o link
         EntityModel<GradeAStudentResponseDTO> model = EntityModel.of(response, studentLink);
 
+        // 5. Retornar a resposta com status 201
         return ResponseEntity.status(HttpStatus.CREATED).body(model);
     }
 
