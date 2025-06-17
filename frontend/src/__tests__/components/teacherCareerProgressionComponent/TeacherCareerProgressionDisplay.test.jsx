@@ -345,3 +345,118 @@ describe('TeacherCareerProgressionDisplay sorting', () => {
         }
     );
 });
+
+// Next and Previous controls tests
+
+test('navigates pages using pagination buttons', async () => {
+    const mockData = Array.from({ length: 25 }, (_, i) => ({
+        teacherCareerProgressionId: i + 1,
+        date: `2023-01-${String(i + 1).padStart(2, '0')}`,
+        workingPercentage: 100,
+        teacherCategoryID: 1,
+        teacherID: i + 1,
+    }));
+
+    global.fetch = jest.fn(() =>
+        Promise.resolve({ ok: true, json: () => Promise.resolve(mockData) })
+    );
+
+    render(
+        <MemoryRouter>
+            <TeacherCareerProgressionDisplay />
+        </MemoryRouter>
+    );
+
+    await screen.findByText('2023-01-01');
+
+    const nextButton = screen.getByText(/Next/i);
+
+    fireEvent.click(nextButton);
+
+    expect(await screen.findByText('2023-01-21')).toBeInTheDocument();
+});
+
+test('navigates pages using previous button', async () => {
+    const mockData = Array.from({ length: 25 }, (_, i) => ({
+        teacherCareerProgressionId: i + 1,
+        date: `2023-01-${String(i + 1).padStart(2, '0')}`,
+        workingPercentage: 100,
+        teacherCategoryID: 1,
+        teacherID: i + 1,
+    }));
+
+    global.fetch = jest.fn(() =>
+        Promise.resolve({ ok: true, json: () => Promise.resolve(mockData) })
+    );
+
+    render(
+        <MemoryRouter>
+            <TeacherCareerProgressionDisplay />
+        </MemoryRouter>
+    );
+
+    // Wait for initial load
+    await screen.findByText('2023-01-01');
+
+    // Go to page 2
+    fireEvent.click(screen.getByText(/Next/i));
+    await screen.findByText('2023-01-21'); // should now be on second page
+
+    // Now go back to page 1
+    fireEvent.click(screen.getByText(/Previous/i));
+
+    // Check that page 1 data is shown again
+    expect(await screen.findByText('2023-01-01')).toBeInTheDocument();
+});
+
+test('disables previous button on first page', async () => {
+    const mockData = Array.from({ length: 25 }, (_, i) => ({
+        teacherCareerProgressionId: i + 1,
+        date: `2023-01-${String(i + 1).padStart(2, '0')}`,
+        workingPercentage: 100,
+        teacherCategoryID: 1,
+        teacherID: i + 1,
+    }));
+
+    global.fetch = jest.fn(() => Promise.resolve({ ok: true, json: () => Promise.resolve(mockData) }));
+
+    render(
+        <MemoryRouter>
+            <TeacherCareerProgressionDisplay />
+        </MemoryRouter>
+    );
+
+    await screen.findByText('2023-01-01');
+
+    const previousButton = screen.getByText(/Previous/i);
+    expect(previousButton).toBeDisabled();
+});
+
+
+test('disables next button on last page', async () => {
+    const mockData = Array.from({ length: 25 }, (_, i) => ({
+        teacherCareerProgressionId: i + 1,
+        date: `2023-01-${String(i + 1).padStart(2, '0')}`,
+        workingPercentage: 100,
+        teacherCategoryID: 1,
+        teacherID: i + 1,
+    }));
+
+    global.fetch = jest.fn(() => Promise.resolve({ ok: true, json: () => Promise.resolve(mockData) }));
+
+    render(
+        <MemoryRouter>
+            <TeacherCareerProgressionDisplay />
+        </MemoryRouter>
+    );
+
+    await screen.findByText('2023-01-01');
+
+    // Going to page 2
+    fireEvent.click(screen.getByText(/Next/i));
+    await screen.findByText('2023-01-21');
+
+    // Re-query the button AFTER rerender
+    const updatedNextButton = screen.getByText(/Next/i);
+    expect(updatedNextButton).toBeDisabled();
+});
