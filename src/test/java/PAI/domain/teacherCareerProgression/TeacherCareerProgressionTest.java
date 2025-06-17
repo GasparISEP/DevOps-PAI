@@ -1,7 +1,6 @@
-package PAI.domain.teacheCareerProgression;
+package PAI.domain.teacherCareerProgression;
 
 import PAI.VOs.*;
-import PAI.domain.teacherCareerProgression.TeacherCareerProgression;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
