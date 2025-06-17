@@ -14,8 +14,8 @@ title Register a "X" in the System\nProcess View – Level 3
 
 participant ":Router" as RT
 participant "request\n:XRequest" as request
-participant "xDTO\n:XDTO" as XDTO
 participant "emXDTO\n:EntityModel<XDTO>" as emXDTO
+participant "xDTO\n:XDTO" as XDTO
 participant ":Controller" as CT
 participant "requestVOs\n:XRequestVOs" as requestVOs
 participant ":Service" as SE
