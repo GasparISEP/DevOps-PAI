@@ -2,7 +2,6 @@ package PAI.domain.courseInStudyPlan;
 
 import PAI.VOs.*;
 import PAI.domain.course.Course;
-import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanGeneratedIDDataModel;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
