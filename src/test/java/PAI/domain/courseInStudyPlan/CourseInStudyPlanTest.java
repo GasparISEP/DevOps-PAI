@@ -306,6 +306,8 @@ class CourseInStudyPlanTest {
         assertEquals(durationOfCourse, course.getDurationOfCourse());
         assertEquals(quantityOfCreditsEcts, course.getQuantityOfCreditsEcts());
         assertEquals(courseInStudyPlanID, course.identity());
+        assertEquals(generatedID, course.getGeneratedID());
+        assertEquals(programmeID, course.getProgrammeID());
     }
 
     @Test

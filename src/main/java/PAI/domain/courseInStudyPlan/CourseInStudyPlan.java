@@ -73,6 +73,8 @@ public class CourseInStudyPlan implements AggregateRoot<CourseInStudyPlanID> {
         return this._generatedID;
     }
 
+    public ProgrammeID getProgrammeID() {return this.programmeID; }
+
     @Override
     public CourseInStudyPlanID identity() {
         return this._courseInStudyPlanID;
