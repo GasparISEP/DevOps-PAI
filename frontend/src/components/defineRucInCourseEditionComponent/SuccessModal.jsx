@@ -13,6 +13,7 @@ export default function SuccessModal({ data, form, onClose, show }) {
                 <div className="success" style={{ marginTop: '1rem', color: '#080' }}>
                     <p><strong>Teacher:</strong> {data.teacherName}</p>
                     <p><strong>Course Edition:</strong> {data.courseEditionName}</p>
+                    <p><strong>Programme:</strong> {data.programmeName}</p>
 
                 </div>
 

@@ -43,12 +43,12 @@ export default function DefineRucInCourseEditionForm() {
         );
 
         const programmeName = programme ? programme.name : ce.programmeAcronym;
-        const displayName = `${ce.courseName} / ${programmeName}`;
+        const displayName = `${ce.courseName}`;
 
         return {
             ...ce,
             programmeName,
-            name: displayName  // <- 👈 this is what you’re using in setSuccessData
+            name: displayName
         };
     });
     useEffect(() => {
