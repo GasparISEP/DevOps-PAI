@@ -82,4 +82,16 @@ th.sortable.selected {
   outline-color: #9a1a24;
 }
 
+.icon-button {
+  font-size: 2rem;   /* tamanho base do ícone */
+  color: #333;       /* cinzento escuro inicial */
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.icon-button:hover {
+  color: #b30000;    /* ou o teu vermelho exato — ajusta se for outro! */
+  transform: scale(1.2);  /* zoom suave */
+}
+
 
