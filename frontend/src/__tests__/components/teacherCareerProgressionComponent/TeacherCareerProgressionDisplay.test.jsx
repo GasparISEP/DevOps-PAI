@@ -304,6 +304,39 @@ describe('TeacherCareerProgressionDisplay', () => {
         expect(screen.queryByText('b2c4d678-90ab-4321-8cde-1234567890ab')).not.toBeInTheDocument();
     });
 
+
+    test('displays "No results found" when filter yields no match', async () => {
+        const mockData = [
+            {
+                teacherCareerProgressionId: 1,
+                date: '2023-01-01',
+                workingPercentage: 100,
+                teacherCategoryID: 2,
+                teacherID: 5,
+            }
+        ];
+
+        global.fetch = jest.fn(() =>
+            Promise.resolve({ok: true, json: () => Promise.resolve(mockData)})
+        );
+
+        render(
+            <MemoryRouter>
+                <TeacherCareerProgressionDisplay/>
+            </MemoryRouter>
+        );
+
+        await screen.findByText('2023-01-01');
+
+        // Apply filter that won’t match
+        fireEvent.change(screen.getByPlaceholderText(/Search by Date/i), {
+            target: {value: 'gibberish-unlikely-to-match'}
+        });
+
+        expect(await screen.findByText(/no results found/i)).toBeInTheDocument();
+    });
+
+
 // Sorting tests - parameterized
 
     const mockData = [
