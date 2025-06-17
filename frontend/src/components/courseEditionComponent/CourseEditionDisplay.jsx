@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import '../../styles/DisplayPage.css';
 import '../../styles/Buttons.css';
 import { fetchEnrolmentCount } from '../../services/enrolmentCountInCourseEditionService';
+import { getAllSchoolYears } from '../../services/DefineRucInCourseEditionService';
 
 export default function CourseEditionDisplay() {
     const [courseEditions, setCourseEditions] = useState([]);
@@ -17,6 +18,20 @@ export default function CourseEditionDisplay() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [enrolmentCount, setEnrolmentCount] = useState(null);
     const [selectedCourse, setSelectedCourse] = useState(null);
+    const [schoolYears, setSchoolYears] = useState([]);
+
+    useEffect(() => {
+        async function loadSchoolYears() {
+            try {
+                const schoolYearsData = await getAllSchoolYears();
+                setSchoolYears(schoolYearsData);
+            } catch (error) {
+                console.error("Failed to fetch school years:", error);
+            }
+        }
+
+        loadSchoolYears();
+    }, []);
 
     const filteredCourseEditions = courseEditions.filter(edition => {
         if (!filterValue.trim()) return true;
@@ -205,12 +220,13 @@ export default function CourseEditionDisplay() {
                                 <th>Course Name</th>
                                 <th>Course Acronym</th>
                                 <th>School Year</th>
+                                <th>RUC</th>
                             </tr>
                             </thead>
                             <tbody>
                             {currentItems.length === 0 ? (
                                 <tr>
-                                    <td colSpan="4" style={{ textAlign: 'center', fontWeight: 'bold' }}>
+                                    <td colSpan="5" style={{ textAlign: 'center', fontWeight: 'bold' }}>
                                         No results found.
                                     </td>
                                 </tr>
@@ -220,12 +236,18 @@ export default function CourseEditionDisplay() {
                                         <td>{edition.programmeAcronym}</td>
                                         <td>{edition.courseName}</td>
                                         <td>{edition.courseAcronym}</td>
-                                        <td style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                            {edition.schoolYearID}
-                                            <ActionMenu
-                                                edition={edition}
-                                                onCountEnrolments={handleCountEnrolments}
-                                            />
+                                        <td>
+                                            {schoolYears.find(sy => sy.id === edition.schoolYearID)?.description || edition.schoolYearID}
+                                        </td>
+
+                                        <td>
+                                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem' }}>
+                                                <span>{edition.teacherID}</span>
+                                                <ActionMenu
+                                                    edition={edition}
+                                                    onCountEnrolments={handleCountEnrolments}
+                                                />
+                                            </div>
                                         </td>
                                     </tr>
                                 ))
