@@ -29,8 +29,8 @@ public class CourseEditionGeneratedIDDataModel implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof PAI.persistence.datamodel.courseEdition.CourseEditionGeneratedIDDataModel)) return false;
-        PAI.persistence.datamodel.courseEdition.CourseEditionGeneratedIDDataModel that = (PAI.persistence.datamodel.courseEdition.CourseEditionGeneratedIDDataModel) o;
+        if (!(o instanceof CourseEditionGeneratedIDDataModel)) return false;
+       CourseEditionGeneratedIDDataModel that = (CourseEditionGeneratedIDDataModel) o;
         return Objects.equals(id, that.id);
     }
 
