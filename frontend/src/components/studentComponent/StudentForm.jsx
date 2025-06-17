@@ -32,7 +32,7 @@ export default function StudentForm() {
     const [success, setSuccess] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [showErrorModal, setShowErrorModal] = useState(false);
-    const [formErrors, setFormErrors] = useState({});  // <-- Adicionado para erros
+    const [formErrors, setFormErrors] = useState({});
 
     function handleChange(e) {
         const { name, value } = e.target;
@@ -116,11 +116,9 @@ export default function StudentForm() {
                 email: raw.email,
                 academicEmail: raw.academicEmail,
                 _links: {
-                    view: raw._links?.self,
-                    viewAll: raw._links?.viewAll?.href === 'http://localhost:3000/students/display'
-                        ? { href: 'http://localhost:3000/students/display' }
-                        : null,
-                    viewDetails: raw._links?.viewDetails || null // <-- aqui está o que faltava
+                    view: raw._links?.self || null,
+                    viewAll: raw._links?.viewAll || null,
+                    viewDetails: raw._links?.viewDetails || null
                 }
             });
             setShowModal(true);
@@ -448,7 +446,12 @@ export default function StudentForm() {
                             }}>
                                 {success._links?.viewDetails?.href && (
                                     <button
-                                        onClick={() => window.open(success._links.viewDetails.href, '_blank')}
+                                        onClick={() => {
+                                            const backendPath = success._links.viewDetails.href;
+                                            const id = backendPath.split('/').pop();
+                                            const frontendUrl = `${window.location.origin}/students/${id}`;
+                                            window.open(frontendUrl, '_blank');
+                                        }}
                                         title="View Student"
                                         style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0.5rem' }}
                                     >
@@ -457,11 +460,14 @@ export default function StudentForm() {
                                 )}
                                 {success._links?.viewAll?.href && (
                                     <button
-                                        onClick={() => window.open(success._links.viewAll.href, '_blank')}
-                                        title="View All"
+                                        onClick={() => {
+                                            const frontendUrl = `${window.location.origin}${success._links.viewAll.href}`;
+                                            window.open(frontendUrl, '_blank');
+                                        }}
+                                        title="View All Students"
                                         style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0.5rem' }}
                                     >
-                                        <FolderOpenIcon fontSize="medium"/>
+                                        <FolderOpenIcon fontSize="medium" />
                                     </button>
                                 )}
                             </div>

@@ -28,19 +28,32 @@ class StudentHateoasAssemblerImplTest {
         assertNotNull(result);
         assertEquals(dto, result.getContent());
 
+        // Verifica link viewDetails (agora relativo)
         assertTrue(result.getLinks().hasLink("viewDetails"));
-        String expectedViewDetailsHref = "http://localhost:3000/students/" + dto.getStudentID();
-        assertEquals(expectedViewDetailsHref, result.getLink("viewDetails").get().getHref());
+        assertEquals("/students/" + dto.getStudentID(),
+                result.getLink("viewDetails").get().getHref());
 
+        // Verifica link viewAll (agora relativo)
         assertTrue(result.getLinks().hasLink("viewAll"));
-        String expectedViewAllHref = "http://localhost:3000/students/display";
-        assertEquals(expectedViewAllHref, result.getLink("viewAll").get().getHref());
+        assertEquals("/students/display",
+                result.getLink("viewAll").get().getHref());
 
+        // Verifica link self (gerado com linkTo)
         assertTrue(result.getLinks().hasLink("self"));
         String expectedSelfHref = linkTo(methodOn(StudentRestController.class)
                 .getStudentByID(dto.getStudentID()))
                 .toUri()
                 .toString();
-        assertEquals(expectedSelfHref, result.getLink("self").get().getHref());
+        assertEquals(expectedSelfHref,
+                result.getLink("self").get().getHref());
+
+        // Verifica link enrol-in-programme
+        assertTrue(result.getLinks().hasLink("enrol-in-programme"));
+        String expectedEnrolHref = linkTo(methodOn(StudentRestController.class)
+                .enrolStudentInProgramme(null))
+                .toUri()
+                .toString();
+        assertEquals(expectedEnrolHref,
+                result.getLink("enrol-in-programme").get().getHref());
     }
 }
