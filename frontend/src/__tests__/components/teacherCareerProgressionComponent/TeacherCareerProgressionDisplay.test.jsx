@@ -348,7 +348,7 @@ describe('TeacherCareerProgressionDisplay sorting', () => {
 
 // Next and Previous controls tests
 
-test('navigates pages using pagination buttons', async () => {
+test('navigates pages using Next button', async () => {
     const mockData = Array.from({ length: 25 }, (_, i) => ({
         teacherCareerProgressionId: i + 1,
         date: `2023-01-${String(i + 1).padStart(2, '0')}`,
@@ -376,7 +376,7 @@ test('navigates pages using pagination buttons', async () => {
     expect(await screen.findByText('2023-01-21')).toBeInTheDocument();
 });
 
-test('navigates pages using previous button', async () => {
+test('navigates pages using Previous button', async () => {
     const mockData = Array.from({ length: 25 }, (_, i) => ({
         teacherCareerProgressionId: i + 1,
         date: `2023-01-${String(i + 1).padStart(2, '0')}`,
