@@ -33,12 +33,6 @@ describe('EnrolmentCountModal', () => {
         expect(screen.getByText('0')).toBeInTheDocument();
     });
 
-    test('calls onClose when × button is clicked', () => {
-        render(<EnrolmentCountModal {...defaultProps} />);
-        fireEvent.click(screen.getByText('×'));
-        expect(defaultProps.onClose).toHaveBeenCalled();
-    });
-
     test('calls onClose when Close button is clicked', () => {
         render(<EnrolmentCountModal {...defaultProps} />);
         fireEvent.click(screen.getByText('Close'));

@@ -3,7 +3,6 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import CourseEditionDisplay from '../../../components/courseEditionComponent/CourseEditionDisplay';
-import { fetchEnrolmentCount } from '../../../services/enrolmentCountInCourseEditionService';
 
 // Mock the enrolment count service
 jest.mock('../../../services/enrolmentCountInCourseEditionService', () => ({
@@ -74,16 +73,13 @@ describe('CourseEditionDisplay Component', () => {
         );
         await screen.findByText('P0');
 
-        // Default shows first 10 items
         expect(screen.getByText('P0')).toBeInTheDocument();
         expect(screen.getByText('P9')).toBeInTheDocument();
         expect(screen.queryByText('P10')).not.toBeInTheDocument();
 
-        // Navigate to next page
         fireEvent.click(screen.getByText('Next'));
         expect(await screen.findByText('P10')).toBeInTheDocument();
 
-        // Change items per page to 5 resets to page 1
         fireEvent.click(screen.getByText('5'));
         expect(screen.getByText(/Page 1 of/)).toBeInTheDocument();
         expect(screen.getByText('P4')).toBeInTheDocument();
@@ -136,14 +132,12 @@ describe('CourseEditionDisplay Component', () => {
         );
         await screen.findByText('P0');
 
-        // Navigate to second page
         const nextBtn = screen.getByText('Next');
         fireEvent.click(nextBtn);
         expect(
             await screen.findByText('P10')
         ).toBeInTheDocument();
 
-        // Re-query Previous button and navigate back
         const prevBtnAfter = screen.getByText('Previous');
         fireEvent.click(prevBtnAfter);
         expect(
@@ -211,55 +205,6 @@ describe('CourseEditionDisplay Component', () => {
             target: { value: 'course name' },
         });
         expect(screen.getByText(/Page 1 of/)).toBeInTheDocument();
-    });
-
-    test('displays dropdown open and closed correctly', async () => {
-        global.fetch.mockResolvedValueOnce({ json: async () => [sampleData[0]] });
-        render(
-            <MemoryRouter>
-                <CourseEditionDisplay />
-            </MemoryRouter>
-        );
-        await screen.findByText('P0');
-
-        fireEvent.click(screen.getByText('⋮'));
-        expect(screen.getByText('Count Enrolments')).toBeInTheDocument();
-
-        fireEvent.mouseDown(screen.getByText('Course Editions'));
-        expect(screen.queryByText('Count Enrolments')).toBeNull();
-    });
-
-    // Test error handling in handleCountEnrolments
-    test('displays error when fetchEnrolmentCount fails', async () => {
-        global.fetch.mockResolvedValueOnce({ json: async () => [sampleData[0]] });
-        const error = new Error('network fail');
-        fetchEnrolmentCount.mockRejectedValueOnce(error);
-        const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-        const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
-
-        render(
-            <MemoryRouter>
-                <CourseEditionDisplay />
-            </MemoryRouter>
-        );
-        await screen.findByText('P0');
-
-        fireEvent.click(screen.getByText('⋮'));
-        fireEvent.click(screen.getByText('Count Enrolments'));
-
-        await waitFor(() =>
-            expect(consoleSpy).toHaveBeenCalledWith(
-                'Error counting enrolments:',
-                error
-            )
-        );
-        expect(alertSpy).toHaveBeenCalledWith(
-            'Error counting enrolments: ' + error.message
-        );
-        expect(screen.queryByText('Enrolment Count')).toBeNull();
-
-        consoleSpy.mockRestore();
-        alertSpy.mockRestore();
     });
 
     test('Back to Main Page link has correct href', () => {

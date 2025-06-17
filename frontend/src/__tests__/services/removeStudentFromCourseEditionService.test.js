@@ -8,6 +8,10 @@ describe('removeStudentFromCourseEditionService', () => {
         global.fetch = jest.fn();
     });
 
+    afterEach(() => {
+        jest.resetAllMocks();
+    });
+
     it('should call fetch with the correct URL and method', async () => {
         fetch.mockResolvedValueOnce({ ok: true });
 
@@ -34,6 +38,10 @@ describe('removeStudentFromCourseEditionService', () => {
 describe('getCourseEditionsByStudent', () => {
     beforeEach(() => {
         global.fetch = jest.fn();
+    });
+
+    afterEach(() => {
+        jest.resetAllMocks();
     });
 
     it('should return parsed data when JSON is valid', async () => {

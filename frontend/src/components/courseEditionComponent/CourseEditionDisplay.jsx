@@ -2,6 +2,7 @@ import React, {useEffect, useState, useRef} from "react";
 import { Link } from "react-router-dom";
 import '../../styles/DisplayPage.css';
 import '../../styles/Buttons.css';
+import ActionMenu from '../../components/courseEditionComponent/ActionMenu';
 import EnrolmentCountModal from '../../components/courseEditionComponent/EnrolmentCountModal';
 import { fetchEnrolmentCount } from '../../services/enrolmentCountInCourseEditionService';
 import { getAllSchoolYears } from '../../services/DefineRucInCourseEditionService';
@@ -87,50 +88,6 @@ export default function CourseEditionDisplay() {
                 disabled={selected}>
                 {value}
             </button>
-        );
-    }
-
-    function ActionMenu({ edition, onCountEnrolments }) {
-        const [showMenu, setShowMenu] = useState(false);
-        const menuRef = useRef(null);
-
-        useEffect(() => {
-            function handleClickOutside(event) {
-                if (menuRef.current && !menuRef.current.contains(event.target)) {
-                    setShowMenu(false);
-                }
-            }
-
-            document.addEventListener('mousedown', handleClickOutside);
-            return () => {
-                document.removeEventListener('mousedown', handleClickOutside);
-            };
-        }, []);
-
-        const handleCountEnrolments = async () => {
-            setShowMenu(false);
-            await onCountEnrolments(edition);
-        };
-
-        return (
-            <div className="action-menu-container" ref={menuRef}>
-                <button 
-                    className="action-menu-button"
-                    onClick={() => setShowMenu(!showMenu)}
-                >
-                    ⋮
-                </button>
-                {showMenu && (
-                    <div className="action-menu-dropdown">
-                        <button 
-                            className="action-menu-item"
-                            onClick={handleCountEnrolments}
-                        >
-                            Count Enrolments
-                        </button>
-                    </div>
-                )}
-            </div>
         );
     }
 
