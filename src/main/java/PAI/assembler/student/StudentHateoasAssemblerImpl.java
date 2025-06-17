@@ -17,13 +17,10 @@ public class StudentHateoasAssemblerImpl
     @Override
     public EntityModel<StudentResponseDTO> toModel(StudentResponseDTO dto) {
         return EntityModel.of(dto,
-                Link.of("http://localhost:3000/students/" + dto.getStudentID()).withRel("viewDetails"),
-                Link.of("http://localhost:3000/students/display").withRel("viewAll"),
+                Link.of("/students/" + dto.getStudentID()).withRel("viewDetails"),
+                Link.of("/students/display").withRel("viewAll"),
                 linkTo(methodOn(StudentRestController.class).getStudentByID(dto.getStudentID())).withSelfRel(),
-                linkTo(methodOn(StudentRestController.class)
-                        .enrolStudentInProgramme(null))
-                        .withRel("enrol-in-programme")
-
+                linkTo(methodOn(StudentRestController.class).enrolStudentInProgramme(null)).withRel("enrol-in-programme")
         );
     }
 }

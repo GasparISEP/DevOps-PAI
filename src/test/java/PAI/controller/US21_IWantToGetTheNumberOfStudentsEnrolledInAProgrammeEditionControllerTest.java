@@ -4,22 +4,16 @@ import PAI.VOs.*;
 import PAI.assembler.programme.IProgrammeAssembler;
 import PAI.assembler.programmeEdition.IProgrammeEditionServiceAssembler;
 import PAI.assembler.programmeEdition.ProgrammeEditionServiceAssemblerImpl;
-import PAI.domain.department.DepartmentFactoryImpl;
-import PAI.domain.department.IDepartmentFactory;
 import PAI.domain.programme.IProgrammeFactory;
-import PAI.domain.programme.ProgrammeFactoryImpl;
 import PAI.domain.programmeEdition.IProgrammeEditionFactory;
 import PAI.domain.programmeEdition.ProgrammeEditionFactoryImpl;
 import PAI.domain.repositoryInterfaces.department.IDepartmentRepository;
 import PAI.domain.repositoryInterfaces.teacher.ITeacherRepository;
-import PAI.domain.teacher.ITeacherFactory;
-import PAI.domain.teacher.TeacherFactoryImpl;
 import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.programmeEdition.ProgrammeEditionResponseServiceDTO;
 import PAI.persistence.mem.courseEditionEnrolment.CourseEditionEnrolmentListFactoryImpl;
 import PAI.persistence.mem.courseEditionEnrolment.ICourseEditionEnrolmentListFactory;
 import PAI.domain.repositoryInterfaces.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
-import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.domain.programmeEditionEnrolment.IProgrammeEditionEnrolmentFactory;
 import PAI.persistence.mem.programmeEditionEnrolment.IProgrammeEditionEnrolmentListFactory;
 import PAI.domain.programmeEditionEnrolment.ProgrammeEditionEnrolmentFactoryImpl;
@@ -51,8 +45,6 @@ import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
 import PAI.persistence.springdata.department.DepartmentRepositorySpringDataImpl;
 import PAI.persistence.springdata.teacher.TeacherRepositorySpringDataImpl;
 import PAI.service.degreeType.IDegreeTypeRegistrationService;
-import PAI.service.department.DepartmentServiceImpl;
-import PAI.service.department.IDepartmentService;
 import PAI.service.programme.IProgrammeService;
 import PAI.service.programme.ProgrammeServiceImpl;
 import PAI.service.programmeEdition.IProgrammeEditionService;
@@ -60,8 +52,6 @@ import PAI.service.programmeEdition.ProgrammeEditionService;
 import PAI.service.programmeEditionEnrolment.IProgrammeEditionEnrolmentService;
 import PAI.service.programmeEditionEnrolment.ProgrammeEditionEnrolmentServiceImpl;
 import PAI.service.schoolYear.ISchoolYearService;
-import PAI.service.teacher.ITeacherService;
-import PAI.service.teacher.TeacherServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -247,20 +237,16 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         IProgrammeAssembler programmeAssembler = mock(IProgrammeAssembler.class);
         IDegreeTypeRegistrationService degreeTypeRegistrationService = mock(IDegreeTypeRegistrationService.class);
         IProgrammeFactory programmeFactory = mock(IProgrammeFactory.class);
-        IDepartmentFactory dptFactory = mock(DepartmentFactoryImpl.class);
-        IDepartmentRepository dptRepo = mock(DepartmentRepositorySpringDataImpl.class);
-        IDepartmentService departmentService = new DepartmentServiceImpl(dptFactory, dptRepo);
-        ITeacherFactory teacherFactory = mock(TeacherFactoryImpl.class);
+        IDepartmentRepository departmentRepository = mock(DepartmentRepositorySpringDataImpl.class);
         ITeacherRepository teacherRepository = mock(TeacherRepositorySpringDataImpl.class);
-        ITeacherService teacherService = new TeacherServiceImpl(teacherFactory, teacherRepository);
 
         IProgrammeService programmeService = new ProgrammeServiceImpl(
                 programmeFactory,
                 programmeRepository,
                 programmeAssembler,
                 degreeTypeRegistrationService,
-                departmentService,
-                teacherService
+                departmentRepository,
+                teacherRepository
         );
 
         ICourseEditionFactory courseEditionFactory = new CourseEditionFactoryImpl();
@@ -331,20 +317,16 @@ class US21_IWantToGetTheNumberOfStudentsEnrolledInAProgrammeEditionControllerTes
         IProgrammeAssembler programmeAssembler = mock(IProgrammeAssembler.class);
         IDegreeTypeRegistrationService degreeTypeRegistrationService = mock(IDegreeTypeRegistrationService.class);
         IProgrammeFactory programmeFactory = mock(IProgrammeFactory.class);
-        IDepartmentFactory dptFactory = mock(DepartmentFactoryImpl.class);
-        IDepartmentRepository dptRepo = mock(DepartmentRepositorySpringDataImpl.class);
-        IDepartmentService departmentService = new DepartmentServiceImpl(dptFactory, dptRepo);
-        ITeacherFactory teacherFactory = mock(TeacherFactoryImpl.class);
+        IDepartmentRepository departmentRepository = mock(DepartmentRepositorySpringDataImpl.class);
         ITeacherRepository teacherRepository = mock(TeacherRepositorySpringDataImpl.class);
-        ITeacherService teacherService = new TeacherServiceImpl(teacherFactory, teacherRepository);
 
         IProgrammeService programmeService = new ProgrammeServiceImpl(
                 programmeFactory,
                 programmeRepository,
                 programmeAssembler,
                 degreeTypeRegistrationService,
-                departmentService,
-                teacherService
+                departmentRepository,
+                teacherRepository
         );
         
         ICourseEditionFactory courseEditionFactory = new CourseEditionFactoryImpl();
