@@ -5,6 +5,7 @@ import PAI.assembler.courseEdition.CourseEditionAssemblerImpl;
 import PAI.assembler.courseEdition.CourseEditionRUCHateoasAssembler;
 import PAI.assembler.courseEdition.CreateCourseEditionHateoasAssemblerImpl;
 import PAI.dto.courseEdition.*;
+import PAI.dto.courseEditionEnrolment.CourseEditionEnrolmentDto;
 import PAI.exception.CourseEditionCreationException;
 import PAI.persistence.datamodel.studentGrade.StudentGradeDM;
 import PAI.persistence.springdata.studentGrade.IStudentGradeRepositorySpringData;
@@ -395,4 +396,50 @@ public class CourseEditionRestControllerIntegrationTests {
                 .andExpect(jsonPath("$._links.student-details.href").value(
                         org.hamcrest.Matchers.containsString("/students/1102840")));
     }
+
+    @Test
+    void enrolStudentInCourseEdition_thenReturnsBadRequestWhenStudentAlreadyEnrolled() throws Exception {
+        // Arrange
+        int studentId = 1000001;
+        String validRequestBody = """
+        {
+            "studentUniqueNumber": %d,
+            "programmeAcronym": "CSD",
+            "schoolYearId": "550e8400-e29b-41d4-a716-446655440009",
+            "courseAcronym": "ARIT",
+            "courseName": "Arithmancy",
+            "studyPlanDate": "15-10-2023"
+        }
+        """;
+
+        // Act & Assert
+        mockMvc.perform(post("/course-editions/students/{id}/courses-edition-enrolments", studentId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(validRequestBody))
+                .andExpect(status().isBadRequest());
+    }
+
+        @Test
+        void enrolStudentInCourseEdition_thenReturnsCreatedWhenStudentNotEnrolled() throws Exception {
+        // Arrange
+        int studentId = 1001000;
+
+        CourseEditionEnrolmentDto requestDto = new CourseEditionEnrolmentDto(
+                studentId,
+                "CSD",
+                "550e8400-e29b-41d4-a716-446655440009",
+                "ARIT",
+                "Arithmancy",
+                "15-10-2023"
+        );
+
+        String jsonBody = objectMapper.writeValueAsString(requestDto);
+
+        // Act & Assert
+        mockMvc.perform(post("/course-editions/students/{id}/courses-edition-enrolments", studentId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonBody))
+                .andExpect(status().isCreated());
+        }
+
 }
