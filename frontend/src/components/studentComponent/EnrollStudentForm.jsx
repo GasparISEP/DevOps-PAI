@@ -172,8 +172,9 @@ export default function EnrollStudentForm() {
         return sum + (c ? c.qtyECTS : 0);
     }, 0);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+
         if (!form.studentId || !form.programme || !form.edition || form.selectedCourses.length === 0) {
             setError('Please fill in all fields and select at least one course.');
             return;
@@ -181,11 +182,13 @@ export default function EnrollStudentForm() {
 
         const edition = editions.find(e => e.value === form.edition);
         const programme = programmes.find(p => p.generatedID === form.programme);
+
         if (!edition || !programme) {
             setError('Invalid programme or edition.');
             return;
         }
 
+        // ⚡️ Grouped for preview
         const grouped = courses.reduce((acc, c) => {
             if (!acc[c.curricularYear]) acc[c.curricularYear] = {};
             if (!acc[c.curricularYear][c.semester]) acc[c.curricularYear][c.semester] = [];
@@ -193,6 +196,7 @@ export default function EnrollStudentForm() {
             return acc;
         }, {});
 
+        // ✅ PREVIEW only
         setReviewData({
             studentID: form.studentId,
             studentName: studentName,
@@ -201,20 +205,11 @@ export default function EnrollStudentForm() {
             groupedCourses: grouped,
             selectedCourses: form.selectedCourses,
             selectedEcts: selectedEcts,
-            edition,
-            programme
-        });
-
-        setShowReviewModal(true);
-    };
-
-    const confirmEnrollment = async () => {
-        try {
-            const payload = {
-                studentId: parseInt(reviewData.studentID),
-                programmeAcronym: reviewData.edition.acronym,
-                schoolYearId: reviewData.edition.value,
-                courseIds: reviewData.selectedCourses.map(acr => {
+            payload: {   // 👈 Guarda o payload para depois
+                studentId: parseInt(form.studentId),
+                programmeAcronym: edition.acronym,
+                schoolYearId: edition.value,
+                courseIds: form.selectedCourses.map(acr => {
                     const c = courses.find(c => c.acronym === acr);
                     return {
                         acronym: c.acronym,
@@ -223,11 +218,22 @@ export default function EnrollStudentForm() {
                         programmeAcronym: c.programmeAcronym
                     };
                 })
-            };
+            }
+        });
 
-            await enrolStudent(reviewData.studentID, payload);
+        setShowReviewModal(true);
+    };
 
-            setSuccess(reviewData);
+    const confirmEnrollment = async () => {
+        try {
+            const response = await enrolStudent(form.studentId, reviewData.payload);
+
+            // ✅ Agora guarda tudo incluindo _links
+            setSuccess({
+                ...reviewData,
+                links: response._links
+            });
+
             setShowReviewModal(false);
             setShowModal(true);
         } catch (err) {
@@ -490,7 +496,10 @@ export default function EnrollStudentForm() {
                             <p style={{ marginTop: '1rem', fontWeight: 'bold' }}>
                                 ECTS Used: {success.selectedEcts} / {totalEcts}
                             </p>
-                            <button className="modal-btn" onClick={() => {
+                             <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={() => {
                                 setShowModal(false);
                                 window.location.reload();
                             }}>Close</button>
