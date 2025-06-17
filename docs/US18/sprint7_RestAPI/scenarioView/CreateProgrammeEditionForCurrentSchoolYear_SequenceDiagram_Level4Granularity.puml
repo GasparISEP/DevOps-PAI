@@ -117,7 +117,10 @@ participant ":IProgrammeEditionRepoSpringData" as IPER
 PER -> IPER: save(pe1DataModel)
 activate IPER #E1F5FE
 
-IPER--> PER: pe1
+IPER ->o]: INSERT INTO programme_edition (programme_id, school_year_id) VALUES ('CSD','3aef0884-d779-42fd-9079-22dcf1ca8166')
+IPER <--o]:  pe1DataModel
+
+IPER--> PER: pe1DataModel
 deactivate IPER
 
 ref over PER

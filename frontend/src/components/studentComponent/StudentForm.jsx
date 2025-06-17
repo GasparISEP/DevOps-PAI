@@ -470,7 +470,27 @@ export default function StudentForm() {
                         <button className="modal-btn" onClick={() => {
                             setShowModal(false);
                             window.location.reload();
-                        }}>Close</button>
+                        }}>Close
+                        </button>
+
+                        <div style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            cursor: 'pointer',
+                            fontSize: '1.35rem',
+                            padding: '0.5rem'
+                        }}>
+                            <a
+                                href="/students/enrol-programme"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="modal-btn"
+                                style={{ textDecoration: 'none'}}
+                            >
+                                Enrol in Programme
+                            </a>
+                        </div>
+
                     </div>
                 </div>
             )}

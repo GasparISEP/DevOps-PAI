@@ -19,7 +19,11 @@ public class StudentHateoasAssemblerImpl
         return EntityModel.of(dto,
                 Link.of("http://localhost:3000/students/" + dto.getStudentID()).withRel("viewDetails"),
                 Link.of("http://localhost:3000/students/display").withRel("viewAll"),
-                linkTo(methodOn(StudentRestController.class).getStudentByID(dto.getStudentID())).withSelfRel()
+                linkTo(methodOn(StudentRestController.class).getStudentByID(dto.getStudentID())).withSelfRel(),
+                linkTo(methodOn(StudentRestController.class)
+                        .enrolStudentInProgramme(null))
+                        .withRel("enrol-in-programme")
+
         );
     }
 }

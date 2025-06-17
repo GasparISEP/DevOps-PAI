@@ -4,6 +4,7 @@ import PAI.dto.courseEdition.CourseEditionResponseIDDTO;
 import PAI.dto.courseEdition.DefineRucRequestDTO;
 import PAI.dto.courseEdition.DefineRucResponseDTO;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
@@ -30,7 +31,11 @@ public class CourseEditionRUCHateoasAssembler implements RepresentationModelAsse
                             .withRel("define-ruc"),
                     linkTo(methodOn(CourseEditionRestController.class)
                             .findAllCourseEditions())
-                            .withRel("find-all-course-editions")
+                            .withRel("find-all-course-editions"),
+
+                    // UI links for frontend (React)
+                    Link.of("/course-editions/" + dto.courseEditionGeneratedID()).withRel("details"),
+                    Link.of("/course-editions").withRel("collection")
             );
         } catch (Exception e) {
             throw new RuntimeException(e);
