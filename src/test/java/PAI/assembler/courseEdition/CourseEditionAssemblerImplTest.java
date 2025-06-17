@@ -76,6 +76,10 @@ class CourseEditionAssemblerImplTest {
         String programmeAcronym = "SE";
         String courseAcronym = "CS101";
         String courseName = "Intro to Programming";
+        String teacher = "AMG";
+
+
+
         LocalDate studyPlanDate = LocalDate.of(2025, 5, 25);
 
         when(programmeID.getProgrammeAcronym()).thenReturn(programmeAcronym);
@@ -111,7 +115,9 @@ class CourseEditionAssemblerImplTest {
                 courseAcronym,
                 courseName,
                 studyPlanDate,
-                expectedFormattedID // <-- Corrigido aqui
+                expectedFormattedID,
+                teacher
+
         );
 
         // Act
@@ -365,6 +371,7 @@ class CourseEditionAssemblerImplTest {
         String courseName = "Intro to Computer Science";
         LocalDate studyPlanDate = LocalDate.of(2025, 1, 15);
         String generatedID = "ENG-123e4567-e89b-12d3-a456-426614174000_CS101-Intro to Computer Science-ENG-2025-01-15";
+        String teacherAcronym = "AAA";
 
         CourseEditionServiceResponseDTO serviceDTO = new CourseEditionServiceResponseDTO(
                 UUID.randomUUID(),
@@ -373,7 +380,8 @@ class CourseEditionAssemblerImplTest {
                 courseAcronym,
                 courseName,
                 studyPlanDate,
-                generatedID
+                generatedID,
+                teacherAcronym
         );
 
         // Act

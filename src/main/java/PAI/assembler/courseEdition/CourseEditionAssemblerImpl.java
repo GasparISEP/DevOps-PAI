@@ -45,7 +45,9 @@ public class CourseEditionAssemblerImpl implements ICourseEditionAssembler {
                 courseEditionServiceDTO.courseAcronym(),
                 courseEditionServiceDTO.courseName(),
                 courseEditionServiceDTO.studyPlanImplementationDate(),
-                courseEditionServiceDTO.courseEditionID()
+                courseEditionServiceDTO.courseEditionID(),
+                courseEditionServiceDTO.teacherID() != null ? courseEditionServiceDTO.teacherID() : null
+
                 );
     }
 
