@@ -43,7 +43,7 @@ export default function DefineRucInCourseEditionForm() {
         );
 
         const programmeName = programme ? programme.name : ce.programmeAcronym;
-        const displayName = `${ce.courseName} / (${programmeName})`; // <- filtered name
+        const displayName = `${ce.courseName} / ${programmeName}`;
 
         return {
             ...ce,
