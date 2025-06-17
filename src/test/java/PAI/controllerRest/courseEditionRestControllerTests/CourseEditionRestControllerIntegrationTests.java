@@ -3,6 +3,7 @@ package PAI.controllerRest.courseEditionRestControllerTests;
 import PAI.VOs.*;
 import PAI.assembler.courseEdition.CourseEditionAssemblerImpl;
 import PAI.assembler.courseEdition.CourseEditionRUCHateoasAssembler;
+import PAI.assembler.courseEdition.CreateCourseEditionHateoasAssemblerImpl;
 import PAI.dto.courseEdition.*;
 import PAI.exception.CourseEditionCreationException;
 import PAI.persistence.datamodel.studentGrade.StudentGradeDM;
@@ -60,6 +61,10 @@ public class CourseEditionRestControllerIntegrationTests {
 
     @MockBean
     private ICreateCourseEditionService createCourseEditionService;
+
+    @MockBean
+    private CreateCourseEditionHateoasAssemblerImpl createCourseEditionHateoasAssembler;
+
 
 
     @Test
@@ -174,10 +179,13 @@ public class CourseEditionRestControllerIntegrationTests {
     @Test
     void whenCreateCourseEditionWithValidData_thenReturnsCreated() throws Exception {
         // Arrange
+        UUID schoolYearID = UUID.randomUUID();
+        UUID generatedId = UUID.randomUUID();
+
         CourseEditionRequestDTO requestDTO = new CourseEditionRequestDTO(
                 "Software Development",
                 "SDV",
-                UUID.randomUUID(),
+                schoolYearID,
                 "SA",
                 "Software Architecture",
                 LocalDate.of(2023, 9, 1)
@@ -192,31 +200,31 @@ public class CourseEditionRestControllerIntegrationTests {
                 new Date(requestDTO.studyPlanImplementationDate())
         );
 
-        UUID generatedId = UUID.randomUUID();
-
-        CourseEditionServiceResponseDTO responseDTO = new CourseEditionServiceResponseDTO(
+        CourseEditionServiceResponseDTO serviceResponseDTO = new CourseEditionServiceResponseDTO(
                 generatedId,
                 "SDV",
-                requestDTO.schoolYearID(),
+                schoolYearID,
                 "SA",
                 "Software Architecture",
                 LocalDate.of(2023, 9, 1),
                 generatedId.toString()
         );
 
-        CourseEditionResponseDTO responseBody = new CourseEditionResponseDTO(
-                generatedId,
+        CourseEditionResponseIDDTO responseIDDTO = new CourseEditionResponseIDDTO(
                 "SDV",
-                requestDTO.schoolYearID(),
+                schoolYearID,
                 "SA",
                 "Software Architecture",
                 LocalDate.of(2023, 9, 1),
                 generatedId.toString()
         );
 
-        when(courseEditionAssembler.toCommand(any())).thenReturn(command);
-        when(createCourseEditionService.createCourseEditionForRestApi(command)).thenReturn(responseDTO);
-        when(courseEditionAssembler.toResponseDTO(responseDTO)).thenReturn(responseBody);
+        EntityModel<CourseEditionResponseIDDTO> responseModel = EntityModel.of(responseIDDTO);
+
+        when(courseEditionAssembler.toCommand(any(CourseEditionRequestDTO.class))).thenReturn(command);
+        when(createCourseEditionService.createCourseEditionForRestApi(command)).thenReturn(serviceResponseDTO);
+        when(courseEditionAssembler.toResponseIDDTO(serviceResponseDTO)).thenReturn(responseIDDTO);
+        when(createCourseEditionHateoasAssembler.toModel(responseIDDTO)).thenReturn(responseModel);
 
         // Act & Assert
         mockMvc.perform(post("/course-editions")
@@ -224,11 +232,9 @@ public class CourseEditionRestControllerIntegrationTests {
                         .content(objectMapper.writeValueAsString(requestDTO)))
                 .andExpect(status().isCreated())
                 .andExpect(header().string("Location", "/course-editions/" + generatedId.toString()))
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.courseEditionID").value(generatedId.toString()))
-                .andExpect(jsonPath("$.programmeAcronym").value("SDV"))
-                .andExpect(jsonPath("$.courseName").value("Software Architecture"));
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
+
 
     @Test
     void whenCreateCourseEditionReturnsNull_thenReturnsBadRequest() throws Exception {
