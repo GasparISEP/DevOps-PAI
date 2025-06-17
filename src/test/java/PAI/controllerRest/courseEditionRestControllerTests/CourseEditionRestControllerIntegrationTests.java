@@ -23,12 +23,12 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -281,46 +281,25 @@ public class CourseEditionRestControllerIntegrationTests {
 
     @Sql(scripts = "/test-data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Test
-    void shouldReturnCourseEditionEnrolmentsForGivenStudentID() throws Exception {
-        // Arrange
-        int studentID = 1234567;
-
-        // Act & Assert
-        mockMvc.perform(get("/course-editions/students/1234567/courseeditionenrolments", studentID))
+    void whenGetEnrolments_thenReturnMinimalDTOsOnly() throws Exception {
+        mockMvc.perform(get("/course-editions/students/1234567/courseeditionenrolments"))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$").isArray());
+                .andExpect(content().contentType("application/json"))
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$[0].courseEditionID").exists())
+                .andExpect(jsonPath("$[0].courseEditionName").exists())
+                .andExpect(jsonPath("$[0].programmeAcronym").doesNotExist())
+                .andExpect(jsonPath("$[0].schoolYearId").doesNotExist())
+                .andExpect(jsonPath("$[0].courseAcronym").doesNotExist())
+                .andExpect(jsonPath("$[0].studyPlanDate").doesNotExist());
     }
 
     @Test
-    @Sql(scripts = {"/test-data.sql", "/test-data-studentgrade.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    void whenGradeAStudent_thenReturnsCreatedWithHateoasLinks() throws Exception {
+    @Sql(scripts = {"/test-data-completo.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    void whenGradeAStudent_thenReturnsCreatedWithoutHateoas() throws Exception {
         mockMvc.perform(post("/course-editions/studentgrades/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
-            {
-                "studentUniqueNumber": 1102840,
-                "grade": 18,
-                "date": "13-06-2025",
-                "programmeName": "Engenharia Informática",
-                "programmeAcronym": "LEI",
-                "schoolYearId": "11111111-1111-1111-1111-111111111111",
-                "courseAcronym": "PAI",
-                "courseName": "Processos de Apoio à Inovação",
-                "studyPlanImplementationDate": "01-09-2020"
-            }
-            """))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$._studentUniqueNumber").value(1102840))
-                .andExpect(jsonPath("$._grade").value(18.0));
-                 // .andExpect(jsonPath("$._links").exists()); "para colocar os links"
-    }
-
-    @Test
-    @Sql(scripts = "/test-data-studentgrade-in.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    void whenGradeAStudent_thenStudentGradeIsPersisted() throws Exception {
-        // given
-        String requestJson = """
         {
             "studentUniqueNumber": 1102840,
             "grade": 18,
@@ -332,49 +311,63 @@ public class CourseEditionRestControllerIntegrationTests {
             "courseName": "Processos de Apoio à Inovação",
             "studyPlanImplementationDate": "01-09-2020"
         }
-        """;
+        """))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$._studentUniqueNumber").value(1102840))
+                .andExpect(jsonPath("$._grade").value(18.0))
+                .andExpect(jsonPath("$._links").doesNotExist());
+    }
 
-        // when
+
+
+    @Test
+    @Sql(scripts = "/test-data-completo.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    void whenGradeAStudent_thenStudentGradeIsPersisted() throws Exception {
+        String requestJson = """
+    {
+        "studentUniqueNumber": 1102840,
+        "grade": 18,
+        "date": "13-06-2025",
+        "programmeName": "Engenharia Informática",
+        "programmeAcronym": "LEI",
+        "schoolYearId": "11111111-1111-1111-1111-111111111111",
+        "courseAcronym": "PAI",
+        "courseName": "Processos de Apoio à Inovação",
+        "studyPlanImplementationDate": "01-09-2020"
+    }
+    """;
+
         mockMvc.perform(post("/course-editions/studentgrades/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
                 .andExpect(status().isCreated());
 
-        // then
         List<StudentGradeDM> allGrades = studentGradeRepository.findAll();
         assertFalse(allGrades.isEmpty(), "Expected at least one StudentGrade persisted.");
         StudentGradeDM grade = allGrades.get(0);
         assertEquals(1102840, grade.getStudentId().getUniqueNumber());
         assertEquals(18.0, grade.getGrade());
         assertEquals(LocalDate.of(2025, 6, 13), grade.getDate());
-
-        // DEBUG PRINT
-        System.out.println("=== STUDENT GRADES ===");
-        allGrades.forEach(g -> {
-            System.out.println("- Student: " + g.getStudentId().getUniqueNumber());
-            System.out.println("  Grade: " + g.getGrade());
-            System.out.println("  Date: " + g.getDate());
-        });
-
     }
 
+
+
     @Test
-    @Sql(scripts = {"/test-data.sql", "/test-data-studentgrade.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(scripts = {"/test-data-completo.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     void whenGradeAStudentWithHateoas_thenReturnsCreatedWithLinks() throws Exception {
-        // language=JSON
         String requestJson = """
-        {
-               "studentUniqueNumber": 1102840,
-               "grade": 18,
-               "date": "13-06-2025",
-               "programmeName": "Engenharia Informática",
-               "programmeAcronym": "LEI",
-               "schoolYearId": "11111111-1111-1111-1111-111111111111",
-               "courseAcronym": "PAI",
-               "courseName": "Processos de Apoio à Inovação",
-               "studyPlanImplementationDate": "01-09-2020"
-        }
-        """;
+    {
+           "studentUniqueNumber": 1102840,
+           "grade": 18,
+           "date": "13-06-2025",
+           "programmeName": "Engenharia Informática",
+           "programmeAcronym": "LEI",
+           "schoolYearId": "11111111-1111-1111-1111-111111111111",
+           "courseAcronym": "PAI",
+           "courseName": "Processos de Apoio à Inovação",
+           "studyPlanImplementationDate": "01-09-2020"
+    }
+    """;
 
         mockMvc.perform(post("/course-editions/studentgrades/register/hateoas")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -386,5 +379,4 @@ public class CourseEditionRestControllerIntegrationTests {
                 .andExpect(jsonPath("$._links.student-details.href").value(
                         org.hamcrest.Matchers.containsString("/students/1102840")));
     }
-
 }
