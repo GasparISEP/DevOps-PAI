@@ -74,12 +74,6 @@ const DefineRucDetailsComponent = () => {
                                 </tr>
                                 </tbody>
                             </table>
-
-                            <div style={{ marginTop: '1rem' }}>
-                                <Link to={`/course-editions/by-id/${id}`} className="details-link">
-                                    Refresh Details Page
-                                </Link>
-                            </div>
                         </>
                     )}
                 </div>
