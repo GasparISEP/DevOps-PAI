@@ -3,6 +3,7 @@ package PAI.persistence.springdata.teacherCategory;
 import PAI.VOs.Name;
 import PAI.VOs.TeacherCategoryID;
 import PAI.domain.teacherCategory.TeacherCategory;
+import PAI.mapper.teacherCategory.ITeacherCategoryIDMapper;
 import PAI.mapper.teacherCategory.ITeacherCategoryMapper;
 import PAI.mapper.teacherCategory.TeacherCategoryIDMapperImpl;
 import PAI.persistence.datamodel.teacherCategory.TeacherCategoryIDDataModel;
@@ -20,12 +21,12 @@ public class TeacherCategoryRepositorySpringDataImpl implements ITeacherCategory
 
     private final ITeacherCategoryRepositorySpringData jpaRepository;
     private final ITeacherCategoryMapper mapper;
-    private final TeacherCategoryIDMapperImpl idMapper;
+    private final ITeacherCategoryIDMapper idMapper;
 
     public TeacherCategoryRepositorySpringDataImpl(
             ITeacherCategoryRepositorySpringData jpaRepository,
             ITeacherCategoryMapper mapper,
-            TeacherCategoryIDMapperImpl idMapper
+            ITeacherCategoryIDMapper idMapper
     ) {
         this.jpaRepository = jpaRepository;
         this.mapper = mapper;

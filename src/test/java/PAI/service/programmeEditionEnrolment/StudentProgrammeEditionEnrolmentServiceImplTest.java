@@ -1,6 +1,7 @@
 package PAI.service.programmeEditionEnrolment;
 
 import PAI.VOs.*;
+import PAI.assembler.programmeEdition.IProgrammeEditionControllerAssembler;
 import PAI.VOs.Date;
 import PAI.assembler.programmeEdition.IProgrammeEditionControllerAssembler;
 import PAI.assembler.programmeEditionEnrolment.StudentProgrammeEditionEnrolmentAssemblerImpl;
@@ -17,8 +18,10 @@ import PAI.domain.repositoryInterfaces.programmeEnrolment.IProgrammeEnrolmentRep
 import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
 import PAI.domain.repositoryInterfaces.student.IStudentRepository;
 import PAI.domain.schoolYear.SchoolYear;
+import PAI.domain.student.Student;
 import PAI.dto.programmeEdition.ProgrammeEditionWithNameAndDescriptionResponseDTO;
 import PAI.dto.programmeEditionEnrolment.StudentProgrammeEditionEnrolmentDTO;
+import PAI.dto.programmeEnrolment.ProgrammeEnrolmentHateoasResponseDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -41,7 +44,7 @@ class StudentProgrammeEditionEnrolmentServiceImplTest {
     private IStudentRepository studentRepository;
     private IProgrammeEnrolmentAssembler programmeEnrolmentAssembler;
 
-    private StudentProgrammeEditionEnrolmentServiceImpl service;
+        private StudentProgrammeEditionEnrolmentServiceImpl service;
 
     @BeforeEach
     void setUp() {
@@ -55,7 +58,6 @@ class StudentProgrammeEditionEnrolmentServiceImplTest {
         programmeRepository = mock(IProgrammeRepository.class);
         studentRepository = mock(IStudentRepository.class);
         programmeEnrolmentAssembler = mock(IProgrammeEnrolmentAssembler.class);
-
 
         service = new StudentProgrammeEditionEnrolmentServiceImpl(
                 programmeEnrolmentRepository,
@@ -410,5 +412,69 @@ class StudentProgrammeEditionEnrolmentServiceImplTest {
 
         assertThrows(IllegalArgumentException.class, () ->
                 service.programmeEditionWithNameAndDescription(editionID));
+    }
+
+    @Test
+    void whenProgrammeAndStudentExist_thenReturnHateoasDto() {
+        // Arrange
+        ProgrammeEnrolment programmeEnrolment = mock(ProgrammeEnrolment.class);
+        ProgrammeID programmeID = new ProgrammeID(new Acronym("LEI"));
+        StudentID studentID = new StudentID(1234567);
+
+        Programme programme = mock(Programme.class);
+        Student student = mock(Student.class);
+        ProgrammeEnrolmentHateoasResponseDto expectedDto = mock(ProgrammeEnrolmentHateoasResponseDto.class);
+
+        when(programmeEnrolment.getProgrammeID()).thenReturn(programmeID);
+        when(programmeRepository.ofIdentity(programmeID)).thenReturn(Optional.of(programme));
+
+        when(programmeEnrolment.getStudentID()).thenReturn(studentID);
+        when(studentRepository.ofIdentity(studentID)).thenReturn(Optional.of(student));
+
+        when(programmeEnrolmentAssembler.toHateoasDto(programmeEnrolment, student, programme))
+                .thenReturn(expectedDto);
+
+        // Act
+        ProgrammeEnrolmentHateoasResponseDto result = service.getProgrammeEnrolmentHateoasInformationDto(programmeEnrolment);
+
+        // Assert
+        assertEquals(expectedDto, result);
+    }
+
+    @Test
+    void whenProgrammeNotFoundInHateoasMethod_thenThrowException() {
+        // Arrange
+        ProgrammeEnrolment programmeEnrolment = mock(ProgrammeEnrolment.class);
+        ProgrammeID programmeID = new ProgrammeID(new Acronym("LEI"));
+
+        when(programmeEnrolment.getProgrammeID()).thenReturn(programmeID);
+        when(programmeRepository.ofIdentity(programmeID)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+                service.getProgrammeEnrolmentHateoasInformationDto(programmeEnrolment)
+        );
+        assertTrue(exception.getMessage().contains("Programme not found"));
+    }
+
+    @Test
+    void whenStudentNotFoundInHateoasMethod_thenThrowException() {
+        // Arrange
+        ProgrammeEnrolment programmeEnrolment = mock(ProgrammeEnrolment.class);
+        ProgrammeID programmeID = new ProgrammeID(new Acronym("LEI"));
+        StudentID studentID = new StudentID(1234567);
+        Programme programme = mock(Programme.class);
+
+        when(programmeEnrolment.getProgrammeID()).thenReturn(programmeID);
+        when(programmeRepository.ofIdentity(programmeID)).thenReturn(Optional.of(programme));
+
+        when(programmeEnrolment.getStudentID()).thenReturn(studentID);
+        when(studentRepository.ofIdentity(studentID)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+                service.getProgrammeEnrolmentHateoasInformationDto(programmeEnrolment)
+        );
+        assertTrue(exception.getMessage().contains("Programme not found")); // Reutilizou a mesma msg para student
     }
 }

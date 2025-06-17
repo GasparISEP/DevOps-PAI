@@ -12,24 +12,24 @@ activate ASC
 ASC -> FE ++: Request to enroll a student
 FE --> ASC --: Prompt: "Enter student ID"
 ASC -> FE ++: Input: "12345"
-FE -> BE ++: (GET) Request programme editions for student ID
+FE -> BE ++: GET Request programme editions for student ID
 BE -> DB ++: Fetch programme editions by student ID
 DB --> BE --: List of programme editions
 BE --> FE --: List of programme editions
 FE --> ASC --: Display programme editions
 
 ASC -> FE ++: Select programme edition
-FE -> BE ++: (GET) Request course editions
+FE -> BE ++: GET Request course editions
 BE -> DB ++: Fetch course editions for programme
 DB --> BE --: List of course editions
 BE --> FE --: List of course editions
 FE --> ASC --: Display course editions
 
 ASC -> FE ++: Select course edition and confirm
-FE -> BE ++: (POST) Create enrollment
+FE -> BE ++: POST Create enrollment
 BE -> DB ++: Create enrollment record
 DB --> BE --: Creation confirmed
-BE --> FE --: (201 Created) Enrollment successful
+BE --> FE --: 201 Created Enrollment successful
 FE --> ASC --: Student enrolled successfully
 
 @enduml

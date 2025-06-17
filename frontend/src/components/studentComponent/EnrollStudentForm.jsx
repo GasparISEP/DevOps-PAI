@@ -29,6 +29,8 @@ export default function EnrollStudentForm() {
     const [success, setSuccess] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [showErrorModal, setShowErrorModal] = useState(false);
+    const [reviewData, setReviewData] = useState(null);
+    const [showReviewModal, setShowReviewModal] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -98,6 +100,8 @@ export default function EnrollStudentForm() {
         setSuccess(null);
         setShowModal(false);
         setShowErrorModal(false);
+        setShowReviewModal(false);
+        setReviewData(null);
     };
 
     const handleStudentBlur = async () => {
@@ -170,6 +174,7 @@ export default function EnrollStudentForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         if (!form.studentId || !form.programme || !form.edition || form.selectedCourses.length === 0) {
             setError('Please fill in all fields and select at least one course.');
             return;
@@ -177,27 +182,13 @@ export default function EnrollStudentForm() {
 
         const edition = editions.find(e => e.value === form.edition);
         const programme = programmes.find(p => p.generatedID === form.programme);
+
         if (!edition || !programme) {
             setError('Invalid programme or edition.');
             return;
         }
 
-        const payload = {
-            studentId: parseInt(form.studentId),
-            programmeAcronym: edition.acronym,
-            schoolYearId: edition.value,
-            courseIds: form.selectedCourses.map(acr => {
-                const c = courses.find(c => c.acronym === acr);
-                return {
-                    acronym: c.acronym,
-                    name: c.name,
-                    studyPlanDate: c.studyPlanDate,
-                    programmeAcronym: c.programmeAcronym
-                };
-            })
-        };
-
-        // ✅ Nova estrutura nested
+        // ⚡️ Grouped for preview
         const grouped = courses.reduce((acc, c) => {
             if (!acc[c.curricularYear]) acc[c.curricularYear] = {};
             if (!acc[c.curricularYear][c.semester]) acc[c.curricularYear][c.semester] = [];
@@ -205,23 +196,50 @@ export default function EnrollStudentForm() {
             return acc;
         }, {});
 
-        try {
-            await enrolStudent(form.studentId, payload);
+        // ✅ PREVIEW only
+        setReviewData({
+            studentID: form.studentId,
+            studentName: studentName,
+            programmeName: programme.programmeName,
+            editionDescription: edition.key,
+            groupedCourses: grouped,
+            selectedCourses: form.selectedCourses,
+            selectedEcts: selectedEcts,
+            payload: {   // 👈 Guarda o payload para depois
+                studentId: parseInt(form.studentId),
+                programmeAcronym: edition.acronym,
+                schoolYearId: edition.value,
+                courseIds: form.selectedCourses.map(acr => {
+                    const c = courses.find(c => c.acronym === acr);
+                    return {
+                        acronym: c.acronym,
+                        name: c.name,
+                        studyPlanDate: c.studyPlanDate,
+                        programmeAcronym: c.programmeAcronym
+                    };
+                })
+            }
+        });
 
-            // ✅ Só aqui definimos o success para abrir modal depois do sucesso garantido:
+        setShowReviewModal(true);
+    };
+
+    const confirmEnrollment = async () => {
+        try {
+            const response = await enrolStudent(form.studentId, reviewData.payload);
+
+            // ✅ Agora guarda tudo incluindo _links
             setSuccess({
-                studentID: form.studentId,
-                studentName: studentName,
-                programmeName: programme.programmeName,
-                editionDescription: edition.key,
-                groupedCourses: grouped, // nested structure!
-                selectedCourses: form.selectedCourses,
-                selectedEcts: selectedEcts
+                ...reviewData,
+                links: response._links
             });
+
+            setShowReviewModal(false);
             setShowModal(true);
         } catch (err) {
             console.error(err);
             setError(err.message);
+            setShowReviewModal(false);
             setShowErrorModal(true);
         }
     };
@@ -281,8 +299,13 @@ export default function EnrollStudentForm() {
                             <div className="form-group">
                                 <label className="form-label">Courses</label>
                                 {form.edition && (
-                                    <p style={{ fontWeight: 'bold', marginBottom: '0.5rem' }}>
+                                    <p style={{
+                                        fontWeight: 'bold',
+                                        marginBottom: '0.5rem',
+                                        color: selectedEcts == totalEcts ? 'red' : '#333'
+                                    }}>
                                         ECTS — {selectedEcts} of {totalEcts}
+                                        {selectedEcts > totalEcts && ' ⚠️'}
                                     </p>
                                 )}
 
@@ -332,7 +355,6 @@ export default function EnrollStudentForm() {
                             </div>
 
                             {error && <div className="error">{error}</div>}
-
                             <div className="form-actions">
                                 <button type="button" className="btn btn-secondary" onClick={handleClear}>CLEAR</button>
                                 <button type="submit" className="btn btn-primary">ENROLL</button>
@@ -340,6 +362,70 @@ export default function EnrollStudentForm() {
                         </div>
                     </div>
                 </form>
+
+                {showReviewModal && reviewData && (
+                    <div className="modal-overlay">
+                        <div className="modal-content" style={{ maxHeight: '80vh', overflowY: 'auto' }}>
+                            <h2 style={{ color: '#E1A200' }}>🔍 Review Enrollment Data</h2>
+                            <p><strong>Student ID:</strong> {reviewData.studentID}</p>
+                            <p><strong>Student Name:</strong> {reviewData.studentName}</p>
+                            <p><strong>Programme Edition:</strong> {reviewData.programmeName} — {reviewData.editionDescription}</p>
+
+                            <h3>Courses:</h3>
+                            <div style={{ textAlign: 'center' }}>
+                                {Object.entries(reviewData.groupedCourses)
+                                    .sort(([a], [b]) => a - b)
+                                    .map(([year, semesters]) => (
+                                        <div key={year} style={{ marginBottom: '2rem' }}>
+                                            <h3>{year}º YEAR</h3>
+                                            <div style={{ display: 'flex', justifyContent: 'center', gap: '2rem' }}>
+                                                {[1, 2].map(sem => {
+                                                    const selected = semesters[sem]?.filter(c =>
+                                                        reviewData.selectedCourses.includes(c.acronym)
+                                                    ) || [];
+                                                    return (
+                                                        <div key={sem} style={{ textAlign: 'left', width: '220px' }}>
+                                                            <h4>{sem}º SEMESTER</h4>
+                                                            {selected.length === 0 ? (
+                                                                <p style={{ fontStyle: 'italic', color: '#888' }}>No courses</p>
+                                                            ) : (
+                                                                <ul style={{ listStyle: 'none', padding: 0 }}>
+                                                                    {selected.map(c => (
+                                                                        <li key={c.acronym} style={{ marginBottom: '0.3rem' }}>
+                                                                            {c.name} ({c.qtyECTS} ECTS)
+                                                                        </li>
+                                                                    ))}
+                                                                </ul>
+                                                            )}
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                        </div>
+                                    ))}
+                            </div>
+                            <p style={{ marginTop: '1rem', fontWeight: 'bold' }}>ECTS Used: {reviewData.selectedEcts} / {totalEcts}</p>
+
+                            {/* BOTÕES: mesma estrutura do form principal */}
+                            <div className="form-actions">
+                                <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={() => setShowReviewModal(false)}
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="button"
+                                    className="btn btn-primary"
+                                    onClick={confirmEnrollment}
+                                >
+                                    Confirm
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
 
                 {showModal && success && (
                     <div className="modal-overlay">
@@ -410,7 +496,10 @@ export default function EnrollStudentForm() {
                             <p style={{ marginTop: '1rem', fontWeight: 'bold' }}>
                                 ECTS Used: {success.selectedEcts} / {totalEcts}
                             </p>
-                            <button className="modal-btn" onClick={() => {
+                             <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={() => {
                                 setShowModal(false);
                                 window.location.reload();
                             }}>Close</button>
