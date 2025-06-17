@@ -17,6 +17,7 @@ import UpdateTeacherCategoryPage from './pages/teacherCategoryPage/UpdateTeacher
 import DisplayTeacherCareerProgressionPage from "./pages/DisplayTeacherCareerProgression";
 import RemoveStudentPage from "./pages/studentPage/RemoveStudentPage";
 import StudentDetailsComponent from './components/studentComponent/StudentDetailsComponent';
+import DefineRucDetailsComponent from "./components/defineRucInCourseEditionComponent/DefineRucDetailsComponent";
 
 
 function AppRoutes() {
@@ -41,6 +42,7 @@ function AppRoutes() {
                     <Route path="/teacher-career-progressions/:id" element={<TeacherCareerProgressionComponent />} />
                     <Route path="/course-editions/Define-ruc" element={<DefineRucPage />} />
                     <Route path="/students/:id" element={<StudentDetailsComponent />} />
+                    <Route path="/course-editions/by-id/:id" element={<DefineRucDetailsComponent/>} />
             </Routes>
         );
 }
