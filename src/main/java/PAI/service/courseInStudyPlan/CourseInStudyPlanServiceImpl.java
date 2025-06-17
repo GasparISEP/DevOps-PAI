@@ -2,6 +2,7 @@ package PAI.service.courseInStudyPlan;
 
 import PAI.VOs.*;
 import PAI.assembler.courseInStudyPlan.ICourseInStudyPlanBusinessAssembler;
+import PAI.assembler.courseInStudyPlan.ICourseInStudyPlanServiceAssembler;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.domain.courseInStudyPlan.ICourseInStudyPlanFactory;
 import PAI.domain.repositoryInterfaces.courseInStudyPlan.ICourseInStudyPlanRepository;
@@ -17,9 +18,9 @@ public class CourseInStudyPlanServiceImpl implements ICourseInStudyPlanService {
 
     private final ICourseInStudyPlanRepository _repository;
     private final ICourseInStudyPlanFactory _factory;
-    private final ICourseInStudyPlanBusinessAssembler _assembler;
+    private final ICourseInStudyPlanServiceAssembler _assembler;
 
-    public CourseInStudyPlanServiceImpl(ICourseInStudyPlanRepository repository, ICourseInStudyPlanFactory factory, ICourseInStudyPlanBusinessAssembler assembler) {
+    public CourseInStudyPlanServiceImpl(ICourseInStudyPlanRepository repository, ICourseInStudyPlanFactory factory, ICourseInStudyPlanServiceAssembler assembler) {
         if (repository == null) {
             throw new IllegalArgumentException("Repository cannot be null");
         }
@@ -84,7 +85,7 @@ public class CourseInStudyPlanServiceImpl implements ICourseInStudyPlanService {
         List<CourseInStudyPlanServiceDTO> result = new ArrayList<>();
         for (CourseInStudyPlan c : _repository.findAll()) {
             if (c.identity().getStudyPlanID().equals(studyPlanID)) {
-                result.add(_assembler.toDTO(c));
+                result.add(_assembler.toServiceDTO(c));
             }
         }
         return result;
