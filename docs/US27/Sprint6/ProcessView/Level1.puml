@@ -26,6 +26,6 @@ system --> ASC--: createdProgramme
 ASC -> system++: **selectIncludeStudyPlanOption**(yes)
 system --> ASC--: **provideStudyPlanDataFields**()
 |||
-ASC -> system++: **submitStudyPlanData**(programmeName, \nprogrammeAcronym, startDate)
+ASC -> system++: **submitStudyPlanData**(programmeAcronym, startDate)
 system --> ASC--: createdStudyPlan
 @enduml
