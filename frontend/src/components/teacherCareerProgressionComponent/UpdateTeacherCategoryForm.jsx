@@ -19,7 +19,6 @@ const initialFormState = {
 };
 
 export default function UpdateTeacherCategoryForm() {
-    const navigate = useNavigate();
 
     const [form, setForm] = useState(initialFormState);
     const [teachers, setTeachers] = useState([]);
@@ -55,9 +54,7 @@ export default function UpdateTeacherCategoryForm() {
 
     function getErrorMessage(field) {
         const messages = {
-            teacher: "⚠️ Choose a Teacher.",
-            teacherCategory: "⚠️ Choose a Teacher Category.",
-            date: "⚠️ Insert the date."
+            date: " Insert the date."
         };
         return messages[field];
     }
@@ -191,25 +188,26 @@ export default function UpdateTeacherCategoryForm() {
                                 </button>
                             </div>
                         </div>
-
-                        <SuccessModal
-                            data={successData}
-                            form={form}
-                            onClose={() => {
-                                setShowModal(false);
-                                clearForm();
-                            }}
-                        />
-
-                        <ErrorModal
-                            message={errorMessage}
-                            onClose={() => {
-                                setShowErrorModal(false);
-                                setErrorMessage('');
-                            }}
-                        />
                     </div>
                 </form>
+
+                <SuccessModal
+                    data={successData}
+                    form={form}
+                    onClose={() => {
+                        setShowModal(false);
+                        setSuccessData(null);
+                        clearForm();
+                    }}
+                />
+
+                <ErrorModal
+                    message={errorMessage}
+                    onClose={() => {
+                        setShowErrorModal(false);
+                        setErrorMessage('');
+                    }}
+                />
             </div>
         </div>
     );

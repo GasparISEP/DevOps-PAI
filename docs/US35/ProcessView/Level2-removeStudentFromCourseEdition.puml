@@ -5,34 +5,35 @@ skinparam sequenceLifeLineBackgroundColor lightblue
 skinparam sequenceMessageAlign center
 
 actor ASC
-participant "<<Component>> \nFrontend" as FE #application
-participant "<<Component>> \nBackend" as BE #strategy
-participant "<<Component>> \nDatabase" as DB #implementation
+participant "<<Component>> \nFrontend" as FE #lightblue
+participant "<<Component>> \nBackend" as BE #lightgreen
+participant "<<Component>> \nDatabase" as DB #lightyellow
 
+activate ASC
 ASC -> FE : I want to remove \nthe enrolment of a student.
 activate FE
-FE -> BE : GET /students/{studentId}/enrolled-course-editions/
+FE -> BE : **GET** /students/{studentId}/enrolled-course-editions/
 activate BE
-BE -> DB : findEnrolledCourseEditionsForStudent(studentId)
+BE -> DB : **SELECT** enrolledCourseEditionsForStudent()
 activate DB
-DB --> BE : Student's active course edition enrolment
+DB --> BE : List<EnrolledCourseDetails>
 deactivate DB
-BE --> FE : Student's active course edition enrolment
+BE --> FE : (OK,200) List<EnrolledCourseDetails>
 deactivate BE
-FE --> ASC : Display the student's enrolled course editions
+FE --> ASC : Which student's course edition?
 deactivate FE
 
-ASC -> FE : Select course edition to unenrol the student from
+ASC -> FE : Student's course edition!
 activate FE
-FE -> BE : PATCH /students/{studentId}/course-editions/{courseEditionGeneratedUUID}
+FE -> BE : **PATCH** /students/{studentId}/course-editions/{courseEditionGeneratedUUID}
 activate BE
-BE -> DB : removeStudentEnrolmentFromACourseEdition\n(StudentId, CourseEditionGeneratedUUID)
+BE -> DB : **SELECT** removeStudentEnrolment
 activate DB
-DB --> BE : Enrolment removed
+DB --> BE : (OK,200) "Enrolment removed"
 deactivate DB
-BE --> FE : Success message
+BE --> FE : (OK,200) "Enrolment removed"
 deactivate BE
-FE --> ASC : Confirmation message
+FE --> ASC : Student [StudentID] has been removed.
 deactivate FE
 
 @enduml

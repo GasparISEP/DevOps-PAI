@@ -274,7 +274,16 @@ export default function EnrollStudentForm() {
                                     required
                                 />
                                 {studentIdError && <div className="error">{studentIdError}</div>}
-                                {studentName && <p style={{ marginTop: '0.5rem', fontWeight: 'bold' }}>{studentName}</p>}
+                                {studentName && (
+                                    <p style={{
+                                        marginTop: '0.5rem',
+                                        fontWeight: 'bold',
+                                        fontSize: '1.4rem',
+                                        color: '#6c757d'
+                                    }}>
+                                        {studentName}
+                                    </p>
+                                )}
                             </div>
 
                             <div className="form-group">
