@@ -1,11 +1,14 @@
 package PAI.dto.programmeEnrolment;
 
 import java.time.LocalDate;
+import org.springframework.format.annotation.DateTimeFormat;
 
 public class ProgrammeEnrolmentDTO {
     private int studentID;
     private String accessMethodID;
     private String programmeAcronym;
+
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate date;
 
     public ProgrammeEnrolmentDTO() {}
