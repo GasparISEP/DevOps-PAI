@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import '../../styles/Modal.css';
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import FolderOpenIcon from "@mui/icons-material/FolderOpen";
+import infoImage from "../../assets/images/information.png";
+import listImage from "../../assets/images/list.png";
 
 export default function SuccessModal({ data, form, onClose, show }) {
     const navigate = useNavigate();
@@ -37,18 +39,20 @@ export default function SuccessModal({ data, form, onClose, show }) {
 
                 <div style={{ display: 'flex', justifyContent: 'center', gap: '2rem', marginTop: '2rem' }}>
                     {detailsHref && (
-                        <VisibilityIcon
-                            fontSize="medium"
-                            titleAccess="View Entry"
-                            style={{ cursor: 'pointer', color: '#555' }}
+                        <img
+                            src={infoImage}
+                            alt="View Entry"
+                            title="View Entry"
+                            style={{cursor: 'pointer', width: '20px', height: '20px'}}
                             onClick={() => openLink(detailsHref)}
                         />
                     )}
                     {collectionHref && (
-                        <FolderOpenIcon
-                            fontSize="medium"
-                            titleAccess="View All"
-                            style={{ cursor: 'pointer', color: '#555' }}
+                        <img
+                            src={listImage}
+                            alt="View All"
+                            title="View All"
+                            style={{cursor: 'pointer', width: '20px', height: '20px'}}
                             onClick={() => openLink(collectionHref)}
                         />
                     )}
