@@ -3,7 +3,7 @@ package PAI.service.courseEditionEnrolment;
 import PAI.VOs.CourseEditionID;
 import PAI.VOs.ProgrammeEditionID;
 import PAI.VOs.StudentID;
-import PAI.VOs.US35EnrolledCourseDetails;
+import PAI.VOs.EnrolledCourseDetails;
 import PAI.domain.courseEdition.CourseEdition;
 import PAI.VOs.*;
 import PAI.VOs.Date;
@@ -197,12 +197,12 @@ public class CourseEditionEnrolmentServiceImpl implements ICourseEditionEnrolmen
 
 
     @Override
-    public List<US35EnrolledCourseDetails> findEnrolledCourseEditionsForStudent(StudentID studentID) {
+    public List<EnrolledCourseDetails> findEnrolledCourseEditionsForStudent(StudentID studentID) {
         if (studentID == null) {
             return Collections.emptyList();
         }
 
-        List<US35EnrolledCourseDetails> results = new ArrayList<>();
+        List<EnrolledCourseDetails> results = new ArrayList<>();
         List<CourseEditionEnrolment> studentEnrolments = _ceeRepositoryInterface.findActiveEnrolmentsByStudentID(studentID);
 
         for (CourseEditionEnrolment enrolment : studentEnrolments) {
@@ -221,7 +221,7 @@ public class CourseEditionEnrolmentServiceImpl implements ICourseEditionEnrolmen
             if (courseEditionOptional.isPresent()) {
                 CourseEdition actualCourseEdition = courseEditionOptional.get();
 
-                results.add(new US35EnrolledCourseDetails(actualCourseEdition, enrolment.getGeneratedID()));
+                results.add(new EnrolledCourseDetails(actualCourseEdition, enrolment.getGeneratedID()));
 
             } else {
                 System.err.println("Course Edition not found for CourseEditionID " + courseEditionIdVO +

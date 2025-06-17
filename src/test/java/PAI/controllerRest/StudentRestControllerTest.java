@@ -535,7 +535,7 @@ class StudentRestControllerTest {
 
         UUID mockEnrolmentGeneratedUUID = UUID.randomUUID();
         CourseEditionEnrolmentGeneratedID mockEnrolmentGeneratedID = new CourseEditionEnrolmentGeneratedID(mockEnrolmentGeneratedUUID);
-        US35EnrolledCourseDetails enrolledDetails = new US35EnrolledCourseDetails(mockCourseEdition, mockEnrolmentGeneratedID);
+        EnrolledCourseDetails enrolledDetails = new EnrolledCourseDetails(mockCourseEdition, mockEnrolmentGeneratedID);
 
         when(courseEditionEnrolmentService.findEnrolledCourseEditionsForStudent(studentID))
                 .thenReturn(List.of(enrolledDetails));
