@@ -13,15 +13,13 @@ export default function SuccessModal({ data, form, onClose, show }) {
     const detailsHref = data._links?.details?.href || data._links?.self?.href || null;
 
     const openLink = (href) => {
-        if (!href) return;
+        if (href) {
+            const isApi = href.includes('8081') || href.startsWith('http://localhost:8081');
+            const url = isApi
+                ? href
+                : `http://localhost:3000${href}`;
 
-        // Check if href is external
-        const isExternal = href.startsWith('http') || href.includes('8081');
-        if (isExternal) {
-            window.open(href, '_blank');
-        } else {
-            // Use react-router navigate for internal links
-            navigate(href);
+            window.open(url, '_blank');
         }
     };
 
