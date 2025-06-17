@@ -125,9 +125,15 @@ public class StudentRestController {
 
     @GetMapping("/last-id")
     public ResponseEntity<Map<String, Integer>> getLastStudentID() {
-        int value = service.getLastStudentID();
-        Map<String, Integer> response = Collections.singletonMap("lastStudentID", value);
-        return ResponseEntity.ok(response);
+
+        try  {
+            int value = service.getLastStudentID();
+            Map<String, Integer> response = Collections.singletonMap("lastStudentID", value);
+            return ResponseEntity.ok(response);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping

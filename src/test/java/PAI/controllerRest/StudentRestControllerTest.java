@@ -113,6 +113,18 @@ class StudentRestControllerTest {
     }
 
     @Test
+    void getLastStudentID_shouldReturnBadRequest_whenExceptionThrown() {
+        // Arrange
+        when(studentService.getLastStudentID()).thenThrow(new RuntimeException("Simulated failure"));
+
+        // Act
+        ResponseEntity<Map<String, Integer>> response = studentRestController.getLastStudentID();
+
+        // Assert
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Test
     void registerAStudent_shouldReturnBadRequest_whenStudentIsNull() {
         //arrange
         StudentDTO studentDTO = mock(StudentDTO.class);
