@@ -100,4 +100,39 @@ class CourseInStudyPlanFactoryImplTest {
 
         assertNotNull(courseInStudyPlan);
     }
+
+    @Test
+    void testNewCourseInStudyPlan_FromCommand_WithMocksAndStubs() throws Exception {
+        // Arrange
+        CourseInStudyPlanCommand command = mock(CourseInStudyPlanCommand.class);
+        Semester semester = mock(Semester.class);
+        CurricularYear curricularYear = mock(CurricularYear.class);
+        CourseID courseID = mock(CourseID.class);
+        StudyPlanID studyPlanID = mock(StudyPlanID.class);
+        DurationCourseInCurricularYear durationOfCourse = mock(DurationCourseInCurricularYear.class);
+        CourseQuantityCreditsEcts quantityOfCreditsEcts = mock(CourseQuantityCreditsEcts.class);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        Acronym programmeAcronym = mock(Acronym.class);
+        CourseInStudyPlanFactoryImpl factory = new CourseInStudyPlanFactoryImpl();
+
+        when(command.semester()).thenReturn(semester);
+        when(command.curricularYear()).thenReturn(curricularYear);
+        when(command.courseAcronym()).thenReturn(mock(Acronym.class));
+        when(command.courseName()).thenReturn(mock(Name.class));
+        when(command.programmeAcronym()).thenReturn(programmeAcronym);
+        when(command.studyPlanDate()).thenReturn(mock(Date.class));
+        when(command.duration()).thenReturn(durationOfCourse);
+        when(command.credits()).thenReturn(quantityOfCreditsEcts);
+        when(programmeAcronym.getAcronym()).thenReturn("PROG");
+
+        // Act
+        CourseInStudyPlan result = factory.newCourseInStudyPlan(command);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(semester, result.getSemester());
+        assertEquals(curricularYear, result.getCurricularYear());
+        assertEquals(durationOfCourse, result.getDurationOfCourse());
+        assertEquals(quantityOfCreditsEcts, result.getQuantityOfCreditsEcts());
+    }
 }
