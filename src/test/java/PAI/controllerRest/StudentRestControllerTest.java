@@ -3,6 +3,7 @@ package PAI.controllerRest;
 import PAI.VOs.*;
 import PAI.VOs.Date;
 import PAI.assembler.ProgrammeAndCourses.IProgrammeAndCoursesAssembler;
+import PAI.assembler.ProgrammeAndCourses.IProgrammeAndCoursesHateoasAssembler;
 import PAI.assembler.courseEditionEnrolment.ICourseEditionEnrolmentAssembler;
 import PAI.assembler.programmeEnrolment.IProgrammeEnrolmentHATEOASAssembler;
 import PAI.assembler.student.IStudentDTOAssembler;
@@ -92,6 +93,9 @@ class StudentRestControllerTest {
     private ICourseEditionService courseEditionService;
     @Mock
     private ICourseEditionEnrolmentService courseEditionEnrolmentService;
+    @Mock
+    private IProgrammeAndCoursesHateoasAssembler programmeAndCoursesHateoasAssembler;
+
 
     @InjectMocks
     private StudentRestController studentRestController;
@@ -308,7 +312,7 @@ class StudentRestControllerTest {
 
 
     @Test
-    void whenEnrolStudent_thenReturnsCreatedWithResultDto() throws Exception {
+    void whenEnrolStudent_thenReturnsCreatedWithResultDtoModel() throws Exception {
         // Arrange
         StudentProgrammeEnrolmentRequestDto dto = mock(StudentProgrammeEnrolmentRequestDto.class);
 
@@ -318,20 +322,23 @@ class StudentRestControllerTest {
 
         US34Response responseDomain = mock(US34Response.class);
         StudentEnrolmentResultDto resultDto = mock(StudentEnrolmentResultDto.class);
+        EntityModel<StudentEnrolmentResultDto> entityModel = EntityModel.of(resultDto);
 
         when(programmeAndCoursesAssembler.toStudentID(dto)).thenReturn(studentID);
         when(programmeAndCoursesAssembler.toProgrammeEditionID(dto)).thenReturn(programmeEditionID);
         when(programmeAndCoursesAssembler.toCourseIDs(dto)).thenReturn(courseIDs);
         when(programmeAndCoursesEnrolmentService.enrollStudentInProgrammeAndCourses(studentID, programmeEditionID, courseIDs)).thenReturn(responseDomain);
         when(programmeAndCoursesAssembler.toDto(responseDomain)).thenReturn(resultDto);
+        when(programmeAndCoursesHateoasAssembler.toModel(resultDto)).thenReturn(entityModel);
 
         // Act
-        ResponseEntity<StudentEnrolmentResultDto> response = studentRestController.enrolStudent(dto);
+        ResponseEntity<EntityModel<StudentEnrolmentResultDto>> response = studentRestController.enrolStudent(dto);
 
         // Assert
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertSame(resultDto, response.getBody());
+        assertSame(entityModel, response.getBody());
     }
+
 
     /*@Test
     void whenGetEnrolmentByGID_ServiceSucceeds_thenReturnsOkWithDto() {
