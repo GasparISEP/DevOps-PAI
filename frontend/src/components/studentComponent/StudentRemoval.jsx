@@ -51,7 +51,7 @@ export default function StudentCourseEditionForm() {
                 setCourseEditions(data);
                 setSelectedCourseEditionID('');
             } catch (err) {
-                console.error("Error loading course editions:", err);
+                console.error("Error loadingit sg course editions:", err);
             }
         }
 
@@ -128,6 +128,7 @@ export default function StudentCourseEditionForm() {
                                 <input
                                     type="text"
                                     className="form-input"
+                                    placeholder="Enter 7-digit Student Unique Number"
                                     id="studentID"
                                     value={selectedStudentID}
                                     onChange={(e) => {
