@@ -6,15 +6,12 @@ import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.domain.courseInStudyPlan.ICourseInStudyPlanFactory;
 import PAI.domain.repositoryInterfaces.courseInStudyPlan.ICourseInStudyPlanRepository;
 import PAI.domain.repositoryInterfaces.studyPlan.IStudyPlanRepository;
-import PAI.domain.studyPlan.StudyPlan;
 import PAI.dto.courseInStudyPlan.CourseInStudyPlanCommand;
 import PAI.dto.courseInStudyPlan.CourseInStudyPlanServiceDTO;
-import PAI.exception.BusinessRuleViolationException;
-import PAI.service.studyPlan.IStudyPlanService;
+import PAI.exception.AlreadyExistsException;
+import PAI.exception.NotFoundException;
+import PAI.exception.CreditsExceededException;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static PAI.utils.ValidationUtils.validateNotNull;
 
@@ -57,7 +54,7 @@ public class AddCourseToAProgrammeServiceImpl implements IAddCourseToAProgrammeS
     private StudyPlanID getStudyPlanID(ProgrammeID programmeID) {
         StudyPlanID studyPlanID = studyPlanRepository.findLatestByProgrammeID(programmeID);
         if (studyPlanID == null) {
-            throw new BusinessRuleViolationException("No study plan found for the given programme ID.");
+            throw new NotFoundException("No study plan found for the given programme ID.");
         }
         return studyPlanID;
     }
@@ -75,14 +72,13 @@ public class AddCourseToAProgrammeServiceImpl implements IAddCourseToAProgrammeS
     private void validateBusinessRules(CourseInStudyPlan course, StudyPlanID studyPlanID, CourseInStudyPlanCommand command) {
         CourseInStudyPlanID courseInStudyPlanID = course.identity();
         if (repository.containsOfIdentity(courseInStudyPlanID)) {
-            throw new BusinessRuleViolationException("This Course already exists in this StudyPlan.");
+            throw new AlreadyExistsException("This Course already exists in this StudyPlan.");
         }
         double totalCredits = repository.getTotalCreditsEctsInStudyPlanSoFar(
                 studyPlanID, command.semester(), command.curricularYear(), command.duration()
         ) + command.credits().getQuantity();
         if (totalCredits > 30) {
-            throw new BusinessRuleViolationException("This StudyPlan already has 30 ECTS credits.");
+            throw new CreditsExceededException("This StudyPlan already has 30 ECTS credits.");
         }
     }
 }
-
