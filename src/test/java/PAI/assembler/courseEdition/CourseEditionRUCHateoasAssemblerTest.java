@@ -38,18 +38,7 @@ class CourseEditionRUCHateoasAssemblerTest {
     }
 
     @Test
-    void shouldHaveDefineRucLink() {
-        // Arrange
-        CourseEditionRUCHateoasAssembler assembler = new CourseEditionRUCHateoasAssembler();
-        DefineRucResponseDTO dto = mock(DefineRucResponseDTO.class);
-        // Act
-        EntityModel<DefineRucResponseDTO> result = assembler.toModel(dto);
-        // Assert
-        assertTrue(result.hasLink("define-ruc"));
-    }
-
-    @Test
-    void defineRucLinkShouldContainCorrectHref() {
+    void shouldHaveExpectedLinks() {
         // Arrange
         CourseEditionRUCHateoasAssembler assembler = new CourseEditionRUCHateoasAssembler();
         UUID courseEditionId = UUID.randomUUID();
@@ -60,12 +49,46 @@ class CourseEditionRUCHateoasAssemblerTest {
         EntityModel<DefineRucResponseDTO> result = assembler.toModel(dto);
 
         // Assert
-        assertTrue(result.hasLink("define-ruc"), "Link with rel 'define-ruc' should be present");
-
-        String defineRucHref = result.getLink("define-ruc").orElseThrow().getHref();
-        assertTrue(defineRucHref.endsWith("/course-editions/" + courseEditionId + "/ruc"),
-                "HREF should end with '/course-editions/{id}/ruc'");
+        assertTrue(result.hasLink("get-courseEdition-ruc"), "Link 'get-courseEdition-ruc' should be present");
+        assertTrue(result.hasLink("find-all-course-editions"), "Link 'find-all-course-editions' should be present");
+        assertTrue(result.hasLink("details"), "Link 'details' should be present");
+        assertTrue(result.hasLink("collection"), "Link 'collection' should be present");
     }
+
+    @Test
+    void getCourseEditionRucLinkShouldContainCorrectHref() {
+        // Arrange
+        CourseEditionRUCHateoasAssembler assembler = new CourseEditionRUCHateoasAssembler();
+        UUID courseEditionId = UUID.randomUUID();
+        String teacherID = "ABC";
+        DefineRucResponseDTO dto = new DefineRucResponseDTO(teacherID, courseEditionId);
+
+        // Act
+        EntityModel<DefineRucResponseDTO> result = assembler.toModel(dto);
+
+        // Assert
+        assertTrue(result.hasLink("get-courseEdition-ruc"), "Link 'get-courseEdition-ruc' should be present");
+        String href = result.getLink("get-courseEdition-ruc").orElseThrow().getHref();
+        assertTrue(href.endsWith("/by-id/" + courseEditionId),
+                "HREF should end with '/by-id/{id}'");
+
+    }
+
+    @Test
+    void toModel_shouldThrowRuntimeException_whenExceptionOccurs() {
+        CourseEditionRUCHateoasAssembler assembler = new CourseEditionRUCHateoasAssembler();
+
+        DefineRucResponseDTO dto = mock(DefineRucResponseDTO.class);
+        when(dto.courseEditionGeneratedID()).thenThrow(new RuntimeException("Forced exception"));
+
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            assembler.toModel(dto);
+        });
+
+        assertEquals("Forced exception", exception.getCause().getMessage());
+
+    }
+
 
     @Test
     void toCollectionModel_EachEntityShouldHaveRequiredLinks() {
@@ -76,7 +99,7 @@ class CourseEditionRUCHateoasAssemblerTest {
         when(dto.schoolYearID()).thenReturn(UUID.randomUUID());
         when(dto.courseAcronym()).thenReturn("COURSE");
         when(dto.studyPlanImplementationDate()).thenReturn(LocalDate.now());
-        
+
         List<CourseEditionResponseIDDTO> dtos = Arrays.asList(dto);
 
         // Act
@@ -93,22 +116,22 @@ class CourseEditionRUCHateoasAssemblerTest {
         CourseEditionRUCHateoasAssembler assembler = new CourseEditionRUCHateoasAssembler();
         CourseEditionResponseIDDTO dto1 = mock(CourseEditionResponseIDDTO.class);
         CourseEditionResponseIDDTO dto2 = mock(CourseEditionResponseIDDTO.class);
-        
+
         when(dto1.programmeAcronym()).thenReturn("TEST");
         when(dto1.schoolYearID()).thenReturn(UUID.randomUUID());
         when(dto1.courseAcronym()).thenReturn("COURSE");
         when(dto1.studyPlanImplementationDate()).thenReturn(LocalDate.now());
-        
+
         when(dto2.programmeAcronym()).thenReturn("TEST");
         when(dto2.schoolYearID()).thenReturn(UUID.randomUUID());
         when(dto2.courseAcronym()).thenReturn("COURSE");
         when(dto2.studyPlanImplementationDate()).thenReturn(LocalDate.now());
-        
+
         List<CourseEditionResponseIDDTO> dtos = Arrays.asList(dto1, dto2);
-        
+
         // Act
         CollectionModel<EntityModel<CourseEditionResponseIDDTO>> result = assembler.toCollectionModel(dtos);
-        
+
         // Assert
         assertEquals(2, result.getContent().size());
     }
@@ -118,22 +141,21 @@ class CourseEditionRUCHateoasAssemblerTest {
         // Arrange
         CourseEditionRUCHateoasAssembler assembler = new CourseEditionRUCHateoasAssembler();
         CourseEditionResponseIDDTO dto = mock(CourseEditionResponseIDDTO.class);
-        
+
         when(dto.programmeAcronym()).thenReturn("TEST");
         when(dto.schoolYearID()).thenReturn(UUID.randomUUID());
         when(dto.courseAcronym()).thenReturn("COURSE");
         when(dto.studyPlanImplementationDate()).thenReturn(LocalDate.now());
-        
+
         List<CourseEditionResponseIDDTO> dtos = Arrays.asList(dto);
-        
+
         // Act
         CollectionModel<EntityModel<CourseEditionResponseIDDTO>> result = assembler.toCollectionModel(dtos);
         EntityModel<CourseEditionResponseIDDTO> entityModel = result.getContent().iterator().next();
-        
+
         // Assert
         assertTrue(entityModel.getLink("approval-rate").orElseThrow().getHref().contains("/approval-rate"));
     }
-
     @Test
     void toCollectionModel_ShouldReturnCollectionModelNotNull() {
         // Arrange
@@ -158,19 +180,6 @@ class CourseEditionRUCHateoasAssemblerTest {
         
         // Assert
         assertNotNull(result);
-    }
-    @Test
-    void toModel_shouldThrowRuntimeException_whenExceptionOccurs() {
-        CourseEditionRUCHateoasAssembler assembler = new CourseEditionRUCHateoasAssembler();
-
-        DefineRucResponseDTO dto = mock(DefineRucResponseDTO.class);
-        when(dto.teacherID()).thenThrow(new RuntimeException("Forced exception"));
-
-        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
-            assembler.toModel(dto);
-        });
-
-        assertEquals("Forced exception", exception.getCause().getMessage());
     }
 
 }
