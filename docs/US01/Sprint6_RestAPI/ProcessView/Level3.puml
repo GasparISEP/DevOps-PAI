@@ -23,6 +23,12 @@ activate controller #E1F5FE
 controller -> service: configureTeacherCategory (nameVO)
 activate service #E1F5FE
 
+service -> repository: existsByName (nameVO)
+activate repository #E1F5FE
+
+repository --> service: True
+deactivate repository
+
 service -> domain: createTeacherCategory (nameVO)
 activate domain #E1F5FE
 
@@ -35,7 +41,7 @@ activate repository #E1F5FE
 repository -> drivers: save (teacherCategoryDataModel)
 activate drivers #E1F5FE
 
-drivers ->o]: INSERT INTO teacherCategory (id, name) \n VALUES ('123e4567-e89b-12d3-a456-426614174000', 'Assistant')
+drivers ->o]: **INSERT INTO** teacherCategory (id, name) \n VALUES ('123e4567-e89b-12d3-a456-426614174000', 'Assistant')
 
 drivers <--o]: teacherCategorySavedDataModel
 
