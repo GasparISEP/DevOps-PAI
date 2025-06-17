@@ -1,0 +1,14 @@
+@startuml
+title US04: \n As an Administrator, I want to register a teacher in the system. \n Process View Level 1
+
+autonumber
+actor Administrator as ad
+participant ":System" as System
+activate ad
+
+ad -> System ++: I want to register a teacher.
+System --> ad --: Display form with: \n name, email, NIF, countryCode, phoneNumber, \n academicBackground, street, postalCode, location, country, Department
+ad -> System ++: Submitted filled form: \n  name, email, NIF, countryCode,  phoneNumber, \n academicBackground, street, postalCode, location, country, Department
+System --> ad --: Teacher registered successfully!
+
+@enduml
