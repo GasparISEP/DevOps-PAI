@@ -17,4 +17,5 @@ public interface ICourseEditionAssembler {
     ProgrammeEditionID toProgrammeEditionID(CourseEditionRequestDTO courseEditionRequestDTO) throws Exception;
     CourseInStudyPlanID toCourseInStudyPlanID(CourseEditionRequestDTO courseEditionRequestDTO) throws Exception;
     List<CourseEditionResponseIDDTO> toResponseIDDTOList(List<CourseEditionID> courseEditionIDs);
+    CourseEditionResponseIDDTO toResponseIDDTO(CourseEditionServiceResponseDTO serviceResponseDTO);
 }

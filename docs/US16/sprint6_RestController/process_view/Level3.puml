@@ -28,6 +28,8 @@ DM --> SE --: CourseEditionEnrolment
 
 SE -> RE ++: save(CourseEditionEnrolment)
 
+RE -> DM ++: toDataLinha(CourseEditionEnrolment)
+DM --> RE --: DataLinha	
 
 RE ->o]: Insert Data
 RE <--o]: DataLinha

@@ -137,4 +137,19 @@ public class GlobalExceptionHandler {
         );
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @ExceptionHandler(AlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleEntityAlreadyExists(AlreadyExistsException ex) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                "ENTITY_ALREADY_EXISTS",
+                ex.getMessage()
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(CreditsExceededException.class)
+    public ResponseEntity<ErrorResponse> handleStudyPlanCreditsExceeded(CreditsExceededException ex) {
+        ErrorResponse error = new ErrorResponse("ECTS_LIMIT_EXCEEDED", ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+    }
 }

@@ -15,11 +15,10 @@ C -> S ++: getAllDepartments()
 S -> R ++: findAll()
 R -> D ++: findAll()
 D ->o] : SELECT * FROM Departments
-D <--o] : List<Department>
-D --> R --: List<Department>
+D <--o] : [Department]
+D --> R --: List<DepartmentDataModel>
 R --> S --: List<Department>
 S --> C --: List<Department>
-C -> C: convert to DTOs and wrap in HATEOAS model
 C --> RT --: HTTP 200 OK + CollectionModel<DepartmentWithDirectorDTO>
 [o<-- RT --: HTTP 200 OK + CollectionModel<DepartmentWithDirectorDTO>
 

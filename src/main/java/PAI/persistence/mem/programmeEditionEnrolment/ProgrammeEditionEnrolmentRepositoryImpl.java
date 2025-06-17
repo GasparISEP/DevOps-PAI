@@ -32,15 +32,16 @@ public class ProgrammeEditionEnrolmentRepositoryImpl implements IProgrammeEditio
     }
 
     @Override
-    public int countStudentsInProgrammesFromDepartmentInSchoolYear(SchoolYearID schoolYear, List<ProgrammeID> programmeIDS) {
-        Set<StudentID> studentIDs = new HashSet<>();
-        for (ProgrammeEditionEnrolment enrollment : _programmeEditionEnrolments) {
-            if (enrollment.isEnrolmentAssociatedToProgrammeAndSchoolYear(schoolYear,programmeIDS)) {
-                StudentID studentID = enrollment.findStudentInProgrammeEdition();
-                studentIDs.add(studentID);
-            }
-        }
-        return studentIDs.size();
+    public int countEnrolledStudentsByProgrammeEditionIds(List<ProgrammeEditionID> programmeEditionIDs) {
+//        Set<StudentID> studentIDs = new HashSet<>();
+//        for (ProgrammeEditionEnrolment enrollment : _programmeEditionEnrolments) {
+//            if (enrollment.isEnrolmentAssociatedToProgrammeAndSchoolYear(schoolYear, programmeEditionIDs)) {
+//                StudentID studentID = enrollment.findStudentInProgrammeEdition();
+//                studentIDs.add(studentID);
+//            }
+//        }
+//        return studentIDs.size();
+        return 0;
     }
 
     //US21 - Get The Number Of Students Enrolled In A Programme Edition

@@ -3,6 +3,7 @@ package PAI.assembler.courseEditionEnrolment;
 import PAI.VOs.*;
 import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
 import PAI.dto.courseEditionEnrolment.CourseEditionEnrolmentDto;
+import PAI.dto.courseEditionEnrolment.CourseEditionEnrolmentMinimalDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -104,5 +105,31 @@ class CourseEditionEnrolmentAssemblerImplTest {
         assertEquals("Engenharia de Software", dto.courseName());
     }
 
+    @Test
+    void shouldConvertEnrolmentToMinimalDTO() throws Exception {
+        // Arrange
+        StudentID studentID = new StudentID(1234567);
+        Acronym acronym = new Acronym("ESOFT");
+        Name name = new Name("Engenharia de Software");
+        CourseID courseID = new CourseID(acronym, name);
 
+        Date studyPlanDate = new Date("01-09-2023");
+        ProgrammeID programmeID = new ProgrammeID(new Acronym("LEIC"));
+        StudyPlanID studyPlanID = new StudyPlanID(programmeID, studyPlanDate);
+        CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(courseID, studyPlanID);
+
+        SchoolYearID schoolYearID = new SchoolYearID(UUID.randomUUID());
+        ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID, schoolYearID);
+        CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID, courseInStudyPlanID);
+
+        CourseEditionEnrolment enrolment = new CourseEditionEnrolment(studentID, courseEditionID);
+
+        // Act
+        CourseEditionEnrolmentMinimalDTO dto = assembler.toMinimalDTO(enrolment);
+
+        // Assert
+        assertNotNull(dto);
+        assertEquals(courseEditionID.toString(), dto.courseEditionID());
+        assertEquals(name.getName(), dto.courseEditionName());
+    }
 }

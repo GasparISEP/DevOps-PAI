@@ -8,7 +8,7 @@ import java.util.List;
 
 
 public interface IProgrammeRepository extends IRepository <ProgrammeID, Programme> {
-    List<ProgrammeID> findProgrammeByDepartment(DepartmentID departmentID);
+    List<ProgrammeID> findProgrammesIdByDepartmentId(DepartmentID departmentID);
     boolean existsByName(NameWithNumbersAndSpecialChars name);
     boolean existsByAcronym(Acronym acronym);
 }

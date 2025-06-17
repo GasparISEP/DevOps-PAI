@@ -42,7 +42,7 @@ public class ProgrammeEnrolmentRestController {
     }
 
     @GetMapping("/departments/{departmentId}/schoolYears/{schoolYearId}/programme-enrolments/count")
-    public ResponseEntity<?> countByDepartmentAndSchoolYear(@PathVariable String departmentId, @PathVariable String schoolYearId) {
+    public ResponseEntity<?> countByDepartmentAndSchoolYear(@PathVariable("departmentId") String departmentId, @PathVariable("schoolYearId") String schoolYearId) {
         if (departmentId == null)
             return ResponseEntity.badRequest().body("departmentID cannot be null");
         if (schoolYearId == null)

@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CreateCourseEditionServiceImpl implements ICreateCourseEditionService {
@@ -191,14 +192,21 @@ public class CreateCourseEditionServiceImpl implements ICreateCourseEditionServi
         return dtoList;
     }
 
-    /*@Override
-    public CourseEditionServiceResponseDTO createCourseEditionAndReturnDTO(CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID) {
-        CourseEdition created = createAndSaveCourseEdition(courseInStudyPlanID, programmeEditionID);
-        if (created == null) {
-            return null;
+    @Override
+    public CourseEditionServiceResponseDTO findById(CourseEditionID courseEditionID) {
+        if (courseEditionID == null) {
+            throw new IllegalArgumentException("CourseEditionID cannot be null");
         }
-        return courseEditionAssembler.toResponseDTO(created);
-    }*/
+
+        Optional<CourseEdition> courseEdition = courseEditionRepository.ofIdentity(courseEditionID);
+        if (courseEdition == null) {
+            throw new BusinessRuleViolationException("Course Edition not found for ID: " + courseEditionID);
+        }
+
+        return courseEditionAssembler.toServiceResponseDTO(courseEdition.get());
+
+    }
+
 }
 
 
