@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import '../../styles/DisplayTeacherCareerProgressionPage.css';
 import '../../styles/Buttons.css';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export default function TeacherCareerProgressionDisplay() {
     const [progressionOptions, setProgressionOptions] = useState([]);
@@ -10,19 +10,16 @@ export default function TeacherCareerProgressionDisplay() {
     const [currentPage, setCurrentPage] = useState(1);
     const [careerProgressionsPerPage, setCareerProgressionsPerPage] = useState(20);
     const careerProgressionPerPageOptions = [5, 10, 20, 50];
-    const totalPages = Math.ceil(progressionOptions.length / careerProgressionsPerPage);
-    const startIndex = (currentPage - 1) * careerProgressionsPerPage;
-    const endIndex = startIndex + careerProgressionsPerPage;
-    const [sortConfig, setSortConfig] = useState({key: null, direction: 'asc'});
+    const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
     const [filterField, setFilterField] = useState('date');
     const [filterValue, setFilterValue] = useState('');
 
     function handleSort(key) {
         setSortConfig(prev => {
             if (prev.key === key) {
-                return {key, direction: prev.direction === 'asc' ? 'desc' : 'asc'};
+                return { key, direction: prev.direction === 'asc' ? 'desc' : 'asc' };
             } else {
-                return {key, direction: 'asc'};
+                return { key, direction: 'asc' };
             }
         });
     }
@@ -42,6 +39,7 @@ export default function TeacherCareerProgressionDisplay() {
     }
 
     const sortedFields = getSortedFields();
+
     const filteredValues = sortedFields.filter(field => {
         if (!filterValue) return true;
         const value = field[filterField];
@@ -54,7 +52,19 @@ export default function TeacherCareerProgressionDisplay() {
         }
         return false;
     });
+
+    // Calculate totalPages based on filtered results
+    const totalPages = Math.ceil(filteredValues.length / careerProgressionsPerPage);
+
+    const startIndex = (currentPage - 1) * careerProgressionsPerPage;
+    const endIndex = startIndex + careerProgressionsPerPage;
+
     const careerProgressionsToShow = filteredValues.slice(startIndex, endIndex);
+
+    // Reset currentPage when careerProgressionsPerPage, filterField or filterValue changes
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [careerProgressionsPerPage, filterValue, filterField]);
 
     useEffect(() => {
         async function fetchOptions() {
@@ -74,13 +84,8 @@ export default function TeacherCareerProgressionDisplay() {
                 setLoading(false);
             }
         }
-
         fetchOptions();
     }, []);
-
-    useEffect(() => {
-        setCurrentPage(1);
-    }, [careerProgressionsPerPage]);
 
     if (loading) return (
         <div style={{
@@ -94,7 +99,7 @@ export default function TeacherCareerProgressionDisplay() {
         </div>
     );
 
-    function PaginationButton({onClick, disabled, children}) {
+    function PaginationButton({ onClick, disabled, children }) {
         return (
             <button className="pagination-btn pagination-btn-primary" onClick={onClick} disabled={disabled}>
                 {children}
@@ -102,7 +107,7 @@ export default function TeacherCareerProgressionDisplay() {
         );
     }
 
-    function PerPageButton({value, selected, onClick}) {
+    function PerPageButton({ value, selected, onClick }) {
         return (
             <button
                 className={`pagination-btn pagination-btn-primary per-page-btn${selected ? ' selected' : ''}`}
@@ -142,7 +147,7 @@ export default function TeacherCareerProgressionDisplay() {
                                     Back to Main Page
                                 </Link>
                             </div>
-                            <h1 style={{margin: 0}}>Career Progression</h1>
+                            <h1 style={{ margin: 0 }}>Career Progression</h1>
                             <div className="career-progression-table-filter-bar" style={{
                                 display: 'flex',
                                 alignItems: 'center',
@@ -182,30 +187,30 @@ export default function TeacherCareerProgressionDisplay() {
                             </div>
                         </div>
                         <div className="career-progression-table-center-wrapper">
-                            <table className="career-progression-form-table">
+                            <table data-testid="career-progression-table" className="career-progression-form-table">
                                 <thead>
                                 <tr>
                                     <th data-testid="date-header" className={`sortable${sortConfig.key === 'date' ? ' selected' : ''}`}
                                         onClick={() => handleSort('date')}>
                                         Date {sortConfig.key === 'date' ? (sortConfig.direction === 'asc' ? '▲' : '▼') : ''}
                                     </th>
-                                    <th data-testid="working-percentage-header" className={`sortable${sortConfig.key === 'working-percentage' ? ' selected' : ''}`}
+                                    <th data-testid="working-percentage-header" className={`sortable${sortConfig.key === 'workingPercentage' ? ' selected' : ''}`}
                                         onClick={() => handleSort('workingPercentage')}>
                                         Working
-                                        percentage {sortConfig.key === 'working-percentage' ? (sortConfig.direction === 'asc' ? '▲' : '▼') : ''}
+                                        percentage {sortConfig.key === 'workingPercentage' ? (sortConfig.direction === 'asc' ? '▲' : '▼') : ''}
                                     </th>
-                                    <th data-testid="id-header" className={`sortable${sortConfig.key === 'id' ? ' selected' : ''}`}
+                                    <th data-testid="id-header" className={`sortable${sortConfig.key === 'teacherCareerProgressionId' ? ' selected' : ''}`}
                                         onClick={() => handleSort('teacherCareerProgressionId')}>
-                                        ID {sortConfig.key === 'id' ? (sortConfig.direction === 'asc' ? '▲' : '▼') : ''}
+                                        ID {sortConfig.key === 'teacherCareerProgressionId' ? (sortConfig.direction === 'asc' ? '▲' : '▼') : ''}
                                     </th>
-                                    <th data-testid="teacher-category-header" className={`sortable${sortConfig.key === 'teacher-category-id' ? ' selected' : ''}`}
+                                    <th data-testid="teacher-category-header" className={`sortable${sortConfig.key === 'teacherCategoryID' ? ' selected' : ''}`}
                                         onClick={() => handleSort('teacherCategoryID')}>
                                         Teacher
-                                        Category {sortConfig.key === 'teacher-category-id' ? (sortConfig.direction === 'asc' ? '▲' : '▼') : ''}
+                                        Category {sortConfig.key === 'teacherCategoryID' ? (sortConfig.direction === 'asc' ? '▲' : '▼') : ''}
                                     </th>
-                                    <th data-testid="teacher-header" className={`sortable${sortConfig.key === 'teacher-id' ? ' selected' : ''}`}
+                                    <th data-testid="teacher-header" className={`sortable${sortConfig.key === 'teacherID' ? ' selected' : ''}`}
                                         onClick={() => handleSort('teacherID')}>
-                                        Teacher {sortConfig.key === 'teacher-id' ? (sortConfig.direction === 'asc' ? '▲' : '▼') : ''}
+                                        Teacher {sortConfig.key === 'teacherID' ? (sortConfig.direction === 'asc' ? '▲' : '▼') : ''}
                                     </th>
                                 </tr>
                                 </thead>
@@ -281,4 +286,3 @@ export default function TeacherCareerProgressionDisplay() {
         </div>
     );
 }
-
