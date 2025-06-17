@@ -152,7 +152,11 @@ export default function DefineRucInCourseEditionForm() {
                 teacherName: teacher?.name,
                 courseEditionId: form.courseEditionId,
                 courseEditionName: courseEdition?.name,
-                programmeName: courseEdition?.programmeName
+                programmeName: courseEdition?.programmeName,
+                _links: {
+                    all: { href: '/courseeditions/display' },
+                    details: { href: '/course-editions/:id' },
+                },
             });
 
 
