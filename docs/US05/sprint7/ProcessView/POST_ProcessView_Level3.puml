@@ -12,16 +12,16 @@ skinparam sequence {
 
 title Register a "X" in the System\nProcess View – Level 3
 
-participant ":Router" as RT
+participant ":Router" as RT <<Component>>
 participant "request\n:XDTO" as request
 participant "response\n:XDTO" as XDTO
-participant ":Controller" as CT
+participant ":Controller" as CT <<Component>>
 participant "requestVOs\n:XVoDTO" as requestVOs
-participant ":Service" as SE
-participant ":Domain" as DM
+participant ":Service" as SE <<Component>>
+participant ":Domain" as DM <<Component>>
 participant "x:X" as X #lightBlue
-participant ":Repository" as RE
-participant ":Driver" as DV
+participant ":Repository" as RE <<Component>>
+participant ":Driver" as DV <<Component>>
 
 
 [o-> RT ++: (POST) /xs \n{body: inputDetails}
@@ -41,7 +41,7 @@ DM --> SE --: x
 
 SE -> RE ++: save (x)
 RE -> DV++: save (x)
-DV ->o]: INSERT INTO xs
+DV ->o]: INSERT x INTO xs
 DV <--o]: x'
 DV --> RE -- : x'
 RE --> SE --: x'
