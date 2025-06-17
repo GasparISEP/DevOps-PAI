@@ -1,11 +1,11 @@
 package PAI.assembler.student;
 
 import PAI.controllerRest.StudentRestController;
-import PAI.dto.programmeEnrolment.ProgrammeEnrolmentDTO;
 import PAI.dto.student.StudentResponseDTO;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
+import org.springframework.hateoas.Link;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
@@ -21,9 +21,7 @@ public class StudentHateoasAssemblerImpl
                         .getLastStudentID())
                         .withRel("last-student-id"),
 
-                linkTo(methodOn(StudentRestController.class)
-                        .getAllStudents())
-                        .withRel("all"),
+                Link.of("http://localhost:3000/students/display").withRel("viewAll"),
 
                 linkTo(methodOn(StudentRestController.class)
                         .getStudentByID(dto.getStudentID()))
