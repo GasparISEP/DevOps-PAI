@@ -51,7 +51,7 @@ export default function StudentCourseEditionForm() {
                 setCourseEditions(data);
                 setSelectedCourseEditionID('');
             } catch (err) {
-                console.error("Error loading course editions:", err);
+                console.error("Error loadingit sg course editions:", err);
             }
         }
 
@@ -128,6 +128,7 @@ export default function StudentCourseEditionForm() {
                                 <input
                                     type="text"
                                     className="form-input"
+                                    placeholder="Enter 7-digit Student Unique Number"
                                     id="studentID"
                                     value={selectedStudentID}
                                     onChange={(e) => {
@@ -163,11 +164,13 @@ export default function StudentCourseEditionForm() {
                                     disabled={!selectedStudentID || courseEditions.length === 0}
                                 >
                                     <option value="" disabled hidden>Choose Course Editions </option>
-                                    {courseEditions.map(edition => (
-                                        <option key={edition.courseEditionGeneratedUUID} value={edition.courseEditionGeneratedUUID}>
-                                            {edition.courseName} ({edition.courseAcronym})
-                                        </option>
-                                    ))}
+                                    {courseEditions.map(edition => {
+                                        return (
+                                            <option key={edition.courseEditionGeneratedUUID} value={edition.courseEditionGeneratedUUID}>
+                                                {edition.courseName} ({edition.courseAcronym}) - {edition.studyPlanStartYear}
+                                            </option>
+                                        );
+                                    })}
                                 </select>
                             </div>
 
