@@ -10,13 +10,13 @@ skinparam sequence {
 
 title US16: Enroll a Student in a Course Edition\nProcess View – Level 3
 
-participant ":Router" as RT
-participant ":Controller" as CT
-participant ":Service" as SE
-participant ":Repository" as RE
-participant ":Domain" as DM
-participant ":Mapper" as MA
-participant ":HateoasAssembler" as HA
+participant "Router" as RT
+participant "Controller" as CT
+participant "Service" as SE
+participant "Repository" as RE
+participant "Domain" as DM
+participant "Mapper" as MA
+participant "HateoasAssembler" as HA
 
 
  [o--> RT ++: POST /students/{id}/courses-edition-enrolments with JSON {request}
