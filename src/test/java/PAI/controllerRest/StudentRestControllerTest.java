@@ -166,6 +166,22 @@ class StudentRestControllerTest {
     }
 
     @Test
+    void enrolStudent_shouldReturnBadRequest_whenExceptionIsThrown() {
+        //arrange
+        StudentProgrammeEnrolmentRequestDto dto = mock(StudentProgrammeEnrolmentRequestDto.class);
+
+        when(programmeAndCoursesAssembler.toStudentID(dto))
+                .thenThrow(new RuntimeException("Simulated failure"));
+
+        //act
+        ResponseEntity<EntityModel<StudentEnrolmentResultDto>> response =
+                studentRestController.enrolStudent(dto);
+
+        //assert
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Test
     void whenServiceReturnsStudent_thenReturnsCreatedWithHateoas() {
         StudentDTO dto = mock(StudentDTO.class);
 

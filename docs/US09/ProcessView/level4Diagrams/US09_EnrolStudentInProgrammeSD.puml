@@ -1,4 +1,5 @@
 @startuml
+skinparam Shadowing true
 skinparam sequenceLifeLineBackgroundColor lightblue
 autonumber
 

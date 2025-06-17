@@ -1,18 +1,23 @@
-import React from "react";
+import React from 'react';
+import '../../styles/Modal.css';
 
-export default function CourseEditionAverageGradeSuccessModal({ result, onClose }) {
+export default function CourseEditionAverageGradeSuccessModal({ courseEditionId, averageGrade, onClose }) {
     return (
         <div className="modal-overlay">
-            <div className="modal-content">
-                <h2>Success!</h2>
-                <p>The average grade was retrieved successfully.</p>
-                {result && (
-                    <div className="success" style={{ marginTop: '1rem', color: '#080' }}>
-                        <p><strong>Course Edition ID:</strong> {result.courseEditionId}</p>
-                        <p><strong>Average Grade:</strong> {result.averageGrade}</p>
-                    </div>
+            <div className="modal-content success">
+                <h2>Average Grade Retrieved</h2>
+
+                {averageGrade === null ? (
+                    <p>No grades available yet for this course edition.</p>
+                ) : (
+                    <p>
+                        The average grade is: <strong>{averageGrade.toFixed(2)}</strong>
+                    </p>
                 )}
-                <button className="modal-btn" onClick={onClose}>Close</button>
+
+                <button className="btn btn-primary" onClick={onClose}>
+                    Close
+                </button>
             </div>
         </div>
     );
