@@ -1,0 +1,15 @@
+@startuml
+title Convert defineRucRequestDTO to Domain
+
+autonumber
+
+participant ":CourseEditionRestController" as controller <<Component>> <<RESTController>> #Lightblue
+participant ":ICourseEditionAssembler" as assembler <<Component>> <<Assembler>> #Lightblue
+
+activate controller #E1F5FE
+controller -> assembler: defineRucForCourseEdition(defineRucRequestDTO)
+activate assembler #E1F5FE
+assembler -> "teacherID:TeacherID"** : new TeacherID(String teacherID)
+deactivate assembler
+
+@enduml
