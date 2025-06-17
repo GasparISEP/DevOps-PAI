@@ -24,10 +24,10 @@ participant ":Repository" as RE <<Component>>
 participant ":Driver" as DV <<Component>>
 
 
-[o-> RT ++: (POST) /xs \n{body: inputDetails}
-RT --> request **: <create> \nXRequest(inputDetails)
-RT -> CT ++: (POST) /xs (request)
-CT -> requestVOs **: <create> \nXRequestVOs(request.attribute[i]s)
+[o-> RT ++: HTTP Request \n (POST) /xs \n{body: inputDetails}
+RT --> request **: <create> \nXDTO(inputDetails)
+RT -> CT ++: HTTP Request (POST) /xs (request)
+CT -> requestVOs **: <create> \nXVoDTO(request.attribute[i]s)
 
 
 CT -> SE ++: createAndSaveX (requestVOs)
@@ -50,8 +50,8 @@ RE --> SE --: x'
 SE --> CT --: x'
 CT --> XDTO **: <create> xDTO(x')
 
-CT --> RT --: HTTP 201 Created + \nxDTO
-[o<-- RT --: HTTP 201 Created + \nxDTO
+CT --> RT --: HTTP 201 Created + \nresponse
+[o<-- RT --: HTTP 201 Created + \nresponse
 
 
 @enduml
