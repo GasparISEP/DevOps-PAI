@@ -142,7 +142,15 @@ export default function GradeStudentForm() {
         setLoading(true);
 
         try {
+            if (!form.courseEditionID || !form.courseEditionID.includes('|')) {
+                throw new Error("❌ Nenhuma edição de curso válida selecionada.");
+            }
+
             const [schoolYearId, courseAcronym, courseName] = form.courseEditionID.split('|');
+
+            if (!schoolYearId || !courseAcronym || !courseName) {
+                throw new Error("❌ Dados da edição do curso estão incompletos.");
+            }
 
             const requestPayload = {
                 studentUniqueNumber: form.studentUniqueNumber,
@@ -152,19 +160,20 @@ export default function GradeStudentForm() {
                 grade: form.grade
             };
 
+            console.log("📡 Payload antes do envio:", requestPayload); // 🚀 Confirma que os dados estão corretos!
+
             const response = await gradeAStudentWithLink(requestPayload);
             setSuccess(response.data);
             setShowSuccessModal(true);
-            setForm({ ...initialFormState });
-            setStudentIdError('');
-            setGradeError('');
         } catch (err) {
+            console.error("❌ Erro ao registrar nota:", err);
             setError(err.message || "Erro desconhecido ao registrar a nota.");
             setShowErrorModal(true);
         } finally {
             setLoading(false);
         }
     }
+
 
     return (
         <div className="form-main-component-div">
@@ -211,7 +220,7 @@ export default function GradeStudentForm() {
                                             const value = `${ed.schoolYearId}|${ed.courseAcronym}|${ed.courseName}`;
                                             return (
                                                 <option key={idx} value={value}>
-                                                    {ed.courseName}
+                                                    {ed.courseEditionName}
                                                 </option>
                                             );
                                         })
