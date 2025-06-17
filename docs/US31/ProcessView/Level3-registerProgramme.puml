@@ -22,10 +22,12 @@ RT -> C ++: registerProgramme (ProgrammeDTO)
 C -> PS ++: registerProgramme (ProgrammeVOsDTO)
 
 PS -> DS ++: containsOfIdentity(departmentID)
-DS -> Drivers ++: containsOfIdentity(departmentID)
-Drivers ->o] : containsOfIdentity(departmentID)
+DS -> DR ++: containsOfIdentity(departmentID)
+DR -> Drivers ++: existsById(departmentID)
+Drivers ->o] : existsById(departmentID)
 Drivers <--o] : True
-Drivers --> DS --: True
+Drivers --> DR --: True
+DR --> DS --: True
 DS --> PS --: True
 
 PS -> TS ++: containsOfIdentity(teacherID)

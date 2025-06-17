@@ -1,0 +1,17 @@
+@startuml
+autonumber
+
+skinparam sequence {
+   LifelineBorderColor black
+   LifelineBackgroundColor LightBlue
+ }
+
+title US05:\n As an Administrator,\n I want to Register a Department In The System\n Process View Level 1
+actor Administrator
+participant ":System" as System
+
+Administrator -> System ++: I want to register a department in the system.
+System --> Administrator --: name? acronym?
+Administrator -> System ++: Enter name and acronym.
+System --> Administrator --: Successfully registered department!
+@enduml
