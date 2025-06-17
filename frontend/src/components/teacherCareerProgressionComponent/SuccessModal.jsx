@@ -1,6 +1,6 @@
 import React from 'react';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import FolderOpenIcon from '@mui/icons-material/FolderOpen';
+import listImage from '../../assets/images/list.png'
+import infoImage from '../../assets/images/information.png'
 
 export default function SuccessModal({ data, form, onClose }) {
     if (!data) return null;
@@ -31,26 +31,28 @@ export default function SuccessModal({ data, form, onClose }) {
                     <p><strong>Date:</strong> {data.date || form.date}</p>
                 </div>
 
-                <div style={{ display: 'flex', justifyContent: 'center', gap: '2rem', marginTop: '2rem' }}>
+                <div style={{display: 'flex', justifyContent: 'center', gap: '2rem', marginTop: '2rem'}}>
                     {detailsHref && (
-                        <VisibilityIcon
-                            fontSize="medium"
-                            titleAccess="View Entry"
-                            style={{ cursor: 'pointer', color: '#555' }}
+                        <img
+                            src={infoImage}
+                            alt="View Entry"
+                            title="View Entry"
+                            style={{cursor: 'pointer', width: '20px', height: '20px'}}
                             onClick={() => openLink(detailsHref)}
                         />
                     )}
                     {collectionHref && (
-                        <FolderOpenIcon
-                            fontSize="medium"
-                            titleAccess="View All"
-                            style={{ cursor: 'pointer', color: '#555' }}
+                        <img
+                            src={listImage}
+                            alt="View All"
+                            title="View All"
+                            style={{cursor: 'pointer', width: '20px', height: '20px'}}
                             onClick={() => openLink(collectionHref)}
                         />
                     )}
                 </div>
 
-                <button className="modal-btn" onClick={onClose} style={{ marginTop: '1rem' }}>
+                <button className="modal-btn" onClick={onClose} style={{marginTop: '1rem'}}>
                     Close
                 </button>
             </div>

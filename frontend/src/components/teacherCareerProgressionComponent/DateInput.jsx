@@ -50,7 +50,7 @@ export default function DateInput({ value, onChange, error }) {
                 placeholderText="Select a Date"
                 customInput={<CustomDateInput value={value} />}
             />
-            {error && <div className="form-error">{error}</div>}
+            {error && <div className="error-message">{error}</div>}
         </div>
     );
 }
