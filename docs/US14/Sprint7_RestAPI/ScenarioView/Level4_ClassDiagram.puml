@@ -1,6 +1,6 @@
 @startuml
 
-title US14: As an HRC, I want to update the teacher's category in the system \n (Scenario View - Level 3)
+title US14: As an HRC, I want to update the teacher's category in the system \n (Scenario View - Level 4 - Backend)
 
 skinparam backgroundColor white
 skinparam ranksep 60
@@ -26,17 +26,16 @@ class TeacherRestController #E0FFFF{
     + teacherWithRelevantDataService: ITeacherWithRelevantDataService
     + teacherWithRelevantDataAssembler: TeacherWithRelevantDataAssembler
     + updateTeacherWorkingPercentageHateoasAssembler: IUpdateTeacherWorkingPercentageHateoasAssembler
-    + TeacherRestController (teacherService: ITeacherRegistrationService,teacherAssembler: ITeacherAssembler, \n teacherHateoasAssembler: ITeacherHateoasAssembler, careerService: ICreateTeacherCareerProgressionService, \n careerAssembler: ITeacherCareerProgressionAssembler,teacherWithRelevantDataService: ITeacherWithRelevantDataService, \n teacherWithRelevantDataAssembler: TeacherWithRelevantDataAssembler, \n updateTeacherWorkingPercentageHateoasAssembler: IUpdateTeacherWorkingPercentageHateoasAssembler, \n updateTeacherCategoryHateoasAssemblerInterface :IUpdateTeacherCategoryHateoasAssembler)
+    + teacherWithRelevantDataHateoasAssembler: ITeacherWithRelevantDataHateoasAssembler
+    + TeacherRestController (teacherService: ITeacherRegistrationService,teacherAssembler: ITeacherAssembler, \n teacherHateoasAssembler: ITeacherHateoasAssembler, careerService: ICreateTeacherCareerProgressionService, \n careerAssembler: ITeacherCareerProgressionAssembler,teacherWithRelevantDataService: ITeacherWithRelevantDataService, \n teacherWithRelevantDataAssembler: TeacherWithRelevantDataAssembler, \n updateTeacherWorkingPercentageHateoasAssembler: IUpdateTeacherWorkingPercentageHateoasAssembler, \n updateTeacherCategoryHateoasAssemblerInterface :IUpdateTeacherCategoryHateoasAssembler, \n teacherWithRelevantDataHateoasAssembler: ITeacherWithRelevantDataHateoasAssembler)
     + updateTeacherCategory(teacherID: String, requestDTO: UpdateTeacherCategoryRequestDTO): EntityModel<UpdateTeacherCategoryResponseDTO>
     + getAllTeachers () : CollectionModel<EntityModel<TeacherDTO>>
-    + getAllTeacherCareerProgression (): ResponseEntity<Object>
-    + getTeacherCareerProgressionByID (): ResponseEntity<Object>
 }
 
 class TeacherCareerProgressionRestController #E0FFFF{
     + TeacherCareerProgressionRestController (careerService: ICreateTeacherCareerProgressionService, \n externalAssembler: ITeacherCareerProgressionAssembler)
-    + getAllTeacherCareerProgression (): ResponseEntity<Object>
-    + getTeacherCareerProgressionByID (): ResponseEntity<Object>
+    + getAllTeacherCareerProgression (): List<UpdateTeacherCategoryResponseDTO>
+    + getTeacherCareerProgressionByID (): UpdateTeacherCategoryDTO
 }
 
 class TeacherCategoryRestController #E0FFFF{
@@ -55,7 +54,7 @@ interface ICreateTeacherCareerProgressionService #E0FFFF{
 }
 
 class CreateTeacherCareerProgressionServiceImpl #E0FFFF{
-    + TeacherCareerProgressionServiceImpl (teacherCareerProgressionRepository: ITeacherCareerProgressionRepository, \n teacherCareerProgressionFactory: ITeacherCareerProgressionFactory, \n internalAssembler: ITeacherCareerProgressionInternalAssembler)
+    + TeacherCareerProgressionServiceImpl (teacherCareerProgressionRepository: ITeacherCareerProgressionRepository, \n teacherCareerProgressionFactory: ITeacherCareerProgressionFactory, \n internalAssembler: ITeacherCareerProgressionInternalAssembler, \n teacherRepository: ITeacherRepository, \n teacherCategoryRepository: ITeacherCategoryRepository)
     + updateTeacherCategory (command: UpdateTeacherCategoryCommand): UpdateTeacherCategoryDTO
     + createTeacherCareerProgression (date: Date, teacherCategoryID: TeacherCategoryID,\n wp: WorkingPercentage, teacherID: TeacherID): Optional <TeacherCareerProgression>
     + getAllTeacherCareerProgression (): List<UpdateTeacherCategoryDTO>
@@ -74,17 +73,19 @@ class TeacherCategoryServiceImpl #E0FFFF{
 }
 
 interface ITeacherRegistrationService #E0FFFF{
-    + getAllTeachers (): List <TeacherDTO>
+    + getAllTeachers (): Iterable <Teacher>
 }
 
 class TeacherRegistrationServiceImpl #E0FFFF{
-    + getAllTeachers (): List <TeacherDTO>
+    + teacherFactory: ITeacherFactory
+    + TeacherRegistrationServiceImpl (teacherFactory: ITeacherFactory, teacherRepository: ITeacherRepository)
+    + getAllTeachers (): Iterable <Teacher>
 }
 
 '====================================== DTO ===================================
 
 class UpdateTeacherCategoryRequestDTO <<Record>> #E0FFFF {
-    -date: String
+    -date: LocalDate
     -teacherCategoryID :String
 }
 
@@ -104,9 +105,9 @@ class UpdateTeacherCategoryDTO <<Record>> #E0FFFF{
   - workingPercentage: int
 }
 
-class UpdateTeacherCategoryCommand #E0FFFF{
+class UpdateTeacherCategoryCommand <<Record>> #E0FFFF{
   - teacherID: TeacherID
-  -  date: Date
+  - date: Date
   - teacherCategoryID: TeacherCategoryID
   + UpdateTeacherCategoryCommand (teacherID, date, teacherCategoryID):
 }
@@ -121,15 +122,15 @@ interface ITeacherCareerProgressionAssembler #E0FFFF{
 
 class TeacherCareerProgressionAssemblerImpl #E0FFFF{
   + toCommand(teacherID: String, requestDTO: UpdateTeacherCategoryRequestDTO): UpdateTeacherCategoryCommand
-  + toResponseDTO(domain: TeacherCareerProgression): UpdateTeacherCategoryResponseDTO
+  + toResponseDTO(dto: UpdateTeacherCategoryDTO): UpdateTeacherCategoryResponseDTO
   + toResponseDTOs(teacherCareerProgressionDTOs: List<UpdateTeacherCategoryDTO>): List <UpdateTeacherCategoryResponseDTO>
 }
 
-interface ITeacherCareerProgressionHateoasAssembler #E0FFFF{
+interface IUpdateTeacherCategoryHateoasAssembler #E0FFFF{
   + toModel (responseDTO: UpdateTeacherCareerResponseDTO): EntityModel<UpdateTeacherCategoryResponseDTO>
 }
 
-class TeacherCareerProgressionHateoasAssemblerImpl #E0FFFF{
+class IUpdateTeacherCategoryHateoasAssemblerImpl #E0FFFF{
   + toModel (responseDTO: UpdateTeacherCareerResponseDTO): EntityModel<UpdateTeacherCategoryResponseDTO>
 }
 
@@ -166,6 +167,9 @@ interface ITeacherRepository #FAFAD2{
 }
 
 class TeacherRepositorySpringDataImpl #E0FFFF{
+    + nifMapper: INIFMapper
+    + departmentIDMapper: IDepartmentIDMapper
+    + TeacherRepositorySpringDataImpl(teacherRepositorySpringData: ITeacherRepositorySpringData, \n teacherMapper: ITeacherMapper, teacherIDMapper: ITeacherIDMapper, \n nifMapper: INIFMapper, departmentIDMapper: IDepartmentIDMapper)
     + findAll (): Iterable <Teacher>
 }
 
@@ -178,12 +182,13 @@ interface ITeacherCategoryRepository #FAFAD2{
 }
 
 class TeacherCategoryRepositorySpringDataImpl #E0FFFF {
+    + TeacherCategoryRepositorySpringDataImpl (tcRepositorySpringData: ITeacherCategoryRepositorySpringData, \n mapper: ITeacherCategoryMapper, idMapper: TeacherCategoryIDMapperImpl)
     + findAll (): Iterable<TeacherCategory>
     + containsOfIdentity (teacherCategoryID: TeacherCategoryID): boolean
 }
 
 interface ITeacherCategoryRepositorySpringData #FFDAB9 {
-    + findAll (): Iterable<TeacherCategoryDataModel>
+
 }
 
 interface ITeacherCareerProgressionRepository #FAFAD2{
@@ -191,7 +196,7 @@ interface ITeacherCareerProgressionRepository #FAFAD2{
 }
 
 class TeacherCareerProgressionRepositorySpringDataImpl #E0FFFF{
-    + TeacherCareerProgressionRepository\n(teacherCareerProgressionMapper : TeacherCareerProgressionMapper)
+    + TeacherCareerProgressionRepository (teacherCareerProgressionMapper : TeacherCareerProgressionMapper,\n tcpRepositorySpringData: ITeacherCareerProgressionRepositorySpringData, idMapper: ITeacherCareerProgressionIDMapper)
     + findLastTCPFromTeacherID(teacherID: TeacherID): Optional<TeacherCareerProgression>
     + save(tcp: TeacherCareerProgression): TeacherCareerProgression
     + findAll (): Iterable<TeacherCareerProgression>
@@ -290,13 +295,14 @@ class TeacherCategoryFactoryImpl #FAFAD2{
 '========================================== Mappers ==========================================
 
 interface ITeacherCareerProgressionMapper #E0FFFF{
-    +toDomain(teacherCareerProgressionDataModel :TeacherCareerProgressionDataModel): TeacherCareerProgression
-    +toDataModel(teacherCareerProgression :TeacherCareerProgression): TeacherCareerProgressionDataModel
+    + toDomain(teacherCareerProgressionDataModel :TeacherCareerProgressionDataModel): TeacherCareerProgression
+    + toDataModel(teacherCareerProgression :TeacherCareerProgression): TeacherCareerProgressionDataModel
 }
 
 class TeacherCareerProgressionMapperImpl #E0FFFF{
-    +toDomain(teacherCareerProgressionDataModel :TeacherCareerProgressionDataModel): TeacherCareerProgression
-    +toDataModel(teacherCareerProgression :TeacherCareerProgression): TeacherCareerProgressionDataModel
+    + TeacherCareerProgressionMapperImpl (tcpFactory: ITeacherCareerProgressionFactory,\n tcpIDMapper: ITeacherCareerProgressionIDMapper)
+    + toDomain(teacherCareerProgressionDataModel :TeacherCareerProgressionDataModel): TeacherCareerProgression
+    + toDataModel(teacherCareerProgression :TeacherCareerProgression): TeacherCareerProgressionDataModel
 }
 
 interface ITeacherCareerProgressionIDMapper #E0FFFF {
@@ -314,6 +320,7 @@ interface ITeacherCategoryMapper #E0FFFF{
 }
 
 class TeacherCategoryMapperImpl #E0FFFF{
+   + TeacherCategoryMapperImpl (idMapper: ITeacherCategoryIDMapper)
    + toDomainModel (dataModel: TeacherCategoryDataModel): TeacherCategory
 }
 
@@ -330,6 +337,14 @@ interface ITeacherMapper #E0FFFF{
 }
 
 class TeacherMapperImpl #E0FFFF{
+   + teacherFactory: ITeacherFactory;
+   + teacherIDMapper: ITeacherIDMapper;
+   + nifMapper: INIFMapper;
+   + phoneNumberMapper: IPhoneNumberMapper;
+   + addressMapper: IAddressMapper;
+   + teacherAcademicEmailMapper: ITeacherAcademicEmailMapper;
+   + departmentIDMapper: IDepartmentIDMapper;
+   + TeacherMapperImpl (teacherFactory: ITeacherFactory, teacherIDMapper: ITeacherIDMapper,\n nifMapper: INIFMapper, phoneNumberMapper: IPhoneNumberMapper,\n addressMapper: IAddressMapper, \n teacherAcademicEmailMapper: ITeacherAcademicEmailMapper, departmentIDMapper: IDepartmentIDMappe)
    + listToDomain (listDataModel: Iterable<TeacherDataModel>): Iterable<Teacher>
 }
 
@@ -382,8 +397,7 @@ class TeacherCategoryIDDataModel #E0FFFF {
 
 '============================ Relationships and Navigability =================================
 
-
-TeacherRestController "1" ..> "1" ITeacherCareerProgressionHateoasAssembler
+TeacherRestController "1" ..> "1" IUpdateTeacherCategoryHateoasAssembler
 TeacherRestController "1" ..> "1" ITeacherCareerProgressionAssembler
 TeacherRestController "1" ..> "1" ICreateTeacherCareerProgressionService
 TeacherRestController "1" ..> "1" UpdateTeacherCategoryRequestDTO
@@ -391,9 +405,9 @@ TeacherRestController "1" ..> "1" UpdateTeacherCategoryRequestDTO
 TeacherCareerProgressionRestController "1" ..> "1" ICreateTeacherCareerProgressionService
 TeacherCareerProgressionRestController "1" ..> "1" ITeacherCareerProgressionAssembler
 
-TeacherCareerProgressionHateoasAssemblerImpl ..|> ITeacherCareerProgressionHateoasAssembler
-ITeacherCareerProgressionHateoasAssembler "1" ..> "1" UpdateTeacherCategoryResponseDTO
-ITeacherCareerProgressionHateoasAssembler "1" ..> "1" TeacherCareerProgressionRestController
+IUpdateTeacherCategoryHateoasAssemblerImpl ..|> IUpdateTeacherCategoryHateoasAssembler
+IUpdateTeacherCategoryHateoasAssembler "1" ..> "1" UpdateTeacherCategoryResponseDTO
+IUpdateTeacherCategoryHateoasAssembler "1" ..> "1" TeacherCareerProgressionRestController
 
 TeacherCareerProgressionAssemblerImpl ..|> ITeacherCareerProgressionAssembler
 ITeacherCareerProgressionAssembler "1"..> "1" UpdateTeacherCategoryDTO
@@ -404,6 +418,8 @@ ITeacherCareerProgressionInternalAssembler "1"..> "1" TeacherCareerProgression
 
 CreateTeacherCareerProgressionServiceImpl ..|> ICreateTeacherCareerProgressionService
 CreateTeacherCareerProgressionServiceImpl "1" --> "1 _factory"  ITeacherCareerProgressionFactory
+CreateTeacherCareerProgressionServiceImpl "1" --> "1 _teacherRepository"  ITeacherRepository
+CreateTeacherCareerProgressionServiceImpl "1" --> "1 _tcRepository"  ITeacherCategoryRepository
 CreateTeacherCareerProgressionServiceImpl "1" --> "1 _repository" ITeacherCareerProgressionRepository
 CreateTeacherCareerProgressionServiceImpl "1" --> "1 _internalAssembler" ITeacherCareerProgressionInternalAssembler
 CreateTeacherCareerProgressionServiceImpl "1" ..> "1" UpdateTeacherCategoryCommand

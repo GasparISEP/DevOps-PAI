@@ -1196,7 +1196,7 @@ class CourseEditionEnrolmentServiceImplTest {
         StudentID studentIDDouble = mock(StudentID.class);
 
         //Act +
-        List<US35EnrolledCourseDetails> result = cees.findEnrolledCourseEditionsForStudent(studentIDDouble);
+        List<EnrolledCourseDetails> result = cees.findEnrolledCourseEditionsForStudent(studentIDDouble);
 
         // Assert
         assertTrue(result.isEmpty());
@@ -1215,7 +1215,7 @@ class CourseEditionEnrolmentServiceImplTest {
         );
 
         // Act
-        List<US35EnrolledCourseDetails> result = service.findEnrolledCourseEditionsForStudent(null);
+        List<EnrolledCourseDetails> result = service.findEnrolledCourseEditionsForStudent(null);
 
         // Assert
         assertTrue(result.isEmpty());
@@ -1256,7 +1256,7 @@ class CourseEditionEnrolmentServiceImplTest {
         when(courseEditionRepository.ofIdentity(ceId2)).thenReturn(Optional.of(courseEdition2));
 
         // Act
-        List<US35EnrolledCourseDetails> result = service.findEnrolledCourseEditionsForStudent(studentID);
+        List<EnrolledCourseDetails> result = service.findEnrolledCourseEditionsForStudent(studentID);
 
         // Assert
         assertNotNull(result);
@@ -1297,7 +1297,7 @@ class CourseEditionEnrolmentServiceImplTest {
         when(courseEditionRepository.ofIdentity(ceIdNotFound)).thenReturn(Optional.empty()); // <-- Simulate "not found"
 
         // Act
-        List<US35EnrolledCourseDetails> result = service.findEnrolledCourseEditionsForStudent(studentID);
+        List<EnrolledCourseDetails> result = service.findEnrolledCourseEditionsForStudent(studentID);
 
         // Assert
         assertNotNull(result);
@@ -1338,7 +1338,7 @@ class CourseEditionEnrolmentServiceImplTest {
         when(courseEditionRepository.ofIdentity(ceIdException)).thenThrow(new RuntimeException("repository error"));
 
         // Act
-        List<US35EnrolledCourseDetails> result = service.findEnrolledCourseEditionsForStudent(studentID);
+        List<EnrolledCourseDetails> result = service.findEnrolledCourseEditionsForStudent(studentID);
 
         // Assert
         assertNotNull(result);

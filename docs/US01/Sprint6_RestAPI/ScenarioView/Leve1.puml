@@ -10,7 +10,7 @@ skinparam packageStyle rectangle
 
 actor "Administrator" as admin
 
-rectangle "<<PAI System>>" {
+rectangle "<<System>> \n PAI" {
     usecase "I want to configure teacher categories in the system" as UC01
 }
 

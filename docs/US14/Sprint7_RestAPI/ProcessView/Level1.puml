@@ -8,12 +8,12 @@ skinparam shadowing true
 autonumber
 
 actor HRC as admin
-participant ":SystemPAI" as System <<System>>
+participant ":PAI" as System <<System>>
 
 admin -> System: I want to update teacher's category!
 activate System #E1F5FE
 
-System --> admin: Make the form available!
+System --> admin: Provide a form with fields for date, \n teacher selection and teacher category selection!
 deactivate System
 
 admin -> System: Form submitted!

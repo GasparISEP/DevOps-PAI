@@ -1,7 +1,6 @@
 package PAI.assembler.courseInStudyPlan;
 
 import PAI.VOs.*;
-import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.dto.courseInStudyPlan.CourseInStudyPlanCommand;
 import PAI.dto.courseInStudyPlan.CourseInStudyPlanRequestDTO;
 import PAI.dto.courseInStudyPlan.CourseInStudyPlanResponseDTO;
@@ -44,5 +43,4 @@ public class CourseInStudyPlanAssemblerImpl implements ICourseInStudyPlanAssembl
                 courseInStudyPlanServiceDTO.generatedID()
         );
     }
-
 }

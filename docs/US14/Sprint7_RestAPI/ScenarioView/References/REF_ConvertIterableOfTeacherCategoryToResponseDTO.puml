@@ -25,7 +25,7 @@ assembler -> ":ArrayList": create ()
 loop for each TeacherCategory in Iterable<TeacherCategory>
 
 create "tcResponseDTO: TeacherCategoryResponseDTO"
-assembler -> "tcResponseDTO: TeacherCategoryResponseDTO": create \n (teacherCategory.getName().getName(),teacherCategory.identity().toString())
+assembler -> "tcResponseDTO: TeacherCategoryResponseDTO": create (teacherCategory.getName().getName(),teacherCategory.identity().toString())
 
 assembler -> ":ArrayList": add (tcResponseDTO)
 activate ":ArrayList" #E1F5FE

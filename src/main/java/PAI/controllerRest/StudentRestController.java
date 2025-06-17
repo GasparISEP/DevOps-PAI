@@ -10,7 +10,7 @@ import PAI.assembler.student.IStudentDTOAssembler;
 import PAI.assembler.student.IStudentHateoasAssembler;
 import PAI.assembler.totalEnrolledStudentsInProgrammesByDepartmentAndSchoolYear.ITotalEnrolledStudentsAssembler;
 import PAI.domain.courseEdition.CourseEdition;
-import PAI.VOs.US35EnrolledCourseDetails;
+import PAI.VOs.EnrolledCourseDetails;
 import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
 import PAI.domain.student.Student;
 import PAI.dto.ProgrammeAndCourses.StudentEnrolmentResultDto;
@@ -253,7 +253,7 @@ public class StudentRestController {
 
         StudentID studentID = new StudentID(studentUniqueNumber);
 
-        List<US35EnrolledCourseDetails> enrolledCourseDetailsList = courseEditionEnrolmentService.findEnrolledCourseEditionsForStudent(studentID);
+        List<EnrolledCourseDetails> enrolledCourseDetailsList = courseEditionEnrolmentService.findEnrolledCourseEditionsForStudent(studentID);
 
         List<EnrolledCourseEditionDTO> enrolledDTOs = enrolledCourseDetailsList.stream()
                 .map(details -> {
@@ -273,8 +273,8 @@ public class StudentRestController {
                             programmeAcronym,
                             studyPlanStartYear,
                             courseEditionGeneratedUUID,
-                            schoolYearId,
-                            enrolmentGeneratedID.getCourseEditionEnrolmentGeneratedID()
+                            enrolmentGeneratedID.getCourseEditionEnrolmentGeneratedID(),
+                            schoolYearId
                     );
                 })
                 .collect(Collectors.toList());
