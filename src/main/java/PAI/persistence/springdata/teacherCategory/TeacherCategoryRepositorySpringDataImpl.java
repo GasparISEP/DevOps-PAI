@@ -26,7 +26,7 @@ public class TeacherCategoryRepositorySpringDataImpl implements ITeacherCategory
     public TeacherCategoryRepositorySpringDataImpl(
             ITeacherCategoryRepositorySpringData jpaRepository,
             ITeacherCategoryMapper mapper,
-            TeacherCategoryIDMapperImpl idMapper
+            ITeacherCategoryIDMapper idMapper
     ) {
         this.jpaRepository = jpaRepository;
         this.mapper = mapper;
