@@ -28,22 +28,43 @@ class StudentHateoasAssemblerImplTest {
         assertNotNull(result);
         assertEquals(dto, result.getContent());
 
-        // Verificar link "last-student-id"
-        assertTrue(result.getLinks().hasLink("last-student-id"));
-        String expectedHref1 = linkTo(methodOn(StudentRestController.class).getLastStudentID()).toUri().toString();
-        assertEquals(expectedHref1, result.getLink("last-student-id").get().getHref());
+        // Print links for debug
+        System.out.println(result.getLinks());
 
-        // Verificar link "viewAll"
-        assertTrue(result.getLinks().hasLink("viewAll"));
-        String expectedViewAllHref = "http://localhost:3000/students/display";
-        assertEquals(expectedViewAllHref, result.getLink("viewAll").get().getHref());
+        // Verifica link view-details
+        assertTrue(result.getLinks().hasLink("view-details"), "Missing 'view-details' link");
+        String expectedViewDetailsHref = linkTo(methodOn(StudentRestController.class)
+                .getStudentByID(dto.getStudentID()))
+                .toUri()
+                .toString();
+        assertEquals(expectedViewDetailsHref,
+                result.getLink("view-details").get().getHref());
 
-        // Verificar link "self"
-        assertTrue(result.getLinks().hasLink("self"));
+        // Verifica link all-students
+        assertTrue(result.getLinks().hasLink("all-students"), "Missing 'all-students' link");
+        String expectedAllStudentsHref = linkTo(methodOn(StudentRestController.class)
+                .getAllStudents())
+                .toUri()
+                .toString();
+        assertEquals(expectedAllStudentsHref,
+                result.getLink("all-students").get().getHref());
+
+        // Verifica link self
+        assertTrue(result.getLinks().hasLink("self"), "Missing 'self' link");
         String expectedSelfHref = linkTo(methodOn(StudentRestController.class)
                 .getStudentByID(dto.getStudentID()))
                 .toUri()
                 .toString();
-        assertEquals(expectedSelfHref, result.getLink("self").get().getHref());
+        assertEquals(expectedSelfHref,
+                result.getLink("self").get().getHref());
+
+        // Verifica link enrol-in-programme
+        assertTrue(result.getLinks().hasLink("enrol-in-programme"), "Missing 'enrol-in-programme' link");
+        String expectedEnrolHref = linkTo(methodOn(StudentRestController.class)
+                .enrolStudentInProgramme(null))
+                .toUri()
+                .toString();
+        assertEquals(expectedEnrolHref,
+                result.getLink("enrol-in-programme").get().getHref());
     }
 }

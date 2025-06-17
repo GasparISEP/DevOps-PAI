@@ -10,7 +10,7 @@ participant "studyPlanDTO1:StudyPlanDTO" as StudyPlanDTO <<component>> #FFE599
 
 activate StudyPlanService
 StudyPlanService -> StudyPlanAssembler ++: **toDTO**(studyPlan)
-StudyPlanAssembler -> StudyPlanDTO **: **createStudyPlanDTO**(programmeName, \nProgrammeAcronym, startDate, maxEcts, durationInYears)
+StudyPlanAssembler -> StudyPlanDTO **: **createStudyPlanDTO**(ProgrammeAcronym, \nstartDate, maxEcts, durationInYears)
 activate StudyPlanDTO
 StudyPlanDTO --> StudyPlanAssembler: studyPlanDTO1
 deactivate StudyPlanDTO

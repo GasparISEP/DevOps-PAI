@@ -193,14 +193,14 @@ public class CreateCourseEditionServiceImpl implements ICreateCourseEditionServi
     }
 
     @Override
-    public CourseEditionServiceResponseDTO findById(CourseEditionID courseEditionID) {
-        if (courseEditionID == null) {
+    public CourseEditionServiceResponseDTO findById(CourseEditionGeneratedID courseEditionGeneratedID) throws Exception {
+        if (courseEditionGeneratedID == null) {
             throw new IllegalArgumentException("CourseEditionID cannot be null");
         }
 
-        Optional<CourseEdition> courseEdition = courseEditionRepository.ofIdentity(courseEditionID);
-        if (courseEdition == null) {
-            throw new BusinessRuleViolationException("Course Edition not found for ID: " + courseEditionID);
+        Optional<CourseEdition> courseEdition = courseEditionRepository.findCourseEditionByGeneratedId(courseEditionGeneratedID);
+        if (courseEdition.isEmpty()) {
+            throw new BusinessRuleViolationException("Course Edition not found for ID: " + courseEditionGeneratedID);
         }
 
         return courseEditionAssembler.toServiceResponseDTO(courseEdition.get());

@@ -1,21 +1,17 @@
 @startuml
+skinparam Shadowing true
 
 ' US34 - Enrol a Student in a Programme Edition (including the enrolment in a set of courses)
 ' Process View - Level 1 (C4 Level 1 Style)
 
 autonumber
 
-skinparam sequence {
-   LifelineBorderColor black
-   LifelineBackgroundColor 639f9f
-}
-
 skinparam DefaultTextAlignment center
 
 title US34: Enrol a Student in a Programme Edition (including the enrolment in a set of courses) \n (Process View - Level 1)
 
-actor ASC #639f9f
-participant ":SystemPAI" as System <<component>> #639f9f
+actor ASC
+participant ":SystemPAI" as System <<component>>
 
 ASC -> System ++: I want to enrol a student in a programme edition.
 System --> ASC--: Which student?

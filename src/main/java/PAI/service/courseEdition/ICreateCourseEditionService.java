@@ -33,7 +33,6 @@ public interface ICreateCourseEditionService {
 
     List<CourseEditionServiceResponseDTO> findAll();
 
-    CourseEditionServiceResponseDTO findById(CourseEditionID courseEditionID);
-
+    CourseEditionServiceResponseDTO findById(CourseEditionGeneratedID courseEditionGeneratedID) throws Exception;
     //CourseEditionServiceResponseDTO createCourseEditionAndReturnDTO(CourseInStudyPlanID courseInStudyPlanID, ProgrammeEditionID programmeEditionID);
 }
