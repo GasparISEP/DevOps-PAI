@@ -33,21 +33,21 @@ activate drivers #E1F5FE
 
 drivers ->o]: **SELECT** * FROM teacher
 
-drivers <--o]: Iterable<TeacherDataModel>
+drivers <--o]: teachersDataModel: Iterable<TeacherDataModel>
 
-drivers --> repository: Iterable<TeacherDataModel>
+drivers --> repository: teachersDataModel: Iterable<TeacherDataModel>
 deactivate drivers
 
-repository --> service: Iterable<Teacher>
+repository --> service: teachers: Iterable<Teacher>
 deactivate repository
 
-service --> controller: Iterable<Teacher>
+service --> controller: teachers: Iterable<Teacher>
 deactivate service
 
-controller --> router: 200 + body {Iterable<TeacherResponseDTO> + hypermedia}
+controller --> router: 200 \n + body {teachersResponseDTO: Iterable<TeacherResponseDTO> + hypermedia}
 deactivate controller
 
-[o<-- router: 200 + body {Iterable<TeacherResponseDTO> + hypermedia}
+[o<-- router: 200 \n + body {teachersResponseDTO: Iterable<TeacherResponseDTO> + hypermedia}
 deactivate router
 
 ' getAllTeacherCategories method '
@@ -69,21 +69,21 @@ activate drivers #E1F5FE
 
 drivers ->o]: **SELECT** * FROM teacherCategory
 
-drivers <--o]: Iterable<TeacherCategoryDataModel>
+drivers <--o]: teacherCategoriesDataModel: Iterable<TeacherCategoryDataModel>
 
-drivers --> repository: Iterable<TeacherCategoryDataModel>
+drivers --> repository: teacherCategoriesDataModel: Iterable<TeacherCategoryDataModel>
 deactivate drivers
 
-repository --> service: Iterable<TeacherCategory>
+repository --> service: teacherCategories: Iterable<TeacherCategory>
 deactivate repository
 
-service --> controller: Iterable<TeacherCategory>
+service --> controller: teacherCategories: Iterable<TeacherCategory>
 deactivate service
 
-controller --> router: 200 + body {Iterable<TeacherCategoryResponseDTO> + hypermedia}
+controller --> router: 200 + body {teacherCategoriesResponseDTO: Iterable<TeacherCategoryResponseDTO> + hypermedia}
 deactivate controller
 
-[o<-- router: 200 + body {Iterable<TeacherCategoryResponseDTO> + hypermedia}
+[o<-- router: 200 + body {teacherCategoriesResponseDTO: Iterable<TeacherCategoryResponseDTO> + hypermedia}
 deactivate router
 
 ' updateTeacherCategory method '
@@ -93,19 +93,17 @@ activate router #E1F5FE
 
 note over router #E0E0E0
   body:
-    {"teacherId": "AAA",
-     "teacherCategoryID": "05ab8bc8-33c2-46af-8988-d933e0256b89",
-     "date": "2025-06-01"
-    }
+    { "date": "2025-06-01" ,
+    "teacherCategoryID": "05ab8bc8-33c2-46af-8988-d933e0256b89" }
 end note
 
 router -> controller: updateTeacherCategory (teacherId, requestDTO)
 activate controller #E1F5FE
 
-controller -> service: updateTeacherCategory (command)
+controller -> service: updateTeacherCategory (updateTeacherCategoryCommand)
 activate service #E1F5FE
 
-service -> repository: containsOfIdentity (command.teacherCategoryID())
+service -> repository: containsOfIdentity (updateTeacherCategoryCommand.teacherCategoryID())
 activate repository #E1F5FE
 
 repository -> drivers: existsById (teacherCategoryID)
@@ -121,35 +119,35 @@ deactivate drivers
 repository --> service: True
 deactivate repository
 
-service -> repository: findLastTCPFromTeacherID (command.teacherID())
+service -> repository: findLastTCPFromTeacherID (updateTeacherCategoryCommand.teacherID())
 activate repository #E1F5FE
 
-repository -> drivers: findTopByTeacherIdOrderByDateDesc (String teacherID)
+repository -> drivers: findTopByTeacherIdOrderByDateDesc (teacherID: String)
 activate drivers #E1F5FE
 
 drivers -->o]: **SELECT** * FROM teacher_career_progression \n WHERE teacher_id = 'AAA' ORDER BY date DESC LIMIT 1;
 
 drivers <--o] : lastTcpDataModel
 
-drivers --> repository: lastTCP
+drivers --> repository: lastTcpDataModel
 deactivate drivers
 
-repository --> service: lastTCP
+repository --> service: lastTcp
 deactivate repository
 
-service -> domain : lastTCP.isLastDateEqualOrBeforeNewDate \n (command.date())
+service -> domain : lastTcp.isLastDateEqualOrBeforeNewDate \n (updateTeacherCategoryCommand.date())
 activate domain #E1F5FE
 
 domain --> service : False
 deactivate domain
 
-service -> domain : lastTCP.getWorkingPercentage()
+service -> domain : lastTcp.getWorkingPercentage()
 activate domain #E1F5FE
 
 domain --> service : workingPercentage
 deactivate domain
 
-service -> domain : lastTCP.hasSameTeacherCategoryID \n (command.teacherCategoryID())
+service -> domain : lastTcp.hasSameTeacherCategoryID \n (updateTeacherCategoryCommand.teacherCategoryID())
 activate domain #E1F5FE
 
 domain --> service : False
@@ -167,9 +165,19 @@ activate repository #E1F5FE
 repository -> drivers: save (teacherCareerProgressionDataModel)
 activate drivers #E1F5FE
 
-drivers -->o]: **INSERT INTO** Teacher_Career_Progression \n (id, teacherId, teacherCategoryId, date) VALUES (...)
+note over drivers #E0E0E0
+  Values:
+    { "id": "b6a7f5d2-8e41-4f29-9a2e-3d3a7f1c9b12",
+     "teacherId": "AAA",
+     "teacherCategoryID": "05ab8bc8-33c2-46af-8988-d933e0256b89",
+     "date": "2025-06-01",
+     "workingPercentage": 25 }
+end note
+
+drivers -->o]: **INSERT INTO** Teacher_Career_Progression \n (id, teacherId, teacherCategoryId, date, workingPercentage) VALUES (...)
 
 drivers <--o] : teacherCareerProgressionSavedDataModel
+
 
 drivers --> repository: teacherCareerProgressionSavedDataModel
 deactivate drivers
