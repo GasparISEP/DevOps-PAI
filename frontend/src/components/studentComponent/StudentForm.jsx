@@ -457,7 +457,12 @@ export default function StudentForm() {
                                     <button
                                         onClick={() => window.open(success._links.view.href, '_blank')}
                                         title="View Entry"
-                                        style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0.5rem' }}
+                                        style={{
+                                            background: 'none',
+                                            border: 'none',
+                                            cursor: 'pointer',
+                                            padding: '0.5rem'
+                                        }}
                                     >
                                         <VisibilityIcon fontSize="medium"/>
                                     </button>
@@ -466,7 +471,12 @@ export default function StudentForm() {
                                     <button
                                         onClick={() => window.open(success._links.viewAll.href, '_blank')}
                                         title="View All"
-                                        style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0.5rem' }}
+                                        style={{
+                                            background: 'none',
+                                            border: 'none',
+                                            cursor: 'pointer',
+                                            padding: '0.5rem'
+                                        }}
                                     >
                                         <FolderOpenIcon fontSize="medium"/>
                                     </button>
@@ -477,7 +487,27 @@ export default function StudentForm() {
                         <button className="modal-btn" onClick={() => {
                             setShowModal(false);
                             window.location.reload();
-                        }}>Close</button>
+                        }}>Close
+                        </button>
+
+                        <div style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            cursor: 'pointer',
+                            fontSize: '1.35rem',
+                            padding: '0.5rem'
+                        }}>
+                            <a
+                                href="/students/enrol-programme"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="modal-btn"
+                                style={{ textDecoration: 'none'}}
+                            >
+                                Enrol in Programme
+                            </a>
+                        </div>
+
                     </div>
                 </div>
             )}

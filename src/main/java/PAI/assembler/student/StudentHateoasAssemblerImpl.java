@@ -25,7 +25,12 @@ public class StudentHateoasAssemblerImpl
 
                 linkTo(methodOn(StudentRestController.class)
                         .getStudentByID(dto.getStudentID()))
-                        .withSelfRel()
+                        .withSelfRel(),
+
+                linkTo(methodOn(StudentRestController.class)
+                        .enrolStudentInProgramme(null))
+                        .withRel("enrol-in-programme")
+
         );
     }
 }
