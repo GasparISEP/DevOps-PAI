@@ -12,7 +12,7 @@ participant ":ProgrammeSpringDataRepository" as ProgrammeRepository <<repository
 participant ":DegreeTypeSpringDataRepository" as DegreeTypeRepository <<repository>> #E6D3A3
 participant ":StudyPlanSpringDataRepository" as Repository <<repository>> #CFE2F3
 
--> Router: **(POST)** \n {programme-acronym}/studyPlans
+-> Router: **(POST)** \n /programmes/{id}/studyPlans
 activate Router
 Router -> RestController: registerStudyPlan (acronym, startDate)
 activate RestController
@@ -27,24 +27,14 @@ Service -> DegreeTypeRepository ++: **ofIdentity**(degreeTypeId)
 DegreeTypeRepository -> : **findById**(degreeTypeIdDM)
 DegreeTypeRepository <-- : degreeTypeDM
 DegreeTypeRepository --> Service --: degreeType
+|||
 Service -> Domain ++: **programme.getQuantSemesters**()
 Domain --> Service --: quantityOfSemesters
+|||
 Service -> Domain ++: **degreeType.getMaxEcts()**
 Domain --> Service --: maxEcts
-
-Service -> Domain: createStudyPlan(programmeID, startDate, quantityOfSemesters, maxEcts)
-activate Domain
-Domain --> Service: studyPlan1
-deactivate Domain
 |||
-Service -> Repository: save(studyPlan)
-activate Repository
-Repository -> : findById(degreeTypeIdDM)
-Repository <-- : degreeTypeIdDM
-Repository --> Service: degreeType
-deactivate Repository
-|||
-Service -> Domain: createStudyPlan(programmeID, startDate,\ndurationInYears, quantityOfEcts)
+Service -> Domain: createStudyPlan(programmeID, startDate,\ndurationInYears, maxEcts)
 activate Domain
 Domain --> Service: studyPlan
 deactivate Domain
@@ -55,61 +45,16 @@ Repository -> : save(studyPlanDM)
 Repository <-- : True
 Repository --> Service: studyPlan
 deactivate Repository
-|||
 Service --> RestController: StudyPlanDTO
 deactivate Service
-<-- RestController: 201 Created \n+ \nStudyPlanResponseDTO\t
+|||
+Router <-- RestController: 201 Created \n+ \nStudyPlanResponseDTO\t
 deactivate RestController
-note left RestController
-  Send as
-  StudyPlanResponseDTO,
-  Converted to JSON
-end note
-
-
-
-
-
-
-
-
-
-
-
-|||
-ref over StudyPlanRepository
-       \t\t\t\t **Save Study Plan in Database**:
-    \t \t \t Convert domain object to
-    \t\t\t\t     DataModel and persist using JPA\t
-
-end ref
-
-StudyPlanRepository --> StudyPlanService: studyPlan
-activate StudyPlanService
-deactivate StudyPlanRepository
-|||
-ref over StudyPlanService
-  \t\t    **     Convert Study Plan to DTO**
-
-end ref
-StudyPlanService --> RestController: studyPlanDTO1
-activate RestController
-deactivate StudyPlanService
-|||
-ref over RestController
-  \t\t\t    **Convert DTO to ResponseDTO**\t
-
-end ref
-Router <-- RestController: 201 Created \n+ \n studyPlanResponseDTO1\t
-deactivate RestController
-note left RestController
-  Send as
-  ProgrammeStudyPlanResponseDTO,
-  Converted to JSON
-end note
-
- <-- Router : Programme w/ StudyPlan created
+ <-- Router : 201 Created \n+ \nStudyPlanResponseDTO\t
+ note left Router
+   Send as
+   StudyPlanResponseDTO,
+   Converted to JSON
+ end note
 deactivate Router
-
-
 @enduml

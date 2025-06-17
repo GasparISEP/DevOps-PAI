@@ -6,14 +6,36 @@ import RegisterProgrammePage from '../../pages/RegisterProgrammePage';
 beforeEach(() => {
     jest.spyOn(global, 'fetch').mockImplementation((url) => {
         if (url.endsWith('/departments')) {
-            return Promise.resolve({ json: () => Promise.resolve([{ id: 'dept1', name: 'Dept 1' }]) });
+            return Promise.resolve({
+                ok: true,
+                json: () => Promise.resolve({
+                    _embedded: {
+                        departmentWithDirectorDTOList: [{ id: 'dept1', name: 'Dept 1', acronym: 'DP1' }]
+                    }
+                }),
+            });
         }
         if (url.endsWith('/teachers')) {
-            return Promise.resolve({ json: () => Promise.resolve([{ id: 'teacher1', name: 'Teacher 1' }]) });
+            return Promise.resolve({
+                ok: true,
+                json: () => Promise.resolve({
+                    _embedded: {
+                        teacherDTOList: [{ id: 'teacher1', name: 'Teacher 1' }]
+                    }
+                }),
+            });
         }
         if (url.endsWith('/degreetypes')) {
-            return Promise.resolve({ json: () => Promise.resolve([{ id: 'degree1', name: 'Degree 1', maxEcts: 180 }]) });
+            return Promise.resolve({
+                ok: true,
+                json: () => Promise.resolve({
+                    _embedded: {
+                        degreeTypeDTOList: [{ id: 'degree1', name: 'Degree 1', maxEcts: 180 }]
+                    }
+                }),
+            });
         }
+
         return Promise.reject(new Error('Unknown endpoint'));
     });
 });

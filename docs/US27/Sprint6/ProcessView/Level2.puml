@@ -14,7 +14,7 @@ ASC -> Frontend++: **requestProgrammeRegistration**()
 Frontend --> ASC--: **provideRequiredDataFields**()
 |||
 ASC -> Frontend++: **getAvailableDegreeTypes**()
-Frontend -> Backend: **(GET) getAllDegreeTypes**()
+Frontend -> Backend: **(GET) /degreetypes**
 activate Backend
 Backend -> Database: **findAll**()
 activate Database
@@ -25,7 +25,7 @@ deactivate Backend
 Frontend --> ASC--: degreeTypesList
 |||
 ASC -> Frontend++: **getAvailableDepartments**()
-Frontend -> Backend: **(GET) getAllDepartments**()
+Frontend -> Backend: **(GET) departments**()
 activate Backend
 Backend -> Database: **findAll**()
 activate Database
@@ -36,7 +36,7 @@ deactivate Backend
 Frontend --> ASC--: departmentsList
 |||
 ASC -> Frontend++: **getAvailableTeachers**()
-Frontend -> Backend: **(GET) getAllTeachers**()
+Frontend -> Backend: **(GET) /teachers**()
 activate Backend
 Backend -> Database: **findAll**()
 activate Database
@@ -47,7 +47,7 @@ deactivate Backend
 Frontend --> ASC--: teachersList
 |||
 ASC -> Frontend++: **submitProgrammeData**(name, acronym, ects, semesters, \ndegreeType, department, programmeDirector)
-Frontend -> Backend: **(POST) registerProgramme**\n(ProgrammeStudyPlanDTO)
+Frontend -> Backend: **(POST) /programmes**\n(ProgrammeStudyPlanDTO)
 activate Backend
 note right Frontend
   Receive as JSON format,
@@ -70,9 +70,9 @@ Frontend --> ASC--: Confirmation \n+ \ncreatedProgramme
 |||
 ASC -> Frontend++: **selectIncludeStudyPlanOption**(yes)
 Frontend --> ASC--: **provideStudyPlanDataFields**()
-ASC --> Frontend++: **submitStudyPlanData**(programmeName, \nprogrammeAcronym, startDate)
+ASC --> Frontend++: **submitStudyPlanData**(programmeAcronym, startDate)
 
-Frontend -> Backend++: **(POST) registerStudyPlan**(programmeName, \nprogrammeAcronym, startDate)
+Frontend -> Backend++: **(POST) /programmes/{id}/studyplans**\n(programmeAcronym, startDate)
 Backend -> Database++: **findById**(programmeIDDM)
 Database --> Backend--: programme
 |||

@@ -23,7 +23,8 @@ public class ProgrammeAndCoursesAssembler implements IProgrammeAndCoursesAssembl
         ProgrammeEditionEnrolmentDTO programmeDTO = new ProgrammeEditionEnrolmentDTO(
                 programmeEditionEnrolment.findStudentInProgrammeEdition().getUniqueNumber(),
                 programmeEditionEnrolment.findProgrammeEditionInEnrolment().getProgrammeID().getProgrammeAcronym(),
-                programmeEditionEnrolment.findProgrammeEditionInEnrolment().getSchoolYearID().toString());
+                programmeEditionEnrolment.findProgrammeEditionInEnrolment().getSchoolYearID().toString(),
+                programmeEditionEnrolment.getProgrammeEditionEnrolmentGeneratedID().toUUID());
 
 
         List<CourseEditionEnrolmentDto> courseDTOs = new ArrayList<>();
@@ -33,13 +34,14 @@ public class ProgrammeAndCoursesAssembler implements IProgrammeAndCoursesAssembl
                     cee.knowCourseEdition().getProgrammeEditionID().getProgrammeID().getProgrammeAcronym(),
                     cee.knowCourseEdition().getProgrammeEditionID().getSchoolYearID().toString(),
                     cee.knowCourseEdition().getCourseInStudyPlanID().getCourseID().getCourseAcronymValue(),
-                    cee.knowCourseEdition().getCourseInStudyPlanID().getStudyPlanID().getDate().toString(),
-                    cee.knowCourseEdition().getCourseInStudyPlanID().getCourseID().getCourseNameValue()
+                    cee.knowCourseEdition().getCourseInStudyPlanID().getCourseID().getCourseNameValue(),
+                    cee.knowCourseEdition().getCourseInStudyPlanID().getStudyPlanID().getDate().toString()
             ));
         }
 
         return new StudentEnrolmentResultDto(programmeDTO, courseDTOs);
     }
+
 
     public StudentID toStudentID(StudentProgrammeEnrolmentRequestDto dto) {
         return new StudentID(dto.studentId());

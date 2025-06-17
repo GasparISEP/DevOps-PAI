@@ -20,7 +20,7 @@ left to right direction
 
 package "REST Controller Layer" #F5EEF8 {
   class CourseEditionRestController {
-    +createCourseEdition(dto: CourseEditionRequestDTO):\n ResponseEntity<CourseEditionResponseDTO>
+    +createCourseEdition(requestDTO: CourseEditionRequestDTO):\n ResponseEntity<EntityModel<CourseEditionResponseIDDTO>>
     }
 }
 
@@ -32,15 +32,22 @@ package "Service Layer" {
 }
 
 package "Assembler / DTO / Command" {
+
   interface "<<interface>>\nICourseEditionAssembler" as ICourseEditionAssembler
   class CourseEditionAssemblerImpl {
 +toCommand(dto: CourseEditionRequestDTO):\n CreateCourseEditionCommand
-+toResponseDTO(dto: CourseEditionServiceDTO)\n : CourseEditionResponseDTO
 }
+
   interface "<<interface>>\nICourseEditionServiceAssembler" as ICourseEditionServiceAssembler
     class CourseEditionServiceAssemblerImpl {
   +toServiceResponseDTO(domain: CourseEdition):\n CourseEditionServiceResponseDTO
   }
+
+  interface "<<interface>>\nICreateCourseEditionHateoasAssembler" as ICreateCourseEditionHateoasAssembler
+      class CreateCourseEditionHateoasAssemblerImpl {
+    +toModel(dto: CourseEditionResponseIDDTO):\n EntityModel<CourseEditionResponseIDDTO>
+    +toCollectionModel(dtos: List<CourseEditionResponseIDDTO>):\n CollectionModel<CourseEditionResponseIDDTO>
+    }
 
   class CourseEditionRequestDTO {
     - programmeName : String
@@ -60,7 +67,7 @@ package "Assembler / DTO / Command" {
       - studyPlanImplementationDate : LocalDate
     }
 
-  class CourseEditionResponseDTO {
+  class CourseEditionResponseIDDTO {
     - courseEditionID : String
     - programmeName : String
     - programmeAcronym : String
@@ -161,14 +168,16 @@ CourseEditionRepositorySpringDataImpl --> CourseEdition
 
 ICourseEditionRepositorySpringData <|.. CourseEditionRepositorySpringDataImpl
 
+CourseEditionRestController -> ICreateCourseEditionHateoasAssembler
+ICreateCourseEditionHateoasAssembler <|.. CreateCourseEditionHateoasAssemblerImpl
 
 CourseEditionAssemblerImpl --> CourseEditionRequestDTO
 CourseEditionServiceAssemblerImpl --> CourseEditionServiceDTO
 CourseEditionServiceAssemblerImpl --> CourseEdition
 
 CourseEditionAssemblerImpl -> CreateCourseEditionCommand
-CourseEditionAssemblerImpl -> CourseEditionServiceDTO
-CourseEditionAssemblerImpl -> CourseEditionResponseDTO
+CreateCourseEditionHateoasAssemblerImpl -> CourseEditionServiceDTO
+CreateCourseEditionHateoasAssemblerImpl -> CourseEditionResponseIDDTO
 
 
 

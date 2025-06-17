@@ -3,6 +3,7 @@ package PAI.initializer;
 import PAI.VOs.*;
 import PAI.controller.US19_CreateCourseEditionController;
 import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
+import PAI.domain.schoolYear.SchoolYear;
 import org.springframework.context.annotation.Configuration;
 
 import java.io.BufferedReader;
@@ -10,7 +11,7 @@ import java.io.FileReader;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.UUID;
+import java.util.Optional;
 
 @Configuration
 public class CourseEditionInitializer {
@@ -18,7 +19,7 @@ public class CourseEditionInitializer {
     public void loadCourseEdition(US19_CreateCourseEditionController controller, ISchoolYearRepository schoolYearRepository, String csvFilePath) {
         long startTime = System.currentTimeMillis();
         List<SchoolYearID> schoolYearsList = schoolYearRepository.getAllSchoolYearsIDs();
-        int i = 0;
+        SchoolYearID schoolYearID = null;
 
         try (BufferedReader reader = new BufferedReader(new FileReader(csvFilePath))) {
 
@@ -41,27 +42,37 @@ public class CourseEditionInitializer {
                 String[] fields = line.split(",");
 
                 try {
+                    if (schoolYearsList.isEmpty()){
+                        new NullPointerException("School Year not found");
+                    }
                     System.out.println("Processing line: " + line);
 
                     LocalDate localDate = LocalDate.parse(fields[0].trim(), DateTimeFormatter.ofPattern("dd-MM-yyyy"));
                     Acronym courseAcronym = new Acronym(fields[1].trim());
                     Name courseName = new Name(fields[2].trim());
                     Acronym programmeAcronym = new Acronym(fields[3].trim());
-
-                    UUID csvSchoolYearUUID = UUID.fromString(fields[4].trim());
-                    SchoolYearID schoolYearID = new SchoolYearID(csvSchoolYearUUID);
-
                     ProgrammeID programmeID = new ProgrammeID(programmeAcronym);
-                    ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID, schoolYearID);
-
                     CourseID courseID = new CourseID(courseAcronym, courseName);
                     StudyPlanID studyPlanID = new StudyPlanID(programmeID, new Date(localDate));
                     CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(courseID, studyPlanID);
 
-                    controller.createCourseEdition(courseInStudyPlanID, programmeEditionID);
-
-                    i = (i + 1) % schoolYearsList.size();
-
+                    for (SchoolYearID schoolYearIdItem : schoolYearsList) {
+                        Optional<SchoolYear> schoolYearOpt = schoolYearRepository.findBySchoolYearID(schoolYearIdItem);
+                        if (schoolYearOpt.isEmpty()) {
+                            System.err.println("No School Year found for that id");
+                            continue;
+                        }
+                        SchoolYear schoolYear = schoolYearOpt.get();
+                        LocalDate startDate = schoolYear.getStartDate().getLocalDate();
+                        LocalDate endDate = schoolYear.getEndDate().getLocalDate();
+                        if (!localDate.isBefore(startDate) && !localDate.isAfter(endDate)) {
+                            schoolYearID = new SchoolYearID(schoolYearIdItem.getSchoolYearID());
+                            ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID, schoolYearID);
+                            controller.createCourseEdition(courseInStudyPlanID, programmeEditionID);
+                        } else {
+                            System.err.println("No School Year for that date");
+                        }
+                    }
                 } catch (Exception e) {
                     System.err.println("Error processing line: " + line);
                     e.printStackTrace();

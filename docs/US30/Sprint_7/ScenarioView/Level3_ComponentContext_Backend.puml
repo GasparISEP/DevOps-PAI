@@ -1,5 +1,5 @@
 @startuml
-title: US30: As an ASC, I want to add a course to a programme using a Web UI\n(Scenario View - Level 3 (Backend focus))\n(addCourseToAProgramme functionality (POST) only)
+title: US30: As an ASC, I want to add a course to a programme using a Web UI\n(Scenario View - Level 3)\nBackend focus\n(addCourseToAProgramme functionality (POST) only)
 
 
 ' ========== SETTINGS ==========
@@ -121,18 +121,23 @@ package "Domain Layer" {
 package "Factory Layer" {
   interface "<<interface>>\nICourseInStudyPlanFactory" as ICourseInStudyPlanFactory
   class CourseInStudyPlanFactoryImpl {
-    +newCourseInStudyPlan(command: \nCourseInStudyPlanCommand:\n CourseInStudyPlan
+    +newCourseInStudyPlan(semester: Semester,\n curricularYear: CurricularYear, courseID:\n CourseID, studyPlanID: StudyPlanID, duration:\n Duration, credits: Credits): CourseInStudyPlan
   }
 }
 
 
 package "Repository Interfaces" {
   interface "<<interface>>\nICourseInStudyPlanRepository" as ICourseInStudyPlanRepository
+  interface "<<interface>>\nIStudyPlanRepository" as IStudyPlanRepository
 
   package "Repository Implementations"{
   class CourseInStudyPlanRepositoryImpl {
     +containsOfIdentity(id:\n CourseInStudyPlan): boolean
     +save(courseInStudyPlan:\n CourseInStudyPlan): CourseInStudyPlan
+    +getTotalCreditsEctsInStudyPlanSoFar(studyPlanID:\n StudyPlanID, semester: Semester, curricularYear:\n CurricularYear, duration: Duration): double
+  }
+  class StudyPlanRepositoryImpl {
+    +findLatestByProgrammeID\n(programmeID: ProgrammeID): StudyPlanID
   }
 }
 
@@ -151,7 +156,9 @@ ICourseInStudyPlanFactory <|.. CourseInStudyPlanFactoryImpl
 AddCourseToAProgrammeServiceImpl --> ICourseInStudyPlanBusinessAssembler
 
 AddCourseToAProgrammeServiceImpl --> ICourseInStudyPlanRepository
+AddCourseToAProgrammeServiceImpl --> IStudyPlanRepository
 ICourseInStudyPlanRepository <|.. CourseInStudyPlanRepositoryImpl
+IStudyPlanRepository <|.. StudyPlanRepositoryImpl
 
 
 
@@ -173,6 +180,6 @@ CourseInStudyPlanAssemblerImpl --> CourseInStudyPlanServiceDTO
 CourseInStudyPlanAssemblerImpl -> CourseInStudyPlanCommand
 CourseInStudyPlanAssemblerImpl -> CourseInStudyPlanResponseDTO
 CourseInStudyPlanRestController ..> CourseInStudyPlanCommand
-CourseInStudyPlanRestController ..> ICourseInStudyPlanHateoasAssembler
+CourseInStudyPlanRestController --> ICourseInStudyPlanHateoasAssembler
 
 @enduml

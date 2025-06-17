@@ -1,5 +1,5 @@
 @startuml
-title: US30: As an ASC, I want to add a course to a programme using a Web UI\n(Process View - Level 3: Components (Core Backend flow))
+title: US30: As an ASC, I want to add a course to a programme using a Web UI\n(Process View - Level 3: Components)\nCore Backend Flow
 autonumber
 
 skinparam {
@@ -9,34 +9,35 @@ skinparam {
 }
 skinparam sequence {
     LifeLineBorderColor Grey
-    LifeLineBackgroundColor HoneyDew
+    LifeLineBackgroundColor #E1F5FE
 }
 skinparam defaultTextAlignment center
 skinparam shadowing true
 
-participant "<<component>>\n:Router" as Router #E1F5FE
-participant "<<component>>\n:CourseInStudyPlanRestController\n(REST Controller)" as Controller #E1F5FE
-participant "<<component>>\n:ICourseInStudyPlanAssembler\n(Assembler)" as Assembler #E1F5FE
-participant "<<component>>\n:IAddCourseToAProgrammeService\n(Service)" as Service #E1F5FE
-participant "<<component>>\n:ICourseInStudyPlanFactory\n(Factory)" as Factory #E1F5FE
-participant "<<component>>\n:ICourseInStudyPlanRepository\n(Repository)" as Repository #E1F5FE
-database DB as DB #E1F5FE
-participant "<<component>>\n:ICourseInStudyPlanBusinessAssembler\n(Assembler)" as BAssembler #E1F5FE
-
+participant "<<component>>\n:Router" as Router #honeydew
+participant "<<component>>\n:CourseInStudyPlanRestController\n(REST Controller)" as Controller #honeydew
+participant "<<component>>\n:ICourseInStudyPlanAssembler\n(Controller Assembler)" as Assembler #honeydew
+participant "<<component>>\n:IAddCourseToAProgrammeService\n(Service)" as Service #honeydew
+participant "<<component>>\n:IStudyPlanRepository\n(StudyPlan Repository)" as StudyPlanRepository #honeydew
+participant "<<component>>\n:ICourseInStudyPlanFactory\n(Factory)" as Factory #honeydew
+participant "<<component>>\n:ICourseInStudyPlanRepository\n(Repository)" as Repository #honeydew
+participant "<<component>>\n:ICourseInStudyPlanBusinessAssembler\n(Service Assembler)" as BAssembler #honeydew
+participant "<<component>>\n:ICourseInStudyPlanHateoasAssembler\n(HATEOAS Assembler)" as HateoasAssembler #honeydew
 
 note over Router
-This diagram shows only the essential components involved
-in the creation (POST) of a CourseInStudyPlan.
-It excludes the components used for auxiliary GET requests,
-as this is a focused ("zoomed-in") view on the creation action.
+This diagram shows only the essential components
+involved in the creation (POST) of a CourseInStudyPlan.
+It excludes auxiliary GET requests for clarity, as this
+is a focused ("zoomed-in") view on the creation action.
 end note
 
--> Router: POST /courses-in-study-plan (JSON)
+[o-> Router: **POST** /courses-in-study-plan (JSON)
 activate Router
 note over Router
 Spring converts JSON into
 CourseInStudyPlanRequestDTO
 end note
+group Handle HTTP Request & Map to Command
 Router -> Controller: addCourseToAProgramme\n(requestDTO)
 activate Controller
 
@@ -45,25 +46,31 @@ Controller -> Assembler: toCommand(requestDTO)
 activate Assembler
 Assembler --> Controller: CourseInStudyPlanCommand
 deactivate Assembler
+end group
 
-
-
+group Construct & Validate Domain Object
 Controller -> Service: addCourseToAProgramme(command)
 activate Service
+note right of Service: validateCommand(command)
+Service -> StudyPlanRepository: findLatestByProgrammeID\n(programmeID)
+activate StudyPlanRepository
+StudyPlanRepository --> Service: StudyPlanID
+deactivate StudyPlanRepository
 
-
-Service -> Factory: newCourseInStudyPlan\n(command)
+Service -> Factory: newCourseInStudyPlan\n(semester, curricularYear, courseID,\n studyPlanID, duration, credits)
 activate Factory
 
 Factory --> Service: CourseInStudyPlan\n(domain object)
 deactivate Factory
+end
 
+group Validate Business Rules
 Service -> Repository: containsOfIdentity(courseInStudyPlan.identity())
 activate Repository
 Repository --> Service: false (not exists)
 deactivate Repository
 
-Service -> Repository: getTotalCreditsEctsInStudyPlanSoFar(...)
+Service -> Repository: getTotalCreditsEctsInStudyPlanSoFar\n(studyPlanID, semester, curricularYear, duration)
 activate Repository
 note over Repository
 Uses internal list<CourseInStudyPlan>
@@ -72,37 +79,49 @@ Filters and sums ECTS credits
 end note
 Repository --> Service: totalECTS
 deactivate Repository
+end group
 
-
+group Persist to Database
 Service -> Repository: save(courseInStudyPlan)
 activate Repository
 
-Repository -> DB: INSERT course_in_study_plan\n(data)
-activate DB
-DB --> Repository: success
-deactivate DB
+Repository ->o]: **INSERT INTO** course_in_study_plan(data)\n **VALUES** (...)
+note right of Repository
+Persists the domain object to the database
+end note
+Repository <--o]: CourseInStudyPlanDataModel
 
-Repository --> Service: saved CourseInStudyPlan
+Repository --> Service: CourseInStudyPlan (saved domain object)
 deactivate Repository
+end group
 
-Service -> BAssembler: toDTO(saved CourseInStudyPlan)
+group Assemble Response DTO
+Service -> BAssembler: toDTO(CourseInStudyPlan)
 activate BAssembler
 BAssembler --> Service: CourseInStudyPlanServiceDTO
 deactivate BAssembler
+Service --> Controller: CourseInStudyPlanServiceDTO
+deactivate Service
 
-    Service -> Assembler: toResponseDTO\n(courseInStudyPLanServiceDTO)
+    Controller -> Assembler: toResponseDTO\n(serviceDTO)
     activate Assembler
-    Assembler --> Service: CourseInStudyPlanResponseDTO
+    Assembler --> Controller: CourseInStudyPlanResponseDTO
     deactivate Assembler
-    Service --> Controller: CourseInStudyPlanResponseDTO
-    deactivate Service
-    Controller --> Router: 201 Created + body\n{CourseInStudyPlanResponseDTO (JSON) + hypermedia}
+    end group
 
-note over Router: The conversion from DTO to JSON\n is done automatically through\n the Spring Boot Framework
+    group Assemble HATEOAS Response
+    Controller -> HateoasAssembler: toModel(responseDTO)
+    activate HateoasAssembler
+    HateoasAssembler --> Controller: EntityModel<CourseInStudyPlanResponseDTO>
+    deactivate HateoasAssembler
+    end group
+    Controller --> Router: 201 Created + body (JSON)\n{CourseInStudyPlanResponseDTO + hypermedia}
+
+note over Router: Spring serializes DTO to JSON automatically
 
 
 deactivate Controller
 
-<-- Router: Success response
+[o<-- Router: 201 Created + body (JSON)\n{CourseInStudyPlanResponseDTO + hypermedia}
 deactivate Router
 @enduml

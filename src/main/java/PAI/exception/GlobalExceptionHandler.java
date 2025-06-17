@@ -111,4 +111,45 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(error);
     }
 
+    @ExceptionHandler(TeacherNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleTeacherNotFound(TeacherNotFoundException ex) {
+        ErrorResponse error = new ErrorResponse(
+                "TEACHER_NOT_FOUND",
+                ex.getMessage()
+        );
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(AlreadyAssignedRUCException.class)
+    public ResponseEntity<ErrorResponse> handleAlreadyAssignedRUC(AlreadyAssignedRUCException ex) {
+        ErrorResponse error = new ErrorResponse(
+                "ALREADY_ASSIGNED_RUC",
+                ex.getMessage()
+        );
+        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(CourseEditionPersistenceException.class)
+    public ResponseEntity<ErrorResponse> handleCourseEditionPersistence(CourseEditionPersistenceException ex) {
+        ErrorResponse error = new ErrorResponse(
+                "COURSE_EDITION_PERSISTENCE_ERROR",
+                ex.getMessage()
+        );
+        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(AlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleEntityAlreadyExists(AlreadyExistsException ex) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                "ENTITY_ALREADY_EXISTS",
+                ex.getMessage()
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(CreditsExceededException.class)
+    public ResponseEntity<ErrorResponse> handleStudyPlanCreditsExceeded(CreditsExceededException ex) {
+        ErrorResponse error = new ErrorResponse("ECTS_LIMIT_EXCEEDED", ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+    }
 }

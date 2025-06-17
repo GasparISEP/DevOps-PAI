@@ -45,7 +45,9 @@ public class CourseEditionAssemblerImpl implements ICourseEditionAssembler {
                 courseEditionServiceDTO.courseAcronym(),
                 courseEditionServiceDTO.courseName(),
                 courseEditionServiceDTO.studyPlanImplementationDate(),
-                courseEditionServiceDTO.courseEditionID()
+                courseEditionServiceDTO.courseEditionID(),
+                courseEditionServiceDTO.teacherID() != null ? courseEditionServiceDTO.teacherID() : null
+
                 );
     }
 
@@ -120,6 +122,24 @@ public class CourseEditionAssemblerImpl implements ICourseEditionAssembler {
         StudyPlanID studyPlanID = new StudyPlanID(programmeID, studyPlanDate);
         return new CourseInStudyPlanID(courseID, studyPlanID);
     }
-    
+
+    @Override
+    public CourseEditionResponseIDDTO toResponseIDDTO(CourseEditionServiceResponseDTO serviceResponseDTO) {
+        if (serviceResponseDTO == null) {
+            throw new IllegalArgumentException("CourseEditionServiceResponseDTO cannot be null");
+        }
+
+        return new CourseEditionResponseIDDTO(
+                serviceResponseDTO.programmeAcronym(),
+                serviceResponseDTO.schoolYearID(),
+                serviceResponseDTO.courseAcronym(),
+                serviceResponseDTO.courseName(),
+                serviceResponseDTO.studyPlanImplementationDate(),
+                serviceResponseDTO.courseEditionID()
+        );
+    }
+
+
+
 }
 

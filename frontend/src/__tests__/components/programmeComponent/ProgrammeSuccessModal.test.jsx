@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, within } from '@testing-library/react';
 import ProgrammeSuccessModal from '../../../components/programmeComponent/ProgrammeSuccessModal';
 
 
@@ -98,5 +98,44 @@ describe('ProgrammeSuccessModal', () => {
         expect(screen.getByRole('button', { name: /loading/i })).toBeInTheDocument();
     });
 
+    test('renders all programme details correctly when data is provided', () => {
+        const mockSuccess = {
+            name: 'My Prog',
+            acronym: 'MP',
+            quantSemesters: 5,
+            maxECTS: 150,
+            degreeTypeID: 1,
+            departmentID: 2,
+            teacherID: 3
+        };
+        const mockDegreeTypes = [{ id:1, name:'Degree One', maxEcts:150 }];
+        const mockDepartments = [{ id:2, name:'Dept Two', acronym:'DT' }];
+        const mockTeachers    = [{ id:3, name:'Teacher Three' }];
+
+        const onDisplay = jest.fn();
+        const onClose   = jest.fn();
+
+        render(
+            <ProgrammeSuccessModal
+                success={mockSuccess}
+                degreeTypes={mockDegreeTypes}
+                departments={mockDepartments}
+                teachers={mockTeachers}
+                onDisplay={onDisplay}
+                onClose={onClose}
+                loadingDetails={false}
+                detailsDisplayed={true}
+            />
+        );
+
+
+        const nameParagraph = screen.getByText((_, node) =>
+            node.tagName === 'P' && node.textContent.trim().startsWith('Name:')
+        );
+        expect(within(nameParagraph).getByText('My Prog')).toBeInTheDocument();
+
+        fireEvent.click(screen.getByRole('button', { name:/close/i }));
+        expect(onClose).toHaveBeenCalled();
+    });
 });
 

@@ -16,7 +16,7 @@ public interface IProgrammeEditionEnrolmentRepository  extends IRepository <Prog
 
     List<ProgrammeEditionID> findProgrammeEditionsThatStudentIsEnrolled(StudentID studentId);
 
-    int countStudentsInProgrammesFromDepartmentInSchoolYear(SchoolYearID schoolYear, List<ProgrammeID> programmeIDS);
+    int countEnrolledStudentsByProgrammeEditionIds(List<ProgrammeEditionID> programmeEditionIDs);
 
     Optional<ProgrammeEditionEnrolment> findByStudentAndProgrammeEdition(StudentID studentId, ProgrammeEditionID programmeEditionId);
 

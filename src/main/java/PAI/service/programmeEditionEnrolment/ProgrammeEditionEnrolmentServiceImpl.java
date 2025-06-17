@@ -123,12 +123,12 @@ public class ProgrammeEditionEnrolmentServiceImpl implements IProgrammeEditionEn
         return instance;
     }
     @Override
-    public int countStudentsInProgrammesFromDepartmentInSchoolYear(SchoolYearID schoolYearID,List<ProgrammeID> programmeIDs){
+    public int countStudentsInProgrammesFromDepartmentInSchoolYear(List<ProgrammeEditionID> programmeEditionIDs){
         int result;
-        if(schoolYearID == null || programmeIDs == null || programmeIDs.isEmpty()){
+        if(programmeEditionIDs == null || programmeEditionIDs.isEmpty()){
             result=0;
         }else{
-            result=programmeEditionEnrolmentRepository.countStudentsInProgrammesFromDepartmentInSchoolYear(schoolYearID,programmeIDs);
+            result=programmeEditionEnrolmentRepository.countEnrolledStudentsByProgrammeEditionIds(programmeEditionIDs);
         } return result;
     }
 

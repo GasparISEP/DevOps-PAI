@@ -2,6 +2,7 @@ package PAI.controller;
 
 import PAI.VOs.*;
 import PAI.assembler.courseInStudyPlan.CourseInStudyPlanAssemblerImpl;
+import PAI.assembler.courseInStudyPlan.CourseInStudyPlanBusinessAssemblerImpl;
 import PAI.assembler.courseInStudyPlan.CourseInStudyPlanServiceAssemblerImpl;
 import PAI.domain.courseEditionEnrolment.*;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlanFactoryImpl;

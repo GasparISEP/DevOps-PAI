@@ -1,7 +1,8 @@
 package PAI.controllerRest.courseEditionRestControllerTests;
 import PAI.VOs.*;
 import PAI.assembler.courseEdition.ICourseEditionAssembler;
-import PAI.assembler.courseEdition.ICourseEditionHateoasAssembler;
+import PAI.assembler.courseEdition.ICourseEditionRUCHateoasAssembler;
+import PAI.assembler.courseEdition.ICreateCourseEditionHateoasAssembler;
 import PAI.assembler.courseEdition.IStudentCountAssembler;
 import PAI.assembler.programmeEdition.IProgrammeEditionServiceAssembler;
 import PAI.assembler.studentGrade.IStudentGradeAssembler;
@@ -12,7 +13,6 @@ import PAI.dto.studentGrade.GradeAStudentCommand;
 import PAI.dto.studentGrade.GradeAStudentRequestDTO;
 import PAI.dto.studentGrade.GradeAStudentResponseDTO;
 import PAI.dto.courseEdition.*;
-import PAI.exception.ErrorResponse;
 import PAI.exception.GlobalExceptionHandler;
 import PAI.exception.NotFoundException;
 import PAI.service.courseEdition.ICourseEditionService;
@@ -22,7 +22,6 @@ import PAI.service.studentGrade.IGradeAStudentService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -30,7 +29,7 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import org.springframework.hateoas.MediaTypes;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -46,7 +45,6 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -71,6 +69,9 @@ class CourseEditionRestControllerTest {
     private ICourseEditionEnrolmentAssembler courseEditionEnrolmentAssembler;
 
     @MockBean
+    private ICreateCourseEditionHateoasAssembler createCourseEditionHateoasAssembler;
+
+    @MockBean
     private ICreateCourseEditionService createCourseEditionService;
 
     @MockBean
@@ -92,7 +93,7 @@ class CourseEditionRestControllerTest {
     private ICourseEditionService courseEditionService;
 
     @MockBean
-    private ICourseEditionHateoasAssembler courseEditionHateoasAssembler;
+    private ICourseEditionRUCHateoasAssembler courseEditionHateoasAssembler;
 
     @MockBean
     private IStudentCountAssembler studentCountAssembler;
@@ -240,8 +241,13 @@ class CourseEditionRestControllerTest {
                 .andExpect(status().isNotAcceptable());
     }
 
+
+
+
+
     @Test
-    void whenValidRequest_thenReturnsCreatedResponse() {
+    void whenValidRequest_thenReturnsCreatedCourseEdition() throws Exception {
+
         // Arrange
         UUID schoolYearID = UUID.randomUUID();
         UUID generatedID = UUID.randomUUID();
@@ -258,24 +264,33 @@ class CourseEditionRestControllerTest {
                 new Acronym(dto.courseAcronym()),
                 new Name(dto.courseName()),
                 new Date(dto.studyPlanImplementationDate())
+
         );
 
         CourseEditionServiceResponseDTO serviceResponseDTO = new CourseEditionServiceResponseDTO(
                 generatedID, "LEIC", schoolYearID,
-                "SA", "Software Architecture", LocalDate.of(2023, 9, 1), generatedID.toString()
+                "SA", "Software Architecture", LocalDate.of(2023, 9, 1), generatedID.toString(),
+                "AAA"
         );
 
-        CourseEditionResponseDTO responseDTO = new CourseEditionResponseDTO(
-                generatedID, "LEIC", schoolYearID,
-                "SA", "Software Architecture", LocalDate.of(2023, 9, 1), generatedID.toString()
+        CourseEditionResponseIDDTO responseIDDTO = new CourseEditionResponseIDDTO(
+                "MEI",
+                UUID.randomUUID(),
+                "AP",
+                "Advanced Programming",
+                LocalDate.now(),
+                "PROG2023-COURSE123"
         );
+
+        EntityModel<CourseEditionResponseIDDTO> responseModel = EntityModel.of(responseIDDTO);
 
         when(courseEditionAssembler.toCommand(dto)).thenReturn(command);
         when(createCourseEditionService.createCourseEditionForRestApi(command)).thenReturn(serviceResponseDTO);
-        when(courseEditionAssembler.toResponseDTO(serviceResponseDTO)).thenReturn(responseDTO);
+        when(courseEditionAssembler.toResponseIDDTO(serviceResponseDTO)).thenReturn(responseIDDTO);
+        when(createCourseEditionHateoasAssembler.toModel(responseIDDTO)).thenReturn(responseModel);
 
         // Act
-        ResponseEntity<CourseEditionResponseDTO> response = courseEditionRestController.createCourseEdition(dto);
+        ResponseEntity<EntityModel<CourseEditionResponseIDDTO>> response = courseEditionRestController.createCourseEdition(dto);
 
         // Assert
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
@@ -283,18 +298,23 @@ class CourseEditionRestControllerTest {
         assertEquals("/course-editions/" + generatedID.toString(), response.getHeaders().getLocation().toString());
         assertNotNull(response.getBody());
 
-        CourseEditionResponseDTO actualBody = response.getBody();
+        EntityModel<CourseEditionResponseIDDTO> actualBody = response.getBody();
 
-        assertEquals(responseDTO.courseEditionID(), actualBody.courseEditionID());
-        assertEquals(responseDTO.programmeAcronym(), actualBody.programmeAcronym());
-        assertEquals(responseDTO.schoolYearID(), actualBody.schoolYearID());
-        assertEquals(responseDTO.courseAcronym(), actualBody.courseAcronym());
-        assertEquals(responseDTO.courseName(), actualBody.courseName());
-        assertEquals(responseDTO.studyPlanImplementationDate(), actualBody.studyPlanImplementationDate());
+        assertNotNull(actualBody.getContent());
+        CourseEditionResponseIDDTO actualContent = actualBody.getContent();
+
+        assertEquals(responseIDDTO.courseEditionID(), actualContent.courseEditionID());
+        assertEquals(responseIDDTO.programmeAcronym(), actualContent.programmeAcronym());
+        assertEquals(responseIDDTO.schoolYearID(), actualContent.schoolYearID());
+        assertEquals(responseIDDTO.courseAcronym(), actualContent.courseAcronym());
+        assertEquals(responseIDDTO.courseName(), actualContent.courseName());
+        assertEquals(responseIDDTO.studyPlanImplementationDate(), actualContent.studyPlanImplementationDate());
     }
 
     @Test
     void whenServiceThrowsIllegalArgumentException_thenReturnsBadRequest() throws Exception {
+
+        // Arrange
         CourseEditionRequestDTO dto = new CourseEditionRequestDTO(
                 "LEI", "LEIC", UUID.randomUUID(),
                 "SA", "Software Architecture", LocalDate.of(2023, 9, 1)
@@ -305,6 +325,7 @@ class CourseEditionRestControllerTest {
         when(createCourseEditionService.createCourseEditionForRestApi(command))
                 .thenThrow(new IllegalArgumentException("Invalid request"));
 
+        // Act + Assert
         mockMvc.perform(post("/course-editions")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto)))
@@ -313,11 +334,12 @@ class CourseEditionRestControllerTest {
                 .andExpect(jsonPath("$.message").value("Invalid request"));
     }
 
-
     @Test
-    void whenExceptionThrown_thenReturnsBadRequestWithMessage() throws Exception {
+    void whenAssemblerThrowsExceptionThrown_thenReturnsBadRequestWithMessage() throws Exception {
+
+        // Arrange
         mockMvc = MockMvcBuilders.standaloneSetup(courseEditionRestController)
-                .setControllerAdvice(new GlobalExceptionHandler()) // adiciona aqui o ControllerAdvice
+                .setControllerAdvice(new GlobalExceptionHandler())
                 .build();
 
         CourseEditionRequestDTO dto = new CourseEditionRequestDTO(
@@ -327,13 +349,18 @@ class CourseEditionRestControllerTest {
 
         when(courseEditionAssembler.toCommand(any())).thenThrow(new IllegalArgumentException("Invalid request"));
 
-        mockMvc.perform(post("/course-editions") // aqui o endpoint real
+        // Act + Assert
+        mockMvc.perform(post("/course-editions")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value("ARGUMENT_INVALID"))
                 .andExpect(jsonPath("$.message").value("Invalid request"));
     }
+
+
+
+
 
 
     @Test
@@ -348,7 +375,8 @@ class CourseEditionRestControllerTest {
             UUID.randomUUID(),
             "Course1",
             "Course Name 1",
-            LocalDate.of(2024, 1, 1), "courseEdition123"
+            LocalDate.of(2024, 1, 1), "courseEdition123",
+            "AAA"
         );
 
         CourseEditionServiceResponseDTO responseDouble2 = new CourseEditionServiceResponseDTO(
@@ -357,7 +385,8 @@ class CourseEditionRestControllerTest {
             UUID.randomUUID(),
             "Course2",
             "Course Name 2",
-            LocalDate.of(2024, 1, 1), "courseEdition456"
+            LocalDate.of(2024, 1, 1), "courseEdition456",
+            "BBB"
         );
 
         when(createCourseEditionService.findAll()).thenReturn(List.of(responseDouble1, responseDouble2));
@@ -376,6 +405,79 @@ class CourseEditionRestControllerTest {
 
         assertEquals(2, actualResponse.size());
     }
+
+
+    @Test
+    void whenValidParams_thenReturnsCourseEdition() {
+
+        ICreateCourseEditionService createCourseEditionService = mock(ICreateCourseEditionService.class);
+        ICourseEditionAssembler courseEditionAssembler = mock(ICourseEditionAssembler.class);
+        IDefineRucService defineRucService = mock(IDefineRucService.class);
+        IGradeAStudentService gradeAStudentService = mock(IGradeAStudentService.class);
+        IStudentGradeAssembler studentGradeAssembler = mock(IStudentGradeAssembler.class);
+        IProgrammeEditionServiceAssembler programmeEditionAssembler = mock(IProgrammeEditionServiceAssembler.class);
+        ICourseEditionRUCHateoasAssembler courseEditionHateoasAssembler = mock(ICourseEditionRUCHateoasAssembler.class);
+        IStudentCountAssembler studentCountAssembler = mock(IStudentCountAssembler.class);
+        ICourseEditionEnrolmentService courseEditionEnrolmentService = mock(ICourseEditionEnrolmentService.class);
+        ICourseEditionEnrolmentAssembler courseEditionEnrolmentAssembler = mock(ICourseEditionEnrolmentAssembler.class);
+        ICreateCourseEditionHateoasAssembler createCourseEditionHateoasAssembler = mock(ICreateCourseEditionHateoasAssembler.class);
+        ICourseEditionService courseEditionService = mock(ICourseEditionService.class);
+        ICourseEditionEnrolmentHateoasAssembler courseEditionEnrolmentHateoasAssembler = mock(ICourseEditionEnrolmentHateoasAssembler.class);
+
+        CourseEditionRestController controller = new CourseEditionRestController(
+                courseEditionEnrolmentService,
+                courseEditionEnrolmentAssembler,
+                createCourseEditionService,
+                courseEditionService,
+                courseEditionAssembler,
+                gradeAStudentService,
+                studentGradeAssembler,
+                programmeEditionAssembler,
+                defineRucService,
+                courseEditionHateoasAssembler,
+                courseEditionEnrolmentHateoasAssembler,
+                studentCountAssembler,
+                createCourseEditionHateoasAssembler
+                );
+
+        Acronym programmeAcronym = new Acronym("LEIC");
+        SchoolYearID schoolYearID = new SchoolYearID(UUID.fromString("123e4567-e89b-12d3-a456-426614174000"));
+        Acronym courseAcronym = new Acronym("SA");
+        Name courseName = new Name("Software Architecture");
+        Date studyPlanImplementationDate = new Date(LocalDate.of(2023, 9, 1));
+
+        CourseEditionID courseEditionID22 = mock(CourseEditionID.class);
+        CourseEditionServiceResponseDTO responseDTO = mock(CourseEditionServiceResponseDTO.class);
+
+        when(createCourseEditionService.findById(courseEditionID22))
+                .thenReturn(responseDTO);
+
+        ResponseEntity<?> result = controller.getCourseEditionById(
+                programmeAcronym.toString(),
+                schoolYearID.toString(),
+                courseAcronym.toString(),
+                courseName.toString(),
+                studyPlanImplementationDate.toString()
+        );
+
+        assertEquals(HttpStatus.OK, result.getStatusCode());
+
+    }
+
+    @Test
+    void whenInvalidUUID_thenReturnsBadRequest() throws Exception {
+        // Act & Assert
+        mockMvc.perform(get("/course-editions/by-id")
+                        .param("programmeAcronym", "SDV")
+                        .param("schoolYearId", "INVALID_UUID")
+                        .param("courseAcronym", "SA")
+                        .param("courseName", "Software Architecture")
+                        .param("localDate", "2023-09-01"))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Invalid parameters or course edition not found."));
+    }
+
+
 
     @Test
     void gradeAStudentMethodShouldGradeAStudentSuccessfully_AndReturn201() throws Exception {
@@ -466,16 +568,17 @@ class CourseEditionRestControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDTO)))
                 .andExpect(status().isInternalServerError())
-                .andExpect(content().string("Unexpected error occurred"));
+                .andExpect(jsonPath("$.message").value("DB error"))
+                .andExpect(jsonPath("$.code").value("INTERNAL_ERROR"));
     }
 
 
     @Test
-    void whenAssignRucThrowsIllegalArgumentExceptionThenReturnsNotFoundWithMessage() throws Exception {
+    void whenAssignRucThrowsIllegalArgumentExceptionThenReturnsBadRequestWithArgumentInvalidCode() throws Exception {
         // Arrange
         UUID uuid = UUID.randomUUID();
         SelectedCourseEditionGeneratedIdDTO courseEditionDTO = new SelectedCourseEditionGeneratedIdDTO(uuid);
-        DefineRucRequestDTO requestDTO = new DefineRucRequestDTO("GOM"); // courseEditionID null or omitted
+        DefineRucRequestDTO requestDTO = new DefineRucRequestDTO("GOM");
 
         TeacherID teacherID = mock(TeacherID.class);
         CourseEditionGeneratedID courseEditionID = mock(CourseEditionGeneratedID.class);
@@ -489,8 +592,9 @@ class CourseEditionRestControllerTest {
         mockMvc.perform(patch("/course-editions/{id}/ruc", uuid.toString())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDTO)))
-                .andExpect(status().isNotFound())
-                .andExpect(content().string("Invalid teacher or course edition"));
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("Invalid teacher or course edition"))
+                .andExpect(jsonPath("$.code").value("ARGUMENT_INVALID"));
     }
 
     @Test
@@ -678,7 +782,8 @@ class CourseEditionRestControllerTest {
                 "ESOFT",
                 "Engineering Software",
                 LocalDate.now(),
-                "courseEdition123"
+                "courseEdition123",
+                "AAA"
         );
 
         when(courseEditionAssembler.toProgrammeEditionID(requestDTO)).thenReturn(mockProgrammeEditionID);

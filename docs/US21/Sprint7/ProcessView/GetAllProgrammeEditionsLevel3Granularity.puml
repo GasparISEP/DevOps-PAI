@@ -8,12 +8,13 @@ skinparam shadowing true
 autonumber
 
 participant ":Router" as router <<Component>>
-participant ":ProgrammeEditionRESTController" as controller <<Component>>
-participant ":ProgrammeEditionService" as service <<Component>>
+participant ":RESTController" as controller <<Component>>
+participant ":Service" as service <<Component>>
 participant ":Domain" as domain <<Component>>
-participant ":IProgrammeEditionRepository" as repository <<Component>>
+participant ":Repository" as repository <<Component>>
+participant ":Drivers" as drivers <<Component>>
 
--> router: GET /programme-Editions + body {}
+-> router: GET /programme-editions + body {}
 activate router #E1F5FE
 
 note over router: The conversion from JSON to DTO is done\n automatically through the Spring Boot Framework
@@ -24,27 +25,35 @@ activate controller#E1F5FE
 controller -> service : getAllProgrammeEditions()
 activate service#E1F5FE
 
-service -> repository: findAll()
+service -> repository: findAllProgrammeEditions()
 activate repository #E1F5FE
 
-repository --> service:List<ProgrammeEdition> programmeEditions
+repository -> drivers: findAll()
+activate drivers #E1F5FE
+
+drivers -> :SELECT * FROM programmeEdition
+drivers <--: Iterable<ProgrammeEditionDataModel>
+drivers --> repository: Iterable<ProgrammeEditionDataModel>
+deactivate drivers
+
+repository --> service:List<ProgrammeEditionResponseServiceDTO> dto
 deactivate repository
 
 ref over service
-    Conversion from Domain to ServiceDTO
+    Conversion from Domain to ServiceResponseDTO
 end
-service --> controller : List<PEServiceDTO> PEServiceDTO
+service --> controller : List<ProgrammeEditionResponseServiceDTO> dto
 deactivate service
 ref over controller
-    Conversion from ServiceDTO to ResponseDTO
+    Conversion from ServiceResponseDTO to ResponseDTO
 end
-controller --> router: 200 + body\n {List<CountStudentsDto> + hypermedia}
+controller --> router: 200 + body\n {List<ProgrammeEditionResponseDTO>\n + hypermedia}
 deactivate controller#E1F5FE
 
 note over router: The conversion from DTO to JSON is done\n automatically through the Spring Boot Framework
 
 
-<-- router: 200 + body\n {List<CountStudentsDto> + hypermedia}
+<-- router: 200 + body\n {List<ProgrammeEditionResponseDTO>\n + hypermedia}
 deactivate router #E1F5FE
 
 @enduml

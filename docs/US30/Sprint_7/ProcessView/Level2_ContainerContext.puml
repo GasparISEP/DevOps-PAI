@@ -29,7 +29,7 @@ Backend -> Database: **SELECT** * FROM programmes
 activate Database
 Database --> Backend: Iterable<ProgrammeDataModel>
 deactivate Database
-Backend --> Frontend: 200 OK + body\n{Iterable<ProgrammeDTO> + hypermedia}
+Backend --> Frontend: 200 OK + body\n{Iterable<ProgrammeDTO>}
 deactivate Backend
 Frontend --> ASC: Display dropdown with Programme options
 deactivate Frontend
@@ -44,7 +44,7 @@ Backend -> Database: **SELECT** * FROM courses
 activate Database
 Database --> Backend: List<CourseDataModel>
 deactivate Database
-Backend --> Frontend: 200 OK + body\n{List<CourseIDDTO> + hypermedia}
+Backend --> Frontend: 200 OK + body\n{List<CourseIDDTO>}
 deactivate Backend
 Frontend --> ASC: Display dropdown with Course options
 deactivate Frontend

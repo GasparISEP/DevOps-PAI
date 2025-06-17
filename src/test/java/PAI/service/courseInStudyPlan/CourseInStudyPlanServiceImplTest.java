@@ -1,21 +1,18 @@
 package PAI.service.courseInStudyPlan;
 
-import PAI.assembler.courseInStudyPlan.ICourseInStudyPlanAssembler;
-import PAI.assembler.courseInStudyPlan.ICourseInStudyPlanServiceAssembler;
-import PAI.dto.courseInStudyPlan.CourseInStudyPlanCommand;
+import PAI.assembler.courseInStudyPlan.ICourseInStudyPlanBusinessAssembler;
 import PAI.VOs.*;
+import PAI.assembler.courseInStudyPlan.ICourseInStudyPlanServiceAssembler;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.domain.courseInStudyPlan.ICourseInStudyPlanFactory;
 import PAI.domain.repositoryInterfaces.courseInStudyPlan.ICourseInStudyPlanRepository;
 import PAI.dto.courseInStudyPlan.CourseInStudyPlanServiceDTO;
-import PAI.exception.BusinessRuleViolationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

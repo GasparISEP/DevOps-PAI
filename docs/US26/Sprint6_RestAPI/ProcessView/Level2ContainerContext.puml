@@ -12,12 +12,12 @@ activate DD
 DD -> FE++: I want to get the number of students enrolled in all\nprogrammes associated to my department, in a given school year
 FE -> BE++: **GET** /departments
 BE -> DB++: **SELECT** retrieveAllDepartments()
-DB --> BE--: List <Departments>
-BE --> FE--: (OK, 200) List <Departments>
+DB --> BE--: [Department]
+BE --> FE--: (OK, 200) List [Department]
 FE -> BE++: **GET** /school-years
 BE -> DB++: **SELECT** retrieveAllSchoolYears()
-DB --> BE--: List <SchoolYears>
-BE --> FE--: (OK, 200) List <SchoolYears>
+DB --> BE--: [SchoolYear]
+BE --> FE--: (OK, 200) [SchoolYear]
 FE --> DD--: Display form\n(dropdowns: Departments, School Years, Submit button)
 DD -> FE++: Submit filled form:\n(DepartmentId, SchoolYearId)
 FE -> BE++: **GET** /departments/{departmentId}/schoolYears/\n{schoolYearId}/programme-enrolments/count
@@ -26,15 +26,11 @@ DB --> BE--: True
 BE -> DB++: **SELECT EXISTS** existsById(schoolYearId)
 DB --> BE--: True
 BE -> DB++: **SELECT** findProgrammesByDepartment(departmentId)
-DB --> BE--: List <programmeId>
+DB --> BE--: [ProgrammeId]
 BE -> DB++: **SELECT** findProgrammeEditionIDsBySchoolYearIDAndProgrammeIDs(schoolYearId, List<programmeId>)
-DB --> BE--: List <programmeEditionId>
+DB --> BE--: [ProgrammeEditionId]
 BE -> DB++: **SELECT** retrieveAllProgrammeEnrollment()
-DB --> BE--: List <programmeEditionEnrollment>
-'note right of BE
-'Filter enrolments in-memory\nwhere editionId ∈ programmeEditionIDs
-'and count them
-'end note
+DB --> BE--: [ProgrammeEditionEnrollment]
 BE --> FE--: (OK, 200) count
 FE --> DD--: Display number of students enrolled
 @enduml

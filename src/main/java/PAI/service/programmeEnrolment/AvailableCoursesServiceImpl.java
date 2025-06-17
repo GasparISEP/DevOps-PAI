@@ -38,14 +38,13 @@ public class AvailableCoursesServiceImpl implements IAvailableCoursesService {
 
     @Override
     public List<CourseInStudyPlan> getByIdentity(List<CourseInStudyPlanID> courseInStudyPlanIDS) {
+        if (courseInStudyPlanIDS.size() == 0) {
+            throw new NotFoundException("CourseInStudyPlan List is empty");
+        }
         List<CourseInStudyPlan> courseInStudyPlans = new ArrayList<>();
         for (CourseInStudyPlanID existingCSPID : courseInStudyPlanIDS) {
             Optional<CourseInStudyPlan> optional = _courseInStudyPlanRepository.ofIdentity(existingCSPID);
-            if (optional.isPresent()) {
-                courseInStudyPlans.add(optional.get());
-            } else {
-                throw new NotFoundException("CourseInStudyPlan not found: " + existingCSPID);
-            }
+            optional.ifPresent(courseInStudyPlans::add);
         }
         return courseInStudyPlans;
     }

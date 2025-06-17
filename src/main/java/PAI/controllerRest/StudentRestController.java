@@ -2,6 +2,7 @@ package PAI.controllerRest;
 
 import PAI.VOs.*;
 import PAI.assembler.ProgrammeAndCourses.IProgrammeAndCoursesAssembler;
+import PAI.assembler.ProgrammeAndCourses.IProgrammeAndCoursesHateoasAssembler;
 import PAI.assembler.programmeEnrolment.IProgrammeEnrolmentAssembler;
 import PAI.assembler.courseEditionEnrolment.ICourseEditionEnrolmentAssembler;
 import PAI.assembler.programmeEnrolment.IProgrammeEnrolmentHATEOASAssembler;
@@ -16,6 +17,7 @@ import PAI.dto.ProgrammeAndCourses.StudentEnrolmentResultDto;
 import PAI.dto.ProgrammeAndCourses.StudentProgrammeEnrolmentRequestDto;
 import PAI.dto.courseEditionEnrolment.EnrolledCourseEditionDTO;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentDTO;
+import PAI.dto.programmeEnrolment.ProgrammeEnrolmentHateoasResponseDto;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentIdDTO;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentResponseDTO;
 import PAI.dto.student.StudentDTO;
@@ -62,6 +64,7 @@ public class StudentRestController {
     private final ICourseEditionEnrolmentAssembler courseEditionEnrolmentAssembler;
     private final ICourseEditionService courseEditionService;
     private final ICourseEditionEnrolmentService courseEditionEnrolmentService;
+    private final IProgrammeAndCoursesHateoasAssembler programmeAndCoursesHateoasAssembler;
 
     public StudentRestController(IStudentService service, IStudentDTOAssembler mapper, IStudentHateoasAssembler hateoasAssembler,
                                  IProgrammeEnrolmentService programmeEnrolmentService, IStudentProgrammeEditionEnrolmentService iStudentProgrammeEnrolmentService,
@@ -69,7 +72,8 @@ public class StudentRestController {
                                  ITotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearService totalEnrolledStudentsService,
                                  IProgrammeEnrolmentHATEOASAssembler enrolmentHateoasAssembler, IProgrammeAndCoursesEnrolmentService programmeAndCoursesEnrolmentService,
                                  IProgrammeAndCoursesAssembler programmeAndCoursesAssembler, ICourseEditionEnrolmentAssembler courseEditionEnrolmentAssembler,
-                                 ICourseEditionService courseEditionService, ICourseEditionEnrolmentService courseEditionEnrolmentService) {
+                                 ICourseEditionService courseEditionService, ICourseEditionEnrolmentService courseEditionEnrolmentService,
+                                 IProgrammeAndCoursesHateoasAssembler programmeAndCoursesHateoasAssembler) {
 
         this.service = service;
         this.mapper = mapper;
@@ -85,6 +89,7 @@ public class StudentRestController {
         this.courseEditionEnrolmentAssembler = courseEditionEnrolmentAssembler;
         this.courseEditionService = courseEditionService;
         this.courseEditionEnrolmentService = courseEditionEnrolmentService;
+        this.programmeAndCoursesHateoasAssembler = programmeAndCoursesHateoasAssembler;
     }
 
     @PostMapping
@@ -165,9 +170,8 @@ public class StudentRestController {
         }
     }
 
-
     @GetMapping("/enrollStudent/{programmeEnrolmentGID}")
-    public ResponseEntity<ProgrammeEnrolmentResponseDTO> getEnrolmentByStudentAndProgramme(
+    public ResponseEntity<ProgrammeEnrolmentHateoasResponseDto> getEnrolmentByStudentAndProgramme(
             @PathVariable("programmeEnrolmentGID") UUID programmeEnrolmentGID
     ) {
 
@@ -184,31 +188,28 @@ public class StudentRestController {
                 return ResponseEntity.notFound().build();
             }
 
-            ProgrammeEnrolmentResponseDTO responseDto = programmeEnrolmentMapper.toProgrammeEnrolmentDTO(pe);
+            ProgrammeEnrolmentHateoasResponseDto responseDto = iStudentProgrammeEnrolmentService.getProgrammeEnrolmentHateoasInformationDto(pe);
 
             return ResponseEntity.ok(responseDto);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
-     catch (Exception e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
-
-    }
-
-
 
     @PostMapping("/{id}/enrolments")
-    public ResponseEntity<StudentEnrolmentResultDto> enrolStudent(@RequestBody StudentProgrammeEnrolmentRequestDto dto) throws Exception {
-
+    public ResponseEntity<EntityModel<StudentEnrolmentResultDto>> enrolStudent(@RequestBody StudentProgrammeEnrolmentRequestDto dto) throws Exception {
         StudentID studentID = programmeAndCoursesAssembler.toStudentID(dto);
         ProgrammeEditionID programmeEditionID = programmeAndCoursesAssembler.toProgrammeEditionID(dto);
         List<CourseID> courseIDs = programmeAndCoursesAssembler.toCourseIDs(dto);
 
         US34Response result = programmeAndCoursesEnrolmentService.enrollStudentInProgrammeAndCourses(studentID, programmeEditionID, courseIDs);
-
         StudentEnrolmentResultDto response = programmeAndCoursesAssembler.toDto(result);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        EntityModel<StudentEnrolmentResultDto> hateoasResponse = programmeAndCoursesHateoasAssembler.toModel(response);
+        return ResponseEntity.status(HttpStatus.CREATED).body(hateoasResponse);
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<EntityModel<StudentResponseDTO>> getStudentByID(@PathVariable("id") int id) {
@@ -226,9 +227,9 @@ public class StudentRestController {
         return ResponseEntity.ok(model);
     }
 
-    @GetMapping("/{studentId}/enrolled-course-editions")
+    @GetMapping("/{id}/enrolled-course-editions")
     public ResponseEntity<List<EnrolledCourseEditionDTO>> findEnrolledCourseEditionsForStudent(
-            @PathVariable("studentId") int studentUniqueNumber) {
+            @PathVariable("id") int studentUniqueNumber) {
 
         StudentID studentID = new StudentID(studentUniqueNumber);
 

@@ -17,6 +17,7 @@ skinparam shadowing true
 participant "<<component>>\n:Router" as Router #E1F5FE
 participant "<<component>>\n:CourseEditionRestController\n(REST Controller)" as Controller #E1F5FE
 participant "<<component>>\n:ICourseEditionAssembler\n(Assembler)" as Assembler #E1F5FE
+participant "<<component>>\n:ICreateCourseEdition\nHateoasAssembler\n(HateoasAssembler)" as HatAssembler #E1F5FE
 participant "<<component>>\n:ICreateCourseEditionService\n(Service)" as Service #E1F5FE
 participant "<<component>>\n:ICourseEditionFactory\n(Factory)" as Factory #E1F5FE
 participant "<<component>>\n:ICourseEditionRepository\n(Repository)" as Repository #E1F5FE
@@ -73,16 +74,16 @@ deactivate Repository
 
     Service -> SAssembler: toServiceResponseDTO(courseEdition)
     activate SAssembler
-    SAssembler --> Service: CourseEditionServiceResponseDTO
+    SAssembler --> Service: responseIDDTO
     deactivate SAssembler
-    Service --> Controller: CourseEditionServiceResponseDTO
+    Service --> Controller: responseIDDTO
     deactivate Service
-    Controller -> Assembler: toResponseDTO(CourseEditionServiceResponseDTO)
+    Controller -> Assembler: toModel(responseIDDTO)
     activate Assembler
-    Assembler --> Controller: CourseEditionResponseDTO
+    Assembler --> Controller: responseModel
     deactivate Assembler
 
-    Controller --> Router: 201 Created + CourseEditionResponseDTO
+    Controller --> Router: 201 Created + ResponseEntity(responseModel)
 
 
 

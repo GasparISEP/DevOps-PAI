@@ -109,16 +109,16 @@ class ProgrammeEditionRestControllerTest {
         IAvailableCoursesService availableCoursesService = mock(IAvailableCoursesService.class);
         IProgrammeEditionHateoasAssembler hateoasAssembler = mock(IProgrammeEditionHateoasAssembler.class);
 
-        ProgrammeEditionRestController controller = new ProgrammeEditionRestController(programmeEditionService, controllerAssembler,availableCoursesService,
-                courseAssembler, hateoasAssembler);
+        ProgrammeEditionRestController controller = new ProgrammeEditionRestController(
+                programmeEditionService, controllerAssembler, availableCoursesService, courseAssembler, hateoasAssembler);
 
         String programmeAcronym = "ENG";
-        String  schoolYearID = UUID.randomUUID().toString();
+        String schoolYearID = UUID.randomUUID().toString();
 
-        RequestServiceDto expectedDto =
-                new RequestServiceDto(programmeAcronym, schoolYearID);
+        RequestServiceDto expectedDto = new RequestServiceDto(programmeAcronym, schoolYearID);
 
-        // Mock service behavior
+        when(controllerAssembler.toRequestServiceDtoFromIDs(programmeAcronym, schoolYearID)).thenReturn(expectedDto);
+
         when(programmeEditionService.countTotalNumberOfStudentsInAProgrammeEdition(expectedDto)).thenReturn(4);
 
         // Act

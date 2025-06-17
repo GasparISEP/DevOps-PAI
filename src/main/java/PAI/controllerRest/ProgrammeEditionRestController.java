@@ -64,8 +64,7 @@ public class ProgrammeEditionRestController {
             @PathVariable("id") String programmeAcronym,
             @PathVariable("schoolYearID") String schoolYearID)   {
 
-        RequestServiceDto dto =
-                new RequestServiceDto(programmeAcronym, schoolYearID);
+        RequestServiceDto dto = programmeEditionControllerAssembler.toRequestServiceDtoFromIDs(programmeAcronym, schoolYearID);
 
         int totalStudents = programmeEditionService.countTotalNumberOfStudentsInAProgrammeEdition(dto);
 

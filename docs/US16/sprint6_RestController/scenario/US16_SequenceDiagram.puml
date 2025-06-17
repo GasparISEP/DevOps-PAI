@@ -1,0 +1,70 @@
+@startuml
+
+title US16: Enroll a Student in a Course Edition\nScenario View – Level 4
+
+autonumber
+skinparam sequence {
+    LifelineBorderColor black
+    LifelineBackgroundColor LightBlue
+    ActorBorderColor black
+    ActorBackgroundColor LightGray
+}
+
+participant ":CourseEditionEnrolmentRestController" as Controller
+participant ":CourseEditionEnrolmentAssembler" as Assembler
+participant ":CourseEditionEnrolmentHateoasAssemblerImpl" as HateoasAssembler
+participant ":CourseEditionEnrolmentService" as Service
+participant ":CourseEditionEnrolmentRepository" as Repository
+participant ":CourseEditionEnrolmentMapper" as DataModelMapper
+participant ":CourseEditionEnrolmentFactory" as Factory
+participant "CourseEditionEnrolment" as Enrolment
+database "DB" as SpringDataRepo
+
+[o-> Controller ++: (POST) /students/{id}/courses-edition-enrolments {request}
+Controller -> Assembler ++: toCourseEditionID(CourseEditionEnrolmentDto)
+Assembler --> Controller --: CourseEditionID
+Controller -> Assembler ++: toStudentID(id)
+Assembler --> Controller --: StudentID
+
+Controller -> Service ++: enrollStudentInCourseEdition
+Service -> Factory ++: createCourseEditionEnrolment(CourseEditionID, StudentID)
+activate Factory
+create Enrolment
+Factory -> Enrolment--: create
+Factory --> Service --: CourseEditionEnrolment
+Service -> Repository ++: isStudentEnrolledInCourseEdition(StudentID, CourseEditionID)
+Repository -> SpringDataRepo ++: SELECT * FROM CourseEditionEnrolment WHERE CourseEditionEnrolment.CourseEditionID = ? AND CourseEditionEnrolment.StudentID = ?
+SpringDataRepo --> Repository --: validation
+Repository --> Service --: false
+
+Service -> Repository ++: save(CourseEditionEnrolment)
+Repository -> DataModelMapper ++: toDataModel(CourseEditionEnrolment)
+note right of DataModelMapper
+  Transformations:
+  1. StudentID VO -> StudentIDDataModel
+  2. CourseEditionID VO -> CourseEditionIDDataModel
+  3. All nested VOs -> corresponding DataModels
+end note
+DataModelMapper --> Repository --: CourseEditionEnrolmentDataModel
+Repository -> SpringDataRepo ++: INSERT INTO CourseEditionEnrolmentDataModel
+SpringDataRepo --> Repository --: Success
+Repository -> DataModelMapper ++: toDomain(CourseEditionEnrolmentDataModel)
+DataModelMapper -> Factory ++: createWithEnrolmentDateAndUUID(CourseEditionEnrolmentGeneratedID, StudentID, CourseEditionID, Date, EnrolmentStatus)
+activate Factory
+create Enrolment
+Factory -> Enrolment--: create
+Factory --> DataModelMapper --: CourseEditionEnrolment
+DataModelMapper --> Repository --: CourseEditionEnrolment
+Repository --> Service --: true
+
+Service --> Controller --: true
+Controller -> HateoasAssembler ++: toModel(CourseEditionEnrolmentDto)
+note right of HateoasAssembler
+  Create EntityModel with:
+  - Self link
+end note
+HateoasAssembler --> Controller --: EntityModel<CourseEditionEnrolmentDto>
+
+[o--> Controller: HTTP 201 Created **with EntityModel<CourseEditionEnrolmentDto>**
+
+@enduml

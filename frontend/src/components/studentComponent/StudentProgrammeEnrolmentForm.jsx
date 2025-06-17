@@ -4,8 +4,9 @@ import 'react-phone-input-2/lib/style.css';
 import ISEPLogoBranco from "../../assets/images/ISEP_logo-branco.png";
 import '../../styles/Form.css';
 import { Link } from "react-router-dom";
-import { findAllAccessMethods, findAllDepartments, findAllProgrammes, enrolStudentInProgramme } from '../../services/studentService';
+import { findAllAccessMethods, findAllDepartments, findAllProgrammes, enrolStudentInProgramme, getAllStudents } from '../../services/studentService';
 import '../../styles/Form.css';
+
 
 const initialFormState = {
     studentID: '',
@@ -16,6 +17,7 @@ const initialFormState = {
 };
 
 export default function StudentProgrammeEnrolmentForm() {
+    const [studentNotFound, setStudentNotFound] = useState(false);
     const [form, setForm] = useState(initialFormState);
     const [departments, setDepartments] = useState([]);
     const [programmes, setProgrammes] = useState([]);
@@ -26,6 +28,32 @@ export default function StudentProgrammeEnrolmentForm() {
     const [showModal, setShowModal] = useState(false);
     const [showErrorModal, setShowErrorModal] = useState(false);
     const [formErrors, setFormErrors] = useState({});
+
+    const handleStudentBlur = async () => {
+        setError('');
+        setStudentNotFound(false);
+
+        const enteredId = form.studentID;
+
+        if (!enteredId || enteredId.length !== 7) {
+            setError('Student ID must be exactly 7 digits.');
+            return;
+        }
+
+        try {
+            const allStudents = await getAllStudents();
+            const exists = allStudents.some(s => s.studentID === parseInt(enteredId));
+
+            if (!exists) {
+                setStudentNotFound(true);
+            }
+        } catch (err) {
+            console.error(err);
+            setError('Erro ao validar o estudante.');
+            setStudentNotFound(true);
+        }
+    };
+
 
     useEffect(() => {
         async function fetchDepartments() {
@@ -65,11 +93,6 @@ export default function StudentProgrammeEnrolmentForm() {
     function handleProgrammeChange(option) {
         setForm(f => ({ ...f, programmeAcronym: option?.value ?? '' }));
     }
-
-    /*function handleInputChange(e) {
-        const { name, value } = e.target;
-        setForm(f => ({ ...f, [name]: value }));
-    }*/
 
     function handleaccessMethodIDChange(option) {
         setForm(f => ({ ...f, accessMethodID: option?.value ?? '' }));
@@ -137,6 +160,18 @@ export default function StudentProgrammeEnrolmentForm() {
     const departmentOptions = departments.map(dep => ({ value: dep.id, label: dep.name }));
     const programmeOptions = programmes.map(prog => ({ value: prog.acronym, label: prog.name }));
 
+    const isFormValid = () => {
+        return (
+            form.studentID &&
+            form.programmeAcronym &&
+            form.departmentID &&
+            form.accessMethodID &&
+            form.date &&
+            Object.values(formErrors).every(error => !error) &&
+            studentNotFound===false
+        );
+    };
+
     return (
         <div className="form-main-component-div">
             <div className="form-main-grid">
@@ -172,6 +207,7 @@ export default function StudentProgrammeEnrolmentForm() {
                                             setForm(f => ({...f, studentID: rawValue}));
                                         }
                                     }}
+                                    onBlur={handleStudentBlur}
                                     inputMode="numeric"
                                     maxLength={7}
                                     style={{width: '554px'}}
@@ -180,6 +216,11 @@ export default function StudentProgrammeEnrolmentForm() {
                                 {form.studentID && form.studentID.length !== 7 && (
                                     <p className="input-warning" style={{color: 'red', marginTop: '0.5rem'}}>
                                         Student ID must be exactly 7 digits.
+                                    </p>
+                                )}
+                                {studentNotFound && (
+                                    <p className="input-warning" style={{ color: 'red', marginTop: '0.5rem' }}>
+                                        Student does not exist.
                                     </p>
                                 )}
                             </div>
@@ -195,6 +236,7 @@ export default function StudentProgrammeEnrolmentForm() {
                                     onChange={handleDepartmentChange}
                                     placeholder="Select Department"
                                     isSearchable
+                                    isDisabled={studentNotFound}
                                     isClearable
                                     styles={{
                                         control: base => ({
@@ -215,7 +257,7 @@ export default function StudentProgrammeEnrolmentForm() {
                                     value={programmeOptions.find(o => o.value === form.programmeAcronym)}
                                     onChange={handleProgrammeChange}
                                     placeholder="Select Programme"
-                                    isDisabled={!form.departmentID}
+                                    isDisabled={studentNotFound || !form.departmentID}
                                     isSearchable
                                     styles={{
                                         control: base => ({
@@ -240,6 +282,7 @@ export default function StudentProgrammeEnrolmentForm() {
                                     onChange={handleaccessMethodIDChange}
                                     placeholder="Select Access Method"
                                     isSearchable
+                                    isDisabled={studentNotFound || !form.programmeAcronym}
                                     styles={{
                                         control: base => ({
                                             ...base,
@@ -254,6 +297,7 @@ export default function StudentProgrammeEnrolmentForm() {
                                 <label className="form-label" htmlFor="date">Enrolment Date
                                 </label>
                                 <input
+                                    disabled={studentNotFound || !form.accessMethodID}
                                     className={`form-input ${form.date && !/^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-\d{4}$/.test(form.date) ? 'input-error' : ''}`}
                                     type="text"
                                     id="date"
@@ -274,7 +318,7 @@ export default function StudentProgrammeEnrolmentForm() {
                             </div>
 
                             <div className="form-actions">
-                                <button type="submit" className="btn btn-primary" disabled={loading}>
+                                <button type="submit" className="btn btn-primary" disabled={!isFormValid()}>
                                     {loading ? 'ENROLLING…' : 'ENROL'}
                                 </button>
                             </div>

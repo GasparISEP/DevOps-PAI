@@ -78,16 +78,14 @@ public class ProgrammeEditionEnrolmentRepositorySpringDataImpl implements IProgr
     }
 
     @Override
-    public int countStudentsInProgrammesFromDepartmentInSchoolYear(SchoolYearID schoolYear, List<ProgrammeID> programmeIDS) {
-        Set<StudentID> studentIDs = new HashSet<>();
-        List<ProgrammeEditionEnrolment> enrollmentList = findAll();
-        for (ProgrammeEditionEnrolment enrollment : enrollmentList) {
-            if (enrollment.isEnrolmentAssociatedToProgrammeAndSchoolYear(schoolYear, programmeIDS)) {
-                StudentID studentID = enrollment.findStudentInProgrammeEdition();
-                studentIDs.add(studentID);
-            }
-        }
-        return studentIDs.size();
+    public int countEnrolledStudentsByProgrammeEditionIds(List<ProgrammeEditionID> programmeEditionIDs) {
+        List<Object[]> pairs = programmeEditionIDs.stream()
+                .map(id -> new Object[] {
+                        id.getProgrammeID().getProgrammeAcronym(),
+                        id.getSchoolYearID().toString()
+                })
+                .toList();
+        return _peeRepositorySpringData.countEnrolledStudentsByProgrammeEditionIds(pairs);
     }
 
     @Override

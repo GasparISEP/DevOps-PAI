@@ -3,6 +3,7 @@ package PAI.controllerRest;
 import PAI.VOs.*;
 import PAI.VOs.Date;
 import PAI.assembler.ProgrammeAndCourses.IProgrammeAndCoursesAssembler;
+import PAI.assembler.ProgrammeAndCourses.IProgrammeAndCoursesHateoasAssembler;
 import PAI.assembler.courseEditionEnrolment.ICourseEditionEnrolmentAssembler;
 import PAI.assembler.programmeEnrolment.IProgrammeEnrolmentHATEOASAssembler;
 import PAI.assembler.student.IStudentDTOAssembler;
@@ -16,6 +17,7 @@ import PAI.dto.ProgrammeAndCourses.StudentEnrolmentResultDto;
 import PAI.dto.ProgrammeAndCourses.StudentProgrammeEnrolmentRequestDto;
 import PAI.dto.courseEditionEnrolment.EnrolledCourseEditionDTO;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentDTO;
+import PAI.dto.programmeEnrolment.ProgrammeEnrolmentHateoasResponseDto;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentIdDTO;
 import PAI.dto.programmeEnrolment.ProgrammeEnrolmentResponseDTO;
 import PAI.dto.student.StudentDTO;
@@ -48,12 +50,9 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-
-
 class StudentRestControllerTest {
 
     private MockMvc mockMvc;
-
 
     @Mock
     private IStudentService studentService;
@@ -92,6 +91,9 @@ class StudentRestControllerTest {
     private ICourseEditionService courseEditionService;
     @Mock
     private ICourseEditionEnrolmentService courseEditionEnrolmentService;
+    @Mock
+    private IProgrammeAndCoursesHateoasAssembler programmeAndCoursesHateoasAssembler;
+
 
     @InjectMocks
     private StudentRestController studentRestController;
@@ -248,7 +250,7 @@ class StudentRestControllerTest {
                 .thenReturn(null);
 
         // Act
-        ResponseEntity<ProgrammeEnrolmentResponseDTO> response =
+        ResponseEntity<ProgrammeEnrolmentHateoasResponseDto> response =
                 studentRestController.getEnrolmentByStudentAndProgramme(exampleGID);
 
         // Assert
@@ -308,7 +310,7 @@ class StudentRestControllerTest {
 
 
     @Test
-    void whenEnrolStudent_thenReturnsCreatedWithResultDto() throws Exception {
+    void whenEnrolStudent_thenReturnsCreatedWithResultDtoModel() throws Exception {
         // Arrange
         StudentProgrammeEnrolmentRequestDto dto = mock(StudentProgrammeEnrolmentRequestDto.class);
 
@@ -318,64 +320,67 @@ class StudentRestControllerTest {
 
         US34Response responseDomain = mock(US34Response.class);
         StudentEnrolmentResultDto resultDto = mock(StudentEnrolmentResultDto.class);
+        EntityModel<StudentEnrolmentResultDto> entityModel = EntityModel.of(resultDto);
 
         when(programmeAndCoursesAssembler.toStudentID(dto)).thenReturn(studentID);
         when(programmeAndCoursesAssembler.toProgrammeEditionID(dto)).thenReturn(programmeEditionID);
         when(programmeAndCoursesAssembler.toCourseIDs(dto)).thenReturn(courseIDs);
         when(programmeAndCoursesEnrolmentService.enrollStudentInProgrammeAndCourses(studentID, programmeEditionID, courseIDs)).thenReturn(responseDomain);
         when(programmeAndCoursesAssembler.toDto(responseDomain)).thenReturn(resultDto);
+        when(programmeAndCoursesHateoasAssembler.toModel(resultDto)).thenReturn(entityModel);
 
         // Act
-        ResponseEntity<StudentEnrolmentResultDto> response = studentRestController.enrolStudent(dto);
+        ResponseEntity<EntityModel<StudentEnrolmentResultDto>> response = studentRestController.enrolStudent(dto);
 
         // Assert
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertSame(resultDto, response.getBody());
+        assertSame(entityModel, response.getBody());
     }
+
 
     @Test
     void whenGetEnrolmentByGID_ServiceSucceeds_thenReturnsOkWithDto() {
         // Arrange
         UUID exampleGID = UUID.randomUUID();
-        ProgrammeEnrolmentGeneratedID vo =
-                new ProgrammeEnrolmentGeneratedID(exampleGID);
+        ProgrammeEnrolmentGeneratedID vo = new ProgrammeEnrolmentGeneratedID(exampleGID);
 
         when(programmeEnrolmentMapper
                 .toProgrammeEnrolmentGeneratedID(any(ProgrammeEnrolmentIdDTO.class)))
                 .thenReturn(vo);
 
-
         StudentID sid = new StudentID(1234567);
         ProgrammeID pid = new ProgrammeID(new Acronym("CS101"));
-        when(studentProgrammeEnrolmentService
-                .findStudentIDByProgrammeEnrolmentGeneratedID(vo))
+        when(studentProgrammeEnrolmentService.findStudentIDByProgrammeEnrolmentGeneratedID(vo))
                 .thenReturn(sid);
-        when(studentProgrammeEnrolmentService
-                .findProgrammeIDByProgrammeEnrolmentGeneratedID(vo))
+        when(studentProgrammeEnrolmentService.findProgrammeIDByProgrammeEnrolmentGeneratedID(vo))
                 .thenReturn(pid);
 
         ProgrammeEnrolment pe = mock(ProgrammeEnrolment.class);
-        when(programmeEnrolmentService
-                .findEnrolmentByStudentAndProgramme(sid, pid))
+        when(programmeEnrolmentService.findEnrolmentByStudentAndProgramme(sid, pid))
                 .thenReturn(pe);
 
-        ProgrammeEnrolmentResponseDTO outDto = new ProgrammeEnrolmentResponseDTO(
-                exampleGID,
-                sid.getUniqueNumber(),
-                "WEB",
-                pid.getAcronym().getAcronym(),
-                LocalDate.of(2025, 6, 8)
-        );
-        when(programmeEnrolmentMapper.toProgrammeEnrolmentDTO(pe))
-                .thenReturn(outDto);
+        // Corrigir para usar o DTO correto que o método retorna
+        ProgrammeEnrolmentHateoasResponseDto hateoasDto =
+                new ProgrammeEnrolmentHateoasResponseDto(
+                        exampleGID,
+                        "CS101",
+                        1234567,
+                        "WEB",
+                        LocalDate.of(2025, 6, 8),
+                        "Engenharia Informática",
+                        "Gaspar F."
+                );
+
+        when(studentProgrammeEnrolmentService.getProgrammeEnrolmentHateoasInformationDto(pe))
+                .thenReturn(hateoasDto);
 
         // Act
-        ResponseEntity<ProgrammeEnrolmentResponseDTO> response =
+        ResponseEntity<ProgrammeEnrolmentHateoasResponseDto> response =
                 studentRestController.getEnrolmentByStudentAndProgramme(exampleGID);
 
         // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertSame(outDto, response.getBody());
+        assertEquals(hateoasDto, response.getBody());
     }
 
 
@@ -396,7 +401,7 @@ class StudentRestControllerTest {
                 .thenReturn(null);
 
         // Act
-        ResponseEntity<ProgrammeEnrolmentResponseDTO> response =
+        ResponseEntity<ProgrammeEnrolmentHateoasResponseDto> response =
                 studentRestController.getEnrolmentByStudentAndProgramme(exampleGID);
 
         // Assert
@@ -414,7 +419,7 @@ class StudentRestControllerTest {
                 .thenThrow(new RuntimeException("fail in mapper"));
 
         // Act
-        ResponseEntity<ProgrammeEnrolmentResponseDTO> response =
+        ResponseEntity<ProgrammeEnrolmentHateoasResponseDto> response =
                 studentRestController.getEnrolmentByStudentAndProgramme(exampleGID);
 
         // Assert

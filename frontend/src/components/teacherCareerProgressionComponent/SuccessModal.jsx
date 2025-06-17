@@ -9,8 +9,8 @@ export default function SuccessModal({ data, form, onClose }) {
         if (href) {
             const isApi = href.includes('8081') || href.startsWith('http://localhost:8081');
             const url = isApi
-                ? href // link para API
-                : `http://localhost:3000${href}`; // link para SPA
+                ? href
+                : `http://localhost:3000${href}`;
 
             window.open(url, '_blank');
         }

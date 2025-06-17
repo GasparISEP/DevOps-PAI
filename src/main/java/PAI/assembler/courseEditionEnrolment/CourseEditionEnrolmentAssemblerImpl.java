@@ -3,6 +3,7 @@ package PAI.assembler.courseEditionEnrolment;
 import PAI.VOs.*;
 import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
 import PAI.dto.courseEditionEnrolment.CourseEditionEnrolmentDto;
+import PAI.dto.courseEditionEnrolment.CourseEditionEnrolmentMinimalDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -72,10 +73,26 @@ public class CourseEditionEnrolmentAssemblerImpl implements ICourseEditionEnrolm
                 ceid.getProgrammeEditionID().getProgrammeID().getAcronym().toString(),
                 ceid.getProgrammeEditionID().getSchoolYearID().toString(),
                 ceid.getCourseInStudyPlanID().getCourseID().getAcronym().toString(),
-                "", // o nome do curso ainda não está disponível
+                ceid.getCourseInStudyPlanID().getCourseID().getName().toString(),
                 ceid.getCourseInStudyPlanID().getStudyPlanID().getLocalDate().toString()
         );
     }
+
+    @Override
+    public CourseEditionEnrolmentMinimalDTO toMinimalDTO(CourseEditionEnrolment enrolment) {
+        // Obter CourseEditionID como string composta
+        String id = enrolment.knowCourseEdition().toString();
+
+        // Obter nome do curso
+        String name = enrolment.knowCourseEdition()
+                .getCourseInStudyPlanID()
+                .getCourseID()
+                .getName()
+                .getName();
+
+        return new CourseEditionEnrolmentMinimalDTO(id, name);
+    }
+
 
 
 }

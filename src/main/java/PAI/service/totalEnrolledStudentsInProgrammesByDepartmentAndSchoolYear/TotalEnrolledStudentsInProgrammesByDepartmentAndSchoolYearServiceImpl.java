@@ -54,28 +54,17 @@ public class TotalEnrolledStudentsInProgrammesByDepartmentAndSchoolYearServiceIm
 
         if (!isDepartmentIdAndSchoolYearIdValid(departmentID, schoolYearID)) return 0;
 
-        List<ProgrammeID> programmeIDList = programmeRepository.findProgrammeByDepartment(departmentID);
+        List<ProgrammeID> programmeIDList = programmeRepository.findProgrammesIdByDepartmentId(departmentID);
         if (programmeIDList.isEmpty()) return 0;
 
         List<ProgrammeEditionID> programmeEditionIDList = programmeEditionRepository.findProgrammeEditionIDsBySchoolYearIDAndProgrammeIDs(schoolYearID, programmeIDList);
         if (programmeEditionIDList.isEmpty()) return 0;
 
-        Iterable <ProgrammeEditionEnrolment> enrols = programmeEditionEnrolmentRepository.findAll();
-        return countEnrollmentsMatchingProgrammeEditions(enrols, programmeEditionIDList);
+        return programmeEditionEnrolmentRepository.countEnrolledStudentsByProgrammeEditionIds(programmeEditionIDList);
     }
 
     private boolean isDepartmentIdAndSchoolYearIdValid(DepartmentID departmentID, SchoolYearID schoolYearID) {
         return departmentRepository.containsOfIdentity(departmentID) && schoolYearRepository.containsOfIdentity(schoolYearID);
-    }
-
-    private int countEnrollmentsMatchingProgrammeEditions( Iterable<ProgrammeEditionEnrolment> enrolments, List<ProgrammeEditionID> programmeEditionIDs) {
-
-        int count = 0;
-        for (ProgrammeEditionEnrolment enrolment : enrolments) {
-            if (programmeEditionIDs.contains(enrolment.findProgrammeEditionInEnrolment()))
-                count++;
-        }
-        return count;
     }
 
     private void validateCommand(TotalEnrolledStudentsCommand command) {
