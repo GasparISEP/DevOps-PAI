@@ -214,18 +214,22 @@ public class StudentRestController {
     }
 
     @PostMapping("/{id}/enrolments")
-    public ResponseEntity<EntityModel<StudentEnrolmentResultDto>> enrolStudent(@RequestBody StudentProgrammeEnrolmentRequestDto dto) throws Exception {
-        StudentID studentID = programmeAndCoursesAssembler.toStudentID(dto);
-        ProgrammeEditionID programmeEditionID = programmeAndCoursesAssembler.toProgrammeEditionID(dto);
-        List<CourseID> courseIDs = programmeAndCoursesAssembler.toCourseIDs(dto);
+    public ResponseEntity<EntityModel<StudentEnrolmentResultDto>> enrolStudent(@RequestBody StudentProgrammeEnrolmentRequestDto dto) {
+        try {
+            StudentID studentID = programmeAndCoursesAssembler.toStudentID(dto);
+            ProgrammeEditionID programmeEditionID = programmeAndCoursesAssembler.toProgrammeEditionID(dto);
+            List<CourseID> courseIDs = programmeAndCoursesAssembler.toCourseIDs(dto);
 
-        US34Response result = programmeAndCoursesEnrolmentService.enrollStudentInProgrammeAndCourses(studentID, programmeEditionID, courseIDs);
-        StudentEnrolmentResultDto response = programmeAndCoursesAssembler.toDto(result);
+            US34Response result = programmeAndCoursesEnrolmentService.enrollStudentInProgrammeAndCourses(studentID, programmeEditionID, courseIDs);
+            StudentEnrolmentResultDto response = programmeAndCoursesAssembler.toDto(result);
 
-        EntityModel<StudentEnrolmentResultDto> hateoasResponse = programmeAndCoursesHateoasAssembler.toModel(response);
-        return ResponseEntity.status(HttpStatus.CREATED).body(hateoasResponse);
+            EntityModel<StudentEnrolmentResultDto> hateoasResponse = programmeAndCoursesHateoasAssembler.toModel(response);
+            return ResponseEntity.status(HttpStatus.CREATED).body(hateoasResponse);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
-
 
     @GetMapping("/{id}")
     public ResponseEntity<EntityModel<StudentResponseDTO>> getStudentByID(@PathVariable("id") int id) {
