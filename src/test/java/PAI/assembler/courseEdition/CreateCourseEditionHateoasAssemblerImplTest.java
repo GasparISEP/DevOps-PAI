@@ -2,15 +2,26 @@ package PAI.assembler.courseEdition;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import PAI.assembler.courseEdition.CreateCourseEditionHateoasAssemblerImpl;
-import PAI.dto.courseEdition.CourseEditionResponseIDDTO;
+import PAI.controllerRest.CourseEditionRestController;
+import PAI.dto.courseEdition.CourseEditionResponseDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 import java.time.LocalDate;
+import java.util.UUID;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.hateoas.EntityModel;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,59 +34,78 @@ public class CreateCourseEditionHateoasAssemblerImplTest {
         assembler = new CreateCourseEditionHateoasAssemblerImpl();
     }
 
-    private CourseEditionResponseIDDTO buildDummyDTO() {
-        return new CourseEditionResponseIDDTO(
+    UUID generatedId = UUID.randomUUID();
+
+    private CourseEditionResponseDTO buildDummyDTO() {
+        return new CourseEditionResponseDTO(
+                generatedId,
                 "MEI",
                 UUID.randomUUID(),
                 "AP",
                 "Advanced Programming",
                 LocalDate.now(),
-                "PROG2023-COURSE123");
+                "PROG2023-COURSE123",
+                "AAA");
     }
 
     @Test
-    void toModel_shouldCreateEntityModelWithCorrectLinks() {
+    void toModel_ShouldContainDtoAndCorrectLinks() {
         // Arrange
-        CourseEditionResponseIDDTO dto = buildDummyDTO();
+        UUID courseEditionId = UUID.randomUUID();
+        UUID schoolYearId = UUID.randomUUID();
+        CourseEditionResponseDTO dto = new CourseEditionResponseDTO(
+                courseEditionId,
+                "PROG",
+                schoolYearId,
+                "CS101",
+                "Computer Science",
+                LocalDate.of(2024, 1, 1),
+                "ED2024",
+                "TEACH123"
+        );
 
         // Act
-        EntityModel<CourseEditionResponseIDDTO> model = assembler.toModel(dto);
+        EntityModel<CourseEditionResponseDTO> entityModel = assembler.toModel(dto);
 
         // Assert
-        assertThat(model.getContent()).isEqualTo(dto);
+        assertThat(entityModel.getContent()).isEqualTo(dto);
 
-        Link selfLink = model.getLink("self").orElse(null);
-        Link findAllLink = model.getLink("find-all-course-editions").orElse(null);
+        assertThat(entityModel.getLink("self")).isPresent();
+        String expectedSelfHref = linkTo(methodOn(CourseEditionRestController.class)
+                .getCourseEditionById(courseEditionId))
+                .toUri()
+                .toString();
+        assertThat(entityModel.getLink("self").get().getHref()).isEqualTo(expectedSelfHref);
 
-        assertThat(selfLink).isNotNull();
-        assertThat(findAllLink).isNotNull();
 
-        String href = selfLink.getHref();
-        assertThat(href).contains("programmeAcronym=" + dto.programmeAcronym());
-        assertThat(href).contains("schoolYearId=" + dto.schoolYearID());
-        assertThat(href).contains("courseAcronym=" + dto.courseAcronym());
-        assertThat(href).contains("courseName=" + dto.courseName().replace(" ", "%20"));
-        assertThat(href).contains("localDate=" + dto.studyPlanImplementationDate());
-
-        assertThat(findAllLink.getHref()).endsWith("/course-editions");
+        assertThat(entityModel.getLink("find-all-course-editions")).isPresent();
+        String expectedFindAllHref = linkTo(methodOn(CourseEditionRestController.class)
+                .findAllCourseEditions())
+                .toUri()
+                .toString();
+        assertThat(entityModel.getLink("find-all-course-editions").get().getHref()).isEqualTo(expectedFindAllHref);
     }
+
 
     @Test
     void toCollectionModel_shouldCreateCollectionModelWithSelfLink() {
         // Arrange
-        CourseEditionResponseIDDTO dto1 = buildDummyDTO();
-        CourseEditionResponseIDDTO dto2 = new CourseEditionResponseIDDTO(
+        CourseEditionResponseDTO dto1 = buildDummyDTO();
+        CourseEditionResponseDTO dto2 = new CourseEditionResponseDTO(
+                generatedId,
                 "MAT",
                 UUID.randomUUID(),
                 "MTH101",
                 "Calculus I",
                 LocalDate.now(),
-                "PROG2024-COURSE456");
+                "PROG2024-COURSE456",
+                "BBB");
 
-        List<CourseEditionResponseIDDTO> dtos = List.of(dto1, dto2);
+        List<CourseEditionResponseDTO> dtos = List.of(dto1, dto2);
 
         // Act
-        CollectionModel<EntityModel<CourseEditionResponseIDDTO>> collectionModel = assembler.toCollectionModel(dtos);
+        CollectionModel<EntityModel<CourseEditionResponseDTO>> collectionModel =
+                assembler.toCollectionModel(dtos);
 
         // Assert
         assertThat(collectionModel.getContent()).hasSize(2);
@@ -84,8 +114,9 @@ public class CreateCourseEditionHateoasAssemblerImplTest {
         assertThat(selfLink).isNotNull();
         assertThat(selfLink.getHref()).endsWith("/course-editions");
 
-        for (EntityModel<CourseEditionResponseIDDTO> model : collectionModel.getContent()) {
+        for (EntityModel<CourseEditionResponseDTO> model : collectionModel.getContent()) {
             assertThat(model.getLink("self")).isPresent();
+            assertThat(model.getLink("find-all-course-editions")).isPresent();
         }
     }
 }
