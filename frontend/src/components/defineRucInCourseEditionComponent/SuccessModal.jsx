@@ -11,8 +11,9 @@ export default function SuccessModal({ data, form, onClose, show }) {
                 <p>RUC successfully defined in the course edition.</p>
 
                 <div className="success" style={{ marginTop: '1rem', color: '#080' }}>
-                    <p><strong>Teacher ID:</strong> {data.teacherId || form.teacherId}</p>
-                    <p><strong>Course Edition :</strong> {data.id || form.courseEditionId}</p>
+                    <p><strong>Teacher:</strong> {data.teacherName}</p>
+                    <p><strong>Course Edition:</strong> {data.courseEditionName}</p>
+
                 </div>
 
                 <button className="modal-btn" onClick={onClose} style={{ marginTop: '1rem' }}>
