@@ -16,6 +16,8 @@ import DefineRucPage from "./pages/CourseEditionPage/DefineRucPage";
 import UpdateTeacherCategoryPage from './pages/teacherCategoryPage/UpdateTeacherCategoryPage';
 import DisplayTeacherCareerProgressionPage from "./pages/DisplayTeacherCareerProgression";
 import RemoveStudentPage from "./pages/studentPage/RemoveStudentPage";
+import StudentDetailsComponent from './components/studentComponent/StudentDetailsComponent';
+
 
 function AppRoutes() {
         return (
@@ -38,6 +40,7 @@ function AppRoutes() {
                     <Route path="/course-editions/average-grade" element={<CourseEditionAverageGradePage />} />
                     <Route path="/teacher-career-progressions/:id" element={<TeacherCareerProgressionComponent />} />
                     <Route path="/course-editions/Define-ruc" element={<DefineRucPage />} />
+                    <Route path="/students/:id" element={<StudentDetailsComponent />} />
             </Routes>
         );
 }

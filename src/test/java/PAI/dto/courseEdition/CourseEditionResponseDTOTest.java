@@ -22,6 +22,7 @@ class CourseEditionResponseDTOTest {
         String courseAcronym = "AP";
         String courseName = "Advanced Programming";
         LocalDate studyPlanImplementationDate = LocalDate.now();
+        String ruc = "AAA";
 
         //act
         CourseEditionResponseDTO dto = new CourseEditionResponseDTO(
@@ -31,7 +32,8 @@ class CourseEditionResponseDTOTest {
                 courseAcronym,
                 courseName,
                 studyPlanImplementationDate,
-                courseEditionID
+                courseEditionID,
+                ruc
                 );
 
         //assert

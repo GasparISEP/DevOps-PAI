@@ -11,6 +11,7 @@ public record CourseEditionResponseDTO(
         String courseAcronym,
         String courseName,
         LocalDate studyPlanImplementationDate,
-        String courseEditionID
+        String courseEditionID,
+        String teacherID
         ) {
 }
