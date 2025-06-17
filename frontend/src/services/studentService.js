@@ -27,7 +27,7 @@ export async function registerStudent(studentDTO) {
     const isJson = contentType.includes('application/json') || contentType.includes('application/hal+json');
     const result = isJson ? await response.json() : await response.text();
 
-    console.log("[DEBUG] Resposta do backend:", result);
+    console.log("[DEBUG] Backend response:", result);
     return result;
 }
 
@@ -44,7 +44,7 @@ export async function getAllStudents() {
         return data._embedded.studentResponseDTOList;
     }
 
-    console.warn("Formato inesperado:", data);
+    console.warn("Unexpected format:", data);
     return [];
 }
 
@@ -74,7 +74,7 @@ export async function enrolStudentInProgramme(programmeEnrolmentDTO) {
     const isJson = contentType.includes('application/json') || contentType.includes('application/hal+json');
     const result = isJson ? await response.json() : await response.text();
 
-    console.log("[DEBUG] Resposta do backend enrolStudent:", result);
+    console.log("[DEBUG] Backend response for enrolStudent:", result);
 
     return result;
 }
@@ -115,6 +115,6 @@ export async function findAllAccessMethods() {
         return data._embedded.accessMethodResponseDTOList;
     }
 
-    console.warn("Formato inesperado (access methods):", data);
+    console.warn("Unexpected format (access methods):", data);
     return [];
 }
