@@ -1,9 +1,8 @@
 @startuml
-title: Find Course Editions By Search Criteria\n(Code View - Level 4)
+title: Find Course Editions By programmeEditionID\n(Code View - Level 4)
 
 autonumber
 
-participant ":Router" as router
 participant ":CourseEditionRestController" as ceCtrl
 activate ceCtrl
 participant ":CourseEditionAssembler" as ceAssembler
@@ -14,7 +13,7 @@ participant ":CourseEditionMapper" as ceMapper
 participant ":CourseEditionFactory" as ceFactory
 database DB
 
-router -> ceCtrl: GET /courseeditions/programmeditions
+[o-> ceCtrl: GET /courseeditions/programmeditions
 ceCtrl -> ceAssembler ++: toProgrammeEditionID(courseEditionRequestDTO)
 ceAssembler --> ceCtrl --: programmeEditionID
 ceCtrl -> ceAssembler ++: toCourseInStudyPlanID(courseEditionRequestDTO)
@@ -57,7 +56,7 @@ note right of ceHateoasAssembler
     - View details
 end note
 ceHateoasAssembler --> ceCtrl --: CollectionModel<EntityModel<CourseEditionResponseDTO>>
-ceCtrl --> router: CollectionModel<EntityModel<CourseEditionResponseDTO>>
+[o--> ceCtrl: CollectionModel<EntityModel<CourseEditionResponseDTO>>
 
 legend right
   DTO = Data Transfer Object
