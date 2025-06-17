@@ -1,0 +1,102 @@
+@startuml
+
+title US05: \n"As an Administrator, I want to Register a Department in the System"\nScenario View
+
+autonumber
+skinparam sequence {
+    LifelineBorderColor black
+    LifelineBackgroundColor LightBlue
+    ActorBorderColor black
+    ActorBackgroundColor LightGray
+    GroupBorderColor #cccccc
+    GroupBackgroundColor #f2f2f2
+}
+
+actor "Administrator" as Administrator
+participant ":Frontend" as UI
+participant ":Router" as Router
+participant "request\n: RegisterDepartmentRequest" as Request #LightYellow
+participant ":DepartmentRestController" as Controller
+participant ":IDepartmentRegistrationService" as Service
+participant ":IDepartmentAssembler" as Mapper
+participant ":IDepartmentHateoasAssembler" as HAAssembler
+participant "rdrVo1\n:RegisterDepartmentRequestVOs" as Request #LightYellow
+participant "d1DTO\n:DepartmentDTO" as DepartmentDTO #LightYellow
+participant "d1HateoasDTO\n:EntityModel<DepartmentDTO>" as DepartmentHateoasDTO #LightYellow
+participant ":IDepartmentRepository" as Repository
+participant ":DepartmentDataModelMapper" as DataModelMapper
+participant ":DepartmentFactory" as Factory
+participant "d1:Department" as Department #LightBlue
+participant "d1DM\n:DepartmentDataModel" as DepartmentDataModel #LightYellow
+participant "d1.saved:Department" as Department2 #LightBlue
+participant ":IDepartmentSpringDataRepository" as SpringDataRepo
+
+
+Administrator -> UI ++: I want to register a department
+UI --> Administrator --: Prompt: "Fill in department details"
+Administrator -> UI ++: Enter name and acronym
+
+
+
+UI -> Router ++: HTTP request \n (POST) /departments\n{body: name, acronym}
+Router -> Request **: <create> RegisterDepartmentRequest(name, acronym)
+Router -> Controller ++: (POST) /departments (request)
+
+
+Controller -> Mapper ++: toRegistrationRequestVOs(request)
+Mapper -> Request **: <create> RegisterDepartmentRequestVOs\n(request.acronym(), request.name())
+Mapper --> Controller --: rdrVo1
+
+
+Controller -> Service ++: createAndSaveDepartment(rdVo1)
+
+
+
+Service -> Factory ++: newDepartment(acronym, name)
+Factory -> Department **: <create> Department(acronym, name)
+Factory --> Service --: d1
+
+
+Service -> Repository ++: containsOfIdentity(d1.identity())
+Repository -> SpringDataRepo ++: existsById(mapper.toDataModel(d1.identity()))
+SpringDataRepo ->o] : existsById
+SpringDataRepo <--o] : false
+SpringDataRepo --> Repository --: false
+Repository --> Service --: false
+
+
+Service -> Repository ++: save(d1)
+
+
+Repository -> DataModelMapper ++: toDataModel(d1)
+DataModelMapper -> DepartmentDataModel **: <create> DepartmentDataModel(acronym, name)
+DataModelMapper --> Repository --: "d1DM:DepartmentDataModel"
+
+Repository -> SpringDataRepo ++: save(d1DM)
+SpringDataRepo ->o] : INSERT d1DM INTO departments
+SpringDataRepo <--o] : d1DM saved
+SpringDataRepo --> Repository --: d1DM.saved
+
+Repository -> DataModelMapper ++: toDomain(d1DM)
+DataModelMapper -> Factory ++: newDepartment (acronym, name)
+Factory -> Department2 **: <create> Department(acronym, name)
+Factory --> DataModelMapper --: d1.saved
+DataModelMapper --> Repository --: d1.saved
+
+Repository --> Service --: d1
+Service --> Controller --: d1
+
+
+Controller -> Mapper ++: toDTO(d1)
+Mapper -> DepartmentDTO **: <create> DepartmentDTO(id, acronym, name, teacherID)
+Mapper --> Controller --: d1DTO
+Controller -> HAAssembler ++: toHateoasDTO(d1DTO)
+HAAssembler -> DepartmentHateoasDTO **: <create> EntityModel<DepartmentDTO>(d1DTO)
+HAAssembler --> Controller --: EntityModel<DepartmentDTO>(d1DTO)
+
+Controller -> Router --: HTTP 201 Created + \nEntityModel<DepartmentDTO>(d1DTO)
+Router --> UI --: HTTP Response with JSON
+
+UI --> Administrator --: Department successfully registered
+
+@enduml
