@@ -41,11 +41,15 @@ export default function DefineRucInCourseEditionForm() {
         const programme = allProgrammes.find(
             p => p.acronym.trim().toLowerCase() === ce.programmeAcronym.trim().toLowerCase()
         );
+
+        const programmeName = programme ? programme.name : ce.programmeAcronym;
+        const displayName = `${ce.courseName}`;
+
         return {
             ...ce,
-            programmeName: programme ? programme.name : ce.programmeAcronym
+            programmeName,
+            name: displayName
         };
-
     });
     useEffect(() => {
         async function fetchData() {
@@ -135,7 +139,24 @@ export default function DefineRucInCourseEditionForm() {
                 teacherId: form.teacherId
             });
 
-            setSuccessData(response || { ...form });
+
+            // Get teacher and course edition names
+            const teacher = teachers.find(t => t.id === form.teacherId);
+            const courseEdition = filteredCourseEditionsWithProgrammeName.find(
+                ce => ce.courseEditionGeneratedID === form.courseEditionId
+            );
+
+// Set enriched success data
+            setSuccessData({
+                teacherId: form.teacherId,
+                teacherName: teacher?.name,
+                courseEditionId: form.courseEditionId,
+                courseEditionName: courseEdition?.name,
+                programmeName: courseEdition?.programmeName
+            });
+
+
+
             setShowSuccessModal(true);
         } catch (error) {
             console.error(error);

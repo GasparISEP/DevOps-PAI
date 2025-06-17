@@ -9,7 +9,7 @@ import static org.mockito.Mockito.mock;
 
 class CourseEditionIDDataModelTest {
 
-    // -----Constructos Tests-----
+    // -----Constructor Tests-----
     @Test
     void shouldCreateCourseEditionIDWithEmptyArguments() {
         // Arrange

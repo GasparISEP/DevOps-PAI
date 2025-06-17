@@ -12,25 +12,40 @@ participant ":RESTController" as controller <<Component>>
 participant ":Service" as service <<Component>>
 participant ":Domain" as domain <<Component>>
 participant ":Repository" as repository <<Component>>
+participant ":Drivers" as drivers <<Component>>
 
--> router: GET /programmeeditions/(String id, String schoolYearID)/students
+-> router: GET /programme-editions/(String id, String schoolYearID)/students
 activate router #E1F5FE
 
 note over router: The conversion from JSON to DTO is done\n automatically through the Spring Boot Framework
 
 router -> controller: getNumberOfStudents\n(String id, String schoolYearID)
 activate controller #E1F5FE
-note over controller
-Create CountStudentsDto from id and schoolYearID
-end note
-controller -> service: countTotalNumberOfStudentsInAProgrammeEdition\n(CountStudentsDto programmeEditionDTO)
+
+ref over controller
+Conversion of String to RequestServiceDto
+end ref
+
+controller -> service: countTotalNumberOfStudentsInAProgrammeEdition\n(RequestServiceDto dto)
 activate service #E1F5FE
 
+ref over service
+Conversion of RequestServiceDto to Domain
+end ref
 
-service -> repository: countTotalNumberOfStudentsInAProgrammeEdition(CountStudentsDto programmeEditionDTO)
+service -> repository: getAllProgrammeEditionsEnrolmentByProgrammeEditionID\n(ProgrammeEditionID programmeEditionId)
 activate repository #E1F5FE
 
-repository --> service:List<ProgrammeEditionEnrolment> programmeEditionEnrolments
+repository -> drivers: findAllById_ProgrammeEditionIdDataModel\n(ProgrammeEditionIDDataModel programmeEditionIdDataModel)
+activate drivers #E1F5FE
+
+drivers -> :SELECT * FROM programmeEditionEnrolment
+drivers <--: Iterable<ProgrammeEditionEnrolmentDataModel>
+
+drivers --> repository: List<ProgrammeEditionEnrolmentDataModel>
+deactivate drivers
+
+repository --> service:List<ProgrammeEditionEnrolment>
 deactivate repository
 
 ref over service

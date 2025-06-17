@@ -1,10 +1,11 @@
-package PAI.controllerRest;
+package PAI.controllerRest.programmeEnrolmentRestControllerTests;
 
 import PAI.VOs.*;
 import PAI.assembler.programmeEdition.IProgrammeEditionControllerAssembler;
 import PAI.assembler.programmeEnrolment.IProgrammeEnrolmentAssembler;
 import PAI.assembler.totalEnrolledStudentsInProgrammesByDepartmentAndSchoolYear.ITotalEnrolledStudentsAssembler;
 
+import PAI.controllerRest.ProgrammeEnrolmentRestController;
 import PAI.dto.programmeEdition.ProgrammeEditionWithNameAndDescriptionResponseDTO;
 import PAI.dto.totalEnrolledStudents.TotalEnrolledStudentsCommand;
 import PAI.dto.totalEnrolledStudents.TotalEnrolledStudentsRequest;
@@ -34,7 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import PAI.VOs.ProgrammeEnrolmentGeneratedID;
 import PAI.VOs.ProgrammeID;
 import PAI.VOs.ProgrammeEditionID;
-import PAI.dto.programmeEdition.ProgrammeEditionIdDto;
+
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;

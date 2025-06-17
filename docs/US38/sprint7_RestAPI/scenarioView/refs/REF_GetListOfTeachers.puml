@@ -1,0 +1,57 @@
+@startuml
+title Get List of Teachers \n (Reference Diagram for Scenario View Level 4 Granularity - Full Backend Flow)
+
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+autonumber
+
+participant ":TeacherRestController" as controller <<Controller>> <<Component>>  #lightblue/white
+participant ":ITeacherRegistrationService" as service <<Service>> <<Component>> #lightblue/white
+participant ":ITeacherAssembler" as assembler <<Assembler>> <<Component>> #lightblue/white
+participant ":TeacherDTO" as teacherDTO <<DTO>> <<Component>> #lightblue/white
+participant ":ITeacherRepository" as repository <<Repository>> <<Component>> #lightblue/white
+participant ":ITeacherMapper" as mapper <<Mapper>> <<Component>> #lightblue/white
+participant ":ITeacherFactory" as factory <<Factory>> <<Component>> #lightblue/white
+participant ":ITeacherRepositorySpringData" as springDataRepository <<SpringDataRepository>> <<Component>> #lightblue/white
+participant "teacher[i]:Teacher" as T #lightblue/white
+
+controller -> service: getAllTeachers()
+activate controller  #E1F5FE
+
+activate service  #E1F5FE
+service -> repository: findAll()
+activate repository #E1F5FE
+
+repository -> springDataRepository: findAll()
+activate springDataRepository #E1F5FE
+springDataRepository --> repository: List<TeacherDataModel>
+deactivate springDataRepository
+
+loop for TeacherDataModel[i]
+repository -> mapper: toDomain(teacherDataModel)
+activate mapper #E1F5FE
+mapper -> factory: createTeacher(teacherDataModel)
+deactivate mapper
+activate factory #E1F5FE
+factory -> T**: newTeacher(teacherID, name, email, \n nif, phoneNumber, academicBackground, street, \n postalCode, location, country, departmentID)
+deactivate factory
+end
+
+repository --> service --: List<Teacher>
+deactivate repository
+service --> controller: List<Teacher>
+deactivate service
+
+loop for Teacher[i]
+controller -> assembler: toDTO(teacher[i])
+activate assembler #E1F5FE
+assembler -> teacherDTO: newTeacherDTO(teacher[i])
+end
+
+
+assembler --> controller: List<TeacherDTO>
+deactivate assembler
+
+deactivate controller
+@enduml

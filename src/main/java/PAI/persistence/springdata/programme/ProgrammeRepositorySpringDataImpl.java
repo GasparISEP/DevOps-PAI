@@ -2,8 +2,10 @@ package PAI.persistence.springdata.programme;
 
 import PAI.VOs.*;
 import PAI.domain.programme.Programme;
+import PAI.mapper.department.IDepartmentIDMapper;
 import PAI.mapper.programme.IProgrammeIDMapper;
 import PAI.mapper.programme.IProgrammeMapper;
+import PAI.persistence.datamodel.department.DepartmentIDDataModel;
 import PAI.persistence.datamodel.programme.ProgrammeDataModel;
 import PAI.persistence.datamodel.programme.ProgrammeIDDataModel;
 import PAI.domain.repositoryInterfaces.programme.IProgrammeRepository;
@@ -22,8 +24,9 @@ public class ProgrammeRepositorySpringDataImpl implements IProgrammeRepository {
     private final IProgrammeMapper _iProgMapper;
     private final IProgrammeRepositorySpringData _iProgRepo;
     private final IProgrammeIDMapper _iProgIDMapper;
+    private final IDepartmentIDMapper _iDepartmentIDMapper;
 
-    public ProgrammeRepositorySpringDataImpl(IProgrammeMapper iProgMapper, IProgrammeRepositorySpringData iProgRepo, IProgrammeIDMapper iProgIDMapper) {
+    public ProgrammeRepositorySpringDataImpl(IProgrammeMapper iProgMapper, IProgrammeRepositorySpringData iProgRepo, IProgrammeIDMapper iProgIDMapper, IDepartmentIDMapper iDepartmentIDMapper) {
         if(iProgRepo == null) {
             throw new IllegalArgumentException("iProgrammeRepositorySpringData must not be null");
         }
@@ -33,9 +36,13 @@ public class ProgrammeRepositorySpringDataImpl implements IProgrammeRepository {
         if(iProgIDMapper == null) {
             throw new IllegalArgumentException("iProgrammedIDMapper must not be null");
         }
+        if(iDepartmentIDMapper == null) {
+            throw new IllegalArgumentException("iDepartmentIDMapper must not be null");
+        }
         _iProgMapper = iProgMapper;
         _iProgRepo = iProgRepo;
         _iProgIDMapper = iProgIDMapper;
+        _iDepartmentIDMapper = iDepartmentIDMapper;
     }
 
     public Programme save(Programme prog) {
@@ -86,15 +93,16 @@ public class ProgrammeRepositorySpringDataImpl implements IProgrammeRepository {
         return _iProgRepo.existsById(idDM);
     }
 
-    public List<ProgrammeID> findProgrammeByDepartment(DepartmentID departmentID){
-        List<ProgrammeID> programmesWithDepartment = new ArrayList<>();
-        List<Programme> allProgrammes=findAll();
-        for (Programme programme : allProgrammes) {
-            if(programme.isInDepartment(departmentID)){
-                programmesWithDepartment.add(programme.identity());
-            }
+    public List<ProgrammeID> findProgrammesIdByDepartmentId(DepartmentID departmentID){
+
+        DepartmentIDDataModel dataModel = _iDepartmentIDMapper.toDataModel(departmentID);
+        List<ProgrammeIDDataModel> programmes = _iProgRepo.findProgrammesIdByDepartmentId(dataModel);
+        List<ProgrammeID> programmeIDs = new ArrayList<>();
+        for (ProgrammeIDDataModel programmeIDDataModel : programmes) {
+            ProgrammeID programmeID = _iProgIDMapper.toDomain(programmeIDDataModel);
+            programmeIDs.add(programmeID);
         }
-        return programmesWithDepartment;
+        return programmeIDs;
     }
 
     @Override

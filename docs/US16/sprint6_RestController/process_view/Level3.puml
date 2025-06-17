@@ -10,35 +10,48 @@ skinparam sequence {
 
 title US16: Enroll a Student in a Course Edition\nProcess View – Level 3
 
-participant ":Router" as RT
-participant ":Controller" as CT
-participant ":Service" as SE
-participant ":Repository" as RE
-participant ":Domain" as DM
+participant "Router" as RT
+participant "Controller" as CT
+participant "Service" as SE
+participant "Repository" as RE
+participant "Domain" as DM
+participant "Mapper" as MA
+participant "HateoasAssembler" as HA
 
 
- [o--> RT ++: (POST) /students/{id}/courses-edition-enrolments with JSON {request}
+ [o--> RT ++: POST /students/{id}/courses-edition-enrolments with JSON {request}
 RT -> CT ++: enrolStudentInCourseEdition(CourseEditionEnrolmentDto)
 
-CT -> SE ++: enrollStudentInCourseEdition(CourseEditionEnrolment)
+
+CT -> MA ++: toCourseEditionID(CourseEditionEnrolmentDto)
+MA --> CT --: CourseEditionID
+CT --> MA ++: toStudentID(CourseEditionEnrolmentDto)
+MA --> CT --: StudentID
+CT -> SE ++: enrollStudentInCourseEdition(CourseEditionID, StudentID)
 
 
-SE -> DM ++: createCourseEditionEnrolment(CourseEditionEnrolment)
+
+SE -> DM ++: createCourseEditionEnrolment(CourseEditionID, StudentID)
 DM --> SE --: CourseEditionEnrolment
 
-SE -> RE ++: save(CourseEditionEnrolment)
+SE -> RE ++: save(CourseEditionEnrolmentDto)
 
+RE -> MA ++: toData(CourseEditionEnrolment)
+MA --> RE --: DataLinha	
 
 RE ->o]: Insert Data
 RE <--o]: DataLinha
 
 
-RE -> DM ++: toDomain(DataLinha)
-DM --> RE --: CourseEditionEnrolment
+RE -> MA ++: toDomain(DataLinha)
+MA --> RE --: CourseEditionEnrolment
 
 RE --> SE --: CourseEditionEnrolment
 
 SE --> CT --: CourseEditionEnrolment
+
+CT -> HA ++: toEntityModel(CourseEditionEnrolment)
+HA --> CT --: EntityModel<CourseEditionEnrolmentDto>
 
 CT --> RT --: HTTP 201 Created **with EntityModel<CourseEditionEnrolmentDto>**
 

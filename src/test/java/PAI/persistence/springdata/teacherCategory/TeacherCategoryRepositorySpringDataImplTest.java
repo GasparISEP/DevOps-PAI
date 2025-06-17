@@ -3,8 +3,8 @@ package PAI.persistence.springdata.teacherCategory;
 import PAI.VOs.Name;
 import PAI.VOs.TeacherCategoryID;
 import PAI.domain.teacherCategory.TeacherCategory;
+import PAI.mapper.teacherCategory.ITeacherCategoryIDMapper;
 import PAI.mapper.teacherCategory.ITeacherCategoryMapper;
-import PAI.mapper.teacherCategory.TeacherCategoryIDMapperImpl;
 import PAI.persistence.datamodel.teacherCategory.TeacherCategoryDataModel;
 import PAI.persistence.datamodel.teacherCategory.TeacherCategoryIDDataModel;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,7 +28,7 @@ class TeacherCategoryRepositorySpringDataImplTest {
     private ITeacherCategoryMapper mapper;
 
     @Mock
-    private TeacherCategoryIDMapperImpl idMapper;
+    private ITeacherCategoryIDMapper idMapper;
 
     @Mock
     private TeacherCategory teacherCategory;

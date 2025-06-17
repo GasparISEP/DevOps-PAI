@@ -1,0 +1,141 @@
+@startuml
+title US38 \n As a Programme Director, I want to define the RUC for a course edition \n (Scenario View - Level 4 Granularity - Full Backend Flow)
+
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+autonumber
+
+participant ":Router" as router <<Component>> <<Router>> #Lightblue
+participant ":TeacherRestController" as teacherController <<Component>> <<RESTController>> #Lightblue
+participant ":CourseEditionRestController" as ceeController <<Component>> <<RESTController>> #Lightblue
+participant ":IDefineRucService" as defineRucService <<Component>> <<Service>> #Lightblue
+participant ":ICourseEditionRepository" as courseEditionRepository <<Component>> <<Repository>> #Lightblue
+participant ":ICourseEditionMapper" as courseEditionMapper <<Component>> <<Mapper>> #Lightblue
+participant ":ICourseEditionHateoasAssembler" as HateoasAssembler <<Component>> <<HateoasAssembler>> #Lightblue
+participant ":ICourseEdition" as courseEdition <<Component>> <<Entity>> #Lightblue
+participant ":ICourseEditionRepositorySpringData" as ceRepositorySpringData <<Component>> <<SpringDataRepository>> #Lightblue
+participant ":ITeacherRepository" as teacherRepository <<Component>> <<Repository>> #Lightblue
+participant ":ITeacherRepositorySpringData" as teacherRepositorySpringData <<Component>> <<SpringDataRepository>> #Lightblue
+
+-> router: GET /teachers
+activate router  #E1F5FE
+
+note over router: The conversion from JSON to DTO is done\n automatically through the Spring Boot Framework
+
+router -> teacherController : getAllTeachers()
+activate teacherController #E1F5FE
+
+ref over teacherController
+       <b>Get List of Teachers</b>
+end ref
+
+teacherController --> router: 200 OK – List<TeacherDTO>
+deactivate teacherController
+
+note over router: The conversion from DTO to JSON is done\n automatically through the Spring Boot Framework
+
+<-- router: 200 OK – List<TeacherDTO>
+deactivate router
+
+-> router: GET /course-editions
+activate router  #E1F5FE
+
+note over router: The conversion from JSON to DTO is done\n automatically through the Spring Boot Framework
+
+router -> ceeController : findAllCourseEditions()
+activate ceeController  #E1F5FE
+
+ref over ceeController
+       <b>Get List of Course Editions</b>
+end ref
+
+ceeController --> router : 200 OK - List<CourseEditionDTO>
+deactivate ceeController
+
+note over router: The conversion from DTO to JSON is done\n automatically through the Spring Boot Framework
+
+<-- router: 200 OK - List<CourseEditionDTO>
+deactivate router  #E1F5FE
+
+-> router: PATCH /course-editions/ruc + body {...}
+activate router  #E1F5FE
+
+note over router: The conversion from JSON to DTO is done\n automatically through the Spring Boot Framework
+
+router -> ceeController : defineRucForCourseEdition(defineRucRequestDTO)
+activate ceeController #E1F5FE
+
+ref over ceeController
+       <b>Convert RequestDTO to Domain</b>
+end ref
+
+ceeController -> defineRucService: assignRucToCourseEdition\n(teacherId, courseEditionId)
+
+activate defineRucService #E1F5FE
+
+defineRucService -> teacherRepository: containsOfIdentity(id)
+activate teacherRepository #E1F5FE
+teacherRepository -> teacherRepositorySpringData: containsOfIdentity(teacherID)
+activate teacherRepositorySpringData #E1F5FE
+teacherRepositorySpringData --> teacherRepository: true
+deactivate teacherRepositorySpringData
+teacherRepository --> defineRucService: true
+deactivate teacherRepository
+
+defineRucService -> courseEditionRepository : containsOfIdentity(courseEditionID)
+activate courseEditionRepository #E1F5FE
+courseEditionRepository -> ceRepositorySpringData : findCourseEditionByGeneratedId(id)
+activate ceRepositorySpringData #E1F5FE
+
+ceRepositorySpringData --> courseEditionRepository : CourseEditionDataModel
+deactivate ceRepositorySpringData
+courseEditionRepository -> courseEditionMapper : toDomain(CourseEditionDataModel)
+activate courseEditionMapper #E1F5FE
+courseEditionMapper --> courseEditionRepository : courseEdition
+deactivate courseEditionMapper
+courseEditionRepository --> defineRucService : courseEdition
+deactivate courseEditionRepository
+
+
+defineRucService -> courseEdition : setRuc(teacherID)
+activate courseEdition #E1F5FE
+courseEdition --> defineRucService : true
+deactivate courseEdition
+
+
+defineRucService -> courseEditionRepository : save(CourseEdition)
+activate courseEditionRepository #E1F5FE
+
+courseEditionRepository -> courseEditionMapper : toDataModel()
+activate courseEditionMapper #E1F5FE
+courseEditionMapper --> courseEditionRepository : CourseEditionDataModel
+deactivate courseEditionMapper
+courseEditionRepository -> ceRepositorySpringData : save(CourseEditionDataModel)
+activate ceRepositorySpringData #E1F5FE
+ceRepositorySpringData --> courseEditionRepository : CourseEditionDataModel
+deactivate ceRepositorySpringData
+courseEditionRepository -> courseEditionMapper : toDomain()
+activate courseEditionMapper #E1F5FE
+courseEditionMapper --> courseEditionRepository : courseEdition
+deactivate courseEditionMapper
+courseEditionRepository --> defineRucService : courseEdition
+
+deactivate courseEditionRepository
+
+defineRucService --> ceeController : true
+deactivate defineRucService
+ceeController -> ceeController: new DefineRucResponseDTO(teacherID, courseEditionDTO)
+ceeController -> HateoasAssembler: toModel(responseDto)
+activate HateoasAssembler #E1F5FE
+HateoasAssembler --> ceeController: EntityModel<defineRucResponseDTO>
+deactivate HateoasAssembler
+ceeController --> router:   200 OK + body {DefineRucResponseDTO + hypermedia}
+deactivate ceeController
+
+note over router: The conversion from DTO to JSON is done\n automatically through the Spring Boot Framework
+
+<-- router:   200 OK + body {DefineRucResponseDTO + hypermedia}
+deactivate router
+
+@enduml

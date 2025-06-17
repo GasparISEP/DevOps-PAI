@@ -2,6 +2,7 @@ package PAI.service.courseInStudyPlan;
 
 import PAI.assembler.courseInStudyPlan.ICourseInStudyPlanBusinessAssembler;
 import PAI.VOs.*;
+import PAI.assembler.courseInStudyPlan.ICourseInStudyPlanServiceAssembler;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.domain.courseInStudyPlan.ICourseInStudyPlanFactory;
 import PAI.domain.repositoryInterfaces.courseInStudyPlan.ICourseInStudyPlanRepository;
@@ -29,7 +30,7 @@ class CourseInStudyPlanServiceImplTest {
     private ICourseInStudyPlanFactory factory;
 
     @Mock
-    private ICourseInStudyPlanBusinessAssembler assembler;
+    private ICourseInStudyPlanServiceAssembler assembler;
 
     @InjectMocks
     private CourseInStudyPlanServiceImpl service;
@@ -177,8 +178,8 @@ class CourseInStudyPlanServiceImplTest {
         CourseInStudyPlanServiceDTO dto1 = mock(CourseInStudyPlanServiceDTO.class);
         CourseInStudyPlanServiceDTO dto2 = mock(CourseInStudyPlanServiceDTO.class);
 
-        when(assembler.toDTO(course1)).thenReturn(dto1);
-        when(assembler.toDTO(course2)).thenReturn(dto2);
+        when(assembler.toServiceDTO(course1)).thenReturn(dto1);
+        when(assembler.toServiceDTO(course2)).thenReturn(dto2);
 
         // Act
         List<CourseInStudyPlanServiceDTO> result = service.getCourseSummariesByStudyPlanID(spId);

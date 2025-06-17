@@ -148,7 +148,7 @@ class ProgrammeRepositoryImplTest {
         repository.save(programme);
         // Act
 
-        List<ProgrammeID> result = repository.findProgrammeByDepartment(departmentID);
+        List<ProgrammeID> result = repository.findProgrammesIdByDepartmentId(departmentID);
 
         // Assert
         assertFalse(result.isEmpty());
@@ -181,7 +181,7 @@ class ProgrammeRepositoryImplTest {
         repository.save(programme);
         repository.save(programme2);
         // Act
-        List<ProgrammeID> result = repository.findProgrammeByDepartment(departmentID);
+        List<ProgrammeID> result = repository.findProgrammesIdByDepartmentId(departmentID);
 
         // Assert
         assertEquals(2, result.size());
@@ -206,7 +206,7 @@ class ProgrammeRepositoryImplTest {
 
 repository.save(programme);
         // Act
-        List<ProgrammeID> result = repository.findProgrammeByDepartment(null);
+        List<ProgrammeID> result = repository.findProgrammesIdByDepartmentId(null);
 
         // Assert
         assertFalse(result.contains(programmeID));
@@ -234,7 +234,7 @@ repository.save(programme);
 
 repository.save(programme);
         // Act
-        List<ProgrammeID> result = repository.findProgrammeByDepartment(departmentID);
+        List<ProgrammeID> result = repository.findProgrammesIdByDepartmentId(departmentID);
 
         // Assert
         assertFalse(result.contains(programmeID));
@@ -258,7 +258,7 @@ repository.save(programme);
 
         when(programme.identity()).thenReturn(programmeID);
         // Act
-        List<ProgrammeID> result = repository.findProgrammeByDepartment(departmentID);
+        List<ProgrammeID> result = repository.findProgrammesIdByDepartmentId(departmentID);
 
         // Assert
         assertFalse(result.contains(programmeID));

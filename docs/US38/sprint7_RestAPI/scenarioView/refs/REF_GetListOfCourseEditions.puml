@@ -1,0 +1,57 @@
+@startuml
+title Get List of Course Editions \n (Reference Diagram)
+
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+autonumber
+
+participant ":CourseEditionRestController" as controller <<Controller>> <<Component>>  #lightblue/white
+participant ":ICreateCourseEditionService" as createCeeService <<Service>> <<Component>> #lightblue/white
+participant ":ICourseEditionAssembler" as ceAssembler <<Assembler>> <<Component>> #lightblue/white
+participant ":CourseEditionDTO" as ceDTO <<DTO>> #lightblue/white
+participant ":ICourseEditionRepository" as ceRepository <<Repository>> <<Component>> #lightblue/white
+participant ":ICourseEditionMapper" as mapper <<Mapper>> <<Component>> #lightblue/white
+participant ":ICourseEditionFactory" as factory <<Factory>> <<Component>> #lightblue/white
+participant ":ICourseEditionRepositorySpringData" as ceRepositorySpringData <<SpringDataRepository>> <<Component>> #lightblue/white
+participant "courseEdition[i]:CourseEdition" as CE #lightblue/white
+
+controller -> createCeeService: findAllCourseEditions()
+activate controller  #E1F5FE
+
+activate createCeeService  #E1F5FE
+createCeeService -> ceRepository: findAll()
+
+activate ceRepository #E1F5FE
+ceRepository -> ceRepositorySpringData: findAll()
+
+activate ceRepositorySpringData #E1F5FE
+ceRepositorySpringData --> ceRepository: List<CourseEditionDataModel>
+deactivate ceRepositorySpringData
+
+loop for CourseEditionDataModel[i]
+ceRepository -> mapper: toDomain(CourseEditionDataModel)
+activate mapper #E1F5FE
+mapper -> factory: createCourseEditionFromDataModel\n(courseEditionDataModel)
+deactivate mapper
+activate factory #E1F5FE
+factory -> CE**: new CourseEdition(courseEditionID, courseInStudyPlanID,\n programmeEditionID, courseEditionGeneratedID,\n teacherID)
+deactivate factory
+end
+
+ceRepository --> createCeeService --: List<CourseEdition>
+deactivate ceRepository
+
+createCeeService --> controller: List<CourseEdition>
+deactivate createCeeService
+
+loop for CourseEdition[i]
+controller -> ceAssembler: fromDomainToDTO(courseEdition[i])
+activate ceAssembler #E1F5FE
+ceAssembler -> ceDTO: newCourseEditionDTO(courseEdition[i])
+end
+
+ceAssembler --> controller: List<CourseEditionResponseDTO>
+deactivate ceAssembler
+deactivate controller
+@enduml

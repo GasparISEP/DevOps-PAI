@@ -18,13 +18,13 @@ activate FE #LightBlue
 FE -> BE: GET /programme-editions {}
 activate BE #LightGreen
 
-BE -> DB: SELECT * FROM ProgrammeEdition
+BE -> DB: SELECT * FROM programmeEdition
 activate DB #LightGray
 
-DB --> BE: List<ProgrammeEdition>
+DB --> BE: List<ProgrammeEditionDataModel>
 deactivate DB
 
-BE --> FE: 200 + body {List<ProgrammeEdition>}
+BE --> FE: 200 + body {List<ProgrammeEditionResponseDTO> + hypermedia}
 deactivate BE
 
 FE --> ASC: Which a programme edition?
@@ -39,17 +39,17 @@ deactivate FE
 ASC -> FE: Yes!
 activate FE #LightBlue
 
-FE -> BE: GET /programme-editions/{id}/schoolYearID/students
+FE -> BE: GET /programme-editions/{id}/{schoolYearID}/students
 activate BE #LightGreen
 
-BE -> DB: SELECT * FROM ProgrammeEditionEnrolment \nWHERE programmeAcronym = 'SWE' \nAND schoolYearID = '1b7e4da6-f9e1-47d8-8dd8-cbe83ac8d95b';
+BE -> DB: SELECT * FROM programmeEditionEnrolment \nWHERE programmeAcronym = 'SWE' \nAND schoolYearID = '1b7e4da6-f9e1-47d8-8dd8-cbe83ac8d95b';
 activate DB #LightGray
 
-DB --> BE: List<ProgrammeEditionEnrolment>
+DB --> BE: List<ProgrammeEditionEnrolmentDataModel>
 deactivate DB
 
 
-BE --> FE: 200 + body {totalNumberOfStudents + hypermedia}
+BE --> FE: 200 + body {totalNumberOfStudents: Integer + hypermedia}
 deactivate BE
 
 FE --> ASC: Number of Students enrolled!

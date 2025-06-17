@@ -1,6 +1,6 @@
 @startuml
 
-title US16: Enroll a Student in a Course Edition\nProcess View – Level 4
+title US16: Enroll a Student in a Course Edition\nScenario View – Level 4
 
 autonumber
 skinparam sequence {
@@ -32,12 +32,12 @@ activate Factory
 create Enrolment
 Factory -> Enrolment--: create
 Factory --> Service --: CourseEditionEnrolment
-Service -> Repository ++: validate enrollment
+Service -> Repository ++: isStudentEnrolledInCourseEdition(StudentID, CourseEditionID)
 Repository -> SpringDataRepo ++: SELECT * FROM CourseEditionEnrolment WHERE CourseEditionEnrolment.CourseEditionID = ? AND CourseEditionEnrolment.StudentID = ?
 SpringDataRepo --> Repository --: validation
-Repository --> Service --: validation
+Repository --> Service --: false
 
-Service -> Repository ++: save enrollment
+Service -> Repository ++: save(CourseEditionEnrolment)
 Repository -> DataModelMapper ++: toDataModel(CourseEditionEnrolment)
 note right of DataModelMapper
   Transformations:

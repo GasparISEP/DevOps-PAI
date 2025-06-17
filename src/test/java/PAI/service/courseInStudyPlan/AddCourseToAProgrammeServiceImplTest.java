@@ -8,8 +8,9 @@ import PAI.domain.repositoryInterfaces.courseInStudyPlan.ICourseInStudyPlanRepos
 import PAI.domain.repositoryInterfaces.studyPlan.IStudyPlanRepository;
 import PAI.dto.courseInStudyPlan.CourseInStudyPlanCommand;
 import PAI.dto.courseInStudyPlan.CourseInStudyPlanServiceDTO;
-import PAI.exception.BusinessRuleViolationException;
-import PAI.service.studyPlan.IStudyPlanService;
+import PAI.exception.AlreadyExistsException;
+import PAI.exception.NotFoundException;
+import PAI.exception.CreditsExceededException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -91,7 +92,7 @@ class AddCourseToAProgrammeServiceImplTest {
         when(studyPlanID.getProgrammeID()).thenReturn(programmeID);
         when(studyPlanRepository.findLatestByProgrammeID(programmeID)).thenReturn(null);
 
-        assertThrows(BusinessRuleViolationException.class, () -> service.addCourseToAProgramme(command));
+        assertThrows(NotFoundException.class, () -> service.addCourseToAProgramme(command));
     }
 
     @Test
@@ -117,7 +118,7 @@ class AddCourseToAProgrammeServiceImplTest {
         when(courseInStudyPlan.identity()).thenReturn(courseInStudyPlanID);
         when(repository.containsOfIdentity(courseInStudyPlanID)).thenReturn(true);
 
-        assertThrows(BusinessRuleViolationException.class, () -> service.addCourseToAProgramme(command));
+        assertThrows(AlreadyExistsException.class, () -> service.addCourseToAProgramme(command));
     }
 
     @Test
@@ -144,12 +145,11 @@ class AddCourseToAProgrammeServiceImplTest {
         when(repository.containsOfIdentity(courseInStudyPlanID)).thenReturn(false);
         when(repository.getTotalCreditsEctsInStudyPlanSoFar(any(), any(), any(), any())).thenReturn(25.0);
 
-        assertThrows(BusinessRuleViolationException.class, () -> service.addCourseToAProgramme(command));
+        assertThrows(CreditsExceededException.class, () -> service.addCourseToAProgramme(command));
     }
 
     @Test
     void should_Not_CreateCourseInStudyPlan_WhenTotalCreditsExceedsLimits() throws Exception {
-
         // arrange
         CourseInStudyPlan candidate = mock(CourseInStudyPlan.class);
 
@@ -184,8 +184,10 @@ class AddCourseToAProgrammeServiceImplTest {
         when(factory.newCourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, durationOfCourse, quantityOfCreditsEcts))
                 .thenReturn(candidate);
 
+        when(studyPlanRepository.findLatestByProgrammeID(programmeID)).thenReturn(studyPlanID);
+
         // act + assert
-        assertThrows(BusinessRuleViolationException.class, () -> {
+        assertThrows(CreditsExceededException.class, () -> {
             service.addCourseToAProgramme(command);
         });
     }
@@ -438,7 +440,7 @@ class AddCourseToAProgrammeServiceImplTest {
         );
 
         // act + assert
-        assertThrows(BusinessRuleViolationException.class, () -> {
+        assertThrows(NotFoundException.class, () -> {
             service.addCourseToAProgramme(command);
         });
     }
@@ -470,7 +472,7 @@ class AddCourseToAProgrammeServiceImplTest {
         );
 
         // act + assert
-        assertThrows(BusinessRuleViolationException.class, () -> {
+        assertThrows(NotFoundException.class, () -> {
             service.addCourseToAProgramme(command);
         });
     }
@@ -598,4 +600,3 @@ class AddCourseToAProgrammeServiceImplTest {
         });
     }
 }
-
