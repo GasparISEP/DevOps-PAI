@@ -10,6 +10,7 @@ import 'react-phone-input-2/lib/style.css';
 import ISEPLogoBranco from "../../assets/images/ISEP_logo-branco.png";
 import '../../styles/Form.css';
 import {Link} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const initialFormState = {
     name: '',
@@ -26,6 +27,7 @@ const initialFormState = {
 
 
 export default function StudentForm() {
+    const navigate = useNavigate();
     const [form, setForm] = useState(initialFormState);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
@@ -117,8 +119,8 @@ export default function StudentForm() {
                 academicEmail: raw.academicEmail,
                 _links: {
                     view: raw._links?.self || null,
-                    viewAll: raw._links?.viewAll || null,
-                    viewDetails: raw._links?.viewDetails || null
+                    viewAll: raw._links?.['all-students'] || null,
+                    viewDetails: raw._links?.['view-details'] || null
                 }
             });
             setShowModal(true);
@@ -447,21 +449,19 @@ export default function StudentForm() {
                                 {success._links?.viewDetails?.href && (
                                     <button
                                         onClick={() => {
-                                            const backendPath = success._links.viewDetails.href;
-                                            const id = backendPath.split('/').pop();
+                                            const id = success._links.viewDetails.href.split('/').pop();
                                             const frontendUrl = `${window.location.origin}/students/${id}`;
-                                            window.open(frontendUrl, '_blank');
-                                        }}
-                                        title="View Student"
+                                            window.open(frontendUrl, '_blank');                                        }}
+                                        title="View Details"
                                         style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0.5rem' }}
                                     >
                                         <VisibilityIcon fontSize="medium" />
                                     </button>
                                 )}
-                                {success._links?.viewAll?.href && (
+                                {success._links?.viewAll && (
                                     <button
                                         onClick={() => {
-                                            const frontendUrl = `${window.location.origin}${success._links.viewAll.href}`;
+                                            const frontendUrl = `${window.location.origin}/students/display`;
                                             window.open(frontendUrl, '_blank');
                                         }}
                                         title="View All Students"

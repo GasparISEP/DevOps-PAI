@@ -1,15 +1,12 @@
 package PAI.assembler.courseEdition;
 
-import PAI.dto.courseEdition.CourseEditionResponseIDDTO;
+import PAI.controllerRest.CourseEditionRestController;
+import PAI.dto.courseEdition.CourseEditionResponseDTO;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.server.core.DummyInvocationUtils;
 import org.springframework.stereotype.Component;
-import PAI.controllerRest.CourseEditionRestController;
 
-import org.springframework.hateoas.server.RepresentationModelAssembler;
-
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,37 +14,32 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
-public class CreateCourseEditionHateoasAssemblerImpl implements RepresentationModelAssembler<CourseEditionResponseIDDTO, EntityModel<CourseEditionResponseIDDTO>>, ICreateCourseEditionHateoasAssembler {
+public class CreateCourseEditionHateoasAssemblerImpl
+        implements ICreateCourseEditionHateoasAssembler {
 
     @Override
-    public EntityModel<CourseEditionResponseIDDTO> toModel(CourseEditionResponseIDDTO dto) {
+    public EntityModel<CourseEditionResponseDTO> toModel(CourseEditionResponseDTO dto) {
         return EntityModel.of(dto,
                 linkTo(methodOn(CourseEditionRestController.class)
-                        .getCourseEditionById(
-                                dto.programmeAcronym(),
-                                dto.schoolYearID().toString(),
-                                dto.courseAcronym(),
-                                dto.courseName(),
-                                dto.studyPlanImplementationDate().toString()))
+                        .getCourseEditionById(dto.courseEditionGeneratedID()))
                         .withSelfRel(),
 
-                linkTo(DummyInvocationUtils.methodOn(CourseEditionRestController.class)
+                linkTo(methodOn(CourseEditionRestController.class)
                         .findAllCourseEditions())
                         .withRel("find-all-course-editions")
         );
     }
 
     @Override
-    public CollectionModel<EntityModel<CourseEditionResponseIDDTO>> toCollectionModel(List<CourseEditionResponseIDDTO> dtos) {
-        List<EntityModel<CourseEditionResponseIDDTO>> models = dtos.stream()
-                .map(this::toModel)
-                .collect(Collectors.toList());
+    public CollectionModel<EntityModel<CourseEditionResponseDTO>> toCollectionModel(Iterable<? extends CourseEditionResponseDTO> dtos) {
+        List<EntityModel<CourseEditionResponseDTO>> models = new ArrayList<>();
+        dtos.forEach(dto -> models.add(toModel(dto)));
 
         return CollectionModel.of(models,
-                linkTo(DummyInvocationUtils.methodOn(CourseEditionRestController.class).findAllCourseEditions())
+                linkTo(methodOn(CourseEditionRestController.class)
+                        .findAllCourseEditions())
                         .withSelfRel()
         );
     }
 
 }
-

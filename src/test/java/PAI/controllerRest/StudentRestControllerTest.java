@@ -114,13 +114,13 @@ class StudentRestControllerTest {
 
     @Test
     void getLastStudentID_shouldReturnBadRequest_whenExceptionThrown() {
-        // Arrange
+        //arrange
         when(studentService.getLastStudentID()).thenThrow(new RuntimeException("Simulated failure"));
 
-        // Act
+        //act
         ResponseEntity<Map<String, Integer>> response = studentRestController.getLastStudentID();
 
-        // Assert
+        //assert
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 
@@ -148,6 +148,18 @@ class StudentRestControllerTest {
 
         //act
         ResponseEntity<EntityModel<StudentResponseDTO>> response = studentRestController.registerAStudent(studentDTO);
+
+        //assert
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Test
+    void getAllStudents_shouldReturnBadRequest_whenExceptionIsThrown() {
+        //arrange
+        when(studentService.getAllStudents()).thenThrow(new RuntimeException("Simulated failure"));
+
+        //act
+        ResponseEntity<CollectionModel<EntityModel<StudentResponseDTO>>> response = studentRestController.getAllStudents();
 
         //assert
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
