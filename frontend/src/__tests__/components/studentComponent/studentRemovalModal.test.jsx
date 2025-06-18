@@ -3,14 +3,13 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import StudentRemovalModal from '../../../components/studentComponent/StudentRemovalModal';
 
+const mockCourseEdition = {
+    courseName: 'Software Engineering',
+    courseAcronym: 'SE',
+    studyPlanStartYear: 2023
+};
 
 describe('StudentRemovalModal', () => {
-
-    const mockCourseEdition = {
-        courseName: 'Software Engineering',
-        courseAcronym: 'SE',
-        studyPlanStartYear: 2023
-    };
 
     test('renders success message correctly', () => {
         render(
@@ -54,10 +53,8 @@ describe('StudentRemovalModal', () => {
             />
         );
 
-        // Verifica se o título de insucesso aparece
         expect(screen.getByText('Unsuccessful!')).toBeInTheDocument();
 
-        // Verifica o texto do parágrafo de erro, usando função matcher para texto fragmentado
         const messageElement = screen.getByText((_, element) => {
             return (
                 element.tagName.toLowerCase() === 'p' &&
@@ -69,7 +66,6 @@ describe('StudentRemovalModal', () => {
 
         expect(messageElement).toBeInTheDocument();
 
-        // Verifica se o botão Close aparece
         expect(screen.getByRole('button', { name: /close/i })).toBeInTheDocument();
     });
 
