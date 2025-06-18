@@ -34,4 +34,6 @@ public interface ICourseInStudyPlanAssembler {
     CourseInStudyPlanResponseDTO toDTO(CourseInStudyPlanServiceDTO courseInStudyPlanServiceDTO);
 
     CourseInStudyPlanResponseDTO toDTOfromDomain(CourseInStudyPlan course);
+
+    Iterable<CourseInStudyPlanResponseDTO> toDTOsfromDomains(Iterable <CourseInStudyPlan> courseInStudyPlans);
 }

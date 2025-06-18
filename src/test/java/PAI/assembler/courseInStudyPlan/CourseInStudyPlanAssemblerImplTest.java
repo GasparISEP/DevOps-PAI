@@ -13,7 +13,8 @@ import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.dto.courseInStudyPlan.CourseInStudyPlanRequestDTO;
 import PAI.VOs.*;
 
-import java.time.LocalDate;
+
+import java.util.List;
 import java.util.UUID;
 
 class CourseInStudyPlanAssemblerImplTest {
@@ -168,5 +169,77 @@ class CourseInStudyPlanAssemblerImplTest {
         // Act & Assert
         Exception exception = assertThrows(NullPointerException.class, () -> assembler.toDTOfromDomain(null));
         assertEquals("CourseInStudyPlan entity cannot be null", exception.getMessage());
+    }
+
+    @Test
+    void testToDTOsfromDomains() {
+        // Arrange
+        CourseInStudyPlan course = mock(CourseInStudyPlan.class);
+        Semester semester = mock(Semester.class);
+        CurricularYear curricularYear = mock(CurricularYear.class);
+        CourseID courseID = mock(CourseID.class);
+        StudyPlanID studyPlanID = mock(StudyPlanID.class);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        DurationCourseInCurricularYear duration = mock(DurationCourseInCurricularYear.class);
+        CourseQuantityCreditsEcts credits = mock(CourseQuantityCreditsEcts.class);
+        CourseInStudyPlanGeneratedID generatedID = mock(CourseInStudyPlanGeneratedID.class);
+        NameWithNumbersAndSpecialChars programmeName = mock(NameWithNumbersAndSpecialChars.class);
+        Acronym acronym = mock(Acronym.class);
+        PAI.VOs.Date date = mock(PAI.VOs.Date.class);
+        java.time.LocalDate localDate = java.time.LocalDate.of(2023, 9, 1);
+
+        when(course.getSemester()).thenReturn(semester);
+        when(semester.toInt()).thenReturn(1);
+        when(course.getCurricularYear()).thenReturn(curricularYear);
+        when(curricularYear.toInt()).thenReturn(2);
+        when(course.getCourseID()).thenReturn(courseID);
+        when(courseID.getCourseAcronymValue()).thenReturn("DSOFT");
+        when(courseID.getCourseNameValue()).thenReturn("Desenvolvimento de Software");
+        when(course.getStudyplanID()).thenReturn(studyPlanID);
+        when(studyPlanID.getProgrammeID()).thenReturn(programmeID);
+        when(programmeID.getProgrammeAcronym()).thenReturn("LEI");
+        when(studyPlanID.getDate()).thenReturn(date);
+        when(date.getLocalDate()).thenReturn(localDate);
+        when(course.getDurationOfCourse()).thenReturn(duration);
+        when(duration.getDuration()).thenReturn(1);
+        when(course.getQuantityOfCreditsEcts()).thenReturn(credits);
+        when(credits.toDouble()).thenReturn(6.0);
+        when(course.getGeneratedID()).thenReturn(generatedID);
+        when(generatedID.getId()).thenReturn(java.util.UUID.randomUUID());
+        when(course.getProgrammeID()).thenReturn(programmeID);
+        when(programmeID.getAcronym()).thenReturn(acronym);
+        when(acronym.getAcronym()).thenReturn("CSD");
+
+        Iterable<CourseInStudyPlan> courseInStudyPlans = List.of(course);
+        CourseInStudyPlanAssemblerImpl assembler = new CourseInStudyPlanAssemblerImpl();
+
+        // Act
+        Iterable<CourseInStudyPlanResponseDTO> responseDTOS = assembler.toDTOsfromDomains(courseInStudyPlans);
+
+        // Assert
+        assertNotNull(responseDTOS);
+        assertTrue(responseDTOS.iterator().hasNext());
+    }
+
+    @Test
+    void shouldReturnEmptyListWhenInputIsNull() {
+        // Arrange
+        CourseInStudyPlanAssemblerImpl assembler = new CourseInStudyPlanAssemblerImpl();
+        // Act
+        Iterable<CourseInStudyPlanResponseDTO> responseDTOS = assembler.toDTOsfromDomains(null);
+        // Assert
+        assertNotNull(responseDTOS);
+        assertFalse(responseDTOS.iterator().hasNext());
+    }
+
+    @Test
+    void shouldReturnEmptyListWhenInputIsEmpty() {
+        // Arrange
+        CourseInStudyPlanAssemblerImpl assembler = new CourseInStudyPlanAssemblerImpl();
+        // Act
+        Iterable<CourseInStudyPlanResponseDTO> responseDTOS = assembler.toDTOsfromDomains(List.of());
+        // Assert
+        assertNotNull(responseDTOS);
+        assertFalse(responseDTOS.iterator().hasNext());
     }
 }
