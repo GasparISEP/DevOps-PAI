@@ -15,7 +15,7 @@ skinparam defaultTextAlignment center
 skinparam shadowing true
 
 actor ASC  #LightBlue/White
-participant "<<System>>\nSystemPAI" as SYSTEM #E1F5FE
+participant "<<System>>\n:PAI" as SYSTEM #E1F5FE
 
 ASC -> SYSTEM: I want to create a course edition
 activate SYSTEM
