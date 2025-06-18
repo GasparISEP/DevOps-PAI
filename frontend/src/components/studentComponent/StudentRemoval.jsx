@@ -5,6 +5,7 @@ import { removeStudentFromCourseEditionService } from '../../services/removeStud
 import ISEPLogoBranco from "../../assets/images/ISEP_logo-branco.png";
 import {Link} from "react-router-dom";
 import '../../styles/Form.css'
+import StudentRemovalModal from "./StudentRemovalModal";
 
 
 export default function StudentCourseEditionForm() {
@@ -16,6 +17,11 @@ export default function StudentCourseEditionForm() {
     const [error, setError] = useState('');
 
     const [loading, setLoading] = useState(false);
+
+    const [showModal, setShowModal] = useState(false);
+    const [removedEdition, setRemovedEdition] = useState(null);
+
+    const [isSuccess, setIsSuccess] = useState(true);
 
     useEffect(() => {
         async function fetchStudents() {
@@ -75,13 +81,22 @@ export default function StudentCourseEditionForm() {
             setError('');
             setSelectedCourseEditionID('');
 
-            // Atualizar a lista de edições do curso após remoção
+            const removed = courseEditions.find(e => e.courseEditionGeneratedUUID === selectedCourseEditionID);
+            setRemovedEdition(removed);
+            setShowModal(true);
+            setIsSuccess(true);
+
             const updatedEditions = await getCourseEditionsByStudent(selectedStudentID);
             setCourseEditions(updatedEditions);
         } catch (err) {
             console.error(err);
             setError("Error trying to remove student from course edition.");
             setMessage('');
+
+            const removed = courseEditions.find(e => e.courseEditionGeneratedUUID === selectedCourseEditionID);
+            setRemovedEdition(removed);
+            setShowModal(true);
+            setIsSuccess(false);
         } finally {
             setLoading(false);
         }
@@ -187,12 +202,17 @@ export default function StudentCourseEditionForm() {
                                 </button>
                             </div>
                         </div>
-
                     </div>
-                    {message && <p style={{color: 'green'}}>{message}</p>}
-                    {error && <p style={{color: 'red'}}>{error}</p>}
                 </form>
             </div>
+            {showModal && (
+                <StudentRemovalModal
+                    isSuccess={isSuccess}
+                    studentID={selectedStudentID}
+                    courseEdition={removedEdition}
+                    onClose={() => setShowModal(false)}
+                />
+            )}
         </div>
     );
 }
