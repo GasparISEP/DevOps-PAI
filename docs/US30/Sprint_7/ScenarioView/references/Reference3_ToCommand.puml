@@ -1,0 +1,45 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+title Reference 3 - Detailed Flow:\n From RequestDTO to Command\nConverts CourseInStudyPlanRequestDTO to CourseInStudyPlanCommand
+
+autonumber
+
+skinparam {
+  ActivityPadding 2
+  ActivityMargin 2
+  BoxPadding 2
+}
+skinparam sequence {
+    LifeLineBorderColor Grey
+    LifeLineBackgroundColor #E1F5FE
+}
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+participant "<<component>>\n:CourseInStudyPlanRestController\n(REST Controller)" as Controller #honeydew
+participant "<<component>>\n:ICourseInStudyPlanAssembler\n(Controller Assembler)" as Assembler #honeydew
+
+[o-> Controller: CourseInStudyPlanRequestDTO
+activate Controller
+Controller -> Assembler: toCommand(requestDTO)
+activate Assembler
+note over Controller, Assembler
+The Assembler transforms the RequestDTO
+into a Command by mapping each field:
+
+- semester → new Semester(request.semester())
+- curricularYear → new CurricularYear(request.curricularYear())
+- courseAcronym → new Acronym(request.courseAcronym())
+- courseName → new Name(request.courseName())
+- programmeAcronym → new Acronym(request.programmeAcronym())
+- programmeName → new NameWithNumbersAndSpecialChars(request.programmeName())
+- studyPlanDate → new Date(request.studyPlanDate())
+- duration → new DurationCourseInCurricularYear(request.duration())
+- credits → new CourseQuantityCreditsEcts(request.credits())
+end note
+
+Assembler --> Controller: CourseInStudyPlanCommand
+deactivate Assembler
+[o<-- Controller: CourseInStudyPlanCommand
+@enduml
