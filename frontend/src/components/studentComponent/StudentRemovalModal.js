@@ -12,10 +12,6 @@ export default function StudentRemovalModal({ isSuccess, studentID, courseEditio
 
     const collectionHref = "/courseeditions/display";
 
-    const toggleDetails = () => {
-        setShowDetails(prev => !prev);
-    };
-
     const goToList = () => {
         navigate(collectionHref);
     };
