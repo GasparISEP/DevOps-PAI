@@ -6,6 +6,9 @@ import PAI.VOs.StudyPlanID;
 import PAI.assembler.courseInStudyPlan.ICourseInStudyPlanAssembler;
 import PAI.assembler.courseInStudyPlan.ICourseInStudyPlanHateoasAssembler;
 import PAI.controllerRest.CourseInStudyPlanRestController;
+import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
+import PAI.domain.programme.Programme;
+import PAI.domain.repositoryInterfaces.courseInStudyPlan.ICourseInStudyPlanRepository;
 import PAI.dto.courseInStudyPlan.CourseInStudyPlanCommand;
 import PAI.dto.courseInStudyPlan.CourseInStudyPlanRequestDTO;
 import PAI.dto.courseInStudyPlan.CourseInStudyPlanResponseDTO;
@@ -263,5 +266,142 @@ class CourseInStudyPlanRestControllerTest {
         });
 
         assertEquals("Service failure", exception.getMessage());
+    }
+
+    @Test
+    void shouldReturnAllCoursesBelongingToAProgrammeID() throws Exception {
+        //Arrange
+        ICourseInStudyPlanAssembler assembler = mock(ICourseInStudyPlanAssembler.class);
+        IAddCourseToAProgrammeService service = mock(IAddCourseToAProgrammeService.class);
+        IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
+        ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
+        ICourseInStudyPlanHateoasAssembler courseInStudyPlanHateoasAssembler = mock(ICourseInStudyPlanHateoasAssembler.class);
+
+        ICourseInStudyPlanRepository repository = mock(ICourseInStudyPlanRepository.class);
+
+        CourseInStudyPlanRestController restController = new CourseInStudyPlanRestController(assembler, service, studyPlanService, courseInStudyPlanService, courseInStudyPlanHateoasAssembler);
+
+        String acronym = "CSD";
+        Acronym programmeAcronym = mock(Acronym.class);
+        when(programmeAcronym.getAcronym()).thenReturn(acronym);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        when(programmeID.getAcronym()).thenReturn(programmeAcronym);
+
+        Programme programme = mock(Programme.class);
+        when(programme.getProgrammeID()).thenReturn(programmeID);
+
+        CourseInStudyPlan course1 = mock(CourseInStudyPlan.class);
+        when(course1.getProgrammeID()).thenReturn(programmeID);
+
+        List<CourseInStudyPlan> courses = List.of(course1);
+        when(repository.findAll()).thenReturn(courses);
+        when(courseInStudyPlanService.getCoursesByProgrammeID(programmeID)).thenReturn(courses);
+
+
+        CourseInStudyPlanResponseDTO courseResponseDTO = mock(CourseInStudyPlanResponseDTO.class);
+        when(assembler.toDTOfromDomain(course1)).thenReturn(courseResponseDTO);
+        List<CourseInStudyPlanResponseDTO> coursesDTOs = List.of(courseResponseDTO);
+        when(assembler.toDTOsfromDomains(courses)).thenReturn(coursesDTOs);
+
+        //Act
+        ResponseEntity<?> response = restController.getAllCoursesByProgrammeID(acronym);
+
+        //Assert
+        assertNotNull(response.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    @Test
+    void shouldReturnEmptyListOfCoursesBelongingToAProgrammeID() throws Exception {
+        //Arrange
+        ICourseInStudyPlanAssembler assembler = mock(ICourseInStudyPlanAssembler.class);
+        IAddCourseToAProgrammeService service = mock(IAddCourseToAProgrammeService.class);
+        IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
+        ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
+        ICourseInStudyPlanHateoasAssembler courseInStudyPlanHateoasAssembler = mock(ICourseInStudyPlanHateoasAssembler.class);
+
+        ICourseInStudyPlanRepository repository = mock(ICourseInStudyPlanRepository.class);
+
+        CourseInStudyPlanRestController restController = new CourseInStudyPlanRestController(assembler, service, studyPlanService, courseInStudyPlanService, courseInStudyPlanHateoasAssembler);
+
+        String acronym = "CSD";
+        Acronym programmeAcronym = mock(Acronym.class);
+        when(programmeAcronym.getAcronym()).thenReturn(acronym);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        when(programmeID.getAcronym()).thenReturn(programmeAcronym);
+
+        Programme programme = mock(Programme.class);
+        when(programme.getProgrammeID()).thenReturn(programmeID);
+
+        List<CourseInStudyPlan> courses = List.of();
+        when(repository.findAll()).thenReturn(courses);
+        when(courseInStudyPlanService.getCoursesByProgrammeID(programmeID)).thenReturn(courses);
+
+        List<CourseInStudyPlanResponseDTO> coursesDTOs = List.of();
+        when(assembler.toDTOsfromDomains(courses)).thenReturn(coursesDTOs);
+
+        //Act
+        ResponseEntity<?> response = restController.getAllCoursesByProgrammeID(acronym);
+
+        //Assert
+        assertNotNull(response.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertTrue(((List<?>) response.getBody()).isEmpty());
+        assertEquals(0, ((List<?>) response.getBody()).size());
+    }
+
+    @Test
+    void shouldThrowExceptionIfServiceFails() throws Exception {
+        //Arrange
+        ICourseInStudyPlanAssembler assembler = mock(ICourseInStudyPlanAssembler.class);
+        IAddCourseToAProgrammeService service = mock(IAddCourseToAProgrammeService.class);
+        IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
+        ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
+        ICourseInStudyPlanHateoasAssembler courseInStudyPlanHateoasAssembler = mock(ICourseInStudyPlanHateoasAssembler.class);
+
+        ICourseInStudyPlanRepository repository = mock(ICourseInStudyPlanRepository.class);
+
+        CourseInStudyPlanRestController restController = new CourseInStudyPlanRestController(assembler, service, studyPlanService, courseInStudyPlanService, courseInStudyPlanHateoasAssembler);
+
+        String acronym = "CSD";
+        Acronym programmeAcronym = mock(Acronym.class);
+        when(programmeAcronym.getAcronym()).thenReturn(acronym);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        when(programmeID.getAcronym()).thenReturn(programmeAcronym);
+
+        Programme programme = mock(Programme.class);
+        when(programme.getProgrammeID()).thenReturn(programmeID);
+
+        List<CourseInStudyPlan> courses = List.of();
+        when(repository.findAll()).thenReturn(courses);
+        when(courseInStudyPlanService.getCoursesByProgrammeID(any(ProgrammeID.class))).thenThrow(new IllegalArgumentException());
+        //Act
+        ResponseEntity<?> response = restController.getAllCoursesByProgrammeID(acronym);
+
+        //Assert
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Test
+    void shouldThrowExceptionIfAssemblerFails() throws Exception {
+        //Arrange
+        ICourseInStudyPlanAssembler assembler = mock(ICourseInStudyPlanAssembler.class);
+        IAddCourseToAProgrammeService service = mock(IAddCourseToAProgrammeService.class);
+        IStudyPlanService studyPlanService = mock(IStudyPlanService.class);
+        ICourseInStudyPlanService courseInStudyPlanService = mock(ICourseInStudyPlanService.class);
+        ICourseInStudyPlanHateoasAssembler courseInStudyPlanHateoasAssembler = mock(ICourseInStudyPlanHateoasAssembler.class);
+        CourseInStudyPlanRestController restController = new CourseInStudyPlanRestController(assembler, service, studyPlanService, courseInStudyPlanService, courseInStudyPlanHateoasAssembler);
+
+        String acronym = "CSD";
+        List<CourseInStudyPlan> courses = List.of(mock(CourseInStudyPlan.class));
+        when(courseInStudyPlanService.getCoursesByProgrammeID(any(ProgrammeID.class))).thenReturn(courses);
+        when(assembler.toDTOsfromDomains(any(Iterable.class))).thenThrow(new IllegalArgumentException());
+
+        //Act
+        ResponseEntity<?> response = restController.getAllCoursesByProgrammeID(acronym);
+
+        //Assert
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+
     }
 }
