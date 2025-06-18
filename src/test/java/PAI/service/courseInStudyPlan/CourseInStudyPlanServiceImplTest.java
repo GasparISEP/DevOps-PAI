@@ -1,6 +1,5 @@
 package PAI.service.courseInStudyPlan;
 
-import PAI.assembler.courseInStudyPlan.ICourseInStudyPlanBusinessAssembler;
 import PAI.VOs.*;
 import PAI.assembler.courseInStudyPlan.ICourseInStudyPlanServiceAssembler;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
