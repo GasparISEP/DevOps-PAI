@@ -26,4 +26,6 @@ public interface ICourseEditionService {
 
     List<SchoolYearID> getSchoolYearIDsFromCourseEditions(Iterable<CourseEdition> courseEditions);
 
+    CourseEditionID buildCourseEditionID(String programmeAcronym, String schoolYearId, String courseAcronym, String courseName, String localDate);
+
 }

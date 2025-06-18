@@ -44,6 +44,7 @@ public class CourseEditionHATEOASAssembler implements ICourseEditionHATEOASAssem
                             .getCourseEditionAverageGrade(dto.programmeAcronym(),
                                     dto.schoolYearID().toString(),
                                     dto.courseAcronym(),
+                                    dto.courseName(),
                                     dto.studyPlanImplementationDate().toString()))
                             .withRel("average-grade");
 
