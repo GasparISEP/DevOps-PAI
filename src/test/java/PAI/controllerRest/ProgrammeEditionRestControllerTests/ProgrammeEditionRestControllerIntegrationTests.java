@@ -2,9 +2,11 @@ package PAI.controllerRest.ProgrammeEditionRestControllerTests;
 
 import PAI.VOs.*;
 import PAI.domain.programme.Programme;
+import PAI.domain.programmeEdition.ProgrammeEdition;
 import PAI.dto.Programme.ProgrammeIDDTO;
 import PAI.dto.programmeEdition.ProgrammeEditionRequestDTO;
 import PAI.persistence.springdata.programme.ProgrammeRepositorySpringDataImpl;
+import PAI.persistence.springdata.programmeEdition.ProgrammeEditionRepositorySpringDataImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,6 +31,9 @@ public class ProgrammeEditionRestControllerIntegrationTests {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private ProgrammeEditionRepositorySpringDataImpl programmeEditionRepository;
 
     @Autowired
     ProgrammeRepositorySpringDataImpl programmeRepository;
@@ -220,5 +225,26 @@ public class ProgrammeEditionRestControllerIntegrationTests {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$").isArray());
+    }
+
+    @Test
+    void shouldReturnProgrammeEditionsListWhenExistsOneProgrammeEdition() throws Exception {
+
+        // arrange
+        ProgrammeID programmeID = new ProgrammeID(new Acronym(validAcronym));
+        SchoolYearID schoolYearID = new SchoolYearID(UUID.randomUUID());
+        ProgrammeEditionID editionID = new ProgrammeEditionID(programmeID, schoolYearID);
+        ProgrammeEditionGeneratedID generatedID = new ProgrammeEditionGeneratedID(UUID.randomUUID());
+
+        ProgrammeEdition edition =
+                new ProgrammeEdition(editionID,programmeID,schoolYearID,generatedID);
+        programmeEditionRepository.save(edition);
+
+        // act & assert
+        mockMvc.perform(get("/programme-editions"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$.length()").value(org.hamcrest.Matchers.greaterThan(0)));
     }
 }
