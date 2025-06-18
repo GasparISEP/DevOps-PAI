@@ -4,6 +4,7 @@ import PAI.VOs.*;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.domain.courseInStudyPlan.ICourseInStudyPlanFactory;
 import PAI.mapper.course.ICourseIDMapper;
+import PAI.mapper.programme.IProgrammeIDMapper;
 import PAI.mapper.studyPlan.IStudyPlanIDMapper;
 import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanDataModel;
 import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanGeneratedIDDataModel;
@@ -14,26 +15,31 @@ import static PAI.utils.ValidationUtils.*;
 @Component
 public class CourseInStudyPlanMapperImpl implements ICourseInStudyPlanMapper {
 
-    private final ICourseIDMapper _courseIDMapper;
-    private final IStudyPlanIDMapper _studyPlanIDMapper;
-    private final ICourseInStudyPlanIDMapper _courseInStudyPlanIDMapper;
-    private final ICourseInStudyPlanFactory _courseInStudyPlanFactory;
-    private final ICourseInStudyPlanGeneratedIDMapper _generatedIDMapper;
+    private final ICourseIDMapper courseIDMapper;
+    private final IStudyPlanIDMapper studyPlanIDMapper;
+    private final ICourseInStudyPlanIDMapper courseInStudyPlanIDMapper;
+    private final ICourseInStudyPlanFactory courseInStudyPlanFactory;
+    private final ICourseInStudyPlanGeneratedIDMapper generatedIDMapper;
+    private final IProgrammeIDMapper programmeIDMapper;
 
 
-    public CourseInStudyPlanMapperImpl(ICourseIDMapper courseIDMapper, IStudyPlanIDMapper studyPlanIDMapper, ICourseInStudyPlanIDMapper courseInStudyPlanIDMapper, ICourseInStudyPlanFactory courseInStudyPlanFactory, ICourseInStudyPlanGeneratedIDMapper generatedIDMapper) throws Exception {
-        this._studyPlanIDMapper = validateNotNull(studyPlanIDMapper, "StudyPlanIDMapper");
-        this._courseIDMapper = validateNotNull(courseIDMapper, "CourseIDMapper");
-        this._courseInStudyPlanIDMapper = validateNotNull(courseInStudyPlanIDMapper, "CourseInStudyPlanIDMapper");
-        this._courseInStudyPlanFactory = validateNotNull(courseInStudyPlanFactory, "CourseInStudyPlanFactory");
-        this._generatedIDMapper = validateNotNull(generatedIDMapper, "CourseInStudyPlanGeneratedIDMapper");
+    public CourseInStudyPlanMapperImpl(ICourseIDMapper courseIDMapper, IStudyPlanIDMapper studyPlanIDMapper, ICourseInStudyPlanIDMapper courseInStudyPlanIDMapper,
+                                       ICourseInStudyPlanFactory courseInStudyPlanFactory, ICourseInStudyPlanGeneratedIDMapper generatedIDMapper, IProgrammeIDMapper programmeIDMapper) throws Exception {
+
+        this.studyPlanIDMapper = validateNotNull(studyPlanIDMapper, "StudyPlanIDMapper");
+        this.courseIDMapper = validateNotNull(courseIDMapper, "CourseIDMapper");
+        this.courseInStudyPlanIDMapper = validateNotNull(courseInStudyPlanIDMapper, "CourseInStudyPlanIDMapper");
+        this.courseInStudyPlanFactory = validateNotNull(courseInStudyPlanFactory, "CourseInStudyPlanFactory");
+        this.generatedIDMapper = validateNotNull(generatedIDMapper, "CourseInStudyPlanGeneratedIDMapper");
+        this.programmeIDMapper = validateNotNull(programmeIDMapper, "ProgrammeIDMapper");
+
     }
 
     public CourseInStudyPlanDataModel toDataModel(CourseInStudyPlan courseInStudyPlan) {
 
-        CourseInStudyPlanGeneratedIDDataModel generatedIDDataModel = _generatedIDMapper.toDataModel(courseInStudyPlan.getGeneratedID());
+        CourseInStudyPlanGeneratedIDDataModel generatedIDDataModel = generatedIDMapper.toDataModel(courseInStudyPlan.getGeneratedID());
 
-        CourseInStudyPlanIDDataModel courseInStudyPlanIDDataModel = _courseInStudyPlanIDMapper.toDataModel(courseInStudyPlan.identity());
+        CourseInStudyPlanIDDataModel courseInStudyPlanIDDataModel = courseInStudyPlanIDMapper.toDataModel(courseInStudyPlan.identity());
 
         int semester = courseInStudyPlan.getSemester().toInt();
 
@@ -52,19 +58,21 @@ public class CourseInStudyPlanMapperImpl implements ICourseInStudyPlanMapper {
 
             CurricularYear year = new CurricularYear(courseInStudyPlanDataModel.getCurricularYear());
 
-            CourseID courseId = _courseIDMapper.toDomain(courseInStudyPlanDataModel.getCourseIDDataModel());
+            CourseID courseId = courseIDMapper.toDomain(courseInStudyPlanDataModel.getCourseIDDataModel());
 
-            StudyPlanID studyPlanId = _studyPlanIDMapper.toDomain(courseInStudyPlanDataModel.getStudyPlanIDDataModel());
+            StudyPlanID studyPlanId = studyPlanIDMapper.toDomain(courseInStudyPlanDataModel.getStudyPlanIDDataModel());
 
             DurationCourseInCurricularYear durationOfCourse = new DurationCourseInCurricularYear(courseInStudyPlanDataModel.getDurationOfCourse());
 
             CourseQuantityCreditsEcts quantityOfCreditsEcts = new CourseQuantityCreditsEcts(courseInStudyPlanDataModel.getQuantityOfCreditsEcts());
 
-            CourseInStudyPlanID courseInStudyPlanId = _courseInStudyPlanIDMapper.toDomain(courseInStudyPlanDataModel.getCourseInStudyPlanIDDataModel());
+            CourseInStudyPlanID courseInStudyPlanId = courseInStudyPlanIDMapper.toDomain(courseInStudyPlanDataModel.getCourseInStudyPlanIDDataModel());
 
-            CourseInStudyPlanGeneratedID generatedID = _generatedIDMapper.toDomain(courseInStudyPlanDataModel.getGeneratedID());
+            CourseInStudyPlanGeneratedID generatedID = generatedIDMapper.toDomain(courseInStudyPlanDataModel.getGeneratedID());
 
-            return _courseInStudyPlanFactory.newCourseInStudyPlanFromDataModel(courseInStudyPlanId, generatedID, semester, year, courseId, studyPlanId, durationOfCourse, quantityOfCreditsEcts);
+            ProgrammeID programmeID = programmeIDMapper.toDomain(courseInStudyPlanDataModel.getStudyPlanIDDataModel().getProgrammeID());
+
+            return courseInStudyPlanFactory.newCourseInStudyPlanFromDataModel(courseInStudyPlanId, generatedID, semester, year, courseId, studyPlanId, durationOfCourse, quantityOfCreditsEcts, programmeID);
 
         } catch (Exception e) {
             throw new RuntimeException("Error trying to map CourseInStudyPlanDataModel back to domain", e);

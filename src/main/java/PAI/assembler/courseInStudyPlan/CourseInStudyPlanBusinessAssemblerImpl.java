@@ -1,7 +1,6 @@
 package PAI.assembler.courseInStudyPlan;
 
 import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
-import PAI.dto.courseInStudyPlan.CourseInStudyPlanResponseDTO;
 import PAI.dto.courseInStudyPlan.CourseInStudyPlanServiceDTO;
 import org.springframework.stereotype.Component;
 

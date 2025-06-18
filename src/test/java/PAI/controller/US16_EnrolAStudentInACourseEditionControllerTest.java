@@ -424,8 +424,8 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         DurationCourseInCurricularYear durationOfCourse = new DurationCourseInCurricularYear(1);
         CourseQuantityCreditsEcts quantityOfCreditsEcts = new CourseQuantityCreditsEcts(1);
 
-        courseInStudyPlanServiceInterface.createCourseInStudyPlan(semester,curricularYear,courseID1,studyPlanID1, durationOfCourse, quantityOfCreditsEcts);
-        courseInStudyPlanServiceInterface.createCourseInStudyPlan(semester,curricularYear,courseID2,studyPlanID1, durationOfCourse, quantityOfCreditsEcts);
+        courseInStudyPlanServiceInterface.createCourseInStudyPlan(semester,curricularYear,courseID1,studyPlanID1, durationOfCourse, quantityOfCreditsEcts,programmeID1);
+        courseInStudyPlanServiceInterface.createCourseInStudyPlan(semester,curricularYear,courseID2,studyPlanID1, durationOfCourse, quantityOfCreditsEcts,programmeID1);
 
         courseEditionRepository.createAndSaveCourseEdition(courseInStudyPlanID1,programmeEditionID1);
         courseEditionRepository.createAndSaveCourseEdition(courseInStudyPlanID2,programmeEditionID1);
@@ -490,7 +490,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         DurationCourseInCurricularYear durationOfCourse = new DurationCourseInCurricularYear(1);
         CourseQuantityCreditsEcts quantityOfCreditsEcts = new CourseQuantityCreditsEcts(1);
 
-        courseInStudyPlanServiceInterface.createCourseInStudyPlan(semester,curricularYear,courseID1,studyPlanID1, durationOfCourse, quantityOfCreditsEcts);
+        courseInStudyPlanServiceInterface.createCourseInStudyPlan(semester,curricularYear,courseID1,studyPlanID1, durationOfCourse, quantityOfCreditsEcts, programmeID1);
 
         CourseEditionID ceID1 = new CourseEditionID(programmeEditionID1, courseInStudyPlanID1);
 
@@ -565,7 +565,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         CourseQuantityCreditsEcts quantityOfCreditsEcts = new CourseQuantityCreditsEcts(1);
 
         courseInStudyPlanServiceInterface.createCourseInStudyPlan(semester,curricularYear,courseID1,studyPlanID1,
-                durationOfCourse, quantityOfCreditsEcts);
+                durationOfCourse, quantityOfCreditsEcts, programmeID1);
 
         CourseEditionID ceID2 = new CourseEditionID(programmeEditionID1, courseInStudyPlanID2);
 
@@ -641,7 +641,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         DurationCourseInCurricularYear durationOfCourse = new DurationCourseInCurricularYear(1);
         CourseQuantityCreditsEcts quantityOfCreditsEcts = new CourseQuantityCreditsEcts(1);
 
-        courseInStudyPlanServiceInterface.createCourseInStudyPlan(semester,curricularYear,courseID1,studyPlanID1, durationOfCourse, quantityOfCreditsEcts);
+        courseInStudyPlanServiceInterface.createCourseInStudyPlan(semester,curricularYear,courseID1,studyPlanID1, durationOfCourse, quantityOfCreditsEcts, programmeID1);
 
         CourseEditionID ceID2 = new CourseEditionID(programmeEditionID1, courseInStudyPlanID2);
 
@@ -709,7 +709,7 @@ class US16_EnrolAStudentInACourseEditionControllerTest {
         DurationCourseInCurricularYear durationOfCourse = new DurationCourseInCurricularYear(1);
         CourseQuantityCreditsEcts quantityOfCreditsEcts = new CourseQuantityCreditsEcts(1);
 
-        courseInStudyPlanServiceInterface.createCourseInStudyPlan(semester,curricularYear,courseID1,studyPlanID1, durationOfCourse, quantityOfCreditsEcts);
+        courseInStudyPlanServiceInterface.createCourseInStudyPlan(semester,curricularYear,courseID1,studyPlanID1, durationOfCourse, quantityOfCreditsEcts, programmeID1);
 
         courseEditionRepository.createAndSaveCourseEdition(courseInStudyPlanID1,programmeEditionID1);
 

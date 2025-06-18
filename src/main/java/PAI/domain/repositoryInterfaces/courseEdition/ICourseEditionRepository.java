@@ -1,9 +1,6 @@
 package PAI.domain.repositoryInterfaces.courseEdition;
 
-import PAI.VOs.CourseEditionGeneratedID;
-import PAI.VOs.CourseEditionID;
-import PAI.VOs.CourseInStudyPlanID;
-import PAI.VOs.ProgrammeEditionID;
+import PAI.VOs.*;
 import PAI.ddd.IRepository;
 import PAI.domain.courseEdition.CourseEdition;
 
@@ -14,4 +11,5 @@ public interface ICourseEditionRepository extends IRepository <CourseEditionID, 
      List<CourseEditionID> findCourseEditionsByProgrammeEditionID(ProgrammeEditionID programmeEditionId);
      List<CourseEditionID> findCourseEditionsByProgrammeEditionIDAndCourseInStudyPlanID(ProgrammeEditionID programmeEditionId, CourseInStudyPlanID courseInStudyPlanId) throws Exception;
      Optional<CourseEdition> findCourseEditionByGeneratedId(CourseEditionGeneratedID id) throws Exception;
+     List<CourseEdition> findByProgrammeIDAndCourseID(ProgrammeID programmeID, CourseID courseID);
 }

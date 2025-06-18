@@ -152,7 +152,7 @@ class CourseInStudyPlanRepositoryImpTest {
         CourseQuantityCreditsEcts courseQuantityCreditsEcts = new CourseQuantityCreditsEcts(10);
         CourseInStudyPlanGeneratedID generatedID = CourseInStudyPlanGeneratedID.randomID();
 
-        CourseInStudyPlan courseInStudyPlan1 = new CourseInStudyPlan(semester1, curricularYear1, courseID1, studyPlanID1, courseInStudyPlanIDPresent, durationCourseInCurricularYear, courseQuantityCreditsEcts, generatedID);
+        CourseInStudyPlan courseInStudyPlan1 = new CourseInStudyPlan(semester1, curricularYear1, courseID1, studyPlanID1, courseInStudyPlanIDPresent, durationCourseInCurricularYear, courseQuantityCreditsEcts, generatedID, programmeID);
 
         Acronym acronym2 = new Acronym("CCS");
         Name names2 = new Name("Courses");
@@ -172,7 +172,7 @@ class CourseInStudyPlanRepositoryImpTest {
         CourseQuantityCreditsEcts courseQuantityCreditsEcts2 = new CourseQuantityCreditsEcts(10);
         CourseInStudyPlanGeneratedID generatedID2 = CourseInStudyPlanGeneratedID.randomID();
 
-        CourseInStudyPlan courseInStudyPlan2 = new CourseInStudyPlan(semester2, curricularYear2, courseID2, studyPlanID2, courseInStudyPlanIDNotPresent, durationCourseInCurricularYear2, courseQuantityCreditsEcts2, generatedID2);
+        CourseInStudyPlan courseInStudyPlan2 = new CourseInStudyPlan(semester2, curricularYear2, courseID2, studyPlanID2, courseInStudyPlanIDNotPresent, durationCourseInCurricularYear2, courseQuantityCreditsEcts2, generatedID2, programmeID);
 
         repository.save(courseInStudyPlan1);
 

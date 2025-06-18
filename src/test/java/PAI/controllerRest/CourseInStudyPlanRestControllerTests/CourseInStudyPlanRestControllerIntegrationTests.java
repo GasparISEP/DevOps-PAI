@@ -79,7 +79,7 @@ public class CourseInStudyPlanRestControllerIntegrationTests {
 
         CourseInStudyPlanServiceDTO serviceDTO = Mockito.mock(CourseInStudyPlanServiceDTO.class);
         CourseInStudyPlanResponseDTO responseDTO = new CourseInStudyPlanResponseDTO(
-                1, 1, "MATH", "LEI", "Licenciatura em Engenharia Informática", "2025-01-01", 1, 6.0, java.util.UUID.randomUUID());
+                1, 1, "MATH", "LEI", "Licenciatura em Engenharia Informática", "2025-01-01", 1, 6.0, java.util.UUID.randomUUID(), "CSD");
 
         Mockito.when(assembler.toCommand(request)).thenReturn(Mockito.mock(PAI.dto.courseInStudyPlan.CourseInStudyPlanCommand.class));
         Mockito.when(service.addCourseToAProgramme(Mockito.any())).thenReturn(serviceDTO);

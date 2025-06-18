@@ -12,11 +12,14 @@ import PAI.domain.schoolYear.SchoolYear;
 import PAI.domain.studentGrade.IStudentGradeFactory;
 import PAI.domain.studentGrade.StudentGrade;
 import PAI.dto.studentGrade.GradeAStudentCommand;
+import PAI.dto.studentGrade.GradeAStudentRequestMinimalDTO;
 import PAI.dto.studentGrade.GradeAStudentResponseDTO;
 import PAI.exception.BusinessRuleViolationException;
 import org.springframework.stereotype.Service;
+
 import java.time.LocalDate;
 import java.util.Optional;
+import java.util.UUID;
 
 
 @Service
@@ -171,4 +174,34 @@ public class GradeAStudentServiceImpl implements IGradeAStudentService {
         }
         return sumGrade / numOfStudent;
     }
+
+    public GradeAStudentResponseDTO gradeAStudentMinimal(GradeAStudentRequestMinimalDTO dto) throws Exception {
+        // Validar DTO
+        if (dto == null)
+            throw new IllegalArgumentException("DTO cannot be null");
+        if (dto.getStudentUniqueNumber() <= 0)
+            throw new IllegalArgumentException("Student ID must be positive");
+        if (dto.getGrade() < 0 || dto.getGrade() > 20)
+            throw new IllegalArgumentException("Grade must be between 0 and 20");
+        if (dto.getCourseEditionGeneratedID() == null || dto.getCourseEditionGeneratedID().isEmpty())
+            throw new IllegalArgumentException("CourseEditionGeneratedID is required");
+
+        // Converter para VOs
+        StudentID studentID = new StudentID(dto.getStudentUniqueNumber());
+        Grade grade = new Grade(dto.getGrade());
+        Date date = new Date(LocalDate.now());
+        CourseEditionGeneratedID generatedID = new CourseEditionGeneratedID(UUID.fromString(dto.getCourseEditionGeneratedID()));
+
+        // Obter CourseEdition
+        CourseEdition courseEdition = _courseEditionRepo
+                .findCourseEditionByGeneratedId(generatedID)
+                .orElseThrow(() -> new IllegalArgumentException("CourseEdition not found with that GeneratedID"));
+
+        CourseEditionID courseEditionID = courseEdition.getCourseEditionID();
+
+        // Construir comando e delegar
+        GradeAStudentCommand command = new GradeAStudentCommand( grade,  date,  studentID,  courseEditionID);
+        return this.gradeAStudent(command);
+    }
+
 }

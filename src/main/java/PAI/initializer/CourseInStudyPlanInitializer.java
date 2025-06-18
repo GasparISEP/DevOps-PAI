@@ -44,7 +44,7 @@ public class CourseInStudyPlanInitializer {
                 DurationCourseInCurricularYear durationCourseInCurricularYear = new DurationCourseInCurricularYear(duration);
                 CourseQuantityCreditsEcts quantityCreditsEcts = new CourseQuantityCreditsEcts(ects);
 
-                courseInStudyPlanService.createCourseInStudyPlan(semester1, curricularYear1, courseID, studyPlanID, durationCourseInCurricularYear, quantityCreditsEcts);
+                courseInStudyPlanService.createCourseInStudyPlan(semester1, curricularYear1, courseID, studyPlanID, durationCourseInCurricularYear, quantityCreditsEcts, programmeID);
             }
 
             System.out.println("CourseInStudyPlan data loaded successfully!");
