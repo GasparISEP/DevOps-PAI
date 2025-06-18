@@ -41,7 +41,8 @@ export default function CourseEditionDisplay() {
         const value = {
             'programme acronym': edition.programmeAcronym,
             'course name': edition.courseName,
-            'course acronym': edition.courseAcronym
+            'course acronym': edition.courseAcronym,
+            'course RUC': edition.teacherID
         }[filterField];
 
         return value?.toLowerCase().includes(filterValue.toLowerCase());
@@ -121,35 +122,36 @@ export default function CourseEditionDisplay() {
                     </div>
 
                     <div className="display-table-center-wrapper">
-                        <table className="display-form-table">
+                        <table className="display-form-table" id="course-edition-table">
                             <thead>
                             <tr>
-                                <th>Programme Acronym</th>
+                                <th>Programme Name</th>
                                 <th>Course Name</th>
                                 <th>Course Acronym</th>
                                 <th>School Year</th>
                                 <th>RUC</th>
+                                <th className="actions"></th>
                             </tr>
                             </thead>
                             <tbody>
                             {currentItems.length === 0 ? (
                                 <tr>
-                                    <td colSpan="5" style={{ textAlign: 'center', fontWeight: 'bold' }}>
+                                    <td colSpan="6" style={{ textAlign: 'center', fontWeight: 'bold' }}>
                                         No results found.
                                     </td>
                                 </tr>
                             ) : (
                                 currentItems.map((edition, index) => (
                                     <tr key={index}>
-                                        <td>{edition.programmeAcronym}</td>
-                                        <td>{edition.courseName}</td>
+                                        <td className="nameRow">{edition.programmeAcronym}</td>
+                                        <td className="nameRow">{edition.courseName}</td>
                                         <td>{edition.courseAcronym}</td>
                                         <td>
                                             {schoolYears.find(sy => sy.id === edition.schoolYearID)?.description || edition.schoolYearID}
                                         </td>
-                                        <td>
-                                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem' }}>
-                                                <span>{edition.teacherID}</span>
+                                        <td>{edition.teacherID ? edition.teacherID : "No RUC assigned"}</td>
+                                        <td className="actions">
+                                            <div className="action-buttons-container">
                                                 <ActionMenu
                                                     edition={edition}
                                                     onCountEnrolments={handleCountEnrolments}
