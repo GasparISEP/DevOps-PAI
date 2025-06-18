@@ -32,7 +32,7 @@ ceS --> ceC --: List<CourseEdition>
 
 loop for CourseEdition[i]
 ceC -> A ++: toResponseDTO(courseEdition[i])
-A -> DTO**: newCourseEdition(courseEdition[i])
+A -> DTO**: <Create> CourseEdition(courseEdition[i])
 activate DTO
 DTO --> A --: courseEditionDTO[i]
 A --> ceC --: courseEditionDTO[i]
