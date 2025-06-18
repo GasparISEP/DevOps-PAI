@@ -7,6 +7,7 @@ import PAI.domain.repositoryInterfaces.courseEdition.ICourseEditionRepository;
 import PAI.exception.NotFoundException;
 import jakarta.transaction.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -101,5 +102,20 @@ public class CourseEditionServiceImpl implements ICourseEditionService {
         } else {
             throw new NotFoundException("CourseEdition not found with Universally Unique ID: " + generatedID);
         }
+    }
+
+    @Override
+    public List<CourseEdition> getCourseEditionsByProgrammeIDAndCourseID(ProgrammeID programmeID, CourseID courseID) {
+
+        List<CourseEdition> courseEditionArrayList = new ArrayList<>();
+        Iterable<CourseEdition> courseEditions = courseEditionRepository.findAll();
+        for (CourseEdition courseEdition : courseEditions) {
+            if (courseEdition.getProgrammeEditionID().getProgrammeID().equals(programmeID) &&
+                    courseEdition.getCourseInStudyPlanID().getCourseID().equals(courseID)
+            ) {
+                courseEditionArrayList.add(courseEdition);
+            }
+        }
+        return courseEditionArrayList;
     }
 }
