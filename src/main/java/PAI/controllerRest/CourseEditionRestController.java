@@ -12,7 +12,9 @@ import PAI.assembler.programmeEdition.IProgrammeEditionServiceAssembler;
 import PAI.assembler.schoolYear.ISchoolYearAssembler;
 import PAI.assembler.studentGrade.IStudentGradeAssembler;
 import PAI.domain.courseEdition.CourseEdition;
+import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.domain.schoolYear.SchoolYear;
+import PAI.domain.studyPlan.StudyPlan;
 import PAI.dto.approvalRate.ApprovalRateResponseDTO;
 import PAI.dto.courseEdition.*;
 import PAI.dto.courseEditionEnrolment.CourseEditionEnrolmentDto;
@@ -26,6 +28,7 @@ import PAI.service.courseEdition.IDefineRucService;
 import PAI.service.courseEditionEnrolment.ICourseEditionEnrolmentService;
 import PAI.service.schoolYear.ISchoolYearService;
 import PAI.service.studentGrade.IGradeAStudentService;
+import PAI.service.studyPlan.IStudyPlanService;
 import jakarta.validation.Valid;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -35,7 +38,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static PAI.utils.ValidationUtils.validateNotNull;
@@ -231,31 +237,21 @@ public ResponseEntity<?> defineRucForCourseEdition(
     }
 
     @GetMapping("/averagegrade")
-    public ResponseEntity<Double> getCourseEditionAverageGrade(
+    public ResponseEntity<?> getCourseEditionAverageGrade(
             @RequestParam("programmeAcronym") @Valid String programmeAcronym,
             @RequestParam("schoolYearId") @Valid String schoolYearId,
             @RequestParam("courseAcronym") @Valid String courseAcronym,
-            @RequestParam("studyPlanDate") @Valid String studyPlanDate
-    ) throws Exception {
-
-        UUID schoolYearUUID = UUID.fromString(schoolYearId);
-        SchoolYearID schoolYearID = new SchoolYearID(schoolYearUUID);
-
-        ProgrammeID programmeID = new ProgrammeID(//Dummies
-                new Acronym(programmeAcronym));
-
-        CourseEditionID courseEditionID = new CourseEditionID(
-                new ProgrammeEditionID(programmeID, schoolYearID),
-                new CourseInStudyPlanID(
-                        new CourseID(new Acronym(courseAcronym), new Name("Some Placeholder Name")),
-                        new StudyPlanID(programmeID, new Date(studyPlanDate))));
-
-        Double averageGrade = gradeAStudentService.getAverageGrade(courseEditionID);
-
-        if (averageGrade == null) {
-            return ResponseEntity.ok(null);
+            @RequestParam("courseName") @Valid String courseName,
+            @RequestParam("localDate") @Valid String localDate
+    ) {
+        try {
+            CourseEditionID courseEditionID = courseEditionService.buildCourseEditionID(programmeAcronym, schoolYearId, courseAcronym, courseName, localDate);
+            Double averageGrade = gradeAStudentService.getAverageGrade(courseEditionID);
+            AverageGradeResponseDTO dto = new AverageGradeResponseDTO(averageGrade);
+            return ResponseEntity.status(HttpStatus.OK).body(dto);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Invalid parameters or error calculating average grade.");
         }
-        return ResponseEntity.ok(averageGrade);
     }
 
     @GetMapping("/approval-rate")

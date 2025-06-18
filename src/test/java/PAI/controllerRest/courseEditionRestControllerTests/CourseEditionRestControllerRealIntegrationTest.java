@@ -131,4 +131,23 @@ public class CourseEditionRestControllerRealIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/hal+json"));
     }
+
+    @Test
+    void getCourseEditionsByProgrammeEditionID_shouldReturnEmptyListWhenNoCourseEditionsWithGivenProgrammeEditionID() throws Exception {
+        // Arrange
+        CourseEditionRequestDTO requestDTO = new CourseEditionRequestDTO(
+                "DDD",
+                UUID.fromString("550e8400-e29b-41d4-a716-446655440001"),
+                "ARIT",
+                "Arithmancy",
+                LocalDate.parse("2015-09-01")
+        );
+
+        // Act & Assert
+        mockMvc.perform(get("/course-editions/programmeditions")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(requestDTO)))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/hal+json"));
+    }
 } 

@@ -2,7 +2,7 @@ import React from "react";
 import '../../styles/Modal.css';
 import '../../styles/Buttons.css';
 
-function EnrolmentCountModal({ isOpen, onClose, count, courseName }) {
+function EnrolmentCountModal({ isOpen, onClose, enrolmentCount, courseName }) {
     if (!isOpen) return null;
 
     return (
@@ -12,7 +12,8 @@ function EnrolmentCountModal({ isOpen, onClose, count, courseName }) {
                     color: '#1a1a1a',
                     textAlign: 'center',
                     fontSize: '1.8rem',
-                    marginBottom: '1.5rem'
+                    marginBottom: '1.5rem',
+                    marginTop: '0.5rem'
                 }}>
                     Enrolment Count
                 </h2>
@@ -26,7 +27,7 @@ function EnrolmentCountModal({ isOpen, onClose, count, courseName }) {
                         <strong>Course:</strong> {courseName}
                     </p>
                     <p style={{ marginBottom: '0.8rem' }}>
-                        <strong>Enrolled Students:</strong> {count ?? 0}
+                        <strong>Enrolled Students:</strong> {enrolmentCount ?? 0}
                     </p>
                 </div>
                 <div style={{ marginTop: '2rem', textAlign: 'center' }}>
@@ -34,8 +35,8 @@ function EnrolmentCountModal({ isOpen, onClose, count, courseName }) {
                         className="pagination-btn-secondary pagination-btn2"
                         onClick={onClose}
                         style={{
-                            fontSize: '1.3rem',
-                            padding: '1rem 2rem',
+                            fontSize: '1.2rem',
+                            padding: '0.7rem 1.5rem',
                             backgroundColor: '#9a1a24',
                             color: 'white',
                             border: '2px solid #9a1a24',
@@ -43,7 +44,7 @@ function EnrolmentCountModal({ isOpen, onClose, count, courseName }) {
                             cursor: 'pointer',
                             fontWeight: '600',
                             transition: 'all 0.3s ease',
-                            minWidth: '120px'
+                            minWidth: '100px'
                         }}
                         onMouseEnter={(e) => {
                             e.target.style.backgroundColor = '#7a1520';
