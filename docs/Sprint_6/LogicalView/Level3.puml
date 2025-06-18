@@ -43,9 +43,9 @@ component "Backend" {
     Domain -up- IDomain
   }
 
-  p1 -up-( RESTAPI
+  p1 -up- RESTAPI
   p2 -up- FileIO
-  p3 -up- BDAPI
+  p3 -up-( BDAPI
 
   Router -down-( IController
 
