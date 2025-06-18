@@ -3,6 +3,7 @@ package PAI.controllerRest;
 import PAI.VOs.*;
 import PAI.assembler.courseInStudyPlan.ICourseInStudyPlanAssembler;
 import PAI.assembler.courseInStudyPlan.ICourseInStudyPlanHateoasAssembler;
+import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.dto.courseInStudyPlan.CourseInStudyPlanCommand;
 import PAI.dto.courseInStudyPlan.CourseInStudyPlanRequestDTO;
 import PAI.dto.courseInStudyPlan.CourseInStudyPlanResponseDTO;
@@ -80,5 +81,18 @@ public class CourseInStudyPlanRestController {
 
         return ResponseEntity.ok(hateoasCollection);
     }
-}
 
+    @GetMapping("/programmeID/{id}")
+    public ResponseEntity<?> getAllCoursesByProgrammeID(
+            @PathVariable("id") String acronym) {
+        try {
+            ProgrammeID programmeID = new ProgrammeID(new Acronym(acronym));
+            Iterable<CourseInStudyPlan> courses = courseInStudyPlanService.getCoursesByProgrammeID(programmeID);
+            Iterable<CourseInStudyPlanResponseDTO> coursesDTOs = assembler.toDTOsfromDomains(courses);
+
+            return ResponseEntity.ok(coursesDTOs);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+}
