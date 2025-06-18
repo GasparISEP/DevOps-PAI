@@ -61,7 +61,6 @@ class CreateCourseEditionServiceImplTest {
         );
 
         CreateCourseEditionCommand command = new CreateCourseEditionCommand(
-                new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Informática"),
                 new Acronym("LEI"),
                 mock(SchoolYearID.class),
                 new Acronym("ES"),
@@ -134,7 +133,6 @@ class CreateCourseEditionServiceImplTest {
         );
 
         CreateCourseEditionCommand command = new CreateCourseEditionCommand(
-                new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Informática"),
                 new Acronym("LEI"),
                 mock(SchoolYearID.class),
                 new Acronym("ES"),
@@ -175,7 +173,6 @@ class CreateCourseEditionServiceImplTest {
         );
 
         CreateCourseEditionCommand command = new CreateCourseEditionCommand(
-                new NameWithNumbersAndSpecialChars("Licenciatura em Engenharia Informática"),
                 new Acronym("LEI"),
                 mock(SchoolYearID.class),
                 new Acronym("ES"),
