@@ -24,7 +24,6 @@ class CreateCourseEditionCommandTest {
 
         //act
         CreateCourseEditionCommand dto = new CreateCourseEditionCommand(
-                programmeName,
                 programmeAcronym,
                 schoolYearID,
                 courseAcronym,
@@ -33,7 +32,6 @@ class CreateCourseEditionCommandTest {
         );
 
         //assert
-        assertEquals(programmeName, dto.programmeName());
         assertEquals(programmeAcronym, dto.programmeAcronym());
         assertEquals(schoolYearID, dto.schoolYearID());
         assertEquals(courseAcronym, dto.courseAcronym());

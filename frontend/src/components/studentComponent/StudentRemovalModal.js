@@ -1,26 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import '../../styles/Modal.css';
-import infoImage from "../../assets/images/information.png";
 import listImage from "../../assets/images/list.png";
 
 export default function StudentRemovalModal({ isSuccess, studentID, courseEdition, onClose }) {
+    const [showDetails, setShowDetails] = useState(false);
+    const navigate = useNavigate();
+
     const title = isSuccess ? "Success!" : "Unsuccessful!";
     const textColor = isSuccess ? "green" : "red";
 
-    const detailsHref = courseEdition?.courseEditionGeneratedUUID
-        ? `/course-editions/by-id/${courseEdition.courseEditionGeneratedUUID}`
-        : null;
-
-
     const collectionHref = "/courseeditions/display";
 
-    const openLink = (href) => {
-        if (href) {
-
-            const url = `http://localhost:3000${href}`;
-            window.open(url, '_blank');
-        }
+    const goToList = () => {
+        navigate(collectionHref);
     };
 
     return (
@@ -41,19 +34,20 @@ export default function StudentRemovalModal({ isSuccess, studentID, courseEditio
                 {isSuccess && (
                     <div style={{ display: 'flex', justifyContent: 'center', gap: '2rem', marginTop: '2rem' }}>
                         <img
-                            src={infoImage}
-                            alt="View Details"
-                            title="View Details"
-                            style={{ cursor: 'pointer', width: '20px', height: '20px' }}
-                            onClick={() => openLink(detailsHref)}
-                        />
-                        <img
                             src={listImage}
                             alt="View All"
                             title="View All"
                             style={{ cursor: 'pointer', width: '20px', height: '20px' }}
-                            onClick={() => openLink(collectionHref)}
+                            onClick={goToList}
                         />
+                    </div>
+                )}
+
+                {showDetails && courseEdition && (
+                    <div style={{ marginTop: '1rem', textAlign: 'center', color: '#333' }}>
+                        <p><strong>Course Edition Acronym:</strong> {courseEdition.courseAcronym}</p>
+                        <p><strong>Course Edition Name:</strong> {courseEdition.courseName}</p>
+                        <p><strong>RUC:</strong> {courseEdition.ruc || 'N/A'}</p>
                     </div>
                 )}
 

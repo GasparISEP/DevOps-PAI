@@ -1,4 +1,5 @@
 import React from "react";
+import InfoImage from "../../assets/images/information.png";
 import '../../styles/CourseEditionSuccess.css';
 
 export default function ProgrammeSuccessModal({
@@ -70,13 +71,17 @@ export default function ProgrammeSuccessModal({
                     </button>
 
                     {!detailsDisplayed && (
-                        <button
-                            className="modal-btn modal-btn-primary"
-                            onClick={onDisplay}
-                            disabled={loadingDetails}
-                        >
-                            {loadingDetails ? 'Loading...' : 'Display Details'}
-                        </button>
+                        loadingDetails ? (
+                            <span style={{ alignSelf: 'center', fontStyle: 'italic' }}>Loading...</span>
+                        ) : (
+                            <img
+                                src={InfoImage}
+                                alt="Display Details"
+                                title="Display Details"
+                                style={{ cursor: 'pointer', width: '24px', height: '24px' }}
+                                onClick={onDisplay}
+                            />
+                        )
                     )}
                 </div>
             </div>

@@ -45,6 +45,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 
@@ -264,12 +265,11 @@ class CourseEditionRestControllerTest {
         UUID generatedID = UUID.randomUUID();
 
         CourseEditionRequestDTO dto = new CourseEditionRequestDTO(
-                "LEI", "LEIC", schoolYearID,
+                 "LEIC", schoolYearID,
                 "SA", "Software Architecture", LocalDate.of(2023, 9, 1)
         );
 
         CreateCourseEditionCommand command = new CreateCourseEditionCommand(
-                new NameWithNumbersAndSpecialChars(dto.programmeName()),
                 new Acronym(dto.programmeAcronym()),
                 new SchoolYearID(dto.schoolYearID()),
                 new Acronym(dto.courseAcronym()),
@@ -331,7 +331,7 @@ class CourseEditionRestControllerTest {
 
         // Arrange
         CourseEditionRequestDTO dto = new CourseEditionRequestDTO(
-                "LEI", "LEIC", UUID.randomUUID(),
+                "LEIC", UUID.randomUUID(),
                 "SA", "Software Architecture", LocalDate.of(2023, 9, 1)
         );
 
@@ -358,7 +358,7 @@ class CourseEditionRestControllerTest {
                 .build();
 
         CourseEditionRequestDTO dto = new CourseEditionRequestDTO(
-                "LEI", "LEIC", UUID.randomUUID(),
+            "LEIC", UUID.randomUUID(),
                 "SA", "Software Architecture", LocalDate.of(2023, 9, 1)
         );
 
@@ -618,48 +618,37 @@ class CourseEditionRestControllerTest {
         String programmeAcronym = "LEI";
         String VALID_SCHOOL_YEAR_UUID = "123e4567-e89b-12d3-a456-426614174000";
         String courseAcronym = "ESOFT";
-        String studyPlanDate = "01-01-2024";
+        String courseName = "Engineering Software";
+        String localDate = "01-01-2024";
         Double expectedAverageGrade = 15.5;
-
-        when(gradeAStudentService.getAverageGrade(any(CourseEditionID.class))).thenReturn(expectedAverageGrade);
+        CourseEditionID mockId = mock(CourseEditionID.class);
+        when(courseEditionService.buildCourseEditionID(programmeAcronym, VALID_SCHOOL_YEAR_UUID, courseAcronym, courseName, localDate)).thenReturn(mockId);
+        when(gradeAStudentService.getAverageGrade(mockId)).thenReturn(expectedAverageGrade);
 
         mockMvc.perform(get("/course-editions/averagegrade")
                         .param("programmeAcronym", programmeAcronym)
                         .param("schoolYearId", VALID_SCHOOL_YEAR_UUID)
                         .param("courseAcronym", courseAcronym)
-                        .param("studyPlanDate", studyPlanDate))
+                        .param("courseName", courseName)
+                        .param("localDate", localDate))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$").value(expectedAverageGrade));
+                .andExpect(jsonPath("$.averageGrade").value(expectedAverageGrade));
     }
 
-    @Test
-    void getCourseEditionAverageGrade_ServiceReturnsNull_ShouldReturnOkWithNullBody() throws Exception {
-        String programmeAcronym = "LEI";
-        String schoolYearId = "123e4567-e89b-12d3-a456-426614174000";
-        String courseAcronym = "ESOFT";
-        String studyPlanDate = "01-01-2024";
-
-        when(gradeAStudentService.getAverageGrade(any(PAI.VOs.CourseEditionID.class))).thenReturn(null);
-
-        mockMvc.perform(get("/course-editions/averagegrade")
-                        .param("programmeAcronym", programmeAcronym)
-                        .param("schoolYearId", schoolYearId)
-                        .param("courseAcronym", courseAcronym)
-                        .param("studyPlanDate", studyPlanDate))
-                .andExpect(status().isOk())
-                .andExpect(content().string(""));
-    }
 
     @Test
     void successfullyGetCourseEditionApprovalRate() throws Exception {
         String programmeAcronym = "LEI";
         String schoolYearId = "123e4567-e89b-12d3-a456-426614174000";
         String courseAcronym = "ESOFT";
-        String courseName = "Maths";
+        String courseName = "Engineering Software";
         String localDate = "01-01-2024";
         double expectedApprovalRate = 85.5;
+        CourseEditionID mockId = mock(CourseEditionID.class);
 
+        when(courseEditionService.buildCourseEditionID(programmeAcronym, schoolYearId, courseAcronym, courseName, localDate))
+                .thenReturn(mockId);
         when(gradeAStudentService.knowApprovalRate(any(CourseEditionID.class)))
                 .thenReturn(expectedApprovalRate);
 
@@ -679,9 +668,13 @@ class CourseEditionRestControllerTest {
         String programmeAcronym = "LEI";
         String schoolYearId = "123e4567-e89b-12d3-a456-426614174000";
         String courseAcronym = "ESOFT";
-        String courseName = "Maths";
+        String courseName = "Engineering Software";
         String localDate = "01-01-2024";
         double expectedApprovalRate = 0.0;
+        CourseEditionID mockId = mock(CourseEditionID.class);
+
+        when(courseEditionService.buildCourseEditionID(programmeAcronym, schoolYearId, courseAcronym, courseName, localDate))
+                .thenReturn(mockId);
 
         when(gradeAStudentService.knowApprovalRate(any(CourseEditionID.class)))
                 .thenReturn(expectedApprovalRate);
@@ -697,21 +690,32 @@ class CourseEditionRestControllerTest {
                 .andExpect(jsonPath("$.approvalRate").value(expectedApprovalRate));
     }
 
+
     @Test
-    void shouldReturnBadRequestWhenInvalidSchoolYearId() throws Exception {
+    void shouldReturnBadRequest_whenInvalidSchoolYearIdGivenForApprovalRate() throws Exception {
+        // Arrange
+        String programmeAcronym = "LEIC";
+        String schoolYearId = "invalid-uuid";
+        String courseAcronym = "ESOFT";
+        String courseName = "Engineering Software";
+        String localDate = "2024-06-18";
+        when(courseEditionService.buildCourseEditionID(programmeAcronym, schoolYearId, courseAcronym, courseName, localDate))
+                .thenThrow(new IllegalArgumentException("Invalid UUID"));
+
+        // Act & Assert
         mockMvc.perform(get("/course-editions/approval-rate")
-                        .param("programmeAcronym", "LEI")
-                        .param("schoolYearId", "invalid-uuid")
-                        .param("courseAcronym", "ESOFT")
-                        .param("courseName", "Maths")
-                        .param("localDate", "01-01-2024"))
+                        .param("programmeAcronym", programmeAcronym)
+                        .param("schoolYearId", schoolYearId)
+                        .param("courseAcronym", courseAcronym)
+                        .param("courseName", courseName)
+                        .param("localDate", localDate))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     void getNumberOfStudentsInCourseEditionShouldReturnStudentCount_Successfully () throws Exception {
         // Arrange
-        UUID uuid = UUID.randomUUID();  // UUID that goes in the URL
+        UUID uuid = UUID.randomUUID();
         CourseEditionGeneratedID generatedID = new CourseEditionGeneratedID(uuid);
         CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
         int expectedStudentCount = 5;
@@ -732,7 +736,7 @@ class CourseEditionRestControllerTest {
     @Test
     void testGetNumberOfStudentsInCourseEdition_ExceptionThrown() throws Exception {
         // Arrange
-        UUID uuid = UUID.randomUUID();  // UUID that goes in the URL
+        UUID uuid = UUID.randomUUID();
         CourseEditionGeneratedID generatedID = new CourseEditionGeneratedID(uuid);
         CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
 
@@ -770,7 +774,6 @@ class CourseEditionRestControllerTest {
     void getCourseEditionsByProgrammeEditionID_Success() throws Exception {
         // Arrange
         CourseEditionRequestDTO requestDTO = new CourseEditionRequestDTO(
-            "Software Engineering",     
             "LEIC",                   
             UUID.randomUUID(),          
             "ESOFT",                   
@@ -827,7 +830,6 @@ class CourseEditionRestControllerTest {
     void getCourseEditionsByProgrammeEditionID_EmptyResult() throws Exception {
         // Arrange
         CourseEditionRequestDTO requestDTO = new CourseEditionRequestDTO(
-            "Software Engineering",
             "LEIC",
             UUID.randomUUID(),
             "ESOFT",
@@ -863,7 +865,6 @@ class CourseEditionRestControllerTest {
         // Arrange
         CourseEditionRequestDTO invalidRequestDTO = new CourseEditionRequestDTO(
             "",                        
-            "",                        
             null,                       
             "",                        
             "",                         
@@ -882,7 +883,6 @@ class CourseEditionRestControllerTest {
     void getCourseEditionsByProgrammeEditionID_ServiceThrowsException() throws Exception {
         // Arrange
         CourseEditionRequestDTO requestDTO = new CourseEditionRequestDTO(
-            "Software Engineering",
             "LEIC",
             UUID.randomUUID(),
             "ESOFT",
@@ -952,6 +952,51 @@ class CourseEditionRestControllerTest {
         mockMvc.perform(get("/course-editions/school-years")
                 .param("programmeAcronym", "LEIC")
                 .param("courseAcronym", "ESOFT")) // missing courseName
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void getCourseEditionAverageGrade_shouldReturnOkWithAverageGrade() throws Exception {
+        // Arrange
+        String programmeAcronym = "LEIC";
+        String schoolYearId = "123e4567-e89b-12d3-a456-426614174000";
+        String courseAcronym = "ESOFT";
+        String courseName = "Engineering Software";
+        String localDate = "2024-06-18";
+        Double expectedAverage = 16.7;
+        CourseEditionID mockId = mock(CourseEditionID.class);
+        when(courseEditionService.buildCourseEditionID(programmeAcronym, schoolYearId, courseAcronym, courseName, localDate)).thenReturn(mockId);
+        when(gradeAStudentService.getAverageGrade(mockId)).thenReturn(expectedAverage);
+
+        // Act & Assert
+        mockMvc.perform(get("/course-editions/averagegrade")
+                .param("programmeAcronym", programmeAcronym)
+                .param("schoolYearId", schoolYearId)
+                .param("courseAcronym", courseAcronym)
+                .param("courseName", courseName)
+                .param("localDate", localDate))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.averageGrade").value(expectedAverage));
+    }
+
+    @Test
+    void getCourseEditionAverageGrade_shouldReturnBadRequestOnException() throws Exception {
+        // Arrange
+        String programmeAcronym = "LEIC";
+        String schoolYearId = "invalid-uuid";
+        String courseAcronym = "ESOFT";
+        String courseName = "Engineering Software";
+        String localDate = "2024-06-18";
+        when(courseEditionService.buildCourseEditionID(programmeAcronym, schoolYearId, courseAcronym, courseName, localDate))
+                .thenThrow(new IllegalArgumentException("Invalid UUID"));
+
+        // Act & Assert
+        mockMvc.perform(get("/course-editions/averagegrade")
+                .param("programmeAcronym", programmeAcronym)
+                .param("schoolYearId", schoolYearId)
+                .param("courseAcronym", courseAcronym)
+                .param("courseName", courseName)
+                .param("localDate", localDate))
                 .andExpect(status().isBadRequest());
     }
 

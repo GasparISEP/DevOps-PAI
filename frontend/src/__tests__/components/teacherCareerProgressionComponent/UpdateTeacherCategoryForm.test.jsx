@@ -10,6 +10,41 @@ const renderWithRouter = (ui) => {
     return render(<MemoryRouter>{ui}</MemoryRouter>);
 };
 
+jest.mock('../../../components/teacherCareerProgressionComponent/TeacherSelect', () => (props) => {
+    return (
+        <div>
+            <select
+                aria-label="teacher"
+                name="teacher"
+                value={props.value}
+                onChange={(e) => props.onChange({ target: { name: 'teacher', value: e.target.value } })}
+            >
+                <option value="">Select</option>
+                <option value="t1">Teacher One</option>
+            </select>
+            {props.error && <div className="form-error">{props.error}</div>}
+        </div>
+    );
+});
+
+jest.mock('../../../components/teacherCareerProgressionComponent/CategorySelect', () => (props) => {
+    return (
+        <div>
+            <select
+                aria-label="teacher category"
+                name="teacherCategory"
+                value={props.value}
+                onChange={(e) => props.onChange({ target: { name: 'teacherCategory', value: e.target.value } })}
+            >
+                <option value="">Select</option>
+                <option value="c1">Category One</option>
+            </select>
+            {props.error && <div className="form-error">{props.error}</div>}
+        </div>
+    );
+});
+
+
 jest.mock('../../../components/teacherCareerProgressionComponent/DateInput', () => (props) => {
     return (
         <div>
@@ -338,6 +373,35 @@ describe('UpdateTeacherCategoryForm', () => {
         fireEvent.click(screen.getByRole('button', { name: /update/i }));
 
         await screen.findByText(/Success!/i);
+    });
+
+    it('calls delete on newErrors when teacher and date are corrected', async () => {
+        renderWithRouter(<UpdateTeacherCategoryForm />);
+
+        fireEvent.click(screen.getByRole('button', { name: /update/i }));
+
+        fireEvent.change(screen.getByLabelText(/teacher$/i), {
+            target: { value: 't1' }
+        });
+
+        fireEvent.change(screen.getByPlaceholderText(/date/i), {
+            target: { value: '2025-06-19' }
+        });
+
+    });
+
+    it('removes teacher error when field is corrected after submission', async () => {
+        renderWithRouter(<UpdateTeacherCategoryForm />);
+
+        fireEvent.click(screen.getByRole('button', { name: /update/i }));
+
+        fireEvent.change(screen.getByLabelText(/teacher$/i), {
+            target: { value: 't1' }
+        });
+
+        await waitFor(() => {
+            expect(screen.queryByText(/choose a teacher/i)).not.toBeInTheDocument();
+        });
     });
 
 });

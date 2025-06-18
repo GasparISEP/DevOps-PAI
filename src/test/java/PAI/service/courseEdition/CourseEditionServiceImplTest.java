@@ -677,4 +677,55 @@ class CourseEditionServiceImplTest {
         assertNotNull(result);
         assertTrue(result.isEmpty());
     }
+
+    @Test
+    void buildCourseEditionID_shouldReturnValidCourseEditionID() {
+        ICourseEditionFactory factory = mock(ICourseEditionFactory.class);
+        ICourseEditionRepository repository = mock(ICourseEditionRepository.class);
+        CourseEditionServiceImpl service = new CourseEditionServiceImpl(factory, repository);
+        String programmeAcronym = "LEIC";
+        String schoolYearId = "123e4567-e89b-12d3-a456-426614174000";
+        String courseAcronym = "ESOFT";
+        String courseName = "Engineering Software";
+        String localDate = "2024-06-18";
+
+        CourseEditionID id = service.buildCourseEditionID(programmeAcronym, schoolYearId, courseAcronym, courseName, localDate);
+        assertNotNull(id);
+        assertEquals("LEIC", id.getProgrammeEditionID().getProgrammeID().getAcronym().getValue());
+        assertEquals("ESOFT", id.getCourseInStudyPlanID().getCourseID().getAcronym().getValue());
+        assertEquals("Engineering Software", id.getCourseInStudyPlanID().getCourseID().getName().getName());
+        assertEquals("18-06-2024", id.getCourseInStudyPlanID().getStudyPlanID().getDate().toString());
+    }
+
+    @Test
+    void buildCourseEditionID_shouldThrowExceptionForInvalidUUID() {
+        ICourseEditionFactory factory = mock(ICourseEditionFactory.class);
+        ICourseEditionRepository repository = mock(ICourseEditionRepository.class);
+        CourseEditionServiceImpl service = new CourseEditionServiceImpl(factory, repository);
+        String programmeAcronym = "LEIC";
+        String schoolYearId = "invalid-uuid";
+        String courseAcronym = "ESOFT";
+        String courseName = "Engineering Software";
+        String localDate = "2024-06-18";
+
+        assertThrows(IllegalArgumentException.class, () ->
+            service.buildCourseEditionID(programmeAcronym, schoolYearId, courseAcronym, courseName, localDate)
+        );
+    }
+
+    @Test
+    void buildCourseEditionID_shouldThrowExceptionForInvalidDate() {
+        ICourseEditionFactory factory = mock(ICourseEditionFactory.class);
+        ICourseEditionRepository repository = mock(ICourseEditionRepository.class);
+        CourseEditionServiceImpl service = new CourseEditionServiceImpl(factory, repository);
+        String programmeAcronym = "LEIC";
+        String schoolYearId = "123e4567-e89b-12d3-a456-426614174000";
+        String courseAcronym = "ESOFT";
+        String courseName = "Engineering Software";
+        String localDate = "invalid-date";
+
+        assertThrows(Exception.class, () ->
+            service.buildCourseEditionID(programmeAcronym, schoolYearId, courseAcronym, courseName, localDate)
+        );
+    }
 }

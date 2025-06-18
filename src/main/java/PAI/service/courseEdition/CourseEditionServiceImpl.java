@@ -7,9 +7,12 @@ import PAI.domain.repositoryInterfaces.courseEdition.ICourseEditionRepository;
 import PAI.exception.NotFoundException;
 import jakarta.transaction.Transactional;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
@@ -115,5 +118,20 @@ public class CourseEditionServiceImpl implements ICourseEditionService {
             schoolYearIDs.add(ce.getProgrammeEditionID().getSchoolYearID());
         }
         return schoolYearIDs;
+    }
+
+    @Override
+    public CourseEditionID buildCourseEditionID(String programmeAcronym, String schoolYearId, String courseAcronym, String courseName, String localDate) {
+        UUID schoolYearUUID = UUID.fromString(schoolYearId);
+        SchoolYearID schoolYearID = new SchoolYearID(schoolYearUUID);
+        ProgrammeID programmeID = new ProgrammeID(new Acronym(programmeAcronym));
+
+        String formattedDate = LocalDate.parse(localDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+                .format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+        return new CourseEditionID(
+                new ProgrammeEditionID(programmeID, schoolYearID),
+                new CourseInStudyPlanID(
+                        new CourseID(new Acronym(courseAcronym), new Name(courseName)),
+                        new StudyPlanID(programmeID, new Date(formattedDate))));
     }
 }
