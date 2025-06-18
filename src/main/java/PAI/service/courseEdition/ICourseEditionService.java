@@ -24,4 +24,6 @@ public interface ICourseEditionService {
 
     List <CourseEdition> getCourseEditionsByProgrammeIDAndCourseID(ProgrammeID programmeID, CourseID courseID);
 
+    List<SchoolYearID> getSchoolYearIDsFromCourseEditions(Iterable<CourseEdition> courseEditions);
+
 }

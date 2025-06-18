@@ -632,4 +632,49 @@ class CourseEditionServiceImplTest {
         // Assert
         assertNull(result);
     }
+
+    @Test
+    void getSchoolYearIDsFromCourseEditions_returnsCorrectSchoolYearIDs() {
+        // Arrange
+        ICourseEditionFactory factory = mock(ICourseEditionFactory.class);
+        ICourseEditionRepository repository = mock(ICourseEditionRepository.class);
+        CourseEditionServiceImpl service = new CourseEditionServiceImpl(factory, repository);
+
+        CourseEdition ce1 = mock(CourseEdition.class);
+        CourseEdition ce2 = mock(CourseEdition.class);
+        ProgrammeEditionID peid1 = mock(ProgrammeEditionID.class);
+        ProgrammeEditionID peid2 = mock(ProgrammeEditionID.class);
+        SchoolYearID syid1 = mock(SchoolYearID.class);
+        SchoolYearID syid2 = mock(SchoolYearID.class);
+        when(ce1.getProgrammeEditionID()).thenReturn(peid1);
+        when(ce2.getProgrammeEditionID()).thenReturn(peid2);
+        when(peid1.getSchoolYearID()).thenReturn(syid1);
+        when(peid2.getSchoolYearID()).thenReturn(syid2);
+
+        List<CourseEdition> courseEditions = List.of(ce1, ce2);
+
+        // Act
+        List<SchoolYearID> result = service.getSchoolYearIDsFromCourseEditions(courseEditions);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(2, result.size());
+        assertTrue(result.contains(syid1));
+        assertTrue(result.contains(syid2));
+    }
+
+    @Test
+    void getSchoolYearIDsFromCourseEditions_returnsEmptyListForEmptyInput() {
+        // Arrange
+        ICourseEditionFactory factory = mock(ICourseEditionFactory.class);
+        ICourseEditionRepository repository = mock(ICourseEditionRepository.class);
+        CourseEditionServiceImpl service = new CourseEditionServiceImpl(factory, repository);
+
+        // Act
+        List<SchoolYearID> result = service.getSchoolYearIDsFromCourseEditions(List.of());
+
+        // Assert
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
+    }
 }
