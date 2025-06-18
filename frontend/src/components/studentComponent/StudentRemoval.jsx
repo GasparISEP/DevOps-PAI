@@ -167,6 +167,15 @@ export default function StudentCourseEditionForm() {
                                         }
                                     }}
                                 />
+
+                                <p style={{
+                                    color: selectedStudentID && courseEditions.length === 0 ? 'red' : 'transparent',
+                                    height: '1.25rem', // altura reservada (~20px)
+                                    marginTop: '0.5rem'
+                                }}>
+                                    This student is not enrolled in any course edition.
+                                </p>
+
                             </div>
 
                             <div className="form-group">
