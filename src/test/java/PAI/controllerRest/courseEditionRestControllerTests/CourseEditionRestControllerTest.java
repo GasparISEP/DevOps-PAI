@@ -262,12 +262,11 @@ class CourseEditionRestControllerTest {
         UUID generatedID = UUID.randomUUID();
 
         CourseEditionRequestDTO dto = new CourseEditionRequestDTO(
-                "LEI", "LEIC", schoolYearID,
+                 "LEIC", schoolYearID,
                 "SA", "Software Architecture", LocalDate.of(2023, 9, 1)
         );
 
         CreateCourseEditionCommand command = new CreateCourseEditionCommand(
-                new NameWithNumbersAndSpecialChars(dto.programmeName()),
                 new Acronym(dto.programmeAcronym()),
                 new SchoolYearID(dto.schoolYearID()),
                 new Acronym(dto.courseAcronym()),
@@ -329,7 +328,7 @@ class CourseEditionRestControllerTest {
 
         // Arrange
         CourseEditionRequestDTO dto = new CourseEditionRequestDTO(
-                "LEI", "LEIC", UUID.randomUUID(),
+                "LEIC", UUID.randomUUID(),
                 "SA", "Software Architecture", LocalDate.of(2023, 9, 1)
         );
 
@@ -356,7 +355,7 @@ class CourseEditionRestControllerTest {
                 .build();
 
         CourseEditionRequestDTO dto = new CourseEditionRequestDTO(
-                "LEI", "LEIC", UUID.randomUUID(),
+            "LEIC", UUID.randomUUID(),
                 "SA", "Software Architecture", LocalDate.of(2023, 9, 1)
         );
 
@@ -768,7 +767,6 @@ class CourseEditionRestControllerTest {
     void getCourseEditionsByProgrammeEditionID_Success() throws Exception {
         // Arrange
         CourseEditionRequestDTO requestDTO = new CourseEditionRequestDTO(
-            "Software Engineering",     
             "LEIC",                   
             UUID.randomUUID(),          
             "ESOFT",                   
@@ -825,7 +823,6 @@ class CourseEditionRestControllerTest {
     void getCourseEditionsByProgrammeEditionID_EmptyResult() throws Exception {
         // Arrange
         CourseEditionRequestDTO requestDTO = new CourseEditionRequestDTO(
-            "Software Engineering",
             "LEIC",
             UUID.randomUUID(),
             "ESOFT",
@@ -861,7 +858,6 @@ class CourseEditionRestControllerTest {
         // Arrange
         CourseEditionRequestDTO invalidRequestDTO = new CourseEditionRequestDTO(
             "",                        
-            "",                        
             null,                       
             "",                        
             "",                         
@@ -880,7 +876,6 @@ class CourseEditionRestControllerTest {
     void getCourseEditionsByProgrammeEditionID_ServiceThrowsException() throws Exception {
         // Arrange
         CourseEditionRequestDTO requestDTO = new CourseEditionRequestDTO(
-            "Software Engineering",
             "LEIC",
             UUID.randomUUID(),
             "ESOFT",

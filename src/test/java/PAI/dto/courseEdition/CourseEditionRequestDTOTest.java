@@ -37,7 +37,6 @@ class CourseEditionRequestDTOTest {
 
         //act
         CourseEditionRequestDTO dto = new CourseEditionRequestDTO(
-                programmeName,
                 programmeAcronym,
                 schoolYearID,
                 courseAcronym,
@@ -46,7 +45,6 @@ class CourseEditionRequestDTOTest {
         );
 
         //assert
-        assertEquals(programmeName, dto.programmeName());
         assertEquals(programmeAcronym, dto.programmeAcronym());
         assertEquals(schoolYearID, dto.schoolYearID());
         assertEquals(courseAcronym, dto.courseAcronym());
@@ -55,31 +53,9 @@ class CourseEditionRequestDTOTest {
     }
 
     @Test
-    void shouldFail_WhenProgrammeNameIsBlank() {
-        //arrange
-        CourseEditionRequestDTO dto = new CourseEditionRequestDTO(
-                "",
-                "SE",
-                UUID.randomUUID(),
-                "CS101",
-                "Intro to Programming",
-                LocalDate.now()
-        );
-
-        //act
-        Set<ConstraintViolation<CourseEditionRequestDTO>> violations = validator.validate(dto);
-
-        //assert
-        assertFalse(violations.isEmpty());
-        assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("programmeName") &&
-                v.getMessage().equals("Programme name cannot be blank")));
-    }
-
-    @Test
     void shouldFail_WhenProgrammeAcronymIsBlank() {
         //arrange
         CourseEditionRequestDTO dto = new CourseEditionRequestDTO(
-                "Software Engineering",
                 "",
                 UUID.randomUUID(),
                 "CS101",
@@ -100,7 +76,6 @@ class CourseEditionRequestDTOTest {
     void shouldFail_WhenSchoolYearIDIsNull() {
         //arrange
         CourseEditionRequestDTO dto = new CourseEditionRequestDTO(
-                "Software Engineering",
                 "SE",
                 null,
                 "CS101",
@@ -121,7 +96,6 @@ class CourseEditionRequestDTOTest {
     void shouldFail_WhenCourseAcronymIsBlank() {
         //arrange
         CourseEditionRequestDTO dto = new CourseEditionRequestDTO(
-                "Software Engineering",
                 "SE",
                 UUID.randomUUID(),
                 "",
@@ -142,7 +116,6 @@ class CourseEditionRequestDTOTest {
     void shouldFail_WhenCourseNameIsBlank() {
         //arrange
         CourseEditionRequestDTO dto = new CourseEditionRequestDTO(
-                "Software Engineering",
                 "SE",
                 UUID.randomUUID(),
                 "CS101",
@@ -163,7 +136,6 @@ class CourseEditionRequestDTOTest {
     void shouldFail_WhenStudyPlanImplementationDateIsNull() {
         //arrange
         CourseEditionRequestDTO dto = new CourseEditionRequestDTO(
-                "Software Engineering",
                 "SE",
                 UUID.randomUUID(),
                 "CS101",

@@ -41,7 +41,6 @@ class CourseEditionAssemblerImplTest {
     void toCommand_shouldConvertRequestDTOToCommand() {
         // Arrange
         CourseEditionRequestDTO dto = mock(CourseEditionRequestDTO.class);
-        when(dto.programmeName()).thenReturn("Engineering");
         when(dto.programmeAcronym()).thenReturn("ENG");
         when(dto.schoolYearID()).thenReturn(UUID.fromString("123e4567-e89b-12d3-a456-426614174000"));
         when(dto.courseAcronym()).thenReturn("CS101");
@@ -56,7 +55,6 @@ class CourseEditionAssemblerImplTest {
         // Assert
         assertNotNull(command);
 
-        assertEquals("Engineering", command.programmeName().getNameWithNumbersAndSpecialChars());
         assertEquals("ENG", command.programmeAcronym().getAcronym());
         assertEquals(UUID.fromString("123e4567-e89b-12d3-a456-426614174000"), command.schoolYearID().getSchoolYearID());
         assertEquals("CS101", command.courseAcronym().getAcronym());
@@ -273,7 +271,6 @@ class CourseEditionAssemblerImplTest {
         // Arrange
         UUID schoolYearUUID = UUID.randomUUID();
         CourseEditionRequestDTO dto = mock(CourseEditionRequestDTO.class);
-        when(dto.programmeName()).thenReturn("Software Engineering");
         when(dto.programmeAcronym()).thenReturn("SE");
         when(dto.schoolYearID()).thenReturn(schoolYearUUID);
 
@@ -290,7 +287,6 @@ class CourseEditionAssemblerImplTest {
     void toProgrammeEditionID_ShouldThrowException_WhenInvalidData() {
         // Arrange
         CourseEditionRequestDTO dto = mock(CourseEditionRequestDTO.class);
-        when(dto.programmeName()).thenReturn("");
         when(dto.programmeAcronym()).thenReturn("");
         when(dto.schoolYearID()).thenReturn(null);
 
@@ -303,7 +299,6 @@ class CourseEditionAssemblerImplTest {
         // Arrange
         LocalDate implementationDate = LocalDate.of(2024, 1, 1);
         CourseEditionRequestDTO dto = mock(CourseEditionRequestDTO.class);
-        when(dto.programmeName()).thenReturn("Software Engineering");
         when(dto.programmeAcronym()).thenReturn("SE");
         when(dto.courseAcronym()).thenReturn("CS101");
         when(dto.courseName()).thenReturn("Intro to Programming");
@@ -324,7 +319,6 @@ class CourseEditionAssemblerImplTest {
     void toCourseInStudyPlanID_ShouldThrowException_WhenInvalidData() {
         // Arrange
         CourseEditionRequestDTO dto = mock(CourseEditionRequestDTO.class);
-        when(dto.programmeName()).thenReturn("");
         when(dto.programmeAcronym()).thenReturn("");
         when(dto.courseAcronym()).thenReturn("");
         when(dto.courseName()).thenReturn("");
