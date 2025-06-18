@@ -4,9 +4,9 @@ import '../../styles/DisplayPage.css';
 import '../../styles/Buttons.css';
 import ActionMenu from '../../components/courseEditionComponent/ActionMenu';
 import EnrolmentCountModal from '../../components/courseEditionComponent/EnrolmentCountModal';
-import { fetchEnrolmentCount } from '../../services/enrolmentCountInCourseEditionService';
 import { getAllSchoolYears } from '../../services/DefineRucInCourseEditionService';
 import useFetchCourseEditions from '../../components/courseEditionComponent/useFetchCourseEditions';
+import useCourseEditionEnrolmentCountModal from '../../components/courseEditionComponent/useCourseEditionEnrolmentCountModal';
 
 export default function CourseEditionDisplay() {
     const courseEditions = useFetchCourseEditions();
@@ -18,9 +18,14 @@ export default function CourseEditionDisplay() {
     const [filterField, setFilterField] = useState('programme acronym');
     const [filterValue, setFilterValue] = useState('');
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [enrolmentCount, setEnrolmentCount] = useState(null);
-    const [selectedCourse, setSelectedCourse] = useState(null);
+    const {
+        isModalOpen,
+        enrolmentCount,
+        selectedCourse,
+        handleCountEnrolments,
+        closeModal
+    } = useCourseEditionEnrolmentCountModal();
+
     const [schoolYears, setSchoolYears] = useState([]);
 
     useEffect(() => {
@@ -75,18 +80,6 @@ export default function CourseEditionDisplay() {
             </button>
         );
     }
-
-    const handleCountEnrolments = async (edition) => {
-        try {
-            setSelectedCourse(edition);
-            const response = await fetchEnrolmentCount(edition.courseEditionGeneratedID);
-            setEnrolmentCount(response.studentCount);
-            setIsModalOpen(true);
-        } catch (error) {
-            console.error('Error counting enrolments:', error);
-            alert('Error counting enrolments: ' + error.message);
-        }
-    };
 
     return (
         <div className="display-main-grid-center">
@@ -192,10 +185,9 @@ export default function CourseEditionDisplay() {
 
                 </div>
             </div>
-
             <EnrolmentCountModal
                 isOpen={isModalOpen}
-                onRequestClose={() => setIsModalOpen(false)}
+                onRequestClose={closeModal}
                 enrolmentCount={enrolmentCount}
                 course={selectedCourse}
             />
