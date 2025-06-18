@@ -4,7 +4,7 @@ title UC: Enrol Student in Programme\n(Process View Level 1)
 autonumber
 
 actor ASC as Admin
-participant ":System" as System
+participant ":SystemPAI" as System <<component>>
 
 Admin -> System  ++: I Want to enrol a Student in a Programme.
 System --> Admin  --: Student Unique Number? Department?
