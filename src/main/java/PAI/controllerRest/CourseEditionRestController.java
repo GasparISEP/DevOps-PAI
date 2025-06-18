@@ -262,23 +262,11 @@ public ResponseEntity<?> defineRucForCourseEdition(
             @RequestParam("courseName") @Valid String courseName,
             @RequestParam("localDate") @Valid String localDate)  {
      try {
-         UUID schoolYearUUID = UUID.fromString(schoolYearId);
-         SchoolYearID schoolYearID = new SchoolYearID(schoolYearUUID);
-
-         ProgrammeID programmeID = new ProgrammeID(new Acronym(programmeAcronym));
-
-         CourseEditionID courseEditionID = new CourseEditionID(
-                 new ProgrammeEditionID(programmeID, schoolYearID),
-                 new CourseInStudyPlanID(
-                         new CourseID(new Acronym(courseAcronym), new Name(courseName)),
-                         new StudyPlanID(programmeID, new Date(localDate))));
-
+         CourseEditionID courseEditionID = courseEditionService.buildCourseEditionID(programmeAcronym, schoolYearId, courseAcronym, courseName, localDate);
          double approvalRate = gradeAStudentService.knowApprovalRate(courseEditionID);
          ApprovalRateResponseDTO dto = new ApprovalRateResponseDTO(approvalRate);
-
          return ResponseEntity.ok(dto);
-     }
-        catch (Exception exception){
+     } catch (Exception exception){
             return ResponseEntity.badRequest().build();
         }
     }
