@@ -20,10 +20,9 @@ public interface ICourseEditionService {
 
     List<CourseEditionID> findCourseEditionsByProgrammeEditionIDAndCourseInStudyPlanID(ProgrammeEditionID programmeEditionID, CourseInStudyPlanID courseInStudyPlanID) throws Exception;
 
-    CourseEditionID findCourseEditionByGeneratedID (CourseEditionGeneratedID generatedID) throws Exception;
-
     List <CourseEdition> getCourseEditionsByProgrammeIDAndCourseID(ProgrammeID programmeID, CourseID courseID);
 
+    CourseEditionID findCourseEditionIDByGeneratedID (CourseEditionGeneratedID generatedID) throws Exception;
     List<SchoolYearID> getSchoolYearIDsFromCourseEditions(Iterable<CourseEdition> courseEditions);
 
 }

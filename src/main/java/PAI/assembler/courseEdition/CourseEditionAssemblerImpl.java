@@ -139,7 +139,25 @@ public class CourseEditionAssemblerImpl implements ICourseEditionAssembler {
         );
     }
 
+    @Override
+    public List<CourseEditionResponseDTO> toCourseEditionResponseDTOList(Iterable<CourseEditionServiceResponseDTO> courseEditionServiceResponseDTOList) {
+        List<CourseEditionResponseDTO> dtoList = new ArrayList<>();
 
+        courseEditionServiceResponseDTOList.forEach(serviceDTO -> {
+            CourseEditionResponseDTO responseDTO = new CourseEditionResponseDTO(
+                    serviceDTO.courseEditionGeneratedID(),
+                    serviceDTO.programmeAcronym(),
+                    serviceDTO.schoolYearID(),
+                    serviceDTO.courseAcronym(),
+                    serviceDTO.courseName(),
+                    serviceDTO.studyPlanImplementationDate(),
+                    serviceDTO.courseEditionID(),
+                    serviceDTO.teacherID()
+            );
+            dtoList.add(responseDTO);
+        });
 
+        return dtoList;
+    }
 }
 

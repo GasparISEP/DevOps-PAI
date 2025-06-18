@@ -44,7 +44,7 @@ component "Backend" {
   }
 
   p1 -up- RESTAPI
-  p2 -up- FileIO
+  p2 -up-( FileIO
   p3 -up-( BDAPI
 
   Router -down-( IController
