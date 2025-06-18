@@ -32,7 +32,7 @@ export default function CourseEditionAverageGradeForm() {
                 setIsLoading(false);
             })
             .catch(error => {
-                console.error('Erro ao carregar Programmes:', error);
+                console.error('Error fetching Programmes:', error);
                 setIsLoading(false);
             });
     }, []);
@@ -48,7 +48,7 @@ export default function CourseEditionAverageGradeForm() {
                     setSelectedSchoolYear('');
                     setCourseObj(null);
                 })
-                .catch(error => console.error('Erro ao carregar Courses:', error));
+                .catch(error => console.error('Error fetching Courses:', error));
         }
     }, [selectedProgramme]);
 
@@ -61,7 +61,7 @@ export default function CourseEditionAverageGradeForm() {
                     setSchoolYears(data);
                     setSelectedSchoolYear('');
                 })
-                .catch(error => console.error('Erro ao carregar SchoolYears:', error));
+                .catch(error => console.error('Error fetching SchoolYears:', error));
         }
     }, [selectedCourse, courseObj]);
 

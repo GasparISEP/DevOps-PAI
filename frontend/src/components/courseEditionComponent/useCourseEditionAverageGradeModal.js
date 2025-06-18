@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { fetchAverageGrade } from "../../services/averageGradeInCourseEditionService";
+import { fetchAverageGradeFromLink } from "../../services/averageGradeInCourseEditionService";
 
 export default function useCourseEditionAverageGradeModal() {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -10,12 +10,11 @@ export default function useCourseEditionAverageGradeModal() {
         try {
             setSelectedCourse(edition);
 
-            const response = await fetchAverageGrade(
-                edition.programmeAcronym,
-                edition.courseAcronym,
-                edition.schoolYearID,
-                edition.studyPlanDate
-            );
+            const link = edition._links?.["average-grade"]?.href;
+
+            if (!link) throw new Error("No HATEOAS link for average-grade");
+
+            const response = await fetchAverageGradeFromLink(link);
 
             setAverageGrade(response.averageGrade);
             setIsModalOpen(true);
