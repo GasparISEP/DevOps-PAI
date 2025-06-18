@@ -3,6 +3,8 @@ import Home from './pages/Home';
 import RegisterStudentPage from './pages/studentPage/RegisterStudentPage';
 import ProgrammeEnrolmentPage from './pages/studentPage/ProgrammeEnrolmentPage';
 import EnrollStudentInCoursesPage from './pages/studentPage/EnrollStudentInCoursesPage';
+import StudentEnrolledCoursesPage from './pages/studentPage/StudentEnrolledCoursesPage';
+import StudentProgrammeEditionsPage from './pages/studentPage/StudentProgrammeEditionsPage';
 import RegisterProgrammePage from './pages/RegisterProgrammePage';
 import RegisterTeacherPage from './pages/teacherPage/RegisterTeacherPage';
 import DisplayTeacherPage from './pages/teacherPage/DisplayTeacherPage';
@@ -17,6 +19,7 @@ import UpdateTeacherCategoryPage from './pages/teacherCategoryPage/UpdateTeacher
 import DisplayTeacherCareerProgressionPage from "./pages/DisplayTeacherCareerProgression";
 import RemoveStudentPage from "./pages/studentPage/RemoveStudentPage";
 import StudentDetailsComponent from './components/studentComponent/StudentDetailsComponent';
+import DefineRucDetailsComponent from "./components/defineRucInCourseEditionComponent/DefineRucDetailsComponent";
 
 
 function AppRoutes() {
@@ -27,6 +30,8 @@ function AppRoutes() {
                     <Route path="/students/display" element={<DisplayStudentPage />} />
                     <Route path="/students/enrol-programme" element={<ProgrammeEnrolmentPage />} />
                     <Route path="/students/enroll" element={<EnrollStudentInCoursesPage />} />
+                    <Route path="/students/enrolled-courses" element={<StudentEnrolledCoursesPage />} />
+                    <Route path="/students/programme-editions" element={<StudentProgrammeEditionsPage />} />
                     <Route path="/students/removal" element={<RemoveStudentPage />} />
                     <Route path="/teachers/register" element={<RegisterTeacherPage />} />
                     <Route path="/teachers/display" element={<DisplayTeacherPage />} />
@@ -41,6 +46,7 @@ function AppRoutes() {
                     <Route path="/teacher-career-progressions/:id" element={<TeacherCareerProgressionComponent />} />
                     <Route path="/course-editions/Define-ruc" element={<DefineRucPage />} />
                     <Route path="/students/:id" element={<StudentDetailsComponent />} />
+                    <Route path="/course-editions/by-id/:id" element={<DefineRucDetailsComponent/>} />
             </Routes>
         );
 }

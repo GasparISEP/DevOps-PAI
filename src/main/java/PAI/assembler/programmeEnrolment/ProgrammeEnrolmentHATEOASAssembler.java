@@ -18,8 +18,12 @@ public class ProgrammeEnrolmentHATEOASAssembler implements RepresentationModelAs
     public EntityModel<ProgrammeEnrolmentResponseDTO> toModel(ProgrammeEnrolmentResponseDTO dto) {
         return EntityModel.of(dto,
                 linkTo(methodOn(StudentRestController.class)
-                        .getEnrolmentByStudentAndProgramme(dto.getProgrammeEnrolmentGID())
-                ).withSelfRel()
+                        .getEnrolmentByStudentAndProgramme(dto.getProgrammeEnrolmentGID()))
+                        .withSelfRel(),
+                linkTo(methodOn(StudentRestController.class)
+                        .enrolStudent(null))
+                        .withRel("enrol-programme-courses")
+                        .withType("POST")
         );
     }
 }

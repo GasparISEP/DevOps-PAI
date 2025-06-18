@@ -1,10 +1,10 @@
 package PAI.service.courseInStudyPlan;
 
-import PAI.assembler.courseInStudyPlan.ICourseInStudyPlanBusinessAssembler;
 import PAI.VOs.*;
 import PAI.assembler.courseInStudyPlan.ICourseInStudyPlanServiceAssembler;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.domain.courseInStudyPlan.ICourseInStudyPlanFactory;
+import PAI.domain.programme.Programme;
 import PAI.domain.repositoryInterfaces.courseInStudyPlan.ICourseInStudyPlanRepository;
 import PAI.dto.courseInStudyPlan.CourseInStudyPlanServiceDTO;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,6 +43,7 @@ class CourseInStudyPlanServiceImplTest {
     private CourseInStudyPlanID candidateId;
     private DurationCourseInCurricularYear durationOfCourse;
     private CourseQuantityCreditsEcts quantityOfCreditsEcts;
+    private ProgrammeID programmeID;
 
     @BeforeEach
     void setUp() {
@@ -57,10 +58,11 @@ class CourseInStudyPlanServiceImplTest {
 
         durationOfCourse = mock(DurationCourseInCurricularYear.class);
         quantityOfCreditsEcts = mock(CourseQuantityCreditsEcts.class);
+        programmeID = mock(ProgrammeID.class);
 
 
         when(candidate.identity()).thenReturn(candidateId);
-        when(factory.newCourseInStudyPlan(semester, curricularYear, courseId, studyPlanId, durationOfCourse, quantityOfCreditsEcts))
+        when(factory.newCourseInStudyPlan(semester, curricularYear, courseId, studyPlanId, durationOfCourse, quantityOfCreditsEcts, programmeID))
                 .thenReturn(candidate);
     }
 
@@ -68,7 +70,7 @@ class CourseInStudyPlanServiceImplTest {
     void createCourseInStudyPlan_SuccessWhenNotExists() throws Exception {
         when(repository.containsOfIdentity(candidateId)).thenReturn(false);
 
-        boolean result = service.createCourseInStudyPlan(semester, curricularYear, courseId, studyPlanId, durationOfCourse, quantityOfCreditsEcts);
+        boolean result = service.createCourseInStudyPlan(semester, curricularYear, courseId, studyPlanId, durationOfCourse, quantityOfCreditsEcts, programmeID);
 
         assertTrue(result);
         verify(repository).save(candidate);
@@ -78,7 +80,7 @@ class CourseInStudyPlanServiceImplTest {
     void createCourseInStudyPlan_FailsWhenAlreadyExists() throws Exception {
         when(repository.containsOfIdentity(candidateId)).thenReturn(true);
 
-        boolean result = service.createCourseInStudyPlan(semester, curricularYear, courseId, studyPlanId, durationOfCourse, quantityOfCreditsEcts);
+        boolean result = service.createCourseInStudyPlan(semester, curricularYear, courseId, studyPlanId, durationOfCourse, quantityOfCreditsEcts, programmeID);
 
         assertFalse(result);
         verify(repository, never()).save(any());
@@ -144,7 +146,7 @@ class CourseInStudyPlanServiceImplTest {
         when(repository.getTotalCreditsEctsInStudyPlanSoFar(studyPlanId, semester, curricularYear, durationOfCourse)).thenReturn(31.0);
 
         //act
-        boolean result = service.createCourseInStudyPlan(semester, curricularYear, courseId, studyPlanId, durationOfCourse, quantityOfCreditsEcts);
+        boolean result = service.createCourseInStudyPlan(semester, curricularYear, courseId, studyPlanId, durationOfCourse, quantityOfCreditsEcts, programmeID);
 
         //assert
         assertFalse(result);
@@ -219,6 +221,78 @@ class CourseInStudyPlanServiceImplTest {
 
         // Act
         List<CourseInStudyPlanServiceDTO> result = service.getCourseSummariesByStudyPlanID(spId);
+
+        // Assert
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void shouldReturnCourseInStudyPlansIfProgrammeIDExists() {
+        // Arrange
+        StudyPlanID spId = mock(StudyPlanID.class);
+
+        CourseInStudyPlan course1 = mock(CourseInStudyPlan.class);
+        CourseInStudyPlan course2 = mock(CourseInStudyPlan.class);
+        CourseInStudyPlan course3 = mock(CourseInStudyPlan.class);
+
+        Programme programme = mock(Programme.class);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        when(programme.identity()).thenReturn(programmeID);
+
+        when(course1.getStudyplanID()).thenReturn(spId);
+        when(course2.getStudyplanID()).thenReturn(spId);
+        when(course3.getStudyplanID()).thenReturn(spId);
+
+        when(course1.getProgrammeID()).thenReturn(programmeID);
+        when(course2.getProgrammeID()).thenReturn(programmeID);
+        when(course3.getProgrammeID()).thenReturn(mock(ProgrammeID.class));
+
+        List<CourseInStudyPlan> courses = List.of(course1, course2, course3);
+        when(repository.findAll()).thenReturn(courses);
+
+        // Act
+        List<CourseInStudyPlan> result = service.getCoursesByProgrammeID(programmeID);
+
+        // Assert
+        assertEquals(2, result.size());
+        assertTrue(result.contains(course1));
+        assertTrue(result.contains(course2));
+    }
+
+
+    @Test
+    void shouldReturnEmptyListCourseInStudyPlansIfProgrammeIDNotMatch() {
+        // Arrange
+        StudyPlanID spId = mock(StudyPlanID.class);
+
+        CourseInStudyPlan course1 = mock(CourseInStudyPlan.class);
+
+        Programme programme = mock(Programme.class);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        when(programme.identity()).thenReturn(programmeID);
+
+        when(course1.getStudyplanID()).thenReturn(spId);
+        when(course1.getProgrammeID()).thenReturn(mock(ProgrammeID.class));
+
+        List<CourseInStudyPlan> courses = List.of(course1);
+        when(repository.findAll()).thenReturn(courses);
+
+        // Act
+        List<CourseInStudyPlan> result = service.getCoursesByProgrammeID(programmeID);
+
+        // Assert
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void shouldReturnEmptyListCourseInStudyPlansIfCoursesNotExist() {
+        StudyPlanID spId = mock(StudyPlanID.class);
+        when(repository.findAll()).thenReturn(new ArrayList<>());
+
+        // Act
+        List<CourseInStudyPlan> result = service.getCoursesByProgrammeID(programmeID);
 
         // Assert
         assertNotNull(result);

@@ -50,6 +50,7 @@ class CourseInStudyPlanInitializerTest {
         ArgumentCaptor<StudyPlanID> studyPlanIDCaptor = ArgumentCaptor.forClass(StudyPlanID.class);
         ArgumentCaptor<DurationCourseInCurricularYear> durationCaptor = ArgumentCaptor.forClass(DurationCourseInCurricularYear.class);
         ArgumentCaptor<CourseQuantityCreditsEcts> ectsCaptor = ArgumentCaptor.forClass(CourseQuantityCreditsEcts.class);
+        ArgumentCaptor<ProgrammeID> programmeIDCaptor = ArgumentCaptor.forClass(ProgrammeID.class);
 
         verify(serviceMock, times(2)).createCourseInStudyPlan(
                 semesterCaptor.capture(),
@@ -57,7 +58,9 @@ class CourseInStudyPlanInitializerTest {
                 courseIDCaptor.capture(),
                 studyPlanIDCaptor.capture(),
                 durationCaptor.capture(),
-                ectsCaptor.capture());
+                ectsCaptor.capture(),
+                programmeIDCaptor.capture())
+        ;
 
 
         // First call assertions
@@ -95,7 +98,7 @@ class CourseInStudyPlanInitializerTest {
         initializer.loadCourseInStudyPlan(serviceMock, tempFile.toString());
 
         // Assert
-        verify(serviceMock, times(2)).createCourseInStudyPlan(any(), any(), any(), any(), any(), any());
+        verify(serviceMock, times(2)).createCourseInStudyPlan(any(), any(), any(), any(), any(), any(), any());
     }
 
     @Test

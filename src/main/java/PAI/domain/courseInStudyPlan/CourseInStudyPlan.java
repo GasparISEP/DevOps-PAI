@@ -7,26 +7,29 @@ import static PAI.utils.ValidationUtils.validateNotNull;
 
 public class CourseInStudyPlan implements AggregateRoot<CourseInStudyPlanID> {
 
-    private CourseID _courseID;
-    private Semester _semester;
-    private CurricularYear _curricularYear;
-    private StudyPlanID _studyPlanID;
-    private DurationCourseInCurricularYear _durationOfCourse;
-    private CourseQuantityCreditsEcts _quantityOfCreditsEcts;
-    private CourseInStudyPlanID _courseInStudyPlanID;
-    private CourseInStudyPlanGeneratedID _generatedID;
+    private CourseID courseID;
+    private Semester semester;
+    private CurricularYear curricularYear;
+    private StudyPlanID studyPlanID;
+    private DurationCourseInCurricularYear durationOfCourse;
+    private CourseQuantityCreditsEcts quantityOfCreditsEcts;
+    private CourseInStudyPlanID courseInStudyPlanID;
+    private CourseInStudyPlanGeneratedID generatedID;
+    private ProgrammeID programmeID;
 
-    public CourseInStudyPlan(Semester semester, CurricularYear curricularYear, CourseID courseID, StudyPlanID studyplanID, CourseInStudyPlanID courseInStudyPlanID,
-                             DurationCourseInCurricularYear durationOfCourse, CourseQuantityCreditsEcts quantityOfCreditsEcts, CourseInStudyPlanGeneratedID generatedID) {
+    public CourseInStudyPlan(Semester semester, CurricularYear curricularYear, CourseID courseID, StudyPlanID studyplanID,
+                             CourseInStudyPlanID courseInStudyPlanID, DurationCourseInCurricularYear durationOfCourse,
+                             CourseQuantityCreditsEcts quantityOfCreditsEcts, CourseInStudyPlanGeneratedID generatedID, ProgrammeID programmeID) {
 
-        this._courseID = validateNotNull(courseID, "Course ID");
-        this._semester = validateNotNull(semester, "Semester");
-        this._curricularYear = validateNotNull(curricularYear, "Curricular Year");
-        this._studyPlanID = validateNotNull(studyplanID, "Study Plan ID");
-        this._durationOfCourse = validateNotNull(durationOfCourse, "Duration of Course");
-        this._quantityOfCreditsEcts = validateNotNull(quantityOfCreditsEcts, "Quantity of Credits Ects");
-        this._courseInStudyPlanID = validateNotNull(courseInStudyPlanID, "Course In Study Plan ID");
-        this._generatedID = validateNotNull(generatedID, "Course In Study Plan Generated ID");
+        this.courseID = validateNotNull(courseID, "Course ID");
+        this.semester = validateNotNull(semester, "Semester");
+        this.curricularYear = validateNotNull(curricularYear, "Curricular Year");
+        this.studyPlanID = validateNotNull(studyplanID, "Study Plan ID");
+        this.durationOfCourse = validateNotNull(durationOfCourse, "Duration of Course");
+        this.quantityOfCreditsEcts = validateNotNull(quantityOfCreditsEcts, "Quantity of Credits Ects");
+        this.courseInStudyPlanID = validateNotNull(courseInStudyPlanID, "Course In Study Plan ID");
+        this.generatedID = validateNotNull(generatedID, "Course In Study Plan Generated ID");
+        this.programmeID = validateNotNull(programmeID, "Programme ID");
     }
 
     @Override
@@ -39,47 +42,49 @@ public class CourseInStudyPlan implements AggregateRoot<CourseInStudyPlanID> {
         }
         CourseInStudyPlan courseToBeCompared = (CourseInStudyPlan) ObjectToCompare;
 
-        return this._courseInStudyPlanID.equals(courseToBeCompared._courseInStudyPlanID);
+        return this.courseInStudyPlanID.equals(courseToBeCompared.courseInStudyPlanID);
     }
 
     public CourseID getCourseID() {
-        return this._courseID;
+        return this.courseID;
     }
 
     public Semester getSemester() {
-        return this._semester;
+        return this.semester;
     }
 
     public CurricularYear getCurricularYear() {
-        return this._curricularYear;
+        return this.curricularYear;
     }
 
     public StudyPlanID getStudyplanID() {
-        return this._studyPlanID;
+        return this.studyPlanID;
     }
 
     public DurationCourseInCurricularYear getDurationOfCourse() {
-        return this._durationOfCourse;
+        return this.durationOfCourse;
     }
 
     public CourseQuantityCreditsEcts getQuantityOfCreditsEcts() {
-        return this._quantityOfCreditsEcts;
+        return this.quantityOfCreditsEcts;
     }
 
     public CourseInStudyPlanGeneratedID getGeneratedID() {
-        return this._generatedID;
+        return this.generatedID;
     }
+
+    public ProgrammeID getProgrammeID() {return this.programmeID; }
 
     @Override
     public CourseInStudyPlanID identity() {
-        return this._courseInStudyPlanID;
+        return this.courseInStudyPlanID;
     }
 
     @Override
     public boolean sameAs(Object object) {
         if (this == object) return true;
         if (!(object instanceof CourseInStudyPlan courseInStudyPlan)) return false;
-        return this._studyPlanID.equals(courseInStudyPlan._studyPlanID) &&
-                this._courseID.equals(courseInStudyPlan._courseID);
+        return this.studyPlanID.equals(courseInStudyPlan.studyPlanID) &&
+                this.courseID.equals(courseInStudyPlan.courseID);
     }
 }

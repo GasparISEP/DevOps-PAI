@@ -18,6 +18,8 @@ public record CourseInStudyPlanResponseDTO(
         String studyPlanDate,
         int duration,
         double credits,
-        UUID generatedID
+        UUID generatedID,
+        @NotBlank(message = "Programme ID cannot be blank!")
+        String programmeID
 ) {
 }

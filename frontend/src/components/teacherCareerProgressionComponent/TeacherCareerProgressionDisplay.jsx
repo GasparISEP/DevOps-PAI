@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import '../../styles/DisplayTeacherCareerProgressionPage.css';
 import '../../styles/Buttons.css';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 export default function TeacherCareerProgressionDisplay() {
     const [progressionOptions, setProgressionOptions] = useState([]);
@@ -10,16 +10,16 @@ export default function TeacherCareerProgressionDisplay() {
     const [currentPage, setCurrentPage] = useState(1);
     const [careerProgressionsPerPage, setCareerProgressionsPerPage] = useState(20);
     const careerProgressionPerPageOptions = [5, 10, 20, 50];
-    const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
+    const [sortConfig, setSortConfig] = useState({key: null, direction: 'asc'});
     const [filterField, setFilterField] = useState('date');
     const [filterValue, setFilterValue] = useState('');
 
     function handleSort(key) {
         setSortConfig(prev => {
             if (prev.key === key) {
-                return { key, direction: prev.direction === 'asc' ? 'desc' : 'asc' };
+                return {key, direction: prev.direction === 'asc' ? 'desc' : 'asc'};
             } else {
-                return { key, direction: 'asc' };
+                return {key, direction: 'asc'};
             }
         });
     }
@@ -69,13 +69,31 @@ export default function TeacherCareerProgressionDisplay() {
     useEffect(() => {
         async function fetchOptions() {
             try {
-                const response = await fetch(`${process.env.REACT_APP_API_URL}/teacher-career-progressions`);
-                if (response.ok) {
-                    const progressionOptionsJson = await response.json();
-                    setProgressionOptions(progressionOptionsJson);
+                const [careerProgressions, teacherCategories] =  await Promise.all([
+                    fetch(`${process.env.REACT_APP_API_URL}/teacher-career-progressions`),
+                    fetch(`${process.env.REACT_APP_API_URL}/teacher-categories`),
+            ]);
+
+                if (careerProgressions.ok && teacherCategories.ok) {
+                    const progressionOptionsJson = await careerProgressions.json();
+                    const teacherCategoriesJson = await teacherCategories.json();
+
+                    // Create array of id's for name consultation
+                    const categoryNameById = {};
+                    teacherCategoriesJson.forEach(category => {
+                        categoryNameById[category.id] = category.name;
+                    });
+
+                    // add teacherCategoryName to final json
+                    const joinedJson = progressionOptionsJson.map(item => ({
+                        ...item,
+                        teacherCategoryName: categoryNameById[item.teacherCategoryID] || '',
+                    }));
+
+                    setProgressionOptions(joinedJson);
                     setLoading(false);
                 } else {
-                    setError("Failed to load Teacher Career Progression options: status code " + response.status);
+                    setError("Failed to fetch Data");
                     setLoading(false);
                 }
             } catch (err) {
@@ -84,6 +102,7 @@ export default function TeacherCareerProgressionDisplay() {
                 setLoading(false);
             }
         }
+
         fetchOptions();
     }, []);
 
@@ -99,7 +118,7 @@ export default function TeacherCareerProgressionDisplay() {
         </div>
     );
 
-    function PaginationButton({ onClick, disabled, children }) {
+    function PaginationButton({onClick, disabled, children}) {
         return (
             <button className="pagination-btn pagination-btn-primary" onClick={onClick} disabled={disabled}>
                 {children}
@@ -107,7 +126,7 @@ export default function TeacherCareerProgressionDisplay() {
         );
     }
 
-    function PerPageButton({ value, selected, onClick }) {
+    function PerPageButton({value, selected, onClick}) {
         return (
             <button
                 className={`pagination-btn pagination-btn-primary per-page-btn${selected ? ' selected' : ''}`}
@@ -147,7 +166,7 @@ export default function TeacherCareerProgressionDisplay() {
                                     Back to Main Page
                                 </Link>
                             </div>
-                            <h1 style={{ margin: 0 }}>Career Progression</h1>
+                            <h1 style={{margin: 0}}>Career Progression</h1>
                             <div className="career-progression-table-filter-bar" style={{
                                 display: 'flex',
                                 alignItems: 'center',
@@ -168,7 +187,7 @@ export default function TeacherCareerProgressionDisplay() {
                                     <option value="date">Date</option>
                                     <option value="workingPercentage">Working Percentage</option>
                                     <option value="teacherCareerProgressionId">ID</option>
-                                    <option value="teacherCategoryID">Teacher Category</option>
+                                    <option value="teacherCategoryName">Teacher Category</option>
                                     <option value="teacherID">Teacher</option>
                                 </select>
                                 <input
@@ -179,7 +198,7 @@ export default function TeacherCareerProgressionDisplay() {
                                         filterField === 'date' ? 'Date' :
                                             filterField === 'workingPercentage' ? 'Working Percentage' :
                                                 filterField === 'teacherID' ? 'Teacher' :
-                                                    filterField === 'teacherCategoryID' ? 'Teacher Category' :
+                                                    filterField === 'teacherCategoryName' ? 'Teacher Category' :
                                                         filterField === 'teacherCareerProgressionId' ? 'ID' :
                                                             filterField.charAt(0).toUpperCase() + filterField.slice(1)}`}
                                     className="career-progression-table-filter-input"
@@ -190,25 +209,30 @@ export default function TeacherCareerProgressionDisplay() {
                             <table data-testid="career-progression-table" className="career-progression-form-table">
                                 <thead>
                                 <tr>
-                                    <th data-testid="date-header" className={`sortable${sortConfig.key === 'date' ? ' selected' : ''}`}
+                                    <th data-testid="date-header"
+                                        className={`sortable${sortConfig.key === 'date' ? ' selected' : ''}`}
                                         onClick={() => handleSort('date')}>
                                         Date {sortConfig.key === 'date' ? (sortConfig.direction === 'asc' ? '▲' : '▼') : ''}
                                     </th>
-                                    <th data-testid="working-percentage-header" className={`sortable${sortConfig.key === 'workingPercentage' ? ' selected' : ''}`}
+                                    <th data-testid="working-percentage-header"
+                                        className={`sortable${sortConfig.key === 'workingPercentage' ? ' selected' : ''}`}
                                         onClick={() => handleSort('workingPercentage')}>
                                         Working
                                         percentage {sortConfig.key === 'workingPercentage' ? (sortConfig.direction === 'asc' ? '▲' : '▼') : ''}
                                     </th>
-                                    <th data-testid="id-header" className={`sortable${sortConfig.key === 'teacherCareerProgressionId' ? ' selected' : ''}`}
+                                    <th data-testid="id-header"
+                                        className={`sortable${sortConfig.key === 'teacherCareerProgressionId' ? ' selected' : ''}`}
                                         onClick={() => handleSort('teacherCareerProgressionId')}>
                                         ID {sortConfig.key === 'teacherCareerProgressionId' ? (sortConfig.direction === 'asc' ? '▲' : '▼') : ''}
                                     </th>
-                                    <th data-testid="teacher-category-header" className={`sortable${sortConfig.key === 'teacherCategoryID' ? ' selected' : ''}`}
-                                        onClick={() => handleSort('teacherCategoryID')}>
+                                    <th data-testid="teacher-category-header"
+                                        className={`sortable${sortConfig.key === 'teacherCategoryName' ? ' selected' : ''}`}
+                                        onClick={() => handleSort('teacherCategoryName')}>
                                         Teacher
-                                        Category {sortConfig.key === 'teacherCategoryID' ? (sortConfig.direction === 'asc' ? '▲' : '▼') : ''}
+                                        Category {sortConfig.key === 'teacherCategoryName' ? (sortConfig.direction === 'asc' ? '▲' : '▼') : ''}
                                     </th>
-                                    <th data-testid="teacher-header" className={`sortable${sortConfig.key === 'teacherID' ? ' selected' : ''}`}
+                                    <th data-testid="teacher-header"
+                                        className={`sortable${sortConfig.key === 'teacherID' ? ' selected' : ''}`}
                                         onClick={() => handleSort('teacherID')}>
                                         Teacher {sortConfig.key === 'teacherID' ? (sortConfig.direction === 'asc' ? '▲' : '▼') : ''}
                                     </th>
@@ -243,7 +267,7 @@ export default function TeacherCareerProgressionDisplay() {
                                             <td>{progressionOption.date}</td>
                                             <td>{progressionOption.workingPercentage}</td>
                                             <td>{progressionOption.teacherCareerProgressionId}</td>
-                                            <td>{progressionOption.teacherCategoryID}</td>
+                                            <td>{progressionOption.teacherCategoryName}</td>
                                             <td>{progressionOption.teacherID}</td>
                                         </tr>
                                     ))

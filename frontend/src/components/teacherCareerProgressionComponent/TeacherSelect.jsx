@@ -4,7 +4,7 @@ export default function TeacherSelect({ value, onChange, options, error }) {
     return (
         <>
             <label className="form-label" htmlFor="teacher">Teacher</label>
-            <select className="form-input" id="teacher" name="teacher" value={value} onChange={onChange}>
+            <select className="form-input" id="teacher" name="teacher" value={value} onChange={onChange} required>
                 <option value="">Select a Teacher</option>
                 {options.map((teacher) => (
                     <option key={teacher.id} value={teacher.id}>

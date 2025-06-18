@@ -55,7 +55,7 @@ class AddCourseToAProgrammeServiceImplTest {
 
         CourseInStudyPlan courseInStudyPlan = mock(CourseInStudyPlan.class);
         CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
-        when(factory.newCourseInStudyPlan(any(), any(), any(), any(), any(), any())).thenReturn(courseInStudyPlan);
+        when(factory.newCourseInStudyPlan(any(), any(), any(), any(), any(), any(), any())).thenReturn(courseInStudyPlan);
         when(courseInStudyPlan.identity()).thenReturn(courseInStudyPlanID);
         when(repository.containsOfIdentity(courseInStudyPlanID)).thenReturn(false);
         when(repository.getTotalCreditsEctsInStudyPlanSoFar(any(), any(), any(), any())).thenReturn(24.0);
@@ -114,7 +114,7 @@ class AddCourseToAProgrammeServiceImplTest {
 
         CourseInStudyPlan courseInStudyPlan = mock(CourseInStudyPlan.class);
         CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
-        when(factory.newCourseInStudyPlan(any(), any(), any(), any(), any(), any())).thenReturn(courseInStudyPlan);
+        when(factory.newCourseInStudyPlan(any(), any(), any(), any(), any(), any(), any())).thenReturn(courseInStudyPlan);
         when(courseInStudyPlan.identity()).thenReturn(courseInStudyPlanID);
         when(repository.containsOfIdentity(courseInStudyPlanID)).thenReturn(true);
 
@@ -140,7 +140,7 @@ class AddCourseToAProgrammeServiceImplTest {
 
         CourseInStudyPlan courseInStudyPlan = mock(CourseInStudyPlan.class);
         CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
-        when(factory.newCourseInStudyPlan(any(), any(), any(), any(), any(), any())).thenReturn(courseInStudyPlan);
+        when(factory.newCourseInStudyPlan(any(), any(), any(), any(), any(), any(), any())).thenReturn(courseInStudyPlan);
         when(courseInStudyPlan.identity()).thenReturn(courseInStudyPlanID);
         when(repository.containsOfIdentity(courseInStudyPlanID)).thenReturn(false);
         when(repository.getTotalCreditsEctsInStudyPlanSoFar(any(), any(), any(), any())).thenReturn(25.0);
@@ -181,7 +181,7 @@ class AddCourseToAProgrammeServiceImplTest {
         when(repository.getTotalCreditsEctsInStudyPlanSoFar(studyPlanID, semester, curricularYear, durationOfCourse))
                 .thenReturn(29.0);
 
-        when(factory.newCourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, durationOfCourse, quantityOfCreditsEcts))
+        when(factory.newCourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, durationOfCourse, quantityOfCreditsEcts, programmeID))
                 .thenReturn(candidate);
 
         when(studyPlanRepository.findLatestByProgrammeID(programmeID)).thenReturn(studyPlanID);
@@ -228,7 +228,7 @@ class AddCourseToAProgrammeServiceImplTest {
         when(repository.getTotalCreditsEctsInStudyPlanSoFar(studyPlanID, semester, curricularYear, durationOfCourse))
                 .thenReturn(25.0);
 
-        when(factory.newCourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, durationOfCourse, quantityOfCreditsEcts))
+        when(factory.newCourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, durationOfCourse, quantityOfCreditsEcts, programmeID))
                 .thenReturn(candidate);
 
         when(repository.save(candidate)).thenReturn(candidate);
@@ -280,7 +280,7 @@ class AddCourseToAProgrammeServiceImplTest {
         when(repository.getTotalCreditsEctsInStudyPlanSoFar(studyPlanID, semester, curricularYear, durationOfCourse))
                 .thenReturn(25.0);
 
-        when(factory.newCourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, durationOfCourse, quantityOfCreditsEcts))
+        when(factory.newCourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, durationOfCourse, quantityOfCreditsEcts, programmeID))
                 .thenReturn(candidate);
 
         when(repository.save(candidate)).thenReturn(candidate);
@@ -335,7 +335,7 @@ class AddCourseToAProgrammeServiceImplTest {
         when(repository.getTotalCreditsEctsInStudyPlanSoFar(studyPlanID, semester, curricularYear, durationOfCourse))
                 .thenReturn(25.0);
 
-        when(factory.newCourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, durationOfCourse, quantityOfCreditsEcts))
+        when(factory.newCourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, durationOfCourse, quantityOfCreditsEcts, programmeID))
                 .thenReturn(candidate);
 
         when(repository.save(candidate)).thenReturn(candidate);

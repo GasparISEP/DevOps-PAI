@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface ICourseInStudyPlanService {
 
     boolean createCourseInStudyPlan(Semester semester, CurricularYear curricularYear, CourseID courseID, StudyPlanID studyPlanID,
-                                    DurationCourseInCurricularYear durationOfCourse, CourseQuantityCreditsEcts quantityOfCreditsEcts) throws Exception;
+                                    DurationCourseInCurricularYear durationOfCourse, CourseQuantityCreditsEcts quantityOfCreditsEcts, ProgrammeID programmeID) throws Exception;
 
     List<CourseInStudyPlan> getAllCoursesInStudyPlan() throws Exception;
 
@@ -20,4 +20,6 @@ public interface ICourseInStudyPlanService {
     Optional<CourseInStudyPlan> findById(CourseInStudyPlanID courseInStudyPlanID);
 
     List<CourseInStudyPlanServiceDTO> getCourseSummariesByStudyPlanID(StudyPlanID studyPlanID);
+
+    List<CourseInStudyPlan> getCoursesByProgrammeID(ProgrammeID programmeID);
 }

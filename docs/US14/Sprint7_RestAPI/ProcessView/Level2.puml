@@ -22,22 +22,22 @@ activate backend #E1F5FE
 
 backend -> db: **SELECT** * FROM teacher
 activate db #E1F5FE
-db --> backend: List<TeacherDataModel>
+db --> backend: teachersDataModel: List<TeacherDataModel>
 deactivate db
 
-backend --> frontend: 200 \n + body {List<TeacherResponseDTO> + hypermedia}
+backend --> frontend: 200 \n + body {teachersResponseDTO: List<TeacherResponseDTO> + hypermedia}
 deactivate backend
 
 frontend -> backend: **GET** /teacher-categories
 activate backend #E1F5FE
 backend -> db: **SELECT** * FROM teacherCategory
 activate db #E1F5FE
-db --> backend: Iterable<TeacherCategoryDataModel>
+db --> backend: teacherCategoriesDataModel: Iterable<TeacherCategoryDataModel>
 deactivate db
-backend --> frontend: 200 \n + body {Iterable<TeacherCategoryResponseDTO> + hypermedia}
+backend --> frontend: 200 \n + body {teacherCategoriesResponseDTO: Iterable<TeacherCategoryResponseDTO> + hypermedia}
 deactivate backend
 
-frontend --> admin: Make the form available!
+frontend --> admin: Provide a form with fields for date, \n teacher selection and teacher category selection!
 deactivate frontend
 
 admin -> frontend: Form submitted!
@@ -51,34 +51,32 @@ activate frontend #E1F5FE
 
 note over backend #E0E0E0
   body:
-    {"teacherId": "AAA",
-     "teacherCategoryID": "05ab8bc8-33c2-46af-8988-d933e0256b89",
-     "date": "2025-06-01"
-    }
+    { "date": "2025-06-01",
+     "teacherCategoryID": "05ab8bc8-33c2-46af-8988-d933e0256b89" }
 end note
 
-frontend -> backend: **POST** /teachers/{teacherId}/careerprogressions/category + \n body {...}
+frontend -> backend: **POST** /teachers/{teacherId}/careerprogressions/category + body {...}
 activate backend #E1F5FE
 
 note over db #E0E0E0
   Values:
-    {"id": "b6a7f5d2-8e41-4f29-9a2e-3d3a7f1c9b12",
+    { "id": "b6a7f5d2-8e41-4f29-9a2e-3d3a7f1c9b12",
      "teacherId": "AAA",
      "teacherCategoryID": "05ab8bc8-33c2-46af-8988-d933e0256b89",
-     "date": "2025-06-01"
-    }
+     "date": "2025-06-01",
+     "workingPercentage": 25 }
 end note
 
-backend -> db: **INSERT INTO** Teacher_Career_Progression \n (id, teacherId, teacherCategoryId, date) VALUES (...)
+backend -> db: **INSERT INTO** Teacher_Career_Progression \n (id, teacherId, teacherCategoryId, date, workingPercentage) VALUES (...)
 activate db #E1F5FE
 
 db --> backend: teacherCareerProgressionDataModel
 deactivate db
 
-backend --> frontend: 201 \n + body {updateTeacherCategoryResponseDTO + hypermedia}
+backend --> frontend: 201 + body {updateTeacherCategoryResponseDTO + hypermedia}
 deactivate backend
 
-<-- frontend : Ok!
+frontend --> admin : Ok!
 deactivate frontend
 
 @enduml

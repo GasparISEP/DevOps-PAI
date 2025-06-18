@@ -3,7 +3,6 @@ title: Get Programme Edition Enrollments By Student ID\n(Code View - Level 4)
 
 autonumber
 
-participant ":Router" as router
 participant ":StudentProgrammeEditionEnrolmentController" as peeCtrl
 activate peeCtrl
 participant ":ProgrammeEditionEnrolmentService" as peeService
@@ -13,7 +12,7 @@ participant ":ProgrammeEditionEnrolmentAssembler" as peeAssembler
 participant ":ProgrammeEditionEnrolmentHateoasAssembler" as peeHateoasAssembler
 database DB
 
-router -> peeCtrl: GET students/{id}/programme-edition-enrolments
+[o--> peeCtrl: GET students/{id}/programme-edition-enrolments
 peeCtrl -> peeService ++: getProgrammeEditionEnrollmentsByStudentID(StudentID)
 peeService -> peeRepo ++: findProgrammeEditionsThatStudentIsEnrolled(StudentID)
 peeRepo -> DB ++: SELECT programme_edition_id FROM programme_edition_enrollments\nWHERE student_id = StudentID
@@ -29,7 +28,7 @@ peeCtrl -> peeHateoasAssembler ++: toCollectionModel(List<ProgrammeEditionEnrolm
 
 
 peeHateoasAssembler --> peeCtrl --: CollectionModel<ProgrammeEditionEnrolmentDetailDTO>
-peeCtrl --> router: CollectionModel<ProgrammeEditionEnrolmentDetailDTO>
+[o--> peeCtrl : CollectionModel<ProgrammeEditionEnrolmentDetailDTO>
 
 legend right
   DTO = Data Transfer Object

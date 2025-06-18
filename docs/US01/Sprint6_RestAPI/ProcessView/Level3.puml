@@ -29,13 +29,19 @@ activate domain #E1F5FE
 domain --> service: teacherCategory
 deactivate domain
 
+service -> repository: existsByName (nameVO)
+activate repository #E1F5FE
+
+repository --> service: True
+deactivate repository
+
 service -> repository: save (teacherCategory)
 activate repository #E1F5FE
 
 repository -> drivers: save (teacherCategoryDataModel)
 activate drivers #E1F5FE
 
-drivers ->o]: INSERT INTO teacherCategory (id, name) \n VALUES ('123e4567-e89b-12d3-a456-426614174000', 'Assistant')
+drivers ->o]: **INSERT INTO** teacherCategory (id, name) \n VALUES ('123e4567-e89b-12d3-a456-426614174000', 'Assistant')
 
 drivers <--o]: teacherCategorySavedDataModel
 

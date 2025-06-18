@@ -3,7 +3,7 @@ skinparam sequenceMessageAlign center
 autonumber
 
 
-title As an HRC I want to Update a Teacher's Category in the System\n(Process View Level 4)
+title As an HRC I want to Update a Teacher's Category in the System\n(Scenario - View Level 4 - Backend)
 
 
 participant ":Router" as router
@@ -38,27 +38,27 @@ activate TRepository #E1F5FE
 TRepository -> TRepositorySpringData: findAll ()
 activate TRepositorySpringData #E1F5FE
 
-TRepositorySpringData --> TRepository: Iterable<TeacherDataModel>
+TRepositorySpringData --> TRepository: teachersDataModel: Iterable<TeacherDataModel>
 deactivate TRepositorySpringData
 
 ref over TRepository
    SD Convert Iterable<TeacherDataModel> to Domain
 end
 
-TRepository --> TService: Iterable<Teacher>
+TRepository --> TService: teachers: Iterable<Teacher>
 deactivate TRepository
 
-TService --> Controller: Iterable<Teacher>
+TService --> Controller: teachers: Iterable<Teacher>
 deactivate TService
 
 ref over Controller
    SD Convert Iterable<Teacher> to ResponseDTO
 end
 
-Controller --> router: 200 + body {CollectionModel<EntityModel<TeacherDTO>>}
+Controller --> router: 200 + body {teachersResponseDTO: CollectionModel<EntityModel<TeacherResponseDTO>>}
 deactivate Controller
 
-[o<-- router: 200 + body {CollectionModel<EntityModel<TeacherDTO>>}
+[o<-- router: 200 + body {teachersResponseDTO: CollectionModel<EntityModel<TeacherResponseDTO>>}
 deactivate router
 
 ' getAllTeacherCategories() method
@@ -78,27 +78,27 @@ activate TCRepository #E1F5FE
 TCRepository -> TCRepositorySpringData: findAll ()
 activate TCRepositorySpringData #E1F5FE
 
-TCRepositorySpringData --> TCRepository: Iterable<TeacherCategoryDataModel>
+TCRepositorySpringData --> TCRepository: teacherCategoriesDataModel: Iterable<TeacherCategoryDataModel>
 deactivate TCRepositorySpringData
 
 ref over TCRepository
    SD Convert Iterable<TeacherCategoryDataModel> to Domain
 end
 
-TCRepository --> TCService: Iterable<TeacherCategory>
+TCRepository --> TCService: teacherCategories: Iterable<TeacherCategory>
 deactivate TCRepository
 
-TCService --> TCController: Iterable<TeacherCategory>
+TCService --> TCController: teacherCategories: Iterable<TeacherCategory>
 deactivate TCService
 
 ref over TCController
    SD Convert Iterable<TeacherCategory> to ResponseDTO
 end
 
-TCController --> router: 200 + body {Iterable<TeacherCategoryResponseDTO>}
+TCController --> router: 200 + body {teacherCategoriesResponseDTO: Iterable<TeacherCategoryResponseDTO>}
 deactivate TCController
 
-[o<-- router: 200 + body {Iterable<TeacherCategoryResponseDTO>}
+[o<-- router: 200 + body {teacherCategoriesResponseDTO: Iterable<TeacherCategoryResponseDTO>}
 deactivate router
 
 ' updateTeacherCategory() method
@@ -106,14 +106,20 @@ deactivate router
 [o-> router: **POST** /teachers/{teacherId}/careerprogressions/category + \n body {...}
 activate router #E1F5FE
 
-router -> Controller: updateTeacherCategory (teacherID, updateTeachersCategoryRequestDTO)
+note over router #E0E0E0
+  body:
+    { "date": "2025-06-01" ,
+    "teacherCategoryID": "05ab8bc8-33c2-46af-8988-d933e0256b89" }
+end note
+
+router -> Controller: updateTeacherCategory (teacherID, updateTeacherCategoryRequestDTO)
 activate Controller #E1F5FE
 
 ref over Controller
    SD Convert input to updateTeacherCategoryCommand
 end
 
-Controller -> service : updateTeacherCategory(updateTeacherCategoryCommand)
+Controller -> service : updateTeacherCategory (updateTeacherCategoryCommand)
 activate service #E1F5FE
 
 service -> TCRepository :  containsOfIdentity \n (updateTeacherCategoryCommand.teacherCategoryID())
@@ -135,10 +141,10 @@ deactivate
 service -> TCPRepo : findLastTCPFromTeacherID (updateTeacherCategoryCommand.teacherID())
 activate TCPRepo #E1F5FE
 
-TCPRepo -> TCPRepoSpringData: findTopByTeacherIdOrderByDateDesc (String teacherID)
+TCPRepo -> TCPRepoSpringData: findTopByTeacherIdOrderByDateDesc (teacherID: String)
 activate TCPRepoSpringData #E1F5FE
 
-TCPRepoSpringData --> TCPRepo: lastTCPDataModel
+TCPRepoSpringData --> TCPRepo: Optional<lastTCPDataModel>
 deactivate TCPRepoSpringData
 
 ref over TCPRepo
@@ -148,17 +154,17 @@ end
 TCPRepo --> service : lastTCP
 deactivate TCPRepo
 
-service -> TCP : lastTCP.isLastDateEqualOrBeforeNewDate (updateTeacherCategoryCommand.date())
+service -> TCP : isLastDateEqualOrBeforeNewDate (updateTeacherCategoryCommand.date())
 activate TCP #E1F5FE
 TCP -> service : False
 deactivate TCP
 
-service -> TCP : lastTCP.getWorkingPercentage()
+service -> TCP : getWorkingPercentage()
 activate TCP #E1F5FE
 TCP --> service : workingPercentage
 deactivate TCP
 
-service -> TCP : lastTCP.hasSameTeacherCategoryID (updateTeacherCategoryCommand.teacherCategoryID())
+service -> TCP : hasSameTeacherCategoryID (updateTeacherCategoryCommand.teacherCategoryID())
 activate TCP #E1F5FE
 TCP --> service : False
 deactivate TCP
@@ -176,11 +182,16 @@ service -> TCPRepo: save (tcp)
 activate TCPRepo #E1F5FE
 
 ref over TCPRepo
-    SD Convert tcp to tcpDataModel
+    SD Convert tcp to DataModel
 end
 
 TCPRepo -> TCPRepoSpringData: save (tcpDataModel)
 activate TCPRepoSpringData #E1F5FE
+
+TCPRepoSpringData -->o]: **INSERT INTO** Teacher_Career_Progression \n (id, teacherId, teacherCategoryId, date, workingPercentage) VALUES (...)
+
+TCPRepoSpringData <--o] : teacherCareerProgressionSavedDataModel
+
 
 TCPRepoSpringData --> TCPRepo: tcpSavedDataModel
 deactivate TCPRepoSpringData
@@ -220,13 +231,13 @@ activate tcpRestController #E1F5FE
 tcpRestController --> hateoasAssembler: href:"/teacher-career-progressions"
 deactivate tcpRestController
 
-hateoasAssembler --> Controller: EntityModel<UpdateTeacherCategoryResponseDTO>
+hateoasAssembler --> Controller: updateTeacherCategoryResponseDTO: EntityModel<UpdateTeacherCategoryResponseDTO>
 deactivate hateoasAssembler
 
-Controller --> router: 201 + body {EntityModel<UpdateTeacherCategoryResponseDTO>}
+Controller --> router: 201 + body { updateTeacherCategoryResponseDTO: EntityModel<UpdateTeacherCategoryResponseDTO>}
 deactivate Controller
 
-[o<-- router: 201 + body {EntityModel<UpdateTeacherCategoryResponseDTO>}
+[o<-- router: 201 + body { updateTeacherCategoryResponseDTO: EntityModel<UpdateTeacherCategoryResponseDTO>}
 deactivate router
 
 

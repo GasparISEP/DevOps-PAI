@@ -6,6 +6,9 @@ import '../../styles/Form.css';
 import { Link } from "react-router-dom";
 import { findAllAccessMethods, findAllDepartments, findAllProgrammes, enrolStudentInProgramme, getAllStudents } from '../../services/studentService';
 import '../../styles/Form.css';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { format, parse } from "date-fns";
 
 
 const initialFormState = {
@@ -98,15 +101,6 @@ export default function StudentProgrammeEnrolmentForm() {
         setForm(f => ({ ...f, accessMethodID: option?.value ?? '' }));
     }
 
-    function handleDateChange(e) {
-        const value = e.target.value;
-        const cleaned = value.replace(/[^0-9\-]/g, '');
-
-        if (cleaned.length <= 10) {
-            setForm(f => ({ ...f, date: cleaned }));
-        }
-    }
-
     async function handleSubmit(e) {
         e.preventDefault();
         setError('');
@@ -132,8 +126,8 @@ export default function StudentProgrammeEnrolmentForm() {
             return;
         }
 
-        const [day, month, year] = form.date.split("-");
-        const isoDate = `${year}-${month}-${day}`;
+        const parsedDate = parse(form.date, 'dd-MM-yyyy', new Date());
+        const isoDate = format(parsedDate, 'yyyy-MM-dd');
 
         const { departmentID, ...rest } = form;
 
@@ -242,7 +236,8 @@ export default function StudentProgrammeEnrolmentForm() {
                                         control: base => ({
                                             ...base,
                                             width: '554px',
-                                            height: '4rem'
+                                            height: '4rem',
+                                            fontSize: '1.5rem'
                                         })
                                     }}
                                 />
@@ -263,7 +258,8 @@ export default function StudentProgrammeEnrolmentForm() {
                                         control: base => ({
                                             ...base,
                                             width: '554px',
-                                            height: '4rem'
+                                            height: '4rem',
+                                            fontSize: '1.5rem'
                                         })
                                     }}
                                 />
@@ -287,7 +283,8 @@ export default function StudentProgrammeEnrolmentForm() {
                                         control: base => ({
                                             ...base,
                                             width: '554px',
-                                            height: '4rem'
+                                            height: '4rem',
+                                            fontSize: '1.5rem'
                                         })
                                     }}
                                 />
@@ -296,18 +293,18 @@ export default function StudentProgrammeEnrolmentForm() {
                             <div className="form-group">
                                 <label className="form-label" htmlFor="date">Enrolment Date
                                 </label>
-                                <input
-                                    disabled={studentNotFound || !form.accessMethodID}
-                                    className={`form-input ${form.date && !/^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-\d{4}$/.test(form.date) ? 'input-error' : ''}`}
-                                    type="text"
+                                <DatePicker
                                     id="date"
-                                    name="date"
-                                    placeholder="e.g. 12-06-2025"
-                                    value={form.date}
-                                    onChange={handleDateChange}
-                                    inputMode="numeric"
-                                    maxLength={10}
-                                    style={{width: '554px'}}
+                                    selected={form.date ? parse(form.date, 'dd-MM-yyyy', new Date()) : null}
+                                    onChange={(date) => {
+                                        const formatted = format(date, 'dd-MM-yyyy');
+                                        setForm(f => ({ ...f, date: formatted }));
+                                    }}
+                                    dateFormat="dd-MM-yyyy"
+                                    placeholderText="Select a Date"
+                                    className="form-input"
+                                    style={{ width: '554px' }}
+                                    disabled={studentNotFound || !form.accessMethodID}
                                     required
                                 />
                                 {form.date && !/^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-\d{4}$/.test(form.date) && (
@@ -336,18 +333,36 @@ export default function StudentProgrammeEnrolmentForm() {
                         <p>
                             <strong>Department:</strong> {departmentOptions.find(d => d.value === form.departmentID)?.label}
                         </p>
-                        <p><strong>Programme:</strong> {programmeOptions.find(p => p.value === form.programmeAcronym)?.label}
+                        <p>
+                            <strong>Programme:</strong> {programmeOptions.find(p => p.value === form.programmeAcronym)?.label}
                         </p>
                         <p><strong>Enrolment Date:</strong> {form.date}</p>
                         <button className="modal-btn" onClick={() => window.location.reload()}>Close</button>
+                        <div style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            cursor: 'pointer',
+                            fontSize: '1.35rem',
+                            padding: '0.5rem'
+                        }}>
+                            <a
+                                href="/students/enroll"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="modal-btn"
+                                style={{textDecoration: 'none'}}
+                            >
+                                Enrol in Programme<br/> and Courses
+                            </a>
+                        </div>
                     </div>
                 </div>
             )}
 
             {showErrorModal && (
                 <div className="modal-overlay">
-                    <div className="modal-content" style={{ borderColor: 'red' }}>
-                        <h2 style={{ color: 'red' }}>Error</h2>
+                    <div className="modal-content" style={{borderColor: 'red'}}>
+                        <h2 style={{color: 'red'}}>Error</h2>
                         <p>{error}</p>
                         <button className="modal-btn" onClick={() => setShowErrorModal(false)}>Close</button>
                     </div>

@@ -6,6 +6,7 @@ import PAI.domain.courseInStudyPlan.ICourseInStudyPlanFactory;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlanFactoryImpl;
 import PAI.mapper.course.ICourseIDMapper;
 import PAI.mapper.course.CourseIDMapperImpl;
+import PAI.mapper.programme.IProgrammeIDMapper;
 import PAI.mapper.programme.ProgrammeIDMapperImpl;
 import PAI.mapper.studyPlan.IStudyPlanIDMapper;
 import PAI.mapper.studyPlan.StudyPlanIDMapperImpl;
@@ -31,6 +32,7 @@ class CourseInStudyPlanMapperImplTest {
     private IStudyPlanIDMapper studyPlanIDMapper;
     private ICourseInStudyPlanFactory courseInStudyPlanFactory;
     private ICourseInStudyPlanGeneratedIDMapper generatedIDMapper;
+    private IProgrammeIDMapper programmeIDMapper;
 
     @BeforeEach
     void setUp() throws Exception {
@@ -43,12 +45,14 @@ class CourseInStudyPlanMapperImplTest {
         );
         courseInStudyPlanFactory = new CourseInStudyPlanFactoryImpl();
         generatedIDMapper = new CourseInStudyPlanGeneratedIDMapperImpl();
+        programmeIDMapper = new ProgrammeIDMapperImpl();
         mapper = new CourseInStudyPlanMapperImpl(
                 courseIDMapper,
                 studyPlanIDMapper,
                 courseInStudyPlanIDMapper,
                 courseInStudyPlanFactory,
-                generatedIDMapper
+                generatedIDMapper,
+                programmeIDMapper
         );
     }
 
@@ -61,7 +65,8 @@ class CourseInStudyPlanMapperImplTest {
                         null,
                         new CourseInStudyPlanIDMapperImpl(new StudyPlanIDMapperImpl(new ProgrammeIDMapperImpl()), new CourseIDMapperImpl()),
                         new CourseInStudyPlanFactoryImpl(),
-                        new CourseInStudyPlanGeneratedIDMapperImpl()
+                        new CourseInStudyPlanGeneratedIDMapperImpl(),
+                        new ProgrammeIDMapperImpl()
                 )
         );
         assertEquals("StudyPlanIDMapper cannot be null.", ex.getMessage());
@@ -76,7 +81,8 @@ class CourseInStudyPlanMapperImplTest {
                         new StudyPlanIDMapperImpl(new ProgrammeIDMapperImpl()),
                         new CourseInStudyPlanIDMapperImpl(new StudyPlanIDMapperImpl(new ProgrammeIDMapperImpl()), new CourseIDMapperImpl()),
                         new CourseInStudyPlanFactoryImpl(),
-                        new CourseInStudyPlanGeneratedIDMapperImpl()
+                        new CourseInStudyPlanGeneratedIDMapperImpl(),
+                        new ProgrammeIDMapperImpl()
                 )
         );
         assertEquals("CourseIDMapper cannot be null.", ex.getMessage());
@@ -91,7 +97,8 @@ class CourseInStudyPlanMapperImplTest {
                         new StudyPlanIDMapperImpl(new ProgrammeIDMapperImpl()),
                         null,
                         new CourseInStudyPlanFactoryImpl(),
-                        new CourseInStudyPlanGeneratedIDMapperImpl()
+                        new CourseInStudyPlanGeneratedIDMapperImpl(),
+                        new ProgrammeIDMapperImpl()
                 )
         );
         assertEquals("CourseInStudyPlanIDMapper cannot be null.", ex.getMessage());
@@ -106,7 +113,8 @@ class CourseInStudyPlanMapperImplTest {
                         new StudyPlanIDMapperImpl(new ProgrammeIDMapperImpl()),
                         new CourseInStudyPlanIDMapperImpl(new StudyPlanIDMapperImpl(new ProgrammeIDMapperImpl()), new CourseIDMapperImpl()),
                         null,
-                        new CourseInStudyPlanGeneratedIDMapperImpl()
+                        new CourseInStudyPlanGeneratedIDMapperImpl(),
+                        new ProgrammeIDMapperImpl()
                 )
         );
         assertEquals("CourseInStudyPlanFactory cannot be null.", ex.getMessage());
@@ -121,7 +129,8 @@ class CourseInStudyPlanMapperImplTest {
                         new StudyPlanIDMapperImpl(new ProgrammeIDMapperImpl()),
                         new CourseInStudyPlanIDMapperImpl(new StudyPlanIDMapperImpl(new ProgrammeIDMapperImpl()), new CourseIDMapperImpl()),
                         new CourseInStudyPlanFactoryImpl(),
-                        null
+                        null,
+                        new ProgrammeIDMapperImpl()
                 )
         );
         assertEquals("CourseInStudyPlanGeneratedIDMapper cannot be null.", ex.getMessage());
@@ -140,7 +149,7 @@ class CourseInStudyPlanMapperImplTest {
         CourseQuantityCreditsEcts quantityOfCreditsEcts = new CourseQuantityCreditsEcts(1);
 
         CourseInStudyPlan domain = courseInStudyPlanFactory
-                .newCourseInStudyPlan(semesterVO, yearVO, courseIDValueObject, studyPlanIDValueObject, durationOfCourse, quantityOfCreditsEcts);
+                .newCourseInStudyPlan(semesterVO, yearVO, courseIDValueObject, studyPlanIDValueObject, durationOfCourse, quantityOfCreditsEcts, programmeID);
 
         // Act
         CourseInStudyPlanDataModel dataModel = mapper.toDataModel(domain);
@@ -177,7 +186,7 @@ class CourseInStudyPlanMapperImplTest {
         CourseIDDataModel courseIDDataModel = courseIDMapper.toDataModel(courseIDValueObject);
         StudyPlanIDDataModel studyPlanIDDataModel = studyPlanIDMapper.toDataModel(studyPlanIDValueObject);
         CourseInStudyPlanIDDataModel compositeIDDataModel = courseInStudyPlanIDMapper.toDataModel(
-                courseInStudyPlanFactory.newCourseInStudyPlan(semesterVO, yearVO, courseIDValueObject, studyPlanIDValueObject, durationOfCourse, quantityOfCreditsEcts).identity()
+                courseInStudyPlanFactory.newCourseInStudyPlan(semesterVO, yearVO, courseIDValueObject, studyPlanIDValueObject, durationOfCourse, quantityOfCreditsEcts, programmeID).identity()
         );
 
         CourseInStudyPlanDataModel dataModel = new CourseInStudyPlanDataModel(
@@ -215,6 +224,7 @@ class CourseInStudyPlanMapperImplTest {
         ICourseInStudyPlanIDMapper mockCourseInStudyPlanIDMapper = mock(ICourseInStudyPlanIDMapper.class);
         ICourseInStudyPlanFactory mockFactory = mock(ICourseInStudyPlanFactory.class);
         ICourseInStudyPlanGeneratedIDMapper mockGeneratedIDMapper = mock(ICourseInStudyPlanGeneratedIDMapper.class);
+        IProgrammeIDMapper mockProgrammeIDMapper = mock(IProgrammeIDMapper.class);
 
         CourseInStudyPlanDataModel courseInStudyPlanDataModel = mock(CourseInStudyPlanDataModel.class);
         CourseIDDataModel mockedCourseIDDataModel = mock(CourseIDDataModel.class);
@@ -228,7 +238,8 @@ class CourseInStudyPlanMapperImplTest {
                 mockStudyPlanIDMapper,
                 mockCourseInStudyPlanIDMapper,
                 mockFactory,
-                mockGeneratedIDMapper
+                mockGeneratedIDMapper,
+                mockProgrammeIDMapper
         );
 
         // Act & Assert

@@ -39,7 +39,8 @@ class CourseInStudyPlanBusinessAssemblerImplTest {
                 courseInStudyPlanID,
                 duration,
                 credits,
-                generatedID
+                generatedID,
+                programmeID
         );
 
         // Act

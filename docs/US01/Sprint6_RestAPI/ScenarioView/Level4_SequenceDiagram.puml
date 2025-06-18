@@ -11,7 +11,7 @@ participant ":Router" as router
 [o-> router: **POST** /teacher-categories + body {"name": "Assistant"}
 activate router #E1F5FE
 
-participant ":US01_ConfigureTeacherCategoryRESTController" as Controller
+participant ":TeacherCategoryRESTController" as Controller
 router -> Controller: configureTeacherCategory (tcRequestDTO)
 activate Controller #E1F5FE
 
@@ -52,6 +52,11 @@ end
 participant ":ITeacherCategoryRepositorySpringData" as springDataRepository
 Repository -> springDataRepository: save (tcDataModel)
 activate springDataRepository #E1F5FE
+
+springDataRepository ->o]: **INSERT INTO** teacherCategory (id, name) \n VALUES ('123e4567-e89b-12d3-a456-426614174000', 'Assistant')
+
+springDataRepository <--o]: teacherCategorySavedDataModel
+
 springDataRepository --> Repository : tcDataModelSaved
 deactivate springDataRepository
 

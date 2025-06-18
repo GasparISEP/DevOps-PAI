@@ -65,8 +65,9 @@ public class AddCourseToAProgrammeServiceImpl implements IAddCourseToAProgrammeS
         CourseID courseID = new CourseID(command.courseAcronym(), command.courseName());
         DurationCourseInCurricularYear duration = command.duration();
         CourseQuantityCreditsEcts credits = command.credits();
+        ProgrammeID programmeID = new ProgrammeID(new Acronym(command.programmeAcronym().getAcronym()));
 
-        return factory.newCourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, duration, credits);
+        return factory.newCourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, duration, credits, programmeID);
     }
 
     private void validateBusinessRules(CourseInStudyPlan course, StudyPlanID studyPlanID, CourseInStudyPlanCommand command) {

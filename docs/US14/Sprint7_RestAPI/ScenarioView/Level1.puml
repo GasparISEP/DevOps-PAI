@@ -1,6 +1,6 @@
 @startuml
 
-title US14: As an HRC, I want to update the teacher's category in the system \n (Process View - Level 1 - System)
+title US14: As an HRC, I want to update the teacher's category in the system \n (Scenario View - Level 1 - System)
 
 skinparam defaultTextAlignment center
 skinparam shadowing true
@@ -10,7 +10,7 @@ skinparam packageStyle rectangle
 
 actor "HRC" as admin
 
-rectangle "<<PAI System>>" {
+rectangle "<<System>> \n PAI " {
     usecase "I want to update the teacher's category in the system" as UC01
 }
 

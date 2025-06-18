@@ -13,13 +13,12 @@ participant ":Frontend" as frontend <<Container>>
 participant ":Backend" as backend <<Container>>
 participant ":Database" as db <<Container>>
 
-
 admin -> frontend: I want to configure teacher categories!
 activate frontend #E1F5FE
-frontend --> admin: What teacher category name?
+frontend --> admin: Provide a form with a field for name!
 deactivate frontend
 
-admin -> frontend: Enter teacher category name!
+admin -> frontend: Form submitted!
 activate frontend #E1F5FE
 frontend --> admin: Sure?
 deactivate frontend
@@ -30,10 +29,10 @@ activate frontend #E1F5FE
 frontend -> backend: **POST** /teacher-categories + body {"name": "Assistant"}
 activate backend #E1F5FE
 
-backend -> db: INSERT INTO teacherCategory (id, name) VALUES ('123e4567-e89b-12d3-a456-426614174000', 'Assistant')
+backend -> db: **INSERT INTO** teacherCategory (id, name) VALUES ('123e4567-e89b-12d3-a456-426614174000', 'Assistant')
 activate db #E1F5FE
 
-db --> backend: teacherCategory
+db --> backend: teacherCategoryDataModel
 deactivate db
 
 backend --> frontend: 201 + body {teacherCategoryResponseDTO + hypermedia}

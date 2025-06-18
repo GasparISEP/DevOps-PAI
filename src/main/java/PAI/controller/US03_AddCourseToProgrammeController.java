@@ -54,7 +54,7 @@ public class US03_AddCourseToProgrammeController {
         return studyPlanService.getLatestStudyPlanIDByProgrammeID(programmeID);
     }
 
-    public boolean addCourseToProgramme(int semesterInt, int curricularYearInt, Course course, StudyPlan studyPlan, int duration, double quantEcts) throws Exception {
+    public boolean addCourseToProgramme(int semesterInt, int curricularYearInt, Course course, StudyPlan studyPlan, int duration, double quantEcts, ProgrammeID programmeID) throws Exception {
         if (course == null) {
             throw new IllegalArgumentException("Course cannot be null.");
         }
@@ -68,7 +68,7 @@ public class US03_AddCourseToProgrammeController {
             DurationCourseInCurricularYear durationOfCourse = new DurationCourseInCurricularYear(duration);
             CourseQuantityCreditsEcts quantityOfCreditsEcts = new CourseQuantityCreditsEcts(quantEcts);
 
-            return courseInStudyPlanService.createCourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, durationOfCourse, quantityOfCreditsEcts);
+            return courseInStudyPlanService.createCourseInStudyPlan(semester, curricularYear, courseID, studyPlanID, durationOfCourse, quantityOfCreditsEcts, programmeID);
         }
     }
 

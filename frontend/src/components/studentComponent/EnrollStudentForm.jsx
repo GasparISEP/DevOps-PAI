@@ -274,7 +274,16 @@ export default function EnrollStudentForm() {
                                     required
                                 />
                                 {studentIdError && <div className="error">{studentIdError}</div>}
-                                {studentName && <p style={{ marginTop: '0.5rem', fontWeight: 'bold' }}>{studentName}</p>}
+                                {studentName && (
+                                    <p style={{
+                                        marginTop: '0.5rem',
+                                        fontWeight: 'bold',
+                                        fontSize: '1.4rem',
+                                        color: '#6c757d'
+                                    }}>
+                                        {studentName}
+                                    </p>
+                                )}
                             </div>
 
                             <div className="form-group">
@@ -377,20 +386,45 @@ export default function EnrollStudentForm() {
                                 {Object.entries(reviewData.groupedCourses)
                                     .sort(([a], [b]) => a - b)
                                     .map(([year, semesters]) => (
-                                        <div key={year} style={{ marginBottom: '2rem' }}>
-                                            <h3>{year}º YEAR</h3>
-                                            <div style={{ display: 'flex', justifyContent: 'center', gap: '2rem' }}>
+                                        <div
+                                            key={year}
+                                            style={{
+                                                marginBottom: '2rem',
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                alignItems: 'center'
+                                            }}
+                                        >
+                                            <h3 style={{ color: '#800000' }}>{year}º YEAR</h3>
+                                            <div
+                                                style={{
+                                                    display: 'flex',
+                                                    justifyContent: 'space-between',
+                                                    width: '100%',
+                                                    maxWidth: '500px',
+                                                    marginTop: '1rem'
+                                                }}
+                                            >
                                                 {[1, 2].map(sem => {
                                                     const selected = semesters[sem]?.filter(c =>
                                                         reviewData.selectedCourses.includes(c.acronym)
                                                     ) || [];
                                                     return (
-                                                        <div key={sem} style={{ textAlign: 'left', width: '220px' }}>
-                                                            <h4>{sem}º SEMESTER</h4>
+                                                        <div
+                                                            key={sem}
+                                                            style={{
+                                                                flex: '1 1 50%',
+                                                                padding: '0 10px',
+                                                                boxSizing: 'border-box'
+                                                            }}
+                                                        >
+                                                            <h4 style={{ textAlign: 'center', fontWeight: 'bold' }}>
+                                                                {sem}º SEMESTER
+                                                            </h4>
                                                             {selected.length === 0 ? (
-                                                                <p style={{ fontStyle: 'italic', color: '#888' }}>No courses</p>
+                                                                <p style={{ fontStyle: 'italic', color: '#888', textAlign: 'center' }}>No courses</p>
                                                             ) : (
-                                                                <ul style={{ listStyle: 'none', padding: 0 }}>
+                                                                <ul style={{ listStyle: 'none', padding: 0, textAlign: 'left' }}>
                                                                     {selected.map(c => (
                                                                         <li key={c.acronym} style={{ marginBottom: '0.3rem' }}>
                                                                             {c.name} ({c.qtyECTS} ECTS)
@@ -405,9 +439,11 @@ export default function EnrollStudentForm() {
                                         </div>
                                     ))}
                             </div>
-                            <p style={{ marginTop: '1rem', fontWeight: 'bold' }}>ECTS Used: {reviewData.selectedEcts} / {totalEcts}</p>
 
-                            {/* BOTÕES: mesma estrutura do form principal */}
+                            <p style={{ marginTop: '1rem', fontWeight: 'bold' }}>
+                                ECTS Used: {reviewData.selectedEcts} / {totalEcts}
+                            </p>
+
                             <div className="form-actions">
                                 <button
                                     type="button"
@@ -446,15 +482,22 @@ export default function EnrollStudentForm() {
                                         if (bothEmpty) return null;
 
                                         return (
-                                            <div key={year} style={{ marginBottom: '2rem' }}>
-                                                <h3>{year}º YEAR</h3>
+                                            <div
+                                                key={year}
+                                                style={{
+                                                    marginBottom: '2rem',
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    alignItems: 'center'
+                                                }}
+                                            >
+                                                <h3 style={{ color: '#800000' }}>{year}º YEAR</h3>
                                                 <div
                                                     style={{
                                                         display: 'flex',
-                                                        justifyContent: 'center',
-                                                        alignItems: 'flex-start',
-                                                        flexWrap: 'nowrap',
-                                                        columnGap: '50px',
+                                                        justifyContent: 'space-between',
+                                                        width: '100%',
+                                                        maxWidth: '500px',
                                                         marginTop: '1rem'
                                                     }}
                                                 >
@@ -466,18 +509,18 @@ export default function EnrollStudentForm() {
                                                             <div
                                                                 key={sem}
                                                                 style={{
-                                                                    textAlign: 'left',
-                                                                    width: '220px',
-                                                                    minHeight: '50px'
+                                                                    flex: '1 1 50%',
+                                                                    padding: '0 10px',
+                                                                    boxSizing: 'border-box'
                                                                 }}
                                                             >
-                                                                <h4>{sem}º SEMESTER</h4>
+                                                                <h4 style={{ textAlign: 'center', fontWeight: 'bold' }}>
+                                                                    {sem}º SEMESTER
+                                                                </h4>
                                                                 {selected.length === 0 ? (
-                                                                    <p style={{ fontStyle: 'italic', color: '#888' }}>
-                                                                        No courses
-                                                                    </p>
+                                                                    <p style={{ fontStyle: 'italic', color: '#888', textAlign: 'center' }}>No courses</p>
                                                                 ) : (
-                                                                    <ul style={{ listStyle: 'none', padding: 0 }}>
+                                                                    <ul style={{ listStyle: 'none', padding: 0, textAlign: 'left' }}>
                                                                         {selected.map(c => (
                                                                             <li key={c.acronym} style={{ marginBottom: '0.3rem' }}>
                                                                                 {c.name} ({c.qtyECTS} ECTS)
@@ -494,18 +537,23 @@ export default function EnrollStudentForm() {
                                     })}
                             </div>
 
-
                             <div style={{ display: 'flex', justifyContent: 'center', gap: '2rem', marginTop: '2rem' }}>
                                 <i
                                     className="fas fa-book-open icon-button"
                                     title="Student Enrolled Courses"
-                                    onClick={() => window.open(success.links['enrolled-course-editions'].href, '_blank')}
+                                    onClick={() => window.open(
+                                        `/students/enrolled-courses?link=${encodeURIComponent(success.links['enrolled-course-editions'].href)}`,
+                                        '_blank'
+                                    )}
                                 />
 
                                 <i
                                     className="fas fa-graduation-cap icon-button"
                                     title="Student Programme Editions"
-                                    onClick={() => window.open(success.links['enrolled-programme-editions'].href, '_blank')}
+                                    onClick={() => window.open(
+                                        `/students/programme-editions?link=${encodeURIComponent(success.links['enrolled-programme-editions'].href)}`,
+                                        '_blank'
+                                    )}
                                 />
                             </div>
 

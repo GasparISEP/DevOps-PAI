@@ -106,5 +106,9 @@ public class CourseEdition implements AggregateRoot<CourseEditionID> {
     public TeacherID getRuc() {
         return _ruc;
     }
+
+    public CourseEditionID getCourseEditionID() {
+        return _courseEditionID;
+    }
 }
 

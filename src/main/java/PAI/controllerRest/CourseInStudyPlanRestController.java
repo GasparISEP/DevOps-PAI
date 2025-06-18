@@ -1,18 +1,13 @@
 package PAI.controllerRest;
 
 import PAI.VOs.*;
-import PAI.assembler.courseInStudyPlan.CourseInStudyPlanAssemblerImpl;
 import PAI.assembler.courseInStudyPlan.ICourseInStudyPlanAssembler;
-import PAI.assembler.courseInStudyPlan.ICourseInStudyPlanBusinessAssembler;
 import PAI.assembler.courseInStudyPlan.ICourseInStudyPlanHateoasAssembler;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.dto.courseInStudyPlan.CourseInStudyPlanCommand;
 import PAI.dto.courseInStudyPlan.CourseInStudyPlanRequestDTO;
 import PAI.dto.courseInStudyPlan.CourseInStudyPlanResponseDTO;
 import PAI.dto.courseInStudyPlan.CourseInStudyPlanServiceDTO;
-import PAI.exception.BusinessRuleViolationException;
-import PAI.service.courseEdition.ICreateCourseEditionService;
-import PAI.service.courseInStudyPlan.CourseInStudyPlanServiceImpl;
 import PAI.service.courseInStudyPlan.IAddCourseToAProgrammeService;
 import PAI.service.courseInStudyPlan.ICourseInStudyPlanService;
 import PAI.service.studyPlan.IStudyPlanService;
@@ -49,6 +44,13 @@ public class CourseInStudyPlanRestController {
         this.courseInStudyPlanHateoasAssembler = validateNotNull(courseInStudyPlanHateoasAssembler, "CourseInStudyPlanHateoasAssembler");
     }
 
+    /**
+     * Handles the creation of a new Course in a Study Plan.
+     *
+     * @param dtoRequest The request DTO containing course and programme data.
+     * @return created HATEOAS-wrapped response with 201 status
+     * @throws Exception If an unexpected error occurs during processing.
+     */
     @PostMapping
     public ResponseEntity<EntityModel<CourseInStudyPlanResponseDTO>> create(
             @Valid @RequestBody CourseInStudyPlanRequestDTO dtoRequest) throws Exception {
@@ -79,5 +81,18 @@ public class CourseInStudyPlanRestController {
 
         return ResponseEntity.ok(hateoasCollection);
     }
-}
 
+    @GetMapping("/programmeID/{id}")
+    public ResponseEntity<?> getAllCoursesByProgrammeID(
+            @PathVariable("id") String acronym) {
+        try {
+            ProgrammeID programmeID = new ProgrammeID(new Acronym(acronym));
+            Iterable<CourseInStudyPlan> courses = courseInStudyPlanService.getCoursesByProgrammeID(programmeID);
+            Iterable<CourseInStudyPlanResponseDTO> coursesDTOs = assembler.toDTOsfromDomains(courses);
+
+            return ResponseEntity.ok(coursesDTOs);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+}
