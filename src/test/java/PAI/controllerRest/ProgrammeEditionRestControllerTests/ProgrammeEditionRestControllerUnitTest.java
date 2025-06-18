@@ -25,7 +25,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 
-class ProgrammeEditionRestControllerTest {
+class ProgrammeEditionRestControllerUnitTest {
 
     @Test
     void shouldCreateController() {
