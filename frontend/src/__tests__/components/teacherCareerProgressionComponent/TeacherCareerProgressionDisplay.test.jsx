@@ -211,6 +211,58 @@ describe('TeacherCareerProgressionDisplay', () => {
 
 // "Filter by" tests
 
+    test('filters out items with unsupported field types', async () => {
+        const mockData = [
+            {
+                teacherCareerProgressionId: 1,
+                date: '2023-01-01',
+                workingPercentage: 100,
+                teacherCategoryID: "1a23b456-7890-1234-5678-9abcdef01234",
+                teacherID: 101,
+                unsupportedField: { something: 'wrong type' } // 👈 not string or number
+            }
+        ];
+
+        const mockCategoryData = [
+            {
+                id: "1a23b456-7890-1234-5678-9abcdef01234",
+                name: "Professor Assistente",
+            }
+        ];
+
+        global.fetch = jest
+            .fn()
+            .mockResolvedValueOnce({
+                ok: true,
+                json: async () => mockData,
+            })
+            .mockResolvedValueOnce({
+                ok: true,
+                json: async () => mockCategoryData,
+            });
+
+        render(
+            <MemoryRouter>
+                <TeacherCareerProgressionDisplay />
+            </MemoryRouter>
+        );
+
+        // Wait for table to load
+        await screen.findByText('2023-01-01');
+
+        // Change filter to the unsupported field
+        const filterSelect = screen.getByRole('combobox');
+        fireEvent.change(filterSelect, { target: { value: 'unsupportedField' } });
+
+        // Enter a filter value (any string)
+        const input = screen.getByRole('textbox');
+        fireEvent.change(input, { target: { value: 'test' } });
+
+        // Table should show "No results found"
+        expect(await screen.findByText('No results found')).toBeInTheDocument();
+    });
+
+
     test('filters data by date', async () => {
         const mockData = [
             {
@@ -610,6 +662,67 @@ describe('TeacherCareerProgressionDisplay', () => {
         },
     ];
 
+
+    test('sorting handles equal values correctly', async () => {
+        const mockData = [
+            {
+                teacherCareerProgressionId: 1,
+                date: '2023-01-01',
+                workingPercentage: 100,
+                teacherCategoryID: "1a23b456-7890-1234-5678-9abcdef01234",
+                teacherID: 101,
+            },
+            {
+                teacherCareerProgressionId: 2,
+                date: '2023-01-01',
+                workingPercentage: 100,
+                teacherCategoryID: "1a23b456-7890-1234-5678-9abcdef01234",
+                teacherID: 102,
+            }
+        ];
+
+        const mockCategoryData = [
+            {
+                id: "1a23b456-7890-1234-5678-9abcdef01234",
+                name: "Professor Assistente",
+            }
+        ];
+
+        global.fetch = jest
+            .fn()
+            .mockResolvedValueOnce({
+                ok: true,
+                json: async () => mockData,
+            })
+            .mockResolvedValueOnce({
+                ok: true,
+                json: async () => mockCategoryData,
+            });
+
+        render(
+            <MemoryRouter>
+                <TeacherCareerProgressionDisplay />
+            </MemoryRouter>
+        );
+
+        // Confirm both rows with same date appear
+        const dateCells = await screen.findAllByText('2023-01-01');
+        expect(dateCells).toHaveLength(2);
+
+        // Click to trigger sorting (even if values are equal)
+        const dateHeader = screen.getByTestId('date-header');
+        fireEvent.click(dateHeader);
+
+        // Check that the order hasn't changed (ensuring return 0 was hit)
+        const rows = screen.getAllByRole('row');
+        const firstRowText = rows[1].textContent;
+        const secondRowText = rows[2].textContent;
+
+        expect(firstRowText).toContain('101');
+        expect(secondRowText).toContain('102');
+    });
+
+
     describe('TeacherCareerProgressionDisplay sorting', () => {
         beforeEach(() => {
             global.fetch = jest.fn()
@@ -651,6 +764,7 @@ describe('TeacherCareerProgressionDisplay', () => {
             }
         );
     });
+
 
 // Next and Previous controls tests
 
@@ -696,6 +810,7 @@ describe('TeacherCareerProgressionDisplay', () => {
 
         expect(await screen.findByText('2023-01-21')).toBeInTheDocument();
     });
+
 
     test('navigates pages using Previous button', async () => {
         const mockData = Array.from({length: 25}, (_, i) => ({

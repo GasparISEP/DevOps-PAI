@@ -46,7 +46,7 @@ PRepository --> PService: List<Programme>
 deactivate PRepository
 
 ref over PService
-<<Reference1_fromDomainToDTO>>
+<<Reference1_FromDomainToDTO>>
    <b>Converts List<Programme> to List<ProgrammeDTO></b>
 end ref
 
@@ -88,8 +88,8 @@ CRepository --> CService: List<Course>
 deactivate CRepository
 
 ref over CService
-<<Reference2_toIDDTO>>
-   <b>Converts List<Course> to List<CourseIDDTO></b>
+<<Reference2_ToIDDTO>>
+   <b>Converts List<CourseID> to List<CourseIDDTO></b>
 end ref
 
 CService --> CController: List<CourseIDDTO>
