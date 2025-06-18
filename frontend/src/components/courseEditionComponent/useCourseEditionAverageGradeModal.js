@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { fetchAverageGradeFromLink } from "../../services/averageGradeInCourseEditionService";
 
 export default function useCourseEditionAverageGradeModal() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [averageGrade, setAverageGrade] = useState(null);
+    const [statusCode, setStatusCode] = useState(null);
     const [selectedCourse, setSelectedCourse] = useState(null);
 
     const handleShowAverageGrade = async (edition) => {
@@ -11,16 +11,28 @@ export default function useCourseEditionAverageGradeModal() {
             setSelectedCourse(edition);
 
             const link = edition._links?.["average-grade"]?.href;
+            if (!link) {
+                setStatusCode(404); // link não encontrado
+                setAverageGrade(null);
+                setIsModalOpen(true);
+                return;
+            }
 
-            if (!link) throw new Error("No HATEOAS link for average-grade");
+            const response = await fetch(link);
+            setStatusCode(response.status);
 
-            const response = await fetchAverageGradeFromLink(link);
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
 
-            setAverageGrade(response.averageGrade);
-            setIsModalOpen(true);
+            const data = await response.json();
+            setAverageGrade(data.averageGrade);
         } catch (error) {
             console.error('Error fetching average grade:', error);
-            alert('Error fetching average grade: ' + error.message);
+
+            setAverageGrade(null);
+        } finally {
+            setIsModalOpen(true);
         }
     };
 
@@ -28,12 +40,14 @@ export default function useCourseEditionAverageGradeModal() {
         setIsModalOpen(false);
         setSelectedCourse(null);
         setAverageGrade(null);
+        setStatusCode(null);
     };
 
     return {
         isModalOpen,
         averageGrade,
         selectedCourse,
+        statusCode,
         handleShowAverageGrade,
         closeModal
     };

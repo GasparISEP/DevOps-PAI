@@ -32,6 +32,7 @@ export default function CourseEditionDisplay() {
         isModalOpen: isAverageModalOpen,
         averageGrade,
         selectedCourse: selectedAverageCourse,
+        statusCode,
         handleShowAverageGrade,
         closeModal: closeAverageModal
     } = useCourseEditionAverageGradeModal();
@@ -218,6 +219,7 @@ export default function CourseEditionDisplay() {
                 onClose={closeAverageModal}
                 average={averageGrade}
                 courseName={selectedAverageCourse?.courseName}
+                statusCode={statusCode}
             />
         </div>
     );
