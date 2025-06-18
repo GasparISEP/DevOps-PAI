@@ -106,16 +106,6 @@ public class CourseEditionServiceImpl implements ICourseEditionService {
 
     @Override
     public List<CourseEdition> getCourseEditionsByProgrammeIDAndCourseID(ProgrammeID programmeID, CourseID courseID) {
-
-        List<CourseEdition> courseEditionArrayList = new ArrayList<>();
-        Iterable<CourseEdition> courseEditions = courseEditionRepository.findAll();
-        for (CourseEdition courseEdition : courseEditions) {
-            if (courseEdition.getProgrammeEditionID().getProgrammeID().equals(programmeID) &&
-                    courseEdition.getCourseInStudyPlanID().getCourseID().equals(courseID)
-            ) {
-                courseEditionArrayList.add(courseEdition);
-            }
-        }
-        return courseEditionArrayList;
+        return courseEditionRepository.findByProgrammeIDAndCourseID(programmeID, courseID);
     }
 }

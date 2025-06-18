@@ -167,7 +167,19 @@ public class CourseEditionRepositorySpringDataImpl implements ICourseEditionRepo
 
     @Override
     public List<CourseEdition> findByProgrammeIDAndCourseID(ProgrammeID programmeID, CourseID courseID) {
-        return null;
+        List<CourseEdition> result = new ArrayList<>();
+        Iterable<CourseEditionDataModel> courseEditionDataModels = courseEditionRepositorySpringData.findAll();
+        for (CourseEditionDataModel dataModel : courseEditionDataModels) {
+            try {
+                CourseEdition courseEdition = courseEditionMapper.toDomain(dataModel);
+                if (courseEdition.getProgrammeEditionID().getProgrammeID().equals(programmeID) &&
+                    courseEdition.getCourseInStudyPlanID().getCourseID().equals(courseID)) {
+                    result.add(courseEdition);
+                }
+            } catch (Exception ignored) {
+            }
+        }
+        return result;
     }
 
 }
