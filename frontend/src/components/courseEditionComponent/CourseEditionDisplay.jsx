@@ -6,7 +6,7 @@ import ActionMenu from '../../components/courseEditionComponent/ActionMenu';
 import EnrolmentCountModal from '../../components/courseEditionComponent/EnrolmentCountModal';
 import AverageGradeModal from '../../components/courseEditionComponent/AverageGradeModal';
 import { getAllSchoolYears } from '../../services/DefineRucInCourseEditionService';
-import useFetchCourseEditions from '../../components/courseEditionComponent/useFetchCourseEditions';
+import useFetchCourseEditions from './useFetchCourseEditions.ts';
 import useCourseEditionEnrolmentCountModal from '../../components/courseEditionComponent/useCourseEditionEnrolmentCountModal';
 import useCourseEditionAverageGradeModal from '../../components/courseEditionComponent/useCourseEditionAverageGradeModal';
 import useFetchListOfProgrammesById from "./useFetchListOfProgrammesById.ts";
@@ -49,7 +49,7 @@ export default function CourseEditionDisplay() {
         const programme = programmesMap[edition.programmeAcronym];
         return {
             ...edition,
-            programmeName: programme ? programme.name : "No programme name found"
+            programmeName: programme ? programme.name : ""
         };
     });
 
