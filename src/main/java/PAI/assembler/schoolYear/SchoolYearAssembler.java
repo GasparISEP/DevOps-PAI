@@ -3,8 +3,10 @@ package PAI.assembler.schoolYear;
 import PAI.VOs.Date;
 import PAI.VOs.Description;
 import PAI.VOs.SchoolYearID;
+import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.domain.schoolYear.ISchoolYearFactory;
 import PAI.domain.schoolYear.SchoolYear;
+import PAI.dto.courseInStudyPlan.CourseInStudyPlanResponseDTO;
 import PAI.dto.schoolYear.CurrentSchoolYearDTO;
 import PAI.dto.schoolYear.CurrentSchoolYearResponseDTO;
 import PAI.dto.schoolYear.SchoolYearCEDTO;
@@ -12,6 +14,9 @@ import PAI.dto.schoolYear.SchoolYearDTO;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 @Component
@@ -51,6 +56,19 @@ public class SchoolYearAssembler implements ISchoolYearAssembler {
         String endDate = sy.getEndDate().getLocalDate().toString();
 
         return new SchoolYearCEDTO(id,description,startDate,endDate);
+    }
+
+    @Override
+    public Iterable<SchoolYearCEDTO> toCEDTOs(Iterable<SchoolYear> schoolYears) {
+        if (schoolYears == null) {
+            return Collections.emptyList();
+        }
+        List<SchoolYearCEDTO> listDTO = new ArrayList<>();
+        for (SchoolYear schoolYear: schoolYears) {
+            SchoolYearCEDTO responseDTO = toCEDTO(schoolYear);
+            listDTO.add(responseDTO);
+        }
+        return listDTO;
     }
 
     @Override
