@@ -1,0 +1,104 @@
+@startuml
+
+skinparam ArrowColor black
+skinparam defaultTextAlignment center
+
+title "PAI - Implementation View Level 3"
+
+interface "REST API" as RESTAPI
+interface "File I/O" as FileIO
+interface "Relational BD API" as BDAPI
+
+component "Backend" {
+    portin " " as pRest
+    portin " " as pFileIO
+    portin " " as pBD
+
+    ' ===== Drivers and Frameworks =====
+    rectangle "Drivers and Frameworks" {
+        component "Router" as Router {
+            portin " " as pRouter
+        }
+        component "Database Driver" as DBD {
+            portin " " as pDBD
+        }
+        component "File I/O Driver" as FIO {
+            portin " " as pFIO
+        }
+
+        pRouter -up- pRest
+        pDBD -up- pBD
+        pFIO -up- pFileIO
+
+        interface "Repository API" as IRepositoryAPI
+
+        DBD -down- IRepositoryAPI
+        FIO -down- IRepositoryAPI
+    }
+
+
+    ' ===== DTOs =====
+    rectangle "DTOs" {
+        component "XDTO"
+    }
+
+
+    ' ===== Interface Adapters =====
+    rectangle "Interface Adapters" {
+        component Repository
+        component Controller
+
+        interface "Controller API" as IControllerAPI
+
+        Controller -up- IControllerAPI
+    }
+
+
+    ' ===== VOsDTOs =====
+    rectangle "VOsDTOs" {
+        component "XVoDTO"
+    }
+
+
+    ' ===== Service Layer =====
+    rectangle "Service Layer" {
+        component Service
+        interface "Service API" as IServiceAPI
+
+        Service -up- IServiceAPI
+    }
+
+
+    ' ===== Domain Layer =====
+    rectangle "Domain Layer" {
+        component Domain
+        interface "Domain API" as IDomainAPI
+
+        Domain -up- IDomainAPI
+    }
+
+
+    ' ===== External Interfaces =====
+    pRest -up-( RESTAPI
+    pFileIO -up-( FileIO
+    pBD -up-( BDAPI
+
+
+    ' ===== Connections =====
+    Router -up-( IControllerAPI
+    Repository -up-( IRepositoryAPI
+
+    Controller -right-( IServiceAPI
+    Service -down-( IDomainAPI
+
+    Repository -.|> Domain
+
+    ' ===== DTO Interactions =====
+    "XDTO" <--up-- Router
+    "XDTO" <-- Controller
+
+    "XVoDTO" <--up-- Controller
+    "XVoDTO" <-- Service
+}
+
+@enduml

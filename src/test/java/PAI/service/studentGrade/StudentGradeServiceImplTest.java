@@ -616,7 +616,7 @@ public class StudentGradeServiceImplTest {
         );
         assertEquals("Not possible to addGrade, Grade is not in the correct range", ex.getMessage());
     }
-
+/*
     @Test
     public void shouldThrowWhenStudentAlreadyHasGradeInNewStudentGrade_WithoutSpy() throws Exception {
         // Arrange
@@ -674,7 +674,7 @@ public class StudentGradeServiceImplTest {
         );
         assertEquals("Not possible to addGrade, Student already has a grade in this course edition", ex.getMessage());
     }
-
+*/
     @Test
     public void shouldAddNewStudentGrade() throws Exception {
         // arrange

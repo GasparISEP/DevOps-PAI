@@ -10,6 +10,8 @@ import PAI.service.course.ICourseService;
 import PAI.service.courseInStudyPlan.ICourseInStudyPlanService;
 import PAI.service.programmeEdition.IProgrammeEditionService;
 import PAI.service.programmeEditionEnrolment.IProgrammeEditionEnrolmentService;
+import PAI.service.studentGrade.IStudentGradeService;
+import PAI.service.studentGrade.StudentGradeServiceImpl;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -173,10 +175,10 @@ public class InitializersConfig {
     @Bean
     @Order(7)
     @Profile("studentGrade")
-    public CommandLineRunner loadStudentGrades(StudentGradeFactoryImpl factory, IStudentGradeRepository studentGradeRepository,
-                                                                                    StudentGradeInitializer initializer) {
+    public CommandLineRunner loadStudentGrades( IStudentGradeService studentGradeService,
+                                               StudentGradeInitializer initializer) {
         return args -> {
-            initializer.loadStudentGrade(factory, studentGradeRepository,"src/main/resources/StudentGrade.csv");
+            initializer.loadStudentGrade(studentGradeService ,"src/main/resources/StudentGrade.csv");
         };
     }
 }

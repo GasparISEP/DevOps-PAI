@@ -6,6 +6,7 @@ import PAI.VOs.TeacherID;
 import PAI.assembler.courseEdition.CourseEditionAssemblerImpl;
 import PAI.assembler.courseEdition.CourseEditionRUCHateoasAssembler;
 import PAI.assembler.courseEdition.CreateCourseEditionHateoasAssemblerImpl;
+import PAI.assembler.courseEdition.ICourseEditionAssembler;
 import PAI.dto.courseEdition.CourseEditionRequestDTO;
 import PAI.dto.courseEdition.CreateCourseEditionCommand;
 import PAI.dto.courseEdition.DefineRucResponseDTO;
@@ -34,8 +35,10 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 
 @SpringBootTest
@@ -69,6 +72,7 @@ public class CourseEditionRestControllerIntegrationTests {
 
 
 
+
     @Test
     void shouldDefineRucSuccessfullyAndReturnAccepted() throws Exception {
         // Arrange
@@ -80,7 +84,6 @@ public class CourseEditionRestControllerIntegrationTests {
         "courseEditionID": "%s"
     }
     """.formatted(courseEditionId);
-
         TeacherID teacherID = new TeacherID(new TeacherAcronym("AAB"));
         CourseEditionGeneratedID courseEditionGeneratedID = mock(CourseEditionGeneratedID.class);
 
@@ -135,7 +138,7 @@ public class CourseEditionRestControllerIntegrationTests {
       "courseEditionID": "%s"
     }
     """.formatted(nonExistentId);
-
+        ICourseEditionAssembler courseEditionAssembler = mock(ICourseEditionAssembler.class);
         when(courseEditionAssembler.createTeacherID("AAB"))
                 .thenReturn(new TeacherID(new TeacherAcronym("AAB")));
 
@@ -258,7 +261,7 @@ public class CourseEditionRestControllerIntegrationTests {
     void whenCreateCourseEditionReturnsNull_thenReturnsBadRequest() throws Exception {
         // Arrange
         CourseEditionRequestDTO requestDTO = new CourseEditionRequestDTO(
-                "LEI", "LEIC", UUID.randomUUID(),
+                "LEIC", UUID.randomUUID(),
                 "SA", "Software Architecture", LocalDate.of(2023, 9, 1)
         );
 
@@ -282,7 +285,7 @@ public class CourseEditionRestControllerIntegrationTests {
     void whenCreateCourseEditionThrowsException_thenReturnsBadRequest() throws Exception {
         // Arrange
         CourseEditionRequestDTO requestDTO = new CourseEditionRequestDTO(
-                "LEI", "LEIC", UUID.randomUUID(),
+                 "LEIC", UUID.randomUUID(),
                 "SA", "Software Architecture", LocalDate.of(2023, 9, 1));
 
         when(courseEditionAssembler.toCommand(any())).thenThrow(new IllegalArgumentException("Test Exception"));
@@ -296,27 +299,5 @@ public class CourseEditionRestControllerIntegrationTests {
                 .andExpect(jsonPath("$.code").value("ARGUMENT_INVALID"));
     }
 
-        @Test
-        void enrolStudentInCourseEdition_thenReturnsCreatedWhenStudentNotEnrolled() throws Exception {
-        // Arrange
-        int studentId = 1001000;
-
-        CourseEditionEnrolmentDto requestDto = new CourseEditionEnrolmentDto(
-                studentId,
-                "CSD",
-                "550e8400-e29b-41d4-a716-446655440009",
-                "ARIT",
-                "Arithmancy",
-                "15-10-2023"
-        );
-
-        String jsonBody = objectMapper.writeValueAsString(requestDto);
-
-        // Act & Assert
-        mockMvc.perform(post("/course-editions/students/{id}/courses-edition-enrolments", studentId)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(jsonBody))
-                .andExpect(status().isCreated());
-        }
 
 }

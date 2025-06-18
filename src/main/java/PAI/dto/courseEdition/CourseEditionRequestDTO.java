@@ -9,9 +9,6 @@ import java.util.UUID;
 import java.util.Date;
 
 public record CourseEditionRequestDTO(
-        @NotBlank(message = "Programme name cannot be blank")
-        String programmeName,
-
         @NotBlank(message = "Programme acronym cannot be blank")
         String programmeAcronym,
 
