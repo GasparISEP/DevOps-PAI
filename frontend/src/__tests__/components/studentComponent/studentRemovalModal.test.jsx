@@ -2,6 +2,14 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import StudentRemovalModal from '../../../components/studentComponent/StudentRemovalModal';
+import { BrowserRouter } from 'react-router-dom';
+
+
+const mockNavigate = jest.fn();
+jest.mock('react-router-dom', () => ({
+    ...jest.requireActual('react-router-dom'),
+    useNavigate: () => mockNavigate
+}));
 
 const mockCourseEdition = {
     courseName: 'Software Engineering',
@@ -11,8 +19,12 @@ const mockCourseEdition = {
 
 describe('StudentRemovalModal', () => {
 
+    const renderWithRouter = (ui) => {
+        return render(<BrowserRouter>{ui}</BrowserRouter>);
+    };
+
     test('renders success message correctly', () => {
-        render(
+        renderWithRouter(
             <StudentRemovalModal
                 isSuccess={true}
                 studentID="1234567"
@@ -23,9 +35,7 @@ describe('StudentRemovalModal', () => {
 
         expect(screen.getByText('Success!')).toBeInTheDocument();
 
-
         const messageElement = screen.getByText((_, element) => {
-
             return element.tagName.toLowerCase() === 'p' &&
                 element.textContent.includes('The student 1234567 was removed from') &&
                 element.textContent.includes('Software Engineering (SE) - 2023') &&
@@ -35,16 +45,8 @@ describe('StudentRemovalModal', () => {
         expect(messageElement).toBeInTheDocument();
     });
 
-
-
     test('renders error message correctly', () => {
-        const mockCourseEdition = {
-            courseName: 'Software Engineering',
-            courseAcronym: 'SE',
-            studyPlanStartYear: 2023,
-        };
-
-        render(
+        renderWithRouter(
             <StudentRemovalModal
                 isSuccess={false}
                 studentID="7654321"
@@ -65,17 +67,13 @@ describe('StudentRemovalModal', () => {
         });
 
         expect(messageElement).toBeInTheDocument();
-
         expect(screen.getByRole('button', { name: /close/i })).toBeInTheDocument();
     });
-
-
-
 
     test('calls onClose when Close button is clicked', () => {
         const onCloseMock = jest.fn();
 
-        render(
+        renderWithRouter(
             <StudentRemovalModal
                 isSuccess={true}
                 studentID="1234567"
@@ -89,4 +87,21 @@ describe('StudentRemovalModal', () => {
 
         expect(onCloseMock).toHaveBeenCalledTimes(1);
     });
+
+    test('calls navigate when list image is clicked', () => {
+        renderWithRouter(
+            <StudentRemovalModal
+                isSuccess={true}
+                studentID="1234567"
+                courseEdition={mockCourseEdition}
+                onClose={jest.fn()}
+            />
+        );
+
+        const listIcon = screen.getByRole('img', { name: /view all/i });
+        fireEvent.click(listIcon);
+
+        expect(mockNavigate).toHaveBeenCalledWith('/courseeditions/display');
+    });
 });
+
