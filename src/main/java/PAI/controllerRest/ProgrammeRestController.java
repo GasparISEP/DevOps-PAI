@@ -8,19 +8,18 @@ import PAI.assembler.programmeEnrolment.IProgrammeEnrolmentAssembler;
 import PAI.assembler.programmeEnrolment.IUS34ProgrammeEnrolmentAssembler;
 import PAI.assembler.student.IStudentDTOAssembler;
 import PAI.assembler.studyPlan.IStudyPlanAssembler;
+import PAI.assembler.studyPlan.IStudyPlanHATEOASAssembler;
 import PAI.domain.programme.Programme;
-import PAI.domain.programmeEnrolment.ProgrammeEnrolment;
+import PAI.domain.studyPlan.StudyPlan;
 import PAI.dto.Programme.*;
-import PAI.dto.programmeEnrolment.ProgrammeEnrolmentIdDTO;
-import PAI.dto.programmeEnrolment.ProgrammeEnrolmentListIDDTO;
 import PAI.dto.programmeEnrolment.US34ListOfProgrammesDTO;
 import PAI.dto.student.StudentIDDTO;
 import PAI.dto.studyPlan.RegisterStudyPlanCommand;
+import PAI.dto.studyPlan.StudyPlanDTO;
 import PAI.dto.studyPlan.StudyPlanResponseDTO;
 import PAI.dto.teacher.TeacherIdDTO;
 import PAI.exception.BusinessRuleViolationException;
 import PAI.exception.ErrorResponse;
-import PAI.mapper.student.IStudentMapper;
 import PAI.service.programme.IProgrammeService;
 import PAI.service.programmeEnrolment.IProgrammeEnrolmentService;
 import PAI.service.studyPlan.IStudyPlanService;
@@ -31,9 +30,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/programmes")
@@ -45,6 +44,7 @@ public class ProgrammeRestController {
     private final IProgrammeEnrolmentAssembler _programmeEnrolmentAssembler;
     private final IStudyPlanService _studyPlanService;
     private final IStudyPlanAssembler _studyPlanAssembler;
+    private final IStudyPlanHATEOASAssembler _studyPlanHateoasAssembler;
     private final IProgrammeDirectorAssembler _programmeDirectorAssembler;
     private final IProgrammeHATEOASAssembler _programmeHATEOASAssembler;
     private final IStudentDTOAssembler _studentAssembler;
@@ -54,13 +54,15 @@ public class ProgrammeRestController {
                                     IProgrammeEnrolmentService programmeEnrolmentService, IStudyPlanService studyPlanService,
                                     IStudyPlanAssembler studyPlanAssembler, IProgrammeDirectorAssembler programmeDirectorAssembler,
                                     IProgrammeHATEOASAssembler programmeHATEOASAssembler, IProgrammeEnrolmentAssembler programmeEnrolmentAssembler,
-                                    IStudentDTOAssembler studentAssembler, IUS34ProgrammeEnrolmentAssembler us34Assembler){
+                                    IStudentDTOAssembler studentAssembler, IUS34ProgrammeEnrolmentAssembler us34Assembler,
+                                    IStudyPlanHATEOASAssembler studyPlanHateoasAssembler){
 
         this._programmeService = programmeService;
         this._programmeAssembler = programmeAssembler;
         this._programmeEnrolmentService = programmeEnrolmentService;
         this._studyPlanService = studyPlanService;
         this._studyPlanAssembler = studyPlanAssembler;
+        this._studyPlanHateoasAssembler = studyPlanHateoasAssembler;
         this._programmeDirectorAssembler = programmeDirectorAssembler;
         this._programmeHATEOASAssembler = programmeHATEOASAssembler;
         this._programmeEnrolmentAssembler = programmeEnrolmentAssembler;
@@ -81,12 +83,15 @@ public class ProgrammeRestController {
     }
 
     @PostMapping("/{id}/studyPlans")
-    public ResponseEntity<?> registerStudyPlan(@PathVariable("id") String programmeAcronym, @RequestParam LocalDate studyPlanStartDate) {
+    public ResponseEntity<?> registerStudyPlan(@PathVariable("id") String programmeAcronym, @RequestParam(name = "startDate") LocalDate studyPlanStartDate) {
         try {
             RegisterStudyPlanCommand studyPlanCommand = _studyPlanAssembler.toCommand(programmeAcronym, studyPlanStartDate);
 
             StudyPlanResponseDTO responseDTO = _studyPlanAssembler.toResponseDTO(_studyPlanService.createStudyPlan(studyPlanCommand));
-            return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
+
+            EntityModel<StudyPlanResponseDTO> studyPlanEntityModel = _studyPlanHateoasAssembler.toModel(responseDTO);
+
+            return new ResponseEntity<>(studyPlanEntityModel, HttpStatus.CREATED);
 
         } catch (EntityNotFoundException e) {
             ErrorResponse errorResponse = new ErrorResponse(HttpStatus.NOT_FOUND.toString(),"Error Registering Study Plan: " + e.getMessage());
@@ -202,6 +207,55 @@ public class ProgrammeRestController {
             return ResponseEntity.ok(dtoResult);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/studyPlans/{uuid}")
+    public ResponseEntity<?> getStudyPlanByGeneratedID(@PathVariable("uuid") UUID studyPlanUuid) {
+        try {
+            StudyPlanGeneratedID spGeneratedID = new StudyPlanGeneratedID(studyPlanUuid);
+
+            Optional<StudyPlan> studyPlanOpt = _studyPlanService.findByGeneratedUUID(spGeneratedID);
+
+            if(studyPlanOpt.isPresent()) {
+                StudyPlan studyPlan = studyPlanOpt.get();
+                StudyPlanDTO studyPlanDTO = _studyPlanAssembler.toDTO(studyPlan);
+                StudyPlanResponseDTO studyPlanResponseDTO = _studyPlanAssembler.toResponseDTO(studyPlanDTO);
+
+                return ResponseEntity.ok(studyPlanResponseDTO);
+            }
+            else
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Study Plan not found");
+
+        } catch (Exception e) {
+            ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST.toString(), "Error retrieving Study Plan for " + e.getMessage());
+            return new ResponseEntity<> (errorResponse, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/{id}/studyPlans")
+    public ResponseEntity<?> getStudyPlansForProgramme(@PathVariable("id") String programmeId) {
+        try {
+            Acronym programmeAcronym = new Acronym(programmeId);
+            ProgrammeID programmeID = new ProgrammeID(programmeAcronym);
+
+            List<StudyPlan> studyPlanList = _studyPlanService.getStudyPlansByProgrammeID(programmeID);
+
+            List<StudyPlanResponseDTO> responseDTOs = studyPlanList.stream()
+                    .map(_studyPlanAssembler::toDTO)
+                    .map(_studyPlanAssembler::toResponseDTO)
+                    .toList();
+            return ResponseEntity.ok(responseDTOs);
+
+        } catch (EntityNotFoundException e) {
+            ErrorResponse errorResponse = new ErrorResponse(HttpStatus.NOT_FOUND.toString(), "Programme not found: " + e.getMessage());
+                return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+        } catch (BusinessRuleViolationException e) {
+            ErrorResponse errorResponse = new ErrorResponse(HttpStatus.CONFLICT.toString(), "Programme not found: " + e.getMessage());
+            return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+        } catch (Exception e) {
+            ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST.toString(), "Error retrieving Study Plans: " + e.getMessage());
+                return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         }
     }
 }

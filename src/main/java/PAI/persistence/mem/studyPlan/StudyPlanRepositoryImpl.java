@@ -68,4 +68,17 @@ public class StudyPlanRepositoryImpl implements IStudyPlanRepository {
         }
         return list.getLast().identity();
     }
+
+    @Override
+    public Optional<StudyPlan> findByGeneratedID(StudyPlanGeneratedID spUUID) {
+        if(spUUID == null)
+            throw new IllegalArgumentException("StudyPlanGeneratedID cannot be null.");
+
+        for(StudyPlan studyPlan: _studyPlanList_2) {
+            if (studyPlan.getGeneratedID().equals(spUUID)) {
+                return Optional.of(studyPlan);
+            }
+        }
+        return Optional.empty();
+    }
 }

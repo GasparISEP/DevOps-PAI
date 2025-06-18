@@ -14,4 +14,5 @@ public interface IStudyPlanService {
     List<StudyPlan> getStudyPlansByProgrammeID(ProgrammeID programmeID);
     StudyPlanID getLatestStudyPlanIDByProgrammeID(ProgrammeID programmeID);
     Optional<StudyPlan> findByID(StudyPlanID id);
+    Optional<StudyPlan> findByGeneratedUUID(StudyPlanGeneratedID id);
 }

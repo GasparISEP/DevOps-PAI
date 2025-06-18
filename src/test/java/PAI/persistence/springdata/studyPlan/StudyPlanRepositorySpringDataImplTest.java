@@ -302,4 +302,50 @@ class StudyPlanRepositorySpringDataImplTest {
         // Act & Assert
         assertThrows(IllegalArgumentException.class, () -> _studyPlanRepositorySpringDataImpl.findLatestByProgrammeID(null));
     }
+
+    @Test
+    void shouldThrowExceptionWhenNotFoundStudyPlanByGeneratedID() {
+        // Arrange
+        StudyPlanGeneratedID spGenID = null;
+
+        // Act + Assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+                _studyPlanRepositorySpringDataImpl.findByGeneratedID(spGenID));
+        assertEquals("StudyPlanGeneratedID cannot be null", exception.getMessage());
+    }
+
+    @Test
+    void shouldReturnEmptyOptionalWhenStudyPlanByGeneratedIDNotFoundInDB() {
+        // Arrange
+        StudyPlanGeneratedID spGenID = new StudyPlanGeneratedID(UUID.randomUUID());
+
+        when(_iStudyPlanRepositorySpringData.findByUuid(spGenID.getUUID())).thenReturn(Optional.empty());
+
+        // Act
+        Optional<StudyPlan> result = _studyPlanRepositorySpringDataImpl.findByGeneratedID(spGenID);
+
+        // Assert
+        assertNotNull(result);
+        assertFalse(result.isPresent());
+    }
+
+    @Test
+    void shouldThrowRuntimeExceptionWhenMapperFailsToConvertDataModelToDomain() throws Exception {
+        // Arrange
+        UUID testUuid = UUID.randomUUID();
+        StudyPlanGeneratedID spGenID = new StudyPlanGeneratedID(testUuid);
+        StudyPlanDataModel mockDataModel = mock(StudyPlanDataModel.class);
+
+        when(_iStudyPlanRepositorySpringData.findByUuid(testUuid)).thenReturn(Optional.of(mockDataModel));
+
+
+        when(_iStudyPlanMapper.toDomain(mockDataModel)).thenThrow(new IllegalStateException(" mapper error"));
+
+        // Act & Assert
+        RuntimeException thrownException = assertThrows(RuntimeException.class, () ->
+                _studyPlanRepositorySpringDataImpl.findByGeneratedID(spGenID));
+
+        assertEquals("Error mapping StudyPlanDataModel to Domain.", thrownException.getMessage());
+
+    }
 }

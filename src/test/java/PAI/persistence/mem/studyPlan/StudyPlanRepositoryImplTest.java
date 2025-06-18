@@ -213,4 +213,54 @@ public class StudyPlanRepositoryImplTest {
         // Act & Assert
         assertThrows(IllegalArgumentException.class, () -> repository.findLatestByProgrammeID(null));
     }
+
+    @Test
+    void findByGeneratedID_ReturnsStudyPlanWhenFound() {
+        // Arrange
+        UUID uuid = UUID.randomUUID();
+        StudyPlanGeneratedID spGenID = new StudyPlanGeneratedID(uuid);
+
+        StudyPlan studyPlanToFind = mock(StudyPlan.class);
+        when(studyPlanToFind.getGeneratedID()).thenReturn(spGenID); // Stub
+
+        repository.save(studyPlanToFind);
+
+        // Act
+        Optional<StudyPlan> foundStudyPlan = repository.findByGeneratedID(spGenID);
+
+        // Assert
+        assertTrue(foundStudyPlan.isPresent(), "Study plan should be found.");
+    }
+
+    @Test
+    void findByGeneratedID_ReturnsEmptyWhenNotFound() {
+        // Arrange
+        UUID nonExistentUuid = UUID.randomUUID();
+        StudyPlanGeneratedID nonExistentSpGenID = new StudyPlanGeneratedID(nonExistentUuid);
+        StudyPlan studyPlanDouble = mock(StudyPlan.class);
+
+        when(studyPlanDouble.identity()).thenReturn(mock(StudyPlanID.class));
+        when(studyPlanDouble.getGeneratedID()).thenReturn(new StudyPlanGeneratedID(UUID.randomUUID()));
+
+        repository.save(studyPlanDouble);
+
+        // Act
+        Optional<StudyPlan> foundStudyPlan = repository.findByGeneratedID(nonExistentSpGenID);
+
+        // Assert
+        assertFalse(foundStudyPlan.isPresent(), "Study plan should not be found.");
+    }
+
+    @Test
+    void findByGeneratedID_ThrowsExceptionWhenNullID() {
+        // Arrange
+
+        // Act
+        IllegalArgumentException thrown = assertThrows(
+                IllegalArgumentException.class,
+                () -> repository.findByGeneratedID(null));
+
+        // Assert
+        assertEquals("StudyPlanGeneratedID cannot be null.", thrown.getMessage());
+    }
 }

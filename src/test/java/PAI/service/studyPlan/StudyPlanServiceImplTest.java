@@ -22,6 +22,7 @@ import org.mockito.MockitoAnnotations;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -275,5 +276,24 @@ class StudyPlanServiceImplTest {
         assertThrows(IllegalArgumentException.class, () -> {
             service.getLatestStudyPlanIDByProgrammeID(programmeID);
         });
+    }
+
+    @Test
+    void shouldReturnStudyPlanGeneratedUUID() throws Exception {
+        //Arrange
+        createStudyPlanStubConfigurations();
+
+        UUID sPuuid = UUID.randomUUID();
+        StudyPlanGeneratedID sPGeneratedID = new StudyPlanGeneratedID(sPuuid);
+
+        when(studyPlan.getGeneratedID()).thenReturn(sPGeneratedID);
+        when(repository.findByGeneratedID(sPGeneratedID)).thenReturn(Optional.ofNullable(studyPlan));
+
+        //Act
+        Optional<StudyPlan> result = service.findByGeneratedUUID(sPGeneratedID);
+
+        //Assert
+        assertTrue(result.isPresent());
+        assertEquals(studyPlan, result.get());
     }
 }
