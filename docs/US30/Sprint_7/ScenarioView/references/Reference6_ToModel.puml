@@ -1,0 +1,44 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+title Reference 6 - Detailed Flow:\n To Model\nConverts ResponseDTO to EntityModel<ResponseDTO>
+
+autonumber
+
+skinparam {
+  ActivityPadding 2
+  ActivityMargin 2
+  BoxPadding 2
+}
+skinparam sequence {
+    LifeLineBorderColor Grey
+    LifeLineBackgroundColor #E1F5FE
+}
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+participant "<<component>>\n:CourseInStudyPlanRestController\n(REST Controller)" as Controller #honeydew
+participant "<<component>>\n:ICourseInStudyPlanHateoasAssembler\n(HATEOAS Assembler)" as Assembler #honeydew
+
+[o-> Controller: CourseInStudyPlanResponseDTO
+activate Controller
+Controller -> Assembler: toModel(responseDTO)
+activate Assembler
+note over Controller, Assembler
+The Assembler wraps the ResponseDTO inside an
+EntityModel and adds HATEOAS links.
+
+- Creates a link to the controller method:
+  getCoursesInStudyPlanByProgrammeID(dto.programmeAcronym())
+
+- Adds the link with rel: "courses-in-study-plan"
+
+The final output is:
+EntityModel<CourseInStudyPlanResponseDTO>
+end note
+
+
+Assembler --> Controller: EntityModel\n<CourseInStudyPlanResponseDTO>
+deactivate Assembler
+[o<--Controller: EntityModel\n<CourseInStudyPlanResponseDTO>
+@enduml
