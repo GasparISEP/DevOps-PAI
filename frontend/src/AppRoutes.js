@@ -20,6 +20,7 @@ import DisplayTeacherCareerProgressionPage from "./pages/DisplayTeacherCareerPro
 import RemoveStudentPage from "./pages/studentPage/RemoveStudentPage";
 import StudentDetailsComponent from './components/studentComponent/StudentDetailsComponent';
 import DefineRucDetailsComponent from "./components/defineRucInCourseEditionComponent/DefineRucDetailsComponent";
+import ProgrammeEnrolmentDetails from './components/studentComponent/ProgrammeEnrolmentDetails';
 
 
 function AppRoutes() {
@@ -47,6 +48,8 @@ function AppRoutes() {
                     <Route path="/course-editions/Define-ruc" element={<DefineRucPage />} />
                     <Route path="/students/:id" element={<StudentDetailsComponent />} />
                     <Route path="/course-editions/by-id/:id" element={<DefineRucDetailsComponent/>} />
+                    <Route path="/students/programme-enrolment/:id" element={<ProgrammeEnrolmentDetails />} />
+
             </Routes>
         );
 }

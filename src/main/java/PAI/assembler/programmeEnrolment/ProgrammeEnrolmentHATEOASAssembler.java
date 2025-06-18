@@ -20,6 +20,11 @@ public class ProgrammeEnrolmentHATEOASAssembler implements RepresentationModelAs
                 linkTo(methodOn(StudentRestController.class)
                         .getEnrolmentByStudentAndProgramme(dto.getProgrammeEnrolmentGID()))
                         .withSelfRel(),
+
+                linkTo(methodOn(StudentRestController.class)
+                        .getEnrolmentByStudentAndProgramme(dto.getProgrammeEnrolmentGID()))
+                        .withRel("viewDetails"),
+
                 linkTo(methodOn(StudentRestController.class)
                         .enrolStudent(null))
                         .withRel("enrol-programme-courses")
@@ -27,4 +32,3 @@ public class ProgrammeEnrolmentHATEOASAssembler implements RepresentationModelAs
         );
     }
 }
-
