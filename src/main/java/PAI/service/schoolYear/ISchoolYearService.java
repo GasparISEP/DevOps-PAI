@@ -23,4 +23,5 @@ public interface ISchoolYearService {
     Optional<CurrentSchoolYearDTO> getCurrentSchoolYear();
     Optional<SchoolYear> getSchoolYearByID(SchoolYearID schoolYearID);
     List<SchoolYearIDDescriptionResponseDTO> getAllSchoolYearsIDDescriptions();
+    List<SchoolYear> getSchoolYearsByIDs(List<SchoolYearID> schoolYearIDs);
 }

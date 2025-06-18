@@ -5,6 +5,7 @@ import PAI.assembler.courseEdition.ICourseEditionRUCHateoasAssembler;
 import PAI.assembler.courseEdition.ICreateCourseEditionHateoasAssembler;
 import PAI.assembler.courseEdition.IStudentCountAssembler;
 import PAI.assembler.programmeEdition.IProgrammeEditionServiceAssembler;
+import PAI.assembler.schoolYear.ISchoolYearAssembler;
 import PAI.assembler.studentGrade.IStudentGradeAssembler;
 import PAI.assembler.courseEditionEnrolment.ICourseEditionEnrolmentHateoasAssembler;
 import PAI.controllerRest.CourseEditionRestController;
@@ -18,6 +19,7 @@ import PAI.exception.NotFoundException;
 import PAI.service.courseEdition.ICourseEditionService;
 import PAI.service.courseEdition.ICreateCourseEditionService;
 import PAI.service.courseEdition.IDefineRucService;
+import PAI.service.schoolYear.ISchoolYearService;
 import PAI.service.studentGrade.IGradeAStudentService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -106,6 +108,12 @@ class CourseEditionRestControllerTest {
 
     @MockBean
     private ICourseEditionEnrolmentHateoasAssembler courseEditionEnrolmentHateoasAssembler;
+
+    @MockBean
+    private ISchoolYearService schoolYearService;
+
+    @MockBean
+    private ISchoolYearAssembler schoolYearAssembler;
 
     @BeforeEach
     void setUp() {
@@ -428,6 +436,8 @@ class CourseEditionRestControllerTest {
         ICreateCourseEditionHateoasAssembler createCourseEditionHateoasAssembler = mock(ICreateCourseEditionHateoasAssembler.class);
         ICourseEditionService courseEditionService = mock(ICourseEditionService.class);
         ICourseEditionEnrolmentHateoasAssembler courseEditionEnrolmentHateoasAssembler = mock(ICourseEditionEnrolmentHateoasAssembler.class);
+        ISchoolYearService schoolYearService = mock(ISchoolYearService.class);
+        ISchoolYearAssembler schoolYearAssembler = mock(ISchoolYearAssembler.class);
 
         CourseEditionRestController controller = new CourseEditionRestController(
                 courseEditionEnrolmentService,
@@ -440,9 +450,11 @@ class CourseEditionRestControllerTest {
                 programmeEditionAssembler,
                 defineRucService,
                 courseEditionHateoasAssembler,
-                courseEditionEnrolmentHateoasAssembler,
+                createCourseEditionHateoasAssembler,
                 studentCountAssembler,
-                createCourseEditionHateoasAssembler
+                courseEditionEnrolmentHateoasAssembler,
+                schoolYearService,
+                schoolYearAssembler
         );
 
         UUID uuid = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");

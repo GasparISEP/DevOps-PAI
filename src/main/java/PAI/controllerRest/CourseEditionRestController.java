@@ -59,36 +59,40 @@ public class CourseEditionRestController {
     private final IStudentCountAssembler studentCountAssembler;
     private final ICourseEditionEnrolmentHateoasAssembler courseEditionEnrolmentHateoasAssembler;
     private final ICreateCourseEditionHateoasAssembler createCourseEditionHateoasAssembler;
+    private final ISchoolYearService schoolYearService;
+    private final ISchoolYearAssembler schoolYearAssembler;
 
-public CourseEditionRestController(
-        ICourseEditionEnrolmentService courseEditionEnrolmentService,
-        ICourseEditionEnrolmentAssembler courseEditionEnrolmentAssembler,
-        ICreateCourseEditionService createCourseEditionService,
-        ICourseEditionService courseEditionService,
-        ICourseEditionAssembler courseEditionAssembler,
-        IGradeAStudentService gradeAStudentService,
-        IStudentGradeAssembler studentGradeAssembler,
-        IProgrammeEditionServiceAssembler programmeEditionAssembler,
-        IDefineRucService defineRucService,
-        ICourseEditionRUCHateoasAssembler courseEditionHateoasAssembler,
-        ICourseEditionEnrolmentHateoasAssembler courseEditionEnrolmentHateoasAssembler,
-        IStudentCountAssembler studentCountAssembler,
-        ICreateCourseEditionHateoasAssembler createCourseEditionHateoasAssembler
-) {
-    this.courseEditionEnrolmentService = validateNotNull(courseEditionEnrolmentService, "CourseEditionEnrolmentService");
-    this.courseEditionEnrolmentAssembler = validateNotNull(courseEditionEnrolmentAssembler, "CourseEditionEnrolmentAssembler");
-    this.createCourseEditionService = validateNotNull(createCourseEditionService, "CreateCourseEditionService");
-    this.courseEditionService = validateNotNull(courseEditionService, "CourseEditionService");
-    this.courseEditionAssembler = validateNotNull(courseEditionAssembler, "CourseEditionAssembler");
-    this.gradeAStudentService = validateNotNull(gradeAStudentService, "GradeAStudentService");
-    this.studentGradeAssembler = validateNotNull(studentGradeAssembler, "StudentGradeAssembler");
-    this.programmeEditionAssembler = validateNotNull(programmeEditionAssembler, "ProgrammeEditionServiceAssembler");
-    this.defineRucService = validateNotNull(defineRucService, "DefineRucService");
-    this.courseEditionHateoasAssembler = validateNotNull(courseEditionHateoasAssembler, "CourseEditionHateoasAssembler");
-    this.studentCountAssembler = validateNotNull(studentCountAssembler, "StudentCountAssembler");
-    this.courseEditionEnrolmentHateoasAssembler = validateNotNull(courseEditionEnrolmentHateoasAssembler, "CourseEditionEnrolmentHateoasAssembler");
-    this.createCourseEditionHateoasAssembler = validateNotNull(createCourseEditionHateoasAssembler, "CreateCourseEditionHateoasAssembler");
-}
+    public CourseEditionRestController(
+            ICourseEditionEnrolmentService courseEditionEnrolmentService,
+            ICourseEditionEnrolmentAssembler courseEditionEnrolmentAssembler,
+            ICreateCourseEditionService createCourseEditionService,
+            ICourseEditionService courseEditionService,
+            ICourseEditionAssembler courseEditionAssembler,
+            IGradeAStudentService gradeAStudentService,
+            IStudentGradeAssembler studentGradeAssembler,
+            IProgrammeEditionServiceAssembler programmeEditionAssembler,
+            IDefineRucService defineRucService,
+            ICourseEditionRUCHateoasAssembler courseEditionHateoasAssembler,
+            ICreateCourseEditionHateoasAssembler createCourseEditionHateoasAssembler,
+            IStudentCountAssembler studentCountAssembler, ICourseEditionEnrolmentHateoasAssembler courseEditionEnrolmentHateoasAssembler,
+            ISchoolYearService schoolYearService, ISchoolYearAssembler schoolYearAssembler
+    ) {
+        this.courseEditionEnrolmentService = validateNotNull(courseEditionEnrolmentService, "CourseEditionEnrolmentService");
+        this.courseEditionEnrolmentAssembler = validateNotNull(courseEditionEnrolmentAssembler, "CourseEditionEnrolmentAssembler");
+        this.createCourseEditionService = validateNotNull(createCourseEditionService, "CreateCourseEditionService");
+        this.courseEditionService = validateNotNull(courseEditionService, "CourseEditionService");
+        this.courseEditionAssembler = validateNotNull(courseEditionAssembler, "CourseEditionAssembler");
+        this.gradeAStudentService = validateNotNull(gradeAStudentService, "GradeAStudentService");
+        this.studentGradeAssembler = validateNotNull(studentGradeAssembler, "StudentGradeAssembler");
+        this.programmeEditionAssembler = validateNotNull(programmeEditionAssembler, "ProgrammeEditionServiceAssembler");
+        this.defineRucService = validateNotNull(defineRucService, "DefineRucService");
+        this.courseEditionHateoasAssembler = validateNotNull(courseEditionHateoasAssembler, "CourseEditionHateoasAssembler");
+        this.studentCountAssembler = validateNotNull(studentCountAssembler, "StudentCountAssembler");
+        this.courseEditionEnrolmentHateoasAssembler = validateNotNull(courseEditionEnrolmentHateoasAssembler, "CourseEditionEnrolmentHateoasAssembler");
+        this.createCourseEditionHateoasAssembler = validateNotNull(createCourseEditionHateoasAssembler, "CreateCourseEditionHateoasAssembler");
+        this.schoolYearService = validateNotNull(schoolYearService, "SchoolYearService");
+        this.schoolYearAssembler = validateNotNull(schoolYearAssembler, "SchoolYearAssembler");
+    }
 
     @PostMapping("/students/{id}/courses-edition-enrolments")
     public ResponseEntity<?> enrolStudentInCourseEdition(@PathVariable("id") int studentUniqueNumber, @Valid @RequestBody CourseEditionEnrolmentDto courseEditionEnrolmentDTO) {
