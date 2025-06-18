@@ -198,9 +198,32 @@ export default function StudentProgrammeEnrolmentForm() {
                                     value={form.studentID}
                                     onChange={(e) => {
                                         const rawValue = e.target.value.replace(/\D/g, '');
-                                        if (rawValue.length <= 7) {
-                                            setForm(f => ({...f, studentID: rawValue}));
+
+                                        if (e.target.value !== rawValue) {
+                                            setFormErrors(prev => ({ ...prev, studentID: "Student ID must contain only numbers." }));
+                                            return;
                                         }
+
+                                        if (rawValue === "") {
+                                            setFormErrors(prev => ({ ...prev, studentID: "Student ID cannot be empty." }));
+                                            setForm(f => ({ ...f, studentID: "" }));
+                                            return;
+                                        }
+
+                                        if (rawValue.length > 7) {
+                                            setFormErrors(prev => ({ ...prev, studentID: "Student ID must have exactly 7 digits." }));
+                                            setForm(f => ({ ...f, studentID: rawValue.slice(0, 7) }));
+                                            return;
+                                        }
+
+                                        const id = parseInt(rawValue, 10);
+                                        if (id < 1000000 || id > 2000000) {
+                                            setFormErrors(prev => ({ ...prev, studentID: "Student ID must be between 1000000 and 2000000." }));
+                                        } else {
+                                            setFormErrors(prev => ({ ...prev, studentID: "" }));
+                                        }
+
+                                        setForm(f => ({ ...f, studentID: rawValue }));
                                     }}
                                     onBlur={handleStudentBlur}
                                     inputMode="numeric"
@@ -208,9 +231,9 @@ export default function StudentProgrammeEnrolmentForm() {
                                     style={{width: '554px'}}
                                     required
                                 />
-                                {form.studentID && form.studentID.length !== 7 && (
-                                    <p className="input-warning" style={{color: 'red', marginTop: '0.5rem'}}>
-                                        Student ID must be exactly 7 digits.
+                                {formErrors.studentID && (
+                                    <p className="input-warning" style={{ color: 'red', marginTop: '0.5rem' }}>
+                                        {formErrors.studentID}
                                     </p>
                                 )}
                                 {studentNotFound && (

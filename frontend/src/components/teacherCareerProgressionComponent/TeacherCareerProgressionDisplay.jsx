@@ -223,7 +223,7 @@ export default function TeacherCareerProgressionDisplay() {
                                     <th data-testid="id-header"
                                         className={`sortable${sortConfig.key === 'teacherCareerProgressionId' ? ' selected' : ''}`}
                                         onClick={() => handleSort('teacherCareerProgressionId')}>
-                                        ID {sortConfig.key === 'teacherCareerProgressionId' ? (sortConfig.direction === 'asc' ? '▲' : '▼') : ''}
+                                        Career Progression ID {sortConfig.key === 'teacherCareerProgressionId' ? (sortConfig.direction === 'asc' ? '▲' : '▼') : ''}
                                     </th>
                                     <th data-testid="teacher-category-header"
                                         className={`sortable${sortConfig.key === 'teacherCategoryName' ? ' selected' : ''}`}

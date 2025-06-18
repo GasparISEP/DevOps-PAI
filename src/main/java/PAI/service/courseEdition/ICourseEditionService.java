@@ -23,4 +23,7 @@ public interface ICourseEditionService {
     List <CourseEdition> getCourseEditionsByProgrammeIDAndCourseID(ProgrammeID programmeID, CourseID courseID);
 
     CourseEditionID findCourseEditionIDByGeneratedID (CourseEditionGeneratedID generatedID) throws Exception;
+
+    List<SchoolYearID> getSchoolYearIDsFromCourseEditions(Iterable<CourseEdition> courseEditions);
+
 }

@@ -7,6 +7,8 @@ import PAI.assembler.studentGrade.IStudentGradeAssembler;
 import PAI.assembler.courseEditionEnrolment.ICourseEditionEnrolmentHateoasAssembler;
 import PAI.controllerRest.CourseEditionRestController;
 import PAI.domain.courseEdition.CourseEdition;
+import PAI.domain.schoolYear.SchoolYear;
+import PAI.dto.schoolYear.SchoolYearCEDTO;
 import PAI.dto.studentGrade.GradeAStudentCommand;
 import PAI.dto.studentGrade.GradeAStudentRequestDTO;
 import PAI.dto.studentGrade.GradeAStudentResponseDTO;
@@ -898,4 +900,54 @@ class CourseEditionRestControllerTest {
                 .content(objectMapper.writeValueAsString(requestDTO)))
                 .andExpect(status().isBadRequest());
     }
+
+    @Test
+    void getCoursesEditionsByProgrammeIDAndCourseID_returnsOkWithDTOs() throws Exception {
+        // Arrange
+        String programmeAcronym = "LEIC";
+        String courseAcronym = "ESOFT";
+        String courseName = "Engineering Software";
+        CourseEdition ce = mock(CourseEdition.class);
+        SchoolYearID syid = mock(SchoolYearID.class);
+        SchoolYear schoolYear = mock(SchoolYear.class);
+        SchoolYearCEDTO schoolYearCEDTO = mock(SchoolYearCEDTO.class);
+        List<CourseEdition> ceList = List.of(ce);
+        List<SchoolYearID> syidList = List.of(syid);
+        List<SchoolYear> syList = List.of(schoolYear);
+        List<SchoolYearCEDTO> dtoList = List.of(schoolYearCEDTO);
+        when(courseEditionService.getCourseEditionsByProgrammeIDAndCourseID(any(), any())).thenReturn(ceList);
+        when(courseEditionService.getSchoolYearIDsFromCourseEditions(ceList)).thenReturn(syidList);
+        when(schoolYearService.getSchoolYearsByIDs(syidList)).thenReturn(syList);
+        when(schoolYearAssembler.toCEDTOs(syList)).thenReturn(dtoList);
+
+        // Act & Assert
+        mockMvc.perform(get("/course-editions/school-years")
+                .param("programmeAcronym", programmeAcronym)
+                .param("courseAcronym", courseAcronym)
+                .param("courseName", courseName))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void getCoursesEditionsByProgrammeIDAndCourseID_returnsBadRequestOnException() throws Exception {
+        // Arrange
+        when(courseEditionService.getCourseEditionsByProgrammeIDAndCourseID(any(), any())).thenThrow(new RuntimeException("fail"));
+
+        // Act & Assert
+        mockMvc.perform(get("/course-editions/school-years")
+                .param("programmeAcronym", "LEIC")
+                .param("courseAcronym", "ESOFT")
+                .param("courseName", "Engineering Software"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void getCoursesEditionsByProgrammeIDAndCourseID_returnsBadRequestOnMissingParams() throws Exception {
+        // Act & Assert
+        mockMvc.perform(get("/course-editions/school-years")
+                .param("programmeAcronym", "LEIC")
+                .param("courseAcronym", "ESOFT")) // missing courseName
+                .andExpect(status().isBadRequest());
+    }
+
 }

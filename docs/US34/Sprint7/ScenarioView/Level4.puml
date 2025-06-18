@@ -1,0 +1,45 @@
+@startuml
+title As an ASC, I want to enrol a student in a programme in a given school year using a Web UI. It should include the enrolment in a set of courses.\n(Process View Level 3 - Backend - Combined Flow)
+
+autonumber
+
+participant ":Router" as r <<Component>> #gold
+participant ":StudentRestController" as c <<Component>> #gold
+participant ":ProgrammeAndCoursesEnrolmentService" as s <<Component>> #gold
+participant ":ProgrammeEditionEnrolmentRepository" as rep1 <<Component>> #gold
+participant ":CourseEditionEnrolmentRepository" as rep2 <<Component>> #gold
+participant ":Drivers" as d <<Component>> #gold
+skinparam sequenceMessageAlign center
+
+[o-> r++ : **POST** /students/{id}/enrolments \n(StudentProgrammeEnrolmentRequestDto)
+r->c++ : enrolStudent\n(StudentProgrammeEnrolmentRequestDto)
+
+|||
+ref over c, c
+**transform** :
+DTO to Domain
+end ref
+|||
+c-> s++ : enrollStudentInProgrammeAndCourses\n(StudentID, ProgrammeEditionID, List<CourseID>)
+
+group Transactional Operation
+s->rep1 ++: save\n(ProgrammeEditionEnrolment)
+rep1->d ++: save\n(ProgrammeEditionEnrolment)
+d --> rep1--: ProgrammeEditionEnrolment
+rep1 --> s--: ProgrammeEditionEnrolment
+s->rep2 ++: save\n(List<CourseEditionEnrolment>)
+rep2->d ++: save\n(List<CourseEditionEnrolment>)
+d --> rep2--: List<CourseEditionEnrolment>)
+rep2--> s--:  US34Response(ProgrammeEditionEnrolment, List<CourseEditionEnrolment>)
+end group
+
+s --> c --: US34Response(ProgrammeEditionEnrolment, List<CourseEditionEnrolment>)
+
+ref over c, c
+**transform** :
+Domain to DTO
+end ref
+
+c --> r-- : StudentEnrolmentResultDto\n(ProgrammeEditionEnrolmentDTO, List<CourseEditionEnrolmentDto>)
+[o<-- r --: (Create, 201) StudentEnrolmentResultDto\n(ProgrammeEditionEnrolmentDTO, List<CourseEditionEnrolmentDto>)
+@enduml

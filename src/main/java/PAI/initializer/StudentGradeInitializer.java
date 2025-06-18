@@ -4,6 +4,7 @@ import PAI.VOs.*;
 import PAI.domain.repositoryInterfaces.studentGrade.IStudentGradeRepository;
 import PAI.domain.studentGrade.StudentGrade;
 import PAI.domain.studentGrade.StudentGradeFactoryImpl;
+import PAI.service.studentGrade.IStudentGradeService;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -14,7 +15,7 @@ import java.util.UUID;
 @Component
 public class StudentGradeInitializer {
 
-    public void loadStudentGrade(StudentGradeFactoryImpl factory, IStudentGradeRepository studentGradeRepository, String csvFilePath) {
+    public void loadStudentGrade(IStudentGradeService studentGradeService, String csvFilePath) {
         System.out.println("🔥 INIT: StudentGradeDirectInitializer foi chamado!");
 
         try (BufferedReader reader = new BufferedReader(new FileReader(csvFilePath))) {
@@ -55,8 +56,7 @@ public class StudentGradeInitializer {
                     CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(courseID, studyPlanID);
                     CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID, courseInStudyPlanID);
 
-                    StudentGrade sg = factory.createGradeStudent(grade, date, studentID, courseEditionID);
-                    studentGradeRepository.save(sg);
+                    studentGradeService.newStudentGrade(grade,date,studentID,courseEditionID);
                     System.out.println("✅ Nota inserida diretamente para estudante: " + studentID);
 
                 } catch (Exception e) {
