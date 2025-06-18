@@ -1,11 +1,7 @@
 package PAI.persistence.springdata.courseEdition;
 
-import PAI.VOs.CourseEditionGeneratedID;
-import PAI.VOs.CourseEditionID;
-import PAI.VOs.CourseInStudyPlanID;
-import PAI.VOs.ProgrammeEditionID;
+import PAI.VOs.*;
 import PAI.domain.courseEdition.CourseEdition;
-import PAI.mapper.courseEdition.CourseEditionGeneratedIDMapperImpl;
 import PAI.mapper.courseEdition.ICourseEditionGeneratedIDMapper;
 import PAI.mapper.courseEdition.ICourseEditionIDMapper;
 import PAI.mapper.courseEdition.ICourseEditionMapper;
@@ -17,7 +13,6 @@ import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
 import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanIDDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
 import PAI.domain.repositoryInterfaces.courseEdition.ICourseEditionRepository;
-import PAI.persistence.mem.courseEdition.CourseEditionRepositoryImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
@@ -882,4 +877,205 @@ class CourseEditionRepositorySpringDataImplTest {
         // Assert
         assertTrue(result.isEmpty());
     }
+
+    @Test
+    void findByProgrammeIDAndCourseID_returnsSingleMatch() {
+        // Arrange
+        ICourseEditionRepositorySpringData repoSD = mock(ICourseEditionRepositorySpringData.class);
+        ICourseEditionMapper mapper = mock(ICourseEditionMapper.class);
+        ICourseEditionIDMapper idMapper = mock(ICourseEditionIDMapper.class);
+        IProgrammeEditionIdMapper progIdMapper = mock(IProgrammeEditionIdMapper.class);
+        ICourseInStudyPlanIDMapper coursePlanIdMapper = mock(ICourseInStudyPlanIDMapper.class);
+        ICourseEditionGeneratedIDMapper genIdMapper = mock(ICourseEditionGeneratedIDMapper.class);
+        CourseEditionRepositorySpringDataImpl repo = new CourseEditionRepositorySpringDataImpl(repoSD, mapper, idMapper, progIdMapper, coursePlanIdMapper, genIdMapper);
+
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        CourseID courseID = mock(CourseID.class);
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+        CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
+        CourseEditionDataModel dataModel = mock(CourseEditionDataModel.class);
+        CourseEdition courseEdition = mock(CourseEdition.class);
+
+        when(repoSD.findAll()).thenReturn(List.of(dataModel));
+        when(mapper.toDomain(dataModel)).thenReturn(courseEdition);
+        when(courseEdition.getProgrammeEditionID()).thenReturn(programmeEditionID);
+        when(courseEdition.getCourseInStudyPlanID()).thenReturn(courseInStudyPlanID);
+        when(programmeEditionID.getProgrammeID()).thenReturn(programmeID);
+        when(courseInStudyPlanID.getCourseID()).thenReturn(courseID);
+
+        // Act
+        List<CourseEdition> result = repo.findByProgrammeIDAndCourseID(programmeID, courseID);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        assertSame(courseEdition, result.get(0));
+    }
+
+    @Test
+    void findByProgrammeIDAndCourseID_returnsMultipleMatches() {
+        // Arrange
+        ICourseEditionRepositorySpringData repoSD = mock(ICourseEditionRepositorySpringData.class);
+        ICourseEditionMapper mapper = mock(ICourseEditionMapper.class);
+        ICourseEditionIDMapper idMapper = mock(ICourseEditionIDMapper.class);
+        IProgrammeEditionIdMapper progIdMapper = mock(IProgrammeEditionIdMapper.class);
+        ICourseInStudyPlanIDMapper coursePlanIdMapper = mock(ICourseInStudyPlanIDMapper.class);
+        ICourseEditionGeneratedIDMapper genIdMapper = mock(ICourseEditionGeneratedIDMapper.class);
+        CourseEditionRepositorySpringDataImpl repo = new CourseEditionRepositorySpringDataImpl(repoSD, mapper, idMapper, progIdMapper, coursePlanIdMapper, genIdMapper);
+
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        CourseID courseID = mock(CourseID.class);
+        ProgrammeEditionID programmeEditionID1 = mock(ProgrammeEditionID.class);
+        ProgrammeEditionID programmeEditionID2 = mock(ProgrammeEditionID.class);
+        CourseInStudyPlanID courseInStudyPlanID1 = mock(CourseInStudyPlanID.class);
+        CourseInStudyPlanID courseInStudyPlanID2 = mock(CourseInStudyPlanID.class);
+        CourseEditionDataModel dataModel1 = mock(CourseEditionDataModel.class);
+        CourseEditionDataModel dataModel2 = mock(CourseEditionDataModel.class);
+        CourseEdition courseEdition1 = mock(CourseEdition.class);
+        CourseEdition courseEdition2 = mock(CourseEdition.class);
+
+        when(repoSD.findAll()).thenReturn(List.of(dataModel1, dataModel2));
+        when(mapper.toDomain(dataModel1)).thenReturn(courseEdition1);
+        when(mapper.toDomain(dataModel2)).thenReturn(courseEdition2);
+        when(courseEdition1.getProgrammeEditionID()).thenReturn(programmeEditionID1);
+        when(courseEdition1.getCourseInStudyPlanID()).thenReturn(courseInStudyPlanID1);
+        when(programmeEditionID1.getProgrammeID()).thenReturn(programmeID);
+        when(courseInStudyPlanID1.getCourseID()).thenReturn(courseID);
+        when(courseEdition2.getProgrammeEditionID()).thenReturn(programmeEditionID2);
+        when(courseEdition2.getCourseInStudyPlanID()).thenReturn(courseInStudyPlanID2);
+        when(programmeEditionID2.getProgrammeID()).thenReturn(programmeID);
+        when(courseInStudyPlanID2.getCourseID()).thenReturn(courseID);
+
+        // Act
+        List<CourseEdition> result = repo.findByProgrammeIDAndCourseID(programmeID, courseID);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(2, result.size());
+        assertTrue(result.contains(courseEdition1));
+        assertTrue(result.contains(courseEdition2));
+    }
+
+    @Test
+    void findByProgrammeIDAndCourseID_returnsEmptyWhenOnlyProgrammeIDMatches() {
+        // Arrange
+        ICourseEditionRepositorySpringData repoSD = mock(ICourseEditionRepositorySpringData.class);
+        ICourseEditionMapper mapper = mock(ICourseEditionMapper.class);
+        ICourseEditionIDMapper idMapper = mock(ICourseEditionIDMapper.class);
+        IProgrammeEditionIdMapper progIdMapper = mock(IProgrammeEditionIdMapper.class);
+        ICourseInStudyPlanIDMapper coursePlanIdMapper = mock(ICourseInStudyPlanIDMapper.class);
+        ICourseEditionGeneratedIDMapper genIdMapper = mock(ICourseEditionGeneratedIDMapper.class);
+        CourseEditionRepositorySpringDataImpl repo = new CourseEditionRepositorySpringDataImpl(repoSD, mapper, idMapper, progIdMapper, coursePlanIdMapper, genIdMapper);
+
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        CourseID courseID = mock(CourseID.class);
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+        CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
+        CourseEditionDataModel dataModel = mock(CourseEditionDataModel.class);
+        CourseEdition courseEdition = mock(CourseEdition.class);
+
+        when(repoSD.findAll()).thenReturn(List.of(dataModel));
+        when(mapper.toDomain(dataModel)).thenReturn(courseEdition);
+        when(courseEdition.getProgrammeEditionID()).thenReturn(programmeEditionID);
+        when(courseEdition.getCourseInStudyPlanID()).thenReturn(courseInStudyPlanID);
+        when(programmeEditionID.getProgrammeID()).thenReturn(programmeID);
+        when(courseInStudyPlanID.getCourseID()).thenReturn(mock(CourseID.class)); // different courseID
+
+        // Act
+        List<CourseEdition> result = repo.findByProgrammeIDAndCourseID(programmeID, courseID);
+
+        // Assert
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void findByProgrammeIDAndCourseID_returnsEmptyWhenOnlyCourseIDMatches() {
+        // Arrange
+        ICourseEditionRepositorySpringData repoSD = mock(ICourseEditionRepositorySpringData.class);
+        ICourseEditionMapper mapper = mock(ICourseEditionMapper.class);
+        ICourseEditionIDMapper idMapper = mock(ICourseEditionIDMapper.class);
+        IProgrammeEditionIdMapper progIdMapper = mock(IProgrammeEditionIdMapper.class);
+        ICourseInStudyPlanIDMapper coursePlanIdMapper = mock(ICourseInStudyPlanIDMapper.class);
+        ICourseEditionGeneratedIDMapper genIdMapper = mock(ICourseEditionGeneratedIDMapper.class);
+        CourseEditionRepositorySpringDataImpl repo = new CourseEditionRepositorySpringDataImpl(repoSD, mapper, idMapper, progIdMapper, coursePlanIdMapper, genIdMapper);
+
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        CourseID courseID = mock(CourseID.class);
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+        CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
+        CourseEditionDataModel dataModel = mock(CourseEditionDataModel.class);
+        CourseEdition courseEdition = mock(CourseEdition.class);
+
+        when(repoSD.findAll()).thenReturn(List.of(dataModel));
+        when(mapper.toDomain(dataModel)).thenReturn(courseEdition);
+        when(courseEdition.getProgrammeEditionID()).thenReturn(programmeEditionID);
+        when(courseEdition.getCourseInStudyPlanID()).thenReturn(courseInStudyPlanID);
+        when(programmeEditionID.getProgrammeID()).thenReturn(mock(ProgrammeID.class)); // different programmeID
+        when(courseInStudyPlanID.getCourseID()).thenReturn(courseID);
+
+        // Act
+        List<CourseEdition> result = repo.findByProgrammeIDAndCourseID(programmeID, courseID);
+
+        // Assert
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void findByProgrammeIDAndCourseID_returnsEmptyWhenNeitherMatches() {
+        // Arrange
+        ICourseEditionRepositorySpringData repoSD = mock(ICourseEditionRepositorySpringData.class);
+        ICourseEditionMapper mapper = mock(ICourseEditionMapper.class);
+        ICourseEditionIDMapper idMapper = mock(ICourseEditionIDMapper.class);
+        IProgrammeEditionIdMapper progIdMapper = mock(IProgrammeEditionIdMapper.class);
+        ICourseInStudyPlanIDMapper coursePlanIdMapper = mock(ICourseInStudyPlanIDMapper.class);
+        ICourseEditionGeneratedIDMapper genIdMapper = mock(ICourseEditionGeneratedIDMapper.class);
+        CourseEditionRepositorySpringDataImpl repo = new CourseEditionRepositorySpringDataImpl(repoSD, mapper, idMapper, progIdMapper, coursePlanIdMapper, genIdMapper);
+
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        CourseID courseID = mock(CourseID.class);
+        ProgrammeEditionID programmeEditionID = mock(ProgrammeEditionID.class);
+        CourseInStudyPlanID courseInStudyPlanID = mock(CourseInStudyPlanID.class);
+        CourseEditionDataModel dataModel = mock(CourseEditionDataModel.class);
+        CourseEdition courseEdition = mock(CourseEdition.class);
+
+        when(repoSD.findAll()).thenReturn(List.of(dataModel));
+        when(mapper.toDomain(dataModel)).thenReturn(courseEdition);
+        when(courseEdition.getProgrammeEditionID()).thenReturn(programmeEditionID);
+        when(courseEdition.getCourseInStudyPlanID()).thenReturn(courseInStudyPlanID);
+        when(programmeEditionID.getProgrammeID()).thenReturn(mock(ProgrammeID.class)); // different programmeID
+        when(courseInStudyPlanID.getCourseID()).thenReturn(mock(CourseID.class)); // different courseID
+
+        // Act
+        List<CourseEdition> result = repo.findByProgrammeIDAndCourseID(programmeID, courseID);
+
+        // Assert
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void findByProgrammeIDAndCourseID_returnsEmptyWhenRepositoryIsEmpty() {
+        // Arrange
+        ICourseEditionRepositorySpringData repoSD = mock(ICourseEditionRepositorySpringData.class);
+        ICourseEditionMapper mapper = mock(ICourseEditionMapper.class);
+        ICourseEditionIDMapper idMapper = mock(ICourseEditionIDMapper.class);
+        IProgrammeEditionIdMapper progIdMapper = mock(IProgrammeEditionIdMapper.class);
+        ICourseInStudyPlanIDMapper coursePlanIdMapper = mock(ICourseInStudyPlanIDMapper.class);
+        ICourseEditionGeneratedIDMapper genIdMapper = mock(ICourseEditionGeneratedIDMapper.class);
+        CourseEditionRepositorySpringDataImpl repo = new CourseEditionRepositorySpringDataImpl(repoSD, mapper, idMapper, progIdMapper, coursePlanIdMapper, genIdMapper);
+
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        CourseID courseID = mock(CourseID.class);
+        when(repoSD.findAll()).thenReturn(List.of());
+
+        // Act
+        List<CourseEdition> result = repo.findByProgrammeIDAndCourseID(programmeID, courseID);
+
+        // Assert
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
+    }
 }
+

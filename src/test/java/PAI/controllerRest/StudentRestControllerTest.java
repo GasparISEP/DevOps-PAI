@@ -601,7 +601,7 @@ class StudentRestControllerTest {
         CourseEditionID courseEditionID = mock(CourseEditionID.class);
 
         when(courseEditionEnrolmentAssembler.toStudentID(studentUniqueNumber)).thenReturn(studentID);
-        when(courseEditionService.findCourseEditionByGeneratedID(ceGeneratedID)).thenReturn(courseEditionID);
+        when(courseEditionService.findCourseEditionIDByGeneratedID(ceGeneratedID)).thenReturn(courseEditionID);
         when(courseEditionEnrolmentService.removeCourseEditionEnrolment(studentID, courseEditionID)).thenReturn(true);
 
         // Act
@@ -624,7 +624,7 @@ class StudentRestControllerTest {
         CourseEditionID courseEditionID = mock(CourseEditionID.class);
 
         when(courseEditionEnrolmentAssembler.toStudentID(studentUniqueNumber)).thenReturn(studentID);
-        when(courseEditionService.findCourseEditionByGeneratedID(ceGeneratedID)).thenReturn(courseEditionID);
+        when(courseEditionService.findCourseEditionIDByGeneratedID(ceGeneratedID)).thenReturn(courseEditionID);
         when(courseEditionEnrolmentService.removeCourseEditionEnrolment(studentID, courseEditionID)).thenReturn(false);
 
         // Act
@@ -664,7 +664,7 @@ class StudentRestControllerTest {
         CourseEditionGeneratedID ceGeneratedID = new CourseEditionGeneratedID(courseEditionGeneratedUUID);
 
         when(courseEditionEnrolmentAssembler.toStudentID(studentUniqueNumber)).thenReturn(studentID);
-        when(courseEditionService.findCourseEditionByGeneratedID(ceGeneratedID))
+        when(courseEditionService.findCourseEditionIDByGeneratedID(ceGeneratedID))
                 .thenThrow(new IllegalStateException("Course edition not found in service"));
 
         // Act
@@ -687,7 +687,7 @@ class StudentRestControllerTest {
         CourseEditionID courseEditionID = mock(CourseEditionID.class);
 
         when(courseEditionEnrolmentAssembler.toStudentID(studentUniqueNumber)).thenReturn(studentID);
-        when(courseEditionService.findCourseEditionByGeneratedID(ceGeneratedID)).thenReturn(courseEditionID);
+        when(courseEditionService.findCourseEditionIDByGeneratedID(ceGeneratedID)).thenReturn(courseEditionID);
         when(courseEditionEnrolmentService.removeCourseEditionEnrolment(studentID, courseEditionID))
                 .thenThrow(new RuntimeException("Unexpected error during removal"));
 

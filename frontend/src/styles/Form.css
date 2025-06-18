@@ -188,6 +188,8 @@ select.form-input {
     transform-origin: top left;
 }
 
-
+.remove-student-form-img-div {
+    background-image: url("../../src/assets/images/remove-student-from-course-edition-img.jpg") !important;
+}
 
 

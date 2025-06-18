@@ -2,12 +2,14 @@ package PAI.controllerRest;
 
 import PAI.VOs.*;
 import PAI.assembler.courseEdition.ICourseEditionAssembler;
+import PAI.assembler.courseEdition.ICourseEditionHATEOASAssembler;
 import PAI.assembler.courseEdition.ICourseEditionRUCHateoasAssembler;
 import PAI.assembler.courseEdition.ICreateCourseEditionHateoasAssembler;
 import PAI.assembler.courseEdition.IStudentCountAssembler;
 import PAI.assembler.courseEditionEnrolment.ICourseEditionEnrolmentAssembler;
 import PAI.assembler.courseEditionEnrolment.ICourseEditionEnrolmentHateoasAssembler;
 import PAI.assembler.programmeEdition.IProgrammeEditionServiceAssembler;
+import PAI.assembler.schoolYear.ISchoolYearAssembler;
 import PAI.assembler.studentGrade.IStudentGradeAssembler;
 import PAI.dto.approvalRate.ApprovalRateResponseDTO;
 import PAI.dto.courseEdition.*;
@@ -19,8 +21,10 @@ import PAI.service.courseEdition.ICourseEditionService;
 import PAI.service.courseEdition.ICreateCourseEditionService;
 import PAI.service.courseEdition.IDefineRucService;
 import PAI.service.courseEditionEnrolment.ICourseEditionEnrolmentService;
+import PAI.service.schoolYear.ISchoolYearService;
 import PAI.service.studentGrade.IGradeAStudentService;
 import jakarta.validation.Valid;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -28,11 +32,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import static PAI.utils.ValidationUtils.validateNotNull;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @RestController
 @RequestMapping("/course-editions")
@@ -47,40 +51,49 @@ public class CourseEditionRestController {
     private final IProgrammeEditionServiceAssembler programmeEditionAssembler;
     private final IDefineRucService defineRucService;
     private final ICourseEditionService courseEditionService;
-    private final ICourseEditionRUCHateoasAssembler courseEditionHateoasAssembler;
+    private final ICourseEditionRUCHateoasAssembler courseEditionRUCHateoasAssembler;
     private final IStudentCountAssembler studentCountAssembler;
     private final ICourseEditionEnrolmentHateoasAssembler courseEditionEnrolmentHateoasAssembler;
+    private final ICourseEditionHATEOASAssembler courseEditionHATEOASAssembler;
     private final ICreateCourseEditionHateoasAssembler createCourseEditionHateoasAssembler;
+    private final ISchoolYearService schoolYearService;
+    private final ISchoolYearAssembler schoolYearAssembler;
 
-public CourseEditionRestController(
-        ICourseEditionEnrolmentService courseEditionEnrolmentService,
-        ICourseEditionEnrolmentAssembler courseEditionEnrolmentAssembler,
-        ICreateCourseEditionService createCourseEditionService,
-        ICourseEditionService courseEditionService,
-        ICourseEditionAssembler courseEditionAssembler,
-        IGradeAStudentService gradeAStudentService,
-        IStudentGradeAssembler studentGradeAssembler,
-        IProgrammeEditionServiceAssembler programmeEditionAssembler,
-        IDefineRucService defineRucService,
-        ICourseEditionRUCHateoasAssembler courseEditionHateoasAssembler,
-        ICourseEditionEnrolmentHateoasAssembler courseEditionEnrolmentHateoasAssembler,
-        IStudentCountAssembler studentCountAssembler,
-        ICreateCourseEditionHateoasAssembler createCourseEditionHateoasAssembler
-) {
-    this.courseEditionEnrolmentService = validateNotNull(courseEditionEnrolmentService, "CourseEditionEnrolmentService");
-    this.courseEditionEnrolmentAssembler = validateNotNull(courseEditionEnrolmentAssembler, "CourseEditionEnrolmentAssembler");
-    this.createCourseEditionService = validateNotNull(createCourseEditionService, "CreateCourseEditionService");
-    this.courseEditionService = validateNotNull(courseEditionService, "CourseEditionService");
-    this.courseEditionAssembler = validateNotNull(courseEditionAssembler, "CourseEditionAssembler");
-    this.gradeAStudentService = validateNotNull(gradeAStudentService, "GradeAStudentService");
-    this.studentGradeAssembler = validateNotNull(studentGradeAssembler, "StudentGradeAssembler");
-    this.programmeEditionAssembler = validateNotNull(programmeEditionAssembler, "ProgrammeEditionServiceAssembler");
-    this.defineRucService = validateNotNull(defineRucService, "DefineRucService");
-    this.courseEditionHateoasAssembler = validateNotNull(courseEditionHateoasAssembler, "CourseEditionHateoasAssembler");
-    this.studentCountAssembler = validateNotNull(studentCountAssembler, "StudentCountAssembler");
-    this.courseEditionEnrolmentHateoasAssembler = validateNotNull(courseEditionEnrolmentHateoasAssembler, "CourseEditionEnrolmentHateoasAssembler");
-    this.createCourseEditionHateoasAssembler = validateNotNull(createCourseEditionHateoasAssembler, "CreateCourseEditionHateoasAssembler");
-}
+    public CourseEditionRestController(
+            ICourseEditionEnrolmentService courseEditionEnrolmentService,
+            ICourseEditionEnrolmentAssembler courseEditionEnrolmentAssembler,
+            ICreateCourseEditionService createCourseEditionService,
+            ICourseEditionService courseEditionService,
+            ICourseEditionAssembler courseEditionAssembler,
+            IGradeAStudentService gradeAStudentService,
+            IStudentGradeAssembler studentGradeAssembler,
+            IProgrammeEditionServiceAssembler programmeEditionAssembler,
+            IDefineRucService defineRucService,
+            ICourseEditionRUCHateoasAssembler courseEditionRUCHateoasAssembler,
+            ICreateCourseEditionHateoasAssembler createCourseEditionHateoasAssembler,
+            IStudentCountAssembler studentCountAssembler,
+            ICourseEditionEnrolmentHateoasAssembler courseEditionEnrolmentHateoasAssembler,
+            ICourseEditionHATEOASAssembler courseEditionHATEOASAssembler,
+            ISchoolYearService schoolYearService,
+            ISchoolYearAssembler schoolYearAssembler
+    ) {
+        this.courseEditionEnrolmentService = validateNotNull(courseEditionEnrolmentService, "CourseEditionEnrolmentService");
+        this.courseEditionEnrolmentAssembler = validateNotNull(courseEditionEnrolmentAssembler, "CourseEditionEnrolmentAssembler");
+        this.createCourseEditionService = validateNotNull(createCourseEditionService, "CreateCourseEditionService");
+        this.courseEditionService = validateNotNull(courseEditionService, "CourseEditionService");
+        this.courseEditionAssembler = validateNotNull(courseEditionAssembler, "CourseEditionAssembler");
+        this.gradeAStudentService = validateNotNull(gradeAStudentService, "GradeAStudentService");
+        this.studentGradeAssembler = validateNotNull(studentGradeAssembler, "StudentGradeAssembler");
+        this.programmeEditionAssembler = validateNotNull(programmeEditionAssembler, "ProgrammeEditionServiceAssembler");
+        this.defineRucService = validateNotNull(defineRucService, "DefineRucService");
+        this.courseEditionRUCHateoasAssembler = validateNotNull(courseEditionRUCHateoasAssembler, "CourseEditionHateoasAssembler");
+        this.studentCountAssembler = validateNotNull(studentCountAssembler, "StudentCountAssembler");
+        this.courseEditionEnrolmentHateoasAssembler = validateNotNull(courseEditionEnrolmentHateoasAssembler, "CourseEditionEnrolmentHateoasAssembler");
+        this.createCourseEditionHateoasAssembler = validateNotNull(createCourseEditionHateoasAssembler, "CreateCourseEditionHateoasAssembler");
+        this.courseEditionHATEOASAssembler = courseEditionHATEOASAssembler;
+        this.schoolYearService = validateNotNull(schoolYearService, "SchoolYearService");
+        this.schoolYearAssembler = validateNotNull(schoolYearAssembler, "SchoolYearAssembler");
+    }
 
     @PostMapping("/students/{id}/courses-edition-enrolments")
     public ResponseEntity<?> enrolStudentInCourseEdition(@PathVariable("id") int studentUniqueNumber, @Valid @RequestBody CourseEditionEnrolmentDto courseEditionEnrolmentDTO) {
@@ -157,16 +170,19 @@ public ResponseEntity<?> defineRucForCourseEdition(
                 id
         );
 
-        return ResponseEntity.ok(courseEditionHateoasAssembler.toModel(responseDTO));
+        return ResponseEntity.ok(courseEditionRUCHateoasAssembler.toModel(responseDTO));
 
 }
     @GetMapping("/by-id/{id}")
-    public ResponseEntity<?> getCourseEditionById(@PathVariable("id") UUID uuid) {
+    public ResponseEntity<?> getCourseEditionById(@PathVariable("id") UUID uuid) throws Exception {
         try {
             CourseEditionGeneratedID ceGenerationID = new CourseEditionGeneratedID(uuid);
             CourseEditionServiceResponseDTO serviceResponseDTO = createCourseEditionService.findById(ceGenerationID);
             CourseEditionResponseDTO responseDTO = courseEditionAssembler.toResponseDTO(serviceResponseDTO);
-            return ResponseEntity.ok(responseDTO);
+
+            EntityModel<CourseEditionResponseDTO> entityModelResponseDTO = courseEditionHATEOASAssembler.toModel(responseDTO);
+
+            return ResponseEntity.ok(entityModelResponseDTO);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Invalid parameters or course edition not found.");
         }
@@ -179,7 +195,7 @@ public ResponseEntity<?> defineRucForCourseEdition(
             CourseInStudyPlanID courseInStudyPlanID = courseEditionAssembler.toCourseInStudyPlanID(courseEditionRequestDTO);
             List<CourseEditionID> courseEditionIDs = courseEditionService.findCourseEditionsByProgrammeEditionIDAndCourseInStudyPlanID(programmeEditionID, courseInStudyPlanID);
             List<CourseEditionResponseIDDTO> courseEditionResponseIDDTOs = courseEditionAssembler.toResponseIDDTOList(courseEditionIDs);
-            return ResponseEntity.ok(courseEditionHateoasAssembler.toCollectionModel(courseEditionResponseIDDTOs));
+            return ResponseEntity.ok(courseEditionRUCHateoasAssembler.toCollectionModel(courseEditionResponseIDDTOs));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().build();
@@ -191,13 +207,13 @@ public ResponseEntity<?> defineRucForCourseEdition(
         // Retrieves all Domain Course Editions
         Iterable<CourseEditionServiceResponseDTO> allCourseEditions = createCourseEditionService.findAll();
 
-        List<CourseEditionResponseDTO> dtoList = new ArrayList<>();
-        // For each Domain CourseEdition, it converts into a ResponseDTO and adds to list
-        for (CourseEditionServiceResponseDTO courseEditionServiceDto : allCourseEditions) {
-            dtoList.add(courseEditionAssembler.toResponseDTO(courseEditionServiceDto));
-        }
+        List<CourseEditionResponseDTO> courseEditionResponseDTOList = courseEditionAssembler
+                                                                .toCourseEditionResponseDTOList(allCourseEditions);
 
-        return ResponseEntity.ok(dtoList);
+        CollectionModel<EntityModel<CourseEditionResponseDTO>> courseEditionResponseDTOEntityModel =
+                                courseEditionHATEOASAssembler.toCollectionModel(courseEditionResponseDTOList);
+
+        return new ResponseEntity<>(courseEditionResponseDTOEntityModel, HttpStatus.OK);
     }
 
     @PostMapping("/studentgrades/register")
@@ -273,7 +289,7 @@ public ResponseEntity<?> defineRucForCourseEdition(
 
         CourseEditionGeneratedID generatedID = new CourseEditionGeneratedID(uuid);
 
-        CourseEditionID courseEditionID = courseEditionService.findCourseEditionByGeneratedID(generatedID);
+        CourseEditionID courseEditionID = courseEditionService.findCourseEditionIDByGeneratedID(generatedID);
 
         int studentCount = courseEditionEnrolmentService.numberOfStudentsEnrolledInCourseEdition(courseEditionID);
         StudentCountDTO studentCountDTO = studentCountAssembler.fromDomainToDTO(studentCount);

@@ -117,4 +117,8 @@ public class StudyPlanServiceImpl implements IStudyPlanService {
     public Optional<StudyPlan> findByID(StudyPlanID id) {
         return _repository.ofIdentity(id);
     }
+
+    public Optional<StudyPlan> findByGeneratedUUID(StudyPlanGeneratedID id) {
+        return _repository.findByGeneratedID(id);
+    }
 }

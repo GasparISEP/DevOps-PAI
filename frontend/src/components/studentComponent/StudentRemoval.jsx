@@ -115,7 +115,7 @@ export default function StudentCourseEditionForm() {
     return (
         <div className="form-main-component-div">
             <div className="form-main-grid">
-                <div className="form-img-main-div">
+                <div className="form-img-main-div remove-student-form-img-div">
                     <div className="form-logo-img-div">
                         <img src={ISEPLogoBranco} alt="Logo do ISEP"/>
                     </div>
@@ -167,6 +167,15 @@ export default function StudentCourseEditionForm() {
                                         }
                                     }}
                                 />
+
+                                <p style={{
+                                    color: selectedStudentID && courseEditions.length === 0 ? 'red' : 'transparent',
+                                    height: '1.25rem', // altura reservada (~20px)
+                                    marginTop: '0.5rem'
+                                }}>
+                                    This student is not enrolled in any course edition.
+                                </p>
+
                             </div>
 
                             <div className="form-group">

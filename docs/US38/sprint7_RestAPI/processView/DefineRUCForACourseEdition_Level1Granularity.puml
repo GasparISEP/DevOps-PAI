@@ -1,39 +1,40 @@
 @startuml
 
-title US38 \n As a Programme Director, I want to define the RUC for a course edition \n Process View - Level 1 Granularity - System
+tProcess View Level 1 :
+ @startuml
 
-skinparam titleFontName "Verdana"
-skinparam defaultFontName "Verdana"
-skinparam defaultTextAlignment center
-skinparam shadowing true
-skinparam actorBackgroundColor #lightblue
-skinparam participantBackgroundColor #lightblue/white
-autonumber
+ title US38 \n As a Programme Director, I want to define the RUC for a course edition \n (Process View - Level 1 Granularity - System)
 
-actor ProgrammeDirector as PD
-participant ":SystemPAI" as System <<System>>
+ skinparam defaultTextAlignment center
+ skinparam shadowing true
+ skinparam actorBackgroundColor #lightblue
+ skinparam participantBackgroundColor #lightblue/white
+ autonumber
 
-PD -> System: I want to define the RUC for a course edition.
-activate System #E1F5FE
+ actor ProgrammeDirector as PD <<actor>>
+ participant ":SystemPAI" as System <<System>>
 
-System --> PD: Which teacher?
-deactivate System
+ PD -> System: I want to define the RUC for a course edition.
+ activate System #E1F5FE
 
-PD -> System: Enter teacher.
-activate System #E1F5FE
+ System --> PD: Which teacher?
+ deactivate System
 
-System --> PD: Which course edition?
-deactivate System
+ PD -> System: Enter teacher!
+ activate System #E1F5FE
 
-PD -> System: Enter course edition.
-activate System #E1F5FE
+ System --> PD: Which course edition?
+ deactivate System
 
-System --> PD: Sure?
-deactivate System
+ PD -> System: Enter course edition!
+ activate System #E1F5FE
 
-PD -> System: Yes!
-activate System #E1F5FE
+ System --> PD: Sure?
+ deactivate System
 
-System --> PD: RUC sucessfully updated.
-deactivate System
-@enduml
+ PD -> System: Yes!
+ activate System #E1F5FE
+
+ System --> PD: RUC sucessfully updated.
+ deactivate System
+ @enduml

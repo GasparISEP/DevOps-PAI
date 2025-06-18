@@ -49,7 +49,7 @@ public class CreateCourseEditionHateoasAssemblerImplTest {
     }
 
     @Test
-    void toModel_ShouldContainDtoAndCorrectLinks() {
+    void toModel_ShouldContainDtoAndCorrectLinks() throws Exception {
         // Arrange
         UUID courseEditionId = UUID.randomUUID();
         UUID schoolYearId = UUID.randomUUID();

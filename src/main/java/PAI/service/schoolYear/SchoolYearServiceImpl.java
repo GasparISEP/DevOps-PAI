@@ -138,4 +138,11 @@ public class SchoolYearServiceImpl implements ISchoolYearService {
         }
         return schoolYearIDDescriptionResponseDTOs;
     }
+
+    @Override
+    public List<SchoolYear> getSchoolYearsByIDs(List<SchoolYearID> schoolYearIDs) {
+        return schoolYearIDs.stream()
+                .map(id -> getSchoolYearByID(id).orElseThrow())
+                .toList();
+    }
 }

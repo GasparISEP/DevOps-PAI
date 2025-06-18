@@ -290,7 +290,7 @@ public class StudentRestController {
             StudentID studentID = courseEditionEnrolmentAssembler.toStudentID(studentUniqueNumber);
             CourseEditionGeneratedID courseEditionGeneratedID = new CourseEditionGeneratedID(courseEditionGeneratedUUID);
 
-            CourseEditionID courseEditionID = courseEditionService.findCourseEditionByGeneratedID(courseEditionGeneratedID);
+            CourseEditionID courseEditionID = courseEditionService.findCourseEditionIDByGeneratedID(courseEditionGeneratedID);
 
             boolean removed = courseEditionEnrolmentService.removeCourseEditionEnrolment(studentID, courseEditionID);
 

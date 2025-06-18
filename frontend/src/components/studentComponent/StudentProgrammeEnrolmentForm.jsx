@@ -9,6 +9,7 @@ import '../../styles/Form.css';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { format, parse } from "date-fns";
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 
 const initialFormState = {
@@ -329,28 +330,38 @@ export default function StudentProgrammeEnrolmentForm() {
                     <div className="modal-content">
                         <h2>Success!</h2>
                         <p>The student was enrolled successfully.</p>
-                        <p><strong>Student ID:</strong> {form.studentID}</p>
-                        <p>
-                            <strong>Department:</strong> {departmentOptions.find(d => d.value === form.departmentID)?.label}
-                        </p>
-                        <p>
-                            <strong>Programme:</strong> {programmeOptions.find(p => p.value === form.programmeAcronym)?.label}
-                        </p>
-                        <p><strong>Enrolment Date:</strong> {form.date}</p>
-                        <button className="modal-btn" onClick={() => window.location.reload()}>Close</button>
+
                         <div style={{
                             display: 'flex',
                             justifyContent: 'center',
-                            cursor: 'pointer',
-                            fontSize: '1.35rem',
-                            padding: '0.5rem'
+                            alignItems: 'center',
+                            gap: '1rem',
+                            marginTop: '1.5rem'
                         }}>
+                            {success._links?.viewDetails?.href && (
+                                <button
+                                    onClick={() => {
+                                        const id = success._links.viewDetails.href.split('/').pop();
+                                        const frontendUrl = `${window.location.origin}/students/programme-enrolment/${id}`;
+                                        window.open(frontendUrl, '_blank');
+                                    }}
+                                    title="View Details"
+                                    style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0.5rem' }}
+                                >
+                                    <VisibilityIcon fontSize="medium" />
+                                </button>
+                            )}
+
+                            <button className="modal-btn" onClick={() => window.location.reload()}>
+                                Close
+                            </button>
+
                             <a
                                 href="/students/enroll"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="modal-btn"
-                                style={{textDecoration: 'none'}}
+                                style={{ textDecoration: 'none' }}
                             >
                                 Enrol in Programme<br/> and Courses
                             </a>

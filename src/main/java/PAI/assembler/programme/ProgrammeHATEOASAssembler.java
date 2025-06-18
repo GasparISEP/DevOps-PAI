@@ -20,7 +20,14 @@ public class ProgrammeHATEOASAssembler implements RepresentationModelAssembler<P
 
                 linkTo(methodOn(ProgrammeRestController.class)
                         .getAllProgrammes())
-                        .withRel("all")
-        );
+                        .withRel("all"),
+
+                linkTo(methodOn(ProgrammeRestController.class)
+                        .registerStudyPlan(dto.acronym(), null)) // null placeholder for @Requesparam
+                        .withRel("registerStudyPlan"),
+
+                linkTo(methodOn(ProgrammeRestController.class)
+                        .getStudyPlansForProgramme(dto.acronym()))
+                        .withRel("study-plans"));
     }
 }

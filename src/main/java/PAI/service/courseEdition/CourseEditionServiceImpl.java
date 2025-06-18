@@ -7,10 +7,10 @@ import PAI.domain.repositoryInterfaces.courseEdition.ICourseEditionRepository;
 import PAI.exception.NotFoundException;
 import jakarta.transaction.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.junit.Test;
 import org.springframework.stereotype.Service;
 
 import static org.junit.Assert.assertThrows;
@@ -88,7 +88,7 @@ public class CourseEditionServiceImpl implements ICourseEditionService {
     }
 
     @Override
-    public CourseEditionID findCourseEditionByGeneratedID (CourseEditionGeneratedID generatedID) throws Exception {
+    public CourseEditionID findCourseEditionIDByGeneratedID(CourseEditionGeneratedID generatedID) throws Exception {
 
         if (generatedID == null) {
             throw new IllegalArgumentException("Course Edition Generated ID cannot be null.");
@@ -101,5 +101,10 @@ public class CourseEditionServiceImpl implements ICourseEditionService {
         } else {
             throw new NotFoundException("CourseEdition not found with Universally Unique ID: " + generatedID);
         }
+    }
+
+    @Override
+    public List<CourseEdition> getCourseEditionsByProgrammeIDAndCourseID(ProgrammeID programmeID, CourseID courseID) {
+        return courseEditionRepository.findByProgrammeIDAndCourseID(programmeID, courseID);
     }
 }
