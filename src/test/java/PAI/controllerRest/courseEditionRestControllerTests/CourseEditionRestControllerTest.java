@@ -45,6 +45,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 
@@ -641,10 +642,13 @@ class CourseEditionRestControllerTest {
         String programmeAcronym = "LEI";
         String schoolYearId = "123e4567-e89b-12d3-a456-426614174000";
         String courseAcronym = "ESOFT";
-        String courseName = "Maths";
+        String courseName = "Engineering Software";
         String localDate = "01-01-2024";
         double expectedApprovalRate = 85.5;
+        CourseEditionID mockId = mock(CourseEditionID.class);
 
+        when(courseEditionService.buildCourseEditionID(programmeAcronym, schoolYearId, courseAcronym, courseName, localDate))
+                .thenReturn(mockId);
         when(gradeAStudentService.knowApprovalRate(any(CourseEditionID.class)))
                 .thenReturn(expectedApprovalRate);
 
@@ -664,9 +668,13 @@ class CourseEditionRestControllerTest {
         String programmeAcronym = "LEI";
         String schoolYearId = "123e4567-e89b-12d3-a456-426614174000";
         String courseAcronym = "ESOFT";
-        String courseName = "Maths";
+        String courseName = "Engineering Software";
         String localDate = "01-01-2024";
         double expectedApprovalRate = 0.0;
+        CourseEditionID mockId = mock(CourseEditionID.class);
+
+        when(courseEditionService.buildCourseEditionID(programmeAcronym, schoolYearId, courseAcronym, courseName, localDate))
+                .thenReturn(mockId);
 
         when(gradeAStudentService.knowApprovalRate(any(CourseEditionID.class)))
                 .thenReturn(expectedApprovalRate);
@@ -682,21 +690,32 @@ class CourseEditionRestControllerTest {
                 .andExpect(jsonPath("$.approvalRate").value(expectedApprovalRate));
     }
 
+
     @Test
-    void shouldReturnBadRequestWhenInvalidSchoolYearId() throws Exception {
+    void shouldReturnBadRequest_whenInvalidSchoolYearIdGivenForApprovalRate() throws Exception {
+        // Arrange
+        String programmeAcronym = "LEIC";
+        String schoolYearId = "invalid-uuid";
+        String courseAcronym = "ESOFT";
+        String courseName = "Engineering Software";
+        String localDate = "2024-06-18";
+        when(courseEditionService.buildCourseEditionID(programmeAcronym, schoolYearId, courseAcronym, courseName, localDate))
+                .thenThrow(new IllegalArgumentException("Invalid UUID"));
+
+        // Act & Assert
         mockMvc.perform(get("/course-editions/approval-rate")
-                        .param("programmeAcronym", "LEI")
-                        .param("schoolYearId", "invalid-uuid")
-                        .param("courseAcronym", "ESOFT")
-                        .param("courseName", "Maths")
-                        .param("localDate", "01-01-2024"))
+                        .param("programmeAcronym", programmeAcronym)
+                        .param("schoolYearId", schoolYearId)
+                        .param("courseAcronym", courseAcronym)
+                        .param("courseName", courseName)
+                        .param("localDate", localDate))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     void getNumberOfStudentsInCourseEditionShouldReturnStudentCount_Successfully () throws Exception {
         // Arrange
-        UUID uuid = UUID.randomUUID();  // UUID that goes in the URL
+        UUID uuid = UUID.randomUUID();
         CourseEditionGeneratedID generatedID = new CourseEditionGeneratedID(uuid);
         CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
         int expectedStudentCount = 5;
@@ -717,7 +736,7 @@ class CourseEditionRestControllerTest {
     @Test
     void testGetNumberOfStudentsInCourseEdition_ExceptionThrown() throws Exception {
         // Arrange
-        UUID uuid = UUID.randomUUID();  // UUID that goes in the URL
+        UUID uuid = UUID.randomUUID();
         CourseEditionGeneratedID generatedID = new CourseEditionGeneratedID(uuid);
         CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
 
