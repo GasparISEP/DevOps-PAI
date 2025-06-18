@@ -8,12 +8,12 @@ autonumber
 
 skinparam DefaultTextAlignment center
 
-title US34: Enrol a Student in a Programme Edition (including the enrolment in a set of courses) \n (Process View - Level 1)
+title US34: As an ASC, I want to enrol a student in a programme in a given school year using a Web UI. It should include the enrolment in a set of courses. \n (Process View - Level 1)
 
 actor ASC
 participant ":SystemPAI" as System <<component>>
 
-ASC -> System ++: I want to enrol a student in a programme edition.
+ASC -> System ++: I want to enrol a student in a programme edition\nincluding the enrolment in a set of courses.
 System --> ASC--: Which student?
 ASC -> System++: "This" student.
 

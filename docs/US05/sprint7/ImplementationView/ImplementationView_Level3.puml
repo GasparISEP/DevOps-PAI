@@ -72,7 +72,7 @@ component "Backend" {
     }
 
     ' ===== External Interfaces =====
-    pRest -up-( RESTAPI
+    pRest -up- RESTAPI
     pFileIO -up-( FileIO
     pBD -up-( BDAPI
 
