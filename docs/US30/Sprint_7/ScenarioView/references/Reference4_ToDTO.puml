@@ -1,0 +1,46 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+title Reference 4 - Detailed Flow:\n From CourseInStudyPlan to ServiceDTO\nConverts CourseInStudyPlan to CourseInStudyPlanServiceDTO
+
+autonumber
+
+skinparam {
+  ActivityPadding 2
+  ActivityMargin 2
+  BoxPadding 2
+}
+skinparam sequence {
+    LifeLineBorderColor Grey
+    LifeLineBackgroundColor #E1F5FE
+}
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+participant "<<component>>\n:IAddCourseToAProgrammeService\n(Service)" as Service #honeydew
+participant "<<component>>\n:ICourseInStudyPlanBusinessAssembler\n(Service Assembler)" as Assembler #honeydew
+
+[o-> Service: CourseInStudyPlan
+activate Service
+Service -> Assembler: toDTO(courseInStudyPlan)
+activate Assembler
+note over Service, Assembler
+The Assembler converts the domain object (CourseInStudyPlan)
+into a CourseInStudyPlanServiceDTO by mapping each field:
+
+- semester → courseInStudyPlan.getSemester().toInt()
+- curricularYear → courseInStudyPlan.getCurricularYear().toInt()
+- courseAcronym → courseInStudyPlan.getCourseID().getAcronym().getAcronym()
+- courseName → courseInStudyPlan.getCourseID().getName().getName()
+- programmeAcronym → courseInStudyPlan.getStudyplanID().getProgrammeID().getAcronym().getAcronym()
+- studyPlanDate → courseInStudyPlan.getStudyplanID().getDate().toString()
+- duration → courseInStudyPlan.getDurationOfCourse().toInt()
+- ectsCredits → courseInStudyPlan.getQuantityOfCreditsEcts().toDouble()
+- generatedId → courseInStudyPlan.getGeneratedID().getId()
+end note
+
+
+Assembler --> Service: CourseInStudyPlanServiceDTO
+deactivate Assembler
+[o<--Service: CourseInStudyPlanServiceDTO
+@enduml
