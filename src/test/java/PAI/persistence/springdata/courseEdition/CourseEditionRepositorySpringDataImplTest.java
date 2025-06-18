@@ -2,7 +2,6 @@ package PAI.persistence.springdata.courseEdition;
 
 import PAI.VOs.*;
 import PAI.domain.courseEdition.CourseEdition;
-import PAI.mapper.courseEdition.CourseEditionGeneratedIDMapperImpl;
 import PAI.mapper.courseEdition.ICourseEditionGeneratedIDMapper;
 import PAI.mapper.courseEdition.ICourseEditionIDMapper;
 import PAI.mapper.courseEdition.ICourseEditionMapper;
@@ -14,7 +13,6 @@ import PAI.persistence.datamodel.courseEdition.CourseEditionIDDataModel;
 import PAI.persistence.datamodel.courseInStudyPlan.CourseInStudyPlanIDDataModel;
 import PAI.persistence.datamodel.programmeEdition.ProgrammeEditionIdDataModel;
 import PAI.domain.repositoryInterfaces.courseEdition.ICourseEditionRepository;
-import PAI.persistence.mem.courseEdition.CourseEditionRepositoryImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;

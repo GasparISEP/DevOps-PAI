@@ -20,6 +20,23 @@ class CourseEditionAssemblerImplTest {
 
     private final CourseEditionAssemblerImpl assembler = new CourseEditionAssemblerImpl();
 
+    private List<CourseEditionServiceResponseDTO> createInputList() {
+        UUID courseEditionGeneratedUUID = UUID.randomUUID();
+        UUID schoolYearUUID = UUID.randomUUID();
+
+        CourseEditionServiceResponseDTO serviceDTO = new CourseEditionServiceResponseDTO(
+                courseEditionGeneratedUUID,
+                "ME",
+                schoolYearUUID,
+                "M1",
+                "Math I",
+                LocalDate.of(2023, 9, 1),
+                "1",
+                Long.toString(1001L)
+        );
+        return List.of(serviceDTO);
+    }
+
     @Test
     void toCommand_shouldConvertRequestDTOToCommand() {
         // Arrange
@@ -405,6 +422,35 @@ class CourseEditionAssemblerImplTest {
         });
     }
 
+    @Test
+    void shouldReturnListWithSameSize_whenCallingToCourseEditionResponseDTOList() {
+        List<CourseEditionServiceResponseDTO> inputList = createInputList();
+        List<CourseEditionResponseDTO> result = assembler.toCourseEditionResponseDTOList(inputList);
 
+        assertEquals(inputList.size(), result.size());
+    }
 
+    @Test
+    void shouldMapFieldsCorrectly_whenCallingToCourseEditionResponseDTOList() {
+        List<CourseEditionServiceResponseDTO> inputList = createInputList();
+        List<CourseEditionResponseDTO> result = assembler.toCourseEditionResponseDTOList(inputList);
+        CourseEditionResponseDTO dto = result.get(0);
+        CourseEditionServiceResponseDTO serviceDTO = inputList.get(0);
+
+        assertEquals(serviceDTO.courseEditionGeneratedID(), dto.courseEditionGeneratedID());
+        assertEquals(serviceDTO.programmeAcronym(), dto.programmeAcronym());
+        assertEquals(serviceDTO.schoolYearID(), dto.schoolYearID());
+        assertEquals(serviceDTO.courseAcronym(), dto.courseAcronym());
+        assertEquals(serviceDTO.courseName(), dto.courseName());
+        assertEquals(serviceDTO.studyPlanImplementationDate(), dto.studyPlanImplementationDate());
+        assertEquals(serviceDTO.courseEditionID(), dto.courseEditionID());
+        assertEquals(serviceDTO.teacherID(), dto.teacherID());
+    }
+
+    @Test
+    void shouldReturnEmptyList_whenCallingToCourseEditionResponseDTOListWithEmptyInput() {
+        List<CourseEditionResponseDTO> result = assembler.toCourseEditionResponseDTOList(List.of());
+
+        assertTrue(result.isEmpty());
+    }
 }

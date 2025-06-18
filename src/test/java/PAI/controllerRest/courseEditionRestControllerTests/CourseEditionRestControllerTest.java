@@ -1,9 +1,6 @@
 package PAI.controllerRest.courseEditionRestControllerTests;
 import PAI.VOs.*;
-import PAI.assembler.courseEdition.ICourseEditionAssembler;
-import PAI.assembler.courseEdition.ICourseEditionRUCHateoasAssembler;
-import PAI.assembler.courseEdition.ICreateCourseEditionHateoasAssembler;
-import PAI.assembler.courseEdition.IStudentCountAssembler;
+import PAI.assembler.courseEdition.*;
 import PAI.assembler.programmeEdition.IProgrammeEditionServiceAssembler;
 import PAI.assembler.schoolYear.ISchoolYearAssembler;
 import PAI.assembler.studentGrade.IStudentGradeAssembler;
@@ -95,7 +92,7 @@ class CourseEditionRestControllerTest {
     private ICourseEditionService courseEditionService;
 
     @MockBean
-    private ICourseEditionRUCHateoasAssembler courseEditionHateoasAssembler;
+    private ICourseEditionRUCHateoasAssembler courseEditionRUCHateoasAssembler;
 
     @MockBean
     private IStudentCountAssembler studentCountAssembler;
@@ -108,6 +105,9 @@ class CourseEditionRestControllerTest {
 
     @MockBean
     private ICourseEditionEnrolmentHateoasAssembler courseEditionEnrolmentHateoasAssembler;
+
+    @MockBean
+    private ICourseEditionHATEOASAssembler courseEditionHATEOASAssembler;
 
     @MockBean
     private ISchoolYearService schoolYearService;
@@ -372,51 +372,45 @@ class CourseEditionRestControllerTest {
     }
 
 
-
-
-
-
     @Test
-    void findAllCourseEditionsShouldReturnAllCourseEditions() throws Exception {
+    void findAllCourseEditionsShouldReturnAllCourseEditions() {
         // Arrange
-        CourseEdition courseEditionDouble1 = mock(CourseEdition.class);
-        CourseEdition courseEditionDouble2 = mock(CourseEdition.class);
-
         CourseEditionServiceResponseDTO responseDouble1 = new CourseEditionServiceResponseDTO(
-                UUID.randomUUID(),
-                "PRG1",
-            UUID.randomUUID(),
-            "Course1",
-            "Course Name 1",
-            LocalDate.of(2024, 1, 1), "courseEdition123",
-            "AAA"
-        );
+                UUID.randomUUID(), "PRG1", UUID.randomUUID(), "Course1",
+                "Course Name 1", LocalDate.of(2024, 1, 1), "courseEdition123", "AAA");
 
         CourseEditionServiceResponseDTO responseDouble2 = new CourseEditionServiceResponseDTO(
-                UUID.randomUUID(),
-                "PRG2",
-            UUID.randomUUID(),
-            "Course2",
-            "Course Name 2",
-            LocalDate.of(2024, 1, 1), "courseEdition456",
-            "BBB"
-        );
+                UUID.randomUUID(), "PRG2", UUID.randomUUID(), "Course2",
+                "Course Name 2", LocalDate.of(2024, 1, 1), "courseEdition456", "BBB");
 
-        when(createCourseEditionService.findAll()).thenReturn(List.of(responseDouble1, responseDouble2));
-      //  when(courseEditionAssembler.toResponseDTO(courseEditionDouble1)).thenReturn(responseDouble1);
-     //   when(courseEditionAssembler.toResponseDTO(courseEditionDouble2)).thenReturn(responseDouble2);
+        List<CourseEditionServiceResponseDTO> serviceResponseList = List.of(responseDouble1, responseDouble2);
+
+        when(createCourseEditionService.findAll()).thenReturn(serviceResponseList);
+
+        CourseEditionResponseDTO dto1 = mock(CourseEditionResponseDTO.class);
+        CourseEditionResponseDTO dto2 = mock(CourseEditionResponseDTO.class);
+        List<CourseEditionResponseDTO> dtoList = List.of(dto1, dto2);
+
+        when(courseEditionAssembler.toCourseEditionResponseDTOList(serviceResponseList)).thenReturn(dtoList);
+
+        EntityModel<CourseEditionResponseDTO> entity1 = EntityModel.of(dto1);
+        EntityModel<CourseEditionResponseDTO> entity2 = EntityModel.of(dto2);
+        CollectionModel<EntityModel<CourseEditionResponseDTO>> collectionModel =
+                CollectionModel.of(List.of(entity1, entity2));
+
+        when(courseEditionHATEOASAssembler.toCollectionModel(dtoList)).thenReturn(collectionModel);
 
         // Act
-        MvcResult result = mockMvc.perform(get("/course-editions"))
-            .andExpect(status().isOk())
-            .andReturn();
+        ResponseEntity<?> responseEntity = courseEditionRestController.findAllCourseEditions();
 
         // Assert
-        String jsonResponse = result.getResponse().getContentAsString();
-        List<CourseEditionResponseDTO> actualResponse = objectMapper.readValue(jsonResponse,
-            objectMapper.getTypeFactory().constructCollectionType(List.class, CourseEditionResponseDTO.class));
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 
-        assertEquals(2, actualResponse.size());
+        @SuppressWarnings("unchecked")
+        CollectionModel<EntityModel<CourseEditionResponseDTO>> body =
+                (CollectionModel<EntityModel<CourseEditionResponseDTO>>) responseEntity.getBody();
+
+        assertEquals(2, body.getContent().size());
     }
 
 
@@ -429,16 +423,18 @@ class CourseEditionRestControllerTest {
         IGradeAStudentService gradeAStudentService = mock(IGradeAStudentService.class);
         IStudentGradeAssembler studentGradeAssembler = mock(IStudentGradeAssembler.class);
         IProgrammeEditionServiceAssembler programmeEditionAssembler = mock(IProgrammeEditionServiceAssembler.class);
-        ICourseEditionRUCHateoasAssembler courseEditionHateoasAssembler = mock(ICourseEditionRUCHateoasAssembler.class);
+        ICourseEditionRUCHateoasAssembler courseEditionRUCHateoasAssembler = mock(ICourseEditionRUCHateoasAssembler.class);
         IStudentCountAssembler studentCountAssembler = mock(IStudentCountAssembler.class);
         ICourseEditionEnrolmentService courseEditionEnrolmentService = mock(ICourseEditionEnrolmentService.class);
         ICourseEditionEnrolmentAssembler courseEditionEnrolmentAssembler = mock(ICourseEditionEnrolmentAssembler.class);
         ICreateCourseEditionHateoasAssembler createCourseEditionHateoasAssembler = mock(ICreateCourseEditionHateoasAssembler.class);
         ICourseEditionService courseEditionService = mock(ICourseEditionService.class);
         ICourseEditionEnrolmentHateoasAssembler courseEditionEnrolmentHateoasAssembler = mock(ICourseEditionEnrolmentHateoasAssembler.class);
+        ICourseEditionHATEOASAssembler courseEditionHATEOASAssembler = mock(ICourseEditionHATEOASAssembler.class);
         ISchoolYearService schoolYearService = mock(ISchoolYearService.class);
         ISchoolYearAssembler schoolYearAssembler = mock(ISchoolYearAssembler.class);
 
+        // Controller
         CourseEditionRestController controller = new CourseEditionRestController(
                 courseEditionEnrolmentService,
                 courseEditionEnrolmentAssembler,
@@ -449,10 +445,11 @@ class CourseEditionRestControllerTest {
                 studentGradeAssembler,
                 programmeEditionAssembler,
                 defineRucService,
-                courseEditionHateoasAssembler,
+                courseEditionRUCHateoasAssembler,
                 createCourseEditionHateoasAssembler,
                 studentCountAssembler,
                 courseEditionEnrolmentHateoasAssembler,
+                courseEditionHATEOASAssembler,
                 schoolYearService,
                 schoolYearAssembler
         );
@@ -463,17 +460,20 @@ class CourseEditionRestControllerTest {
         // Objetos de retorno
         CourseEditionServiceResponseDTO serviceResponseDTO = mock(CourseEditionServiceResponseDTO.class);
         CourseEditionResponseDTO responseDTO = mock(CourseEditionResponseDTO.class);
+        EntityModel<CourseEditionResponseDTO> entityModel = EntityModel.of(responseDTO);
 
         // Comportamento dos mocks
         when(createCourseEditionService.findById(generatedID)).thenReturn(serviceResponseDTO);
         when(courseEditionAssembler.toResponseDTO(serviceResponseDTO)).thenReturn(responseDTO);
+        when(courseEditionHATEOASAssembler.toModel(responseDTO)).thenReturn(entityModel);
 
         ResponseEntity<?> response = controller.getCourseEditionById(uuid);
 
         // Verificações
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(responseDTO, response.getBody());
+        assertEquals(entityModel, response.getBody());
     }
+
 
 
     @Test
@@ -541,7 +541,7 @@ class CourseEditionRestControllerTest {
         when(courseEditionAssembler.fromDtoToCourseEditionGeneratedID(new SelectedCourseEditionGeneratedIdDTO(uuid))).thenReturn(courseEditionID);
         when(defineRucService.assignRucToCourseEdition(teacherID, courseEditionID)).thenReturn(true);
 
-        when(courseEditionHateoasAssembler.toModel(any(DefineRucResponseDTO.class)))
+        when(courseEditionRUCHateoasAssembler.toModel(any(DefineRucResponseDTO.class)))
                 .thenAnswer(invocation -> {
                     DefineRucResponseDTO dto = invocation.getArgument(0);
                     EntityModel<DefineRucResponseDTO> model = EntityModel.of(dto);
@@ -714,7 +714,7 @@ class CourseEditionRestControllerTest {
         CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
         int expectedStudentCount = 5;
 
-        when(courseEditionService.findCourseEditionByGeneratedID(generatedID)).thenReturn(courseEditionIDDouble);
+        when(courseEditionService.findCourseEditionIDByGeneratedID(generatedID)).thenReturn(courseEditionIDDouble);
         when(courseEditionEnrolmentService.numberOfStudentsEnrolledInCourseEdition(courseEditionIDDouble)).thenReturn(expectedStudentCount);
 
         StudentCountDTO studentCountDTO = mock(StudentCountDTO.class);
@@ -734,7 +734,7 @@ class CourseEditionRestControllerTest {
         CourseEditionGeneratedID generatedID = new CourseEditionGeneratedID(uuid);
         CourseEditionID courseEditionIDDouble = mock(CourseEditionID.class);
 
-        when(courseEditionService.findCourseEditionByGeneratedID(generatedID))
+        when(courseEditionService.findCourseEditionIDByGeneratedID(generatedID))
                 .thenThrow(new NotFoundException("CourseEdition not found with Universally Unique ID:" + generatedID));
 
         // Act + Assert
@@ -757,7 +757,7 @@ class CourseEditionRestControllerTest {
         UUID uuid = UUID.randomUUID();
         CourseEditionGeneratedID generatedID = new CourseEditionGeneratedID(uuid);
 
-        when(courseEditionService.findCourseEditionByGeneratedID(generatedID)).thenThrow(new RuntimeException("Database is currently down."));
+        when(courseEditionService.findCourseEditionIDByGeneratedID(generatedID)).thenThrow(new RuntimeException("Database is currently down."));
 
         // Act + Assert
         mockMvc.perform(get("/course-editions/{id}/enrolments/count", uuid))
@@ -808,7 +808,7 @@ class CourseEditionRestControllerTest {
         
      //   EntityModel<CourseEditionResponseDTO> entityModel = EntityModel.of(mockResponseDTO);
        // CollectionModel<EntityModel<CourseEditionResponseDTO>> collectionModel = CollectionModel.of(List.of(entityModel));
-        when(courseEditionHateoasAssembler.toCollectionModel(List.of(mockResponseIDDTO)))
+        when(courseEditionRUCHateoasAssembler.toCollectionModel(List.of(mockResponseIDDTO)))
                 .thenReturn(CollectionModel.of(List.of(EntityModel.of(mockResponseIDDTO))));
 
         // Act & Assert
@@ -843,7 +843,7 @@ class CourseEditionRestControllerTest {
         when(courseEditionAssembler.toResponseIDDTOList(List.of())).thenReturn(List.of());
         
         CollectionModel<EntityModel<CourseEditionResponseIDDTO>> emptyCollectionModel = CollectionModel.empty();
-        when(courseEditionHateoasAssembler.toCollectionModel(List.of()))
+        when(courseEditionRUCHateoasAssembler.toCollectionModel(List.of()))
             .thenReturn(emptyCollectionModel);
 
         // Act & Assert

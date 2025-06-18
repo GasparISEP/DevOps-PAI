@@ -4,6 +4,7 @@ import PAI.controllerRest.CourseEditionRestController;
 import PAI.dto.courseEdition.CourseEditionResponseDTO;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -19,15 +20,31 @@ public class CreateCourseEditionHateoasAssemblerImpl
 
     @Override
     public EntityModel<CourseEditionResponseDTO> toModel(CourseEditionResponseDTO dto) {
-        return EntityModel.of(dto,
-                linkTo(methodOn(CourseEditionRestController.class)
-                        .getCourseEditionById(dto.courseEditionGeneratedID()))
-                        .withSelfRel(),
 
-                linkTo(methodOn(CourseEditionRestController.class)
-                        .findAllCourseEditions())
-                        .withRel("find-all-course-editions")
-        );
+        EntityModel<CourseEditionResponseDTO> courseEditionResponseDTOEntityModel;
+        List<Link> iterable = new ArrayList<>();
+
+        try {
+            Link link = linkTo(methodOn(CourseEditionRestController.class)
+                    .getCourseEditionById(dto.courseEditionGeneratedID()))
+                    .withSelfRel();
+
+            iterable.add(link);
+
+        } catch (Exception ignored) {}
+
+        try {
+            Link link = linkTo(methodOn(CourseEditionRestController.class)
+                    .findAllCourseEditions())
+                    .withRel("find-all-course-editions");
+
+            iterable.add(link);
+
+        } catch (Exception ignored) {}
+
+        courseEditionResponseDTOEntityModel = EntityModel.of(dto, iterable);
+
+        return courseEditionResponseDTOEntityModel;
     }
 
     @Override

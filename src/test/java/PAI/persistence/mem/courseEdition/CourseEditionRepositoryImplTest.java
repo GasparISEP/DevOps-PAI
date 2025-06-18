@@ -647,7 +647,7 @@ class CourseEditionRepositoryImplTest {
         assertEquals(mockCourseEdition, result.get());
     }
     @Test
-    void findCourseEditionByGeneratedIdShouldReturnAEmptyOptionalIfGeneratedIDIsNull() {
+    void findCourseEditionIDByGeneratedShouldReturnAEmptyOptionalIfGeneratedIDIsNull() {
         // Arrange
         CourseEdition mockCourseEdition = mock(CourseEdition.class);
         CourseEditionGeneratedID mockGeneratedID = null;

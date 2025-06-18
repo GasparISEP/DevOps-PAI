@@ -530,7 +530,7 @@ class CourseEditionServiceImplTest {
         when(courseEditionDouble.identity()).thenReturn(expectedCourseEditionIDDouble);
 
         // Act
-        CourseEditionID result = courseEditionService.findCourseEditionByGeneratedID(generatedIDDouble);
+        CourseEditionID result = courseEditionService.findCourseEditionIDByGeneratedID(generatedIDDouble);
 
         // Assert
         assertEquals(result, expectedCourseEditionIDDouble);
@@ -552,7 +552,7 @@ class CourseEditionServiceImplTest {
 
         // Act
         Exception expectedException = assertThrows(NotFoundException.class, () -> {
-            courseEditionService.findCourseEditionByGeneratedID(generatedIDDouble);
+            courseEditionService.findCourseEditionIDByGeneratedID(generatedIDDouble);
         });
 
         // Assert
@@ -570,7 +570,7 @@ class CourseEditionServiceImplTest {
 
         // Act & Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            courseEditionService.findCourseEditionByGeneratedID(generatedID);
+            courseEditionService.findCourseEditionIDByGeneratedID(generatedID);
         });
 
         assertEquals("Course Edition Generated ID cannot be null.", exception.getMessage());

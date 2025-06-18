@@ -4,7 +4,6 @@ import PAI.VOs.CourseEditionID;
 import PAI.VOs.TeacherID;
 import PAI.domain.courseEdition.CourseEdition;
 import PAI.domain.repositoryInterfaces.courseEdition.ICourseEditionRepository;
-import PAI.domain.repositoryInterfaces.teacher.ITeacherRepository;
 import PAI.domain.teacher.Teacher;
 import PAI.exception.AlreadyAssignedRUCException;
 import PAI.exception.TeacherNotFoundException;

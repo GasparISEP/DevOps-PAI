@@ -69,8 +69,6 @@ public class CourseEditionInitializer {
                             schoolYearID = new SchoolYearID(schoolYearIdItem.getSchoolYearID());
                             ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID, schoolYearID);
                             controller.createCourseEdition(courseInStudyPlanID, programmeEditionID);
-                        } else {
-                            System.err.println("No School Year for that date");
                         }
                     }
                 } catch (Exception e) {
