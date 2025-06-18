@@ -1,5 +1,6 @@
+Processe View Level 2:
 @startuml
-title US38 – Define RUC for Course Edition\n(Process View – Granularity Level 2)
+title US38 \n As a Programme Director, I want to define the RUC for a course edition \n (Process View - Level 2 Granularity)
 
 skinparam titleFontName "Verdana"
 skinparam defaultFontName "Verdana"
@@ -10,11 +11,12 @@ skinparam participantBackgroundColor #lightblue/white
 
 autonumber
 
-participant ":Frontend" as Frontend <<container>>
-participant ":Backend" as Backend <<container>>
-participant ":Database" as DB <<container>>
+actor "Programme Director" as PD <<actor>>
+participant ":Frontend" as Frontend <<Container>> #Lightblue
+participant ":Backend" as Backend <<Container>> #LightGreen
+database ":Database" as DB <<Container>> #LightGray
 
--> Frontend: I want to define the RUC for a course edition
+PD -> Frontend: I want to define the RUC for a course edition
 activate Frontend #E1F5FE
 
 
@@ -25,36 +27,36 @@ Backend -> DB: SELECT * FROM course_edition
 activate DB #E1F5FE
 DB --> Backend: courseEditions
 deactivate DB
-Backend --> Frontend: 200 OK + courseEditions
+Backend --> Frontend: 200 ok + courseEditions
 deactivate Backend
-<-- Frontend: Display course edition selection list
+PD <-- Frontend: Display course edition selection list
 
--> Frontend: Select a course edition
-' --- Select teachers ---
+PD -> Frontend: Select a course edition
+
 Frontend -> Backend: GET /teachers
 activate Backend #E1F5FE
+
 Backend -> DB: SELECT * FROM teacher
 activate DB #E1F5FE
+
 DB --> Backend: teachers
 deactivate DB
-Backend --> Frontend: 200 OK + teachers
+
+Backend --> Frontend: 200 ok + teachers
 deactivate Backend
-<-- Frontend : Display teacher selection list
+PD <-- Frontend : Display teacher selection list
 
--> Frontend: Select a teacher
-' --- Confirm selection ---
-<-- Frontend: Confirm selected teacher and course edition?
+PD -> Frontend: Select a teacher
+PD <-- Frontend: Confirm selected teacher and course edition?
+PD -> Frontend: Yes
 
--> Frontend: Yes
-
-' --- Define RUC ---
 Frontend -> Backend: PATCH /course-editions/{id}/ruc + body {...}
 
-note over DB #E0E0E0
-  Body:
-    {"teacherID": "AAA","
-    }}
-end note
+'note over DB #E0E0E0
+'  Body:
+'    {"teacherID": "AAA","
+'    }}
+'end note
 
 activate Backend #E1F5FE
 
@@ -63,22 +65,22 @@ activate DB #E1F5FE
 DB --> Backend: RUC updated
 deactivate DB
 
-Backend --> Frontend: 200 OK + body {DefineRucResponseDTO + hypermedia}
+Backend --> Frontend: 200 ok + body {DefineRucResponseDTO + hypermedia}
 
-note left of Frontend #E0E0E0
-  DefineRucResponseDTO + hypermedia:
-    {"teacherID": "AAA",
-      "CourseEditionGeneratedID": "550e8400-e29b-41d4-a716-446655440002",
-
-    },
-    "_links": {
-      "define-ruc": {
-        "href": "http://localhost:8081/{id}courseeditions/ruc"
-      }}}
-end note
+'note left of Frontend #E0E0E0
+'  DefineRucResponseDTO + hypermedia:
+'    {"teacherID": "AAA",
+'      "CourseEditionGeneratedID": "550e8400-e29b-41d4-a716-446655440002",
+'
+'    },
+'    "_links": {
+'      "define-ruc": {
+'        "href": "http://localhost:8081/{id}courseeditions/ruc"
+'      }}}
+'end note
 deactivate Backend
 
-<-- Frontend: RUC successfully updated.
+PD <-- Frontend: RUC successfully updated!
 deactivate Frontend
 
 @enduml
