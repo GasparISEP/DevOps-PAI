@@ -8,6 +8,7 @@ import PAI.domain.schoolYear.SchoolYear;
 import PAI.domain.schoolYear.SchoolYearFactoryImpl;
 import PAI.dto.schoolYear.CurrentSchoolYearDTO;
 import PAI.dto.schoolYear.CurrentSchoolYearResponseDTO;
+import PAI.dto.schoolYear.SchoolYearCEDTO;
 import PAI.dto.schoolYear.SchoolYearDTO;
 import org.junit.jupiter.api.Test;
 
@@ -128,6 +129,38 @@ class SchoolYearAssemblerTest {
 
         //act
         SchoolYearDTO res = syMapper.toDTO(sy);
+
+        //assert
+        assertNotNull(res);
+    }
+
+    @Test
+    void shouldTransformSchoolYearToCEDTO() {
+        //arrange
+        SchoolYear sy = mock(SchoolYear.class);
+
+        ISchoolYearFactory syFactory = mock(SchoolYearFactoryImpl.class);
+        SchoolYearAssembler syMapper = new SchoolYearAssembler(syFactory);
+        SchoolYearID schoolYearID = mock(SchoolYearID.class);
+        when(sy.identity()).thenReturn(schoolYearID);
+        UUID id = mock(UUID.class);
+        when(schoolYearID.getSchoolYearID()).thenReturn(id);
+        Description description = mock(Description.class);
+        Date startDate = mock(Date.class);
+        Date endDate = mock(Date.class);
+
+        when(sy.getDescription()).thenReturn(description);
+        when(sy.getEndDate()).thenReturn(startDate);
+        when(sy.getStartDate()).thenReturn(endDate);
+        when(sy.identity()).thenReturn(schoolYearID);
+
+        when(description.getDescription()).thenReturn("2024-2025");
+        when(startDate.getLocalDate()).thenReturn(LocalDate.of(2025, 5, 4));
+        when(endDate.getLocalDate()).thenReturn(LocalDate.of(2025, 5, 6));
+        when(schoolYearID.getSchoolYearID().toString()).thenReturn("550e8400-e29b-41d4-a716-446655440000");
+
+        //act
+        SchoolYearCEDTO res = syMapper.toCEDTO(sy);
 
         //assert
         assertNotNull(res);

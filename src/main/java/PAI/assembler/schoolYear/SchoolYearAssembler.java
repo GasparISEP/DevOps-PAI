@@ -7,6 +7,7 @@ import PAI.domain.schoolYear.ISchoolYearFactory;
 import PAI.domain.schoolYear.SchoolYear;
 import PAI.dto.schoolYear.CurrentSchoolYearDTO;
 import PAI.dto.schoolYear.CurrentSchoolYearResponseDTO;
+import PAI.dto.schoolYear.SchoolYearCEDTO;
 import PAI.dto.schoolYear.SchoolYearDTO;
 import org.springframework.stereotype.Component;
 
@@ -40,6 +41,16 @@ public class SchoolYearAssembler implements ISchoolYearAssembler {
         String endDate = sy.getEndDate().getLocalDate().toString();
 
         return new SchoolYearDTO(description,startDate,endDate);
+    }
+
+    @Override
+    public SchoolYearCEDTO toCEDTO(SchoolYear sy) {
+        String id = sy.identity().toString();
+        String description = sy.getDescription().getDescription();
+        String startDate = sy.getStartDate().getLocalDate().toString();
+        String endDate = sy.getEndDate().getLocalDate().toString();
+
+        return new SchoolYearCEDTO(id,description,startDate,endDate);
     }
 
     @Override
