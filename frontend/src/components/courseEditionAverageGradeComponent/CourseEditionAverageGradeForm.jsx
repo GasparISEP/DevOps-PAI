@@ -19,6 +19,7 @@ export default function CourseEditionAverageGradeForm() {
     const [showSuccessModal, setShowSuccessModal] = useState(false);
     const [showErrorModal, setShowErrorModal] = useState(false);
     const [averageGrade, setAverageGrade] = useState(null);
+    const [errorStatusCode, setErrorStatusCode] = useState(null);
 
     const [isLoading, setIsLoading] = useState(true);
     const [loading, setLoading] = useState(false);
@@ -27,7 +28,6 @@ export default function CourseEditionAverageGradeForm() {
         fetch(`${process.env.REACT_APP_API_URL}/programmes`)
             .then(response => response.json())
             .then(data => {
-                console.log('DEBUG /programmes response:', data);
                 setProgrammes(Array.isArray(data) ? data : []);
                 setIsLoading(false);
             })
@@ -88,11 +88,16 @@ export default function CourseEditionAverageGradeForm() {
         setAverageGrade(null);
         setShowSuccessModal(false);
         setShowErrorModal(false);
+        setErrorStatusCode(null);
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
         setLoading(true);
+        setShowErrorModal(false);
+        setShowSuccessModal(false);
+        setErrorStatusCode(null);
+
         if (!selectedProgramme || !selectedCourse || !selectedSchoolYear || !courseObj) {
             alert('Please select all fields.');
             setLoading(false);
@@ -102,17 +107,21 @@ export default function CourseEditionAverageGradeForm() {
         const url = `${process.env.REACT_APP_API_URL}/course-editions/averagegrade?programmeAcronym=${selectedProgramme}&schoolYearId=${selectedSchoolYear}&courseAcronym=${selectedCourse}&courseName=${encodeURIComponent(courseObj.courseName)}&localDate=${encodeURIComponent(courseObj.studyPlanDate)}`;
 
         fetch(url)
-            .then(response => {
-                if (!response.ok) throw new Error("Falha ao buscar a média.");
-                return response.json();
-            })
-            .then(data => {
+            .then(async response => {
+                if (!response.ok) {
+                    const statusCode = response.status;
+                    throw { statusCode };
+                }
+
+                const data = await response.json();
                 setAverageGrade(data.averageGrade);
                 setShowSuccessModal(true);
             })
             .catch(error => {
-                console.error('Erro ao buscar média:', error);
+                const status = error.statusCode || 500;
+                setErrorStatusCode(status);
                 setShowErrorModal(true);
+                console.error('Erro ao buscar média:', error);
             })
             .finally(() => setLoading(false));
     };
@@ -219,6 +228,7 @@ export default function CourseEditionAverageGradeForm() {
 
             {showErrorModal && (
                 <CourseEditionAverageGradeErrorModal
+                    statusCode={errorStatusCode}
                     onClose={() => setShowErrorModal(false)}
                 />
             )}
