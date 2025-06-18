@@ -6,6 +6,7 @@ import PAI.VOs.SchoolYearID;
 import PAI.domain.schoolYear.SchoolYear;
 import PAI.dto.schoolYear.CurrentSchoolYearDTO;
 import PAI.dto.schoolYear.CurrentSchoolYearResponseDTO;
+import PAI.dto.schoolYear.SchoolYearCEDTO;
 import PAI.dto.schoolYear.SchoolYearDTO;
 
 public interface ISchoolYearAssembler {
@@ -18,4 +19,5 @@ public interface ISchoolYearAssembler {
     CurrentSchoolYearDTO toCurrentSchoolYearDTO(SchoolYear sy);
     CurrentSchoolYearResponseDTO toResponseDTO(CurrentSchoolYearDTO sy);
     SchoolYearID fromStringToSchoolYearID(String id);
+    SchoolYearCEDTO toCEDTO(SchoolYear sy);
 }
