@@ -23,7 +23,7 @@ database "<<Container>>\nDatabase" as Database #E1F5FE
 
 ASC -> Frontend: I want create course edition
 activate Frontend
-Frontend -> Backend: POST /courseeditions (...)
+Frontend -> Backend: POST /course-editions + body {...}
 note over Frontend, Backend #HoneyDew
 Request body (JSON):
 {
@@ -36,11 +36,11 @@ Request body (JSON):
 }
 end note
 activate Backend
-Backend -> Database: INSERT INTO course_editions (data)
+Backend -> Database: INSERT INTO course_editions (id, programme_name, programme_acronym, school_year_id, course_acronym, course_name, study_plan_implementation_date) \nVALUES (NEW_ID, programmeName, programmeAcronym, schoolYearID, courseAcronym, courseName, studyPlanImplementationDate)
 activate Database
-Database --> Backend: Confirmation + new courseEditionID
+Database --> Backend: courseEditionDataModel
 deactivate Database
-Backend --> Frontend: 201 Created + course edition data + ID
+Backend --> Frontend: 201 Created + body {courseEditionResponseDTO + hypermedia}
 note over Backend, Frontend #HoneyDew
 Response body (JSON):
 {
@@ -51,6 +51,6 @@ Response body (JSON):
 }
 end note
 deactivate Backend
-Frontend --> ASC: Course edition created successfully!
+Frontend --> ASC: Ok!
 deactivate Frontend
 @enduml
