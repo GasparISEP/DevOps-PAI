@@ -193,9 +193,9 @@ export default function CourseEditionDisplay() {
 
             <EnrolmentCountModal
                 isOpen={isModalOpen}
-                onRequestClose={() => setIsModalOpen(false)}
-                enrolmentCount={enrolmentCount}
-                course={selectedCourse}
+                onClose={() => setIsModalOpen(false)}
+                count={enrolmentCount}
+                courseName={selectedCourse?.courseName}
             />
         </div>
     );
