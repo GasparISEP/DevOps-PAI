@@ -46,8 +46,7 @@ export default function CourseEditionDisplay() {
         const value = {
             'programme acronym': edition.programmeAcronym,
             'course name': edition.courseName,
-            'course acronym': edition.courseAcronym,
-            'course RUC': edition.teacherID
+            'course acronym': edition.courseAcronym
         }[filterField];
 
         return value?.toLowerCase().includes(filterValue.toLowerCase());
@@ -187,9 +186,9 @@ export default function CourseEditionDisplay() {
             </div>
             <EnrolmentCountModal
                 isOpen={isModalOpen}
-                onRequestClose={closeModal}
-                enrolmentCount={enrolmentCount}
-                course={selectedCourse}
+                onClose={closeModal}
+                count={enrolmentCount}
+                courseName={selectedCourse?.courseName}
             />
         </div>
     );
