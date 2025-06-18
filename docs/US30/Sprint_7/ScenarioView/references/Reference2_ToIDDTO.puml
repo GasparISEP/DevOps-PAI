@@ -1,0 +1,34 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+title Reference 2 - Detailed Flow:\n From VO to IDDTO\nConverts List<CourseID> to List<CourseIDDTO>
+
+skinparam sequence {
+    LifeLineBorderColor Grey
+    LifeLineBackgroundColor #E1F5FE
+}
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+autonumber
+participant "<<component>>\n:ICourseService\n(Service)" as Service #honeydew
+participant "<<component>>\n:ICourseAssembler\n(Assembler)" as Assembler #honeydew
+
+[o-> Service: List<CourseID>
+activate Service
+Service -> Assembler: toIDDTO(List<CourseID>)
+activate Assembler
+note over Service, Assembler
+The assembler converts each CourseID value object into
+a CourseIDDTO by extracting and mapping the following fields:
+
+- courseAcronym → courseAcronym (String)
+- courseName → courseName (String)
+end note
+
+
+Assembler --> Service: List<CourseIDDTO>
+deactivate Assembler
+[o<-- Service: List<CourseIDDTO>
+
+@enduml
