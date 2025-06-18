@@ -212,6 +212,16 @@ export default function StudentCourseEditionForm() {
                             </div>
                         </div>
                     </div>
+                    {error && (
+                        <p style={{ color: 'red', marginTop: '1rem' }}>
+                            {error}
+                        </p>
+                    )}
+                    {message && (
+                        <p style={{ color: 'green', marginTop: '1rem' }}>
+                            {message}
+                        </p>
+                    )}
                 </form>
             </div>
             {showModal && (

@@ -22,7 +22,6 @@ public class CourseEditionAssemblerImpl implements ICourseEditionAssembler {
             throw new IllegalArgumentException("CourseEditionRequestDTO cannot be null");
         }
         return new CreateCourseEditionCommand(
-                new NameWithNumbersAndSpecialChars(dto.programmeName()),
                 new Acronym(dto.programmeAcronym()),
                 new SchoolYearID(dto.schoolYearID()),
                 new Acronym(dto.courseAcronym()),
