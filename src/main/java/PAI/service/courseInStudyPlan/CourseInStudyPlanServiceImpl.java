@@ -90,4 +90,15 @@ public class CourseInStudyPlanServiceImpl implements ICourseInStudyPlanService {
         return result;
     }
 
+    @Override
+    public List<CourseInStudyPlan> getCoursesByProgrammeID(ProgrammeID programmeID) {
+        List<CourseInStudyPlan> result = new ArrayList<>();
+        for (CourseInStudyPlan c : repository.findAll()) {
+            if (c.getProgrammeID().equals(programmeID)) {
+                result.add(c);
+            }
+        }
+        return result;
+    }
+
 }

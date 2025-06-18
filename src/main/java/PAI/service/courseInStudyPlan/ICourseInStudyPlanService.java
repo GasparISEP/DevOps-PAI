@@ -20,4 +20,6 @@ public interface ICourseInStudyPlanService {
     Optional<CourseInStudyPlan> findById(CourseInStudyPlanID courseInStudyPlanID);
 
     List<CourseInStudyPlanServiceDTO> getCourseSummariesByStudyPlanID(StudyPlanID studyPlanID);
+
+    List<CourseInStudyPlan> getCoursesByProgrammeID(ProgrammeID programmeID);
 }
