@@ -1,9 +1,6 @@
 package PAI.persistence.springdata.courseEdition;
 
-import PAI.VOs.CourseEditionGeneratedID;
-import PAI.VOs.CourseEditionID;
-import PAI.VOs.CourseInStudyPlanID;
-import PAI.VOs.ProgrammeEditionID;
+import PAI.VOs.*;
 import PAI.domain.courseEdition.CourseEdition;
 import PAI.mapper.courseEdition.ICourseEditionGeneratedIDMapper;
 import PAI.mapper.courseEdition.ICourseEditionIDMapper;
@@ -166,6 +163,23 @@ public class CourseEditionRepositorySpringDataImpl implements ICourseEditionRepo
         } else {
             return Optional.empty();
         }
+    }
+
+    @Override
+    public List<CourseEdition> findByProgrammeIDAndCourseID(ProgrammeID programmeID, CourseID courseID) {
+        List<CourseEdition> result = new ArrayList<>();
+        Iterable<CourseEditionDataModel> courseEditionDataModels = courseEditionRepositorySpringData.findAll();
+        for (CourseEditionDataModel dataModel : courseEditionDataModels) {
+            try {
+                CourseEdition courseEdition = courseEditionMapper.toDomain(dataModel);
+                if (courseEdition.getProgrammeEditionID().getProgrammeID().equals(programmeID) &&
+                    courseEdition.getCourseInStudyPlanID().getCourseID().equals(courseID)) {
+                    result.add(courseEdition);
+                }
+            } catch (Exception ignored) {
+            }
+        }
+        return result;
     }
 
 }

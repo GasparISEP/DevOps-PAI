@@ -575,4 +575,61 @@ class CourseEditionServiceImplTest {
 
         assertEquals("Course Edition Generated ID cannot be null.", exception.getMessage());
     }
+
+    @Test
+    void getCourseEditionsByProgrammeIDAndCourseID_returnsMatchingCourseEditions() {
+        // Arrange
+        ICourseEditionFactory factory = mock(ICourseEditionFactory.class);
+        ICourseEditionRepository repository = mock(ICourseEditionRepository.class);
+        CourseEditionServiceImpl service = new CourseEditionServiceImpl(factory, repository);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        CourseID courseID = mock(CourseID.class);
+        CourseEdition edition1 = mock(CourseEdition.class);
+        CourseEdition edition2 = mock(CourseEdition.class);
+        when(repository.findByProgrammeIDAndCourseID(programmeID, courseID)).thenReturn(List.of(edition1, edition2));
+
+        // Act
+        List<CourseEdition> result = service.getCourseEditionsByProgrammeIDAndCourseID(programmeID, courseID);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(2, result.size());
+        assertTrue(result.contains(edition1));
+        assertTrue(result.contains(edition2));
+    }
+
+    @Test
+    void getCourseEditionsByProgrammeIDAndCourseID_returnsEmptyListWhenNoMatch() {
+        // Arrange
+        ICourseEditionFactory factory = mock(ICourseEditionFactory.class);
+        ICourseEditionRepository repository = mock(ICourseEditionRepository.class);
+        CourseEditionServiceImpl service = new CourseEditionServiceImpl(factory, repository);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        CourseID courseID = mock(CourseID.class);
+        when(repository.findByProgrammeIDAndCourseID(programmeID, courseID)).thenReturn(List.of());
+
+        // Act
+        List<CourseEdition> result = service.getCourseEditionsByProgrammeIDAndCourseID(programmeID, courseID);
+
+        // Assert
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void getCourseEditionsByProgrammeIDAndCourseID_returnsEmptyListWhenRepositoryReturnsNull() {
+        // Arrange
+        ICourseEditionFactory factory = mock(ICourseEditionFactory.class);
+        ICourseEditionRepository repository = mock(ICourseEditionRepository.class);
+        CourseEditionServiceImpl service = new CourseEditionServiceImpl(factory, repository);
+        ProgrammeID programmeID = mock(ProgrammeID.class);
+        CourseID courseID = mock(CourseID.class);
+        when(repository.findByProgrammeIDAndCourseID(programmeID, courseID)).thenReturn(null);
+
+        // Act
+        List<CourseEdition> result = service.getCourseEditionsByProgrammeIDAndCourseID(programmeID, courseID);
+
+        // Assert
+        assertNull(result);
+    }
 }

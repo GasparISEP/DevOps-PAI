@@ -1,9 +1,6 @@
 package PAI.persistence.mem.courseEdition;
 
-import PAI.VOs.CourseEditionGeneratedID;
-import PAI.VOs.CourseEditionID;
-import PAI.VOs.CourseInStudyPlanID;
-import PAI.VOs.ProgrammeEditionID;
+import PAI.VOs.*;
 import PAI.domain.courseEdition.CourseEdition;
 import PAI.domain.courseEdition.ICourseEditionFactory;
 import PAI.domain.repositoryInterfaces.courseEdition.ICourseEditionRepository;
@@ -132,5 +129,17 @@ public class CourseEditionRepositoryImpl implements ICourseEditionRepository {
                     .filter(courseEdition -> courseEdition.getCourseEditionGeneratedID().equals(id))
                     .findAny();
         }
+    }
+
+    @Override
+    public List<CourseEdition> findByProgrammeIDAndCourseID(ProgrammeID programmeID, CourseID courseID) {
+        List<CourseEdition> result = new ArrayList<>();
+        for (CourseEdition courseEdition : _courseEditions) {
+            if (courseEdition.getProgrammeEditionID().getProgrammeID().equals(programmeID) &&
+                courseEdition.getCourseInStudyPlanID().getCourseID().equals(courseID)) {
+                result.add(courseEdition);
+            }
+        }
+        return result;
     }
 }
