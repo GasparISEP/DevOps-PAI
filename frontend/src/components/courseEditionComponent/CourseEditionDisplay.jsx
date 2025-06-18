@@ -4,10 +4,12 @@ import '../../styles/DisplayPage.css';
 import '../../styles/Buttons.css';
 import ActionMenu from '../../components/courseEditionComponent/ActionMenu';
 import EnrolmentCountModal from '../../components/courseEditionComponent/EnrolmentCountModal';
+import AverageGradeModal from '../../components/courseEditionComponent/AverageGradeModal';
 import { getAllSchoolYears } from '../../services/DefineRucInCourseEditionService';
 import useFetchCourseEditions from '../../components/courseEditionComponent/useFetchCourseEditions';
 import useCourseEditionEnrolmentCountModal from '../../components/courseEditionComponent/useCourseEditionEnrolmentCountModal';
-import useFetchListOfProgrammesById from "./useFetchListOfProgrammesById.ts"
+import useCourseEditionAverageGradeModal from '../../components/courseEditionComponent/useCourseEditionAverageGradeModal';
+import useFetchListOfProgrammesById from "./useFetchListOfProgrammesById.ts";
 
 export default function CourseEditionDisplay() {
 
@@ -15,7 +17,6 @@ export default function CourseEditionDisplay() {
     const [courseEditionsPerPage, setCourseEditionsPerPage] = useState(10);
     const courseEditionsPerPageOptions = [5, 10, 20, 50];
 
-    // Updated initial filterField to match keys in objects
     const [filterField, setFilterField] = useState('programmeName');
     const [filterValue, setFilterValue] = useState('');
 
@@ -27,19 +28,23 @@ export default function CourseEditionDisplay() {
         closeModal
     } = useCourseEditionEnrolmentCountModal();
 
-    const [schoolYears, setSchoolYears] = useState([]);
+    const {
+        isModalOpen: isAverageModalOpen,
+        averageGrade,
+        selectedCourse: selectedAverageCourse,
+        handleShowAverageGrade,
+        closeModal: closeAverageModal
+    } = useCourseEditionAverageGradeModal();
 
+    const [schoolYears, setSchoolYears] = useState([]);
     const courseEditions = useFetchCourseEditions();
 
-    // Get all programme acronyms first
     const programmeAcronyms = Array.from(
         new Set(courseEditions.map(edition => edition.programmeAcronym))
     );
 
-    // Fetch programmes map keyed by acronym
     const programmesMap = useFetchListOfProgrammesById(programmeAcronyms);
 
-    // Add programmeName to each edition BEFORE filtering
     const editionsWithProgrammeName = courseEditions.map(edition => {
         const programme = programmesMap[edition.programmeAcronym];
         return {
@@ -48,12 +53,9 @@ export default function CourseEditionDisplay() {
         };
     });
 
-    // Now filter on editionsWithProgrammeName using keys that exactly match filterField
     const filteredCourseEditions = editionsWithProgrammeName.filter(edition => {
         if (!filterValue.trim()) return true;
-
-        const value = edition[filterField]; // directly access the property by key
-
+        const value = edition[filterField];
         return value?.toLowerCase().includes(filterValue.toLowerCase());
     });
 
@@ -112,7 +114,6 @@ export default function CourseEditionDisplay() {
                                 value={filterField}
                                 onChange={e => setFilterField(e.target.value)}
                                 className="display-table-filter-select">
-                                {/* Updated option values to match object keys */}
                                 <option value="programmeName">Programme Name</option>
                                 <option value="courseName">Course Name</option>
                                 <option value="courseAcronym">Course Acronym</option>
@@ -125,8 +126,7 @@ export default function CourseEditionDisplay() {
                                     filterField === 'programmeName' ? 'Programme Name' :
                                         filterField === 'courseName' ? 'Course Name' :
                                             filterField === 'courseAcronym' ? 'Course Acronym' :
-                                                filterField === 'teacherID' ? 'Teacher ID' :
-                                                    ''
+                                                ''
                                 }`}
                                 className="display-table-filter-input"
                             />
@@ -167,6 +167,7 @@ export default function CourseEditionDisplay() {
                                                 <ActionMenu
                                                     edition={edition}
                                                     onCountEnrolments={handleCountEnrolments}
+                                                    onShowAverageGrade={handleShowAverageGrade}
                                                 />
                                             </div>
                                         </td>
@@ -204,11 +205,19 @@ export default function CourseEditionDisplay() {
 
                 </div>
             </div>
+
             <EnrolmentCountModal
                 isOpen={isModalOpen}
                 onClose={closeModal}
                 count={enrolmentCount}
                 courseName={selectedCourse?.courseName}
+            />
+
+            <AverageGradeModal
+                isOpen={isAverageModalOpen}
+                onClose={closeAverageModal}
+                average={averageGrade}
+                courseName={selectedAverageCourse?.courseName}
             />
         </div>
     );
