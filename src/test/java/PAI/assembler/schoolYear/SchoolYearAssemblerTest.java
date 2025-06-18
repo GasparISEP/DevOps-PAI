@@ -13,12 +13,13 @@ import PAI.dto.schoolYear.SchoolYearDTO;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class SchoolYearAssemblerTest {
 
@@ -166,6 +167,8 @@ class SchoolYearAssemblerTest {
         assertNotNull(res);
     }
 
+
+
     @Test
     void shouldCreateCurrentSchoolYearDTO() {
         // Arrange
@@ -274,5 +277,60 @@ class SchoolYearAssemblerTest {
 
         //act + assert
         assertThrows(IllegalArgumentException.class , () -> schoolYearAssembler.fromStringToSchoolYearID(null));
+    }
+
+    @Test
+    void toCEDTOs_shouldReturnListOfSchoolYearCEDTOs() {
+        // Arrange
+        ISchoolYearFactory syFactory = mock(SchoolYearFactoryImpl.class);
+        SchoolYearAssembler assembler = new SchoolYearAssembler(syFactory);
+        SchoolYear sy1 = mock(SchoolYear.class);
+        SchoolYear sy2 = mock(SchoolYear.class);
+        SchoolYearCEDTO dto1 = mock(SchoolYearCEDTO.class);
+        SchoolYearCEDTO dto2 = mock(SchoolYearCEDTO.class);
+        SchoolYearAssembler spyAssembler = spy(assembler);
+        doReturn(dto1).when(spyAssembler).toCEDTO(sy1);
+        doReturn(dto2).when(spyAssembler).toCEDTO(sy2);
+        Iterable<SchoolYear> input = List.of(sy1, sy2);
+
+        // Act
+        Iterable<SchoolYearCEDTO> result = spyAssembler.toCEDTOs(input);
+
+        // Assert
+        assertNotNull(result);
+        List<SchoolYearCEDTO> resultList = new ArrayList<>();
+        result.forEach(resultList::add);
+        assertEquals(2, resultList.size());
+        assertTrue(resultList.contains(dto1));
+        assertTrue(resultList.contains(dto2));
+    }
+
+    @Test
+    void toCEDTOs_shouldReturnEmptyListWhenInputIsNull() {
+        // Arrange
+        ISchoolYearFactory syFactory = mock(SchoolYearFactoryImpl.class);
+        SchoolYearAssembler assembler = new SchoolYearAssembler(syFactory);
+
+        // Act
+        Iterable<SchoolYearCEDTO> result = assembler.toCEDTOs(null);
+
+        // Assert
+        assertNotNull(result);
+        assertFalse(result.iterator().hasNext());
+    }
+
+    @Test
+    void toCEDTOs_shouldReturnEmptyListWhenInputIsEmpty() {
+        // Arrange
+        ISchoolYearFactory syFactory = mock(SchoolYearFactoryImpl.class);
+        SchoolYearAssembler assembler = new SchoolYearAssembler(syFactory);
+        Iterable<SchoolYear> input = List.of();
+
+        // Act
+        Iterable<SchoolYearCEDTO> result = assembler.toCEDTOs(input);
+
+        // Assert
+        assertNotNull(result);
+        assertFalse(result.iterator().hasNext());
     }
 }
