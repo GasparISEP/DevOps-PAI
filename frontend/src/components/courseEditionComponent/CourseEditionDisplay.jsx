@@ -7,15 +7,16 @@ import EnrolmentCountModal from '../../components/courseEditionComponent/Enrolme
 import { getAllSchoolYears } from '../../services/DefineRucInCourseEditionService';
 import useFetchCourseEditions from '../../components/courseEditionComponent/useFetchCourseEditions';
 import useCourseEditionEnrolmentCountModal from '../../components/courseEditionComponent/useCourseEditionEnrolmentCountModal';
+import useFetchListOfProgrammesById from "./useFetchListOfProgrammesById.ts"
 
 export default function CourseEditionDisplay() {
-    const courseEditions = useFetchCourseEditions();
 
     const [currentPage, setCurrentPage] = useState(1);
     const [courseEditionsPerPage, setCourseEditionsPerPage] = useState(10);
     const courseEditionsPerPageOptions = [5, 10, 20, 50];
 
-    const [filterField, setFilterField] = useState('programme acronym');
+    // Updated initial filterField to match keys in objects
+    const [filterField, setFilterField] = useState('programmeName');
     const [filterValue, setFilterValue] = useState('');
 
     const {
@@ -28,6 +29,34 @@ export default function CourseEditionDisplay() {
 
     const [schoolYears, setSchoolYears] = useState([]);
 
+    const courseEditions = useFetchCourseEditions();
+
+    // Get all programme acronyms first
+    const programmeAcronyms = Array.from(
+        new Set(courseEditions.map(edition => edition.programmeAcronym))
+    );
+
+    // Fetch programmes map keyed by acronym
+    const programmesMap = useFetchListOfProgrammesById(programmeAcronyms);
+
+    // Add programmeName to each edition BEFORE filtering
+    const editionsWithProgrammeName = courseEditions.map(edition => {
+        const programme = programmesMap[edition.programmeAcronym];
+        return {
+            ...edition,
+            programmeName: programme ? programme.name : "No programme name found"
+        };
+    });
+
+    // Now filter on editionsWithProgrammeName using keys that exactly match filterField
+    const filteredCourseEditions = editionsWithProgrammeName.filter(edition => {
+        if (!filterValue.trim()) return true;
+
+        const value = edition[filterField]; // directly access the property by key
+
+        return value?.toLowerCase().includes(filterValue.toLowerCase());
+    });
+
     useEffect(() => {
         async function loadSchoolYears() {
             try {
@@ -39,18 +68,6 @@ export default function CourseEditionDisplay() {
         }
         loadSchoolYears();
     }, []);
-
-    const filteredCourseEditions = courseEditions.filter(edition => {
-        if (!filterValue.trim()) return true;
-
-        const value = {
-            'programme acronym': edition.programmeAcronym,
-            'course name': edition.courseName,
-            'course acronym': edition.courseAcronym
-        }[filterField];
-
-        return value?.toLowerCase().includes(filterValue.toLowerCase());
-    });
 
     const totalPages = Math.ceil(filteredCourseEditions.length / courseEditionsPerPage);
     const startIndex = (currentPage - 1) * courseEditionsPerPage;
@@ -95,18 +112,21 @@ export default function CourseEditionDisplay() {
                                 value={filterField}
                                 onChange={e => setFilterField(e.target.value)}
                                 className="display-table-filter-select">
-                                <option value="programme acronym">Programme Acronym</option>
-                                <option value="course name">Course Name</option>
-                                <option value="course acronym">Course Acronym</option>
+                                {/* Updated option values to match object keys */}
+                                <option value="programmeName">Programme Name</option>
+                                <option value="courseName">Course Name</option>
+                                <option value="courseAcronym">Course Acronym</option>
                             </select>
                             <input
                                 type="text"
                                 value={filterValue}
                                 onChange={e => setFilterValue(e.target.value)}
                                 placeholder={`Search by ${
-                                    filterField === 'programme acronym' ? 'Programme Acronym' :
-                                        filterField === 'course name' ? 'Course Name' :
-                                            'Course Acronym'
+                                    filterField === 'programmeName' ? 'Programme Name' :
+                                        filterField === 'courseName' ? 'Course Name' :
+                                            filterField === 'courseAcronym' ? 'Course Acronym' :
+                                                filterField === 'teacherID' ? 'Teacher ID' :
+                                                    ''
                                 }`}
                                 className="display-table-filter-input"
                             />
@@ -135,8 +155,8 @@ export default function CourseEditionDisplay() {
                             ) : (
                                 currentItems.map((edition, index) => (
                                     <tr key={index}>
-                                        <td className="nameRow">{edition.programmeAcronym}</td>
-                                        <td className="nameRow">{edition.courseName}</td>
+                                        <td>{edition.programmeName}</td>
+                                        <td>{edition.courseName}</td>
                                         <td>{edition.courseAcronym}</td>
                                         <td>
                                             {schoolYears.find(sy => sy.id === edition.schoolYearID)?.description || edition.schoolYearID}
