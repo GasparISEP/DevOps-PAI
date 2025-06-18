@@ -17,7 +17,7 @@ skinparam shadowing true
 participant "<<component>>\n:Router" as Router #E1F5FE
 participant "<<component>>\n:Controller" as Controller #E1F5FE
 participant "<<component>>\n:Service" as Service #E1F5FE
-participant "<<component>>\n:Factory" as Factory #E1F5FE
+participant "<<component>>\n:Domain" as Domain #E1F5FE
 participant "<<component>>\n:Repository" as Repository #E1F5FE
 
 database DB as DB #E1F5FE
@@ -42,13 +42,16 @@ Controller -> Service: createCourseEditionForRestApi(command)
 activate Service
 
 
-Service -> Factory: createCourseEditionToDomain\n(courseInStudyPlanID,\n programmeEditionID)
-activate Factory
+Service -> Domain: createCourseEditionToDomain\n(courseInStudyPlanID,\n programmeEditionID)
+activate Domain
+Domain --> Service: CourseEdition
+deactivate Domain
+Service -> Domain: identity()
+activate Domain
+Domain --> Service: courseEditionID
+deactivate Domain
 
-Factory --> Service: CourseEdition
-deactivate Factory
-
-Service -> Repository: containsOfIdentity(courseEdition.identity())
+Service -> Repository: containsOfIdentity(courseEditionID)
 activate Repository
 Repository --> Service: false
 deactivate Repository
