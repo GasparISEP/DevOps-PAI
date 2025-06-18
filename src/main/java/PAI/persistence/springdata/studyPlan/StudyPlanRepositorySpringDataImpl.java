@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public class StudyPlanRepositorySpringDataImpl implements IStudyPlanRepository {
@@ -122,5 +123,24 @@ public class StudyPlanRepositorySpringDataImpl implements IStudyPlanRepository {
         }
 
         return matchingStudyPlans.getLast().identity();
+    }
+
+    @Override
+    public Optional<StudyPlan> findByGeneratedID(StudyPlanGeneratedID studyPlanUUID) {
+        if (studyPlanUUID == null)
+            throw new IllegalArgumentException("StudyPlanGeneratedID cannot be null");
+
+        UUID spUuid = studyPlanUUID.getUUID();
+
+        Optional<StudyPlanDataModel> studyPlanOptDataModel = iStudyPlanRepositorySpringData.findByUuid(spUuid);
+
+        return studyPlanOptDataModel.map(dataModel -> {
+            try {
+                return iStudyPlanMapper.toDomain(dataModel);
+            }
+                catch (Exception e){
+                    throw new RuntimeException("Error mapping StudyPlanDataModel to Domain.", e);
+            }
+        });
     }
 }
