@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import '../../styles/DisplayPage.css';
 import '../../styles/Buttons.css';
@@ -6,9 +6,10 @@ import ActionMenu from '../../components/courseEditionComponent/ActionMenu';
 import EnrolmentCountModal from '../../components/courseEditionComponent/EnrolmentCountModal';
 import { fetchEnrolmentCount } from '../../services/enrolmentCountInCourseEditionService';
 import { getAllSchoolYears } from '../../services/DefineRucInCourseEditionService';
+import useFetchCourseEditions from '../../components/courseEditionComponent/useFetchCourseEditions';
 
 export default function CourseEditionDisplay() {
-    const [courseEditions, setCourseEditions] = useState([]);
+    const courseEditions = useFetchCourseEditions();
 
     const [currentPage, setCurrentPage] = useState(1);
     const [courseEditionsPerPage, setCourseEditionsPerPage] = useState(10);
@@ -31,7 +32,6 @@ export default function CourseEditionDisplay() {
                 console.error("Failed to fetch school years:", error);
             }
         }
-
         loadSchoolYears();
     }, []);
 
@@ -51,22 +51,6 @@ export default function CourseEditionDisplay() {
     const startIndex = (currentPage - 1) * courseEditionsPerPage;
     const endIndex = startIndex + courseEditionsPerPage;
     const currentItems = filteredCourseEditions.slice(startIndex, endIndex);
-
-    useEffect(() => {
-        async function fetchCourseEditions() {
-            try {
-                const courseEditionRes = await fetch(`${process.env.REACT_APP_API_URL}/course-editions`)
-
-                const courseEditionsData = await courseEditionRes.json();
-
-                //setCourseEditions(courseEditionsData._embedded?.courseDTOList || []);
-                setCourseEditions(courseEditionsData);
-            } catch (err) {
-                console.error("Failed to load Course Editions:", err);
-            }
-        }
-        fetchCourseEditions();
-    }, []);
 
     useEffect(() => {
         setCurrentPage(1);
@@ -109,11 +93,9 @@ export default function CourseEditionDisplay() {
                 <div className="display-table-container">
                     <div className="display-table-header-bar">
                         <div>
-                            <Link to="/" className="display-pagination-btn">
-                                Back to Main Page
-                            </Link>
+                            <Link to="/" className="display-pagination-btn">Back to Main Page</Link>
                         </div>
-                        <h1 style={{margin: 0}}>Course Editions</h1>
+                        <h1 style={{ margin: 0 }}>Course Editions</h1>
 
                         <div className="display-table-filter-bar">
                             <select
@@ -131,10 +113,10 @@ export default function CourseEditionDisplay() {
                                 placeholder={`Search by ${
                                     filterField === 'programme acronym' ? 'Programme Acronym' :
                                         filterField === 'course name' ? 'Course Name' :
-                                            filterField === 'course acronym' ? 'Course Acronym' :
-                                                ''
+                                            'Course Acronym'
                                 }`}
-                                className="display-table-filter-input"/>
+                                className="display-table-filter-input"
+                            />
                         </div>
                     </div>
 
@@ -165,7 +147,6 @@ export default function CourseEditionDisplay() {
                                         <td>
                                             {schoolYears.find(sy => sy.id === edition.schoolYearID)?.description || edition.schoolYearID}
                                         </td>
-
                                         <td>
                                             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem' }}>
                                                 <span>{edition.teacherID}</span>
@@ -184,15 +165,11 @@ export default function CourseEditionDisplay() {
 
                     <div className="display-pagination-bar">
                         <div className="display-pagination-left display-pagination-controls">
-                            <PaginationButton onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}
-                                              disabled={currentPage === 1}>
+                            <PaginationButton onClick={() => setCurrentPage(p => Math.max(p - 1, 1))} disabled={currentPage === 1}>
                                 Previous
                             </PaginationButton>
                             <span className="pagination-page-info">Page {currentPage} of {totalPages}</span>
-
-
-                            <PaginationButton onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))}
-                                              disabled={currentPage === totalPages}>
+                            <PaginationButton onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))} disabled={currentPage === totalPages}>
                                 Next
                             </PaginationButton>
                         </div>
@@ -213,11 +190,12 @@ export default function CourseEditionDisplay() {
 
                 </div>
             </div>
+
             <EnrolmentCountModal
                 isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                count={enrolmentCount}
-                courseName={selectedCourse?.courseName}
+                onRequestClose={() => setIsModalOpen(false)}
+                enrolmentCount={enrolmentCount}
+                course={selectedCourse}
             />
         </div>
     );
