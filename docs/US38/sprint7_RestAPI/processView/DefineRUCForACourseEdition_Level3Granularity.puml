@@ -1,4 +1,3 @@
-Process View Level 3:
 @startuml
 title US38 \n As a Programme Director, I want to define the RUC for a course edition \n (Process View - Level 3 Granularity - Backend Internal Flow)
 
@@ -13,8 +12,9 @@ participant ":RESTController" as controller <<Component>>
 participant ":Service" as service <<Component>>
 participant ":Domain" as domain <<Component>>
 participant ":Repository" as repository <<Component>>
+participant ":Drivers" as drivers <<Component>>
 
--> router: GET / course-editions {}
+[o-> router: GET / course-editions {}
 activate router  #E1F5FE
 router -> controller: findAllCourseEditions()
 activate controller  #E1F5FE
@@ -24,6 +24,14 @@ activate service  #E1F5FE
 
 service -> repository: findAll()
 activate repository  #E1F5FE
+
+repository -> drivers: findAll()
+activate drivers  #E1F5FE
+drivers ->o]: findAll()
+drivers <--o] : List<CourseEdition>
+
+drivers --> repository: List<CourseEdition>
+deactivate drivers
 
 repository --> service: List<CourseEdition>
 deactivate repository
@@ -36,10 +44,10 @@ deactivate controller
 
 note over router: The conversion from DTO to JSON is done\n automatically through the Spring Boot Framework
 
-<-- router: 200 OK - List<CourseEditionDTO> as JSON
+[o<-- router: 200 OK - List<CourseEditionDTO> as JSON
 deactivate router
--> router: GET / teachers
 
+[o-> router: GET / teachers
 activate router #E1F5FE
 
 router -> controller: getAllTeachers()
@@ -50,6 +58,13 @@ activate service  #E1F5FE
 
 service -> repository: findAll()
 activate repository  #E1F5FE
+
+repository -> drivers: findAll()
+activate drivers  #E1F5FE
+drivers ->o]: findAll()
+drivers <--o] : List<Teacher>
+drivers --> repository: List<Teacher>
+deactivate drivers
 
 repository --> service: List<Teacher>
 deactivate repository
@@ -62,10 +77,10 @@ deactivate controller
 
 note over router: The conversion from DTO to JSON is done\n automatically through the Spring Boot Framework
 
-<-- router: 200 OK – List<TeacherDTO> as JSON
+[o<-- router: 200 OK – List<TeacherDTO> as JSON
 deactivate router
 
--> router: PATCH /{id}/ruc
+[o-> router: PATCH /{id}/ruc
 activate router #E1F5FE
 
 note over router: The conversion from JSON to DTO is done\n automatically through the Spring Boot Framework
@@ -85,6 +100,13 @@ deactivate domain
 service -> repository: save(courseEdition)
 activate repository  #E1F5FE
 
+repository -> drivers: save(courseEdition)
+activate drivers  #E1F5FE
+drivers ->o]: INSERT INTO course_edition (teacher_id) VALUES (courseEdition.teacherId)
+drivers <--o] : courseEditionDataModel: CourseEditionDataModel
+drivers --> repository: courseEditionDataModel: CourseEditionDataModel
+deactivate drivers
+
 repository --> service: true
 deactivate repository
 
@@ -96,6 +118,6 @@ deactivate controller
 
 note over router: The conversion from DTO to JSON is done\n automatically through the Spring Boot Framework
 
-<-- router: 200 OK + body {DefineRucResponseDTO + hypermedia}
+[o<-- router: 200 OK + body {DefineRucResponseDTO + hypermedia}
 deactivate router
 @enduml
