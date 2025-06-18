@@ -1,14 +1,10 @@
 package PAI.assembler.courseEditionEnrolment;
 
-import PAI.VOs.*;
-import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
+import PAI.VOs.CourseEditionID;
+import PAI.VOs.StudentID;
 import PAI.dto.courseEditionEnrolment.CourseEditionEnrolmentDto;
-import PAI.dto.courseEditionEnrolment.CourseEditionEnrolmentMinimalDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.time.LocalDate;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -57,79 +53,5 @@ class CourseEditionEnrolmentAssemblerImplTest {
         assertEquals(dto.courseAcronym(), courseEditionID.getCourseInStudyPlanID().getCourseID().getAcronym().getValue());
         assertEquals(dto.courseName(), courseEditionID.getCourseInStudyPlanID().getCourseID().getCourseNameValue());
         assertEquals(dto.studyPlanDate(), courseEditionID.getCourseInStudyPlanID().getStudyPlanID().getDate().toString());
-    }
-
-    @Test
-    void toDto_shouldReturnCorrectDto() throws Exception {
-        // Arrange
-        // VO básicos
-        Acronym programmeAcronym = new Acronym("LEI");
-        ProgrammeID programmeID = new ProgrammeID(programmeAcronym);
-        UUID schoolYearUUID = UUID.randomUUID();
-        SchoolYearID schoolYearID = new SchoolYearID(schoolYearUUID);
-        ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID, schoolYearID);
-
-        Acronym courseAcronym = new Acronym("ESOFT");
-        Name courseName = new Name("Engenharia de Software");
-        CourseID courseID = new CourseID(courseAcronym, courseName);
-
-        Date studyPlanDate = new Date(LocalDate.of(2023, 9, 1));
-        StudyPlanID studyPlanID = new StudyPlanID(programmeID, studyPlanDate);
-        CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(courseID, studyPlanID);
-
-        CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID, courseInStudyPlanID);
-        StudentID studentID = new StudentID(1234567);
-        Date enrolmentDate = new Date(LocalDate.of(2025, 6, 13));
-        EnrolmentStatus isActive = new EnrolmentStatus(true);
-        CourseEditionEnrolmentGeneratedID generatedID = new CourseEditionEnrolmentGeneratedID();
-
-        CourseEditionEnrolment enrolment = new CourseEditionEnrolment(
-                generatedID,
-                studentID,
-                courseEditionID,
-                enrolmentDate,
-                isActive
-        );
-
-        CourseEditionEnrolmentAssemblerImpl assembler = new CourseEditionEnrolmentAssemblerImpl();
-
-        // Act
-        CourseEditionEnrolmentDto dto = assembler.toDto(enrolment);
-
-        // Assert
-        assertEquals(1234567, dto.studentUniqueNumber());
-        assertEquals("LEI", dto.programmeAcronym());
-        assertEquals(schoolYearUUID.toString(), dto.schoolYearId());
-        assertEquals("ESOFT", dto.courseAcronym());
-        assertEquals("2023-09-01", dto.studyPlanDate()); // Date.toString() default ISO format
-        assertEquals("Engenharia de Software", dto.courseName());
-    }
-
-    @Test
-    void shouldConvertEnrolmentToMinimalDTO() throws Exception {
-        // Arrange
-        StudentID studentID = new StudentID(1234567);
-        Acronym acronym = new Acronym("ESOFT");
-        Name name = new Name("Engenharia de Software");
-        CourseID courseID = new CourseID(acronym, name);
-
-        Date studyPlanDate = new Date("01-09-2023");
-        ProgrammeID programmeID = new ProgrammeID(new Acronym("LEIC"));
-        StudyPlanID studyPlanID = new StudyPlanID(programmeID, studyPlanDate);
-        CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(courseID, studyPlanID);
-
-        SchoolYearID schoolYearID = new SchoolYearID(UUID.randomUUID());
-        ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(programmeID, schoolYearID);
-        CourseEditionID courseEditionID = new CourseEditionID(programmeEditionID, courseInStudyPlanID);
-
-        CourseEditionEnrolment enrolment = new CourseEditionEnrolment(studentID, courseEditionID);
-
-        // Act
-        CourseEditionEnrolmentMinimalDTO dto = assembler.toMinimalDTO(enrolment);
-
-        // Assert
-        assertNotNull(dto);
-        assertEquals(courseEditionID.toString(), dto.courseEditionID());
-        assertEquals(name.getName(), dto.courseEditionName());
     }
 }

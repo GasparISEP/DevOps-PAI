@@ -21,21 +21,33 @@ describe('TeacherCareerProgressionDisplay', () => {
     });
 
     test('hides loading spinner after data is fetched', async () => {
-        global.fetch = jest.fn(() =>
-            Promise.resolve({
+        const mockData = [
+            {
+                teacherCareerProgressionId: 1,
+                date: '2023-01-01',
+                workingPercentage: 100,
+                teacherCategoryID: "1a23b456-7890-1234-5678-9abcdef01234",
+                teacherID: 5
+            }
+        ];
+
+        const mockCategoryData = [
+            {
+                id: "1a23b456-7890-1234-5678-9abcdef01234",
+                name: "Professor Assistente",
+            }
+        ];
+
+        global.fetch = jest
+            .fn()
+            .mockResolvedValueOnce({
                 ok: true,
-                json: () =>
-                    Promise.resolve([
-                        {
-                            teacherCareerProgressionId: 1,
-                            date: '2023-01-01',
-                            workingPercentage: 100,
-                            teacherCategoryID: 2,
-                            teacherID: 5,
-                        },
-                    ]),
+                json: async () => mockData,
             })
-        );
+            .mockResolvedValueOnce({
+                ok: true,
+                json: async () => mockCategoryData,
+            });
 
         render(
             <MemoryRouter>
@@ -58,17 +70,28 @@ describe('TeacherCareerProgressionDisplay', () => {
                 teacherCareerProgressionId: 1,
                 date: '2023-01-01',
                 workingPercentage: 100,
-                teacherCategoryID: 2,
+                teacherCategoryID: "1a23b456-7890-1234-5678-9abcdef01234",
                 teacherID: 5
             }
         ];
 
-        global.fetch = jest.fn(() =>
-            Promise.resolve({
+        const mockCategoryData = [
+            {
+                id: "1a23b456-7890-1234-5678-9abcdef01234",
+                name: "Professor Assistente",
+            }
+        ];
+
+        global.fetch = jest
+            .fn()
+            .mockResolvedValueOnce({
                 ok: true,
-                json: () => Promise.resolve(mockData),
+                json: async () => mockData,
             })
-        );
+            .mockResolvedValueOnce({
+                ok: true,
+                json: async () => mockCategoryData,
+            });
 
         render(
             <MemoryRouter>
@@ -81,10 +104,80 @@ describe('TeacherCareerProgressionDisplay', () => {
         expect(screen.getByText('100')).toBeInTheDocument();
     });
 
-    test('shows error message on fetch failure', async () => {
-        global.fetch = jest.fn(() =>
-            Promise.resolve({ok: false, status: 500})
+    test('shows error message on fetch failure for teacher progression', async () => {
+        const mockCategoryData = [
+            {
+                id: "1a23b456-7890-1234-5678-9abcdef01234",
+                name: "Professor Assistente",
+            }
+        ];
+
+        global.fetch = jest
+            .fn()
+            .mockResolvedValueOnce({
+                ok: false,
+                status: 500
+            })
+            .mockResolvedValueOnce({
+                ok: true,
+                json: async () => mockCategoryData,
+            });
+
+        render(
+            <MemoryRouter>
+                <TeacherCareerProgressionDisplay/>
+            </MemoryRouter>
         );
+
+        const error = await screen.findByText(/Failed to load/i);
+
+        expect(error).toBeInTheDocument();
+    });
+
+    test('shows error message on fetch failure for categories', async () => {
+        const mockData = [
+            {
+                teacherCareerProgressionId: 1,
+                date: '2023-01-01',
+                workingPercentage: 100,
+                teacherCategoryID: "1a23b456-7890-1234-5678-9abcdef01234",
+                teacherID: 5
+            }
+        ];
+
+        global.fetch = jest
+            .fn()
+            .mockResolvedValueOnce({
+                ok: true,
+                json: async () => mockData,
+            })
+            .mockResolvedValueOnce({
+                ok: false,
+                status: 500
+            });
+
+        render(
+            <MemoryRouter>
+                <TeacherCareerProgressionDisplay/>
+            </MemoryRouter>
+        );
+
+        const error = await screen.findByText(/Failed to load/i);
+
+        expect(error).toBeInTheDocument();
+    });
+
+    test('shows error message on fetch failure', async () => {
+        global.fetch = jest
+            .fn()
+            .mockResolvedValueOnce({
+                ok: false,
+                status: 500
+            })
+            .mockResolvedValueOnce({
+                ok: true,
+                status: 500
+            });
 
         render(
             <MemoryRouter>
@@ -124,21 +217,39 @@ describe('TeacherCareerProgressionDisplay', () => {
                 teacherCareerProgressionId: 1,
                 date: '2023-01-01',
                 workingPercentage: 100,
-                teacherCategoryID: 2,
+                teacherCategoryID:"1a23b456-7890-1234-5678-9abcdef01234",
                 teacherID: 5
             },
             {
                 teacherCareerProgressionId: 2,
                 date: '2024-05-10',
                 workingPercentage: 80,
-                teacherCategoryID: 1,
+                teacherCategoryID: "b2c4d678-90ab-4321-8cde-1234567890ab",
                 teacherID: 6
             }
         ];
 
-        global.fetch = jest.fn(() =>
-            Promise.resolve({ok: true, json: () => Promise.resolve(mockData)})
-        );
+        const mockCategoryData = [
+            {
+                id: "1a23b456-7890-1234-5678-9abcdef01234",
+                name: "Professor Assistente",
+            },
+            {
+                id: "b2c4d678-90ab-4321-8cde-1234567890ab",
+                name: "Professor Adjunto",
+            }
+        ];
+
+        global.fetch = jest
+            .fn()
+            .mockResolvedValueOnce({
+                ok: true,
+                json: async () => mockData,
+            })
+            .mockResolvedValueOnce({
+                ok: true,
+                json: async () => mockCategoryData,
+            });
 
         render(
             <MemoryRouter>
@@ -161,21 +272,39 @@ describe('TeacherCareerProgressionDisplay', () => {
                 teacherCareerProgressionId: 1,
                 date: '2023-01-01',
                 workingPercentage: 100,
-                teacherCategoryID: 2,
+                teacherCategoryID: "1a23b456-7890-1234-5678-9abcdef01234",
                 teacherID: 5
             },
             {
                 teacherCareerProgressionId: 2,
                 date: '2024-05-10',
                 workingPercentage: 80,
-                teacherCategoryID: 1,
+                teacherCategoryID: "b2c4d678-90ab-4321-8cde-1234567890ab",
                 teacherID: 6
             }
         ];
 
-        global.fetch = jest.fn(() =>
-            Promise.resolve({ok: true, json: () => Promise.resolve(mockData)})
-        );
+        const mockCategoryData = [
+            {
+                id: "1a23b456-7890-1234-5678-9abcdef01234",
+                name: "Professor Assistente",
+            },
+            {
+                id: "b2c4d678-90ab-4321-8cde-1234567890ab",
+                name: "Professor Adjunto",
+            }
+        ];
+
+        global.fetch = jest
+            .fn()
+            .mockResolvedValueOnce({
+                ok: true,
+                json: async () => mockData,
+            })
+            .mockResolvedValueOnce({
+                ok: true,
+                json: async () => mockCategoryData,
+            });
 
         render(
             <MemoryRouter>
@@ -199,21 +328,40 @@ describe('TeacherCareerProgressionDisplay', () => {
                 teacherCareerProgressionId: "1a23b456-7890-1234-5678-9abcdef01234",
                 date: '2023-01-01',
                 workingPercentage: 100,
-                teacherCategoryID: 2,
+                teacherCategoryID: "1a23b456-7890-1234-5678-9abcdef01234",
                 teacherID: 5
             },
             {
                 teacherCareerProgressionId: "b2c4d678-90ab-4321-8cde-1234567890ab",
                 date: '2024-05-10',
                 workingPercentage: 80,
-                teacherCategoryID: 1,
+                teacherCategoryID: "b2c4d678-90ab-4321-8cde-1234567890ab",
                 teacherID: 6
             }
         ];
 
-        global.fetch = jest.fn(() =>
-            Promise.resolve({ok: true, json: () => Promise.resolve(mockData)})
-        );
+        const mockCategoryData = [
+            {
+                id: "1a23b456-7890-1234-5678-9abcdef01234",
+                name: "Professor Assistente",
+            },
+            {
+                id: "b2c4d678-90ab-4321-8cde-1234567890ab",
+                name: "Professor Adjunto",
+            }
+        ];
+
+        global.fetch = jest
+            .fn()
+            .mockResolvedValueOnce({
+                ok: true,
+                json: async () => mockData,
+            })
+            .mockResolvedValueOnce({
+                ok: true,
+                json: async () => mockCategoryData,
+            });
+
 
         render(
             <MemoryRouter>
@@ -231,7 +379,7 @@ describe('TeacherCareerProgressionDisplay', () => {
     });
 
     test('filters data by Teacher Category', async () => {
-        const mockData = [
+        const mockProgressionData = [
             {
                 teacherCareerProgressionId: 1,
                 date: '2023-01-01',
@@ -247,10 +395,26 @@ describe('TeacherCareerProgressionDisplay', () => {
                 teacherID: 6
             }
         ];
+        const mockCategoryData = [
+            {
+                id: "1a23b456-7890-1234-5678-9abcdef01234",
+                name: "Professor Assistente",
+            },
+            {
+                id: "b2c4d678-90ab-4321-8cde-1234567890ab",
+                name: "Professor Adjunto",
+            }
+        ];
 
-        global.fetch = jest.fn(() =>
-            Promise.resolve({ok: true, json: () => Promise.resolve(mockData)})
-        );
+        global.fetch = jest.fn()
+            .mockResolvedValueOnce({
+                ok: true,
+                json: async () => mockProgressionData
+            })
+            .mockResolvedValueOnce({
+                ok: true,
+                json: async () => mockCategoryData
+            });
 
         render(
             <MemoryRouter>
@@ -260,11 +424,11 @@ describe('TeacherCareerProgressionDisplay', () => {
 
         await screen.findByText('2023-01-01');
 
-        fireEvent.change(screen.getByDisplayValue('Date'), {target: {value: 'teacherCategoryID'}});
-        fireEvent.change(screen.getByPlaceholderText(/Teacher Category/i), {target: {value: '1a23b456-7890-1234-5678-9abcdef01234'}});
+        fireEvent.change(screen.getByDisplayValue('Date'), {target: {value: 'teacherCategoryName'}});
+        fireEvent.change(screen.getByPlaceholderText(/Teacher Category/i), {target: {value: "Professor Assistente"}});
 
-        expect(await screen.findByText('1a23b456-7890-1234-5678-9abcdef01234')).toBeInTheDocument();
-        expect(screen.queryByText('b2c4d678-90ab-4321-8cde-1234567890ab')).not.toBeInTheDocument();
+        expect(await screen.findByText("Professor Assistente")).toBeInTheDocument();
+        expect(screen.queryByText('Professor Adjunto')).not.toBeInTheDocument();
     });
 
     test('filters data by Teacher', async () => {
@@ -273,21 +437,39 @@ describe('TeacherCareerProgressionDisplay', () => {
                 teacherCareerProgressionId: 1,
                 date: '2023-01-01',
                 workingPercentage: 100,
-                teacherCategoryID: 2,
+                teacherCategoryID:"1a23b456-7890-1234-5678-9abcdef01234",
                 teacherID: "b2c4d678-90ab-4321-8cde-1234567890ab"
             },
             {
                 teacherCareerProgressionId: 2,
                 date: '2024-05-10',
                 workingPercentage: 80,
-                teacherCategoryID: 1,
+                teacherCategoryID: "b2c4d678-90ab-4321-8cde-1234567890ab",
                 teacherID: "1a23b456-7890-1234-5678-9abcdef01234"
             }
         ];
 
-        global.fetch = jest.fn(() =>
-            Promise.resolve({ok: true, json: () => Promise.resolve(mockData)})
-        );
+        const mockCategoryData = [
+            {
+                id: "1a23b456-7890-1234-5678-9abcdef01234",
+                name: "Professor Assistente",
+            },
+            {
+                id: "b2c4d678-90ab-4321-8cde-1234567890ab",
+                name: "Professor Adjunto",
+            }
+        ];
+
+        global.fetch = jest
+            .fn()
+            .mockResolvedValueOnce({
+                ok: true,
+                json: async () => mockData,
+            })
+            .mockResolvedValueOnce({
+                ok: true,
+                json: async () => mockCategoryData,
+            });
 
         render(
             <MemoryRouter>
@@ -311,14 +493,29 @@ describe('TeacherCareerProgressionDisplay', () => {
                 teacherCareerProgressionId: 1,
                 date: '2023-01-01',
                 workingPercentage: 100,
-                teacherCategoryID: 2,
+                teacherCategoryID: "1a23b456-7890-1234-5678-9abcdef01234",
                 teacherID: 5,
             }
         ];
 
-        global.fetch = jest.fn(() =>
-            Promise.resolve({ok: true, json: () => Promise.resolve(mockData)})
-        );
+        const mockCategoryData = [
+            {
+                id: "1a23b456-7890-1234-5678-9abcdef01234",
+                name: "Professor Assistente",
+            }
+        ];
+
+        global.fetch = jest
+            .fn()
+            .mockResolvedValueOnce({
+                ok: true,
+                json: async () => mockData,
+            })
+            .mockResolvedValueOnce({
+                ok: true,
+                json: async () => mockCategoryData,
+            });
+
 
         render(
             <MemoryRouter>
@@ -356,6 +553,17 @@ describe('TeacherCareerProgressionDisplay', () => {
         },
     ];
 
+    const mockCategoriesData = [
+        {
+            id: 'f8a12b1a-d3d6-4cd0-8b0f-9c412d839e9e',
+            name: "Professor Assistente",
+        },
+        {
+            id: '9b4f4e9b-27a9-4b88-96c3-52cb12f02e24',
+            name: "Professor Adjunto",
+        }
+    ];
+
     const testCases = [
         {
             columnHeaderTestId: 'date-header',
@@ -381,12 +589,12 @@ describe('TeacherCareerProgressionDisplay', () => {
         {
             columnHeaderTestId: 'teacher-category-header',
             expectedOrderAsc: [
-                '9b4f4e9b-27a9-4b88-96c3-52cb12f02e24',
-                'f8a12b1a-d3d6-4cd0-8b0f-9c412d839e9e',
+                'Professor Adjunto',
+                'Professor Assistente'
             ],
             expectedOrderDesc: [
-                'f8a12b1a-d3d6-4cd0-8b0f-9c412d839e9e',
-                '9b4f4e9b-27a9-4b88-96c3-52cb12f02e24',
+                'Professor Assistente',
+                'Professor Adjunto',
             ],
         },
         {
@@ -404,12 +612,15 @@ describe('TeacherCareerProgressionDisplay', () => {
 
     describe('TeacherCareerProgressionDisplay sorting', () => {
         beforeEach(() => {
-            global.fetch = jest.fn(() =>
-                Promise.resolve({
+            global.fetch = jest.fn()
+                .mockResolvedValueOnce({
                     ok: true,
-                    json: () => Promise.resolve(mockData),
+                    json: async () => mockData
                 })
-            );
+                .mockResolvedValueOnce({
+                    ok: true,
+                    json: async () => mockCategoriesData
+                });
         });
 
         afterEach(() => {
@@ -448,13 +659,28 @@ describe('TeacherCareerProgressionDisplay', () => {
             teacherCareerProgressionId: i + 1,
             date: `2023-01-${String(i + 1).padStart(2, '0')}`,
             workingPercentage: 100,
-            teacherCategoryID: 1,
+            teacherCategoryID: "1a23b456-7890-1234-5678-9abcdef01234",
             teacherID: i + 1,
         }));
 
-        global.fetch = jest.fn(() =>
-            Promise.resolve({ok: true, json: () => Promise.resolve(mockData)})
-        );
+        const mockCategoryData = [
+            {
+                id: "1a23b456-7890-1234-5678-9abcdef01234",
+                name: "Professor Assistente",
+            }
+        ];
+
+        global.fetch = jest
+            .fn()
+            .mockResolvedValueOnce({
+                ok: true,
+                json: async () => mockData,
+            })
+            .mockResolvedValueOnce({
+                ok: true,
+                json: async () => mockCategoryData,
+            });
+
 
         render(
             <MemoryRouter>
@@ -476,13 +702,28 @@ describe('TeacherCareerProgressionDisplay', () => {
             teacherCareerProgressionId: i + 1,
             date: `2023-01-${String(i + 1).padStart(2, '0')}`,
             workingPercentage: 100,
-            teacherCategoryID: 1,
+            teacherCategoryID: "1a23b456-7890-1234-5678-9abcdef01234",
             teacherID: i + 1,
         }));
 
-        global.fetch = jest.fn(() =>
-            Promise.resolve({ok: true, json: () => Promise.resolve(mockData)})
-        );
+        const mockCategoryData = [
+            {
+                id: "1a23b456-7890-1234-5678-9abcdef01234",
+                name: "Professor Assistente",
+            }
+        ];
+
+        global.fetch = jest
+            .fn()
+            .mockResolvedValueOnce({
+                ok: true,
+                json: async () => mockData,
+            })
+            .mockResolvedValueOnce({
+                ok: true,
+                json: async () => mockCategoryData,
+            });
+
 
         render(
             <MemoryRouter>
@@ -509,11 +750,27 @@ describe('TeacherCareerProgressionDisplay', () => {
             teacherCareerProgressionId: i + 1,
             date: `2023-01-${String(i + 1).padStart(2, '0')}`,
             workingPercentage: 100,
-            teacherCategoryID: 1,
+            teacherCategoryID: "1a23b456-7890-1234-5678-9abcdef01234",
             teacherID: i + 1,
         }));
 
-        global.fetch = jest.fn(() => Promise.resolve({ok: true, json: () => Promise.resolve(mockData)}));
+        const mockCategoryData = [
+            {
+                id: "1a23b456-7890-1234-5678-9abcdef01234",
+                name: "Professor Assistente",
+            },
+        ];
+
+        global.fetch = jest
+            .fn()
+            .mockResolvedValueOnce({
+                ok: true,
+                json: async () => mockData,
+            })
+            .mockResolvedValueOnce({
+                ok: true,
+                json: async () => mockCategoryData,
+            });
 
         render(
             <MemoryRouter>
@@ -533,11 +790,27 @@ describe('TeacherCareerProgressionDisplay', () => {
             teacherCareerProgressionId: i + 1,
             date: `2023-01-${String(i + 1).padStart(2, '0')}`,
             workingPercentage: 100,
-            teacherCategoryID: 1,
+            teacherCategoryID: "1a23b456-7890-1234-5678-9abcdef01234",
             teacherID: i + 1,
         }));
 
-        global.fetch = jest.fn(() => Promise.resolve({ok: true, json: () => Promise.resolve(mockData)}));
+        const mockCategoryData = [
+            {
+                id: "1a23b456-7890-1234-5678-9abcdef01234",
+                name: "Professor Assistente",
+            },
+        ];
+
+        global.fetch = jest
+            .fn()
+            .mockResolvedValueOnce({
+                ok: true,
+                json: async () => mockData,
+            })
+            .mockResolvedValueOnce({
+                ok: true,
+                json: async () => mockCategoryData,
+            });
 
         render(
             <MemoryRouter>
@@ -562,15 +835,28 @@ describe('TeacherCareerProgressionDisplay', () => {
         teacherCareerProgressionId: i + 1,
         date: `2023-01-${String(i + 1).padStart(2, '0')}`,
         workingPercentage: 100,
-        teacherCategoryID: 1,
+        teacherCategoryID: "1a23b456-7890-1234-5678-9abcdef01234",
         teacherID: i + 1,
     }));
 
+    const mockCategoryDataForPaginationTests = [
+        {
+            id: "1a23b456-7890-1234-5678-9abcdef01234",
+            name: "Professor Assistente",
+        },
+    ];
+
     describe('Pagination: Per Page Controls', () => {
         beforeEach(async () => {
-            global.fetch = jest.fn(() =>
-                Promise.resolve({ok: true, json: () => Promise.resolve(mockDataForPaginationTests)})
-            );
+            global.fetch = jest.fn()
+                .mockResolvedValueOnce({
+                    ok: true,
+                    json: async () => mockDataForPaginationTests
+                })
+                .mockResolvedValueOnce({
+                    ok: true,
+                    json: async () => mockCategoryDataForPaginationTests
+                });
 
             render(
                 <MemoryRouter>
