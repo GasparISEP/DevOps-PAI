@@ -1,103 +1,101 @@
+Process View Level 3:
 @startuml
 title US38 \n As a Programme Director, I want to define the RUC for a course edition \n (Process View - Level 3 Granularity - Backend Internal Flow)
 
-skinparam titleFontName "Verdana"
-skinparam defaultFontName "Verdana"
 skinparam defaultTextAlignment center
 skinparam shadowing true
 skinparam actorBackgroundColor #lightblue
 skinparam participantBackgroundColor #lightblue/white
 autonumber
 
-participant ":Router" as Router <<Component>>
-participant ":RESTController" as Controller <<Component>>
-participant ":Service" as Service <<Component>>
-participant ":Domain" as Domain <<Component>>
-participant ":Repository" as Repository <<Component>>
+participant ":Router" as router <<Component>>
+participant ":RESTController" as controller <<Component>>
+participant ":Service" as service <<Component>>
+participant ":Domain" as domain <<Component>>
+participant ":Repository" as repository <<Component>>
 
+-> router: GET / course-editions {}
+activate router  #E1F5FE
+router -> controller: findAllCourseEditions()
+activate controller  #E1F5FE
 
+controller -> service: getAllCourseEditions()
+activate service  #E1F5FE
 
+service -> repository: findAll()
+activate repository  #E1F5FE
 
---> Router: GET /courseeditions
-activate Router  #E1F5FE
-Router -> Controller: findAllCourseEditions()
-activate Controller  #E1F5FE
+repository --> service: List<CourseEdition>
+deactivate repository
 
-Controller -> Service: getAllCourseEditions()
-activate Service  #E1F5FE
+service --> controller: List<CourseEdition>
+deactivate service
 
-Service -> Repository: findAll()
-activate Repository  #E1F5FE
+controller --> router: 200 OK – List<CourseEditionDTO>
+deactivate controller
 
-Repository --> Service: List<CourseEdition>
-deactivate Repository
-Service --> Controller: List<CourseEdition>
-deactivate Service
-Controller --> Router: 200 OK – List<CourseEditionDTO>
-deactivate Controller
-note over Router #E0E0E0
-  Returned DTOs are automatically converted to JSON
-  by the framework after the controller finishes execution.
-end note
-<-- Router: 200 OK - List<CourseEditionDTO> as JSON
-deactivate Router
--> Router: GET /teachers
+note over router: The conversion from DTO to JSON is done\n automatically through the Spring Boot Framework
 
+<-- router: 200 OK - List<CourseEditionDTO> as JSON
+deactivate router
+-> router: GET / teachers
 
-activate Router #E1F5FE
+activate router #E1F5FE
 
-Router -> Controller: getAllTeachers()
-activate Controller  #E1F5FE
+router -> controller: getAllTeachers()
+activate controller  #E1F5FE
 
-Controller -> Service: getAllTeachers()
-activate Service  #E1F5FE
+controller -> service: getAllTeachers()
+activate service  #E1F5FE
 
-Service -> Repository: findAll()
-activate Repository  #E1F5FE
+service -> repository: findAll()
+activate repository  #E1F5FE
 
+repository --> service: List<Teacher>
+deactivate repository
 
-Repository --> Service: List<Teacher>
-deactivate Repository
-Service --> Controller: List<Teacher>
-deactivate Service
-Controller --> Router: 200 OK – List<TeacherDTO>
-deactivate Controller
-note over Router #E0E0E0
-  Returned DTOs are automatically converted to JSON
-  by the framework after the controller finishes execution.
-end note
-<-- Router: 200 OK – List<TeacherDTO> as JSON
-deactivate Router
+service --> controller: List<Teacher>
+deactivate service
 
+controller --> router: 200 OK – List<TeacherDTO>
+deactivate controller
 
+note over router: The conversion from DTO to JSON is done\n automatically through the Spring Boot Framework
 
--> Router: PATCH /course-editions/{id}/ruc + body {...}
-activate Router #E1F5FE
+<-- router: 200 OK – List<TeacherDTO> as JSON
+deactivate router
 
-note over Router #E0E0E0
-  Incoming JSON is automatically deserialized into a DTO
-  before reaching the controller.
-end note
+-> router: PATCH /{id}/ruc
+activate router #E1F5FE
 
-Router -> Controller: defineRucForACourseEdition(DefineRUCRequestDTO)
-activate Controller  #E1F5FE
+note over router: The conversion from JSON to DTO is done\n automatically through the Spring Boot Framework
 
-Controller -> Service: assignRucToCourseEdition(courseEditionID, teacherID)
-activate Service  #E1F5FE
+router -> controller: defineRucForACourseEdition(DefineRucRequestDTO)
+activate controller  #E1F5FE
 
-Service -> Domain: setRuc(teacherId)
-activate Domain  #E1F5FE
-Domain --> Service: true
-deactivate Domain
+controller -> service: assignRucToCourseEdition(courseEditionID, teacherID)
+activate service  #E1F5FE
 
-Service -> Repository: save(courseEdition)
-activate Repository  #E1F5FE
-Repository --> Service: true
-deactivate Repository
-Service --> Controller: true
-deactivate Service
-Controller --> Router:  200 OK + body {DefineRucResponseDTO + hypermedia}
-deactivate Controller
-<-- Router: 200 OK + body {DefineRucResponseDTO + hypermedia}
-deactivate Router
+service -> domain: setRuc(teacherId)
+activate domain  #E1F5FE
+
+domain --> service: true
+deactivate domain
+
+service -> repository: save(courseEdition)
+activate repository  #E1F5FE
+
+repository --> service: true
+deactivate repository
+
+service --> controller: true
+deactivate service
+
+controller --> router:  200 OK + body {DefineRucResponseDTO + hypermedia}
+deactivate controller
+
+note over router: The conversion from DTO to JSON is done\n automatically through the Spring Boot Framework
+
+<-- router: 200 OK + body {DefineRucResponseDTO + hypermedia}
+deactivate router
 @enduml
