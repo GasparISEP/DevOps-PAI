@@ -115,7 +115,7 @@ export default function StudentCourseEditionForm() {
     return (
         <div className="form-main-component-div">
             <div className="form-main-grid">
-                <div className="form-img-main-div">
+                <div className="form-img-main-div remove-student-form-img-div">
                     <div className="form-logo-img-div">
                         <img src={ISEPLogoBranco} alt="Logo do ISEP"/>
                     </div>
