@@ -1,0 +1,56 @@
+@startuml
+autonumber
+
+title find active enrolments by StudentID
+
+participant ":CourseEditionEnrolmentServiceImpl" as Service <<Service>> #lightblue
+participant ":CourseEditionEnrolmentRepository" as CEER <<Component>> #lightgreen
+participant "StudentIDMapper" as SIDM #yellow
+participant "sIDDM:StudentIDDataModel" as SIDDM #silver
+participant ":CourseEditionRepository" as CER <<Component>> #lightgreen
+participant "CourseEditionEnrolmentMapper" as CEEM #yellow
+participant "CourseEditionMapper" as CEM #yellow
+participant "Drivers" as D <<Database>> #lightblue
+participant "eCD1:EnrolledCourseDetails" as ECD #lightpink
+
+activate Service
+Service -> CEER ++: findActiveEnrolmentsByStudentID(studentID)
+CEER -> SIDM ++: domainToDataModel(studentID)
+SIDM -> SIDDM ++: new StudentIDDataModel(studentID)
+SIDDM --> SIDM --: sIDDM
+SIDM --> CEER --: sIDDM
+CEER -> D ++: findById_StudentIDAndActiveTrue(sIDDM);
+D ->o] : **SELECT** findById_StudentIDAndActiveTrue \n (studentIDDataModel)
+D <--o] : List<CourseEditionEnrolmentDataModel>
+D --> CEER --: List<CourseEditionEnrolmentDataModel>
+
+CEER -> CEER : stream().map(...)
+loop for each CourseEditionEnrolmentDataModel
+    CEER -> CEEM ++: toDomain(CourseEditionEnrolmentDataModel)
+    CEEM --> CEER --: courseEditionEnrolment
+    alt optionalDomain is present
+        CEER -> CEER : get domain object
+    end
+end
+CEER --> CEER : return List<CourseEditionEnrolment>
+CEER --> Service --: studentEnrolments: \nList<CourseEditionEnrolment>
+deactivate CEER
+
+Service -> Service : results = new ArrayList<>()
+loop for each enrolment in studentEnrolments
+    Service -> Service : courseEditionIdVO = enrolment.knowCourseEdition()
+    Service -> CER ++ : ofIdentity(courseEditionIdVO)
+    CER --> CER : ofIdentity(courseEditionIdVO)
+    CER --> Service --: Optional<CourseEdition>
+
+    alt courseEditionOptional is present
+        Service -> Service : actualCourseEdition = get()
+        Service -> ECD** : new(actualCourseEdition, enrolment.getGeneratedID())
+                activate ECD
+        ECD --> Service --: enrolledCourseDetails
+                deactivate ECD
+        Service -> Service : results.add(enrolledCourseDetails)
+    end
+end
+Service --> Service : return List<EnrolledCourseDetails>
+@enduml

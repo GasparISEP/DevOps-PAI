@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { getEnrolmentsForStudent, gradeAStudentWithLink } from '../../services/courseEditionGradeStudentService';
 import ISEPLogoBranco from "../../assets/images/ISEP_logo-branco.png";
 import '../../styles/Form.css';
+import '../../styles/Buttons.css'
 import '../../styles/RegisterGradeStudentPage.css';
 import { Link } from "react-router-dom";
-import GradeStudentErrorModal from "./GradeStudentErrorModal";
-import GradeStudentSuccessModal from "./GradeStudentSuccessModal";
+
 
 export default function GradeStudentForm() {
     const initialFormState = {
@@ -60,17 +60,20 @@ export default function GradeStudentForm() {
         if (name === "studentUniqueNumber") {
             const sanitizedValue = value.replace(/\D/g, '');
 
+            // Checks if it only contains numbers
             if (value !== sanitizedValue) {
                 setStudentIdError("Student's ID can only contain numbers.");
                 return;
             }
 
+            // Checks if the Student's ID is empty
             if (sanitizedValue === "") {
                 setStudentIdError("Student's ID cannot be empty.");
                 setForm(f => ({ ...f, [name]: sanitizedValue }));
                 return;
             }
 
+            // Checks if it only contains 7 digits
             if (sanitizedValue.length > 7) {
                 setStudentIdError("Student's ID must have exactly 7 digits.");
                 setForm(f => ({ ...f, [name]: sanitizedValue.slice(0, 7) }));
@@ -79,6 +82,7 @@ export default function GradeStudentForm() {
 
             const studentID = parseInt(sanitizedValue, 10);
 
+            // Correct input
             if (!isNaN(studentID) && studentID >= 1000000 && studentID <= 2000000) {
                 setStudentIdError("");
             }
@@ -90,11 +94,13 @@ export default function GradeStudentForm() {
         if (name === "grade") {
             let sanitizedGrade = value.replace(/[^0-9.]/g, '');
 
+            // Checks if it only contains numbers and a single decimal point
             if (value !== sanitizedGrade) {
                 setGradeError("Grade can only contain numbers and a single decimal point.");
                 return;
             }
 
+            // Checks if the grade is empty
             if (sanitizedGrade === "") {
                 setGradeError("Grade cannot be empty.");
                 setForm(f => ({ ...f, [name]: sanitizedGrade }));
@@ -109,17 +115,21 @@ export default function GradeStudentForm() {
 
             const gradeValue = parseFloat(sanitizedGrade);
 
+            // Checks if the grade is between 0 and 20
             if (isNaN(gradeValue) || gradeValue < 0 || gradeValue > 20) {
                 setGradeError("Grade must be a valid number between 0 and 20.");
                 return;
             }
 
             const decimalCount = sanitizedGrade.split('.')[1]?.length || 0;
+
+            // Checks if it has more than 2 decimal places
             if (decimalCount > 2) {
                 setGradeError("Grade must have exactly two decimal places.");
                 return;
             }
 
+            // Checks if the grade is an integer with more than 2 digits
             if (!sanitizedGrade.includes(".") && sanitizedGrade.length > 2) {
                 setGradeError("Grade must be an integer with at most 2 digits.");
                 return;
@@ -143,13 +153,13 @@ export default function GradeStudentForm() {
 
         try {
             if (!form.courseEditionID || !form.courseEditionID.includes('|')) {
-                throw new Error("❌ Nenhuma edição de curso válida selecionada.");
+                throw new Error("Nenhuma edição de curso válida selecionada.");
             }
 
             const [schoolYearId, courseAcronym, courseName] = form.courseEditionID.split('|');
 
             if (!schoolYearId || !courseAcronym || !courseName) {
-                throw new Error("❌ Dados da edição do curso estão incompletos.");
+                throw new Error("Dados da edição do curso estão incompletos.");
             }
 
             const requestPayload = {
@@ -160,13 +170,13 @@ export default function GradeStudentForm() {
                 grade: form.grade
             };
 
-            console.log("📡 Payload antes do envio:", requestPayload); // 🚀 Confirma que os dados estão corretos!
+            console.log("📡 Payload antes do envio:", requestPayload);
 
             const response = await gradeAStudentWithLink(requestPayload);
             setSuccess(response.data);
             setShowSuccessModal(true);
         } catch (err) {
-            console.error("❌ Erro ao registrar nota:", err);
+            console.error("Erro ao registrar nota:", err);
             setError(err.message || "Erro desconhecido ao registrar a nota.");
             setShowErrorModal(true);
         } finally {
@@ -252,13 +262,34 @@ export default function GradeStudentForm() {
                     </div>
                 </form>
 
-                {/* Modal de Sucesso */}
-                {showSuccessModal &&
-                    <GradeStudentSuccessModal success={success} onClose={() => setShowSuccessModal(false)} />}
+                {/* Success Modal */}
+                {showSuccessModal && success && (
+                    <div className="modal-overlay">
+                        <div className="modal-content">
+                            <h2 style={{ color: 'green' }}>✅ Grade Registered Successfully</h2>
+                            <p><strong>Student ID:</strong> {success.studentUniqueNumber}</p>
+                            <p><strong>Student Name:</strong> {success.studentName}</p>
+                            <p><strong>Course:</strong> {success.courseName} ({success.courseAcronym})</p>
+                            <p><strong>School Year:</strong> {success.schoolYearId}</p>
+                            <p><strong>Grade:</strong> {success.grade}</p>
 
-                {/* Modal de Erro */}
-                {showErrorModal &&
-                    <GradeStudentErrorModal error={error} onClose={() => setShowErrorModal(false)} />}
+                            <button className="btn btn-primary" onClick={() => setShowSuccessModal(false)}>Close</button>
+                        </div>
+                    </div>
+                )}
+
+
+                {/* Error Modal */}
+                {showErrorModal && error && (
+                    <div className="modal-overlay">
+                        <div className="modal-content">
+                            <h2 style={{ color: 'red' }}>❌ Error Registering Grade</h2>
+                            <p>{error}</p>
+
+                            <button className="btn btn-secondary" onClick={() => setShowErrorModal(false)}>Close</button>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );
