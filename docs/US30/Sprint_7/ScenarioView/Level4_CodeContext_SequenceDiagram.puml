@@ -53,7 +53,7 @@ end ref
 PService --> PController: List<ProgrammeDTO>
 deactivate PService
 
-PController --> Router: programmeDTOList (JSON)
+PController --> Router: 200 OK + body (JSON)\n{programmeDTOList}
 deactivate PController
 
 note over Router
@@ -88,7 +88,7 @@ CRepository --> CService: List<Course>
 deactivate CRepository
 
 ref over CService
-<<Reference1_toIDDTO>>
+<<Reference2_toIDDTO>>
    <b>Converts List<Course> to List<CourseIDDTO></b>
 end ref
 
@@ -119,7 +119,7 @@ group Handle HTTP Request & Map to Command
 Router -> Controller: addCourseToAProgramme\n(requestDTO)
 activate Controller
 ref over Controller
-<<Reference1_ToCommand>>
+<<Reference3_ToCommand>>
    <b>Converts requestDTO to command</b>
 end ref
 
@@ -174,21 +174,21 @@ end group
 
 group Assemble Response DTO
 ref over Service
-<<Referencex_ToDTO>>
+<<Reference4_ToDTO>>
    <b>Converts CourseInStudyPlan to ServiceDTO</b>
 end ref
 Service --> Controller: CourseInStudyPlanServiceDTO
 deactivate Service
 
 ref over Controller
-<<Referencex_ToResponseDTO>>
+<<Reference5_ToResponseDTO>>
    <b>Converts ServiceDTO to ResponseDTO</b>
 end ref
     end group
 
     group Assemble HATEOAS Response
     ref over Controller
-    <<Referencex_ToModel>>
+    <<Reference6_ToModel>>
        <b>Converts ResponseDTO to EntityModel<ResponseDTO></b>
     end ref
     end group
