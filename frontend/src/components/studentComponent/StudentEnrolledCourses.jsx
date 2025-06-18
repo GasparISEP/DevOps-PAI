@@ -1,35 +1,42 @@
-import React from 'react';
-
 export default function StudentEnrolledCourses({ courses }) {
     if (!courses.length) {
         return <p>No courses enrolled.</p>;
     }
 
     return (
-        <div style={{ textAlign: 'left' }}>
+        <div
+            style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'flex-start'
+            }}
+        >
             {courses.map((c, idx) => (
-                <div key={idx}>
-                    <table className="tcp-table">
-                        <tbody>
-                        <tr className="tcp-row">
-                            <th className="tcp-label">Course Acronym</th>
-                            <td className="tcp-value">{c.courseAcronym}</td>
-                        </tr>
-                        <tr className="tcp-row">
-                            <th className="tcp-label">Course Name</th>
-                            <td className="tcp-value">{c.courseName}</td>
-                        </tr>
-                        <tr className="tcp-row">
-                            <th className="tcp-label">Study Plan Year</th>
-                            <td className="tcp-value">{c.studyPlanStartYear}</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    {/* Linha preta entre blocos, excepto no último */}
-                    {idx < courses.length - 1 && (
-                        <hr style={{ border: '1px solid black', margin: '1rem 0' }} />
-                    )}
-                </div>
+                <table
+                    key={idx}
+                    className="tcp-table"
+                    style={{
+                        marginBottom: '1rem',
+                        alignSelf: 'flex-start',
+                        width: '350px',
+                        borderBottom: idx !== courses.length - 1 ? '2px solid black' : 'none'
+                    }}
+                >
+                    <tbody>
+                    <tr className="tcp-row">
+                        <th className="tcp-label">Course Acronym</th>
+                        <td className="tcp-value" style={{ fontSize: '0.95rem', fontWeight: 'bold' }}>{c.courseAcronym}</td>
+                    </tr>
+                    <tr className="tcp-row">
+                        <th className="tcp-label">Course Name</th>
+                        <td className="tcp-value" style={{ fontSize: '0.95rem', fontWeight: 'bold' }}>{c.courseName}</td>
+                    </tr>
+                    <tr className="tcp-row">
+                        <th className="tcp-label">Study Plan Year</th>
+                        <td className="tcp-value" style={{ fontSize: '0.95rem', fontWeight: 'bold' }}>{c.studyPlanStartYear}</td>
+                    </tr>
+                    </tbody>
+                </table>
             ))}
         </div>
     );

@@ -1,0 +1,57 @@
+@startuml
+
+title As an ASC I want to remove the enrolment of a student in a course edition using a WEB UI \n (Process View Level 3 - Backend - removeStudentFromCourseEdition)
+
+
+skinparam sequenceMessageAlign center
+skinparam sequenceLifeLineBackgroundColor lightblue
+
+participant ":Router" as RT <<Component>> #lightpink
+participant "CERC:StudentRestController " as C <<Component>> #motivation
+participant "CES:CourseEditionService" as CES <<Component>> #lightgreen
+participant "CEES:CourseEditionEnrolmentService" as S <<Component>> #business
+participant "CER:CourseEditionRepository" as CER <<Component>> #lightgreen
+participant "CEER:CourseEditionEnrolmentRepository" as RP <<Component>> #business
+participant "<<Component>>\n:Domain" as DOM #lightpink
+participant ":Drivers" as D <<Component>> #technology
+
+ [o-> RT ++: **PATCH**  \nstudents/{studentId}/course-editions/{courseEditionGeneratedUUID} \t
+ RT -> C ++: removeStudentEnrolmentFromACourseEdition\n(studentUniqueNumber, courseEditionGeneratedUUID)
+ C -> CES ++ : findCourseEditionIDByGeneratedID(courseEditionGeneratedID)
+ |||
+ CES -> CER ++: findCourseEditionByGeneratedId(courseEditionGeneratedID)
+ |||
+ CER -> D ++ : findCourseEditionByGeneratedId(courseEditionGeneratedIDDatamodel)
+ D ->o] : findCourseEditionByGeneratedId \n (CourseEditionGeneratedIDDataModel courseEditionId)
+ D <--o] : courseEditionDataModel1
+ D --> CER -- : courseEditionDataModel1
+ CER --> CES -- : courseEdition1
+ CES --> C -- : courseEditionID1
+
+ C -> S ++ : removeCourseEditionEnrolment(studentID, courseEditionID)
+ S -> RP ++ : findByStudentAndEdition(studentID, courseEditionID)
+ RP -> D ++ : findById_StudentIDAndId_CourseEditionID \n (studentIDDataModel, courseEditionIDDataModel)
+ D ->o] : **SELECT** findById_StudentIDAndId_CourseEditionID \n (studentIDDataModel, courseEditionIDDataModel)
+ |||
+ D <--o] : courseEditionEnrolmentDataModel1
+ D --> RP -- : courseEditionEnrolmentDataModel1
+ RP --> S -- : courseEditionEnrolment1
+ S -> DOM ++ : courseEditionEnrolment1.deactivateEnrolment()
+  DOM -> courseEditionEnrolment1** : deactivateEnrolment()
+  activate courseEditionEnrolment1
+  courseEditionEnrolment1 --> DOM : deactivatedCEE1
+  deactivate courseEditionEnrolment1
+
+ S <-- DOM -- : deactivatedCEE1
+ S -> RP ++ : save(deactivatedCEE1)
+ RP -> D ++ : save(deactivatedCEE1DataModel)
+ D ->o] : save(deactivatedCEE1DataModel)
+ |||
+ D <--o] : deactivatedCEE1DataModel
+
+ D --> RP -- : deactivatedCEE1DataModel
+RP --> S -- : deactivatedCEE1
+ S --> C -- : True!
+ C --> RT --: (ACCEPTED, 202) \n + body {"Successfully removed the enrolment from course edition."}
+  [o<-- RT --: (**ACCEPTED, 202**) \n + body {"Successfully removed the enrolment from course edition."}
+@enduml

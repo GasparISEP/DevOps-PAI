@@ -1,0 +1,18 @@
+@startuml
+autonumber
+
+skinparam sequence {
+   LifelineBorderColor black
+   LifelineBackgroundColor LightBlue
+ }
+
+title US22:\n As a RUC,\n I want to Grade a Student in a Course Edition\n Process View Level 1
+actor Administrator
+participant ":System" as System
+
+Administrator -> System ++: I want to grade a student in a Course Edition.
+System --> Administrator --: student's id? courseEdition? grade?
+Administrator -> System ++: Enter Student's Id, Course Edition and Grade
+System --> Administrator --: Successfully grade a student!
+
+@enduml

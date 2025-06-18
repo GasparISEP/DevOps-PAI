@@ -8,7 +8,6 @@ import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
 import PAI.domain.schoolYear.ISchoolYearFactory;
 import PAI.domain.schoolYear.SchoolYear;
 import PAI.dto.schoolYear.CurrentSchoolYearDTO;
-import PAI.dto.schoolYear.SchoolYearDTO;
 import PAI.dto.schoolYear.SchoolYearIDDescriptionResponseDTO;
 import org.springframework.stereotype.Service;
 

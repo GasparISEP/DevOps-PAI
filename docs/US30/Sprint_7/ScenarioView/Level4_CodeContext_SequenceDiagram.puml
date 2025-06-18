@@ -1,0 +1,204 @@
+@startuml
+title: US30: As an ASC, I want to add a course to a programme using a Web UI\n(Scenario View - Level 4: Code)\nCore Backend Flow\nFull Sequence Diagram
+autonumber
+
+skinparam {
+  ActivityPadding 2
+  ActivityMargin 2
+  BoxPadding 2
+}
+skinparam sequence {
+    LifeLineBorderColor Grey
+    LifeLineBackgroundColor #E1F5FE
+}
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+participant "<<component>>\n:Router" as Router #honeydew
+participant "<<component>>\n:ProgrammeRestController\n(REST Controller)" as PController #honeydew
+participant "<<component>>\n:IProgrammeService\n(Service)" as PService #honeydew
+participant "<<component>>\n:IProgrammeRepository\n(Repository)" as PRepository #honeydew
+participant "<<component>>\n:CourseRestController\n(REST Controller)" as CController #honeydew
+participant "<<component>>\n:ICourseService\n(Service)" as CService #honeydew
+participant "<<component>>\n:ICourseRepository\n(Repository)" as CRepository #honeydew
+participant "<<component>>\n:CourseInStudyPlanRestController\n(REST Controller)" as Controller #honeydew
+participant "<<component>>\n:IAddCourseToAProgrammeService\n(Service)" as Service #honeydew
+participant "<<component>>\n:IStudyPlanRepository\n(StudyPlan Repository)" as StudyPlanRepository #honeydew
+participant "<<component>>\n:ICourseInStudyPlanFactory\n(Factory)" as Factory #honeydew
+participant "<<component>>\n:ICourseInStudyPlanRepository\n(Repository)" as Repository #honeydew
+
+[o-> Router: **GET** /programmes
+activate Router
+Router -> PController: getAllProgrammes()
+activate PController
+
+PController -> PService: getAllProgrammes()
+activate PService
+
+PService -> PRepository: findAll()
+activate PRepository
+
+PRepository ->o]: **SELECT** * FROM programmes
+
+PRepository <--o]: List<ProgrammeDataModel>
+
+PRepository --> PService: List<Programme>
+deactivate PRepository
+
+ref over PService
+<<Reference1_fromDomainToDTO>>
+   <b>Converts List<Programme> to List<ProgrammeDTO></b>
+end ref
+
+PService --> PController: List<ProgrammeDTO>
+deactivate PService
+
+PController --> Router: 200 OK + body (JSON)\n{programmeDTOList}
+deactivate PController
+
+note over Router
+Spring serializes DTO to JSON automatically
+end note
+
+<-- Router: 200 OK + programmeDTOList
+deactivate Router
+
+''
+
+
+[o-> Router: **GET** /courses/{ids}
+activate Router
+note over Router
+Spring converts JSON into DTO
+end note
+Router -> CController: getAllCoursesIDDTO():\n<List<CourseIDDTO>>
+activate CController
+
+CController -> CService: getAllCourseIDDTO()
+activate CService
+
+CService -> CRepository: findAll()
+activate CRepository
+
+CRepository ->o]: **SELECT** * FROM courses
+
+CRepository <--o]: List<CourseDataModel>
+
+CRepository --> CService: List<Course>
+deactivate CRepository
+
+ref over CService
+<<Reference2_toIDDTO>>
+   <b>Converts List<Course> to List<CourseIDDTO></b>
+end ref
+
+CService --> CController: List<CourseIDDTO>
+deactivate CService
+
+
+CController --> Router: 200 OK + body (JSON)\n{courseIDDTOList}
+deactivate CController
+
+note over Router
+Spring serializes DTO to JSON automatically
+end note
+
+<-- Router: 200 OK + body (JSON)\n{courseIDDTOList}
+deactivate Router
+
+'''
+
+
+[o-> Router: **POST** /courses-in-study-plan (JSON)
+activate Router
+note over Router
+Spring converts JSON into
+CourseInStudyPlanRequestDTO
+end note
+group Handle HTTP Request & Map to Command
+Router -> Controller: addCourseToAProgramme\n(requestDTO)
+activate Controller
+ref over Controller
+<<Reference3_ToCommand>>
+   <b>Converts requestDTO to command</b>
+end ref
+
+end group
+
+group Construct & Validate Domain Object
+Controller -> Service: addCourseToAProgramme(command)
+activate Service
+note right of Service: validateCommand(command)
+Service -> StudyPlanRepository: findLatestByProgrammeID\n(programmeID)
+activate StudyPlanRepository
+StudyPlanRepository --> Service: StudyPlanID
+deactivate StudyPlanRepository
+
+Service -> Factory: newCourseInStudyPlan\n(semester, curricularYear, courseID,\n studyPlanID, duration, credits)
+activate Factory
+
+Factory --> Service: CourseInStudyPlan\n(domain object)
+deactivate Factory
+end
+
+group Validate Business Rules
+Service -> Repository: containsOfIdentity(courseInStudyPlan.identity())
+activate Repository
+Repository --> Service: false (not exists)
+deactivate Repository
+
+Service -> Repository: getTotalCreditsEctsInStudyPlanSoFar\n(studyPlanID, semester, curricularYear, duration)
+activate Repository
+note over Repository
+Uses internal list<CourseInStudyPlan>
+via findAll()
+Filters and sums ECTS credits
+end note
+Repository --> Service: totalECTS
+deactivate Repository
+end group
+
+group Persist to Database
+Service -> Repository: save(courseInStudyPlan)
+activate Repository
+
+Repository ->o]: **INSERT INTO** course_in_study_plan(data)\n **VALUES** (...)
+note right of Repository
+Persists the domain object to the database
+end note
+Repository <--o]: CourseInStudyPlanDataModel
+
+Repository --> Service: CourseInStudyPlan (saved domain object)
+deactivate Repository
+end group
+
+group Assemble Response DTO
+ref over Service
+<<Reference4_ToDTO>>
+   <b>Converts CourseInStudyPlan to ServiceDTO</b>
+end ref
+Service --> Controller: CourseInStudyPlanServiceDTO
+deactivate Service
+
+ref over Controller
+<<Reference5_ToResponseDTO>>
+   <b>Converts ServiceDTO to ResponseDTO</b>
+end ref
+    end group
+
+    group Assemble HATEOAS Response
+    ref over Controller
+    <<Reference6_ToModel>>
+       <b>Converts ResponseDTO to EntityModel<ResponseDTO></b>
+    end ref
+    end group
+    Controller --> Router: 201 Created + body (JSON)\n{CourseInStudyPlanResponseDTO + hypermedia}
+
+note over Router: Spring serializes DTO to JSON automatically
+
+
+deactivate Controller
+
+[o<-- Router: 201 Created + body (JSON)\n{CourseInStudyPlanResponseDTO + hypermedia}
+deactivate Router
+@enduml
