@@ -4,9 +4,9 @@ import '../../styles/DisplayPage.css';
 import '../../styles/Buttons.css';
 import ActionMenu from '../../components/courseEditionComponent/ActionMenu';
 import EnrolmentCountModal from '../../components/courseEditionComponent/EnrolmentCountModal';
-import { fetchEnrolmentCount } from '../../services/enrolmentCountInCourseEditionService';
 import { getAllSchoolYears } from '../../services/DefineRucInCourseEditionService';
 import useFetchCourseEditions from '../../components/courseEditionComponent/useFetchCourseEditions';
+import useCourseEditionEnrolmentCountModal from '../../components/courseEditionComponent/useCourseEditionEnrolmentCountModal';
 
 export default function CourseEditionDisplay() {
     const courseEditions = useFetchCourseEditions();
@@ -18,9 +18,14 @@ export default function CourseEditionDisplay() {
     const [filterField, setFilterField] = useState('programme acronym');
     const [filterValue, setFilterValue] = useState('');
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [enrolmentCount, setEnrolmentCount] = useState(null);
-    const [selectedCourse, setSelectedCourse] = useState(null);
+    const {
+        isModalOpen,
+        enrolmentCount,
+        selectedCourse,
+        handleCountEnrolments,
+        closeModal
+    } = useCourseEditionEnrolmentCountModal();
+
     const [schoolYears, setSchoolYears] = useState([]);
 
     useEffect(() => {
@@ -75,18 +80,6 @@ export default function CourseEditionDisplay() {
         );
     }
 
-    const handleCountEnrolments = async (edition) => {
-        try {
-            setSelectedCourse(edition);
-            const response = await fetchEnrolmentCount(edition.courseEditionGeneratedID);
-            setEnrolmentCount(response.studentCount);
-            setIsModalOpen(true);
-        } catch (error) {
-            console.error('Error counting enrolments:', error);
-            alert('Error counting enrolments: ' + error.message);
-        }
-    };
-
     return (
         <div className="display-main-grid-center">
             <div className="form">
@@ -121,35 +114,36 @@ export default function CourseEditionDisplay() {
                     </div>
 
                     <div className="display-table-center-wrapper">
-                        <table className="display-form-table">
+                        <table className="display-form-table" id="course-edition-table">
                             <thead>
                             <tr>
-                                <th>Programme Acronym</th>
+                                <th>Programme Name</th>
                                 <th>Course Name</th>
                                 <th>Course Acronym</th>
                                 <th>School Year</th>
                                 <th>RUC</th>
+                                <th className="actions"></th>
                             </tr>
                             </thead>
                             <tbody>
                             {currentItems.length === 0 ? (
                                 <tr>
-                                    <td colSpan="5" style={{ textAlign: 'center', fontWeight: 'bold' }}>
+                                    <td colSpan="6" style={{ textAlign: 'center', fontWeight: 'bold' }}>
                                         No results found.
                                     </td>
                                 </tr>
                             ) : (
                                 currentItems.map((edition, index) => (
                                     <tr key={index}>
-                                        <td>{edition.programmeAcronym}</td>
-                                        <td>{edition.courseName}</td>
+                                        <td className="nameRow">{edition.programmeAcronym}</td>
+                                        <td className="nameRow">{edition.courseName}</td>
                                         <td>{edition.courseAcronym}</td>
                                         <td>
                                             {schoolYears.find(sy => sy.id === edition.schoolYearID)?.description || edition.schoolYearID}
                                         </td>
-                                        <td>
-                                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem' }}>
-                                                <span>{edition.teacherID}</span>
+                                        <td>{edition.teacherID ? edition.teacherID : "No RUC assigned"}</td>
+                                        <td className="actions">
+                                            <div className="action-buttons-container">
                                                 <ActionMenu
                                                     edition={edition}
                                                     onCountEnrolments={handleCountEnrolments}
@@ -190,10 +184,9 @@ export default function CourseEditionDisplay() {
 
                 </div>
             </div>
-
             <EnrolmentCountModal
                 isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
+                onClose={closeModal}
                 count={enrolmentCount}
                 courseName={selectedCourse?.courseName}
             />

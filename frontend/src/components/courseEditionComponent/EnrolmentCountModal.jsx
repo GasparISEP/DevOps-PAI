@@ -2,7 +2,7 @@ import React from "react";
 import '../../styles/Modal.css';
 import '../../styles/Buttons.css';
 
-function EnrolmentCountModal({ isOpen, onClose, count, courseName }) {
+function EnrolmentCountModal({ isOpen, onClose, enrolmentCount, courseName }) {
     if (!isOpen) return null;
 
     return (
@@ -26,7 +26,7 @@ function EnrolmentCountModal({ isOpen, onClose, count, courseName }) {
                         <strong>Course:</strong> {courseName}
                     </p>
                     <p style={{ marginBottom: '0.8rem' }}>
-                        <strong>Enrolled Students:</strong> {count ?? 0}
+                        <strong>Enrolled Students:</strong> {enrolmentCount ?? 0}
                     </p>
                 </div>
                 <div style={{ marginTop: '2rem', textAlign: 'center' }}>
