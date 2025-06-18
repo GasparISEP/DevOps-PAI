@@ -7,25 +7,21 @@ skinparam sequenceLifeLineBackgroundColor lightblue
 participant ":Router" as Router <<Component>> #lightpink
 participant ":StudentRestController" as Controller <<Component>> #motivation
 participant ":CourseEditionEnrolmentService" as Service <<Component>> #business
-participant ":CourseEditionEnrolmentRepository" as Repository <<Component>> #lightgreen
+participant ":CourseEditionEnrolmentRepository" as CEER <<Component>> #lightgreen
 participant ":Drivers" as Drivers <<Component>> #technology
 
 
 [o-> Router : **GET** \nstudents/{studentId}/enrolled-course-editions/
 activate Router
-Router -> Controller : findEnrolledCourseEditionsForStudent(studentUniqueNumber)
+Router -> Controller : findEnrolledCourseEditionsForStudent \n (studentUniqueNumber)
 activate Controller
 Controller -> Service : findEnrolledCourseEditionsForStudent(studentID)
 activate Service
-Service -> Repository : findActiveEnrolmentsByStudentID(studentID)
-activate Repository
-Repository -> Drivers ++: findActiveEnrolmentsByStudentID(studentID)
-Drivers ->o] : **SELECT** findById_StudentIDAndActiveTrue(studentIDDataModel)
-Drivers <--o] : List<CourseEditionEnrolmentDataModel>
-Repository <-- Drivers -- : List<CourseEditionEnrolment>
-Repository --> Service : List<US35EnrolledCourseDetails>
-deactivate Repository
-Service --> Controller : List<US35EnrolledCourseDetails>
+ref over Service
+          Find active enrolments by StudentID
+end ref
+deactivate CEER
+Service --> Controller : List<EnrolledCourseDetails>
 deactivate Service
 Controller --> Router : List<EnrolledCourseEditionDTO>
 deactivate Controller
@@ -34,28 +30,28 @@ deactivate Router
 
 [o-> Router : **PATCH** \nstudents/{studentId}/course-editions/{courseEditionGeneratedUUID}
 activate Router
-Router -> Controller : removeStudentEnrolmentFromACourseEdition(studentUniqueNumber, courseEditionGeneratedUUID)
+Router -> Controller : removeStudentEnrolmentFromACourseEdition \n (studentUniqueNumber, courseEditionGeneratedUUID)
 activate Controller
 Controller -> Service : removeCourseEditionEnrolment(studentID, courseEditionID)
 activate Service
-Service -> Repository : findCourseEditionByGeneratedID(courseEditionGeneratedUUID)
-activate Repository
-Repository -> Drivers ++: findCourseEditionByGeneratedId(courseEditionGeneratedIDDataModel)
+Service -> CEER : findCourseEditionByGeneratedID(courseEditionGeneratedUUID)
+activate CEER
+CEER -> Drivers ++: findCourseEditionByGeneratedId(courseEditionGeneratedIDDataModel)
 Drivers ->o] : **SELECT** CourseEditionGeneratedIDDataModel
 Drivers <--o] : courseEditionDataModel
-Drivers --> Repository -- : courseEditionDataModel
-Repository --> Service -- : courseEdition
-deactivate Repository
+Drivers --> CEER -- : courseEditionDataModel
+CEER --> Service -- : courseEdition
+deactivate CEER
 Service --> Controller -- : courseEditionID
 
 Controller -> Service ++: removeCourseEditionEnrolment(studentID, courseEditionID)
-Service -> Repository ++: findByStudentAndEdition(studentID, courseEditionID)
-Repository -> Drivers ++: findById_StudentIDAndId_CourseEditionID(studentIDDataModel, courseEditionIDDataModel)
+Service -> CEER ++: findByStudentAndEdition(studentID, courseEditionID)
+CEER -> Drivers ++: findById_StudentIDAndId_CourseEditionID(studentIDDataModel, courseEditionIDDataModel)
 Drivers ->o] : **SELECT** findById_StudentIDAndId_CourseEditionID
 Drivers <--o] : courseEditionEnrolmentDataModel
-Drivers --> Repository -- : courseEditionEnrolmentDataModel
-Repository --> Service -- : courseEditionEnrolment
-deactivate Repository
+Drivers --> CEER -- : courseEditionEnrolmentDataModel
+CEER --> Service -- : courseEditionEnrolment
+deactivate CEER
 Service --> Controller -- : true
 deactivate Service
 Controller --> Router : (ACCEPTED, 202) \n + body {"Successfully removed the enrolment from course edition."}
