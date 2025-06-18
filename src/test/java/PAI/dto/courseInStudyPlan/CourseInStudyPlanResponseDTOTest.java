@@ -42,7 +42,8 @@ class CourseInStudyPlanResponseDTOTest {
                 "2023-09-01",
                 4,
                 6.0,
-                new CourseInStudyPlanGeneratedID(UUID.randomUUID()).getId()
+                new CourseInStudyPlanGeneratedID(UUID.randomUUID()).getId(),
+                "CSD"
         );
 
         Set<ConstraintViolation<CourseInStudyPlanResponseDTO>> violations = validator.validate(dto);
@@ -60,7 +61,8 @@ class CourseInStudyPlanResponseDTOTest {
                 null,
                 4,
                 6.0,
-                new CourseInStudyPlanGeneratedID(UUID.randomUUID()).getId()
+                new CourseInStudyPlanGeneratedID(UUID.randomUUID()).getId(),
+                "CSD"
         );
 
         Set<ConstraintViolation<CourseInStudyPlanResponseDTO>> violations = validator.validate(dto);
@@ -84,7 +86,8 @@ class CourseInStudyPlanResponseDTOTest {
                 "2023-09-01",
                 0,
                 6.0,
-                new CourseInStudyPlanGeneratedID(UUID.randomUUID()).getId()
+                new CourseInStudyPlanGeneratedID(UUID.randomUUID()).getId(),
+                "CSD"
         );
 
         CourseInStudyPlanResponseDTO dtoValid = new CourseInStudyPlanResponseDTO(
@@ -96,7 +99,8 @@ class CourseInStudyPlanResponseDTOTest {
                 "2023-09-01",
                 2,
                 6.0,
-                new CourseInStudyPlanGeneratedID(UUID.randomUUID()).getId()
+                new CourseInStudyPlanGeneratedID(UUID.randomUUID()).getId(),
+                "CSD"
         );
 
         assertTrue(dtoValid.duration() >= 1, "Duration must be at least 1");
@@ -114,7 +118,8 @@ class CourseInStudyPlanResponseDTOTest {
                 "2023-09-01",
                 2,
                 0.0, // Invalid
-                new CourseInStudyPlanGeneratedID(UUID.randomUUID()).getId()
+                new CourseInStudyPlanGeneratedID(UUID.randomUUID()).getId(),
+                "CSD"
         );
 
         CourseInStudyPlanResponseDTO dtoValid = new CourseInStudyPlanResponseDTO(
@@ -126,7 +131,8 @@ class CourseInStudyPlanResponseDTOTest {
                 "2023-09-01",
                 2,
                 6.0,
-                new CourseInStudyPlanGeneratedID(UUID.randomUUID()).getId()
+                new CourseInStudyPlanGeneratedID(UUID.randomUUID()).getId(),
+                "CSD"
         );
 
         assertTrue(dtoValid.credits() > 0, "Credits must be greater than 0");

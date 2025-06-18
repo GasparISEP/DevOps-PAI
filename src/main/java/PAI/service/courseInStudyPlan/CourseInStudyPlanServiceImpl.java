@@ -100,5 +100,4 @@ public class CourseInStudyPlanServiceImpl implements ICourseInStudyPlanService {
         }
         return result;
     }
-
 }

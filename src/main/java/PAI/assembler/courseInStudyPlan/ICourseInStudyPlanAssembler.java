@@ -32,4 +32,6 @@ public interface ICourseInStudyPlanAssembler {
      * @throws NullPointerException if the serviceDTO is null
      */
     CourseInStudyPlanResponseDTO toDTO(CourseInStudyPlanServiceDTO courseInStudyPlanServiceDTO);
+
+    CourseInStudyPlanResponseDTO toDTOfromDomain(CourseInStudyPlan course);
 }

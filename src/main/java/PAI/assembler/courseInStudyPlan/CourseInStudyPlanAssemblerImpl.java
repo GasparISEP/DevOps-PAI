@@ -1,6 +1,7 @@
 package PAI.assembler.courseInStudyPlan;
 
 import PAI.VOs.*;
+import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.dto.courseInStudyPlan.CourseInStudyPlanCommand;
 import PAI.dto.courseInStudyPlan.CourseInStudyPlanRequestDTO;
 import PAI.dto.courseInStudyPlan.CourseInStudyPlanResponseDTO;
@@ -40,7 +41,26 @@ public class CourseInStudyPlanAssemblerImpl implements ICourseInStudyPlanAssembl
                 courseInStudyPlanServiceDTO.studyPlanDate(),
                 courseInStudyPlanServiceDTO.duration(),
                 courseInStudyPlanServiceDTO.credits(),
-                courseInStudyPlanServiceDTO.generatedID()
+                courseInStudyPlanServiceDTO.generatedID(),
+                courseInStudyPlanServiceDTO.programmeAcronym()
+        );
+    }
+
+    @Override
+    public CourseInStudyPlanResponseDTO toDTOfromDomain(CourseInStudyPlan course) {
+        Objects.requireNonNull(course, "CourseInStudyPlan entity cannot be null");
+
+        return new CourseInStudyPlanResponseDTO(
+                course.getSemester().toInt(),
+                course.getCurricularYear().toInt(),
+                course.getCourseID().getCourseAcronymValue(),
+                course.getCourseID().getCourseNameValue(),
+                course.getStudyplanID().getProgrammeID().getProgrammeAcronym(),
+                course.getStudyplanID().getDate().getLocalDate().toString(),
+                course.getDurationOfCourse().getDuration(),
+                course.getQuantityOfCreditsEcts().toDouble(),
+                course.getGeneratedID().getId(),
+                course.getProgrammeID().getAcronym().getAcronym()
         );
     }
 }
