@@ -9,11 +9,9 @@ import PAI.assembler.courseEditionEnrolment.ICourseEditionEnrolmentAssembler;
 import PAI.assembler.courseEditionEnrolment.ICourseEditionEnrolmentHateoasAssembler;
 import PAI.assembler.programmeEdition.IProgrammeEditionServiceAssembler;
 import PAI.assembler.studentGrade.IStudentGradeAssembler;
-import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
 import PAI.dto.approvalRate.ApprovalRateResponseDTO;
 import PAI.dto.courseEdition.*;
 import PAI.dto.courseEditionEnrolment.CourseEditionEnrolmentDto;
-import PAI.dto.courseEditionEnrolment.CourseEditionEnrolmentMinimalDTO;
 import PAI.dto.studentGrade.GradeAStudentCommand;
 import PAI.dto.studentGrade.GradeAStudentRequestDTO;
 import PAI.dto.studentGrade.GradeAStudentResponseDTO;
@@ -24,7 +22,6 @@ import PAI.service.courseEditionEnrolment.ICourseEditionEnrolmentService;
 import PAI.service.studentGrade.IGradeAStudentService;
 import jakarta.validation.Valid;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -36,8 +33,6 @@ import java.util.List;
 import java.util.UUID;
 
 import static PAI.utils.ValidationUtils.validateNotNull;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/course-editions")
@@ -284,42 +279,6 @@ public ResponseEntity<?> defineRucForCourseEdition(
         StudentCountDTO studentCountDTO = studentCountAssembler.fromDomainToDTO(studentCount);
         return ResponseEntity.ok(studentCountDTO);
     }
-
-    @GetMapping("/students/{studentID}/courseeditionenrolments")
-    public ResponseEntity<List<CourseEditionEnrolmentMinimalDTO>> getEnrolmentsForStudent(
-            @PathVariable("studentID") int studentID) {
-
-        List<CourseEditionEnrolment> enrolments = courseEditionEnrolmentService.findByStudentID(studentID);
-
-        List<CourseEditionEnrolmentMinimalDTO> dtos = enrolments.stream()
-                .map(courseEditionEnrolmentAssembler::toMinimalDTO)
-                .toList();
-
-        return ResponseEntity.ok(dtos);
-    }
-
-    @PostMapping("/studentgrades/register/hateoas")
-    public ResponseEntity<EntityModel<GradeAStudentResponseDTO>> gradeAStudentWithLink(
-            @RequestBody @Valid GradeAStudentRequestDTO request) throws Exception {
-
-        // 1. Converter o request em comando de domínio
-        GradeAStudentCommand command = studentGradeAssembler.toDomain(request);
-
-        // 2. Executar o caso de uso
-        GradeAStudentResponseDTO response = gradeAStudentService.gradeAStudent(command);
-
-        // 3. Criar link HATEOAS para o detalhe do estudante
-        int studentID = response._studentUniqueNumber();
-        Link studentLink = linkTo(methodOn(StudentRestController.class)
-                .getStudentByID(studentID)).withRel("student-details");
-
-        // 4. Criar o EntityModel com o link
-        EntityModel<GradeAStudentResponseDTO> model = EntityModel.of(response, studentLink);
-
-        // 5. Retornar a resposta com status 201
-        return ResponseEntity.status(HttpStatus.CREATED).body(model);
-    }
-
 
 
 }
