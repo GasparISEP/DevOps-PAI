@@ -1,29 +1,23 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import '../../styles/Modal.css';
-import infoImage from "../../assets/images/information.png";
 import listImage from "../../assets/images/list.png";
 
 export default function StudentRemovalModal({ isSuccess, studentID, courseEdition, onClose }) {
     const [showDetails, setShowDetails] = useState(false);
+    const navigate = useNavigate();
 
     const title = isSuccess ? "Success!" : "Unsuccessful!";
     const textColor = isSuccess ? "green" : "red";
 
-    const detailsHref = courseEdition?.courseAcronym
-        ? `/course-editions/by-acronym/${courseEdition.courseAcronym}`
-        : null;
-
     const collectionHref = "/courseeditions/display";
-
-    const openListLink = (href) => {
-        if (href) {
-            const url = `http://localhost:3000${href}`;
-            window.open(url, '_blank');
-        }
-    };
 
     const toggleDetails = () => {
         setShowDetails(prev => !prev);
+    };
+
+    const goToList = () => {
+        navigate(collectionHref);
     };
 
     return (
@@ -44,18 +38,11 @@ export default function StudentRemovalModal({ isSuccess, studentID, courseEditio
                 {isSuccess && (
                     <div style={{ display: 'flex', justifyContent: 'center', gap: '2rem', marginTop: '2rem' }}>
                         <img
-                            src={infoImage}
-                            alt="View Details"
-                            title="View Details"
-                            style={{ cursor: 'pointer', width: '20px', height: '20px' }}
-                            onClick={toggleDetails}
-                        />
-                        <img
                             src={listImage}
                             alt="View All"
                             title="View All"
                             style={{ cursor: 'pointer', width: '20px', height: '20px' }}
-                            onClick={() => openListLink(collectionHref)}
+                            onClick={goToList}
                         />
                     </div>
                 )}
