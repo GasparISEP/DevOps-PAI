@@ -11,9 +11,12 @@ import PAI.assembler.courseEditionEnrolment.ICourseEditionEnrolmentHateoasAssemb
 import PAI.assembler.programmeEdition.IProgrammeEditionServiceAssembler;
 import PAI.assembler.schoolYear.ISchoolYearAssembler;
 import PAI.assembler.studentGrade.IStudentGradeAssembler;
+import PAI.domain.courseEdition.CourseEdition;
+import PAI.domain.schoolYear.SchoolYear;
 import PAI.dto.approvalRate.ApprovalRateResponseDTO;
 import PAI.dto.courseEdition.*;
 import PAI.dto.courseEditionEnrolment.CourseEditionEnrolmentDto;
+import PAI.dto.schoolYear.SchoolYearCEDTO;
 import PAI.dto.studentGrade.GradeAStudentCommand;
 import PAI.dto.studentGrade.GradeAStudentRequestDTO;
 import PAI.dto.studentGrade.GradeAStudentResponseDTO;
@@ -296,5 +299,23 @@ public ResponseEntity<?> defineRucForCourseEdition(
         return ResponseEntity.ok(studentCountDTO);
     }
 
+    @GetMapping("/school-years")
+    public ResponseEntity<?> getCoursesEditionsByProgrammeIDAndCourseID(
+            @RequestParam("programmeAcronym") @Valid String programmeAcronym,
+            @RequestParam("courseAcronym") @Valid String courseAcronym,
+            @RequestParam("courseName") @Valid String courseName
+    ) {
+        try {
+            ProgrammeID programmeID = new ProgrammeID(new Acronym(programmeAcronym));
+            CourseID courseID =  new CourseID(new Acronym(courseAcronym), new Name(courseName));
+
+            Iterable <CourseEdition> courseEditions = courseEditionService.getCourseEditionsByProgrammeIDAndCourseID(programmeID, courseID);
+            List<SchoolYearID> schoolYearIDArrayList = courseEditionService.getSchoolYearIDsFromCourseEditions(courseEditions);
+            Iterable<SchoolYear> schoolYearArrayList = schoolYearService.getSchoolYearsByIDs(schoolYearIDArrayList);
+            Iterable<SchoolYearCEDTO> schoolYearCEDTOS = schoolYearAssembler.toCEDTOs(schoolYearArrayList);
+
+            return ResponseEntity.ok(schoolYearCEDTOS);
+        } catch (Exception e) {return ResponseEntity.badRequest().body("Error processing request: " + e.getMessage());}
+    }
 
 }

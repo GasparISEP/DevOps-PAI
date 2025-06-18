@@ -33,7 +33,7 @@ Repository <--o]: List<ProgrammeDataModel>
 Repository --> Service: List<Programme>
 deactivate Repository
 
-Service -> Assembler: fromDomainToDTO(List<DegreeType>)
+Service -> Assembler: fromDomainToDTO(List<Programme>)
 activate Assembler
 
 Assembler --> Service: List<ProgrammeDTO>
