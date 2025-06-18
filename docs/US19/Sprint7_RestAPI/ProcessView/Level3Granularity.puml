@@ -20,9 +20,8 @@ participant "<<component>>\n:Service" as Service #E1F5FE
 participant "<<component>>\n:Domain" as Domain #E1F5FE
 participant "<<component>>\n:Repository" as Repository #E1F5FE
 
-database DB as DB #E1F5FE
 
--> Router: POST /courseeditions (JSON)
+[o-> Router: POST /course-editions + body {...}
 activate Router
 note over Router #EEEEEE
 Spring converts JSON into
@@ -38,7 +37,7 @@ end note
 
 
 
-Controller -> Service: createCourseEditionForRestApi(command)
+Controller -> Service: createCourseEdition(command)
 activate Service
 
 
@@ -59,27 +58,25 @@ deactivate Repository
 Service -> Repository: save(courseEdition)
 activate Repository
 
-Repository -> DB: INSERT course_edition
-activate DB
-DB --> Repository: success
-deactivate DB
+Repository ->o] : INSERT INTO course_editions (...)
+Repository <--o]: courseEdition saved
 
-Repository --> Service: saved CourseEdition
+Repository --> Service: courseEdition saved
 deactivate Repository
 
 
 
 
-    Service --> Controller: responseIDDTO
+    Service --> Controller: courseEditionResponseDTO
     deactivate Service
 
 
-    Controller --> Router: 201 Created + ResponseEntity(responseModel)
+    Controller --> Router: 201 Created + body {courseEditionResponseDTO + hypermedia}
 
 
 
 deactivate Controller
 
-<-- Router: Reponse
+[o<-- Router: 201 Created + body {courseEditionResponseDTO + hypermedia}
 deactivate Router
 @enduml
