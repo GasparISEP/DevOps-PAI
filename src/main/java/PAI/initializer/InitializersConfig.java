@@ -158,7 +158,7 @@ public class InitializersConfig {
     @Profile("course-in-study-plan")
     public CommandLineRunner loadDataCourseInStudyPlan(ICourseInStudyPlanService service, CourseInStudyPlanInitializer initializer) {
         return (args) -> {
-            initializer.loadCourseInStudyPlan(service, "src/main/resources/CourseInStudyPlan2.csv");
+            initializer.loadCourseInStudyPlan(service, "src/main/resources/CourseInStudyPlan.csv");
         };
     }
 
