@@ -11,7 +11,6 @@ pipeline {
         BACKEND_IMAGE         = 'ricardomarques21/backend'
         FRONTEND_IMAGE        = 'ricardomarques21/frontend'
         NODE_ENV              = 'development'
-        DOCKER_HOST           = 'tcp://host.docker.internal:2375'
     }
 
     stages {
@@ -55,10 +54,8 @@ pipeline {
         stage('Build Docker Images') {
             steps {
                 echo '🐳 Building Docker images...'
-                script {
-                    docker.build("${env.BACKEND_IMAGE}:${env.BUILD_NUMBER}", "-f src/Dockerfile .")
-                    docker.build("${env.FRONTEND_IMAGE}:${env.BUILD_NUMBER}", 'frontend')
-                }
+                sh "docker build -t ${BACKEND_IMAGE}:${BUILD_NUMBER} -f src/Dockerfile ."
+                sh "docker build -t ${FRONTEND_IMAGE}:${BUILD_NUMBER} frontend"
             }
         }
 
@@ -70,12 +67,9 @@ pipeline {
                     usernameVariable: 'DOCKER_USER',
                     passwordVariable: 'DOCKER_PASS'
                 )]) {
-                    script {
-                        docker.withRegistry("${DOCKER_REGISTRY}", "${DOCKER_CREDENTIALS_ID}") {
-                            docker.image("${env.BACKEND_IMAGE}:${env.BUILD_NUMBER}").push()
-                            docker.image("${env.FRONTEND_IMAGE}:${env.BUILD_NUMBER}").push()
-                        }
-                    }
+                    sh "echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin"
+                    sh "docker push ${BACKEND_IMAGE}:${BUILD_NUMBER}"
+                    sh "docker push ${FRONTEND_IMAGE}:${BUILD_NUMBER}"
                 }
             }
         }
