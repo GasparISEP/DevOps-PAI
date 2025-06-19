@@ -37,9 +37,9 @@ public interface IProgrammeEditionRepositorySpringData extends JpaRepository<Pro
                 @Param("startDate") LocalDate startDate
         );
 
-    @Query("SELECT pe.programmeEditionGeneratedIDDataModel FROM ProgrammeEditionDataModel pe " +
+    @Query("SELECT pe.programmeEditionIdDataModel FROM ProgrammeEditionDataModel pe " +
             "WHERE pe.programmeEditionIdDataModel.schoolYearIDDataModel = :schoolYearId " +
-            "AND pe.programmeEditionIdDataModel.schoolYearIDDataModel IN :programmeIds")
+            "AND pe.programmeEditionIdDataModel.programmeIDDataModel IN :programmeIds")
     List<ProgrammeEditionIdDataModel> findProgrammeEditionIDsBySchoolYearIdAndProgrammeIds(
             @Param("schoolYearId") SchoolYearIDDataModel schoolYearId,
             @Param("programmeIds") List<ProgrammeIDDataModel> programmeIds);

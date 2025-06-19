@@ -17,9 +17,15 @@ public interface IProgrammeEditionEnrolmentRepositorySpringData extends JpaRepos
     Optional<ProgrammeEditionEnrolmentDataModel> findById_StudentIdDataModelAndId_ProgrammeEditionIdDataModel(StudentIDDataModel studentId, ProgrammeEditionIdDataModel programmeEditionId);
 
     @Query(value = """
-    SELECT COUNT(*)
-    FROM programme_edition_enrolment
-    WHERE (edition_programme_acronym, edition_school_year) IN (:pairs)
+    SELECT edition_programme_acronym, edition_school_year, COUNT(*) as total
+    FROM PROGRAMME_EDITION_ENROLMENTS
+    WHERE edition_programme_acronym IN (:acronyms)
+      AND edition_school_year IN (:schoolYears)
+    GROUP BY edition_programme_acronym, edition_school_year
     """, nativeQuery = true)
-    int countEnrolledStudentsByProgrammeEditionIds(@Param("pairs") List<Object[]> pairs);
+    List<Object[]> countEnrolledByAcronymAndSchoolYear(
+            @Param("acronyms") List<String> acronyms,
+            @Param("schoolYears") List<String> schoolYears
+    );
+
 }

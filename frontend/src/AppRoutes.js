@@ -30,7 +30,7 @@ function AppRoutes() {
                     <Route path="/students/register" element={<RegisterStudentPage />} />
                     <Route path="/students/display" element={<DisplayStudentPage />} />
                     <Route path="/students/enrol-programme" element={<ProgrammeEnrolmentPage />} />
-                    <Route path="/students/enroll" element={<EnrollStudentInCoursesPage />} />
+                    <Route path="/students/enrol" element={<EnrollStudentInCoursesPage />} />
                     <Route path="/students/enrolled-courses" element={<StudentEnrolledCoursesPage />} />
                     <Route path="/students/programme-editions" element={<StudentProgrammeEditionsPage />} />
                     <Route path="/students/removal" element={<RemoveStudentPage />} />

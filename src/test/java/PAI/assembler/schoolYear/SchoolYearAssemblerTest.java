@@ -6,10 +6,7 @@ import PAI.VOs.SchoolYearID;
 import PAI.domain.schoolYear.ISchoolYearFactory;
 import PAI.domain.schoolYear.SchoolYear;
 import PAI.domain.schoolYear.SchoolYearFactoryImpl;
-import PAI.dto.schoolYear.CurrentSchoolYearDTO;
-import PAI.dto.schoolYear.CurrentSchoolYearResponseDTO;
-import PAI.dto.schoolYear.SchoolYearCEDTO;
-import PAI.dto.schoolYear.SchoolYearDTO;
+import PAI.dto.schoolYear.*;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -332,5 +329,22 @@ class SchoolYearAssemblerTest {
         // Assert
         assertNotNull(result);
         assertFalse(result.iterator().hasNext());
+    }
+
+    @Test
+    void testToSchoolYearCommandDTO() {
+        //arrange
+        ISchoolYearFactory syFactory = mock(SchoolYearFactoryImpl.class);
+        SchoolYearAssembler assembler = new SchoolYearAssembler(syFactory);
+
+        String description = "Hi";
+        String startDate = "04-04-2025";
+        String endDate = "04-05-2025";
+
+        //act
+        SchoolYearCommandDTO res = assembler.toSchoolYearCommandDTO(description, startDate, endDate);
+
+        //assert
+        assertNotNull(res);
     }
 }
