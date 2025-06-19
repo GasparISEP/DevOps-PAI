@@ -23,4 +23,7 @@ public class SchoolYearCommandDTO {
         return _startDate;
     }
 
+    public Date getEndDate() {
+        return _endDate;
+    }
 }
