@@ -3,14 +3,16 @@
 autonumber
 
 title Count enrolments matching courseEditionID
+skinparam sequenceMessageAlign center
+skinparam sequenceLifeLineBackgroundColor #lightblue
 
 participant "ceRepo:CourseEditionEnrolmentRepository" as R #lightblue
 participant "ceIDMapper:CourseEditionIDMapper" as M #lightgreen
-participant "courseEditionIDDataModel:CourseEditionIDDataModel" as DM
+participant "courseEditionIDDataModel:CourseEditionIDDataModel" as DM #strategy
 
 activate R
 R -> M ++ : toDataModel(courseEditionID)
-M -> DM**: newCourseEditionIDDataModel(courseEditionID)
+M -> DM**: <Create> CourseEditionIDDataModel(courseEditionID)
 activate DM
 DM --> M --: courseEditionIDDataModel
 M --> R --: courseEditionIDDataModel

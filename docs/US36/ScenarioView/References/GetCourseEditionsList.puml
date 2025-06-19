@@ -1,6 +1,8 @@
 @startuml
 
 autonumber
+skinparam sequenceMessageAlign center
+skinparam sequenceLifeLineBackgroundColor #lightblue
 
 participant "CECtrl:CourseEditionRestController" as ceC #lightgreen
 participant "CEAssembler:CourseEditionAssembler" as A #strategy
@@ -20,7 +22,7 @@ ceR <--o] : List<CourseEditionDataModel>
 loop for CourseEditionDataModel[i]
 ceR -> M ++: toDomain(courseEditionDataModel[i])
 M -> F ++: createCourseEditionFromDataModel\n(courseEditionDataModel[i])
-F -> ce**: newCourseEdition(courseEditionID, courseInStudyPlanID, \nprogrammeEditionID, teacherID)
+F -> ce**: <Create> CourseEdition(courseEditionID, courseInStudyPlanID, \n programmeEditionID, teacherID)
 activate ce
 ce --> F --: courseEdition[i]
 F --> M --: courseEdition[i]
@@ -32,7 +34,7 @@ ceS --> ceC --: List<CourseEdition>
 
 loop for CourseEdition[i]
 ceC -> A ++: toResponseDTO(courseEdition[i])
-A -> DTO**: <Create> CourseEdition(courseEdition[i])
+A -> DTO**: <Create> CourseEditionResponseDTO(courseEdition[i])
 activate DTO
 DTO --> A --: courseEditionDTO[i]
 A --> ceC --: courseEditionDTO[i]

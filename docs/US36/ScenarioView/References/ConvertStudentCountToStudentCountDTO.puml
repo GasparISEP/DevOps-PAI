@@ -1,14 +1,16 @@
 @startuml
 
 autonumber
+skinparam sequenceMessageAlign center
+skinparam sequenceLifeLineBackgroundColor #lightblue
 
 participant "CECtrl:CourseEditionRestController" as ceC #lightgreen
 participant "scDTOAssembler:StudentCountDTOAssembler" as A #lightblue
-participant "studentCountDTO:StudentCountDTO" as DTO
+participant "studentCountDTO:StudentCountDTO" as DTO #strategy
 
 activate ceC
 ceC -> A ++: fromDomainToDTO(studentCount)
-A -> DTO**: newStudentCountDTO(studentCount)
+A -> DTO**: <Create> StudentCountDTO(studentCount)
 activate DTO
 DTO --> A--: studentCountDTO
 A --> ceC--: studentCountDTO

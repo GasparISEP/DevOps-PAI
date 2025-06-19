@@ -79,7 +79,7 @@ class StudentCountAssemblerImpl {
 }
 
 class StudentCountDTO {
-    - studentCount: Integer
+    - studentCount: int
 }
 
 
