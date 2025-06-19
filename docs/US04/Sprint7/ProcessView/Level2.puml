@@ -1,0 +1,27 @@
+@startuml
+autonumber
+
+title US04: \n As an Administrator, I want to register a teacher in the system. \n Process View Level 2
+
+actor Administrator as admin
+participant "<<Container>> \n:Frontend" as FE
+participant "<<Container>> \n:Backend" as BE
+participant "<<Container>> \n:Database" as DB
+
+admin -> FE ++: I want to register Teacher in the system
+FE -> BE ++: HTTP Request **GET** /departments
+BE -> DB ++: **SELECT** retrieveAllDepartments
+DB --> BE --: **Data** [Departments]
+BE --> FE --: HTTP Response **200 Ok** + List<DepartmentDTO>
+FE --> admin --: Display form with: \n name, email, NIF, countryCode, phoneNumber, \n academicBackground, street, postalCode, location, country, Department
+
+admin -> FE ++: Submitted filled form: \n  name, email, NIF, countryCode,  phoneNumber, \n academicBackground, street, postalCode, location, country, Department
+FE -> BE ++: HTTP Request **POST** /teachers
+
+BE -> DB ++: **INSERT INTO** teachers
+
+DB --> BE --: **Sucess** New Teacher inserted
+BE --> FE --: HTTP Response **201 Created** + Registered TeacherDTO
+FE --> admin --: Teacher registered successfully!
+
+@enduml
