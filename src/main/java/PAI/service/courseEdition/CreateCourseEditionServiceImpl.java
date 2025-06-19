@@ -27,6 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static PAI.utils.ValidationUtils.validateNotNull;
+
 @Service
 public class CreateCourseEditionServiceImpl implements ICreateCourseEditionService {
 
@@ -88,8 +90,7 @@ public class CreateCourseEditionServiceImpl implements ICreateCourseEditionServi
     }
 
     private void validateCommand(CreateCourseEditionCommand command) {
-        if (command == null)
-            throw new IllegalArgumentException("CreateCourseEditionCommand cannot be null.");
+        validateNotNull(command, "CreateCourseEditionCommand");
     }
 
     private CourseInStudyPlanID buildCourseInStudyPlanID(CreateCourseEditionCommand command) {
