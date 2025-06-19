@@ -145,33 +145,35 @@ export default function GradeStudentForm() {
         }
     }
 
-    async function handleSubmit(e) {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        setError('');
-        setSuccess(null);
         setLoading(true);
+        setError('');
+        setStudentIdError('');
+        setGradeError('');
 
         try {
-            const requestPayload = {
-                studentUniqueNumber: parseInt(form.studentUniqueNumber),
-                grade: parseFloat(form.grade),
-                courseEditionGeneratedID: form.courseEditionGeneratedID
-            };
+            const response = await gradeAStudentWithLink(form);
 
-            console.log("📡 Payload antes do envio:", requestPayload);
+            const selectedCourse = enrolments.find(
+                (enrolment) => enrolment.courseEditionGeneratedID === form.courseEditionGeneratedID
+            );
 
-            const response = await gradeAStudentWithLink(requestPayload);
-            setSuccess(response.data);
+            setSuccess({
+                _studentUniqueNumber: form.studentUniqueNumber,
+                _courseEditionName: selectedCourse?.courseEditionName || 'N/A',
+                _grade: form.grade,
+                _date: new Date().toLocaleDateString()
+            });
+
             setShowSuccessModal(true);
         } catch (err) {
-            console.error("Erro ao registrar nota:", err);
-            setError(err.message || "Erro desconhecido ao registrar a nota.");
+            setError('The grade for this student in this course edition has already been assigned. \n Please try another Student ID and/or another Course Edition.');
             setShowErrorModal(true);
         } finally {
             setLoading(false);
         }
-    }
-
+    };
 
     return (
         <div className="form-main-component-div">
@@ -251,12 +253,14 @@ export default function GradeStudentForm() {
                 {showSuccessModal && success && (
                     <div className="modal-overlay">
                         <div className="modal-content">
-                            <h2 style={{ color: 'green' }}>✅ Grade Registered Successfully</h2>
+                            <h2 style={{color: 'green'}}>Grade Registered Successfully</h2>
                             <p><strong>Student ID:</strong> {success._studentUniqueNumber}</p>
+                            <p><strong>Course Edition:</strong> {success._courseEditionName}</p>
                             <p><strong>Grade:</strong> {success._grade}</p>
-                            <p><strong>Date:</strong> {success._date}</p>
+                            <p><strong>Registration Date:</strong> {success._date}</p>
 
-                            <button className="btn btn-primary" onClick={() => setShowSuccessModal(false)}>Close</button>
+                            <button className="btn btn-primary" onClick={() => setShowSuccessModal(false)}>Close
+                            </button>
                         </div>
                     </div>
                 )}
@@ -266,7 +270,7 @@ export default function GradeStudentForm() {
                 {showErrorModal && error && (
                     <div className="modal-overlay">
                         <div className="modal-content">
-                            <h2 style={{ color: 'red' }}>❌ Error Registering Grade</h2>
+                            <h2 style={{ color: 'red' }}>Error Registering Grade</h2>
                             <p>{error}</p>
 
                             <button className="btn btn-secondary" onClick={() => setShowErrorModal(false)}>Close</button>

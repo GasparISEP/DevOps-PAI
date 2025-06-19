@@ -1,0 +1,36 @@
+@startuml
+autonumber
+skinparam sequenceMessageAlign center
+skinparam sequenceLifeLineBackgroundColor lightblue
+
+title As an ASC I want to remove the enrolment of a student in a course edition using a WEB UI \n (Ref 2 - Find CourseEditionID by generated ID)
+
+participant ":StudentRestController" as Controller <<Component>> #motivation
+participant ":CourseEditionService" as Service <<Service>> #lightblue
+participant ":CourseEditionRepository" as CER <<Component>> #lightgreen
+participant ":courseEditionGeneratedIDMapper" as CEM <<Component>> #yellow
+participant ":CourseEditionRepository" as CER <<Component>> #lightgreen
+participant ":CourseEditionEnrolmentMapper" as CEEM #yellow
+participant ":CourseEditionMapper" as CEM #yellow
+participant "Drivers" as D <<Database>> #lightblue
+
+activate Controller
+Controller -> Service ++ : findCourseEditionIDByGeneratedID(courseEditionGeneratedID1)
+Service -> CER ++ : findCourseEditionByGeneratedId(generatedID1)
+
+CER -> CEM ++ : toDataModel(generatedID1)
+CEM --> CER -- : courseEditionGeneratedIDDataModel1
+|||
+CER -> D ++ : findCourseEditionByGeneratedId(courseEditionGeneratedIDDataModel1)
+D ->o] : **SELECT** @Query("SELECT ce FROM CourseEditionDataModel \n ce WHERE ce._courseEditionGeneratedIDDataModel = :courseEditionGeneratedId")
+|||
+D <--o] : courseEditionDataModel1
+CER <-- D -- : courseEditionDataModel1
+|||
+CER -> CEM ++ : toDomain(courseEditionDataModel1)
+CER <-- CEM -- : Optional.of(courseEdition1)
+CER --> Service -- : courseEdition1
+Service -> Service : courseEdition1.get().identity()
+Controller <-- Service -- : courseEditionID1
+
+@enduml

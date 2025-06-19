@@ -442,7 +442,7 @@ export default function EnrollStudentForm() {
                             {error && <div className="error">{error}</div>}
                             <div className="form-actions">
                                 <button type="button" className="btn btn-secondary" onClick={handleClear}>CLEAR</button>
-                                <button type="submit" className="btn btn-primary">ENROLL</button>
+                                <button type="submit" className="btn btn-primary">ENROL</button>
                             </div>
                         </div>
                     </div>
@@ -451,7 +451,7 @@ export default function EnrollStudentForm() {
                 {showReviewModal && reviewData && (
                     <div className="modal-overlay">
                         <div className="modal-content" style={{ maxHeight: '80vh', overflowY: 'auto' }}>
-                            <h2 style={{ color: '#E1A200' }}>🔍 Review Enrollment Data</h2>
+                            <h2 style={{ color: '#E1A200' }}>🔍 Review Enrolment Data</h2>
                             <p><strong>Student ID:</strong> {reviewData.studentID}</p>
                             <p><strong>Student Name:</strong> {reviewData.studentName}</p>
                             <p><strong>Programme Edition:</strong> {reviewData.programmeName} — {reviewData.editionDescription}</p>
@@ -542,7 +542,7 @@ export default function EnrollStudentForm() {
                 {showModal && success && (
                     <div className="modal-overlay">
                         <div className="modal-content" style={{ maxHeight: '80vh', overflowY: 'auto' }}>
-                            <h2 style={{ color: 'green' }}>✅ Enrollment Successful</h2>
+                            <h2 style={{ color: 'green' }}>✅ Enrolment Successful</h2>
                             <p><strong>Student ID:</strong> {success.studentID}</p>
                             <p><strong>Student Name:</strong> {success.studentName}</p>
                             <p><strong>Programme Edition:</strong> {success.programmeName} — {success.editionDescription}</p>
@@ -653,7 +653,7 @@ export default function EnrollStudentForm() {
                 {showErrorModal && (
                     <div className="modal-overlay">
                         <div className="modal-content" style={{ borderColor: 'red' }}>
-                            <h2 style={{ color: 'red' }}>Enrollment Error</h2>
+                            <h2 style={{ color: 'red' }}>Enrolment Error</h2>
                             <p>{error}</p>
                             <button className="modal-btn" onClick={() => setShowErrorModal(false)}>Close</button>
                         </div>

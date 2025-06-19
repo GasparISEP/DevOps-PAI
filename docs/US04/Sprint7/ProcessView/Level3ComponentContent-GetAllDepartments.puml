@@ -1,0 +1,25 @@
+@startuml
+title US04: \nProcess View Level 3 - getAllDepartments()
+
+autonumber
+
+participant "<<Component>>\n:Router" as RT
+participant "<<Component>>\n:DepartmentRestController" as C
+participant "<<Component>>\n:DepartmentRegistrationService" as S
+participant "<<Component>>\n:DepartmentRepository" as R
+participant "<<Component>>\n:Drivers" as D
+
+[o-> RT ++: HTTP Request **GET** /departments
+RT -> C ++: getAllDepartments()
+C -> S ++: getAllDepartments()
+S -> R ++: findAll()
+R -> D ++: findAll()
+D ->o] : **SELECT * FROM Departments**
+D <--o] : **Data** [Department]
+D --> R --: List<DepartmentDataModel>
+R --> S --: List<Department>
+S --> C --: List<Department>
+C --> RT --: HTTP Response **200 OK** + CollectionModel<DepartmentWithDirectorDTO>
+[o<-- RT --: HTTP **200 OK** + CollectionModel<DepartmentWithDirectorDTO>
+
+@enduml

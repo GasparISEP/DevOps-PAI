@@ -252,7 +252,7 @@ class InitializersConfigTest {
         commandLineRunner.run(new String[]{});
 
         // Assert
-        verify(initializerDouble).loadCourseInStudyPlan(serviceDouble, "src/main/resources/CourseInStudyPlan2.csv");
+        verify(initializerDouble).loadCourseInStudyPlan(serviceDouble, "src/main/resources/CourseInStudyPlan.csv");
         verifyNoMoreInteractions(initializerDouble);
     }
 
