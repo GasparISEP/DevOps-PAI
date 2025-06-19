@@ -79,7 +79,7 @@ describe('EnrolmentCountModal', () => {
     test('handles empty course name', () => {
         render(<EnrolmentCountModal {...defaultProps} courseName="" />);
         expect(screen.getByText('Course:')).toBeInTheDocument();
-        // O texto vazio ainda estará no DOM, apenas não visível
+
         const courseText = screen.getByText('Course:').parentElement;
         expect(courseText).toBeInTheDocument();
     });
@@ -135,8 +135,6 @@ describe('EnrolmentCountModal', () => {
         const button = screen.getByText('Close');
 
         fireEvent.keyDown(button, { key: 'Enter', code: 'Enter' });
-        // O evento de click não é automaticamente disparado pelo keyDown no React Testing Library
-        // mas podemos testar se o botão está focável
         expect(button).toBeInTheDocument();
     });
 
@@ -153,11 +151,11 @@ describe('EnrolmentCountModal', () => {
     test('renders all required elements with correct structure', () => {
         render(<EnrolmentCountModal {...defaultProps} />);
 
-        // Verifica se todos os elementos estão presentes
+        // Verify if all elements are present
         expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent('Enrolment Count');
         expect(screen.getByRole('button', { name: 'Close' })).toBeInTheDocument();
 
-        // Verifica a estrutura HTML
+        // Verify the HTML structure
         const overlay = document.querySelector('.modal-overlay');
         const content = document.querySelector('.modal-content');
         const successDiv = document.querySelector('.success');
