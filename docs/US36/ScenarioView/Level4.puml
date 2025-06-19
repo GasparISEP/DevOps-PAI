@@ -3,13 +3,15 @@
 autonumber
 
 title As an ASC, I want to know the number of students enrolled in a Course Edition
+skinparam sequenceMessageAlign center
+skinparam sequenceLifeLineBackgroundColor #lightblue
 
 participant ":Router" as UI #lightblue
 participant "CECtrl:CourseEditionRestController" as ceC #lightgreen
-participant "ceService:CourseEditionEnrolmentService" as S #lightblue
-participant "ceRepo:CourseEditionEnrolmentRepository" as R #lightpink
+participant "ceService:CourseEditionEnrolmentServiceImpl" as S #lightblue
+participant "ceRepo:CourseEditionEnrolmentRepositorySpringDataImpl" as R #lightpink
 
-[o-> UI ++: **GET** /course-editions
+[o-> UI ++: **HTTP request** (**GET**) \n /course-editions
 
 UI -> ceC ++: getAllCourseEditions()
 
@@ -20,9 +22,9 @@ end ref
 ceC --> UI --: List<CourseEditionDTO>
 [o<-- UI --: List<CourseEditionDTO>
 
-[o-> UI ++ : **GET** /course-editions/{id}/student-count
+[o-> UI ++ : **HTTP request** (**GET**) \n /course-editions/{id}/student-count
 
-UI -> ceC ++ : getNumberOfStudentsInCourseEdition\n(selectedCourseEditionIdDTO)
+UI -> ceC ++ : numberOfStudentsEnrolledInCourseEdition \n (selectedCourseEditionIdDTO)
 
 ref over ceC
     Convert DTO to CourseEditionIDVO
