@@ -1,19 +1,23 @@
 @startuml
 autonumber
 
-title find active enrolments by StudentID
+skinparam sequenceMessageAlign center
+skinparam sequenceLifeLineBackgroundColor lightblue
 
-participant ":CourseEditionEnrolmentServiceImpl" as Service <<Service>> #lightblue
+title As an ASC I want to remove the enrolment of a student in a course edition using a WEB UI \n (Ref 1 - Find Active Enrolments by StudentID)
+
+participant ":StudentRestController" as Controller <<Component>> #motivation
+participant ":CourseEditionEnrolmentService" as Service <<Service>> #lightblue
 participant ":CourseEditionEnrolmentRepository" as CEER <<Component>> #lightgreen
 participant "StudentIDMapper" as SIDM #yellow
 participant "sIDDM:StudentIDDataModel" as SIDDM #silver
 participant ":CourseEditionRepository" as CER <<Component>> #lightgreen
 participant "CourseEditionEnrolmentMapper" as CEEM #yellow
-participant "CourseEditionMapper" as CEM #yellow
 participant "Drivers" as D <<Database>> #lightblue
 participant "eCD1:EnrolledCourseDetails" as ECD #lightpink
 
-activate Service
+activate Controller
+Controller -> Service ++: findEnrolledCourseEditionsForStudent(studentID)
 Service -> CEER ++: findActiveEnrolmentsByStudentID(studentID)
 CEER -> SIDM ++: domainToDataModel(studentID)
 SIDM -> SIDDM ++: new StudentIDDataModel(studentID)
@@ -33,7 +37,7 @@ loop for each CourseEditionEnrolmentDataModel
     end
 end
 CEER --> CEER : return List<CourseEditionEnrolment>
-CEER --> Service --: studentEnrolments: \nList<CourseEditionEnrolment>
+CEER --> Service --: List<CourseEditionEnrolment>
 deactivate CEER
 
 Service -> Service : results = new ArrayList<>()
@@ -53,4 +57,5 @@ loop for each enrolment in studentEnrolments
     end
 end
 Service --> Service : return List<EnrolledCourseDetails>
+Service --> Controller -- : List<EnrolledCourseDetails>
 @enduml
