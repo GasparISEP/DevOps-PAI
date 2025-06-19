@@ -131,4 +131,15 @@ public class CreateCourseEditionHateoasAssemblerImplTest {
             assertThat(model.getLink("find-all-course-editions")).isPresent();
         }
     }
+
+    @Test
+    void toCollectionModel_ShouldThrowExceptionWhenDtosIsNull() {
+        // Act & Assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            assembler.toCollectionModel(null);
+        });
+
+        assertThat(exception.getMessage()).isEqualTo("CourseEditionResponseDTO list cannot be null.");
+    }
+
 }

@@ -52,6 +52,9 @@ public class CreateCourseEditionHateoasAssemblerImpl
 
     @Override
     public CollectionModel<EntityModel<CourseEditionResponseDTO>> toCollectionModel(Iterable<? extends CourseEditionResponseDTO> dtos) {
+
+        validateNotNull(dtos, "CourseEditionResponseDTO list");
+
         List<EntityModel<CourseEditionResponseDTO>> models = new ArrayList<>();
         dtos.forEach(dto -> models.add(toModel(dto)));
 
