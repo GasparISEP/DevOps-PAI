@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getEnrolmentsForStudent, gradeAStudentWithLink } from '../../services/courseEditionGradeStudentService';
+import { getEnrolmentsForStudent, gradeAStudentWithLink, gradeAStudentMinimal } from '../../services/courseEditionGradeStudentService';
 import ISEPLogoBranco from "../../assets/images/ISEP_logo-branco.png";
 import '../../styles/Form.css';
 import '../../styles/Buttons.css'
@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 export default function GradeStudentForm() {
     const initialFormState = {
         studentUniqueNumber: '',
-        courseEditionID: '',
+        courseEditionGeneratedID: '',
         grade: ''
     };
 
@@ -140,7 +140,7 @@ export default function GradeStudentForm() {
         }
 
         // CourseEdition dropdown
-        if (name === "courseEditionID") {
+        if (name === "courseEditionGeneratedID") {
             setForm(f => ({ ...f, [name]: value }));
         }
     }
@@ -152,22 +152,10 @@ export default function GradeStudentForm() {
         setLoading(true);
 
         try {
-            if (!form.courseEditionID || !form.courseEditionID.includes('|')) {
-                throw new Error("Nenhuma edição de curso válida selecionada.");
-            }
-
-            const [schoolYearId, courseAcronym, courseName] = form.courseEditionID.split('|');
-
-            if (!schoolYearId || !courseAcronym || !courseName) {
-                throw new Error("Dados da edição do curso estão incompletos.");
-            }
-
             const requestPayload = {
-                studentUniqueNumber: form.studentUniqueNumber,
-                schoolYearId,
-                courseAcronym,
-                courseName,
-                grade: form.grade
+                studentUniqueNumber: parseInt(form.studentUniqueNumber),
+                grade: parseFloat(form.grade),
+                courseEditionGeneratedID: form.courseEditionGeneratedID
             };
 
             console.log("📡 Payload antes do envio:", requestPayload);
@@ -221,19 +209,16 @@ export default function GradeStudentForm() {
 
                             {/* Course Edition Dropdown */}
                             <div className="form-group">
-                                <label className="form-label" htmlFor="courseEditionID">Course Edition</label>
-                                <select className="form-input" id="courseEditionID" name="courseEditionID"
-                                        value={form.courseEditionID} onChange={handleChange} required>
+                                <label className="form-label" htmlFor="courseEditionGeneratedID">Course Edition</label>
+                                <select className="form-input" id="courseEditionGeneratedID" name="courseEditionGeneratedID"
+                                        value={form.courseEditionGeneratedID} onChange={handleChange} required>
                                     <option value="">Select a course edition</option>
                                     {Array.isArray(enrolments) && enrolments.length > 0 ? (
-                                        enrolments.map((ed, idx) => {
-                                            const value = `${ed.schoolYearId}|${ed.courseAcronym}|${ed.courseName}`;
-                                            return (
-                                                <option key={idx} value={value}>
-                                                    {ed.courseEditionName}
-                                                </option>
-                                            );
-                                        })
+                                        enrolments.map((enrolment, idx) => (
+                                            <option key={idx} value={enrolment.courseEditionGeneratedID}>
+                                                {enrolment.courseEditionName}
+                                            </option>
+                                        ))
                                     ) : (
                                         <option disabled>No available courses</option>
                                     )}
@@ -267,11 +252,9 @@ export default function GradeStudentForm() {
                     <div className="modal-overlay">
                         <div className="modal-content">
                             <h2 style={{ color: 'green' }}>✅ Grade Registered Successfully</h2>
-                            <p><strong>Student ID:</strong> {success.studentUniqueNumber}</p>
-                            <p><strong>Student Name:</strong> {success.studentName}</p>
-                            <p><strong>Course:</strong> {success.courseName} ({success.courseAcronym})</p>
-                            <p><strong>School Year:</strong> {success.schoolYearId}</p>
-                            <p><strong>Grade:</strong> {success.grade}</p>
+                            <p><strong>Student ID:</strong> {success._studentUniqueNumber}</p>
+                            <p><strong>Grade:</strong> {success._grade}</p>
+                            <p><strong>Date:</strong> {success._date}</p>
 
                             <button className="btn btn-primary" onClick={() => setShowSuccessModal(false)}>Close</button>
                         </div>

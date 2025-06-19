@@ -174,7 +174,7 @@ public class GradeAStudentServiceImpl implements IGradeAStudentService {
         }
         return sumGrade / numOfStudent;
     }
-
+    @Override
     public GradeAStudentResponseDTO gradeAStudentMinimal(GradeAStudentRequestMinimalDTO dto) throws Exception {
         // Validar DTO
         if (dto == null)
