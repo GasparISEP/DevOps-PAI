@@ -21,6 +21,7 @@ import PAI.dto.courseEdition.CreateCourseEditionCommand;
 import PAI.exception.AlreadyRegisteredException;
 import PAI.exception.BusinessRuleViolationException;
 import PAI.exception.CourseEditionCreationException;
+import PAI.utils.ValidationUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -46,32 +47,14 @@ public class CreateCourseEditionServiceImpl implements ICreateCourseEditionServi
                                           IStudyPlanRepository studyPlanRepository, ICourseInStudyPlanRepository courseInStudyPlanRepository,
                                           IProgrammeEditionRepository programmeEditionRepository, ICourseEditionServiceAssembler courseEditionAssembler) {
 
-        if (courseEditionFactory == null)
-            throw new IllegalArgumentException("courseEditionFactory cannot be null");
-        if (courseEditionRepository == null)
-            throw new IllegalArgumentException("courseEditionRepository cannot be null");
-        if (degreeTypeRepository == null)
-            throw new IllegalArgumentException("degreeTypeRepository cannot be null");
-        if (programmeRepository == null)
-            throw new IllegalArgumentException("programmeRepository cannot be null");
-        if (studyPlanRepository == null)
-            throw new IllegalArgumentException("studyPlanRepository cannot be null");
-        if (courseInStudyPlanRepository == null)
-            throw new IllegalArgumentException("courseInStudyPlanRepository cannot be null");
-        if (programmeEditionRepository == null)
-            throw new IllegalArgumentException("programmeEditionRepository cannot be null");
-        if (courseEditionAssembler == null)
-            throw new IllegalArgumentException("courseEditionAssembler cannot be null");
-
-        this.courseEditionFactory = courseEditionFactory;
-        this.courseEditionRepository = courseEditionRepository;
-        this.degreeTypeRepository = degreeTypeRepository;
-        this.programmeRepository = programmeRepository;
-        this.studyPlanRepository = studyPlanRepository;
-        this.courseInStudyPlanRepository = courseInStudyPlanRepository;
-        this.programmeEditionRepository = programmeEditionRepository;
-        this.courseEditionAssembler = courseEditionAssembler;
-
+        this.courseEditionFactory = ValidationUtils.validateNotNull(courseEditionFactory, "courseEditionFactory");
+        this.courseEditionRepository = ValidationUtils.validateNotNull(courseEditionRepository, "courseEditionRepository");
+        this.degreeTypeRepository = ValidationUtils.validateNotNull(degreeTypeRepository, "degreeTypeRepository");
+        this.programmeRepository = ValidationUtils.validateNotNull(programmeRepository, "programmeRepository");
+        this.studyPlanRepository = ValidationUtils.validateNotNull(studyPlanRepository, "studyPlanRepository");
+        this.courseInStudyPlanRepository = ValidationUtils.validateNotNull(courseInStudyPlanRepository, "courseInStudyPlanRepository");
+        this.programmeEditionRepository = ValidationUtils.validateNotNull(programmeEditionRepository, "programmeEditionRepository");
+        this.courseEditionAssembler = ValidationUtils.validateNotNull(courseEditionAssembler, "courseEditionAssembler");
     }
 
     @Override
