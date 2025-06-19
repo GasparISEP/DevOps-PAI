@@ -118,7 +118,7 @@ export default function CourseEditionAverageGradeForm() {
             return;
         }
 
-        const url = `${process.env.REACT_APP_API_URL}/course-editions/averagegrade?programmeAcronym=${selectedProgramme}&schoolYearId=${selectedSchoolYear}&courseAcronym=${selectedCourse}&courseName=${encodeURIComponent(courseObj.courseName)}&localDate=${encodeURIComponent(courseObj.studyPlanDate)}`;
+        const url = `${process.env.REACT_APP_API_URL}/course-editions/averagegrade?programmeAcronym=${selectedProgramme}&schoolYearId=${selectedSchoolYear}&courseAcronym=${selectedCourse}&courseName=${encodeURIComponent(courseObj.courseName)}&localDate=${encodeURIComponent(selectedSchoolYear && schoolYears.find(sy => sy.id === selectedSchoolYear)?.startDate || '')}`;
 
         fetch(url)
             .then(async response => {
