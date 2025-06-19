@@ -14,4 +14,9 @@ public class SchoolYearCommandDTO {
         this._startDate = startDate;
         this._endDate = endDate;
     }
+
+    public Description getDescription() {
+        return _description;
+    }
+
 }
