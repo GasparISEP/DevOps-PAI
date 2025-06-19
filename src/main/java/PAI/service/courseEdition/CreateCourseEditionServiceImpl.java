@@ -74,36 +74,53 @@ public class CreateCourseEditionServiceImpl implements ICreateCourseEditionServi
 
     @Override
     public CourseEditionServiceResponseDTO createCourseEditionForRestApi(CreateCourseEditionCommand command) {
+        validateCommand(command);
+
+        CourseInStudyPlanID courseInStudyPlanID = buildCourseInStudyPlanID(command);
+        ProgrammeEditionID programmeEditionID = buildProgrammeEditionID(command);
+
+        CourseEdition courseEdition = courseEditionFactory.createCourseEditionToDomain(courseInStudyPlanID, programmeEditionID);
+        CourseEditionID courseEditionID = courseEdition.identity();
+
+        checkIfAlreadyRegistered(courseEditionID);
+
+        return saveAndConvertToDTO(courseEdition);
+    }
+
+    private void validateCommand(CreateCourseEditionCommand command) {
         if (command == null)
             throw new IllegalArgumentException("CreateCourseEditionCommand cannot be null.");
+    }
 
+    private CourseInStudyPlanID buildCourseInStudyPlanID(CreateCourseEditionCommand command) {
         ProgrammeID programmeID = new ProgrammeID(command.programmeAcronym());
         Date studyPlanDate = command.studyPlanImplementationDate();
-
-        CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(
+        return new CourseInStudyPlanID(
                 new CourseID(command.courseAcronym(), command.courseName()),
                 new StudyPlanID(programmeID, studyPlanDate)
         );
+    }
 
-        ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(
+    private ProgrammeEditionID buildProgrammeEditionID(CreateCourseEditionCommand command) {
+        ProgrammeID programmeID = new ProgrammeID(command.programmeAcronym());
+        return new ProgrammeEditionID(
                 programmeID,
                 command.schoolYearID()
         );
+    }
 
-        CourseEdition courseEdition = courseEditionFactory.createCourseEditionToDomain(courseInStudyPlanID, programmeEditionID);
-
-        CourseEditionID courseEditionID = courseEdition.identity();
-
+    private void checkIfAlreadyRegistered(CourseEditionID courseEditionID) {
         if (courseEditionRepository.containsOfIdentity(courseEditionID))
             throw new AlreadyRegisteredException("CourseEdition");
+    }
 
+    private CourseEditionServiceResponseDTO saveAndConvertToDTO(CourseEdition courseEdition) {
         try {
             CourseEdition saved = courseEditionRepository.save(courseEdition);
             return courseEditionAssembler.toServiceResponseDTO(saved);
         } catch (Exception e) {
             throw new CourseEditionCreationException("Failed to create CourseEdition.", e);
         }
-
     }
 
 
