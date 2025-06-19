@@ -1,0 +1,37 @@
+version: '3.9'
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"          # Map port 3000 on host to port 80 in container (frontend)
+    environment:
+      - NODE_ENV=development
+      - REACT_APP_API_URL=http://backend:8081   # Backend API URL for frontend
+    depends_on:
+      - backend            # Ensure backend service is started before frontend
+
+  backend:
+    build:
+      context: .           # Root of the project
+      dockerfile: src/Dockerfile  # Dockerfile located inside src folder
+    volumes:
+      - ./src/main/resources:/services   # Mount local resources to /services inside container
+    ports:
+      - "8081:8081"        # Map port 8081 on host to port 8081 in container (backend)
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:h2:tcp://h2:1521/mem:testdb  # H2 database URL
+      SPRING_DATASOURCE_USERNAME: sa                           # DB username
+      SPRING_DATASOURCE_PASSWORD:                              # DB password (empty)
+    depends_on:
+      - h2                 # Ensure H2 database service is started before backend
+
+  h2:
+    image: oscarfonts/h2
+    ports:
+      - "8082:81"          # Map port 8082 on host to 81 in container (H2 web console)
+      - "1521:1521"        # Map port 1521 for TCP connection to H2 (used by backend)
+    environment:
+      H2_OPTIONS: "-tcp -tcpAllowOthers -ifNotExists"   # Start H2 with TCP, allow remote connections, create DB if not exists
