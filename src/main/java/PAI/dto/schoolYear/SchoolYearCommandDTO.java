@@ -19,4 +19,8 @@ public class SchoolYearCommandDTO {
         return _description;
     }
 
+    public Date getStartDate() {
+        return _startDate;
+    }
+
 }

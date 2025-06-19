@@ -33,4 +33,18 @@ class SchoolYearCommandDTOTest {
         //assert
         assertEquals(res.getDescription(),description);
     }
+
+    @Test
+    void testGetStartDate() {
+        //arrange
+        Description description = mock(Description.class);
+        Date startDate = mock(Date.class);
+        Date endDate = mock(Date.class);
+
+        //act
+        SchoolYearCommandDTO res = new SchoolYearCommandDTO(description, startDate, endDate);
+
+        //assert
+        assertEquals(res.getStartDate(),startDate);
+    }
 }
