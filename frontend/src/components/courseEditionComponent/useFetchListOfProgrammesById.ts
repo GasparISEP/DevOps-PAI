@@ -1,10 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import isEqual from "lodash.isequal";
 
 export default function useFetchListOfProgrammesById(programmeAcronymList: string[]) {
     const [programmesMap, setProgrammesMap] = useState<Record<string, any>>({});
+    const prevListRef = useRef<string[]>([]);
 
     useEffect(() => {
+        if (isEqual(prevListRef.current, programmeAcronymList)) {
+            return;
+        }
+        prevListRef.current = programmeAcronymList;
+
         if (!programmeAcronymList || programmeAcronymList.length === 0) {
             setProgrammesMap({});
             return;
