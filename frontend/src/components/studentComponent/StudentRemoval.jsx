@@ -54,8 +54,11 @@ export default function StudentCourseEditionForm() {
                 console.log("[DEBUG] typeof courseEditions:", typeof data);
                 console.log("[DEBUG] courseEditions:", data);
 
-                setCourseEditions(data);
-                setSelectedCourseEditionID('');
+                const filtered = data.filter(
+                    edition => String(edition.studyPlanStartYear) === "2025"
+                );
+
+                setCourseEditions(filtered);
             } catch (err) {
                 console.error("Error loadingit sg course editions:", err);
             }
