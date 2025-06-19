@@ -85,7 +85,7 @@ export default function CourseEditionDisplay() {
         return value?.toLowerCase().includes(filterValue.toLowerCase());
     });
 
-    const totalPages = Math.ceil(filteredCourseEditions.length / courseEditionsPerPage);
+    const totalPages = Math.max(1, Math.ceil(filteredCourseEditions.length / courseEditionsPerPage));
     const startIndex = (currentPage - 1) * courseEditionsPerPage;
     const endIndex = startIndex + courseEditionsPerPage;
     const currentItems = filteredCourseEditions.slice(startIndex, endIndex);
