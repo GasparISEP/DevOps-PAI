@@ -15,27 +15,15 @@ skinparam defaultTextAlignment center
 skinparam shadowing true
 
 actor ASC  #LightBlue/White
-participant "<<System>>\nSystemPAI" as SYSTEM #E1F5FE
+participant "<<System>>\n:PAI" as SYSTEM #E1F5FE
 
 ASC -> SYSTEM: I want to create a course edition
 activate SYSTEM
-SYSTEM --> ASC: Which degree type?
+
+SYSTEM --> ASC: Provide a form with fields for degree type, programme, course and programme edition!
 deactivate SYSTEM
 
-ASC -> SYSTEM: Enter degree type!
-activate SYSTEM
-SYSTEM --> ASC: Which programme?
-deactivate SYSTEM
-
-ASC -> SYSTEM: Enter programme!
-activate SYSTEM
-SYSTEM --> ASC: Which course from the study plan?
-deactivate SYSTEM
-ASC -> SYSTEM: Enter course!
-activate SYSTEM
-SYSTEM --> ASC: Which programme edition?
-deactivate SYSTEM
-ASC -> SYSTEM: Enter programme edition!
+ASC -> SYSTEM: Form submitted!
 activate SYSTEM
 SYSTEM --> ASC: Sure?
 deactivate SYSTEM

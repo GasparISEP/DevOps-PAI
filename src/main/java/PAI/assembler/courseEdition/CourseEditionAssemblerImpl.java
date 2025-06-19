@@ -14,13 +14,13 @@ import java.util.UUID;
 import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 
+import static PAI.utils.ValidationUtils.validateNotNull;
+
 @Component
 public class CourseEditionAssemblerImpl implements ICourseEditionAssembler {
     @Override
     public CreateCourseEditionCommand toCommand(CourseEditionRequestDTO dto) {
-        if (dto == null) {
-            throw new IllegalArgumentException("CourseEditionRequestDTO cannot be null");
-        }
+        validateNotNull(dto, "CourseEditionRequestDTO");
         return new CreateCourseEditionCommand(
                 new Acronym(dto.programmeAcronym()),
                 new SchoolYearID(dto.schoolYearID()),
@@ -32,9 +32,7 @@ public class CourseEditionAssemblerImpl implements ICourseEditionAssembler {
 
     @Override
     public CourseEditionResponseDTO toResponseDTO(CourseEditionServiceResponseDTO courseEditionServiceDTO) {
-        if (courseEditionServiceDTO == null) {
-            throw new IllegalArgumentException("CourseEdition cannot be null");
-        }
+        validateNotNull(courseEditionServiceDTO, "CourseEditionServiceResponseDTO");
 
 
         return new CourseEditionResponseDTO(
@@ -124,9 +122,7 @@ public class CourseEditionAssemblerImpl implements ICourseEditionAssembler {
 
     @Override
     public CourseEditionResponseIDDTO toResponseIDDTO(CourseEditionServiceResponseDTO serviceResponseDTO) {
-        if (serviceResponseDTO == null) {
-            throw new IllegalArgumentException("CourseEditionServiceResponseDTO cannot be null");
-        }
+        validateNotNull(serviceResponseDTO, "CourseEditionServiceResponseDTO");
 
         return new CourseEditionResponseIDDTO(
                 serviceResponseDTO.programmeAcronym(),

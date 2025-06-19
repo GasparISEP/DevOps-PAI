@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static PAI.utils.ValidationUtils.validateNotNull;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
@@ -20,6 +21,8 @@ public class CreateCourseEditionHateoasAssemblerImpl
 
     @Override
     public EntityModel<CourseEditionResponseDTO> toModel(CourseEditionResponseDTO dto) {
+
+        validateNotNull(dto, "CourseEditionResponseDTO");
 
         EntityModel<CourseEditionResponseDTO> courseEditionResponseDTOEntityModel;
         List<Link> iterable = new ArrayList<>();
@@ -49,6 +52,9 @@ public class CreateCourseEditionHateoasAssemblerImpl
 
     @Override
     public CollectionModel<EntityModel<CourseEditionResponseDTO>> toCollectionModel(Iterable<? extends CourseEditionResponseDTO> dtos) {
+
+        validateNotNull(dtos, "CourseEditionResponseDTO list");
+
         List<EntityModel<CourseEditionResponseDTO>> models = new ArrayList<>();
         dtos.forEach(dto -> models.add(toModel(dto)));
 

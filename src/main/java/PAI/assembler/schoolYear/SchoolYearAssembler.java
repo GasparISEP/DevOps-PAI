@@ -7,10 +7,7 @@ import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.domain.schoolYear.ISchoolYearFactory;
 import PAI.domain.schoolYear.SchoolYear;
 import PAI.dto.courseInStudyPlan.CourseInStudyPlanResponseDTO;
-import PAI.dto.schoolYear.CurrentSchoolYearDTO;
-import PAI.dto.schoolYear.CurrentSchoolYearResponseDTO;
-import PAI.dto.schoolYear.SchoolYearCEDTO;
-import PAI.dto.schoolYear.SchoolYearDTO;
+import PAI.dto.schoolYear.*;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -109,5 +106,13 @@ public class SchoolYearAssembler implements ISchoolYearAssembler {
         }
         UUID uuid = UUID.fromString(id);
         return new SchoolYearID(uuid);
+    }
+
+    public SchoolYearCommandDTO toSchoolYearCommandDTO (String description, String startDate, String endDate) {
+        Description descriptionVO = new Description(description);
+        Date startDateVO = new Date(startDate);
+        Date endDateVO = new Date(endDate);
+
+        return new SchoolYearCommandDTO(descriptionVO, startDateVO, endDateVO);
     }
 }

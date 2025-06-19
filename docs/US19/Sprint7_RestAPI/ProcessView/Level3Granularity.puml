@@ -1,5 +1,5 @@
 @startuml
-title: US19: As an ASC, I want to create a course edition\n(Process View - Level 3: Components (Backend focus))
+title: US19: As an ASC, I want to create a course edition\n(Process View - Level 3 - Backend)
 autonumber
 
 skinparam {
@@ -15,17 +15,13 @@ skinparam defaultTextAlignment center
 skinparam shadowing true
 
 participant "<<component>>\n:Router" as Router #E1F5FE
-participant "<<component>>\n:CourseEditionRestController\n(REST Controller)" as Controller #E1F5FE
-participant "<<component>>\n:ICourseEditionAssembler\n(Assembler)" as Assembler #E1F5FE
-participant "<<component>>\n:ICreateCourseEdition\nHateoasAssembler\n(HateoasAssembler)" as HatAssembler #E1F5FE
-participant "<<component>>\n:ICreateCourseEditionService\n(Service)" as Service #E1F5FE
-participant "<<component>>\n:ICourseEditionFactory\n(Factory)" as Factory #E1F5FE
-participant "<<component>>\n:ICourseEditionRepository\n(Repository)" as Repository #E1F5FE
-participant "<<component>>\n:ICourseEditionServiceAssembler\n(Assembler)" as SAssembler #E1F5FE
+participant "<<component>>\n:Controller" as Controller #E1F5FE
+participant "<<component>>\n:Service" as Service #E1F5FE
+participant "<<component>>\n:Domain" as Domain #E1F5FE
+participant "<<component>>\n:Repository" as Repository #E1F5FE
 
-database DB as DB #E1F5FE
 
--> Router: POST /courseeditions (JSON)
+[o-> Router: POST /course-editions + body {...}
 activate Router
 note over Router #EEEEEE
 Spring converts JSON into
@@ -39,22 +35,22 @@ Controller calls assembler.toCommand()
 to convert to CreateCourseEditionCommand
 end note
 
-Controller -> Assembler: toCommand(requestDTO)
-activate Assembler
-Assembler --> Controller: CreateCourseEditionCommand
-deactivate Assembler
 
-Controller -> Service: createCourseEditionForRestApi(command)
+
+Controller -> Service: createCourseEdition(command)
 activate Service
 
 
-Service -> Factory: createCourseEditionToDomain\n(courseInStudyPlanID,\n programmeEditionID)
-activate Factory
+Service -> Domain: createCourseEditionToDomain\n(courseInStudyPlanID,\n programmeEditionID)
+activate Domain
+Domain --> Service: CourseEdition
+deactivate Domain
+Service -> Domain: identity()
+activate Domain
+Domain --> Service: courseEditionID
+deactivate Domain
 
-Factory --> Service: CourseEdition
-deactivate Factory
-
-Service -> Repository: containsOfIdentity(courseEdition.identity())
+Service -> Repository: containsOfIdentity(courseEditionID)
 activate Repository
 Repository --> Service: false
 deactivate Repository
@@ -62,33 +58,25 @@ deactivate Repository
 Service -> Repository: save(courseEdition)
 activate Repository
 
-Repository -> DB: INSERT course_edition
-activate DB
-DB --> Repository: success
-deactivate DB
+Repository ->o] : INSERT INTO course_editions (...)
+Repository <--o]: courseEdition saved
 
-Repository --> Service: saved CourseEdition
+Repository --> Service: courseEdition saved
 deactivate Repository
 
 
 
-    Service -> SAssembler: toServiceResponseDTO(courseEdition)
-    activate SAssembler
-    SAssembler --> Service: responseIDDTO
-    deactivate SAssembler
-    Service --> Controller: responseIDDTO
-    deactivate Service
-    Controller -> Assembler: toModel(responseIDDTO)
-    activate Assembler
-    Assembler --> Controller: responseModel
-    deactivate Assembler
 
-    Controller --> Router: 201 Created + ResponseEntity(responseModel)
+    Service --> Controller: courseEditionResponseDTO
+    deactivate Service
+
+
+    Controller --> Router: 201 Created + body {courseEditionResponseDTO + hypermedia}
 
 
 
 deactivate Controller
 
-<-- Router: Reponse
+[o<-- Router: 201 Created + body {courseEditionResponseDTO + hypermedia}
 deactivate Router
 @enduml

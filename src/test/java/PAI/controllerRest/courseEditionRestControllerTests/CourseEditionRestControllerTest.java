@@ -265,7 +265,7 @@ class CourseEditionRestControllerTest {
         UUID generatedID = UUID.randomUUID();
 
         CourseEditionRequestDTO dto = new CourseEditionRequestDTO(
-                 "LEIC", schoolYearID,
+                "LEIC", schoolYearID,
                 "SA", "Software Architecture", LocalDate.of(2023, 9, 1)
         );
 
@@ -297,7 +297,6 @@ class CourseEditionRestControllerTest {
         EntityModel<CourseEditionResponseDTO> responseModel = EntityModel.of(responseDTO);
 
         when(courseEditionAssembler.toCommand(dto)).thenReturn(command);
-        // Usa any() para evitar problemas de equals no command
         when(createCourseEditionService.createCourseEditionForRestApi(any(CreateCourseEditionCommand.class)))
                 .thenReturn(serviceResponseDTO);
         when(courseEditionAssembler.toResponseDTO(serviceResponseDTO)).thenReturn(responseDTO);
@@ -309,8 +308,8 @@ class CourseEditionRestControllerTest {
         // Assert
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertNotNull(response.getHeaders().getLocation());
-        // Ajusta para comparar com o ID vindo do serviceResponseDTO
-        assertEquals("/course-editions/" + serviceResponseDTO.courseEditionID().toString(), response.getHeaders().getLocation().toString());
+        assertEquals("/course-editions/by-id/" + serviceResponseDTO.courseEditionGeneratedID().toString(),
+                response.getHeaders().getLocation().toString());
         assertNotNull(response.getBody());
 
         EntityModel<CourseEditionResponseDTO> actualBody = response.getBody();
@@ -325,6 +324,7 @@ class CourseEditionRestControllerTest {
         assertEquals(responseDTO.courseName(), actualContent.courseName());
         assertEquals(responseDTO.studyPlanImplementationDate(), actualContent.studyPlanImplementationDate());
     }
+
 
     @Test
     void whenServiceThrowsIllegalArgumentException_thenReturnsBadRequest() throws Exception {

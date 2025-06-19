@@ -186,6 +186,7 @@ export default function StudentCourseEditionForm() {
                                 <select
                                     id="courseEdition"
                                     className="form-input"
+                                    data-testid="courseEdition"
                                     value={selectedCourseEditionID}
                                     onChange={(e) => setSelectedCourseEditionID(e.target.value)}
                                     disabled={!selectedStudentID || courseEditions.length === 0}
@@ -208,16 +209,21 @@ export default function StudentCourseEditionForm() {
                                     CLEAR
                                 </button>
 
-                                <button type="submit" className="btn btn-primary" onClick={handleRemove}
-                                        disabled={loading}>
+                                <button
+                                    type="submit"
+                                    className="btn btn-primary"
+                                    onClick={handleRemove}
+                                    disabled={loading}
+                                    data-testid="remove-button"
+                                >
                                     {loading ? 'REMOVING…' : 'REMOVE'}
                                 </button>
                             </div>
                         </div>
                     </div>
                     {error && (
-                        <p style={{ color: 'red', marginTop: '1rem' }}>
-                            {error}
+                        <p style={{color: 'red', marginTop: '1rem'}}>
+                        {error}
                         </p>
                     )}
                     {message && (
