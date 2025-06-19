@@ -78,11 +78,45 @@ export default function EnrollStudentForm() {
 
     const handleCheckboxChange = (acronym) => {
         const clean = acronym.trim().toUpperCase();
+
+        // Verifica se já está selecionado
+        const isSelected = form.selectedCourses.includes(clean);
+
+        // Temporariamente cria nova lista de selecionados se fosse para marcar/desmarcar
+        const newSelected = isSelected
+            ? form.selectedCourses.filter(c => c !== clean)
+            : [...form.selectedCourses, clean];
+
+        // Recalcula ECTS total
+        const newTotalEcts = newSelected.reduce((sum, acr) => {
+            const c = courses.find(c => c.acronym === acr);
+            return sum + (c ? c.qtyECTS : 0);
+        }, 0);
+
+        // Recalcula ECTS por semestre
+        const semesterSums = { 1: 0, 2: 0 };
+        newSelected.forEach(acr => {
+            const c = courses.find(c => c.acronym === acr);
+            if (c) semesterSums[c.semester] += c.qtyECTS;
+        });
+
+        // Se for tentativa de selecionar (não remover)
+        if (!isSelected) {
+            if (newTotalEcts > totalEcts) {
+                setError('Total ECTS limit (60) exceeded.');
+                return;
+            }
+            if (semesterSums[1] > 30 || semesterSums[2] > 30) {
+                setError('Semester ECTS limit (30) exceeded.');
+                return;
+            }
+        }
+
+        // Limpa erro e aplica nova seleção
+        setError('');
         setForm(prev => ({
             ...prev,
-            selectedCourses: prev.selectedCourses.includes(clean)
-                ? prev.selectedCourses.filter(c => c !== clean)
-                : [...prev.selectedCourses, clean]
+            selectedCourses: newSelected
         }));
     };
 
@@ -171,6 +205,16 @@ export default function EnrollStudentForm() {
 
     const selectedEcts = form.selectedCourses.reduce((sum, acr) => {
         const c = courses.find(c => c.acronym === acr);
+        return sum + (c ? c.qtyECTS : 0);
+    }, 0);
+
+    const semester1Ects = form.selectedCourses.reduce((sum, acr) => {
+        const c = courses.find(c => c.acronym === acr && c.semester === 1);
+        return sum + (c ? c.qtyECTS : 0);
+    }, 0);
+
+    const semester2Ects = form.selectedCourses.reduce((sum, acr) => {
+        const c = courses.find(c => c.acronym === acr && c.semester === 2);
         return sum + (c ? c.qtyECTS : 0);
     }, 0);
 
@@ -308,16 +352,41 @@ export default function EnrollStudentForm() {
                             </div>
 
                             <div className="form-group">
-                                <label className="form-label">Courses</label>
+                                <div style={{
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
+                                    alignItems: 'center',
+                                    width: '100%'
+                                }}>
+                                    <label className="form-label" style={{ margin: 0 }}>Courses</label>
+                                    {form.edition && (
+                                        <span className="form-label" style={{
+                                            margin: 0,
+                                            color: selectedEcts === totalEcts ? 'red' : '#333'
+                                        }}>
+        ECTS — {selectedEcts} of {totalEcts}
+                                            {selectedEcts > totalEcts && ' ⚠️'}
+      </span>
+                                    )}
+                                </div>
+
                                 {form.edition && (
-                                    <p style={{
-                                        fontWeight: 'bold',
-                                        marginBottom: '0.5rem',
-                                        color: selectedEcts == totalEcts ? 'red' : '#333'
-                                    }}>
-                                        ECTS — {selectedEcts} of {totalEcts}
-                                        {selectedEcts > totalEcts && ' ⚠️'}
-                                    </p>
+                                    <>
+                                        <p style={{
+                                            fontWeight: 'bold',
+                                            marginBottom: '0.5rem',
+                                            color: semester1Ects >= 30 ? 'red' : '#333'
+                                        }}>
+                                            1º Semester — {semester1Ects} of 30
+                                        </p>
+                                        <p style={{
+                                            fontWeight: 'bold',
+                                            marginBottom: '0.5rem',
+                                            color: semester2Ects >= 30 ? 'red' : '#333'
+                                        }}>
+                                            2º Semester — {semester2Ects} of 30
+                                        </p>
+                                    </>
                                 )}
 
                                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
@@ -348,7 +417,12 @@ export default function EnrollStudentForm() {
                                                                             checked={form.selectedCourses.includes(c.acronym)}
                                                                             disabled={
                                                                                 !form.selectedCourses.includes(c.acronym) &&
-                                                                                (selectedEcts + c.qtyECTS) > totalEcts
+                                                                                (
+                                                                                    (selectedEcts + c.qtyECTS) > totalEcts ||
+                                                                                    courses.filter(x =>
+                                                                                        form.selectedCourses.includes(x.acronym) && x.semester === c.semester
+                                                                                    ).reduce((sum, x) => sum + x.qtyECTS, 0) + c.qtyECTS > 30
+                                                                                )
                                                                             }
                                                                             onChange={() => handleCheckboxChange(c.acronym)}
                                                                             style={{ marginRight: '0.5rem' }}
