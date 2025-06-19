@@ -1,230 +1,272 @@
-// __tests__/CourseEditionDisplay.test.jsx
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import CourseEditionDisplay from '../../../components/courseEditionComponent/CourseEditionDisplay';
+import useCourseEditionEnrolmentCountModal from '../../../components/courseEditionComponent/useCourseEditionEnrolmentCountModal';
+import useCourseEditionAverageGradeModal from '../../../components/courseEditionComponent/useCourseEditionAverageGradeModal';
+import useFetchCourseEditions from '../../../components/courseEditionComponent/useFetchCourseEditions';
+import useFetchListOfProgrammesById from '../../../components/courseEditionComponent/useFetchListOfProgrammesById';
+import useFetchMultipleResources from '../../../components/courseEditionComponent/useFetchMultipleResources';
 
-jest.mock('../../../services/enrolmentCountInCourseEditionService', () => ({
-    fetchEnrolmentCount: jest.fn(),
-}));
+import '@testing-library/jest-dom';
 
-jest.mock('../../../components/courseEditionComponent/useFetchListOfProgrammesById', () => ({
-    __esModule: true,
-    default: () => ({
-        programmesMap: {}, // or mock values if needed
-        isLoading: false,
-    }),
-}));
+jest.mock('../../../components/courseEditionComponent/useCourseEditionEnrolmentCountModal');
+jest.mock('../../../components/courseEditionComponent/useCourseEditionAverageGradeModal');
+jest.mock('../../../components/courseEditionComponent/useFetchCourseEditions');
+jest.mock('../../../components/courseEditionComponent/useFetchListOfProgrammesById');
+jest.mock('../../../components/courseEditionComponent/useFetchMultipleResources');
 
-import { fetchEnrolmentCount } from '../../../services/enrolmentCountInCourseEditionService';
+const mockCourseEditions = [
+    {
+        programmeAcronym: 'CS',
+        courseName: 'Computer Science 101',
+        courseAcronym: 'CS101',
+        teacherID: 'T001',
+        schoolYearID: '2024',
+        _links: {
+            'school-year': { href: '/schoolyears/2024' }
+        }
+    },
+    {
+        programmeAcronym: 'MATH',
+        courseName: 'Advanced Mathematics',
+        courseAcronym: 'MATH201',
+        teacherID: null,
+        schoolYearID: '2024',
+        _links: {
+            'school-year': { href: '/schoolyears/2024' }
+        }
+    }
+];
 
-beforeEach(() => {
-    jest.clearAllMocks();
-    fetchEnrolmentCount.mockResolvedValue({ studentCount: 42 }); // default mock return
-    global.fetch = jest.fn(); // mock fetch for course editions
-});
+const mockProgrammesMap = {
+    'CS': { name: 'Computer Science' },
+    'MATH': { name: 'Mathematics' }
+};
 
-// Sample data for tests
-const sampleData = Array.from({ length: 15 }, (_, i) => ({
-    courseEditionGeneratedID: `id-${i}`,
-    programmeAcronym: `P${i}`,
-    courseName: `Course ${i}`,
-    courseAcronym: `C${i}`,
-    schoolYearID: `20${i}/20${i + 1}`,
-}));
+const mockSchoolYearsResources = {
+    '/schoolyears/2024': {
+        description: '2024/2025',
+        startDate: '2024-09-01',
+        endDate: '2025-08-31'
+    }
+};
 
-describe('CourseEditionDisplay Component', () => {
-    test('renders table with fetched data', async () => {
-        global.fetch.mockResolvedValueOnce({ json: async () => sampleData.slice(0, 2) });
-        render(
-            <MemoryRouter>
-                <CourseEditionDisplay />
-            </MemoryRouter>
-        );
+const renderComponent = () => {
+    return render(
+        <MemoryRouter
+            future={{
+                v7_startTransition: true,
+                v7_relativeSplatPath: true,
+            }}
+        >
+            <CourseEditionDisplay />
+        </MemoryRouter>
+    );
+};
 
-        await waitFor(() => {
-            expect(global.fetch).toHaveBeenCalledWith(
-                `${process.env.REACT_APP_API_URL}/course-editions`
-            );
+describe('CourseEditionDisplay', () => {
+    beforeEach(() => {
+        useFetchCourseEditions.mockReturnValue(mockCourseEditions);
+        useFetchListOfProgrammesById.mockReturnValue(mockProgrammesMap);
+        useFetchMultipleResources.mockReturnValue(mockSchoolYearsResources);
+
+        useCourseEditionEnrolmentCountModal.mockReturnValue({
+            isModalOpen: false,
+            enrolmentCount: 0,
+            selectedCourse: null,
+            handleCountEnrolments: jest.fn(),
+            closeModal: jest.fn(),
         });
 
-        expect(await screen.findByText('P0')).toBeInTheDocument();
-        expect(screen.getByText('Course 0')).toBeInTheDocument();
-        expect(screen.getByText('200/201')).toBeInTheDocument();
-        expect(screen.getByText('P1')).toBeInTheDocument();
-    });
-
-    test('filters results based on selection and input', async () => {
-        global.fetch.mockResolvedValueOnce({ json: async () => sampleData.slice(0, 2) });
-        render(
-            <MemoryRouter>
-                <CourseEditionDisplay />
-            </MemoryRouter>
-        );
-        await screen.findByText('P0');
-
-        fireEvent.change(screen.getByRole('combobox'), {
-            target: { value: 'course name' },
-        });
-        fireEvent.change(screen.getByPlaceholderText(/Search by Course Name/i), {
-            target: { value: '1' },
-        });
-
-        expect(screen.queryByText('P0')).not.toBeInTheDocument();
-        expect(screen.getByText('Course 1')).toBeInTheDocument();
-    });
-
-    test('pagination and items-per-page selection', async () => {
-        global.fetch.mockResolvedValueOnce({ json: async () => sampleData });
-        render(
-            <MemoryRouter>
-                <CourseEditionDisplay />
-            </MemoryRouter>
-        );
-        await screen.findByText('P0');
-
-        expect(screen.getByText('P0')).toBeInTheDocument();
-        expect(screen.getByText('P9')).toBeInTheDocument();
-        expect(screen.queryByText('P10')).not.toBeInTheDocument();
-
-        fireEvent.click(screen.getByText('Next'));
-        expect(await screen.findByText('P10')).toBeInTheDocument();
-
-        fireEvent.click(screen.getByText('5'));
-        expect(screen.getByText(/Page 1 of/)).toBeInTheDocument();
-        expect(screen.getByText('P4')).toBeInTheDocument();
-    });
-
-    test('Previous and Next buttons disabled state on single page', async () => {
-        global.fetch.mockResolvedValueOnce({ json: async () => sampleData.slice(0, 5) });
-        render(
-            <MemoryRouter>
-                <CourseEditionDisplay />
-            </MemoryRouter>
-        );
-        await screen.findByText('P0');
-
-        const prevBtn = screen.getByText('Previous');
-        const nextBtn = screen.getByText('Next');
-
-        expect(prevBtn).toBeDisabled();
-        expect(nextBtn).toBeDisabled();
-    });
-
-    test('Previous and Next buttons enable and disable on multiple pages', async () => {
-        global.fetch.mockResolvedValueOnce({ json: async () => sampleData });
-        render(
-            <MemoryRouter>
-                <CourseEditionDisplay />
-            </MemoryRouter>
-        );
-        await screen.findByText('P0');
-
-        const prevBtn = screen.getByText('Previous');
-        const nextBtn = screen.getByText('Next');
-
-        expect(prevBtn).toBeDisabled();
-        expect(nextBtn).not.toBeDisabled();
-
-        fireEvent.click(nextBtn);
-        await waitFor(() => {
-            expect(screen.getByText('Next')).toBeDisabled();
-            expect(screen.getByText('Previous')).not.toBeDisabled();
+        useCourseEditionAverageGradeModal.mockReturnValue({
+            isModalOpen: false,
+            averageGrade: null,
+            selectedCourse: null,
+            statusCode: null,
+            handleShowAverageGrade: jest.fn(),
+            closeModal: jest.fn(),
         });
     });
 
-    test('clicking Previous navigates to previous page', async () => {
-        global.fetch.mockResolvedValueOnce({ json: async () => sampleData });
-        render(
-            <MemoryRouter>
-                <CourseEditionDisplay />
-            </MemoryRouter>
-        );
-        await screen.findByText('P0');
-
-        const nextBtn = screen.getByText('Next');
-        fireEvent.click(nextBtn);
-        expect(
-            await screen.findByText('P10')
-        ).toBeInTheDocument();
-
-        const prevBtnAfter = screen.getByText('Previous');
-        fireEvent.click(prevBtnAfter);
-        expect(
-            await screen.findByText('P0')
-        ).toBeInTheDocument();
+    afterEach(() => {
+        jest.clearAllMocks();
     });
 
-    test('selected PerPageButton disabled with selected class', async () => {
-        global.fetch.mockResolvedValueOnce({ json: async () => sampleData });
-        render(
-            <MemoryRouter>
-                <CourseEditionDisplay />
-            </MemoryRouter>
-        );
-        await screen.findByText('P0');
+    describe('Basic Rendering', () => {
+        test('renders main components', () => {
+            renderComponent();
 
-        const btn10 = screen.getByText('10');
-
-        expect(btn10).toBeDisabled();
-        expect(btn10).toHaveClass('selected');
-
-        fireEvent.click(screen.getByText('20'));
-        const btn20 = screen.getByText('20');
-
-        expect(btn20).toBeDisabled();
-        expect(btn20).toHaveClass('selected');
-    });
-
-    test('logs error on initial fetch failure and displays no results message', async () => {
-        const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-        global.fetch.mockRejectedValueOnce(new Error('fail'));
-
-        render(
-            <MemoryRouter>
-                <CourseEditionDisplay />
-            </MemoryRouter>
-        );
-
-        await waitFor(() =>
-            expect(errorSpy).toHaveBeenCalledWith(
-                'Failed to load Course Editions:',
-                expect.any(Error)
-            )
-        );
-        expect(screen.getByText('No results found.')).toBeInTheDocument();
-        errorSpy.mockRestore();
-    });
-
-    test('resets currentPage to 1 on filter or items-per-page change', async () => {
-        global.fetch.mockResolvedValueOnce({ json: async () => sampleData });
-        render(
-            <MemoryRouter>
-                <CourseEditionDisplay />
-            </MemoryRouter>
-        );
-        await screen.findByText('P0');
-
-        fireEvent.click(screen.getByText('Next'));
-        expect(screen.getByText(/Page 2 of/)).toBeInTheDocument();
-
-        fireEvent.click(screen.getByText('50'));
-        expect(screen.getByText(/Page 1 of/)).toBeInTheDocument();
-
-        fireEvent.change(screen.getByRole('combobox'), {
-            target: { value: 'course name' },
+            expect(screen.getByText('Course Editions')).toBeInTheDocument();
+            expect(screen.getByText('Back to Main Page')).toBeInTheDocument();
+            expect(screen.getByRole('table')).toBeInTheDocument();
         });
-        expect(screen.getByText(/Page 1 of/)).toBeInTheDocument();
+
+        test('renders table headers correctly', () => {
+            renderComponent();
+
+            expect(screen.getByRole('columnheader', { name: 'Programme Name' })).toBeInTheDocument();
+            expect(screen.getByRole('columnheader', { name: 'Course Name' })).toBeInTheDocument();
+            expect(screen.getByRole('columnheader', { name: 'Course Acronym' })).toBeInTheDocument();
+            expect(screen.getByRole('columnheader', { name: 'School Year' })).toBeInTheDocument();
+            expect(screen.getByRole('columnheader', { name: 'RUC' })).toBeInTheDocument();
+        });
+
+        test('renders course editions data', () => {
+            renderComponent();
+
+            expect(screen.getByText('Computer Science')).toBeInTheDocument();
+            expect(screen.getByText('Computer Science 101')).toBeInTheDocument();
+            expect(screen.getByText('CS101')).toBeInTheDocument();
+            expect(screen.getByText('T001')).toBeInTheDocument();
+            expect(screen.getAllByText('2024/2025')).toHaveLength(2);
+
+            expect(screen.getByText('Mathematics')).toBeInTheDocument();
+            expect(screen.getByText('Advanced Mathematics')).toBeInTheDocument();
+            expect(screen.getByText('MATH201')).toBeInTheDocument();
+            expect(screen.getByText('No RUC assigned')).toBeInTheDocument();
+        });
     });
 
-    test('Back to Main Page link has correct href', () => {
-        render(
-            <MemoryRouter>
-                <CourseEditionDisplay />
-            </MemoryRouter>
-        );
+    describe('Filtering', () => {
+        test('changes filter field', () => {
+            renderComponent();
 
-        expect(screen.getByText('Back to Main Page').closest('a')).toHaveAttribute('href', '/');
+            const filterSelect = screen.getByDisplayValue('Programme Name');
+            fireEvent.change(filterSelect, { target: { value: 'courseName' } });
+
+            expect(screen.getByDisplayValue('Course Name')).toBeInTheDocument();
+            expect(screen.getByPlaceholderText('Search by Course Name')).toBeInTheDocument();
+        });
+
+        test('filters by programme name', () => {
+            renderComponent();
+
+            const filterInput = screen.getByPlaceholderText('Search by Programme Name');
+            fireEvent.change(filterInput, { target: { value: 'Computer' } });
+
+            expect(screen.getByText('Computer Science')).toBeInTheDocument();
+            expect(screen.queryByText('Mathematics')).not.toBeInTheDocument();
+        });
+
+        test('shows no results when filter matches nothing', () => {
+            renderComponent();
+
+            const filterInput = screen.getByPlaceholderText('Search by Programme Name');
+            fireEvent.change(filterInput, { target: { value: 'NonExistent' } });
+
+            expect(screen.getByText('No results found.')).toBeInTheDocument();
+        });
     });
 
+    describe('Pagination', () => {
+        test('renders pagination controls', () => {
+            renderComponent();
+
+            expect(screen.getByText('Previous')).toBeInTheDocument();
+            expect(screen.getByText('Next')).toBeInTheDocument();
+            expect(screen.getByText('Page 1 of 1')).toBeInTheDocument();
+        });
+
+        test('renders per-page options', () => {
+            renderComponent();
+
+            expect(screen.getByText('Show:')).toBeInTheDocument();
+            expect(screen.getByText('per page')).toBeInTheDocument();
+            expect(screen.getByRole('button', { name: '5' })).toBeInTheDocument();
+            expect(screen.getByRole('button', { name: '10' })).toBeInTheDocument();
+            expect(screen.getByRole('button', { name: '20' })).toBeInTheDocument();
+            expect(screen.getByRole('button', { name: '50' })).toBeInTheDocument();
+        });
+
+        test('changes items per page', () => {
+            renderComponent();
+
+            const fivePerPageBtn = screen.getByRole('button', { name: '5' });
+            const tenPerPageBtn = screen.getByRole('button', { name: '10' });
+
+            expect(fivePerPageBtn).not.toBeDisabled();
+            expect(tenPerPageBtn).toHaveClass('selected');
+            expect(tenPerPageBtn).toBeDisabled();
+
+            fireEvent.click(fivePerPageBtn);
+
+            const updatedFivePerPageBtn = screen.getByRole('button', { name: '5' });
+            const updatedTenPerPageBtn = screen.getByRole('button', { name: '10' });
+
+            expect(updatedFivePerPageBtn).toBeInTheDocument();
+            expect(updatedFivePerPageBtn).toHaveClass('selected');
+            expect(updatedFivePerPageBtn).toBeDisabled();
+
+            expect(updatedTenPerPageBtn).not.toHaveClass('selected');
+            expect(updatedTenPerPageBtn).not.toBeDisabled();
+        });
+    });
+
+    describe('Modals', () => {
+        test('displays enrolment count modal when triggered', () => {
+            useCourseEditionEnrolmentCountModal.mockReturnValue({
+                isModalOpen: true,
+                enrolmentCount: 5,
+                selectedCourse: { courseName: 'Computer Science 101' },
+                handleCountEnrolments: jest.fn(),
+                closeModal: jest.fn(),
+            });
+
+            renderComponent();
+
+            expect(screen.getByText('Enrolment Count')).toBeInTheDocument();
+            expect(screen.getByText('Enrolled Students:')).toBeInTheDocument();
+            expect(screen.getByText((content, element) => {
+                return element?.tagName === 'P' && content.includes('5');
+            })).toBeInTheDocument();
+            expect(screen.getByRole('button', { name: 'Close' })).toBeInTheDocument();
+        });
+
+        test('displays average grade modal when triggered', () => {
+            useCourseEditionAverageGradeModal.mockReturnValue({
+                isModalOpen: true,
+                averageGrade: 16,
+                selectedCourse: { courseName: 'Advanced Mathematics' },
+                statusCode: 200,
+                handleShowAverageGrade: jest.fn(),
+                closeModal: jest.fn(),
+            });
+
+            renderComponent();
+
+            expect(screen.getByText('Average Grade')).toBeInTheDocument();
+            expect(screen.getByText('The average grade for this course is: 16')).toBeInTheDocument();
+            expect(screen.getByRole('button', { name: 'Close' })).toBeInTheDocument();
+        });
+
+        test('displays no modal when both are closed', () => {
+            renderComponent();
+
+            expect(screen.queryByText('Enrolment Count')).not.toBeInTheDocument();
+            expect(screen.queryByText('Average Grade')).not.toBeInTheDocument();
+            expect(screen.getByText('Course Editions')).toBeInTheDocument();
+        });
+    });
+
+    describe('Empty State', () => {
+        test('shows no results when no course editions exist', () => {
+            useFetchCourseEditions.mockReturnValue([]);
+
+            renderComponent();
+
+            expect(screen.getByText('No results found.')).toBeInTheDocument();
+        });
+    });
+
+    describe('Navigation', () => {
+        test('back to main page link is present', () => {
+            renderComponent();
+
+            const backLink = screen.getByText('Back to Main Page');
+            expect(backLink).toBeInTheDocument();
+            // eslint-disable-next-line testing-library/no-node-access
+            expect(backLink.closest('a')).toHaveAttribute('href', '/');
+        });
+    });
 });

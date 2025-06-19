@@ -84,9 +84,12 @@ class CourseEditionServiceAssemblerImplTest {
         CourseEditionServiceAssemblerImpl assembler = new CourseEditionServiceAssemblerImpl();
 
         // Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> {
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             assembler.toServiceResponseDTO(null);
         });
+
+        assertEquals("CourseEdition cannot be null.", exception.getMessage());
     }
+
 
 }

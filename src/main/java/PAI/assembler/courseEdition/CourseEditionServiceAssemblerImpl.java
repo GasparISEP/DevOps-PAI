@@ -13,14 +13,16 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
+import static PAI.utils.ValidationUtils.validateNotNull;
+
 @Component
 public class CourseEditionServiceAssemblerImpl implements ICourseEditionServiceAssembler {
 
     @Override
     public CourseEditionServiceResponseDTO toServiceResponseDTO(CourseEdition courseEdition) {
-        if (courseEdition == null) {
-            throw new IllegalArgumentException("CourseEdition cannot be null");
-        }
+
+        validateNotNull(courseEdition, "CourseEdition");
+
         UUID generatedId = courseEdition.getCourseEditionGeneratedID().getCourseEditionGeneratedID();
         CourseInStudyPlanID cspID = courseEdition.getCourseInStudyPlanID();
         ProgrammeEditionID peID = courseEdition.getProgrammeEditionID();

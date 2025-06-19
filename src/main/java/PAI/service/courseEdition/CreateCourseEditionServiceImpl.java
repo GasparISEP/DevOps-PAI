@@ -21,11 +21,14 @@ import PAI.dto.courseEdition.CreateCourseEditionCommand;
 import PAI.exception.AlreadyRegisteredException;
 import PAI.exception.BusinessRuleViolationException;
 import PAI.exception.CourseEditionCreationException;
+import PAI.utils.ValidationUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static PAI.utils.ValidationUtils.validateNotNull;
 
 @Service
 public class CreateCourseEditionServiceImpl implements ICreateCourseEditionService {
@@ -44,66 +47,64 @@ public class CreateCourseEditionServiceImpl implements ICreateCourseEditionServi
                                           IStudyPlanRepository studyPlanRepository, ICourseInStudyPlanRepository courseInStudyPlanRepository,
                                           IProgrammeEditionRepository programmeEditionRepository, ICourseEditionServiceAssembler courseEditionAssembler) {
 
-        if (courseEditionFactory == null)
-            throw new IllegalArgumentException("courseEditionFactory cannot be null");
-        if (courseEditionRepository == null)
-            throw new IllegalArgumentException("courseEditionRepository cannot be null");
-        if (degreeTypeRepository == null)
-            throw new IllegalArgumentException("degreeTypeRepository cannot be null");
-        if (programmeRepository == null)
-            throw new IllegalArgumentException("programmeRepository cannot be null");
-        if (studyPlanRepository == null)
-            throw new IllegalArgumentException("studyPlanRepository cannot be null");
-        if (courseInStudyPlanRepository == null)
-            throw new IllegalArgumentException("courseInStudyPlanRepository cannot be null");
-        if (programmeEditionRepository == null)
-            throw new IllegalArgumentException("programmeEditionRepository cannot be null");
-        if (courseEditionAssembler == null)
-            throw new IllegalArgumentException("courseEditionAssembler cannot be null");
-
-        this.courseEditionFactory = courseEditionFactory;
-        this.courseEditionRepository = courseEditionRepository;
-        this.degreeTypeRepository = degreeTypeRepository;
-        this.programmeRepository = programmeRepository;
-        this.studyPlanRepository = studyPlanRepository;
-        this.courseInStudyPlanRepository = courseInStudyPlanRepository;
-        this.programmeEditionRepository = programmeEditionRepository;
-        this.courseEditionAssembler = courseEditionAssembler;
-
+        this.courseEditionFactory = ValidationUtils.validateNotNull(courseEditionFactory, "courseEditionFactory");
+        this.courseEditionRepository = ValidationUtils.validateNotNull(courseEditionRepository, "courseEditionRepository");
+        this.degreeTypeRepository = ValidationUtils.validateNotNull(degreeTypeRepository, "degreeTypeRepository");
+        this.programmeRepository = ValidationUtils.validateNotNull(programmeRepository, "programmeRepository");
+        this.studyPlanRepository = ValidationUtils.validateNotNull(studyPlanRepository, "studyPlanRepository");
+        this.courseInStudyPlanRepository = ValidationUtils.validateNotNull(courseInStudyPlanRepository, "courseInStudyPlanRepository");
+        this.programmeEditionRepository = ValidationUtils.validateNotNull(programmeEditionRepository, "programmeEditionRepository");
+        this.courseEditionAssembler = ValidationUtils.validateNotNull(courseEditionAssembler, "courseEditionAssembler");
     }
 
     @Override
     public CourseEditionServiceResponseDTO createCourseEditionForRestApi(CreateCourseEditionCommand command) {
-        if (command == null)
-            throw new IllegalArgumentException("CreateCourseEditionCommand cannot be null.");
+        validateCommand(command);
 
+        CourseInStudyPlanID courseInStudyPlanID = buildCourseInStudyPlanID(command);
+        ProgrammeEditionID programmeEditionID = buildProgrammeEditionID(command);
+
+        CourseEdition courseEdition = courseEditionFactory.createCourseEditionToDomain(courseInStudyPlanID, programmeEditionID);
+        CourseEditionID courseEditionID = courseEdition.identity();
+
+        checkIfAlreadyRegistered(courseEditionID);
+
+        return saveAndConvertToDTO(courseEdition);
+    }
+
+    private void validateCommand(CreateCourseEditionCommand command) {
+        validateNotNull(command, "CreateCourseEditionCommand");
+    }
+
+    private CourseInStudyPlanID buildCourseInStudyPlanID(CreateCourseEditionCommand command) {
         ProgrammeID programmeID = new ProgrammeID(command.programmeAcronym());
         Date studyPlanDate = command.studyPlanImplementationDate();
-
-        CourseInStudyPlanID courseInStudyPlanID = new CourseInStudyPlanID(
+        return new CourseInStudyPlanID(
                 new CourseID(command.courseAcronym(), command.courseName()),
                 new StudyPlanID(programmeID, studyPlanDate)
         );
+    }
 
-        ProgrammeEditionID programmeEditionID = new ProgrammeEditionID(
+    private ProgrammeEditionID buildProgrammeEditionID(CreateCourseEditionCommand command) {
+        ProgrammeID programmeID = new ProgrammeID(command.programmeAcronym());
+        return new ProgrammeEditionID(
                 programmeID,
                 command.schoolYearID()
         );
+    }
 
-        CourseEdition courseEdition = courseEditionFactory.createCourseEditionToDomain(courseInStudyPlanID, programmeEditionID);
-
-        CourseEditionID courseEditionID = courseEdition.identity();
-
+    private void checkIfAlreadyRegistered(CourseEditionID courseEditionID) {
         if (courseEditionRepository.containsOfIdentity(courseEditionID))
             throw new AlreadyRegisteredException("CourseEdition");
+    }
 
+    private CourseEditionServiceResponseDTO saveAndConvertToDTO(CourseEdition courseEdition) {
         try {
             CourseEdition saved = courseEditionRepository.save(courseEdition);
             return courseEditionAssembler.toServiceResponseDTO(saved);
         } catch (Exception e) {
             throw new CourseEditionCreationException("Failed to create CourseEdition.", e);
         }
-
     }
 
 
@@ -194,9 +195,7 @@ public class CreateCourseEditionServiceImpl implements ICreateCourseEditionServi
 
     @Override
     public CourseEditionServiceResponseDTO findById(CourseEditionGeneratedID courseEditionGeneratedID) throws Exception {
-        if (courseEditionGeneratedID == null) {
-            throw new IllegalArgumentException("CourseEditionID cannot be null");
-        }
+        validateNotNull(courseEditionGeneratedID, "CourseEditionGeneratedID");
 
         Optional<CourseEdition> courseEdition = courseEditionRepository.findCourseEditionByGeneratedId(courseEditionGeneratedID);
         if (courseEdition.isEmpty()) {

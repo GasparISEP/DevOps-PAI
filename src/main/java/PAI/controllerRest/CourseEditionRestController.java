@@ -151,7 +151,7 @@ public class CourseEditionRestController {
         EntityModel<CourseEditionResponseDTO> responseModel = createCourseEditionHateoasAssembler.toModel(responseDTO);
 
         return ResponseEntity
-                .created(URI.create("/course-editions/" + serviceResponseDTO.courseEditionID()))
+                .created(URI.create("/course-editions/by-id/" + serviceResponseDTO.courseEditionGeneratedID()))
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(responseModel);
     }

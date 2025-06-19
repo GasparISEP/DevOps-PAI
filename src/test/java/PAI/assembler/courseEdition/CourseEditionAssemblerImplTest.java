@@ -69,10 +69,13 @@ class CourseEditionAssemblerImplTest {
         // Arrange
         CourseEditionAssemblerImpl courseEditionAssembler = new CourseEditionAssemblerImpl();
 
-        // Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> {
+        // Act
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             courseEditionAssembler.toCommand(null);
         });
+
+        // Assert
+        assertEquals("CourseEditionRequestDTO cannot be null.", exception.getMessage());
     }
 
     @Test
@@ -152,11 +155,15 @@ class CourseEditionAssemblerImplTest {
         // Arrange
         CourseEditionAssemblerImpl assembler = new CourseEditionAssemblerImpl();
 
-        // Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> {
+        // Act
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             assembler.toResponseDTO(null);
         });
+
+        // Assert
+        assertEquals("CourseEditionServiceResponseDTO cannot be null.", exception.getMessage());
     }
+
 
     @Test
     void toResponseDTOList_ShouldMapCorrectly() {
@@ -410,11 +417,12 @@ class CourseEditionAssemblerImplTest {
 
     @Test
     void toResponseIDDTO_ShouldThrowExceptionWhenInputIsNull() {
-        // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> {
-            assembler.toResponseIDDTO((CourseEditionServiceResponseDTO) null);
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            assembler.toResponseIDDTO(null);
         });
+        assertEquals("CourseEditionServiceResponseDTO cannot be null.", exception.getMessage());
     }
+
 
     @Test
     void shouldReturnListWithSameSize_whenCallingToCourseEditionResponseDTOList() {

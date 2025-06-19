@@ -39,6 +39,7 @@ export default function StudentRemovalModal({ isSuccess, studentID, courseEditio
                             title="View All"
                             style={{ cursor: 'pointer', width: '20px', height: '20px' }}
                             onClick={goToList}
+                            data-testid="view-all-icon"
                         />
                     </div>
                 )}

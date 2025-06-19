@@ -1,0 +1,58 @@
+@startuml
+
+autonumber
+
+skinparam sequence {
+    LifelineBorderColor black
+    LifelineBackgroundColor LightBlue
+    ActorBorderColor black
+    ActorBackgroundColor LightGray
+    GroupBorderColor #cccccc
+    GroupBackgroundColor #f2f2f2
+}
+
+title Register a "X" in the System\nProcess View – Level 3
+
+participant ":Router" as RT <<Component>>
+participant "request\n:XDTO" as request
+participant "response\n:XDTO" as XDTO
+participant ":Controller" as CT <<Component>>
+participant "requestVOs\n:XVoDTO" as requestVOs
+participant ":Service" as SE <<Component>>
+participant ":Domain" as DM <<Component>>
+participant "x:X" as X #lightBlue
+participant ":Repository" as RE <<Component>>
+participant ":Driver" as DV <<Component>>
+
+
+[o-> RT ++: HTTP Request \n (POST) /xs \n{body: inputDetails}
+RT --> request **: <create> \nXDTO(inputDetails)
+RT -> CT ++: HTTP Request (POST) /xs (request)
+CT -> requestVOs **: <create> \nXVoDTO(request.attribute[i]s)
+
+
+CT -> SE ++: createAndSaveX (requestVOs)
+
+
+SE -> DM ++: createX (requestVOs.attribute[i]s)
+DM -> X **: <create> X(requestVOs.attribute[i]s)
+DM --> SE --: x
+
+
+
+SE -> RE ++: save (x)
+RE -> DV++: save (x)
+DV ->o]: INSERT x INTO xs
+DV <--o]: x'
+DV --> RE -- : x'
+RE --> SE --: x'
+
+
+SE --> CT --: x'
+CT --> XDTO **: <create> xDTO(x')
+
+CT --> RT --: HTTP 201 Created + \nresponse
+[o<-- RT --: HTTP 201 Created + \nresponse
+
+
+@enduml
