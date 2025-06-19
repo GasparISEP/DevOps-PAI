@@ -8,7 +8,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Table(name = "Programme_edition_enrolments")
+@Table(name = "PROGRAMME_EDITION_ENROLMENTS")
 public class ProgrammeEditionEnrolmentDataModel implements Serializable {
 
     @EmbeddedId
