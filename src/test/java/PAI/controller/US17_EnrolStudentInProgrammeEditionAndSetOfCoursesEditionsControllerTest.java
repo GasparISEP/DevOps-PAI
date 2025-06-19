@@ -20,6 +20,7 @@ import PAI.domain.repositoryInterfaces.department.IDepartmentRepository;
 import PAI.domain.repositoryInterfaces.teacher.ITeacherRepository;
 import PAI.domain.teacher.Teacher;
 import PAI.dto.Programme.ProgrammeVOsDTO;
+import PAI.dto.schoolYear.SchoolYearCommandDTO;
 import PAI.persistence.mem.degreeType.DegreeTypeListFactoryImpl;
 import PAI.persistence.mem.degreeType.DegreeTypeRepositoryImpl;
 import PAI.persistence.mem.degreeType.IDegreeTypeListFactory;
@@ -1216,9 +1217,11 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         Description descriptionInfo1 = new Description("olas");
         Date startDateInfo1 = mock(Date.class);
         Date endDateInfo1 = mock(Date.class);
+        SchoolYearCommandDTO schoolYearCommandDTO = new SchoolYearCommandDTO(descriptionInfo,startDateInfo,endDateInfo);
+        SchoolYearCommandDTO schoolYearCommandDTO1 = new SchoolYearCommandDTO(descriptionInfo1,startDateInfo1,endDateInfo1);
 
-        schoolYearService.addSchoolYear(descriptionInfo, startDateInfo, endDateInfo);
-        schoolYearService.addSchoolYear(descriptionInfo1, startDateInfo1, endDateInfo1);
+        schoolYearService.addSchoolYear(schoolYearCommandDTO);
+        schoolYearService.addSchoolYear(schoolYearCommandDTO1);
 
         // Act
         List<SchoolYearID> schoolYears = controller.getAllSchoolYearsIDs();
@@ -1305,8 +1308,10 @@ class US17_EnrolStudentInProgrammeEditionAndSetOfCoursesEditionsControllerTest {
         Date startDateInfos = new Date(LocalDate.of(2026,2,2));
         Date endDateInfo = new Date(LocalDate.of(2026,2,2));
         Date endDateInfos = new Date(LocalDate.of(2027,2,2));
-        schoolYearService.addSchoolYear(descriptionInfo, startDateInfo, endDateInfo);
-        schoolYearService.addSchoolYear(descriptionInfos, startDateInfos, endDateInfos);
+        SchoolYearCommandDTO schoolYearCommandDTO = new SchoolYearCommandDTO(descriptionInfo,startDateInfo,endDateInfo);
+        SchoolYearCommandDTO schoolYearCommandDTO1 = new SchoolYearCommandDTO(descriptionInfos,startDateInfos,endDateInfos);
+        schoolYearService.addSchoolYear(schoolYearCommandDTO);
+        schoolYearService.addSchoolYear(schoolYearCommandDTO1);
 
         // Act
         List<SchoolYearID> schoolYears = controller.getAllSchoolYearsIDs();

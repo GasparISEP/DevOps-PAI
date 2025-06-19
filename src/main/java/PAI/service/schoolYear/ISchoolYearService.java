@@ -5,6 +5,7 @@ import PAI.VOs.Description;
 import PAI.VOs.SchoolYearID;
 import PAI.domain.schoolYear.SchoolYear;
 import PAI.dto.schoolYear.CurrentSchoolYearDTO;
+import PAI.dto.schoolYear.SchoolYearCommandDTO;
 import PAI.dto.schoolYear.SchoolYearDTO;
 import PAI.dto.schoolYear.SchoolYearIDDescriptionResponseDTO;
 
@@ -14,7 +15,7 @@ import java.util.UUID;
 
 public interface ISchoolYearService {
 
-    SchoolYear addSchoolYear(Description description, Date startDate, Date endDate) throws Exception;
+    SchoolYear addSchoolYear(SchoolYearCommandDTO schoolYearCommandDTO) throws Exception;
     SchoolYear addSchoolYearDM(UUID schoolYearID, Description description, Date startDate, Date endDate) throws Exception;
     Optional<SchoolYearID> getCurrentSchoolYearID();
     boolean schoolYearExistsById(SchoolYearID schoolYearID);

@@ -6,10 +6,7 @@ import PAI.VOs.SchoolYearID;
 import PAI.domain.courseInStudyPlan.CourseInStudyPlan;
 import PAI.domain.schoolYear.SchoolYear;
 import PAI.dto.courseInStudyPlan.CourseInStudyPlanResponseDTO;
-import PAI.dto.schoolYear.CurrentSchoolYearDTO;
-import PAI.dto.schoolYear.CurrentSchoolYearResponseDTO;
-import PAI.dto.schoolYear.SchoolYearCEDTO;
-import PAI.dto.schoolYear.SchoolYearDTO;
+import PAI.dto.schoolYear.*;
 
 public interface ISchoolYearAssembler {
 
@@ -23,4 +20,5 @@ public interface ISchoolYearAssembler {
     SchoolYearID fromStringToSchoolYearID(String id);
     SchoolYearCEDTO toCEDTO(SchoolYear sy);
     Iterable<SchoolYearCEDTO> toCEDTOs(Iterable<SchoolYear> schoolYears);
+    SchoolYearCommandDTO toSchoolYearCommandDTO (String description, String startDate, String endDate);
 }

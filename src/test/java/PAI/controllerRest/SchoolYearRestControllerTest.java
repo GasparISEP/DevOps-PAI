@@ -5,11 +5,11 @@ import PAI.assembler.schoolYear.ISchoolYearAssembler;
 import PAI.assembler.schoolYear.ISchoolYearHateoasAssembler;
 import PAI.domain.schoolYear.SchoolYear;
 import PAI.dto.department.DepartmentDTO;
-import PAI.dto.schoolYear.CurrentSchoolYearDTO;
-import PAI.dto.schoolYear.CurrentSchoolYearResponseDTO;
-import PAI.dto.schoolYear.SchoolYearDTO;
-import PAI.dto.schoolYear.SchoolYearIDDescriptionResponseDTO;
+import PAI.dto.schoolYear.*;
+import PAI.exception.BusinessRuleViolationException;
+import PAI.exception.ErrorResponse;
 import PAI.service.schoolYear.ISchoolYearService;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -27,99 +27,136 @@ class SchoolYearRestControllerTest {
 
     @Test
     void shouldCreateASYRestController() {
-        //Arrange
+        //arrange
         ISchoolYearAssembler iSYMapperDTO = mock(ISchoolYearAssembler.class);
         ISchoolYearService iSYService = mock(ISchoolYearService.class);
         ISchoolYearHateoasAssembler iSYHateoas = mock(ISchoolYearHateoasAssembler.class);
 
-        //Act
+        //act
         SchoolYearRestController syRestController = new SchoolYearRestController(iSYMapperDTO,iSYService, iSYHateoas);
 
-        //Assert
+        //assert
         assertNotNull(syRestController);
-
     }
 
     @Test
     void ReturnsBadRequestWhenDTOisNull() {
-        //Arrange
+        //arrange
         ISchoolYearAssembler iSYMapperDTO = mock(ISchoolYearAssembler.class);
         ISchoolYearService iSYService = mock(ISchoolYearService.class);
         ISchoolYearHateoasAssembler iSYHateoas = mock(ISchoolYearHateoasAssembler.class);
-        SchoolYearRestController schoolYearRestController = new SchoolYearRestController(iSYMapperDTO,iSYService, iSYHateoas);
 
-        //Act
-        ResponseEntity<?> resp = schoolYearRestController.createASchoolYear(null);
+        SchoolYearRestController controller = new SchoolYearRestController(iSYMapperDTO, iSYService, iSYHateoas);
 
-        //Assert
-        assertEquals(HttpStatus.BAD_REQUEST, resp.getStatusCode());
+        //act
+        ResponseEntity<?> response = controller.createASchoolYear(null);
+
+        //assert
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 
     @Test
     void ReturnsCreatedWithBody1whenServiceReturnsSchoolYear() throws Exception {
-        // Arrange
+        //arrange
         ISchoolYearAssembler iSYMapperDTO = mock(ISchoolYearAssembler.class);
         ISchoolYearService iSYService = mock(ISchoolYearService.class);
         ISchoolYearHateoasAssembler iSYHateoas = mock(ISchoolYearHateoasAssembler.class);
         SchoolYearRestController syRestController = new SchoolYearRestController(iSYMapperDTO,iSYService, iSYHateoas);
 
-        SchoolYearDTO dto = mock(SchoolYearDTO.class);
-
         Description description = mock(Description.class);
         Date startDate = mock(Date.class);
         Date endDate = mock(Date.class);
+        SchoolYearDTO dto = mock(SchoolYearDTO.class);
+        SchoolYearCommandDTO schoolYearCommandDTO = mock(SchoolYearCommandDTO.class);
 
         when(iSYMapperDTO.toDescription(dto)).thenReturn(description);
         when(iSYMapperDTO.toEndDate(dto)).thenReturn(endDate);
         when(iSYMapperDTO.toStartDate(dto)).thenReturn(startDate);
 
         SchoolYear schoolYear = mock(SchoolYear.class);
-        when(iSYService.addSchoolYear(description,startDate,endDate)).thenReturn(schoolYear);
+        when(iSYService.addSchoolYear(schoolYearCommandDTO)).thenReturn(schoolYear);
 
         when(iSYMapperDTO.toDTO(schoolYear)).thenReturn(dto);
 
-        // Act
+        //act
         ResponseEntity<?> resp = syRestController.createASchoolYear(dto);
 
-        // Assert
+        //assert
         assertEquals(HttpStatus.CREATED, resp.getStatusCode());
 
     }
 
     @Test
-    void ReturnsBadRequestWhenServiceReturnsNull() throws Exception {
-        // Arrange
-        ISchoolYearAssembler iSYMapperDTO = mock(ISchoolYearAssembler.class);
-        ISchoolYearService iSYService = mock(ISchoolYearService.class);
-        ISchoolYearHateoasAssembler iSYHateoas = mock(ISchoolYearHateoasAssembler.class);
-        SchoolYearRestController syRestController = new SchoolYearRestController(iSYMapperDTO,iSYService, iSYHateoas);
+    void returnsNotFoundWhenEntityNotFoundExceptionThrown() throws Exception {
+        //arrange
+        ISchoolYearAssembler assembler = mock(ISchoolYearAssembler.class);
+        ISchoolYearService service = mock(ISchoolYearService.class);
+        ISchoolYearHateoasAssembler hateoasAssembler = mock(ISchoolYearHateoasAssembler.class);
+        SchoolYearRestController controller = new SchoolYearRestController(assembler, service, hateoasAssembler);
 
-        when(iSYService.addSchoolYear(any(), any(), any())).thenReturn(null);
-        SchoolYearDTO dto = mock(SchoolYearDTO.class);
+        SchoolYearDTO dto = new SchoolYearDTO("2025/2026", "09-01-2025", "30-06-2026");
 
-        // Act
-        ResponseEntity<?> resp = syRestController.createASchoolYear(dto);
+        SchoolYearCommandDTO commandDTO = new SchoolYearCommandDTO(new Description("2025/2026"),new Date("09-01-2025"), new Date("30-06-2026"));
 
-        // Assert
-        assertEquals(HttpStatus.BAD_REQUEST, resp.getStatusCode());
+        when(assembler.toSchoolYearCommandDTO(anyString(), anyString(), anyString()))
+                .thenReturn(commandDTO);
+
+        when(service.addSchoolYear(any()))
+                .thenThrow(new EntityNotFoundException("School year not found"));
+
+        //act
+        ResponseEntity<?> response = controller.createASchoolYear(dto);
+
+        //assert
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertTrue(((ErrorResponse) response.getBody()).getMessage().contains("School year not found"));
     }
 
     @Test
-    void ReturnsBadRequestwhenAnyExceptionThrown() {
-        // Arrange
-        ISchoolYearAssembler iSYMapperDTO = mock(ISchoolYearAssembler.class);
-        ISchoolYearService iSYService = mock(ISchoolYearService.class);
-        ISchoolYearHateoasAssembler iSYHateoas = mock(ISchoolYearHateoasAssembler.class);
-        SchoolYearRestController syRestController = new SchoolYearRestController(iSYMapperDTO,iSYService, iSYHateoas);
+    void returnsConflictWhenBusinessRuleViolationExceptionThrown() throws Exception {
+        //arrange
+        ISchoolYearAssembler assembler = mock(ISchoolYearAssembler.class);
+        ISchoolYearService service = mock(ISchoolYearService.class);
+        ISchoolYearHateoasAssembler hateoasAssembler = mock(ISchoolYearHateoasAssembler.class);
+        SchoolYearRestController controller = new SchoolYearRestController(assembler, service, hateoasAssembler);
 
-        SchoolYearDTO dto = mock(SchoolYearDTO.class);
-        when(iSYMapperDTO.toDescription(dto)).thenThrow(new RuntimeException("Invalid"));
+        SchoolYearDTO dto = new SchoolYearDTO("2025/2026", "09-01-2025", "30-06-2026");
 
-        // Act
-        ResponseEntity<?> resp = syRestController.createASchoolYear(dto);
+        SchoolYearCommandDTO commandDTO = new SchoolYearCommandDTO(new Description("2025/2026"),new Date("09-01-2025"), new Date("30-06-2026"));
 
-        // Assert
-        assertEquals(HttpStatus.BAD_REQUEST, resp.getStatusCode());
+        when(assembler.toSchoolYearCommandDTO(anyString(), anyString(), anyString()))
+                .thenReturn(commandDTO);
+
+        when(service.addSchoolYear(any()))
+                .thenThrow(new BusinessRuleViolationException("Duplicate school year"));
+
+        //act
+        ResponseEntity<?> response = controller.createASchoolYear(dto);
+
+        //assert
+        assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
+        assertTrue(((ErrorResponse) response.getBody()).getMessage().contains("Duplicate school year"));
+    }
+
+    @Test
+    void returnsBadRequestWhenUnhandledExceptionThrown() {
+        //arrange
+        ISchoolYearAssembler assembler = mock(ISchoolYearAssembler.class);
+        ISchoolYearService service = mock(ISchoolYearService.class);
+        ISchoolYearHateoasAssembler hateoasAssembler = mock(ISchoolYearHateoasAssembler.class);
+        SchoolYearRestController controller = new SchoolYearRestController(assembler, service, hateoasAssembler);
+
+        SchoolYearDTO dto = new SchoolYearDTO("2025/2026", "2025-09-01", "2026-06-30");
+
+        when(assembler.toSchoolYearCommandDTO(anyString(), anyString(), anyString()))
+                .thenThrow(new RuntimeException("Unexpected error"));
+
+        //act
+        ResponseEntity<?> response = controller.createASchoolYear(dto);
+
+        //assert
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertTrue(((ErrorResponse) response.getBody()).getMessage().contains("Unexpected error"));
     }
 
     @Test

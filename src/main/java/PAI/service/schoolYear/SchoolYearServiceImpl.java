@@ -8,6 +8,7 @@ import PAI.domain.repositoryInterfaces.schoolYear.ISchoolYearRepository;
 import PAI.domain.schoolYear.ISchoolYearFactory;
 import PAI.domain.schoolYear.SchoolYear;
 import PAI.dto.schoolYear.CurrentSchoolYearDTO;
+import PAI.dto.schoolYear.SchoolYearCommandDTO;
 import PAI.dto.schoolYear.SchoolYearIDDescriptionResponseDTO;
 import org.springframework.stereotype.Service;
 
@@ -30,11 +31,11 @@ public class SchoolYearServiceImpl implements ISchoolYearService {
     }
 
     // Create and save a new school year if it does not already exist
-    public SchoolYear addSchoolYear(Description description, Date startDate, Date endDate) throws Exception {
+    public SchoolYear addSchoolYear(SchoolYearCommandDTO schoolYearCommandDTO) throws Exception {
 
-        if (description == null || startDate == null || endDate == null) {
-            throw new Exception("Not possible to create a school year");
-        }
+        Description description = schoolYearCommandDTO.getDescription();
+        Date startDate = schoolYearCommandDTO.getStartDate();
+        Date endDate = schoolYearCommandDTO.getEndDate();
 
         SchoolYear newSchoolYear = schoolYearFactory.createSchoolYear(description, startDate, endDate);
 
