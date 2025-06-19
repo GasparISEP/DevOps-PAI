@@ -195,9 +195,7 @@ public class CreateCourseEditionServiceImpl implements ICreateCourseEditionServi
 
     @Override
     public CourseEditionServiceResponseDTO findById(CourseEditionGeneratedID courseEditionGeneratedID) throws Exception {
-        if (courseEditionGeneratedID == null) {
-            throw new IllegalArgumentException("CourseEditionID cannot be null");
-        }
+        validateNotNull(courseEditionGeneratedID, "CourseEditionGeneratedID");
 
         Optional<CourseEdition> courseEdition = courseEditionRepository.findCourseEditionByGeneratedId(courseEditionGeneratedID);
         if (courseEdition.isEmpty()) {
