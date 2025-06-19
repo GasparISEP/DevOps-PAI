@@ -433,70 +433,112 @@ export default function StudentForm() {
                     <div className="modal-content">
                         <h2>Success!</h2>
                         <p>The student was registered successfully.</p>
-                        <div className="success" style={{marginTop: '1rem', color: '#080'}}>
+                        <div className="success" style={{ marginTop: '1rem', color: '#080' }}>
                             <p><strong>Student ID:</strong> {success.studentID}</p>
                             <p><strong>Name:</strong> {success.name}</p>
                         </div>
 
-                        {(success._links?.view || success._links?.viewAll) && (
-                            <div style={{
+                        <div
+                            style={{
                                 display: 'flex',
                                 justifyContent: 'center',
                                 alignItems: 'center',
-                                gap: '1rem',
+                                gap: '1.5rem',
                                 marginTop: '1.5rem'
-                            }}>
-                                {success._links?.viewDetails?.href && (
-                                    <button
-                                        onClick={() => {
-                                            const id = success._links.viewDetails.href.split('/').pop();
-                                            const frontendUrl = `${window.location.origin}/students/${id}`;
-                                            window.open(frontendUrl, '_blank');                                        }}
-                                        title="View Details"
-                                        style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0.5rem' }}
-                                    >
-                                        <VisibilityIcon fontSize="medium" />
-                                    </button>
-                                )}
-                                {success._links?.viewAll && (
-                                    <button
-                                        onClick={() => {
-                                            const frontendUrl = `${window.location.origin}/students/display`;
-                                            window.open(frontendUrl, '_blank');
-                                        }}
-                                        title="View All Students"
-                                        style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0.5rem' }}
-                                    >
-                                        <FolderOpenIcon fontSize="medium" />
-                                    </button>
-                                )}
-                            </div>
-                        )}
+                            }}
+                        >
+                            {success._links?.viewDetails?.href && (
+                                <button
+                                    onClick={() => {
+                                        const id = success._links.viewDetails.href.split('/').pop();
+                                        const frontendUrl = `${window.location.origin}/students/${id}`;
+                                        window.open(frontendUrl, '_blank');
+                                    }}
+                                    title="View Details"
+                                    style={{
+                                        background: 'none',
+                                        border: 'none',
+                                        cursor: 'pointer',
+                                        padding: '0.5rem',
+                                        fontSize: '1.8rem',
+                                        color: 'inherit',
+                                        transition: 'transform 0.2s ease, color 0.2s ease'
+                                    }}
+                                    onMouseEnter={(e) => {
+                                        e.currentTarget.style.color = '#800000';
+                                        e.currentTarget.style.transform = 'scale(1.15)';
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.currentTarget.style.color = 'inherit';
+                                        e.currentTarget.style.transform = 'scale(1)';
+                                    }}
+                                >
+                                    <VisibilityIcon style={{ fontSize: '1.8rem', position: 'relative', top: '2px' }} />
+                                </button>
+                            )}
 
-                        <button className="modal-btn" onClick={() => {
-                            setShowModal(false);
-                            window.location.reload();
-                        }}>Close
-                        </button>
+                            {success._links?.viewAll && (
+                                <button
+                                    onClick={() => {
+                                        const frontendUrl = `${window.location.origin}/students/display`;
+                                        window.open(frontendUrl, '_blank');
+                                    }}
+                                    title="View All Students"
+                                    style={{
+                                        background: 'none',
+                                        border: 'none',
+                                        cursor: 'pointer',
+                                        padding: '0.5rem',
+                                        fontSize: '1.8rem',
+                                        color: 'inherit',
+                                        transition: 'transform 0.2s ease, color 0.2s ease'
+                                    }}
+                                    onMouseEnter={(e) => {
+                                        e.currentTarget.style.color = '#800000';
+                                        e.currentTarget.style.transform = 'scale(1.15)';
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.currentTarget.style.color = 'inherit';
+                                        e.currentTarget.style.transform = 'scale(1)';
+                                    }}
+                                >
+                                    <FolderOpenIcon style={{ fontSize: '1.8rem', position: 'relative', top: '2px' }} />
+                                </button>
+                            )}
 
-                        <div style={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            cursor: 'pointer',
-                            fontSize: '1.35rem',
-                            padding: '0.5rem'
-                        }}>
-                            <a
-                                href="/students/enrol-programme"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="modal-btn"
-                                style={{ textDecoration: 'none'}}
-                            >
-                                Enrol in Programme
-                            </a>
+                            <i
+                                className="fas fa-graduation-cap"
+                                title="Enrol in Programme"
+                                style={{
+                                    fontSize: '1.8rem',
+                                    cursor: 'pointer',
+                                    transition: 'transform 0.2s ease, color 0.2s ease'
+                                }}
+                                onClick={() => {
+                                    window.open('/students/enrol-programme', '_blank');
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.color = '#800000';
+                                    e.currentTarget.style.transform = 'scale(1.15)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.color = 'inherit';
+                                    e.currentTarget.style.transform = 'scale(1)';
+                                }}
+                            />
                         </div>
 
+                        <button
+                            type="button"
+                            className="btn btn-secondary"
+                            style={{ marginTop: '1.5rem' }}
+                            onClick={() => {
+                                setShowModal(false);
+                                window.location.reload();
+                            }}
+                        >
+                            Close
+                        </button>
                     </div>
                 </div>
             )}
