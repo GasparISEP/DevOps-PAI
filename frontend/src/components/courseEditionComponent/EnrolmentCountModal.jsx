@@ -47,12 +47,14 @@ function EnrolmentCountModal({ isOpen, onClose, count, courseName }) {
                             minWidth: '100px'
                         }}
                         onMouseEnter={(e) => {
-                            e.target.style.backgroundColor = '#7a1520';
-                            e.target.style.borderColor = '#7a1520';
+                            e.target.style.backgroundColor = '#fff';
+                            e.target.style.borderColor = '#9a1a24';
+                            e.target.style.color = '#9a1a24';
                         }}
                         onMouseLeave={(e) => {
                             e.target.style.backgroundColor = '#9a1a24';
                             e.target.style.borderColor = '#9a1a24';
+                            e.target.style.color = 'white';
                         }}
                     >
                         Close
