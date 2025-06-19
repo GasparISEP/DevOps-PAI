@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  backend:
+    image: gasparfigueiras/backend:${BUILD_NUMBER}
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+
+  frontend:
+    image: gasparfigueiras/frontend:${BUILD_NUMBER}
+    ports:
+      - "3000:80"
+    restart: unless-stopped
