@@ -23,7 +23,7 @@ class CourseInStudyPlanInitializerTest {
     void setup() throws Exception {
         initializer = new CourseInStudyPlanInitializer();
         serviceMock = mock(ICourseInStudyPlanService.class);
-        tempFile = Files.createTempFile("course-in-study-plan", ".csv");
+        tempFile = Files.createTempFile("course-in-study-plan2", ".csv");
     }
 
     @AfterEach

@@ -291,7 +291,7 @@ class StudentRestControllerTest {
         when(enrolmentHateoasAssembler.toModel(outDto)).thenReturn(model);
 
         // Act
-        ResponseEntity<EntityModel<ProgrammeEnrolmentResponseDTO>> resp =
+        ResponseEntity<?> resp =
                 studentRestController.enrolStudentInProgramme(inDto);
 
         // Assert
@@ -345,7 +345,7 @@ class StudentRestControllerTest {
                 .enrolStudentInProgramme(any(), any(), any(), any()))
                 .thenReturn(null);
 
-        ResponseEntity<EntityModel<ProgrammeEnrolmentResponseDTO>> resp =
+        ResponseEntity<?> resp =
                 studentRestController.enrolStudentInProgramme(inDto);
 
         assertEquals(HttpStatus.BAD_REQUEST, resp.getStatusCode());
@@ -357,19 +357,21 @@ class StudentRestControllerTest {
         ProgrammeEnrolmentDTO inDto = new ProgrammeEnrolmentDTO(
                 1234, UUID.randomUUID().toString(), "EI", LocalDate.now()
         );
+
         when(programmeEnrolmentMapper.toStudentID(inDto))
                 .thenThrow(new RuntimeException("fail"));
 
-        ResponseEntity<EntityModel<ProgrammeEnrolmentResponseDTO>> resp =
-                studentRestController.enrolStudentInProgramme(inDto);
+        ResponseEntity<?> resp = studentRestController.enrolStudentInProgramme(inDto);
 
         assertEquals(HttpStatus.BAD_REQUEST, resp.getStatusCode());
-        assertNull(resp.getBody());
+        assertNotNull(resp.getBody());
+        assertTrue(resp.getBody().toString().contains("fail"));
     }
+
 
     @Test
     void whenPostEnrolmentDtoIsNull_thenReturnsBadRequest_NoInteractions() {
-        ResponseEntity<EntityModel<ProgrammeEnrolmentResponseDTO>> resp =
+        ResponseEntity<?> resp =
                 studentRestController.enrolStudentInProgramme(null);
 
         assertEquals(HttpStatus.BAD_REQUEST, resp.getStatusCode());
