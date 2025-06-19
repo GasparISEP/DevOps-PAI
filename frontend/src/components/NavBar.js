@@ -81,7 +81,7 @@ const NavBar = () => {
                 </li>
                 <li>
                   <Link to="/students/removal" className="navbar-link" onClick={() => setIsStudentOpen(false)}>
-                    Remove Students
+                    Remove Course Enrolment
                   </Link>
                 </li>
               </ul>

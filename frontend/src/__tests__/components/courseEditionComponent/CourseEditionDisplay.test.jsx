@@ -4,14 +4,24 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import CourseEditionDisplay from '../../../components/courseEditionComponent/CourseEditionDisplay';
 
-// Mock the enrolment count service
 jest.mock('../../../services/enrolmentCountInCourseEditionService', () => ({
     fetchEnrolmentCount: jest.fn(),
 }));
 
+jest.mock('../../../components/courseEditionComponent/useFetchListOfProgrammesById', () => ({
+    __esModule: true,
+    default: () => ({
+        programmesMap: {}, // or mock values if needed
+        isLoading: false,
+    }),
+}));
+
+import { fetchEnrolmentCount } from '../../../services/enrolmentCountInCourseEditionService';
+
 beforeEach(() => {
     jest.clearAllMocks();
-    global.fetch = jest.fn();
+    fetchEnrolmentCount.mockResolvedValue({ studentCount: 42 }); // default mock return
+    global.fetch = jest.fn(); // mock fetch for course editions
 });
 
 // Sample data for tests

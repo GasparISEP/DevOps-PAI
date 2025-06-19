@@ -1,13 +1,14 @@
 @startuml
 autonumber
+skinparam sequenceLifeLineBackgroundColor #lightblue
 
 participant "CECtrl:CourseEditionRestController" as ceC #lightgreen
 participant "CEAssembler:CourseEditionAssembler" as A #lightblue
-participant "courseEditionID:CourseEditionID" as CE
+participant "courseEditionID:CourseEditionID" as CE #implementation
 
 activate ceC
 ceC -> A ++: fromDTOToCourseEditionID(selectedCourseEditionIdDTO)
-A -> CE**: newCourseEditionID(selectedCourseEditionIdDTO)
+A -> CE**: <Create> CourseEditionID(selectedCourseEditionIdDTO)
 activate CE
 CE --> A --: courseEditionID
 deactivate CE

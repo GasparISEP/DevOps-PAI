@@ -2,8 +2,10 @@
 autonumber
 
 title As an ASC, I want to get the number of students enrolled in a course edition \n (Level 2)
+skinparam sequenceMessageAlign center
+skinparam sequenceLifeLineBackgroundColor #lightblue
 
-actor ASC as Admin #lightblue
+actor ASC as Admin
 participant "<<Container>> \n:Frontend" as FE #lightblue
 participant "<<Container>> \n:Backend" as BE #lightgreen
 participant "<<Container>> \n:Database" as BD #lightyellow
