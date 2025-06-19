@@ -30,7 +30,6 @@ export default function useFetchListOfProgrammesById(programmeAcronymList: strin
         }
 
         if (arraysEqual(programmeAcronymList, previousListRef.current)) {
-            // Same list as before — skip fetch
             return;
         }
 

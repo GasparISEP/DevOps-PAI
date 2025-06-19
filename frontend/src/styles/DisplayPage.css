@@ -20,8 +20,15 @@
 }
 
 #course-edition-table th, #course-edition-table td {
-    text-align: center;
     padding: 0.75rem 1.5rem;
+}
+
+#course-edition-table td.centered {
+    text-indent: 4rem;
+}
+
+#course-edition-table th.centeredRUC, #course-edition-table td.centeredRUC {
+    text-align: center;
 }
 
 #course-edition-table td.actions {

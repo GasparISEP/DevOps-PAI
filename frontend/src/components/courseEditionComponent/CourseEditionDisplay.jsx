@@ -5,14 +5,13 @@ import '../../styles/Buttons.css';
 import ActionMenu from '../../components/courseEditionComponent/ActionMenu';
 import EnrolmentCountModal from '../../components/courseEditionComponent/EnrolmentCountModal';
 import AverageGradeModal from '../../components/courseEditionComponent/AverageGradeModal';
-import { getAllSchoolYears } from '../../services/DefineRucInCourseEditionService';
 import useFetchCourseEditions from './useFetchCourseEditions.ts';
 import useCourseEditionEnrolmentCountModal from '../../components/courseEditionComponent/useCourseEditionEnrolmentCountModal';
 import useCourseEditionAverageGradeModal from '../../components/courseEditionComponent/useCourseEditionAverageGradeModal';
 import useFetchListOfProgrammesById from "./useFetchListOfProgrammesById.ts";
+import useFetchMultipleResources from "./useFetchMultipleResources.ts"; // renamed for clarity
 
 export default function CourseEditionDisplay() {
-
     const [currentPage, setCurrentPage] = useState(1);
     const [courseEditionsPerPage, setCourseEditionsPerPage] = useState(10);
     const courseEditionsPerPageOptions = [5, 10, 20, 50];
@@ -37,12 +36,9 @@ export default function CourseEditionDisplay() {
         closeModal: closeAverageModal
     } = useCourseEditionAverageGradeModal();
 
-    const [schoolYears, setSchoolYears] = useState([]);
     const courseEditions = useFetchCourseEditions();
 
-    const programmeAcronyms = Array.from(
-        new Set(courseEditions.map(edition => edition.programmeAcronym))
-    );
+    const programmeAcronyms = Array.from(new Set(courseEditions.map(edition => edition.programmeAcronym)));
 
     const programmesMap = useFetchListOfProgrammesById(programmeAcronyms);
 
@@ -54,28 +50,44 @@ export default function CourseEditionDisplay() {
         };
     });
 
-    const filteredCourseEditions = editionsWithProgrammeName.filter(edition => {
+    const schoolYearLinks = editionsWithProgrammeName
+        .map(edition => edition._links?.['school-year']?.href)
+        .filter(Boolean);
+
+    const uniqueSchoolYearLinks = Array.from(new Set(schoolYearLinks));
+
+    const schoolYearsResources = useFetchMultipleResources(uniqueSchoolYearLinks);
+
+    const editionsWithDetails = editionsWithProgrammeName.map(edition => {
+        const schoolYearLink = edition._links?.['school-year']?.href;
+        const schoolYear = schoolYearsResources[schoolYearLink];
+
+        return {
+            ...edition,
+            schoolYearDescription: schoolYear?.description || edition.schoolYearID,
+            schoolYearStart: schoolYear ? new Date(schoolYear.startDate).getFullYear() : '',
+            schoolYearEnd: schoolYear ? new Date(schoolYear.endDate).getFullYear() : ''
+        };
+    });
+
+    const filteredCourseEditions = editionsWithDetails.filter(edition => {
         if (!filterValue.trim()) return true;
+
+        if (filterField === 'schoolYear') {
+            const startYear = edition.schoolYearStart?.toString();
+            const endYear = edition.schoolYearEnd?.toString();
+            return startYear?.includes(filterValue) || endYear?.includes(filterValue);
+        }
+
         const value = edition[filterField];
         return value?.toLowerCase().includes(filterValue.toLowerCase());
     });
-
-    useEffect(() => {
-        async function loadSchoolYears() {
-            try {
-                const schoolYearsData = await getAllSchoolYears();
-                setSchoolYears(schoolYearsData);
-            } catch (error) {
-                console.error("Failed to fetch school years:", error);
-            }
-        }
-        loadSchoolYears();
-    }, []);
 
     const totalPages = Math.ceil(filteredCourseEditions.length / courseEditionsPerPage);
     const startIndex = (currentPage - 1) * courseEditionsPerPage;
     const endIndex = startIndex + courseEditionsPerPage;
     const currentItems = filteredCourseEditions.slice(startIndex, endIndex);
+
 
     useEffect(() => {
         setCurrentPage(1);
@@ -118,6 +130,7 @@ export default function CourseEditionDisplay() {
                                 <option value="programmeName">Programme Name</option>
                                 <option value="courseName">Course Name</option>
                                 <option value="courseAcronym">Course Acronym</option>
+                                <option value="schoolYear">School Year</option>
                             </select>
                             <input
                                 type="text"
@@ -127,7 +140,8 @@ export default function CourseEditionDisplay() {
                                     filterField === 'programmeName' ? 'Programme Name' :
                                         filterField === 'courseName' ? 'Course Name' :
                                             filterField === 'courseAcronym' ? 'Course Acronym' :
-                                                ''
+                                                filterField === 'schoolYear' ? 'School Year' :
+                                                    ''
                                 }`}
                                 className="display-table-filter-input"
                             />
@@ -142,7 +156,7 @@ export default function CourseEditionDisplay() {
                                 <th>Course Name</th>
                                 <th>Course Acronym</th>
                                 <th>School Year</th>
-                                <th>RUC</th>
+                                <th className="centeredRUC">RUC</th>
                                 <th className="actions"></th>
                             </tr>
                             </thead>
@@ -155,14 +169,12 @@ export default function CourseEditionDisplay() {
                                 </tr>
                             ) : (
                                 currentItems.map((edition, index) => (
-                                    <tr key={index}>
+                                    <tr key={edition._links?.self?.href || index /* better unique key if possible */}>
                                         <td>{edition.programmeName}</td>
                                         <td>{edition.courseName}</td>
-                                        <td>{edition.courseAcronym}</td>
-                                        <td>
-                                            {schoolYears.find(sy => sy.id === edition.schoolYearID)?.description || edition.schoolYearID}
-                                        </td>
-                                        <td>{edition.teacherID ? edition.teacherID : "No RUC assigned"}</td>
+                                        <td className="centered">{edition.courseAcronym}</td>
+                                        <td>{edition.schoolYearStart}/{edition.schoolYearEnd}</td>
+                                        <td className="centeredRUC">{edition.teacherID ? edition.teacherID : "No RUC assigned"}</td>
                                         <td className="actions">
                                             <div className="action-buttons-container">
                                                 <ActionMenu
@@ -203,7 +215,6 @@ export default function CourseEditionDisplay() {
                             <span className="display-per-page-label-end">per page</span>
                         </div>
                     </div>
-
                 </div>
             </div>
 
