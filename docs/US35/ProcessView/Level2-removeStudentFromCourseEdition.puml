@@ -29,7 +29,7 @@ FE -> BE : **PATCH** /students/{studentId}/course-editions/{courseEditionGenerat
 activate BE
 BE -> DB : **SELECT** removeStudentEnrolment
 activate DB
-DB --> BE : (OK,200) "Enrolment removed"
+DB --> BE : Status: False
 deactivate DB
 BE --> FE : (OK,200) "Enrolment removed"
 deactivate BE
