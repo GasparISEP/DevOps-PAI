@@ -42,7 +42,12 @@ export default function CourseEditionAverageGradeForm() {
             fetch(`${process.env.REACT_APP_API_URL}/courses-in-study-plan/programmeID/${selectedProgramme}`)
                 .then(response => response.json())
                 .then(data => {
-                    setCourses(data);
+                    // ✅ Remover duplicados por courseAcronym e ordenar alfabeticamente
+                    const uniqueCourses = Array.from(
+                        new Map(data.map(c => [c.courseAcronym, c])).values()
+                    ).sort((a, b) => a.courseAcronym.localeCompare(b.courseAcronym));
+
+                    setCourses(uniqueCourses);
                     setSelectedCourse('');
                     setSchoolYears([]);
                     setSelectedSchoolYear('');
@@ -58,7 +63,16 @@ export default function CourseEditionAverageGradeForm() {
             fetch(url)
                 .then(response => response.json())
                 .then(data => {
-                    setSchoolYears(data);
+                    // ✅ Remover duplicados por description e ordenar por ano descrescente
+                    const uniqueSchoolYears = Array.from(
+                        new Map(data.map(sy => [sy.description, sy])).values()
+                    ).sort((a, b) => {
+                        const yearA = parseInt(a.description);
+                        const yearB = parseInt(b.description);
+                        return yearB - yearA;
+                    });
+
+                    setSchoolYears(uniqueSchoolYears);
                     setSelectedSchoolYear('');
                 })
                 .catch(error => console.error('Error fetching SchoolYears:', error));

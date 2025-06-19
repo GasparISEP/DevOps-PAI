@@ -5,7 +5,7 @@ export default function CourseEditionAverageGradeSuccessModal({ courseEditionId,
     return (
         <div className="modal-overlay">
             <div className="modal-content success">
-                <h2>Average Grade Retrieved</h2>
+                <h2>Average Grade</h2>
 
                 {averageGrade === null ? (
                     <p>No grades available yet for this course edition.</p>
