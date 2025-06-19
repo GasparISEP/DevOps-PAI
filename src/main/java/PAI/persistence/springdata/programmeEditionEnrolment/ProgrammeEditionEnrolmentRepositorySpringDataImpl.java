@@ -79,13 +79,56 @@ public class ProgrammeEditionEnrolmentRepositorySpringDataImpl implements IProgr
 
     @Override
     public int countEnrolledStudentsByProgrammeEditionIds(List<ProgrammeEditionID> programmeEditionIDs) {
-        List<Object[]> pairs = programmeEditionIDs.stream()
-                .map(id -> new Object[] {
-                        id.getProgrammeID().getProgrammeAcronym(),
-                        id.getSchoolYearID().toString()
-                })
-                .toList();
-        return _peeRepositorySpringData.countEnrolledStudentsByProgrammeEditionIds(pairs);
+        if (programmeEditionIDs == null || programmeEditionIDs.isEmpty()) return 0;
+
+        List<String> acronyms = extractAcronyms(programmeEditionIDs);
+        List<String> schoolYears = extractSchoolYears(programmeEditionIDs);
+        Set<String> validPairs = buildValidPairs(programmeEditionIDs);
+
+        List<Object[]> results = _peeRepositorySpringData.countEnrolledByAcronymAndSchoolYear(acronyms, schoolYears);
+
+        return sumValidEnrolments(results, validPairs);
+    }
+
+    private List<String> extractAcronyms(List<ProgrammeEditionID> ids) {
+        List<String> acronyms = new ArrayList<>();
+        for (ProgrammeEditionID id : ids) {
+            acronyms.add(id.getProgrammeID().getProgrammeAcronym());
+        }
+        return acronyms;
+    }
+
+    private List<String> extractSchoolYears(List<ProgrammeEditionID> ids) {
+        List<String> schoolYears = new ArrayList<>();
+        for (ProgrammeEditionID id : ids) {
+            schoolYears.add(id.getSchoolYearID().toString());
+        }
+        return schoolYears;
+    }
+
+    private Set<String> buildValidPairs(List<ProgrammeEditionID> ids) {
+        Set<String> validPairs = new HashSet<>();
+        for (ProgrammeEditionID id : ids) {
+            String acronym = id.getProgrammeID().getProgrammeAcronym();
+            String schoolYear = id.getSchoolYearID().toString();
+            validPairs.add(acronym + "_" + schoolYear);
+        }
+        return validPairs;
+    }
+
+    private int sumValidEnrolments(List<Object[]> results, Set<String> validPairs) {
+        int total = 0;
+        for (Object[] result : results) {
+            String acronym = (String) result[0];
+            String schoolYear = (String) result[1];
+            Number count = (Number) result[2];
+
+            String key = acronym + "_" + schoolYear;
+            if (validPairs.contains(key)) {
+                total += count.intValue();
+            }
+        }
+        return total;
     }
 
     @Override
