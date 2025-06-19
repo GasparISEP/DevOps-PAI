@@ -155,11 +155,15 @@ class CourseEditionAssemblerImplTest {
         // Arrange
         CourseEditionAssemblerImpl assembler = new CourseEditionAssemblerImpl();
 
-        // Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> {
+        // Act
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             assembler.toResponseDTO(null);
         });
+
+        // Assert
+        assertEquals("CourseEditionServiceResponseDTO cannot be null.", exception.getMessage());
     }
+
 
     @Test
     void toResponseDTOList_ShouldMapCorrectly() {

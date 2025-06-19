@@ -32,9 +32,7 @@ public class CourseEditionAssemblerImpl implements ICourseEditionAssembler {
 
     @Override
     public CourseEditionResponseDTO toResponseDTO(CourseEditionServiceResponseDTO courseEditionServiceDTO) {
-        if (courseEditionServiceDTO == null) {
-            throw new IllegalArgumentException("CourseEdition cannot be null");
-        }
+        validateNotNull(courseEditionServiceDTO, "CourseEditionServiceResponseDTO");
 
 
         return new CourseEditionResponseDTO(
