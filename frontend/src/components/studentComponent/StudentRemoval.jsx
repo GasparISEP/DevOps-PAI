@@ -129,7 +129,7 @@ export default function StudentCourseEditionForm() {
                         justifyContent: 'space-between',
                         marginBottom: '2rem'
                     }}>
-                        <h1 style={{margin: 0}}>Remove Student</h1>
+                        <h1 style={{margin: 0}}>Remove Enrolment</h1>
                         <Link to="/" className="pagination-btn2 pagination-btn-secondary"
                               style={{textDecoration: 'none'}}>
                             Back to Home Page
