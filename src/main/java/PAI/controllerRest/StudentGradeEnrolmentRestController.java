@@ -53,8 +53,7 @@ public class StudentGradeEnrolmentRestController {
     public ResponseEntity<EntityModel<GradeAStudentResponseDTO>> registerWithHateoas(
             @RequestBody GradeAStudentRequestMinimalDTO dto) {
         try {
-            GradeAStudentCommand command = studentGradeEnrolmentAssembler.toCommand(dto);
-            GradeAStudentResponseDTO responseDTO = gradeAStudentService.gradeAStudent(command);
+            GradeAStudentResponseDTO responseDTO = gradeAStudentService.gradeAStudentMinimal(dto);
             EntityModel<GradeAStudentResponseDTO> model = hateoasAssembler.toModel(responseDTO);
             return ResponseEntity.ok(model);
         } catch (Exception e) {

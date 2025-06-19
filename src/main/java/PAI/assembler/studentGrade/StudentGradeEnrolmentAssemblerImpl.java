@@ -1,7 +1,9 @@
 package PAI.assembler.studentGrade;
 
 import PAI.VOs.*;
+import PAI.domain.courseEdition.CourseEdition;
 import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
+import PAI.domain.repositoryInterfaces.courseEdition.ICourseEditionRepository;
 import PAI.domain.repositoryInterfaces.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
 import PAI.dto.courseEditionEnrolment.CourseEditionEnrolmentMinimalDTO;
 import PAI.dto.studentGrade.GradeAStudentCommand;
@@ -14,17 +16,23 @@ import java.util.UUID;
 public class StudentGradeEnrolmentAssemblerImpl implements IStudentGradeEnrolmentAssembler {
 
     private final ICourseEditionEnrolmentRepository enrolmentRepository;
+    private final ICourseEditionRepository courseEditionRepository;
 
-    public StudentGradeEnrolmentAssemblerImpl(ICourseEditionEnrolmentRepository enrolmentRepository) {
+    public StudentGradeEnrolmentAssemblerImpl(ICourseEditionEnrolmentRepository enrolmentRepository, ICourseEditionRepository courseEditionRepository) {
         this.enrolmentRepository = enrolmentRepository;
+        this.courseEditionRepository = courseEditionRepository;
     }
 
     @Override
     public CourseEditionEnrolmentMinimalDTO toMinimalDTO(CourseEditionEnrolment enrolment) {
+        CourseEdition courseEdition = courseEditionRepository.ofIdentity(enrolment.knowCourseEdition())
+                .orElseThrow(() -> new IllegalArgumentException("CourseEdition not found for ID: " + enrolment.knowCourseEdition()));
+        
         return new CourseEditionEnrolmentMinimalDTO(
-                enrolment.getGeneratedID().id(),
+                courseEdition.getCourseEditionGeneratedID().getCourseEditionGeneratedID(), // Use CourseEditionGeneratedID
                 enrolment.knowCourseEdition().courseName().getName()
         );
+    
     }
 
     @Override

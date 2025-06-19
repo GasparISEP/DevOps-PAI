@@ -2,22 +2,18 @@
 autonumber
 
 title As an ASC I want to remove the enrolment of a student \n in a course edition (Process View Level 1)
+skinparam sequenceLifeLineBackgroundColor #lightblue
 
 actor ASC as Admin
 participant "<<System>>\n:SystemPAI" as System
 
-
+activate Admin
 Admin -> System : I want to remove a student's enrolment from a Course Edition
 activate System
-System --> Admin : Select a Student
+System --> Admin : Select a student's enrolment.
 deactivate System
 
-Admin -> System : Select a Course Edition to remove student´s enrolment
-activate System
-System --> Admin : Confirm removal?
-deactivate System
-
-Admin -> System : Confirm
+Admin -> System : Enrolment!
 activate System
 System --> Admin : Enrolment removed successfully!
 deactivate System

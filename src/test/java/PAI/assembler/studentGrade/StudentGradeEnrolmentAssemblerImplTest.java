@@ -1,8 +1,11 @@
 package PAI.assembler.studentGrade;
 
 import PAI.VOs.*;
+import PAI.domain.courseEdition.CourseEdition;
 import PAI.domain.courseEditionEnrolment.CourseEditionEnrolment;
+import PAI.domain.repositoryInterfaces.courseEdition.ICourseEditionRepository;
 import PAI.domain.repositoryInterfaces.courseEditionEnrolment.ICourseEditionEnrolmentRepository;
+import PAI.dto.courseEditionEnrolment.CourseEditionEnrolmentMinimalDTO;
 import PAI.dto.studentGrade.GradeAStudentCommand;
 import PAI.dto.studentGrade.GradeAStudentRequestMinimalDTO;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,17 +15,20 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 public class StudentGradeEnrolmentAssemblerImplTest {
 
     private ICourseEditionEnrolmentRepository enrolmentRepository;
+    private ICourseEditionRepository courseEditionRepository;
     private StudentGradeEnrolmentAssemblerImpl assembler;
 
     @BeforeEach
     void setUp() {
         enrolmentRepository = mock(ICourseEditionEnrolmentRepository.class);
-        assembler = new StudentGradeEnrolmentAssemblerImpl(enrolmentRepository);
+        courseEditionRepository = mock(ICourseEditionRepository.class);
+        assembler = new StudentGradeEnrolmentAssemblerImpl(enrolmentRepository, courseEditionRepository);
     }
 
     @Test
@@ -88,5 +94,41 @@ public class StudentGradeEnrolmentAssemblerImplTest {
 
         // Act + Assert
         assertThrows(IllegalArgumentException.class, () -> assembler.toCommand(dto));
+    }
+
+    @Test
+    void toMinimalDTO_SuccessfullyBuildsDTO() {
+        // Arrange
+        CourseEditionID courseEditionID = mock(CourseEditionID.class);
+        CourseEdition courseEdition = mock(CourseEdition.class);
+        CourseEditionEnrolment enrolment = mock(CourseEditionEnrolment.class);
+        CourseEditionGeneratedID courseEditionGeneratedID = mock(CourseEditionGeneratedID.class);
+        String courseEditionName = "Engenharia de Software";
+        
+        UUID expectedUUID = UUID.randomUUID();
+        
+        when(enrolment.knowCourseEdition()).thenReturn(courseEditionID);
+        when(courseEditionRepository.ofIdentity(courseEditionID)).thenReturn(Optional.of(courseEdition));
+        when(courseEdition.getCourseEditionGeneratedID()).thenReturn(courseEditionGeneratedID);
+        when(courseEditionGeneratedID.getCourseEditionGeneratedID()).thenReturn(expectedUUID);
+        when(courseEditionID.courseName()).thenReturn(new Name(courseEditionName));
+        
+        // Act
+        CourseEditionEnrolmentMinimalDTO dto = assembler.toMinimalDTO(enrolment);
+
+        // Assert
+        assertNotNull(dto);
+        assertEquals(expectedUUID, dto.courseEditionGeneratedID());
+        assertEquals("Engenharia de Software", dto.courseEditionName());
+    }
+
+    @Test
+    void toMinimalDTO_EnrolmentNotFound_ThrowsException() {
+        // Arrange
+        CourseEditionEnrolment enrolment = mock(CourseEditionEnrolment.class);
+        when(enrolment.knowCourseEdition()).thenReturn(null);
+
+        // Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> assembler.toMinimalDTO(enrolment));
     }
 }

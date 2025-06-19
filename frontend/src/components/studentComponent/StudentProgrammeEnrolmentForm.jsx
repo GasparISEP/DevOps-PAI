@@ -339,9 +339,18 @@ export default function StudentProgrammeEnrolmentForm() {
                             </div>
 
                             <div className="form-actions">
-                                <button type="submit" className="btn btn-primary" disabled={!isFormValid()}>
-                                    {loading ? 'ENROLLING…' : 'ENROL'}
+                                <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={() => window.location.reload()}
+                                >
+                                    Clear
                                 </button>
+
+                                <button type="submit" className="btn btn-primary" disabled={!isFormValid()}>
+                                {loading ? 'ENROLLING…' : 'ENROL'}
+                                </button>
+
                             </div>
                         </div>
                     </div>
@@ -354,40 +363,85 @@ export default function StudentProgrammeEnrolmentForm() {
                         <h2>Success!</h2>
                         <p>The student was enrolled successfully.</p>
 
-                        <div style={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            gap: '1rem',
-                            marginTop: '1.5rem'
-                        }}>
-                            {success._links?.viewDetails?.href && (
-                                <button
-                                    onClick={() => {
-                                        const id = success._links.viewDetails.href.split('/').pop();
-                                        const frontendUrl = `${window.location.origin}/students/programme-enrolment/${id}`;
-                                        window.open(frontendUrl, '_blank');
-                                    }}
-                                    title="View Details"
-                                    style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0.5rem' }}
-                                >
-                                    <VisibilityIcon fontSize="medium" />
-                                </button>
-                            )}
+                        <div
+                            style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                gap: '1rem',
+                                marginTop: '1.5rem'
+                            }}
+                        >
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    gap: '1.5rem'
+                                }}
+                            >
+                                {success._links?.viewDetails?.href && (
+                                    <button
+                                        onClick={() => {
+                                            const id = success._links.viewDetails.href.split('/').pop();
+                                            const frontendUrl = `${window.location.origin}/students/programme-enrolment/${id}`;
+                                            window.open(frontendUrl, '_blank');
+                                        }}
+                                        title="View Details"
+                                        style={{
+                                            background: 'none',
+                                            border: 'none',
+                                            cursor: 'pointer',
+                                            padding: '0.5rem',
+                                            fontSize: '1.8rem',
+                                            color: 'inherit',
+                                            transition: 'transform 0.2s ease, color 0.2s ease'
+                                        }}
+                                        onMouseEnter={(e) => {
+                                            e.currentTarget.style.color = '#800000';
+                                            e.currentTarget.style.transform = 'scale(1.15)';
+                                        }}
+                                        onMouseLeave={(e) => {
+                                            e.currentTarget.style.color = 'inherit';
+                                            e.currentTarget.style.transform = 'scale(1)';
+                                        }}
+                                    >
+                                        <VisibilityIcon style={{ fontSize: '1.8rem', position: 'relative', top: '2px' }} />
+                                    </button>
+                                )}
 
-                            <button className="modal-btn" onClick={() => window.location.reload()}>
+                                <a
+                                    href="/students/enroll"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    title="Enrol in Programme and Courses"
+                                    className="icon-button"
+                                    style={{
+                                        textDecoration: 'none',
+                                        fontSize: '1.8rem',
+                                        cursor: 'pointer',
+                                        transition: 'transform 0.2s ease, color 0.2s ease'
+                                    }}
+                                    onMouseEnter={(e) => {
+                                        e.currentTarget.style.color = '#800000';
+                                        e.currentTarget.style.transform = 'scale(1.15)';
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.currentTarget.style.color = 'inherit';
+                                        e.currentTarget.style.transform = 'scale(1)';
+                                    }}
+                                >
+                                    <i className="fas fa-book-open"></i>
+                                </a>
+                            </div>
+
+                            <button
+                                type="button"
+                                className="btn btn-secondary"
+                                onClick={() => window.location.reload()}
+                            >
                                 Close
                             </button>
-
-                            <a
-                                href="/students/enroll"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="modal-btn"
-                                style={{ textDecoration: 'none' }}
-                            >
-                                Enrol in Programme<br/> and Courses
-                            </a>
                         </div>
                     </div>
                 </div>

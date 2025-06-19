@@ -1,0 +1,42 @@
+@startuml
+autonumber
+
+title As an ASC I want to remove the enrolment of a student in a course edition using a WEB UI \n (Ref 4 - saveCourseEditionEnrolment)
+
+skinparam sequenceMessageAlign center
+skinparam sequenceLifeLineBackgroundColor lightblue
+
+participant ":CourseEditionEnrolmentRepository" as CEER <<Component>> #lightgreen
+participant ":CourseEditionEnrolmentIDMapper" as CEEIDM <<Component>> #yellow
+participant ":CourseEditionEnrolmentMapper" as CEEM <<Component>> #yellow
+participant ":Drivers" as D <<Component>> #technology
+
+activate CEER
+CEER -> CEEIDM ++ : toDataModel(cee1.identity())
+CEER <-- CEEIDM -- : Optional<CourseEditionEnrolmentIDDataModel> ceeIDDM1
+deactivate CEEIDM
+|||
+CEER -> CEER : cee1IDDataModel = ceeIDDataModel1.get()
+CEER -> D ++: findById(ceeDataModelID1)
+D ->o] : **SELECT** ceeIDDataModel1
+D <--o] : Optional<CourseEditionEnrolmentDataModel> ceeDM1
+CEER <-- D -- : Optional<CourseEditionEnrolmentDataModel> ceeDM1
+|||
+alt existingDataModelOpt.isPresent() (Update existing)
+    CEER -> CEEM ++ : updateDataModelFromDomain(cee1, ceeDM1)
+    |||
+    CEER <-- CEEM -- : ceeDM1.setActive(cee1.isEnrolmentActive())
+
+
+deactivate CEEM
+|||
+CEER -> D ++ : save(ceeDM1)
+D ->o] : **UPDATE** ceeDM1
+D <--o] : ceeDM1
+D --> CEER -- : ceeDM1
+|||
+CEER -> CEEM ++ : toDomain(ceeDM1)
+CEER <-- CEEM -- : Optional<CourseEditionEnrolment> cee1
+|||
+CEER -> CEER : cee1.get()
+@enduml
