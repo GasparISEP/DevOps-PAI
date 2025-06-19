@@ -14,13 +14,13 @@ import java.util.UUID;
 import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 
+import static PAI.utils.ValidationUtils.validateNotNull;
+
 @Component
 public class CourseEditionAssemblerImpl implements ICourseEditionAssembler {
     @Override
     public CreateCourseEditionCommand toCommand(CourseEditionRequestDTO dto) {
-        if (dto == null) {
-            throw new IllegalArgumentException("CourseEditionRequestDTO cannot be null");
-        }
+        validateNotNull(dto, "CourseEditionRequestDTO");
         return new CreateCourseEditionCommand(
                 new Acronym(dto.programmeAcronym()),
                 new SchoolYearID(dto.schoolYearID()),

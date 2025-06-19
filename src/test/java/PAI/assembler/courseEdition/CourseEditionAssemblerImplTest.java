@@ -69,10 +69,13 @@ class CourseEditionAssemblerImplTest {
         // Arrange
         CourseEditionAssemblerImpl courseEditionAssembler = new CourseEditionAssemblerImpl();
 
-        // Act + Assert
-        assertThrows(IllegalArgumentException.class, () -> {
+        // Act
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             courseEditionAssembler.toCommand(null);
         });
+
+        // Assert
+        assertEquals("CourseEditionRequestDTO cannot be null.", exception.getMessage());
     }
 
     @Test
