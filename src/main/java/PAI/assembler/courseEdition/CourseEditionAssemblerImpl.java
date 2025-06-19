@@ -122,9 +122,7 @@ public class CourseEditionAssemblerImpl implements ICourseEditionAssembler {
 
     @Override
     public CourseEditionResponseIDDTO toResponseIDDTO(CourseEditionServiceResponseDTO serviceResponseDTO) {
-        if (serviceResponseDTO == null) {
-            throw new IllegalArgumentException("CourseEditionServiceResponseDTO cannot be null");
-        }
+        validateNotNull(serviceResponseDTO, "CourseEditionServiceResponseDTO");
 
         return new CourseEditionResponseIDDTO(
                 serviceResponseDTO.programmeAcronym(),

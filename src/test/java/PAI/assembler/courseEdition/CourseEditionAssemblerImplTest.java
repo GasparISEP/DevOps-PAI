@@ -417,11 +417,12 @@ class CourseEditionAssemblerImplTest {
 
     @Test
     void toResponseIDDTO_ShouldThrowExceptionWhenInputIsNull() {
-        // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> {
-            assembler.toResponseIDDTO((CourseEditionServiceResponseDTO) null);
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            assembler.toResponseIDDTO(null);
         });
+        assertEquals("CourseEditionServiceResponseDTO cannot be null.", exception.getMessage());
     }
+
 
     @Test
     void shouldReturnListWithSameSize_whenCallingToCourseEditionResponseDTOList() {
