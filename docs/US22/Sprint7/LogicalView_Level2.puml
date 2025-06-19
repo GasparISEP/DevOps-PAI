@@ -1,0 +1,50 @@
+@startuml
+
+title "PAI \n (Logical View - Level 2)"
+skinparam componentStyle component
+skinparam ArrowColor black
+skinparam defaultTextAlignment center
+skinparam ranksep 50
+skinparam nodesep 50
+top to bottom direction
+
+interface UI
+interface "PAI API"
+interface "Bootstrap Data API" as FileIO
+
+component "<<System>>\nPAI" {
+  portin " " as p1
+  portin " " as p2
+  portin " " as p3
+  component Backend
+  component Frontend
+  component BD
+  interface "BD API" as I1
+}
+
+component Frontend {
+portin " " as p4
+portout " " as p5
+}
+
+component Backend {
+portin " " as p6
+portout " " as p7
+portin " " as p9
+}
+
+component BD {
+portin " " as p8
+}
+
+p1 -up- UI
+p3 -up-( FileIO
+p2 -up- "PAI API"
+p9 -up--p3
+p2 -down-p6
+p1 -down-p4
+p7 -down-(I1
+p5 -down-p6
+p8 -up-I1
+
+@enduml
