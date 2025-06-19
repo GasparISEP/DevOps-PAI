@@ -155,7 +155,7 @@ public class StudentRestController {
     }
 
     @PostMapping("/enrollStudent")
-    public ResponseEntity<EntityModel<ProgrammeEnrolmentResponseDTO>> enrolStudentInProgramme (
+    public ResponseEntity<?> enrolStudentInProgramme (
             @RequestBody ProgrammeEnrolmentDTO programmeEnrolmentDTO) {
 
         if (programmeEnrolmentDTO == null) {
@@ -182,7 +182,7 @@ public class StudentRestController {
                 return ResponseEntity.badRequest().build();
             }
         } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
