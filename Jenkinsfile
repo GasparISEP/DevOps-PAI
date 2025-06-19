@@ -8,8 +8,8 @@ pipeline {
     environment {
         DOCKER_CREDENTIALS_ID = 'dockerhub-credentials'
         DOCKER_REGISTRY       = 'https://index.docker.io/v1/'
-        BACKEND_IMAGE         = 'ricardomarques21/backend'
-        FRONTEND_IMAGE        = 'ricardomarques21/frontend'
+        BACKEND_IMAGE         = 'gasparfigueiras/backend'
+        FRONTEND_IMAGE        = 'gasparfigueiras/frontend'
         NODE_ENV              = 'development'
     }
 
