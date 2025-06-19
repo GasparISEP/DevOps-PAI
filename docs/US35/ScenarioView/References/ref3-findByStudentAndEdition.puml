@@ -1,0 +1,33 @@
+@startuml
+autonumber
+
+title As an ASC I want to remove the enrolment of a student in a course edition using a WEB UI \n (Ref 3 - findByStudentAndEdition)
+
+skinparam sequenceMessageAlign center
+skinparam sequenceLifeLineBackgroundColor lightblue
+
+participant ":CourseEditionEnrolmentRepository" as CEER <<Component>> #lightgreen
+participant "cee1:CourseEditionEnrolment" as CEE #lightpink
+participant "ceeDM:CourseEditionEnrolmentDataModel" as CEEDM #lightpink
+participant ":StudentIDMapper" as SIDM <<Component>> #yellow
+participant ":CourseEditionIDMapper" as CEIDM <<Component>> #yellow
+participant ":CourseEditionEnrolmentMapper" as CEEM <<Component>> #yellow
+participant ":Drivers" as D <<Component>> #technology
+
+activate CEER
+CEER -> SIDM ++ : domainToDataModel(studentID1)
+CEER <-- SIDM -- : studentIDDataModel1
+deactivate SIDM
+|||
+CEER -> CEIDM ++ : toDataModel(courseEditionID1)
+CEER <-- CEIDM -- : courseEditionIDDataModel1
+deactivate CEIDM
+|||
+CEER -> D ++: findById_StudentIDAndId_CourseEditionID(studentIDDataModel1, courseEditionIDDataModel1)
+D ->o] : **SELECT** findById_StudentIDAndId_CourseEditionID
+D <--o] : courseEditionEnrolmentDataModel1
+CEER <-- D -- : Optional<CourseEditionEnrolmentDataModel> ceeDM1
+|||
+CEER -> CEEM ++ : toDomain(ceeDM1.get())
+CEER <-- CEEM -- : Optional<CourseEditionEnrolment> cee1
+@enduml
