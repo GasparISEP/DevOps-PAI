@@ -3,13 +3,13 @@ const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8081';
 /**
  * Register a student's grade using HATEOAS.
  */
-export async function gradeAStudentWithLink(gradeAStudentRequestDTO) {
+export async function gradeAStudentWithLink(gradeAStudentRequestMinimalDTO) {
     const response = await fetch(`${API_URL}/studentgrades/register/hateoas`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(gradeAStudentRequestDTO)
+        body: JSON.stringify(gradeAStudentRequestMinimalDTO)
     });
 
     if (!response.ok) {
@@ -26,11 +26,7 @@ export async function gradeAStudentWithLink(gradeAStudentRequestDTO) {
     }
 
     const responseData = await response.json();
-
-    // Extract link to student details (HATEOAS)
-    const studentLink = responseData.links?.find(link => link.rel === "student-details")?.href;
-
-    return { data: responseData, studentLink };
+    return { data: responseData };
 }
 
 /**

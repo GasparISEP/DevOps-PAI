@@ -66,8 +66,7 @@ public class StudentGradeEnrolmentRestControllerTest {
     @Test
     void testRegisterWithHateoas_ReturnsExpectedResponse() throws Exception {
         // Arrange
-        when(assembler.toCommand(any())).thenReturn(command);
-        when(gradeService.gradeAStudent(command)).thenReturn(responseDTO);
+        when(gradeService.gradeAStudentMinimal(any(GradeAStudentRequestMinimalDTO.class))).thenReturn(responseDTO);
         when(hateoasAssembler.toModel(responseDTO)).thenReturn(EntityModel.of(responseDTO));
 
         // Act + Assert
@@ -84,8 +83,8 @@ public class StudentGradeEnrolmentRestControllerTest {
     @Test
     void testRegisterWithHateoas_ReturnsBadRequest_WhenEnrolmentNotFound() throws Exception {
         // Arrange: o assembler lança exceção porque o enrolment não foi encontrado
-        when(assembler.toCommand(any()))
-                .thenThrow(new IllegalArgumentException("Enrolment not found"));
+        when(gradeService.gradeAStudentMinimal(any(GradeAStudentRequestMinimalDTO.class)))
+            .thenThrow(new IllegalArgumentException("Enrolment not found"));
 
         // Act + Assert
         mockMvc.perform(post("/studentgrades/register/hateoas")
@@ -99,8 +98,8 @@ public class StudentGradeEnrolmentRestControllerTest {
     @Test
     void testRegisterWithHateoas_ReturnsBadRequest_WhenGradeIsInvalid() throws Exception {
         // Arrange: o assembler lança exceção por causa de nota inválida
-        when(assembler.toCommand(any()))
-                .thenThrow(new RuntimeException("Invalid grade provided: -5"));
+        when(gradeService.gradeAStudentMinimal(any(GradeAStudentRequestMinimalDTO.class)))
+            .thenThrow(new IllegalArgumentException("Enrolment not found"));
 
         GradeAStudentRequestMinimalDTO invalidGradeDTO = new GradeAStudentRequestMinimalDTO(
                 1000001, -5.0, courseEditionGeneratedID.toString()
