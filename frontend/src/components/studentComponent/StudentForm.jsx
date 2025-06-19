@@ -35,6 +35,8 @@ export default function StudentForm() {
     const [showModal, setShowModal] = useState(false);
     const [showErrorModal, setShowErrorModal] = useState(false);
     const [formErrors, setFormErrors] = useState({});
+    const [showReviewModal, setShowReviewModal] = useState(false);
+    const [reviewData, setReviewData] = useState(null);
 
     function handleChange(e) {
         const { name, value } = e.target;
@@ -52,6 +54,30 @@ export default function StudentForm() {
 
         setForm(f => ({ ...f, [name]: newValue }));
     }
+
+    const confirmRegistration = async () => {
+        setLoading(true);
+        try {
+            const raw = await registerStudent(reviewData);
+            setSuccess({
+                ...raw,
+                _links: {
+                    view: raw._links?.self || null,
+                    viewAll: raw._links?.['all-students'] || null,
+                    viewDetails: raw._links?.['view-details'] || null
+                }
+            });
+            setShowReviewModal(false);
+            setShowModal(true);
+        } catch (err) {
+            setError(err.message || 'An unexpected error occurred.');
+            setShowReviewModal(false);
+            setShowErrorModal(true);
+        } finally {
+            setLoading(false);
+        }
+    };
+
 
     function clearForm() {
         window.location.reload();
@@ -76,60 +102,16 @@ export default function StudentForm() {
         setFormErrors(errors);
         if (Object.keys(errors).length > 0) return;
 
-        setLoading(true);
+        const payload = {
+            ...form,
+            phoneCountryCode: form.countryCode,
+            phoneNumber: form.phoneNumber,
+            nifCountryCode: countryList().getData().find(c => c.label === form.nifcountry)?.value || '',
+            addressCountryCode: countryList().getData().find(c => c.label === form.addressCountry)?.value || ''
+        };
 
-        try {
-
-
-            // Preparar o payload com o novo studentID e outros campos
-            const payload = {
-                ...form,
-                phoneCountryCode: form.countryCode,
-                phoneNumber: form.phoneNumber,
-                nifCountryCode: countryList().getData().find(c => c.label === form.nifcountry)?.value || '',
-                addressCountryCode: countryList().getData().find(c => c.label === form.addressCountry)?.value || ''
-            };
-
-            const raw = await registerStudent(payload);
-            console.log('[DEBUG] raw resp:', raw);
-
-            const { _links, ...data } = raw;
-
-            console.log('[DEBUG] extracted data:', data);
-            console.log('[DEBUG] data keys:', Object.keys(data));
-
-            Object.entries(data).forEach(([k, v]) => {
-                console.log(`  ${k}:`, v);
-            });
-
-            console.log('[DEBUG] raw resp:', raw);
-
-            setSuccess({
-                studentID: raw.studentID,
-                name: raw.name,
-                nif: raw.nif,
-                nifCountry: raw.nifCountry,
-                street: raw.street,
-                postalCode: raw.postalCode,
-                location: raw.location,
-                addressCountry: raw.addressCountry,
-                countryCode: raw.countryCode,
-                phoneNumber: raw.phoneNumber,
-                email: raw.email,
-                academicEmail: raw.academicEmail,
-                _links: {
-                    view: raw._links?.self || null,
-                    viewAll: raw._links?.['all-students'] || null,
-                    viewDetails: raw._links?.['view-details'] || null
-                }
-            });
-            setShowModal(true);
-        } catch (err) {
-            setError(err.message || 'An unexpected error occurred.');
-            setShowErrorModal(true);
-        } finally {
-            setLoading(false);
-        }
+        setReviewData(payload);
+        setShowReviewModal(true);
     }
 
     return (
@@ -427,6 +409,42 @@ export default function StudentForm() {
                     </div>
                 </form>
             </div>
+
+            {showReviewModal && reviewData && (
+                <div className="modal-overlay">
+                    <div className="modal-content" style={{ maxHeight: '80vh', overflowY: 'auto' }}>
+                        <h2 style={{ color: '#E1A200' }}>🔍 Review Student Data</h2>
+                        <ul style={{ fontSize: '1.4rem', lineHeight: '2rem' }}>
+                            <li><strong>Name:</strong> {reviewData.name}</li>
+                            <li><strong>NIF:</strong> {reviewData.nif}</li>
+                            <li><strong>NIF Country:</strong> {reviewData.nifcountry}</li>
+                            <li><strong>Street:</strong> {reviewData.street}</li>
+                            <li><strong>Postal Code:</strong> {reviewData.postalCode}</li>
+                            <li><strong>Location:</strong> {reviewData.location}</li>
+                            <li><strong>Address Country:</strong> {reviewData.addressCountry}</li>
+                            <li><strong>Phone:</strong> {reviewData.countryCode} {reviewData.phoneNumber}</li>
+                            <li><strong>Email:</strong> {reviewData.email}</li>
+                        </ul>
+
+                        <div className="form-actions" style={{ marginTop: '1.5rem' }}>
+                            <button
+                                type="button"
+                                className="btn btn-secondary"
+                                onClick={() => setShowReviewModal(false)}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                type="button"
+                                className="btn btn-primary"
+                                onClick={confirmRegistration}
+                            >
+                                Confirm
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {showModal && success && (
                 <div className="modal-overlay">
