@@ -411,7 +411,7 @@ export default function StudentProgrammeEnrolmentForm() {
                                 )}
 
                                 <a
-                                    href="/students/enroll"
+                                    href="/students/enrol"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     title="Enrol in Programme and Courses"
