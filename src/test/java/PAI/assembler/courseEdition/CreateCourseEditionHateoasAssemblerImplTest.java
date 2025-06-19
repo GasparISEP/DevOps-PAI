@@ -15,6 +15,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 import java.time.LocalDate;
 import java.util.UUID;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 
 import org.junit.jupiter.api.Test;
 import org.springframework.hateoas.EntityModel;
@@ -84,6 +86,16 @@ public class CreateCourseEditionHateoasAssemblerImplTest {
                 .toUri()
                 .toString();
         assertThat(entityModel.getLink("find-all-course-editions").get().getHref()).isEqualTo(expectedFindAllHref);
+    }
+
+    @Test
+    void toModel_ShouldThrowExceptionWhenDtoIsNull() {
+        // Act & Assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            assembler.toModel(null);
+        });
+
+        assertThat(exception.getMessage()).isEqualTo("CourseEditionResponseDTO cannot be null.");
     }
 
 
