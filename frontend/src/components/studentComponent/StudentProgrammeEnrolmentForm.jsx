@@ -339,9 +339,18 @@ export default function StudentProgrammeEnrolmentForm() {
                             </div>
 
                             <div className="form-actions">
-                                <button type="submit" className="btn btn-primary" disabled={!isFormValid()}>
-                                    {loading ? 'ENROLLING…' : 'ENROL'}
+                                <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={() => window.location.reload()}
+                                >
+                                    Clear
                                 </button>
+
+                                <button type="submit" className="btn btn-primary" disabled={!isFormValid()}>
+                                {loading ? 'ENROLLING…' : 'ENROL'}
+                                </button>
+
                             </div>
                         </div>
                     </div>
