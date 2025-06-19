@@ -94,7 +94,7 @@ public class StudentRestController {
     }
 
     @PostMapping
-    public ResponseEntity<EntityModel<StudentResponseDTO>> registerAStudent(@Valid @RequestBody StudentDTO studentDTO) {
+    public ResponseEntity<?> registerAStudent(@Valid @RequestBody StudentDTO studentDTO) {
 
         try {
             Name name = mapper.toName(studentDTO);
@@ -119,7 +119,7 @@ public class StudentRestController {
             }
 
         } catch (Exception e ) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
