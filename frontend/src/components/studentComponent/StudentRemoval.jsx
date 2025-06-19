@@ -54,8 +54,11 @@ export default function StudentCourseEditionForm() {
                 console.log("[DEBUG] typeof courseEditions:", typeof data);
                 console.log("[DEBUG] courseEditions:", data);
 
-                setCourseEditions(data);
-                setSelectedCourseEditionID('');
+                const filtered = data.filter(
+                    edition => String(edition.studyPlanStartYear) === "2025"
+                );
+
+                setCourseEditions(filtered);
             } catch (err) {
                 console.error("Error loadingit sg course editions:", err);
             }
@@ -129,7 +132,7 @@ export default function StudentCourseEditionForm() {
                         justifyContent: 'space-between',
                         marginBottom: '2rem'
                     }}>
-                        <h1 style={{margin: 0}}>Remove Student</h1>
+                        <h1 style={{margin: 0}}>Remove Enrolment</h1>
                         <Link to="/" className="pagination-btn2 pagination-btn-secondary"
                               style={{textDecoration: 'none'}}>
                             Back to Home Page

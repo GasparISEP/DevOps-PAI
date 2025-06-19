@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/Form.css';
 import '../../styles/Buttons.css';
+import logo from '../../assets/images/ISEP_logo-branco.png';
 import {
     getEnrolledProgrammes,
     getProgrammeEditions,
@@ -250,13 +251,13 @@ export default function EnrollStudentForm() {
             <div className="form-main-grid">
                 <div className="form-img-main-div student-img-background">
                     <div className="form-logo-img-div">
-                        <img src="/assets/images/ISEP_logo-branco.png" alt="ISEP Logo" />
+                        <img src={logo} alt="ISEP Logo"/>
                     </div>
                 </div>
 
                 <form className="form" onSubmit={handleSubmit}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2rem' }}>
-                        <h1>Enroll a Student</h1>
+                        <h1>Programme Edition<br />and Courses Enrolment</h1>
                         <button type="button" className="pagination-btn2 pagination-btn-secondary" onClick={() => navigate("/")}>Back to Home Page</button>
                     </div>
 

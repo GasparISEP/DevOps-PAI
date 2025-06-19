@@ -1,0 +1,47 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+title Reference 5 - Detailed Flow:\n From ServiceDTO to ResponseDTO\nConverts CourseInStudyPlanServiceDTO to CourseInStudyPlanResponseDTO
+
+autonumber
+
+skinparam {
+  ActivityPadding 2
+  ActivityMargin 2
+  BoxPadding 2
+}
+skinparam sequence {
+    LifeLineBorderColor Grey
+    LifeLineBackgroundColor #E1F5FE
+}
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+participant "<<component>>\n:CourseInStudyPlanRestController\n(REST Controller)" as Controller #honeydew
+participant "<<component>>\n:ICourseInStudyPlanAssembler\n(Controller Assembler)" as Assembler #honeydew
+
+[o-> Controller: CourseInStudyPlanServiceDTO
+activate Controller
+Controller -> Assembler: toDTO(serviceDTO)
+activate Assembler
+note over Controller, Assembler
+The Assembler converts CourseInStudyPlanServiceDTO
+into CourseInStudyPlanResponseDTO by mapping each field:
+
+- semester → serviceDTO.semester()
+- curricularYear → serviceDTO.curricularYear()
+- courseAcronym → serviceDTO.courseAcronym()
+- courseName → serviceDTO.courseName()
+- programmeAcronym → serviceDTO.programmeAcronym()
+- studyPlanDate → serviceDTO.studyPlanDate()
+- duration → serviceDTO.duration()
+- credits → serviceDTO.credits()
+- generatedID → serviceDTO.generatedID()
+end note
+
+
+
+Assembler --> Controller: CourseInStudyPlanResponseDTO
+deactivate Assembler
+[o<--Controller: CourseInStudyPlanResponseDTO
+@enduml

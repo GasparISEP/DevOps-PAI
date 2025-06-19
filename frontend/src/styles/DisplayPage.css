@@ -20,23 +20,36 @@
 }
 
 #course-edition-table th, #course-edition-table td {
-    text-align: center;
     padding: 0.75rem 1.5rem;
 }
 
-#course-edition-table td.nameRow {
-    text-align: left;
+#course-edition-table td.centered {
+    text-indent: 4rem;
+}
+
+#course-edition-table th.centeredRUC, #course-edition-table td.centeredRUC {
+    text-align: center;
 }
 
 #course-edition-table td.actions {
     white-space: nowrap;
     text-align: center;
+    width: 1%;
+    max-width: 40px;
+    padding: 0.75rem 0.25rem;
+}
+
+#course-edition-table th.actions {
+    width: 1%;
+    max-width: 40px;
+    padding: 0.75rem 0.25rem;
 }
 
 .action-buttons-container {
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
 }
 
 .display-form-table tr {
@@ -46,7 +59,6 @@
     background: #f0f8ff;
 }
 
-/* Center the main grid and table */
 .display-main-grid-center {
     display: flex;
     flex-direction: column;
@@ -64,7 +76,6 @@
     align-items: center;
     margin-top: 1.5rem;
     width: 100%;
-    /* Remove max-width to match table width */
 }
 .display-pagination-left {
     display: flex;
@@ -195,9 +206,6 @@
 }
 
 .display-table-container {
-    /*border: 1.5px solid #bbb;*/
-    /*border-radius: 12px;*/
-    /*padding: 3rem 2rem 2rem 2rem;*/
     padding: 3rem;
     border-radius: 5px;
     box-shadow: 0 0 12px 4px rgba(0,0,0,0.12);

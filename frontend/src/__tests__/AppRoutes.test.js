@@ -79,4 +79,28 @@ describe('Rotas da aplicação', () => {
         // Check for link text
         expect(screen.getByText(/back to home page/i)).toBeInTheDocument();
     });
+
+    test('Renderiza a página de exibição das edições dos cursos', () => {
+        render(
+            <MemoryRouter initialEntries={['/courseeditions/display']}>
+                <AppRoutes />
+            </MemoryRouter>
+        );
+
+        expect(
+            screen.getByRole('heading', { name: /Course Editions/i })
+        ).toBeInTheDocument();
+    });
+
+    test('Renderiza a página de remoção de estudantes', () => {
+        render(
+            <MemoryRouter initialEntries={['/students/removal']}>
+                <AppRoutes />
+            </MemoryRouter>
+        );
+
+        expect(
+            screen.getByRole('heading', { name: /Remove Enrolment/i })
+        ).toBeInTheDocument();
+    });
 });

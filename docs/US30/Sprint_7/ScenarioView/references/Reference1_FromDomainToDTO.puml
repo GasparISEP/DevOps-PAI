@@ -1,0 +1,39 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+title Reference 1 - Detailed Flow:\n From Domain to DTO\nConverts List<Programme> to List<ProgrammeDTO>
+
+skinparam sequence {
+    LifeLineBorderColor Grey
+    LifeLineBackgroundColor #E1F5FE
+}
+skinparam defaultTextAlignment center
+skinparam shadowing true
+
+autonumber
+participant "<<component>>\n:IProgrammeService\n(Service)" as Service #honeydew
+participant "<<component>>\n:IProgrammeAssembler\n(Assembler)" as Assembler #honeydew
+
+[o-> Service: List<Programme>
+activate Service
+Service -> Assembler: fromDomainToDTO(List<Programme>)
+activate Assembler
+note over Service, Assembler
+The assembler transforms each Programme domain object
+into a ProgrammeDTO by extracting and mapping the following fields:
+
+- name: programmeName → nameWithNumbersAndSpecialChars
+- acronym: acronym → acronym
+- maxECTS: maxEcts → maxEcts
+- semesters: quantSemesters → quantityOfSemesters
+- degreeTypeID: degreeTypeID → DTID
+- departmentID: department.acronym → acronym
+- teacherID: programmeDirectorID.teacherAcronym → acronym
+end note
+
+
+Assembler --> Service: List<ProgrammeDTO>
+deactivate Assembler
+[o<-- Service: List<ProgrammeDTO>
+
+@enduml

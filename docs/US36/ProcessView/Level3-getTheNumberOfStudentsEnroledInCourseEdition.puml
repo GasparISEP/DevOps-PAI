@@ -1,8 +1,9 @@
 @startuml
 
 autonumber
-
 title As an ASC, I want to get the number of students enrolled in a course edition \n (Level 3 - getTheNumberOfStudentsEnrolledInCourseEdition)
+skinparam sequencemessagealign center
+skinparam sequenceLifeLineBackgroundColor #lightblue
 
 participant "<<Component>>\n:Router" as Router #lightblue
 participant "<<Component>>\nCEC:CourseEditionRestController" as C #lightpink
@@ -21,6 +22,6 @@ D --> R --: studentCount
 R --> S --: studentCount
 S --> C --: studentCount
 C --> Router --: studentCount
-[o<-- Router --:(OK, 200) studentCount
+[o<-- Router --: **(OK, 200)** studentCount
 
 @enduml

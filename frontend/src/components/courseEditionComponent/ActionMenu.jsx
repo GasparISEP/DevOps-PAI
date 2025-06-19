@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-function ActionMenu({ edition, onCountEnrolments }) {
+function ActionMenu({ edition, onCountEnrolments, onShowAverageGrade }) {
     const [showMenu, setShowMenu] = useState(false);
     const menuRef = useRef(null);
 
@@ -22,6 +22,11 @@ function ActionMenu({ edition, onCountEnrolments }) {
         await onCountEnrolments(edition);
     };
 
+    const handleShowAverageGrade = async () => {
+        setShowMenu(false);
+        await onShowAverageGrade(edition);
+    };
+
     return (
         <div className="action-menu-container" ref={menuRef}>
             <button
@@ -37,6 +42,12 @@ function ActionMenu({ edition, onCountEnrolments }) {
                         onClick={handleCountEnrolments}
                     >
                         Count Enrolments
+                    </button>
+                    <button
+                        className="action-menu-item"
+                        onClick={handleShowAverageGrade}
+                    >
+                        Show Average Grade
                     </button>
                 </div>
             )}

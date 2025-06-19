@@ -51,6 +51,7 @@ export default function DefineRucInCourseEditionForm() {
             name: displayName
         };
     });
+
     useEffect(() => {
         async function fetchData() {
             try {
@@ -62,19 +63,27 @@ export default function DefineRucInCourseEditionForm() {
                 ]);
 
                 setSchoolYears(schoolYearsData);
-                setAllCourseEditions(courseEditionsData);
+                setAllCourseEditions(
+                    Array.isArray(courseEditionsData?._embedded?.courseEditionResponseDTOList)
+                        ? courseEditionsData._embedded.courseEditionResponseDTOList
+                        : []
+                );
                 setTeachers(teachersData);
                 setAllProgrammes(programmesData);
             } catch (e) {
-                console.error("Erro ao carregar dados iniciais:", e);
+                console.error("Error loading the initial data:", e);
             }
         }
         fetchData();
     }, []);
 
     useEffect(() => {
+
         if (form.schoolYear) {
-            const filtered = allCourseEditions.filter(ce => ce.schoolYearID === form.schoolYear);
+            const filtered = allCourseEditions.filter(
+                ce => String(ce.schoolYearID) === String(form.schoolYear)
+            );
+
             setFilteredCourseEditions(filtered);
 
             if (filtered.length === 0) {
@@ -139,14 +148,11 @@ export default function DefineRucInCourseEditionForm() {
                 teacherId: form.teacherId
             });
 
-
-            // Get teacher and course edition names
             const teacher = teachers.find(t => t.id === form.teacherId);
             const courseEdition = filteredCourseEditionsWithProgrammeName.find(
                 ce => ce.courseEditionGeneratedID === form.courseEditionId
             );
 
-// Set enriched success data
             setSuccessData({
                 teacherId: form.teacherId,
                 teacherName: teacher?.name,
@@ -158,8 +164,6 @@ export default function DefineRucInCourseEditionForm() {
                     details: { href: `/course-editions/by-id/${form.courseEditionId}` },
                 },
             });
-
-
 
             setShowSuccessModal(true);
         } catch (error) {
