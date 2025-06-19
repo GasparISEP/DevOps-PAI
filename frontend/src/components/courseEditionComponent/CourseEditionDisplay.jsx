@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import { Link } from "react-router-dom";
 import '../../styles/DisplayPage.css';
 import '../../styles/Buttons.css';
@@ -38,7 +38,9 @@ export default function CourseEditionDisplay() {
 
     const courseEditions = useFetchCourseEditions();
 
-    const programmeAcronyms = Array.from(new Set(courseEditions.map(edition => edition.programmeAcronym)));
+    const programmeAcronyms = useMemo(() => {
+        return Array.from(new Set(courseEditions.map(edition => edition.programmeAcronym)));
+    }, [courseEditions]);
 
     const programmesMap = useFetchListOfProgrammesById(programmeAcronyms);
 
@@ -169,7 +171,7 @@ export default function CourseEditionDisplay() {
                                 </tr>
                             ) : (
                                 currentItems.map((edition, index) => (
-                                    <tr key={edition._links?.self?.href || index /* better unique key if possible */}>
+                                    <tr key={index}>
                                         <td>{edition.programmeName}</td>
                                         <td>{edition.courseName}</td>
                                         <td className="centered">{edition.courseAcronym}</td>

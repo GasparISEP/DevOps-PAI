@@ -1,35 +1,43 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState, useRef } from "react";
 
-export default function useFetchMultipleResources(urls) {
-    const [resources, setResources] = useState({});
+export default function useFetchMultipleResources(links: string[]) {
+    const [resources, setResources] = useState<Record<string, any>>({});
+    const fetchedLinks = useRef<Set<string>>(new Set());
 
     useEffect(() => {
-        if (!urls || urls.length === 0) {
-            setResources({});
-            return;
+        if (!links || links.length === 0) return;
+
+        async function fetchResources() {
+            const newResources: Record<string, any> = {};
+            const linksToFetch = links.filter(link => !fetchedLinks.current.has(link));
+
+            if (linksToFetch.length === 0) return;
+
+            try {
+                const promises = linksToFetch.map(async (link) => {
+                    const response = await fetch(link);
+                    if (!response.ok) throw new Error(`Failed to fetch ${link}`);
+                    const data = await response.json();
+                    return { link, data };
+                });
+
+                const results = await Promise.all(promises);
+
+                results.forEach(({ link, data }) => {
+                    newResources[link] = data;
+                    fetchedLinks.current.add(link);
+                });
+
+                if (Object.keys(newResources).length > 0) {
+                    setResources(prev => ({ ...prev, ...newResources }));
+                }
+            } catch (error) {
+                console.error("Error fetching resources:", error);
+            }
         }
 
-        let isMounted = true;
-        Promise.all(
-            urls.map(url =>
-                fetch(url)
-                    .then(res => res.json())
-                    .catch(() => null)
-            )
-        ).then(results => {
-            if (isMounted) {
-                const resourcesMap = {};
-                urls.forEach((url, i) => {
-                    resourcesMap[url] = results[i];
-                });
-                setResources(resourcesMap);
-            }
-        });
-
-        return () => {
-            isMounted = false;
-        };
-    }, [urls]);
+        fetchResources();
+    }, [links]);
 
     return resources;
 }
