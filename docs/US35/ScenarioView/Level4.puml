@@ -1,4 +1,5 @@
 @startuml
+autonumber
 title As an ASC I want to remove the enrolment of a student in a course edition using a WEB UI\n(Process View Level 3 - Backend - Combined Flow)
 
 skinparam sequenceMessageAlign center
@@ -6,56 +7,91 @@ skinparam sequenceLifeLineBackgroundColor lightblue
 
 participant ":Router" as Router <<Component>> #lightpink
 participant ":StudentRestController" as Controller <<Component>> #motivation
+participant ":CourseEditionEnrolmentAssembler" as CEEASSEMBLER <<Component>> #lightgrey
+participant "cEGID1:CourseEditionGeneratedID" as CEGID #lightpink
+participant ":CourseEditionService" as CES <<Component>> #business
 participant ":CourseEditionEnrolmentService" as Service <<Component>> #business
 participant ":CourseEditionEnrolmentRepository" as CEER <<Component>> #lightgreen
-participant ":Drivers" as Drivers <<Component>> #technology
+participant "cee1:CourseEditionEnrolment" as CEE #lightpink
+participant ":StudentIDMapper" as SIDM <<Component>> #yellow
+participant ":CourseEditionIDMapper" as CEIDM <<Component>> #yellow
+participant ":CourseEditionEnrolmentIDMapper" as CEEIDM <<Component>> #yellow
+participant ":CourseEditionEnrolmentMapper" as CEEM <<Component>> #yellow
+participant ":Drivers" as D <<Component>> #technology
 
 
 [o-> Router : **GET** \nstudents/{studentId}/enrolled-course-editions/
 activate Router
-Router -> Controller : findEnrolledCourseEditionsForStudent \n (studentUniqueNumber)
-activate Controller
-Controller -> Service : findEnrolledCourseEditionsForStudent(studentID)
-activate Service
-ref over Service
-          Find active enrolments by StudentID
+Router -> Controller ++ : findEnrolledCourseEditionsForStudent \n (studentUniqueNumber)
+|||
+
+ref over Controller
+          1. Find active enrolments by StudentID
 end ref
+|||
+loop For each EnrolledCourseDetails
+    Controller -> Controller : Map details to EnrolledCourseEditionDTO
+end
+Controller --> Router -- : List<EnrolledCourseEditionDTO>
+[o<-- Router --: (**200 OK**) \n List<EnrolledCourseEditionDTO>
+|||
+[o-> Router ++ : **PATCH** \n students/{studentId}/course-editions/{courseEditionGeneratedUUID}
+Router -> Controller ++ : removeStudentEnrolmentFromACourseEdition \n (studentUniqueNumber, courseEditionGeneratedUUID)
+Controller -> CEEASSEMBLER ++ : toStudentID(studentUniqueNumber)
+CEEASSEMBLER --> CEEASSEMBLER : createStudentID(studentUniqueNumber)
+CEEASSEMBLER --> Controller -- : studentID1
+deactivate CEEASSEMBLER
+|||
+Controller -> CEGID** : new CourseEditionGeneratedID(courseEditionGeneratedID)
+activate CEGID
+CEGID --> Controller : courseEditionGeneratedID1
+deactivate CEGID
+|||
+Controller -> Service ++ : findCourseEditionIDByGeneratedID(courseEditionGeneratedID1)
+ref over Service
+        2. Find CourseEditionID by generated ID (via CourseEditionService)
+end ref
+Controller <-- Service -- : courseEditionID1
+|||
+Controller -> CES ++ : findCourseEditionIDByGeneratedID(courseEditionGeneratedID1)
+CES -> CEER ++ : findCourseEditionByGeneratedID(courseEditionGeneratedID1)
+CEER -> D ++: findCourseEditionByGeneratedId(courseEditionGeneratedIDDataModel1)
+D ->o] : **SELECT** CourseEditionGeneratedIDDataModel
+D <--o] : courseEditionDataModel1
+D --> CEER -- : courseEditionDataModel1
+deactivate D
+CEER --> CES -- : courseEdition1
 deactivate CEER
-Service --> Controller : List<EnrolledCourseDetails>
-deactivate Service
-Controller --> Router : List<EnrolledCourseEditionDTO>
-deactivate Controller
-[o<-- Router : (**200 OK**) \n List<EnrolledCourseEditionDTO>
-deactivate Router
+CES --> Controller -- : courseEditionID1
+deactivate CES
+|||
+Controller -> Service ++: removeCourseEditionEnrolment(studentID1, courseEditionID1)
+Service -> CEER ++ : findByStudentAndEdition(studentID1, courseEditionID1)
+|||
+ref over CEER
+         3. Find by Student and Edition
+         (via CourseEditionEnrolmentRepository)
+end ref
+Service <-- CEER -- : Optional<CourseEditionEnrolment>
+|||
+Service -> Service : courseEditionEnrolment.get()
+Service -> CEE ++ : !cee1.isEnrolmentActive()
+Service <-- CEE -- : False!
+|||
+Service -> CEE ++ : cee1.deactivateEnrolment()
+Service <-- CEE -- : new EnrolmentStatus(false)
+|||
+Service -> CEER ++ : save(cee1)
+|||
+ref over CEER
+         4. Save Course Edition Enrolment
+         (via CourseEditionEnrolmentRepository)
+end ref
 
-[o-> Router : **PATCH** \nstudents/{studentId}/course-editions/{courseEditionGeneratedUUID}
-activate Router
-Router -> Controller : removeStudentEnrolmentFromACourseEdition \n (studentUniqueNumber, courseEditionGeneratedUUID)
-activate Controller
-Controller -> Service : removeCourseEditionEnrolment(studentID, courseEditionID)
-activate Service
-Service -> CEER : findCourseEditionByGeneratedID(courseEditionGeneratedUUID)
-activate CEER
-CEER -> Drivers ++: findCourseEditionByGeneratedId(courseEditionGeneratedIDDataModel)
-Drivers ->o] : **SELECT** CourseEditionGeneratedIDDataModel
-Drivers <--o] : courseEditionDataModel
-Drivers --> CEER -- : courseEditionDataModel
-CEER --> Service -- : courseEdition
-deactivate CEER
-Service --> Controller -- : courseEditionID
-
-Controller -> Service ++: removeCourseEditionEnrolment(studentID, courseEditionID)
-Service -> CEER ++: findByStudentAndEdition(studentID, courseEditionID)
-CEER -> Drivers ++: findById_StudentIDAndId_CourseEditionID(studentIDDataModel, courseEditionIDDataModel)
-Drivers ->o] : **SELECT** findById_StudentIDAndId_CourseEditionID
-Drivers <--o] : courseEditionEnrolmentDataModel
-Drivers --> CEER -- : courseEditionEnrolmentDataModel
-CEER --> Service -- : courseEditionEnrolment
-deactivate CEER
-Service --> Controller -- : true
-deactivate Service
-Controller --> Router : (ACCEPTED, 202) \n + body {"Successfully removed the enrolment from course edition."}
-[o<-- Router : (**202 ACCEPTED**) \n + body {"Successfully removed the enrolment from course edition."}
+Service <-- CEER -- : cee1
+Service --> Controller -- : True!
+Controller --> Router -- : (ACCEPTED, 202) \n + body {"Successfully removed the enrolment from course edition."}
+[o<-- Router -- : (**202 ACCEPTED**) \n + body {"Successfully removed the enrolment from course edition."}
 deactivate Controller
 deactivate Router
 
