@@ -22,7 +22,7 @@ services:
     ports:
       - "8081:8081"        # Map port 8081 on host to port 8081 in container (backend)
     environment:
-      SPRING_DATASOURCE_URL: jdbc:h2:tcp://h2:1521/mem:testdb  # H2 database URL
+      SPRING_DATASOURCE_URL: jdbc:h2:tcp://h2:1521/./testdb  # H2 database URL
       SPRING_DATASOURCE_USERNAME: sa                           # DB username
       SPRING_DATASOURCE_PASSWORD:                              # DB password (empty)
     depends_on:
@@ -34,4 +34,4 @@ services:
       - "8082:81"          # Map port 8082 on host to 81 in container (H2 web console)
       - "1521:1521"        # Map port 1521 for TCP connection to H2 (used by backend)
     environment:
-      H2_OPTIONS: "-tcp -tcpAllowOthers -ifNotExists"   # Start H2 with TCP, allow remote connections, create DB if not exists
+      H2_OPTIONS: "-web -webPort 81 -webAllowOthers -tcp -tcpPort 1521 -tcpAllowOthers -ifNotExists"   # Start H2 with TCP, allow remote connections, create DB if not exists
